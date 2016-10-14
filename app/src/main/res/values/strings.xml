@@ -1,0 +1,789 @@
+<resources>
+
+    <!--########## 乐播 ##########-->
+    <string name="button_cal">取消</string>
+    <string name="button_ok">确定</string>
+    <string name="connect_device_succeed">连接成功</string>
+    <string name="connecting_device">正在连接</string>
+    <string name="connect_device_error">连接错误，请重新再试</string>
+    <string name="down_device_error">下载失败，请重新再试</string>
+    <string name="wait_down_apk">等待电视更新乐播投屏…</string>
+    <string name="down_apk_succeed">下载成功，请在电视端安装</string>
+    <string name="no_net_connect">没有连接到网络</string>
+    <string name="down_happly_tv">下载\"乐播投屏\"</string>
+    <string name="search_device_happly_tv">正在寻找设备</string>
+    <string name="downing_happly_tv">APK正在下载…</string>
+    <string name="down_seccuse_happly_tv">APK下载完成</string>
+    <string name="tv_telecontrol_tx">让您的手机同屏到电视上</string>
+    <string name="device_choose_title">选择设备,把视频投到电视上看</string>
+
+    <string name="videomanagerimport_title">导入外部视频</string>
+    <string name="videomanagerimport_confirm">导入</string>
+    <string name="videomanagerimport_end">已导入</string>
+
+    <string name="videomanagerrename_title">重命名文件</string>
+    <string name="videomanagerrename_hint">请输入文件名</string>
+    <string name="videomanagerrename_cancel">取消</string>
+    <string name="videomanagerrename_confirm">确定</string>
+
+    <string name="videomanagercopy_title">复制文件</string>
+    <string name="videomanagercopy_hint">请输入视频名称</string>
+    <string name="videomanagercopy_tip_empty">视频名称不能为空</string>
+    <string name="videomanagercopy_tip_remane">视频名称已存在，请重新命名</string>
+
+    <string name="uploadvideo_content">当前手机处于非WIFI环境，上传视频将消耗一定的手机流量,是否上传视频？</string>
+    <string name="uploadvideo_cancel">取消</string>
+    <string name="uploadvideo_confirm">确定</string>
+
+    <string name="videoshare_tag">#标签#</string>
+    <string name="tag_title">选择标签</string>
+    <string name="tag_confirm">完成</string>
+
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <string name="xlistview_empty_hint_text">没有数据</string>
+
+    <string name="app_name">手游视界</string>
+
+    <string name="menu_main_first">首页</string>
+    <string name="menu_main_second">发现</string>
+    <string name="menu_main_third">找游戏</string>
+    <string name="menu_main_fourth">赛事</string>
+    <!--<string name="menu_main_fourth">福利</string>-->
+
+    <string name="ab_search_hint">请输入游戏名、视频名</string>
+    <string name="ab_search_hint2">请输入玩家名、游戏名或视频关键字搜索</string>
+
+    <string name="appstart_readme">手游视界 © 2016 17sysj.com</string>
+
+    <string name="search_history">搜索记录</string>
+    <string name="search_clear">清空记录</string>
+    <string name="search_hot">热门搜索</string>
+
+    <string name="adddanmuku_hint">首长，有什么指示？</string>
+
+    <string name="welcome_gointo">立即体验</string>
+
+    <string name="slider_mywelfare">我的福利</string>
+    <string name="slider_myvideo">我的视频</string>
+    <string name="slider_mycollection">我的收藏</string>
+    <string name="slider_mytask">我的任务</string>
+    <string name="slider_setup">设置</string>
+    <string name="slider_focus">关注</string>
+    <string name="slider_fans">粉丝</string>
+
+    <string name="scanqrcode_title">扫一扫</string>
+    <string name="scanqrcode_cancel">取消</string>
+    <string name="scanqrcode_tip">将取景框对准二维码\n即可自动扫描</string>
+    <string name="scanqrcode_photo">相册</string>
+    <string name="scanqrcode_light_on">开灯</string>
+    <string name="scanqrcode_light_off">关灯</string>
+    <string name="scanqrcode_qrcode">我的二维码</string>
+
+    <string name="recommend_title">精彩推荐</string>
+
+    <string name="discover_recommend">精彩推荐</string>
+    <string name="discover_square">广场</string>
+    <string name="discover_message">消息</string>
+    <string name="discover_billboard">风云榜</string>
+    <string name="discover_dynamic">动态</string>
+
+    <string name="welfare_left">热门赛事</string>
+    <string name="welfare_middle">热门活动</string>
+    <string name="welfare_right">热门礼包</string>
+
+    <string name="home_hotgame">热门游戏</string>
+    <string name="home_youlike">猜你喜欢</string>
+    <string name="home_switch">换一换</string>
+    <string name="home_hotnarrate">热门解说</string>
+
+    <string name="game_left">手游分类</string>
+    <string name="game_right">我的游戏</string>
+
+    <string name="square_title">广场</string>
+    <string name="square_left">最新</string>
+    <string name="square_right">热门</string>
+
+    <string name="classifiedgame_new">最新游戏</string>
+    <string name="classifiedgame_hot">最热游戏</string>
+
+    <string name="homemore_new">最新</string>
+    <string name="homemore_hot">最热</string>
+
+    <string name="collection_title">收藏</string>
+    <string name="collection_top_left">我的收藏</string>
+    <string name="collection_top_right">观看记录</string>
+    <string name="collection_bottom_left">全选</string>
+    <string name="collection_bottom_left_un">取消全选</string>
+    <string name="collection_bottom_right">删除</string>
+    <string name="collection_cancel">取消</string>
+    <string name="collection_confirm">确定</string>
+
+    <string name="activitydetail_title">活动详情</string>
+    <string name="activitydetail_join">立即\n参与</string>
+    <string name="activitydetail_introduce">活动介绍</string>
+    <string name="activitydetail_method">参赛方式</string>
+    <string name="activitydetail_reward">活动奖励</string>
+
+    <string name="billboard_title">风云榜</string>
+    <string name="billboard_left">玩家</string>
+    <string name="billboard_right">视频</string>
+
+    <string name="videoBillboard_left">点赞榜</string>
+    <string name="videoBillboard_middle">评论榜</string>
+    <string name="videoBillboard_right">观看榜</string>
+
+    <string name="playerBillboard_left">粉丝榜</string>
+    <string name="playerBillboard_middle">等级榜</string>
+    <string name="playerBillboard_right">视频榜</string>
+
+    <string name="searchresult_first">相关视频</string>
+    <string name="searchresult_second">相关游戏</string>
+    <string name="searchresult_third">相关主播</string>
+    <string name="searchresult_fourth">相关礼包</string>
+
+    <string name="searchvideo_left">最新</string>
+    <string name="searchvideo_right">最热</string>
+
+    <string name="mydynamic_title">动态</string>
+    <string name="mydynamic_login">请登录</string>
+
+    <string name="playerdynamic_title">动态</string>
+
+    <string name="myplayer_left">粉丝</string>
+    <string name="myplayer_right">关注</string>
+
+    <string name="dynamic_focus">关注</string>
+    <string name="dynamic_focused">已关注</string>
+    <string name="dynamic_introduce_hint">这个玩家很懒，什么都没留下~</string>
+
+    <string name="message_title">我的消息</string>
+
+    <string name="message_video">视频消息</string>
+    <string name="message_game">圈子消息</string>
+    <string name="message_system">系统消息</string>
+
+    <string name="videoMessage_title">视频消息</string>
+    <string name="gameMessage_title">圈子消息</string>
+    <string name="systemMessage_title">系统消息</string>
+
+
+    <string name="activityvideo_reward">获奖名单</string>
+
+    <string-array name="message_content">
+        <item>视频消息</item>
+        <item>圈子消息</item>
+        <item>系统消息</item>
+    </string-array>
+
+    <string name="record_video">录制屏幕</string>
+    <string name="record_record">视频拍摄</string>
+
+    <string name="groupdetail_title">游戏圈</string>
+    <string name="groupdetail_introduce">游戏介绍</string>
+    <string name="groupdetail_newvideo">最新视频</string>
+    <string name="groupdetail_wonderfulvideo">精彩视频</string>
+    <string name="groupdetail_player">玩家</string>
+    <string name="groupdetail_local">视频</string>
+    <string name="groupdetail_video">录屏</string>
+    <string name="groupdetail_record">外拍</string>
+    <string name="groupdetail_image">图文</string>
+
+    <string name="about_title">关于手游视界</string>
+    <string name="about_newFunction">新功能介绍</string>
+    <string name="about_website">官方网站</string>
+    <string name="about_website_content">http://www.17sysj.com</string>
+    <string name="about_wx">微信公众号</string>
+    <string name="about_wx_content">fmsysj</string>
+    <string name="about_qq">玩家QQ群</string>
+    <string name="about_qq_content">251575665</string><!--373238009-->
+    <string name="about_teamwork">合作邮箱</string>
+    <string name="about_teamwork_content">bd@ifeimo.com</string>
+    <string name="about_talents">人才招聘</string>
+    <string name="about_talents_content">hr@ifeimo.com</string>
+    <string name="about_privacy">隐私及免费声明</string>
+    <string name="about_feekback">意见及反馈</string>
+
+    <string-array name="about_title">
+        <item>新功能介绍</item>
+        <item>官方网站</item>
+        <item>微信公众号</item>
+        <item>玩家QQ群</item>
+        <item>合作邮箱</item>
+        <item>人才招聘</item>
+        <item>隐私及免费声明</item>
+        <item>意见及反馈</item>
+    </string-array>
+    <string-array name="about_content">
+        <item></item>
+        <item>http://www.17sysj.com</item>
+        <item>fmsysj</item>
+        <item>373238009</item>
+        <item>bd@ifeimo.com</item>
+        <item>hr@ifeimo.com</item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string name="report_submit">举报</string>
+
+    <string name="report_title">举报</string>
+    <string name="report_first">请选择举报原因</string>
+    <string name="report_second">举报描述（必填）</string>
+    <string name="report_description_hint">请输入举报描述（最少10个字）</string>
+    <string name="report_cancel">取消</string>
+    <string name="report_confirm">确定</string>
+
+    <string name="reportresult_title">举报</string>
+    <string name="reportresult_confirm">确定</string>
+    <string name="reportresult_first">举报已提交</string>
+    <string name="reportresult_second">感谢您的参与，手游视界坚决反对色情，违法等违规信息，我们会认真处理您的举报，维护绿色，健康的网络环境</string>
+
+    <string-array name="report_reasons">
+        <item>色情低俗</item>
+        <item>广告骚扰</item>
+        <item>违法视频</item>
+        <item>政治敏感</item>
+    </string-array>
+
+    <string name="setting_title">设置</string>
+    <string name="setting_help">帮助与教程</string>
+    <string name="setting_soundRecoeding">开启声音录制</string>
+    <string name="setting_shakeRecording">开启摇晃录屏</string>
+    <string name="setting_shakeRecording_content">开启后，摇晃手机启动和停止录屏</string>
+    <string name="setting_anchorModel">开启主播模式</string>
+    <string name="setting_anchorModel_content">开启后，录屏时将启用前置摄像头拍摄主播</string>
+    <string name="setting_touchPosition">显示触摸位置</string>
+    <string name="setting_touchPosition_content">开启后，录屏时会显示触摸位置</string>
+    <string name="setting_gameScan">启动游戏扫描</string>
+    <string name="setting_gameScan_content">开启后，录屏时会显示触摸位置</string>
+    <string name="setting_screenQuality">录屏画质选择</string>
+    <string name="setting_update">版本更新</string>
+    <string name="setting_floatingWindiws">开启悬浮窗</string>
+    <string name="setting_recordedJump">录屏后跳转</string>
+    <string name="setting_recordedJump_content">录屏后跳转到视频管理页面</string>
+    <string name="setting_inviteFriends">邀请好友</string>
+    <string name="setting_about">关于我们</string>
+
+    <string-array name="setting_title">
+        <item>帮助与教程</item>
+        <item>开启声音录制</item>
+        <item>开启摇晃录屏</item>
+        <item>开启主播模式</item>
+        <item>显示触摸位置</item>
+        <item>启动游戏扫描</item>
+        <item>录屏画质选择</item>
+    </string-array>
+    <string-array name="setting_content">
+        <item></item>
+        <item></item>
+        <item>开启后，摇晃手机启动和停止录屏</item>
+        <item>开启后，录屏是将启用前置摄像头拍摄主播</item>
+        <item>开启后，录屏是会显示触摸位置</item>
+        <item>开启后，录屏是会显示触摸位置</item>
+        <item/>
+    </string-array>
+    <string-array name="setting_second_title">
+        <item>版本更新</item>
+        <item>开启悬浮窗</item>
+        <item>邀请好友</item>
+        <item>关于我们</item>
+    </string-array>
+    <string-array name="setting_second_content">
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+    </string-array>
+
+    <string name="videomanager_title">视频管理</string>
+    <string name="videomanager_mylocalvideo">本地视频</string>
+    <string name="videomanager_mycloudvideo">云端视频</string>
+    <string name="videomanager_mysrceenshot">截图</string>
+    <string name="videomanager_share">分享</string>
+    <string name="videomanager_allSelected">全选</string>
+    <string name="videomanager_saveToAlbum">保存到相册</string>
+    <string name="videomanager_delete">删除</string>
+    <string name="videomanager_cancel">取消</string>
+    <string name="videomanager_import">导入</string>
+    <string name="videomanager_selected">选择</string>
+    <string name="videomanager_edit">编辑</string>
+
+    <string name="mywelfare_title">我的福利</string>
+    <string name="mywelfare_myactivity">我的活动</string>
+    <string name="mywelfare_mygift">我的礼包</string>
+
+    <string name="giftdetail_title">礼包详情</string>
+    <string name="giftdetail_content">礼包内容</string>
+    <string name="giftdetail_usage">使用方法</string>
+    <string name="giftdetail_receive">领取礼包</string>
+    <string name="giftdetail_receive_gray">已领完</string>
+    <string name="giftdetail_copy">复制激活码</string>
+
+    <string name="login_title">手机登录</string>
+    <string name="login_phone">手机号</string>
+    <string name="login_phone_hint">请输入手机号码</string>
+    <string name="login_code">验证码</string>
+    <string name="login_code_hint">请输入验证码</string>
+    <string name="login_get">获取验证码</string>
+    <string name="login_phone2">手机登录</string>
+    <string name="login_deal">我已阅读并同意使用条款及隐私协议</string>
+    <string name="login_qq">QQ登录</string>
+    <string name="login_wx">微信登录</string>
+    <string name="login_wb">微博登录</string>
+    <string name="login_other">其他方式登录</string>
+    <string name="login_sumit">登录</string>
+
+    <string name="mypersonalinfo_title">个人资料</string>
+    <string name="mypersonalinfo_base">基本资料</string>
+    <string name="mypersonalinfo_head">头像</string>
+    <string name="mypersonalinfo_name">昵称</string>
+    <string name="mypersonalinfo_name_hint">请输入昵称</string>
+    <string name="mypersonalinfo_level">等级</string>
+    <string name="mypersonalinfo_gender">性别</string>
+    <string name="mypersonalinfo_male">男</string>
+    <string name="mypersonalinfo_female">女</string>
+    <string name="mypersonalinfo_introduce">个性签名</string>
+    <string name="mypersonalinfo_introduce_hint">请输入个性签名</string>
+    <string name="mypersonalinfo_private">私密资料</string>
+    <string name="mypersonalinfo_public">公开</string>
+    <string name="mypersonalinfo_qq">QQ</string>
+    <string name="mypersonalinfo_qq_hint">请输入QQ号码</string>
+    <string name="mypersonalinfo_mobile">手机号码</string>
+    <string name="mypersonalinfo_mobile_hint">请输入手机号码</string>
+    <string name="mypersonalinfo_like">我喜欢的游戏资料</string>
+    <string name="mypersonalinfo_cancel">取消</string>
+    <string name="mypersonalinfo_save">保存</string>
+    <string name="mypersonalinfo_edit">编辑</string>
+    <string name="mypersonalinfo_logout">注销</string>
+    <string name="playerpersonalinfo_title">个人资料</string>
+    <string name="playerpersonalinfo_like">他喜欢的游戏类型</string>
+
+    <string name="mypersonalcenter_title">个人中心</string>
+
+    <string name="imagedetail_title">详情</string>
+
+    <string name="videoplay_focus">关注</string>
+    <string name="videoplay_focused">已关注</string>
+    <string name="videoplay_install">安装</string>
+    <string name="videoplay_comment">玩家评论</string>
+    <string name="videoplay_video">TA的视频</string>
+    <string name="videoplay_introduce">游戏简介</string>
+    <string name="videoplay_setting">游戏设定</string>
+    <string name="videoplay_race">种族系统</string>
+
+    <string name="mytask_title">我的任务</string>
+    <string name="mytask_first">成长任务</string>
+    <string name="mytask_second">系统任务</string>
+    <string name="mytask_task_accept">接受任务</string>
+    <string name="mytask_task_finished">已完成</string>
+
+    <string name="help_title">帮助与教程</string>
+    <string name="help_left">录屏教程</string>
+    <string name="help_right">问题解答</string>
+    <string name="help_hoetoroot">如何Root</string>
+
+    <string name="help_question1">关于Root权限</string>
+    <string name="help_question2">先打开游戏还是录屏大师</string>
+    <string name="help_question3">启动录屏之后没有出现浮窗</string>
+    <string name="help_question4">为什么不能只录制游戏内部声音</string>
+    <string name="help_question5">录制的视频合成失败</string>
+    <string name="help_question6">录制的存放路径默认是在哪里</string>
+    <string name="help_question7">如何分享已经录制的视频</string>
+    <string name="help_question8">录屏大师占用内存怎么样</string>
+    <string name="help_question9">录制的时候耗电情况如何</string>
+    <string name="help_question10">在哪里看我录制的视频</string>
+    <string name="help_question11">如何上传网上找的别人的视频</string>
+
+    <string name="privacy_title">飞磨科技隐私及免责条款声明</string>
+    <string name="privacy_content">1. 飞磨科技服务协议的接受\n
+\n
+本协议是用户与广州市飞磨科技有限公司（下称“飞磨科技”） 之间的协议（下称“本协议”）， 手游视界作为飞磨科技的运营的产品将严格依照本协议中的服务条款提供服务。如果您不愿意接受本协议的全部条款，您应不使用或主动取消手游视界提供的任何服务。\n
+\n
+2. 本协议的变更和修改\n
+\n
+手游视界有权随时对本协议进行修改，手游视界将在相关页面上提示修改的内容；用户如果不同意本协议的修改，可以放弃使用或访问或取消已经获得手游视界的服务；如果用户选择在本协议变更后继续访问或使用手游视界的服务，则视为用户已经接受本协议的修改。\n
+\n
+3. 服务说明\n
+\n
+3.1 飞磨科技是一个向广大用户提供上传空间和技术的服务平台，本身不直接生产内容。\n
+\n
+3.2 手游视界运用自己的系统通过互联网向用户提供服务，除非另有明确规定，增强或强化目前服务的任何新功能，包括新产品以及新增加的服务，均无条件地适用本协议。\n
+\n
+3.3 手游视界对本协议服务不承担任何责任，不保证服务一定会满足用户的使用要求，也不保证服务不会被中断，对服务的及时性、安全性、准确性也不作担保。\n
+\n
+4. 用户行为\n
+\n
+4.1 用户帐号、密码和安全\n
+\n
+用户一旦注册成功，便成为飞磨科技的合法用户，将得到一个密码和帐号。用户应采取合理措施维护其密码和帐号的安全。用户对利用该密码和帐号所进行的一切活动负全部责任；由该等活动所导致的任何损失或损害由用户承担，手游视界不承担任何责任。\n
+
+用户的密码和帐号遭到未授权的使用或发生其他任何安全问题，用户可以立即通知手游视界，并且用户在每次连线结束，应结束帐号使用，否则用户可能得不到手游视界的安全保护。\n
+
+对于用户长时间未使用的帐号，手游视界有权予以关闭。\n
+\n
+4.2 用户应遵守以下法律及法规\n
+\n
+用户同意遵守《中华人民共和国保守国家秘密法》、《中华人民共和国著作权法》、《中华人民共和国计算机信息系统安全保护条例》、《计算机软件保护条例》、《互联网电子公告服务管理规定》、《信息网络传播权保护条例》等有关计算机及互联网规定的法律、法规、实施办法。在任何情况下，手游视界合理地认为用户的行为可能违反上述法律、法规，手游视界可以在任何时候，不经事先通知终止向该用户提供服务。
+
+手游视界欢迎用户举报任何违反上述法律或侵犯他人权利的上传内容，一经发现违法或侵权的上传内容，手游视界将无条件删除。\n
+\n
+4.3 禁止用户从事以下行为：\n
+\n
+（1）上传、张贴、发送电子邮件或传送包含任何反对宪法所确定的基本原则、危害国家安全、泄露国家秘密、颠覆国家政权、破坏国家统一、破坏民族团结、损害国家荣誉和利益、煽动民族仇恨、民族歧视、破坏民族团结、破坏国家宗教政策、宣扬邪教和封建迷信、淫秽、色情、赌博、暴力、凶杀、恐怖或者教唆犯罪、侮辱或者诽谤他人，侵害他人合法权益的等法律、行政法规禁止的内容或其他另人反感的包括但不限于资讯、资料、文字、软件、音乐、照片、图形、信息或其他资料（以下简称内容）。\n
+\n
+（2）以任何方式危害未成年人。\n
+\n
+（3）冒充任何人或机构，或以虚伪不实的方式谎称或使人误认为与任何人或任何机构有关。\n
+\n
+（4）伪造标题或以其他方式操控识别资料，使人误认为该内容为手游视界所传送。\n
+\n
+（5）将无权传送的内容（例如内部资料、机密资料）进行上载、张贴、发送电子邮件或以其他方式传送。\n
+\n
+（6）将侵犯任何人的专利、商标、著作权、商业秘密或其他专属权利之内容加以上载、张贴、发送电子邮件或以其他方式传送。\n
+\n
+（7）将广告函件、促销资料、"垃圾邮件"等，加以上载、张贴、发送电子邮件或以其他方式传送。供前述目的使用的专用区域除外。\n
+\n
+（8）将有关干扰、破坏或限制任何计算机软件、硬件或通讯设备功能的软件病毒或其他计算机代码、档案和程序之资料，加以上载、张贴、发送电子邮件或以其他方式传送。\n
+\n
+（9）干扰或破坏本网站服务或与本网站服务相连的服务器和网络，或不遵守本网站使用之规定。\n
+\n
+（10）故意或非故意违反任何相关的中国法律、法规、规章、条例等其他具有法律效力的规范。\n
+\n
+4.4 用户对经由本网站上传、张贴、发送电子邮件或传送的内容承担全部责任\n
+\n
+对于经由本网站传送的内容，手游视界不保证前述其合法性、正当性、准确性、完整性或品质。用户在接受本网站服务时，有可能会接触到令人不快、不适当或令人厌恶的内容。在任何情况下，手游视界均不对任何内容承担任何责任，包括但不限于任何内容发生任何错误或纰漏以及衍生的任何损失或损害。手游视界有权（但无义务）自行拒绝或删除经由本网站提供的任何内容。用户使用上述内容，应自行承担风险。\n
+
+手游视界有权利在下述情况下，对内容进行保存或披露：\n
+\n
+（1）法律程序所规定；\n
+\n
+（2）本服使用协议规定；\n
+\n
+（3）被侵害的第三人提出权利主张；\n
+\n
+（4）为保护手游视界、其使用者及社会公众的权利、财产或人身安全。\n
+\n
+（5）其他手游视界认为有必要的情况。\n
+\n
+4.5 对用户信息的存储和限制\n
+\n
+手游视界不对用户所发布信息的删除或储存失败承担责任。手游视界有权判断用户的行为是否符合本网站使用协议条款之规定，如果手游视界认为用户违背了协议条款的规定，手游视界有终止向其提供网站服务的权利。\n
+\n
+5. 用户隐私权制度\n
+\n
+当用户注册手游视界的服务时，用户须提供个人信息。手游视界收集个人信息的目的是为用户提供尽可能多的个人化网上服务以及为广告商提供一个方便的途径来接触到适合的用户，并且可以发送具有相关性的内容和广告。在此过程中，广告商绝对不会接触到用户的个人信息。手游视界不会在未经合法用户授权时，公开、编辑或透露其个人信息及保存在手游视界中的非公开内容，除非有下列情况：\n
+\n
+（1）有关法律规定或手游视界合法服务程序规定。\n
+\n
+（2）在紧急情况下，为维护用户及公众的权益；\n
+\n
+（3）为维护手游视界的商标权、专利权及其他任何合法权益；\n
+\n
+（4）其他需要公开、编辑或透露个人信息的情况。\n
+\n
+在以下（包括但不限于）几种情况下，手游视界有权使用用户的个人信息：\n
+\n
+（1）在进行促销或抽奖时，手游视界可能会与赞助商共享用户的个人信息，在这些情况下手游视界会在发送用户信息之前进行提示，并且用户可以通过不参与来终止传送过程。\n
+\n
+（2）手游视界可以将用户信息与第三方数据匹配。\n
+\n
+（3）手游视界会通过透露合计用户统计数据，向未来的合作伙伴、广告商及其他第三方以及为了其他合法目的而描述手游视界的服务。\n
+\n
+（4）用户购买在手游视界列出的商品或服务时，手游视界获得的信息及用户提供的信息（例如用户的信用卡号和联系信息）会提供给商家，这些商家会进行数据收集操作，但手游视界对商家的此种操作不负任何责任。\n
+\n
+（5）手游视界会向用户发送关于手游视界不同产品和服务的信息或者手游视界认为用户会感兴趣的其他产品和服务。如果用户不希望收到这样的邮件，只需在提供个人信息时或其他任何时候告知手游视界即可。另外，手游视界会竭尽全力保护用户的信息，但手游视界不能确信或保证任何个人信息的安全性，用户须自己承担风险。
+
+手游视界将遵循由：中国广告协会互动网络分会颁布的《中国互联网定向广告用户信息保护框架标准》，基于合法、合理和诚实信用的法定原则妥善处理或使用用户的个人信息。\n
+\n
+6. 关于用户在飞磨科技上传或发布的内容：\n
+\n
+6.1用户上传的内容是指用户在本网站上传或发布的视频或其它任何形式的内容包括文字、图片、音频等。\n
+\n
+6.2除非手游视界收到相反通知，手游视界将用户视为其在本网站上传或发布的内容的版权拥有人。用户在本网站上传或发布内容即视为其同意授予手游视界所有上述内容的在全球范围内的免费、不可撤销的无限期的并且可转让的非独家使用权许可，手游视界有权展示、散布及推广前述内容，有权对前述内容进行任何形式的复制、修改、出版、发行及以其他方式使用或者授权第三方进行复制、修改、出版、发行及以其他方式使用。\n
+\n
+6.3因用户进行上述内容在本网站的上传或发布，而导致任何第三方提出索赔要求或衍生的任何损害或损失，由用户承担全部责任。\n
+\n
+7. 关于第三方链接\n
+\n
+本网站服务可能会提供与其他国际互联网网站或资源进行链接。对于前述网站或资源是否可以利用，手游视界承担担保责任。因使用或依赖上述网站或资源所生的损失或损害，手游视界也不负担任何责任。\n
+\n
+8. 手游视界的知识产权及其他权利\n
+\n
+8.1 手游视界对本网站服务及本网站所使用的软件所包含的受知识产权或其他法律保护的资料享有相应的权利；除用户依法享有之版权之内容之外，本网站的整体内容版权归手游视界所有。\n
+\n
+8.2 经由本网站传送的视频及其它内容，受到著作权法、商标法、专利法或其他法律的保护；除该等视频及其它内容上载的用户所享有的版权，未经手游视界明示授权许可，其他用户不得进行修改、出租、散布或衍生其他作品。\n
+\n
+8.3 用户对本网站所使用的软件有非专属性使用权，但不得自行或许可任何第三方复制、修改、出售或衍生产品。\n
+\n
+8.4本网站所有设计图样以及其他图样、产品及服务名称，均为手游视界及/或其关联公司所享有的商标、标识。任何人不得使用、复制或用作其他用途。\n
+\n
+8.5 手游视界对其专有内容、原创内容和其他通过授权取得的独占或则独家内容享有完全知识产权。未经手游视界许可，任何单位和个人不得私自转载、传播和提供观看服务或者有其他侵犯手游视界知识产权的行为。否则，将承担法律责任。\n
+\n
+9. 免责声明\n
+\n
+9.1 手游视界对于任何自本网站而获得的他人的信息、内容或者广告宣传等任何资讯（以下统称“信息”），不保证真实、准确和完整性。如果任何单位或者个人通过上述“信息”而进行任何行为，须自行甄别真伪和谨慎预防风险，否则，无论何种原因，本网站不对任何非与本网站直接发生的交易和/或行为承担任何直接、间接、附带或衍生的损失和责任。\n
+\n
+9.2 手游视界有权但无义务，改善或更正本网站任何部分之任何疏漏、错误。\n
+\n
+9.3 手游视界不保证（包括但不限于）：\n
+\n
+（1）本网站适合用户的使用要求；\n
+\n
+（2）本网站不受干扰，及时、安全、可靠或不出现错误；\n
+\n
+（3）用户经由本网站取得的任何产品、服务或其他材料符合用户的期望。\n
+\n
+9.4 用户使用经由本网站下载的或取得的任何资料，其风险自行负担；因该等使用导致用户电脑系统损坏或资料流失，用户应负完全责任；\n
+</string>
+
+    <string-array name="faceArray">
+        <item>face01</item>
+        <item>face02</item>
+        <item>face03</item>
+        <item>face04</item>
+        <item>face05</item>
+        <item>face06</item>
+        <item>face07</item>
+        <item>face08</item>
+        <item>face09</item>
+        <item>face10</item>
+        <item>face11</item>
+        <item>face12</item>
+        <item>face13</item>
+        <item>face14</item>
+        <item>face15</item>
+        <item>face16</item>
+        <item>face17</item>
+        <item>face18</item>
+        <item>face19</item>
+        <item>face20</item>
+        <item>face21</item>
+        <item>face22</item>
+        <item>face23</item>
+        <item>face24</item>
+        <item>face25</item>
+        <item>face26</item>
+        <item>face27</item>
+        <item>face28</item>
+        <item>face29</item>
+        <item>face30</item>
+        <item>face31</item>
+        <item>face32</item>
+        <item>face33</item>
+        <item>face34</item>
+    </string-array>
+    <string-array name="faceCnArray">
+        <item>微笑</item>
+        <item>害羞</item>
+        <item>卖萌</item>
+        <item>偷笑</item>
+        <item>送花</item>
+        <item>大笑</item>
+        <item>唱歌</item>
+        <item>飞吻</item>
+        <item>抚摸</item>
+        <item>憨笑</item>
+        <item>加油</item>
+        <item>开心</item>
+        <item>很棒</item>
+        <item>吻</item>
+        <item>喜爱</item>
+        <item>奸笑</item>
+        <item>思考</item>
+        <item>号外</item>
+        <item>计算下</item>
+        <item>钱吖</item>
+        <item>想到</item>
+        <item>鬼脸</item>
+        <item>萌萌的</item>
+        <item>再见</item>
+        <item>流口水</item>
+        <item>白日梦</item>
+        <item>流鼻血</item>
+        <item>惊讶</item>
+        <item>冥想</item>
+        <item>摸不着头脑</item>
+        <item>疑问</item>
+        <item>郁闷</item>
+        <item>傲慢</item>
+        <item>小气</item>
+    </string-array>
+    <string-array name="expressionArray">
+        <item>expression01</item>
+        <item>expression02</item>
+        <item>expression03</item>
+        <item>expression04</item>
+        <item>expression05</item>
+        <item>expression06</item>
+        <item>expression07</item>
+        <item>expression08</item>
+        <item>expression09</item>
+        <item>expression10</item>
+        <item>expression11</item>
+        <item>expression12</item>
+        <item>expression13</item>
+        <item>expression14</item>
+        <item>expression15</item>
+        <item>expression16</item>
+        <item>expression17</item>
+        <item>expression18</item>
+        <item>expression19</item>
+        <item>expression20</item>
+        <item>expression21</item>
+        <item>expression22</item>
+        <item>expression23</item>
+        <item>expression24</item>
+        <item>expression25</item>
+        <item>expression26</item>
+        <item>expression27</item>
+        <item>expression28</item>
+        <item>expression29</item>
+        <item>expression30</item>
+        <item>expression31</item>
+        <item>expression32</item>
+        <item>expression33</item>
+        <item>expression34</item>
+    </string-array>
+    <string-array name="expressionCnArray">
+        <item>笑脸</item>
+        <item>热情</item>
+        <item>眨眼</item>
+        <item>色</item>
+        <item>接吻</item>
+        <item>亲吻</item>
+        <item>脸红</item>
+        <item>露齿笑</item>
+        <item>满意</item>
+        <item>戏弄</item>
+        <item>吐舌</item>
+        <item>无语</item>
+        <item>得意</item>
+        <item>汗</item>
+        <item>失望</item>
+        <item>低落</item>
+        <item>呸</item>
+        <item>焦虑</item>
+        <item>担心</item>
+        <item>震惊</item>
+        <item>悔恨</item>
+        <item>眼泪</item>
+        <item>哭</item>
+        <item>破涕为笑</item>
+        <item>晕</item>
+        <item>恐惧</item>
+        <item>生气</item>
+        <item>睡觉</item>
+        <item>生病</item>
+        <item>心</item>
+        <item>心碎</item>
+        <item>强</item>
+        <item>弱</item>
+        <item>鼓掌</item>
+    </string-array>
+
+    <string name="setting_volume">音量：</string>
+    <string name="setting_brightness">亮度：</string>
+
+    <string name="photo_pick">从相册选择</string>
+    <string name="photo_take">拍一张</string>
+    <string name="photo_cancel">取消</string>
+
+    <string name="share_share">分享</string>
+    <string name="share_report">举报</string>
+    <string name="share_cancel">取消</string>
+
+    <string name="share_wx">微信好友</string>
+    <string name="share_wxfriends">朋友圈</string>
+    <string name="share_qq">QQ好友</string>
+    <string name="share_qzone">QQ空间</string>
+    <string name="share_wb">新浪微博</string>
+    <string name="share_sysj">手游视界</string>
+    <string name="share_success">分享成功</string>
+    <string name="share_failure">分享错误</string>
+    <string name="share_wechat_client_inavailable">目前您的微信版本过低或未安装微信，需要安装微信才能使用</string>
+    <string name="share_qq_client_inavailable">QQ 版本过低或者没有安装，需要升级或安装QQ才能使用！</string>
+    <string name="share_prevent_duplicate">请稍后发送</string>
+
+    <string name="mytask_growup_title">成长任务</string>
+    <string name="mytask_growup_content_first">\t\t成长任务是每日更新的日常任务，帮助玩家通过任务获取经验值，提升等级。视友可以根据指引完成当天所有的任务，领取一定的经验值奖励。</string>
+    <string name="mytask_growup_content_second">\t\t成长任务每日24时会进行清零，发布次日的新一轮成长任务。</string>
+    <string name="mytask_level_title_first">手游世界的等级体系是什么？</string>
+    <string name="mytask_level_title_content_first">视界等级是手游视界独有的一套等级系统，根据经验累积值来获取等级的提升，帐号等级越高，可享受的等级福利越多。</string>
+    <string name="mytask_level_title_second">如何提升帐号等级？</string>
+    <string name="mytask_level_title_content_second">目前手游视界设置的帐号等级最高为48级，视友可以通过完成每日的成长任务和系统任务来获取经验值。</string>
+
+    <string name="main_rootnotify">手游视界没有获得root权限，无法启动录屏功能</string>
+
+    <string name="empty_dynamic">快来发布作品吧~</string>
+
+    <!--##############################-->
+
+    <string name="local_video">本地视频</string>
+    <string name="cloud_video">云端视频</string>
+    <string name="collected_video">云端视频</string>
+    <string name="screen_video">截图</string>
+    <string name="editor">选择</string>
+    <string name="cancel">取消</string>
+    <string name="import_video">导入</string>
+
+    <string name="p2refresh_head_load_more">加载更多</string>
+    <string name="p2refresh_end_load_more">更    多</string>
+    <string name="p2refresh_end_click_load_more">点击加载</string>
+    <string name="p2refresh_release_refresh">松开刷新</string>
+    <string name="p2refresh_pull_to_refresh">下拉刷新</string>
+    <string name="p2refresh_doing_head_refresh">正在刷新</string>
+    <string name="p2refresh_doing_end_refresh">加载中</string>
+    <string name="p2refresh_refresh_lastUpdated">最近更新</string>
+
+    <string name="share_to">分享至</string>
+    <string name="fm_record_fail_and_toast_notif">非常抱歉，视频录制失败了，请确保手机真正root成功后重试</string>
+    <string name="fm_record_succeed_and_toast_notif">录制成功,视频已经保存到视频-本地视频中</string>
+    <string name="open_file_failure">打开文件管理器失败，请手动打开</string>
+
+    <string name="imageshare_title">图文分享</string>
+    <string name="imageshare_headline">请输入图文标题</string>
+    <string name="imageshare_type">请选择视频类型：</string>
+    <string name="imageshare_description">图文描述（选填）：</string>
+    <string name="imageshare_share_now">立即分享</string>
+    <string name="imageshare_share_no">暂不分享</string>
+
+    <string name="imageview_title">选择图片</string>
+    <string name="imageview_done">完成(0/9)</string>
+
+    <string name="imagedir_cancel">取消</string>
+
+    <string name="moretype_game">手机游戏</string>
+    <string name="moretype_life">精彩生活</string>
+
+    <string name="searchlift_title">精彩生活</string>
+
+    <string name="searchgame_title">选择游戏</string>
+    <string name="searchgame_left">最近游戏</string>
+    <string name="searchgame_right">最近游戏</string>
+
+    <string name="apply_content">在视频描述中你需要填写至少十个字，方可申请官方推荐，小编将会挑选精彩视频在首页或玩家秀场推荐展示。</string>
+
+    <string name="videoshare_title">视频分享</string>
+    <string name="videoshare_info">视频信息</string>
+    <string name="videoshare_join">参与活动</string>
+    <string name="videoshare_apply">申请官方推荐</string>
+    <string name="videoshare_headline">请输入视频标题</string>
+    <string name="videoshare_description">视频描述（选填）：</string>
+    <string name="videoshare_edit">编辑</string>
+
+    <string name="loading_text">加载中...</string>
+    <string name="empty_text">什么也没有...</string>
+
+    <string name="exp2sd_center_text">\t\t为优化用户体验，原等级经验值在后续版本将按一定规则转化为更有价值的视豆，敬请期待！</string>
+    <string name="exp2sd_task_text">\t\t个人任务将在后续版本更新为更有价值的视豆任务，个人经验值将按一定规则转化为视豆，敬请期待！</string>
+    <string name="exp2sd_greetings">亲爱的用户:</string>
+    <string name="exp2sd_isee">知道了</string>
+
+    <string name="signup_changephonenum"><u>更换手机号</u></string>
+
+</resources>

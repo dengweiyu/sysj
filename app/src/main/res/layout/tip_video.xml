@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.li.videoapplication.views.TipView
+            android:id="@+id/topRight"
+            android:layout_width="48dp"
+            android:layout_height="@dimen/ab_height"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:src="@color/tip_bg"/>
+
+        <ImageView
+            android:id="@+id/topLeft"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ab_height"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/topRight"
+            android:src="@color/tip_bg"/>
+
+        <ImageView
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/topRight"
+            android:layout_centerHorizontal="true"
+            android:src="@color/tip_bg"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="92dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="61dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="68dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/tip_video"/>
+
+    <ImageView
+        android:id="@+id/tip_known"
+        android:layout_width="88dp"
+        android:layout_height="32dp"
+        android:layout_below="@+id/text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/tip_known"/>
+
+</RelativeLayout>

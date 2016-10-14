@@ -1,0 +1,129 @@
+<RelativeLayout android:id="@+id/container"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_weight="0"
+                android:background="#ffffff">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="#f8ebea"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/top_left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/top_left_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/welfare_left"
+                android:textColor="@color/menu_game_red"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:id="@+id/top_left_line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp"
+                android:scaleType="fitXY"
+                android:src="@color/menu_game_red"/>
+
+            <ImageView
+                android:id="@+id/top_left_point"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_alignTop="@+id/top_left_text"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/top_left_text"
+                android:scaleType="fitCenter"
+                android:src="@drawable/point_welfare"
+                android:visibility="gone"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/top_middle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/top_middle_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/welfare_middle"
+                android:textColor="@color/menu_game_gray"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:id="@+id/top_middle_line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp"
+                android:scaleType="fitXY"
+                android:src="@color/menu_game_transperent"/>
+
+            <ImageView
+                android:id="@+id/top_middle_point"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_alignTop="@+id/top_middle_text"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/top_middle_text"
+                android:scaleType="fitCenter"
+                android:src="@drawable/point_welfare"
+                android:visibility="gone"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/top_right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/top_right_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/welfare_right"
+                android:textColor="@color/menu_game_gray"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:id="@+id/top_right_line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp"
+                android:scaleType="fitXY"
+                android:src="@color/menu_game_transperent"/>
+
+            <ImageView
+                android:id="@+id/top_right_point"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_alignTop="@+id/top_right_text"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/top_right_text"
+                android:scaleType="fitCenter"
+                android:src="@drawable/point_welfare"
+                android:visibility="gone"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

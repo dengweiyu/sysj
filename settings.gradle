@@ -1,0 +1,10 @@
+include ':app', ':SlidingMenu',
+        ':Feedback',
+        ':PullToRefresh',
+        ':ShareSDK',
+        ':DanmakuFlameMaster',
+        ':sweet-alert-dialog',
+        'IMKit_v2_7_0',
+        ':lib-emojix',
+        ':PushSDK',
+        ':JPush'

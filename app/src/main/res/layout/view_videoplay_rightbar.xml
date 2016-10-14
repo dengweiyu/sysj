@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_centerHorizontal="true"
+    android:orientation="vertical"
+    android:background="#00ffffff">
+
+    <!--8-->
+    <!--24-->
+    <com.li.videoapplication.views.CircleImageView
+        android:id="@+id/rightbar_tv"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/rightbar_tv" />
+
+    <com.li.videoapplication.views.CircleImageView
+        android:id="@+id/rightbar_send"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="6dp"
+        android:src="@drawable/rightbar_send" />
+
+    <com.li.videoapplication.views.CircleImageView
+        android:id="@+id/rightbar_report"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="6dp"
+        android:src="@drawable/rightbar_report" />
+</LinearLayout>

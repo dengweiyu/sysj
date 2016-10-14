@@ -1,0 +1,123 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_weight="0"
+                android:background="#ffffff">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="#f8ebea"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/top_first"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/top_first_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/groupdetail_introduce"
+                android:textColor="@color/menu_game_red"
+                android:textSize="13sp"/>
+
+            <ImageView
+                android:id="@+id/top_first_line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:scaleType="fitXY"
+                android:src="@color/menu_game_red"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/top_second"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/top_second_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/groupdetail_newvideo"
+                android:textColor="@color/menu_game_gray"
+                android:textSize="13sp"/>
+
+            <ImageView
+                android:id="@+id/top_second_line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:scaleType="fitXY"
+                android:src="@color/menu_game_transperent"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/top_third"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/top_third_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/groupdetail_wonderfulvideo"
+                android:textColor="@color/menu_game_gray"
+                android:textSize="13sp"/>
+
+            <ImageView
+                android:id="@+id/top_third_line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:scaleType="fitXY"
+                android:src="@color/menu_game_transperent"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/top_fourth"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/top_fourth_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/groupdetail_player"
+                android:textColor="@color/menu_game_gray"
+                android:textSize="13sp"/>
+
+            <ImageView
+                android:id="@+id/top_fourth_line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:scaleType="fitXY"
+                android:src="@color/menu_game_transperent"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- view的各种状态(正常无焦点,焦点,onclick按下、放开等等) -->
+<!-- activiyt_login.xml引用此文件 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 选中未up时 -->
+    <item android:state_pressed="true"><shape>
+            <stroke android:width="1dp" android:color="@color/gray" />
+            <!--
+	        	按钮四个圆角
+	        	radius:半径
+
+
+
+
+
+            -->
+            <corners android:radius="40dip" />
+            <!-- 按钮文字和边缘距离(内边距) -->
+            <padding android:bottom="-4dp" android:left="1dp" android:right="1dp" android:top="-4dp" />
+
+            <solid android:color="@color/gray" />
+        </shape></item>
+
+    <!-- 焦点 -->
+    <item android:state_focused="true"><shape>
+            <stroke android:width="0dp" android:color="@color/paleturquoise" />
+            <!--
+	        	按钮四个圆角
+	        	radius:半径
+
+
+
+
+
+
+            -->
+            <corners android:radius="40dip" />
+
+            <!-- 按钮文字和边缘距离(内边距) -->
+            <padding android:bottom="-10dp" android:left="1dp" android:right="1dp" android:top="-10dp" />
+        </shape></item>
+
+    <!-- 无焦点 -->
+    <item><shape>
+            <stroke android:width="1dp" android:color="#ff7373" />
+            <!-- 按钮四个圆角radius:半径 -->
+
+            <corners android:radius="40dip" />
+            <!-- 按钮文字和边缘距离(内边距) -->
+            <padding android:bottom="-41dp" android:left="0dp" android:right="0dp" android:top="-41dp" />
+
+            <solid android:color="@color/white" />
+        </shape></item>
+
+</selector>

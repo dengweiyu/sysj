@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.li.videoapplication.views.RefreshListView
+            android:id="@+id/refreeshlist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/activity_main_bg"
+            android:cacheColorHint="@null"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none"
+            android:visibility="visible" />
+
+        <com.li.videoapplication.data.connectivity.ConnectivityChangeView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+</LinearLayout>

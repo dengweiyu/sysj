@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/button_main"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/home_hotnarrate_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:paddingTop="8dp">
+
+        <ImageView
+            android:layout_width="13dp"
+            android:layout_height="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/home_recorder"/>
+
+        <TextView
+            android:id="@+id/home_hotnarrate_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:text="@string/home_hotnarrate"
+            android:textColor="#e0333333"
+            android:textSize="12sp"/>
+
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="11dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/go_home"/>
+    </LinearLayout>
+
+    <com.li.videoapplication.views.HorizontalListView
+        android:id="@+id/horizontallistvierw"
+        style="@style/BaseListViewMain"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="7dp"
+        android:background="#00ffffff"
+        android:dividerHeight="12dp"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:background="@color/activity_main_bg"/>
+
+</LinearLayout>

@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:id="@id/root"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/kaka_60"
+        android:orientation="horizontal"
+
+        android:paddingLeft="@dimen/kaka_12"
+        android:paddingRight="@dimen/kaka_12"
+        android:paddingTop="@dimen/kaka_6"
+        android:paddingBottom="@dimen/kaka_6">
+
+        <RelativeLayout
+            android:id="@id/root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:orientation="horizontal">
+
+            <!--#40a8fe/#787878-->
+
+            <TextView
+                android:id="@+id/tag_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:lines="1"
+                android:ellipsize="end"
+                android:text="#不会经常打#"
+                android:textColor="#787878"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/tag_tick"
+                android:layout_width="@dimen/kaka_16"
+                android:layout_height="@dimen/kaka_16"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="@dimen/kaka_7"
+                android:layout_marginBottom="@dimen/kaka_11"
+                android:src="@drawable/tag_tick"
+                android:scaleType="fitCenter"/>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

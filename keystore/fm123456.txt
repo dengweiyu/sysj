@@ -1,0 +1,38 @@
+ feimo {
+            keyAlias 'ifeimo'
+            keyPassword 'fm123456'
+            storeFile file('F:/sysj.keystore')
+            storePassword 'fm123456'
+        }
+
+
+        密钥库类型: JKS
+        密钥库提供方: SUN
+
+        您的密钥库包含 1 个条目
+
+        别名: ifeimo
+        创建日期: 2014-11-30
+        条目类型: PrivateKeyEntry
+        证书链长度: 1
+        证书[1]:
+        所有者: CN=ifeimo, OU=www.ifeimo.com, L=guangzhou, ST=guangdong, C=cn
+        发布者: CN=ifeimo, OU=www.ifeimo.com, L=guangzhou, ST=guangdong, C=cn
+        序列号: 2c86f98a
+        有效期开始日期: Sun Nov 30 16:34:26 CST 2014, 截止日期: Tue Nov 06 16:34:26 CST 2114
+        证书指纹:
+                 MD5: 82:E4:34:09:D6:69:5D:33:66:94:E9:75:29:04:02:8D
+                 SHA1: 45:38:47:62:88:37:2D:39:B7:A8:E4:53:91:03:13:2F:03:E3:A3:E7
+                 SHA256: B7:47:8B:77:44:BD:AA:08:F3:A9:6E:0B:8E:8C:37:FE:E2:FB:3E:E9:18:C8:04:13:43:3F:DA:9B:32:93:79:DC
+                 签名算法名称: SHA256withRSA
+                 版本: 3
+
+        扩展:
+
+        #1: ObjectId: 2.5.29.14 Criticality=false
+        SubjectKeyIdentifier [
+        KeyIdentifier [
+        0000: 37 39 74 EE 62 DF F9 38   23 47 75 40 60 2A 16 AB  79t.b..8#Gu@`*..
+        0010: 30 D6 C4 39                                        0..9
+        ]
+        ]

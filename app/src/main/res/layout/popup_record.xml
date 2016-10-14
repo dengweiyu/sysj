@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <!--( 68 + 10 = 88) * 110-->
+
+    <RelativeLayout
+        android:layout_width="110dp"
+        android:layout_height="88dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <com.li.videoapplication.views.RecordView
+            android:id="@+id/top"
+            android:layout_marginRight="12dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="13dp"
+            android:layout_height="10dp"/>
+
+        <LinearLayout
+            android:layout_below="@+id/top"
+            android:layout_width="110dp"
+            android:layout_height="78dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/record_video"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/record_top">
+
+                <ImageView
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@drawable/record_video"
+                    android:scaleType="fitXY"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:text="@string/record_video"
+                    android:textSize="13sp"
+                    android:textColor="#565656"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#e8e8e8"/>
+
+            <LinearLayout
+                android:id="@+id/record_record"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/record_bottom">
+
+                <ImageView
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:src="@drawable/record_record"
+                    android:scaleType="fitXY"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:text="@string/record_record"
+                    android:textSize="13sp"
+                    android:textColor="#565656"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

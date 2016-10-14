@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="28dp">
+
+    <LinearLayout
+        android:id="@+id/videomanager_root"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:background="#f4f5f7"
+        android:gravity="center_vertical"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp">
+
+       <!--#4c4c4c #fc3c2d-->
+
+        <TextView
+            android:id="@+id/videomanager_text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="共30个视频，占用空间10G，剩余5G/32G"
+            android:textSize="10sp"
+            android:textColor="#4c4c4c"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:ignore="DuplicateIds,NestedWeights,ContentDescription">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:src="@color/tip_bg2">
+
+        <ImageView
+            android:id="@+id/top"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@color/tip_bg2" />
+
+
+        <ImageView
+            android:id="@+id/tip_text"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/tip_bg2"
+            android:scaleType="centerInside"
+            android:src="@drawable/tip_ongoing_uploadiamge2" />
+
+
+        <ImageView
+            android:id="@+id/tip_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:src="@color/tip_bg2" />
+
+    </LinearLayout>
+
+</RelativeLayout>

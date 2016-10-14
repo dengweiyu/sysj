@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="#f5f5f5"
+              android:orientation="vertical"
+              tools:ignore="RtlSymmetry,HardcodedText,RtlHardcoded,Overdraw,SmallSp">
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_videomanager_storge"/>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/BaseListViewMain"
+            android:divider="#e2e2e2"
+            android:dividerHeight="1px"
+            android:paddingBottom="40dp"/>
+
+        <RelativeLayout
+            android:id="@+id/mylocalvideo_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f5f5f5">
+
+            <ImageView
+                android:id="@+id/nodata_logo"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/sysj_logo_gray" />
+
+            <TextView
+                android:id="@+id/nodata_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nodata_logo"
+                android:layout_marginTop="12dp"
+                android:gravity="center_horizontal"
+                android:text="您还没有录制视频"
+                android:textColor="#afafaf"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,217 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants">
+
+    <RelativeLayout
+        android:id="@+id/root"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_white_bg"
+        android:paddingLeft="@dimen/kaka_12"
+        android:paddingTop="@dimen/kaka_10">
+
+        <!--110/56-->
+        <!--110/61.6-->
+        <!--110/78.6-->
+
+        <RelativeLayout
+            android:id="@+id/leftTop"
+            android:layout_width="@dimen/kaka_138"
+            android:layout_height="@dimen/kaka_78.6"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="10dp"
+            android:background="#222222"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/mycloudvideo_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="#e2e2e2"
+                android:scaleType="centerCrop"
+                android:src="#00000000" />
+
+            <ImageView
+                android:id="@+id/mycloudvideo_play"
+                android:layout_width="@dimen/kaka_20"
+                android:layout_height="@dimen/kaka_20"
+                android:layout_centerInParent="true"
+                android:src="@drawable/play_normal"
+                android:visibility="visible" />
+
+            <CheckBox
+                android:id="@+id/mycloudvideo_deleteState"
+                android:layout_width="@dimen/kaka_12"
+                android:layout_height="@dimen/kaka_12"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/kaka_4"
+                android:layout_marginRight="@dimen/kaka_6"
+                android:background="@drawable/choose_check"
+                android:button="@null"
+                android:checked="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/kaka_88.6"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/kaka_10"
+            android:layout_toRightOf="@+id/leftTop"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/mycloudvideo_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="@dimen/kaka_4"
+                android:background="@null"
+                android:button="@null"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:ellipsize="end"
+                android:enabled="false"
+                android:maxLines="2"
+                android:text=""
+                android:textColor="#565656"
+                android:textSize="10sp" />
+
+            <LinearLayout
+                android:id="@+id/second"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_below="@+id/mycloudvideo_title"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="@dimen/kaka_8"
+                android:orientation="horizontal">
+
+                <!--播放：200-->
+                <!--播放 200-->
+
+                <TextView
+                    android:id="@+id/mycloudvideo_playTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="播放 200"
+                    android:textColor="#787878"
+                    android:textSize="9sp" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1" />
+
+                <!--评论：200-->
+                <!--评论 200-->
+
+                <TextView
+                    android:id="@+id/mycloudvideo_commentTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="评论 200"
+                    android:textColor="#787878"
+                    android:textSize="9sp" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1" />
+
+                <!--分享：200-->
+                <!--分享 200-->
+
+                <TextView
+                    android:id="@+id/mycloudvideo_shareTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="分享 200"
+                    android:textColor="#787878"
+                    android:textSize="9sp" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1" />
+
+                <!--点赞：200-->
+                <!--点赞 200-->
+
+                <TextView
+                    android:id="@+id/mycloudvideo_likeTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="点赞 200"
+                    android:textColor="#787878"
+                    android:textSize="9sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/mycloudvideo_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text=""
+                    android:textColor="#3fa9fe"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1" />
+
+                <!--14/18-->
+
+                <!--分享-->
+                <ImageView
+                    android:id="@+id/mycloudvideo_share"
+                    android:layout_width="@dimen/kaka_36"
+                    android:layout_height="@dimen/kaka_36"
+                    android:padding="@dimen/kaka_10"
+                    android:src="@drawable/videomanager_share" />
+
+                <!--删除-->
+                <ImageView
+                    android:id="@+id/mycloudvideo_delete"
+                    android:layout_width="@dimen/kaka_22"
+                    android:layout_height="@dimen/kaka_22"
+                    android:layout_marginLeft="@dimen/kaka_16"
+                    android:padding="@dimen/kaka_4"
+                    android:src="@drawable/videomanager_delete"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/mycloudvideo_deleteButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000"
+        android:button="@null"
+        android:gravity="center"
+        android:visibility="gone" />
+
+</FrameLayout>

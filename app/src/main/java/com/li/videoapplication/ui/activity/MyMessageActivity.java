@@ -1,0 +1,183 @@
+package com.li.videoapplication.ui.activity;
+
+import android.app.Activity;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+
+import com.li.videoapplication.R;
+import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.model.response.MessageMsgRedEntity;
+import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
+import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.adapter.MessageAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import io.rong.imkit.fragment.ConversationListFragment;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Message;
+
+/**
+ * 活动：我的消息
+ */
+public class MyMessageActivity extends TBaseActivity implements OnItemClickListener {
+    /**
+     * 跳转：视频消息列表
+     */
+    private void startMessageListActivity1() {
+        MessageListActivity.showVideo(this);
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "我的消息-视频消息");
+    }
+
+    /**
+     * 跳转：圈子消息列表
+     */
+    private void startMessageListActivity2() {
+        MessageListActivity.showGame(this);
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "我的消息-圈子消息");
+    }
+
+    /**
+     * 跳转：系统消息列表
+     */
+    private void startMessageListActivity3() {
+        MessageListActivity.showSystem(this);
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "我的消息-系统消息");
+    }
+
+
+    private ListView listView;
+    private MessageAdapter adapter;
+    private List<MessageAdapter.Message> data = new ArrayList<>();
+
+
+    public int inflateActionBar() {
+        return R.layout.actionbar_second;
+    }
+
+    @Override
+    public int getContentView() {
+        return R.layout.activity_mymessage;
+    }
+
+    @Override
+    public void afterOnCreate() {
+        super.afterOnCreate();
+        setSystemBarBackgroundWhite();
+        setAbTitle(R.string.message_title);
+    }
+
+    @Override
+    public void initView() {
+        super.initView();
+        listView = (ListView) findViewById(R.id.listview);
+        adapter = new MessageAdapter(this, data);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void loadData() {
+        super.loadData();
+        MessageAdapter.Message video = new MessageAdapter.Message();
+        video.setContent(resources.getString(R.string.message_video));
+        video.setCount(0);
+        video.setPic(R.drawable.message_vedio);
+
+        MessageAdapter.Message game = new MessageAdapter.Message();
+        game.setContent(resources.getString(R.string.message_game));
+        game.setCount(0);
+        game.setPic(R.drawable.message_game);
+
+        MessageAdapter.Message system = new MessageAdapter.Message();
+        system.setContent(resources.getString(R.string.message_system));
+        system.setCount(0);
+        system.setPic(R.drawable.message_system);
+
+        data.add(video);
+        data.add(game);
+        data.add(system);
+
+        adapter.notifyDataSetChanged();
+        enterFragment();
+    }
+
+    private void enterFragment() {
+        ConversationListFragment fragment = (ConversationListFragment) getSupportFragmentManager().findFragmentById(R.id.conversationlistFragment);
+
+        Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
+                .appendPath("conversationlist")
+                .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话非聚合显示
+                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "false")//设置群组会话聚合显示
+                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//设置讨论组会话非聚合显示
+                .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//设置系统会话非聚合显示
+                .build();
+
+        fragment.setUri(uri);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 圈子消息总数
+        DataManager.messageMsgRed(getMember_id());
+    }
+
+    /**
+     * 回调：圈子消息总数
+     */
+    public void onEventMainThread(MessageMsgRedEntity event) {
+
+        if (event.isResult()) {
+            String vpNum = event.getData().getVpNum();
+            String groupNum = event.getData().getGroupNum();
+            String sysNum = event.getData().getSysNum();
+
+            int a = 0;
+            try {
+                a = Integer.valueOf(vpNum);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+            data.get(0).setCount(a);
+
+            a = 0;
+            try {
+                a = Integer.valueOf(groupNum);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+            data.get(1).setCount(a);
+
+            a = 0;
+            try {
+                a = Integer.valueOf(sysNum);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+            data.get(2).setCount(a);
+
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        MessageAdapter.Message message = (MessageAdapter.Message) parent.getAdapter().getItem(position);
+        if (message.getContent().equals(resources.getString(R.string.message_video))) {
+            startMessageListActivity1();
+        } else if (message.getContent().equals(resources.getString(R.string.message_game))) {
+            startMessageListActivity2();
+
+        } else if (message.getContent().equals(resources.getString(R.string.message_system))) {
+            startMessageListActivity3();
+        }
+    }
+}

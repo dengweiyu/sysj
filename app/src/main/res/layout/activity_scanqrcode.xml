@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--相机预览-->
+
+        <SurfaceView
+            android:id="@+id/surfaceview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:id="@+id/scanqrcode_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--中心取景框-->
+
+            <RelativeLayout
+                android:id="@+id/scanqrcode_center"
+                android:layout_width="216dp"
+                android:layout_height="216dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="140dp">
+
+                <!--8-->
+
+                <ImageView
+                    android:id="@+id/scanqrcode_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/scanqrcode_line"/>
+            </RelativeLayout>
+
+            <!--四周灰色阴影-->
+
+            <FrameLayout
+                android:id="@+id/top"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:background="#88000000"
+                android:layout_alignParentTop="true" />
+
+            <FrameLayout
+                android:id="@+id/bottom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/scanqrcode_center"
+                android:layout_alignParentBottom="true"
+                android:background="#88000000"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/scanqrcode_center"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/top"
+                android:layout_above="@+id/bottom"
+                android:background="#88000000" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/scanqrcode_center"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/top"
+                android:layout_above="@+id/bottom"
+                android:background="#88000000"/>
+
+            <!--标题-->
+
+            <RelativeLayout
+                android:id="@+id/bar"
+                android:layout_height="38dp"
+                android:layout_width="match_parent"
+                android:background="#88000000">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/scanqrcode_title"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"/>
+
+                <TextView
+                    android:id="@+id/scanqrcode_cancel"
+                    android:layout_width="50dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="0dp"
+                    android:onClick="doBack"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="@string/scanqrcode_cancel"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp"
+                    android:visibility="visible"/>
+
+            </RelativeLayout>
+
+            <!--提示文字-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scanqrcode_tip"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_alignTop="@+id/scanqrcode_center"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-44dp"/>
+
+            <!--白色边框-->
+
+            <RelativeLayout
+                android:layout_width="217dp"
+                android:layout_height="217dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="139.5dp"
+                android:background="@drawable/scanqrcode_border" />
+
+            <!--8-->
+            <!--蓝色边框-->
+
+            <RelativeLayout
+                android:layout_width="232dp"
+                android:layout_height="232dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="132dp">
+
+                <View
+                    android:id="@+id/topLeft"
+                    android:layout_width="24dp"
+                    android:layout_height="8dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:background="#02a8e9"/>
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/topLeft"
+                    android:background="#02a8e9"/>
+
+                <View
+                    android:id="@+id/topRight"
+                    android:layout_width="24dp"
+                    android:layout_height="8dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="#02a8e9"/>
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/topRight"
+                    android:background="#02a8e9"/>
+
+                <View
+                    android:id="@+id/bottomLeft"
+                    android:layout_width="24dp"
+                    android:layout_height="8dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="#02a8e9"/>
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_above="@+id/bottomLeft"
+                    android:background="#02a8e9"/>
+
+                <View
+                    android:id="@+id/bottomRight"
+                    android:layout_width="24dp"
+                    android:layout_height="8dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="#02a8e9"/>
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_above="@+id/bottomRight"
+                    android:background="#02a8e9"/>
+            </RelativeLayout>
+
+            <View
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="#88000000"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="9dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <!--开灯-->
+
+                <LinearLayout
+                    android:visibility="visible"
+                    android:id="@+id/scanqrcode_light"
+                    android:layout_width="64dp"
+                    android:layout_height="76dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/scanqrcode_light_icon"
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/scanqrcode_light"
+                        android:scaleType="fitXY"/>
+
+                    <TextView
+                        android:id="@+id/scanqrcode_light_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/scanqrcode_light_on"
+                        android:textSize="12dp"
+                        android:textColor="#ffffff"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.9"/>
+
+                <!-- 相册-->
+
+                <LinearLayout
+                    android:visibility="visible"
+                    android:id="@+id/scanqrcode_photo"
+                    android:layout_width="64dp"
+                    android:layout_height="76dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/scanqrcode_photo"
+                        android:scaleType="fitXY"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/scanqrcode_photo"
+                        android:textSize="12dp"
+                        android:textColor="#ffffff"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <!--52/32-->
+                <!--我的二维码-->
+
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

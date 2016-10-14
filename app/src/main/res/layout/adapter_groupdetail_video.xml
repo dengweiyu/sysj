@@ -1,0 +1,277 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="DuplicateIds">
+
+    <RelativeLayout
+        android:id="@+id/root"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#00000000">
+
+        <!-- 196dp -->
+        <RelativeLayout
+            android:id="@+id/groupdetail_head_layout"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="13dp">
+
+            <com.li.videoapplication.views.CircleImageView
+                android:id="@+id/groupdetail_head"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:scaleType="centerCrop"
+                android:src="#666666"
+                app:border_color="#00ffffff"
+                app:border_width="0dp" />
+
+            <ImageView
+                android:id="@+id/groupdetail_v"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/home_v_red"
+                android:visibility="invisible"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/groupdetail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/groupdetail_head_layout"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_toRightOf="@+id/groupdetail_head_layout"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#454545"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/groupdetail_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/groupdetail_name"
+            android:layout_below="@+id/groupdetail_name"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#aa454545"
+            android:textSize="11sp" />
+
+        <FrameLayout
+            android:id="@+id/middle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/groupdetail_content"
+            android:layout_below="@+id/groupdetail_content"
+            android:layout_marginTop="9dp">
+
+            <RelativeLayout
+                android:id="@+id/groupdetail_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <com.li.videoapplication.views.GridViewY1
+                    android:id="@+id/gridview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="36dp"
+                    android:background="#ffffff"
+                    android:cacheColorHint="#00ffffff"
+                    android:horizontalSpacing="4dp"
+                    android:listSelector="#00ffffff"
+                    android:numColumns="3"
+                    android:scrollbars="none"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="4dp"
+                    android:visibility="visible" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/groupdetail_video"
+                android:layout_width="164dp"
+                android:layout_height="92dp"
+                android:descendantFocusability="blocksDescendants"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/groupdetail_cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerCrop"
+                    android:src="#555555" />
+
+                <!-- 26 -->
+
+                <ImageView
+                    android:id="@+id/groupdetail_centerPlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="33dp"
+                    android:layout_marginTop="33dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/play_normal" />
+
+                <RelativeLayout
+                    android:id="@+id/bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#88000000">
+
+                    <ImageView
+                        android:id="@+id/groupdetail_play"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="7dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/play_home" />
+
+                    <TextView
+                        android:id="@+id/groupdetail_allTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="6dp"
+                        android:text="15:00"
+                        android:textColor="#ffffff"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/groupdetail_playCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="7dp"
+                        android:layout_toRightOf="@+id/groupdetail_play"
+                        android:text=""
+                        android:textColor="#ccffffff"
+                        android:textSize="9sp" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_floor"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/middle"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="36dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/groupdetail_time"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:layout_alignLeft="@+id/middle"
+            android:layout_below="@+id/middle"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text=""
+            android:hint="2016-01-01"
+            android:textColor="#8c8c8c"
+            android:textSize="10sp" />
+
+        <RelativeLayout
+            android:id="@+id/goodstarcomment"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:layout_alignLeft="@+id/middle"
+            android:layout_below="@+id/middle"
+            android:layout_marginRight="10dp">
+
+            <ImageView
+                android:id="@+id/groupdetail_like"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="9dp"
+                android:layout_toLeftOf="@+id/groupdetail_likeCount"
+                android:src="@drawable/videoplay_good_gray_205" />
+
+            <TextView
+                android:id="@+id/groupdetail_likeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:layout_toLeftOf="@+id/groupdetail_star"
+                android:text=""
+                android:textColor="#949494"
+                android:textSize="9sp" />
+
+            <ImageView
+                android:id="@+id/groupdetail_star"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="9dp"
+                android:layout_toLeftOf="@+id/groupdetail_starCount"
+                android:src="@drawable/videoplay_star_gray_205" />
+
+            <TextView
+                android:id="@+id/groupdetail_starCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:layout_toLeftOf="@+id/groupdetail_comment"
+                android:text=""
+                android:textColor="#949494"
+                android:textSize="9sp" />
+
+            <ImageView
+                android:id="@+id/groupdetail_comment"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="9dp"
+                android:layout_toLeftOf="@+id/groupdetail_commentCount"
+                android:src="@drawable/videoplay_comment_gray_205" />
+
+            <TextView
+                android:id="@+id/groupdetail_commentCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text=""
+                android:textColor="#949494"
+                android:textSize="9sp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <!--e2e2e2-->
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#dfdfdf" />
+
+</LinearLayout>

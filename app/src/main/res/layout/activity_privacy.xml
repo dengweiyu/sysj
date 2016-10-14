@@ -1,0 +1,26 @@
+<ScrollView style="@style/BaseListViewWhite"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#ffffff"
+            android:clipToPadding="true"
+            android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="24dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="24dp"
+            android:text="@string/privacy_content"
+            android:textColor="#272727"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+</ScrollView>

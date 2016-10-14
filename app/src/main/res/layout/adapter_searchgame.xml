@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/button_main"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+    <com.li.videoapplication.views.RoundedImageView
+        android:id="@+id/searchgame_pic"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginLeft="13dp"
+        app:riv_border_color="#ffffff"
+        app:riv_border_width="0dp"
+        app:riv_corner_radius="4dp"
+        app:riv_oval="false"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/searchgame_title"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="14dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="秦时明月"
+        android:textColor="#dd333333"
+        android:textSize="12sp" />
+
+</LinearLayout>

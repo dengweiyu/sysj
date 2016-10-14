@@ -1,0 +1,155 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants" >
+
+    <RelativeLayout
+        android:id="@+id/root"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_white_bg"
+        android:paddingTop="@dimen/kaka_10"
+        android:paddingBottom="@dimen/kaka_10"
+        android:paddingLeft="@dimen/kaka_12"
+        android:paddingRight="@dimen/kaka_12">
+
+        <!--110/56-->
+        <!--110/61.6-->
+        <!--110/69.6-->
+
+        <RelativeLayout
+            android:id="@+id/leftTop"
+            android:layout_width="@dimen/kaka_138"
+            android:layout_height="@dimen/kaka_78.6"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="#222222"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/myscreenshot_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                android:background="#e2e2e2"
+                android:src="#00000000"/>
+
+            <CheckBox
+                android:id="@+id/myscreenshot_deleteState"
+                android:layout_width="@dimen/kaka_12"
+                android:layout_height="@dimen/kaka_12"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/kaka_4"
+                android:layout_marginRight="@dimen/kaka_6"
+                android:button="@null"
+                android:checked="true"
+                android:background="@drawable/choose_check"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/kaka_69.6"
+            android:orientation="vertical"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/kaka_10"
+            android:layout_alignBottom="@+id/leftTop"
+            android:layout_toRightOf="@+id/leftTop">
+
+            <LinearLayout
+                android:id="@+id/myscreenshot_rename"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/kaka_4"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/myscreenshot_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:text=""
+                    android:hint="@string/loading_text"
+                    android:textColor="#565656"
+                    android:textSize="10sp"/>
+
+                <ImageView
+                    android:layout_width="@dimen/kaka_12"
+                    android:layout_height="@dimen/kaka_12"
+                    android:layout_marginLeft="@dimen/kaka_8"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/videomanager_edit"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/second"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/kaka_8"
+                android:layout_below="@+id/myscreenshot_rename"
+                android:layout_height="wrap_content">
+
+                <!--截图于：2016-01-03 19:16-->
+
+                <TextView
+                    android:id="@+id/myscreenshot_createTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="截图于：2016-01-03 19:16"
+                    android:textColor="#787878"
+                    android:textSize="9sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true">
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"/>
+
+                <!--分享-->
+                <ImageView
+                    android:id="@+id/myscreenshot_share"
+                    android:layout_width="@dimen/kaka_22.5"
+                    android:layout_height="@dimen/kaka_22.5"
+                    android:padding="@dimen/kaka_4"
+                    android:src="@drawable/videomanager_share"/>
+
+                <!--删除-->
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/myscreenshot_delete"
+                    android:layout_width="@dimen/kaka_22"
+                    android:layout_height="@dimen/kaka_22"
+                    android:padding="@dimen/kaka_4"
+                    android:layout_marginLeft="@dimen/kaka_16"
+                    android:src="@drawable/videomanager_delete"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/myscreenshot_deleteButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000"
+        android:button="@null"
+        android:gravity="center"/>
+
+</FrameLayout>

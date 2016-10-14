@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#ffffff">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/top_first"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:text="@string/searchresult_first"
+            android:textColor="@color/menu_videomanager_red"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/top_second"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:text="@string/searchresult_second"
+            android:textColor="@color/menu_videomanager_gray"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/top_third"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:text="@string/searchresult_third"
+            android:textColor="@color/menu_videomanager_gray"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/top_fourth"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:text="@string/searchresult_fourth"
+            android:textColor="@color/menu_videomanager_gray"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/cursor"
+        android:layout_width="wrap_content"
+        android:layout_height="2px"
+        android:scaleType="fitXY"
+        android:src="@color/menu_videomanager_red"/>
+
+</LinearLayout>

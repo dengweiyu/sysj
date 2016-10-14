@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#88000000">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:background="#000000"/>
+
+    <com.li.videoapplication.views.ViewFlow
+        android:id="@+id/viewflow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.li.videoapplication.views.CircleFlowIndicator
+        android:id="@+id/circleflowindicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:alpha="0.6"
+        app:activeColor="#ffffff"
+        app:activeType="fill"
+        app:circleSeparation="10dp"
+        app:inactiveColor="#9fb7c8"
+        app:inactiveType="fill"
+        app:radius="3dp"/>
+
+    <ImageView
+        android:id="@+id/activity_goback"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:onClick="doBack"
+        android:padding="6dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/swi_goback"/>
+
+    <LinearLayout
+        android:id="@+id/complete_replay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="4dp">
+
+        <ImageView
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:background="@drawable/replay_bg_208"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_marginLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="重新播放"
+            android:textColor="@color/white"
+            android:textSize="14sp"/>
+    </LinearLayout>
+</RelativeLayout>

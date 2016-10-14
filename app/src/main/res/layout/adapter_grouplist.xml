@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/button_main"
+                android:descendantFocusability="blocksDescendants">
+
+    <ImageView
+        android:id="@+id/grouplist_pic"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="14dp"
+        android:src="#555555"/>
+
+    <TextView
+        android:id="@+id/grouplist_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/grouplist_pic"
+        android:layout_marginTop="2dp"
+        android:layout_toRightOf="@+id/grouplist_pic"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="秦时明月"
+        android:textColor="#242424"
+        android:textSize="12sp"/>
+
+    <ImageView
+        android:id="@+id/go"
+        android:layout_width="8dp"
+        android:layout_height="14dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="12dp"
+        android:src="@drawable/go_about"/>
+
+    <!-- #ff372d -->
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/grouplist_pic"
+        android:layout_alignLeft="@+id/grouplist_title"
+        android:layout_marginBottom="2dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/grouplist_left"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="话题  202"
+            android:textColor="#646464"
+            android:textSize="10sp"/>
+
+        <TextView
+            android:id="@+id/grouplist_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="关注 201"
+            android:textColor="#646464"
+            android:textSize="10sp"/>
+    </LinearLayout>
+
+</RelativeLayout>

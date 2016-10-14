@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <!-- 录屏教程 -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/help_attention"
+                style="@style/ScreenCourseTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#dd565656"
+                android:textSize="13dp"
+                android:text="注意：在使用录屏大师之前，请确保您的手机系统为Android 4.0以上，并且已经通过Root获得系统权限。"/>
+
+            <TextView
+                android:id="@+id/help_howtoroot"
+                style="@style/ScreenCourseTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_gray"
+                android:text="@string/help_hoetoroot"
+                android:textColor="#15b4eb"
+                android:textSize="13dp"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:text="启动录屏"
+                    android:textColor="#505050"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    style="@style/ScreenCourseTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:text="启动录屏大师→点击START"
+                    android:textColor="#808080"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/help_icon_1"/>
+            </FrameLayout>
+
+            <TextView
+                style="@style/ScreenCourseTextStyle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="请根据自己想要录制的游戏的方向选取对应录制方向"
+                android:textColor="#808080"
+                android:textSize="13dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/help_course_a"/>
+
+            <TextView
+                style="@style/ScreenCourseTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="浮窗录制模式点击横屏录制/竖屏录制会生成浮窗"
+                android:textColor="#808080"
+                android:textSize="13dp"/>
+
+            <TextView
+                android:id="@+id/help_floatview"
+                style="@style/ScreenCourseTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_gray"
+                android:text="ROOT成功后，启动录屏大师仍然没有看到悬浮窗?"
+                android:textColor="#15b4eb"
+                android:textSize="13dp"/>
+
+            <ImageView
+                style="@style/ScreenCoursePicStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/course_f"/>
+
+            <TextView
+                style="@style/ScreenCourseTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="点击浮窗展开分别为：开始录制，截屏，主页,打开主播按钮"
+                android:textColor="#808080"
+                android:textSize="12sp"/>
+
+            <ImageView
+                style="@style/ScreenCoursePicStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/course_g"/>
+
+            <TextView
+                style="@style/ScreenCourseTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="--------以下为无浮窗录制模式-----------"
+                android:textColor="#808080"
+                android:textSize="13dp"/>
+
+            <TextView
+                style="@style/ScreenCourseTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="当选择无浮窗录制模式点击录制按钮直接开始录制"
+                android:textColor="#808080"
+                android:textSize="13dp"/>
+
+            <ImageView
+                style="@style/ScreenCoursePicStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/help_course_h"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:text="录屏过程"
+                    android:textColor="#505050"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    style="@style/ScreenCourseTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="30dp"
+                    android:text="打开游戏，点击浮窗上的红色录屏按钮即开始录屏。接下来所有操作都会生成视频，注意隐私。录制过程中点击计秒状态的浮窗即可停止录制并生成视频。（系统默认开启前置摄像头拍摄主播，可以在设置>开启主播模式中自由设置是否开启。）"
+                    android:textColor="#808080"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    style="@style/ScreenCourseTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="30dp"
+                    android:text="打开游戏，点击浮窗上的红色录屏按钮即开始录屏。接下来所有操作都会生成视频，注意隐私。录制过程中点击计秒状态的浮窗即可停止录制并生成视频。（系统默认开启前置摄像头拍摄主播，可以在设置>开启主播模式中自由设置是否开启。）"
+                    android:textColor="#808080"
+                    android:textSize="13dp"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/help_icon_2"/>
+            </FrameLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/course_b"/>
+
+            <TextView
+                style="@style/ScreenCourseTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="录制过程中点击计秒状态的浮窗，浮窗展开，可以看到暂停和结束按钮，"
+                android:textColor="#808080"
+                android:textSize="13dp"/>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="点击"
+                    android:textColor="#808080"
+                    android:textSize="13dp"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/bt_pause"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="暂停，即可暂停录制，点击"
+                    android:textColor="#808080"
+                    android:textSize="13dp"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/bt_goon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="继续录制。"
+                    android:textColor="#808080"
+                    android:textSize="13dp"/>
+            </LinearLayout>
+
+            <ImageView
+                style="@style/ScreenCoursePicStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/help_course_continue"/>
+
+            <ImageView
+                style="@style/ScreenCoursePicStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/help_course_stop"/>
+
+            <TextView
+                style="@style/ScreenCourseTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="--------以下为无浮窗录制模式-----------"
+                android:textColor="#808080"
+                android:textSize="13dp"/>
+
+            <TextView
+                style="@style/ScreenCourseTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="想要暂停/停止录制则需要回到录屏大师首页，左边的双竖线按钮为暂停，右边的方块为停止"
+                android:textColor="#808080"
+                android:textSize="13dp"/>
+
+            <ImageView
+                style="@style/ScreenCoursePicStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/help_course_h"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:text="保存视频"
+                    android:textColor="#505050"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="30dp"
+                    android:text="点击红色方块按钮，即停止录制并生成视频到视频管理中"
+                    android:textColor="#808080"
+                    android:textSize="13dp"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/help_icon_3"/>
+            </FrameLayout>
+
+            <ImageView
+                style="@style/ScreenCoursePicStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/help_course_c"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:text="分享视频"
+                    android:textColor="#505050"
+                    android:textSize="13dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="30dp"
+                    android:text="点击视频管理中的分享按钮，可以分享对应的视频"
+                    android:textColor="#808080"
+                    android:textSize="13dp"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/help_icon_4"/>
+            </FrameLayout>
+
+            <ImageView
+                style="@style/ScreenCoursePicStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/help_course_c"/>
+
+            <TextView
+                style="@style/ScreenCourseTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="选定好之后点击下方媒体渠道即可分享，分享的视频都会上传到手游视界中"
+                android:textColor="#808080"
+                android:textSize="13dp"/>
+
+            <ImageView
+                style="@style/ScreenCoursePicStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/help_course_d"/>
+
+            <TextView
+                style="@style/ScreenCourseTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
+                android:text="如果你需要对视频做编辑，可以点击视频管理的“编辑”按钮,进入编辑页面。可以简单的对视频首尾进行剪切，并可以自主选择封面"
+                android:textColor="#808080"
+                android:textSize="13dp"/>
+
+            <ImageView
+                style="@style/ScreenCoursePicStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/help_course_e"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

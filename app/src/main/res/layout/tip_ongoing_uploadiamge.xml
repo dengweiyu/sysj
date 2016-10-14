@@ -1,0 +1,69 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:ignore="DuplicateIds,NestedWeights,ContentDescription">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:src="@color/tip_bg">
+
+        <ImageView
+            android:id="@+id/top"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@color/tip_bg" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="147dp"
+            android:src="@color/tip_bg"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/tip_text"
+                android:layout_width="match_parent"
+                android:layout_height="147dp"
+                android:layout_centerHorizontal="true"
+                android:background="@color/tip_bg"
+                android:scaleType="centerInside"
+                android:src="@drawable/tip_ongoing_uploadiamge" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/top"
+                android:layout_width="12dp"
+                android:layout_height="match_parent"
+                android:src="@color/tip_bg" />
+
+            <com.li.videoapplication.views.TipView2
+                android:id="@+id/tip_white"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="54dp" />
+            <ImageView
+                android:id="@+id/top"
+                android:layout_width="12dp"
+                android:layout_height="match_parent"
+                android:src="@color/tip_bg" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/tip_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:src="@color/tip_bg" />
+
+    </LinearLayout>
+
+</RelativeLayout>

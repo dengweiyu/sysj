@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f7f7">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/process_horizontallist"
+        style="@style/BaseListViewWhite"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#ffffff"
+        android:divider="@color/menu_main_gray"
+        android:dividerHeight="1dp" />
+
+    <com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView
+        android:id="@+id/pulltorefresh_gamematchprocess"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/process_horizontallist"
+        android:background="#f7f7f7"
+        android:paddingBottom="56dp" />
+
+    <include
+        layout="@layout/content_nodata"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/pulltorefresh_gamematchprocess"
+        android:layout_marginBottom="56dp" />
+
+</RelativeLayout>

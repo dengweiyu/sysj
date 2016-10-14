@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:ignore="IncludeLayoutParam,ObsoleteLayoutParam,HardcodedText,RtlHardcoded,SpUsage,ContentDescription">
+
+    <com.li.videoapplication.ui.view.VideoPlayView
+        android:id="@+id/videoplay"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="#88000000" />
+
+    <com.li.videoapplication.ui.view.CommentView
+        android:id="@+id/comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/middle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/comment"
+        android:layout_below="@+id/videoplay"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentLeft="true"
+            android:background="#e2e2e2" />
+
+        <include layout="@layout/menu_videoplay" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentLeft="true"
+            android:background="#e2e2e2" />
+
+        <com.li.videoapplication.views.ViewPagerY4
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true" />
+    </LinearLayout>
+
+    <com.li.videoapplication.ui.view.AddDanmukuView
+        android:id="@+id/adddanmuku"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/authorVideoList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/videoplay"/>
+
+
+</RelativeLayout>

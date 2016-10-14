@@ -1,0 +1,171 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fafafa"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:ignore="RtlSymmetry,RtlHardcoded,ContentDescription">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <com.li.videoapplication.views.GridViewY1
+                android:id="@+id/homeimageshare_gridview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:horizontalSpacing="3dp"
+                android:numColumns="4"
+                android:paddingBottom="8dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="3dp"
+                android:paddingTop="8dp"
+                android:verticalSpacing="5dp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="#d4d4d4" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="14dp"
+                android:text="填写信息"
+                android:textColor="#838383"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:id="@+id/homeimageshare_type"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/imageshare_type_btn"
+                android:orientation="horizontal"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:id="@+id/homeimageshare_type_text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="10"
+                    android:gravity="center_vertical"
+                    android:hint="@string/imageshare_type"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text=""
+                    android:textColor="#dd333333"
+                    android:textColorHint="#898989"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/imageshare_type_arrow"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_weight="1"
+                    android:background="@drawable/moretype_triangle_right"
+                    android:paddingRight="10dp"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="#ededed" />
+
+            <EditText
+                android:id="@+id/homeimageshare_title"
+                android:layout_width="fill_parent"
+                android:layout_height="80dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@color/white"
+                android:gravity="left|top"
+                android:hint="请输入标题"
+                android:maxLines="5"
+                android:cursorVisible="true"
+                android:paddingBottom="12dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="12dp"
+                android:textColor="#dd333333"
+                android:textColorHint="#ababab"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="#d4d4d4" />
+
+            <LinearLayout
+                android:id="@+id/homeimageshare_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.li.videoapplication.views.SmoothCheckBox
+                    android:id="@+id/homeimageshare_checkState"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:checked="true"
+                    app:color_checked="#77CAFE"
+                    app:color_unchecked="#dcdcdc" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
+                    android:text="我已阅读并同意使用条款及隐私协议"
+                    android:textColor="#949494"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/homeimageupload_share"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_blue"
+        android:gravity="center"
+        android:text="立即分享"
+        android:textColor="#ffffff"
+        android:textSize="14sp" />
+
+</LinearLayout>

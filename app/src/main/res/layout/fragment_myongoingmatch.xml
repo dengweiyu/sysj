@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
+
+    <ScrollView
+        android:id="@+id/havedata_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f5f5f5">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="6dp">
+
+                        <TextView
+                            android:id="@+id/ongoing_process"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textColor="#686868"
+                            android:textSize="18sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="对战时间："
+                                android:textColor="#686868"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/ongoing_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="@color/ab_backdround_red"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_marginEnd="58dp"
+                            android:layout_marginStart="58dp"
+                            android:layout_marginTop="8dp"
+                            android:background="#c1ded1d0" />
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="12dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="12dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/match_userinfo"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="28dp"
+                                    android:background="@color/menu_main_red"
+                                    android:gravity="center"
+                                    android:text="我方"
+                                    android:textColor="@color/white"
+                                    android:textSize="13sp" />
+
+                                <com.li.videoapplication.views.CircleImageView
+                                    android:id="@+id/ongoing_myicon"
+                                    android:layout_width="61dp"
+                                    android:layout_height="61dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="12dp"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/ongoing_nullicon" />
+
+                                <TextView
+                                    android:id="@+id/ongoing_myname"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="12dp"
+                                    android:text=""
+                                    android:singleLine="true"
+                                    android:ellipsize="end"
+                                    android:maxEms="8"
+                                    android:textColor="#686868"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/ongoing_myteamname"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:text=""
+                                    android:singleLine="true"
+                                    android:ellipsize="end"
+                                    android:maxEms="10"
+                                    android:textColor="#a1a1a1"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="12dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/ongoing_blue"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="28dp"
+                                    android:background="#48c5ff"
+                                    android:gravity="center"
+                                    android:text="敌方"
+                                    android:textColor="@color/white"
+                                    android:textSize="13sp" />
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <com.li.videoapplication.views.CircleImageView
+                                        android:id="@+id/ongoing_enemyicon"
+                                        android:layout_width="61dp"
+                                        android:layout_height="61dp"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginTop="12dp"
+                                        android:scaleType="centerCrop"
+                                        android:src="@drawable/ongoing_nullicon" />
+
+                                    <com.li.videoapplication.views.CircleImageView
+                                        android:id="@+id/blue_contact_icon"
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_alignTop="@+id/ongoing_enemyicon"
+                                        android:layout_alignLeft="@+id/ongoing_enemyicon"
+                                        android:layout_marginLeft="45dp"
+                                        android:src="@drawable/matchprocess_contact"
+                                        android:visibility="gone" />
+                                </RelativeLayout>
+
+                                <TextView
+                                    android:id="@+id/ongoing_enemyname"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="12dp"
+                                    android:singleLine="true"
+                                    android:ellipsize="end"
+                                    android:maxEms="8"
+                                    android:text=""
+                                    android:textColor="#686868"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/ongoing_enemyteamname"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:text=""
+                                    android:singleLine="true"
+                                    android:ellipsize="end"
+                                    android:maxEms="10"
+                                    android:textColor="#a1a1a1"
+                                    android:textSize="12sp" />
+
+                                <LinearLayout
+                                    android:id="@+id/ongoing_contact"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginBottom="8dp"
+                                    android:layout_marginTop="5dp"
+                                    android:background="@drawable/button_white"
+                                    android:orientation="horizontal"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:id="@+id/ongoing_contact_img"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:padding="4dp"
+                                        android:src="@drawable/ongoing_contact_blue" />
+
+                                    <TextView
+                                        android:id="@+id/ongoing_contact_text"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:paddingLeft="3dp"
+                                        android:paddingRight="6dp"
+                                        android:text="约战TA"
+                                        android:textColor="#48c5ff"
+                                        android:textSize="12sp" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/myongoingmatch_vs" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/upload_image"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="42dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/button_red"
+                        android:text="上传截图"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginTop="20dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
+                        android:background="@drawable/ongoing_gray">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp"
+                                android:textColor="@color/menu_main_red"
+                                android:text="1."/>
+
+                            <TextView
+                                android:id="@+id/ongoing_notice1"
+                                android:layout_marginLeft="5dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="匹配对手成功后，点击约战TA进行比赛，如果对方未在19:00前与您对战，则截屏聊天记录或其他截图证明上传。"
+                                android:textColor="#848484"
+                                android:textSize="14sp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp"
+                                android:textColor="@color/menu_main_red"
+                                android:text="2."/>
+
+                            <TextView
+                                android:id="@+id/ongoing_notice2"
+                                android:layout_marginLeft="5dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="胜方请在7月15日 20:00前上传比赛结果截图。"
+                                android:textColor="#848484"
+                                android:textSize="14sp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp"
+                                android:textColor="@color/menu_main_red"
+                                android:text="3."/>
+
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="对判罚结果有任何疑问，请联系"
+                                android:textColor="#848484"
+                                android:textSize="14sp"/>
+
+                            <TextView
+                                android:id="@+id/ongoing_customerservice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="客服"
+                                android:paddingRight="14dp"
+                                android:textSize="14sp"
+                                android:textColor="@color/menu_main_red"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/ongoing_nodata"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f5f5f5"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/nodata_logo"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/sysj_logo_gray" />
+
+            <TextView
+                android:id="@+id/nodata_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_horizontal"
+                android:text="暂无进行中的赛程"
+                android:textColor="#afafaf"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

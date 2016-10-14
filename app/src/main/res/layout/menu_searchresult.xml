@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ab_search_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_gravity="center"
+    android:layout_marginBottom="6dp"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="32dp"
+    android:layout_marginTop="6dp"
+    android:layout_toLeftOf="@+id/ab_right"
+    android:layout_toRightOf="@+id/ab_goback"
+    android:background="@drawable/search_bg_second"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="4dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="4dp"
+    android:visibility="visible">
+
+    <ImageView
+        android:id="@+id/ab_search"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="4dp"
+        android:layout_weight="0"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ab_search" />
+
+
+    <AutoCompleteTextView
+        android:id="@+id/ab_search_edit"
+        style="@style/BaseListViewWhite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:background="@null"
+        android:cursorVisible="true"
+        android:hint="@string/ab_search_hint2"
+        android:imeOptions="actionSearch"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="#555555"
+        android:textColorHint="#cacaca"
+        android:textCursorDrawable="@null"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/ab_search_delete"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="2dp"
+        android:layout_weight="0"
+        android:padding="3.2dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/gamedetail_delete" />
+
+
+</LinearLayout>

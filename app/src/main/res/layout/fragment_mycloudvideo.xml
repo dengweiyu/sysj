@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:ptr="http://schemas.android.com/apk/res-auto"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="#f5f5f5"
+              android:orientation="vertical">
+
+    <FrameLayout
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.handmark.pulltorefresh.library.PullToRefreshListView
+            android:id="@+id/pulltorefresh"
+            style="@style/BaseListViewMain"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:divider="#f2f2f2"
+            android:dividerHeight="1px"
+            ptr:ptrAnimationStyle="flip"/>
+
+        <TextView
+            android:id="@+id/mycloudvideo_unlogin"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#f5f5f5"
+            android:gravity="center"
+            android:text="您还没有登录，请先登录"
+            android:textColor="#969696"
+            android:textSize="14sp"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/mycloudvideo_empty"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#f5f5f5"
+            android:gravity="center"
+            android:text="您还没有上传视频，请尽快上传视频哦"
+            android:textColor="#969696"
+            android:textSize="14sp"
+            android:visibility="visible"/>
+    </FrameLayout>
+
+</LinearLayout>

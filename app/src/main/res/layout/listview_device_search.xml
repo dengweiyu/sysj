@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:id="@+id/tv_set_check"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:id="@+id/tv_image"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:padding="15dp"
+            android:src="@drawable/device_search_tv"
+            />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_image"
+            android:layout_centerVertical="true"
+            android:text="小米电视"
+            android:textColor="#1f1f1f"
+            android:textSize="15sp"
+            />
+
+        <ToggleButton
+            android:id="@+id/tv_togglebutton"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:checked="false"
+            android:textOn=""
+            android:textOff=""
+            android:background="@drawable/togglebutton_bg"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "H:\\MyProject\\VideoApplication\\JPush\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\jpush_popwin_layout.xml",
+        "source": "H:\\MyProject\\VideoApplication\\JPush\\build\\intermediates\\bundles\\debug\\res\\layout\\jpush_popwin_layout.xml"
+    },
+    {
+        "merged": "E:\\VideoApplication\\JPush\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\jpush_webview_layout.xml",
+        "source": "E:\\VideoApplication\\JPush\\build\\intermediates\\bundles\\debug\\res\\layout\\jpush_webview_layout.xml"
+    },
+    {
+        "merged": "E:\\VideoApplication\\JPush\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\jpush_popwin_layout.xml",
+        "source": "E:\\VideoApplication\\JPush\\build\\intermediates\\bundles\\debug\\res\\layout\\jpush_popwin_layout.xml"
+    },
+    {
+        "merged": "H:\\MyProject\\VideoApplication\\JPush\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\jpush_webview_layout.xml",
+        "source": "H:\\MyProject\\VideoApplication\\JPush\\build\\intermediates\\bundles\\debug\\res\\layout\\jpush_webview_layout.xml"
+    }
+]

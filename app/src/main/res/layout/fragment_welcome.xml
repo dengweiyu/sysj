@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <com.li.videoapplication.views.ViewPagerY4
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/welcome_first"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/welcome_point_btn"
+            android:button="@null"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/welcome_second"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/welcome_point_btn"
+            android:button="@null"
+            android:checked="false"/>
+
+        <RadioButton
+            android:id="@+id/welcome_third"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/welcome_point_btn"
+            android:button="@null"
+            android:checked="false"/>
+
+        <RadioButton
+            android:id="@+id/welcome_fouth"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/welcome_point_btn"
+            android:button="@null"
+            android:checked="false"/>
+    </RadioGroup>
+
+    <!-- 19 -->
+    <TextView
+        android:id="@+id/welcome_gointo"
+        android:layout_width="142dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp"
+        android:background="@drawable/welcome_gointo"
+        android:gravity="center"
+        android:text="@string/welcome_gointo"
+        android:textColor="@drawable/welcome_gointo_text"
+        android:textSize="13sp"/>
+
+</RelativeLayout>

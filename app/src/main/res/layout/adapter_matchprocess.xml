@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/adapter_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/champion_image"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/champion"/>
+
+    <LinearLayout
+        android:baselineAligned="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical">
+
+            <com.li.videoapplication.views.CircleImageView
+                android:id="@+id/red_icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ongoing_nullicon"
+                android:layout_gravity="center_horizontal"
+                app:border_color="@color/ab_backdround_red"
+                app:border_width="3px" />
+
+            <TextView
+                android:id="@+id/red_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:maxEms="5"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/ab_backdround_red"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/match_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text=""
+                android:visibility="visible"
+                android:textColor="#939393"/>
+
+            <ImageView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/match_status_image"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/myongoingmatch_vs"
+                android:visibility="visible"/>
+
+            <TextView
+                android:layout_below="@+id/match_status_image"
+                android:id="@+id/match_status_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="3dp"
+                android:text="进行中"
+                android:textColor="#9c9c9c"
+                android:textSize="11sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.li.videoapplication.views.CircleImageView
+                    android:id="@+id/blue_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ongoing_nullicon"
+                    android:layout_centerHorizontal="true"
+                    app:border_color="#48c5ff"
+                    app:border_width="3px" />
+
+                <com.li.videoapplication.views.CircleImageView
+                    android:id="@+id/blue_contact"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:layout_marginLeft="36dp"
+                    android:layout_alignLeft="@+id/blue_icon"
+                    android:src="@drawable/matchprocess_contact"
+                    android:visibility="visible"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/blue_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:maxEms="5"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#48c5ff"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#f4f4f4"/>
+</LinearLayout>
+
+

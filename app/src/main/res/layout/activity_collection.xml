@@ -1,0 +1,60 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             android:clipToPadding="true"
+             android:fitsSystemWindows="true"
+             android:orientation="vertical">
+
+    <com.li.videoapplication.views.ViewPagerY4
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="32dp"/>
+
+    <RelativeLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        android:visibility="visible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_above="@+id/bottom_linearlayout"
+            android:background="#f8ebea"/>
+
+        <LinearLayout
+            android:id="@+id/bottom_linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/bottom_left"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button_white"
+                android:gravity="center"
+                android:text="@string/collection_bottom_left"
+                android:textColor="#323232"
+                android:textSize="13sp"/>
+
+            <TextView
+                android:id="@+id/bottom_right"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button_white"
+                android:gravity="center"
+                android:text="@string/collection_bottom_right"
+                android:textColor="#ff0000"
+                android:textSize="13sp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <include layout="@layout/menu_game"/>
+
+</FrameLayout>

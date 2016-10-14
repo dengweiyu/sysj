@@ -1,0 +1,98 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_white"
+                tools:ignore="DuplicateIds">
+
+    <!-- 146/84 -->
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="130dp"
+        android:layout_height="74dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="#222222"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/mycollectedvodeo_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:src="#555555"/>
+
+        <RelativeLayout
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_alignParentBottom="true"
+            android:background="#33000000">
+
+            <ImageView
+                android:id="@+id/mycollectedvodeo_play"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/play_home"/>
+
+            <TextView
+                android:id="@+id/mycollectedvodeo_allTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="6dp"
+                android:text="17:00"
+                android:textColor="#66ffffff"
+                android:textSize="10dp"/>
+
+            <TextView
+                android:id="@+id/mycollectedvodeo_playTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/mycollectedvodeo_play"
+                android:text="785"
+                android:textColor="#66ffffff"
+                android:textSize="9dp"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/mycollectedvodeo_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bottom"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="6dp"
+            android:src="@drawable/home_change"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:layout_below="@+id/top"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/mycollectedvodeo_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:ellipsize="end"
+            android:lines="2"
+            android:text="不来打了看电视看你没看打破你的你不来打了看电视看你没看打破你的你"
+            android:textColor="#222222"
+            android:textSize="10sp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

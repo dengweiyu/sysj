@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+    <include
+        layout="@layout/fragment_splash"/>
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/banner_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/banner_jump"
+        android:layout_width="48dp"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/banner_jump"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#ffffff"
+        android:textSize="11sp"/>
+
+</RelativeLayout>

@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="138dp"
+              android:background="#f1f0f3"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/photo_pick"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/button_white"
+        android:gravity="center"
+        android:text="@string/photo_pick"
+        android:textColor="#272727"
+        android:textSize="14sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_weight="0"/>
+
+    <TextView
+        android:id="@+id/photo_take"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/button_white"
+        android:gravity="center"
+        android:text="@string/photo_take"
+        android:textColor="#272727"
+        android:textSize="14sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_weight="0"/>
+
+    <TextView
+        android:id="@+id/photo_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/button_white"
+        android:gravity="center"
+        android:text="@string/photo_cancel"
+        android:textColor="#272727"
+        android:textSize="14sp"/>
+
+</LinearLayout>

@@ -1,0 +1,102 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/videoplay_head_layout"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="6dp">
+
+        <com.li.videoapplication.views.CircleImageView
+            android:id="@+id/videoplay_head"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="#555555" />
+
+        <ImageView
+            android:id="@+id/videoplay_v"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/home_v_red"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/videoplay_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/videoplay_head_layout"
+        android:singleLine="true"
+        android:text="越秀马超"
+        android:textColor="#3f3f3f"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/videoplay_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/videoplay_name"
+        android:layout_below="@+id/videoplay_name"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="6dp"
+        android:singleLine="true"
+        android:text="16小时前上传"
+        android:textColor="#7f7f7f"
+        android:textSize="9sp" />
+
+    <TextView
+        android:id="@+id/videoplay_focus"
+        android:layout_width="37dp"
+        android:layout_height="18dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/focus_videoplay_btn"
+        android:button="@null"
+        android:checked="false"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/videoplay_focus"
+        android:textColor="#ffffff"
+        android:textSize="9sp" />
+
+    <TextView
+        android:id="@+id/videoplay_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/videoplay_time"
+        android:layout_below="@+id/videoplay_time"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="24dp"
+        android:ellipsize="end"
+        android:lines="3"
+        android:text="不好看就好那就好那片明白被骗过不能平静不好看就好那就好那片明白被骗过不能平静不好看就好那就好那片明白被骗过不能平静不好看就好那就好那片明白被骗过不能平静不好看就好那就好那片明白被骗过不能平静"
+        android:textColor="#dd565656"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/videoplay_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/videoplay_content"
+        android:layout_below="@+id/videoplay_content"
+        android:layout_marginBottom="8dp"
+        android:text="展开全文"
+        android:textColor="@color/menu_help_blue"
+        android:textSize="11sp"
+        android:visibility="gone" />
+
+</RelativeLayout>

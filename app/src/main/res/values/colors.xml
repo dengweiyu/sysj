@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="gamematch_cs_yellow">#ffc331</color>
+    <color name="gamematch_cs_yellow_pressed">#c79825</color>
+    <color name="gamematch_cs_bluegreen">#20d7da</color>
+    <color name="gamematch_cs_bluegreen_pressed">#199fa1</color>
+
+    <!--########## 乐播 ##########-->
+    <color name="title_bg_color">#8b8b8b</color>
+    <color name="divider_bg">#eaeaea</color>
+    <color name="aplha_back_50">#32000000</color>
+    <color name="divider_button_bg">#ff3453</color>
+    <color name="divider_seekbar_bg">#753034</color>
+    <color name="dialog_bg">#ffffff</color>
+
+    <!--点赞收藏等图标动画颜色-->
+    <color name="spark_primary_color">#FFFFC107</color>
+    <color name="spark_secondary_color">#FFFF5722</color>
+    <color name="heart_primary_color">#da4439</color>
+    <color name="heart_secondary_color">#8a098c</color>
+    <color name="facebook_secondary_color">#3b5998</color>
+    <color name="facebook_primary_color">#dfe3ee</color>
+    <color name="twitter_primary_color">#667580</color>
+    <color name="twitter_secondary_color">#CCD6DD</color>
+    <color name="bad_secondary_color">#20C2FF</color>
+    <color name="bad_primary_color">#bdcfff</color>
+
+    <!--Toolbar颜色-->
+    <color name="colorPrimary">#ffffff</color>
+    <!--状态栏颜色-->
+    <color name="colorPrimaryDark">#ffffff</color>
+    <!--tab之类下划线颜色-->
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="app_background">#ffffff</color>
+    
+    <color name="ab_backdround_white">#ffffff</color>
+    <color name="ab_backdround_white_pressed">#99e2e2e2</color>
+    <color name="ab_backdround_red">#fc3c2e</color>
+    <color name="ab_backdround_red_pressed">#99fc3c2e</color>
+    <color name="ab_backdround_blue">#5193ff</color>
+    <color name="ab_backdround_blue_pressed">#995193ff</color>
+    <color name="ab_search_white">#ffffff</color>
+    <color name="ab_search_gray">#eeeeee</color>
+    <color name="ab_search_gray_second">#e2e2e2</color>
+    <color name="ab_search_gray_pressed">#88eeeeee</color>
+    
+    <color name="menu_main_background">#ffffff</color>
+    <color name="menu_main_red">#ff3d2e</color>
+    <color name="menu_main_white">#ffffff</color>
+    <color name="menu_main_gray">#909397</color>
+    <color name="menu_main_divider">#e9e9e9</color>
+    
+    <color name="menu_game_red">#fc3c2d</color>
+    <color name="menu_game_yellow">#ffb400</color>
+    <color name="menu_game_gray">#b0b0b0</color>
+    <color name="menu_game_transperent">#00ffffff</color>
+    <color name="menu_square_red">#fc3c2d</color>
+    <color name="menu_square_gray">#8c8c8c</color>
+    <color name="menu_square_transperent">#00ffffff</color>
+
+    <color name="menu_videomanager_red">#fc3c2d</color>
+    <color name="menu_videomanager_gray">#8c8c8c</color>
+
+    <color name="menu_myvideo_transperent">#00ffffff</color>
+    <color name="menu_billboard_red">#ff3d2e</color>
+    <color name="menu_billboard_white">#ffffff</color>
+    <color name="menu_billboard_blue">#27b6f8</color>
+    <color name="menu_billboard_yellow">#ffc444</color>
+    <color name="menu_billboard_purple">#95adf9</color>
+    <color name="menu_billboard_gray">#8b8b8b</color>
+    <color name="menu_billboard_transperent">#00ffffff</color>
+
+    <color name="menu_help_blue">#5193ff</color>
+    <color name="menu_help_gray">#e2e2e2</color>
+    <color name="menu_help_transperent">#00ffffff</color>
+    
+    <color name="slider_bg">#1c2329</color>
+    <color name="tip_bg">#88000000</color>
+    <color name="tip_bg2">#b5000000</color>
+
+    <color name="activity_activity_bg">#0f0f20</color>
+    <color name="activity_activity_bg_pressed">#0a0c0e</color>
+
+
+    <color name="activity_main_bg">#f3f3f3</color>
+    <color name="activity_main_normal">#ffffff</color>
+    <color name="activity_main_pressed">#e6e6e6</color>
+
+    <!--###########################-->
+    
+    <color name="activity_red">#ff0000</color>
+    <color name="activity_red_shadow">#c00000</color>
+    <color name="activity_yellow">#ffb535</color>
+    <color name="activity_yellow_shadow">#cb7b0a</color>
+    <color name="activity_gray">#a5a5a5</color>
+    <color name="activity_gray_shadow">#656565</color>
+    
+    <color name="groupdetail_player_red">#ff372d</color>
+    <color name="groupdetail_player_gray">#e2e2e2</color>
+    <color name="groupdetail_player_white">#ffffff</color>
+    
+    <color name="keyword_text_gray">#f2f2f2</color>
+    <color name="keyword_text_white">#ffffff</color>
+    
+    <color name="toast_background">#88000000</color>
+
+    <!--###########################-->
+
+
+    <color name="black">#000000</color>
+
+    <!-- 以下为WYX提交的颜色 -->
+    <color name="half_backgroudn">#50000000</color>
+    <color name="transparent_background">#00000000</color>
+    <color name="white">#ffffff</color>
+    <color name="orange">#ffa500</color>
+    <color name="play_time">#ffffff</color>
+
+    <!-- 亮蓝色 -->
+    <color name="darkgray">#a9a9a9</color>
+    <color name="gray0">#dfdfdf</color>
+    <color name="gray">#808080</color>
+    <color name="gray1">#bfbfbf</color>
+    <color name="gray2">#808080</color>
+    <color name="gray3">#505050</color>
+    <color name="gray5">#d6d6d7</color>
+    <color name="gray6">#eaeaeb</color>
+
+    <!-- 视频播放 -->
+    <color name="video_play_tv_focus">#fb3d2e</color>
+    <color name="video_play_tv_default">#858484</color>
+    <color name="video_play_comment_tv">#2e2e2e</color>
+    <color name="video_play_comment_title_tv">#4d4d4d</color>
+    <color name="lightred">#ff6666</color>
+    <color name="fm_bar_backgroudn">#3fa7fe</color>
+    <color name="paleturquoise">#afeeee</color>
+    <color name="gold">#ffd700</color>
+    <color name="black_75_transparent">#75000000</color>
+    <color name="red">#ff0000</color>
+    <color name="lightgrey">#e2e2e2</color>
+    <color name="green2">#00cc00</color>
+    <color name="grey">#808080</color>
+
+    <!-- 桔黄色 -->
+    <color name="moccasin">#ffe4b5</color>
+    <color name="whiteGray">#ffC9CACB</color>
+    <color name="yellow">#ECB244</color>
+    <color name="clickcolor">#3b74c7</color>
+    <color name="otherbule">#4d82d2</color>
+
+</resources>

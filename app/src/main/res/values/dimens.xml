@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="slider_shadow_width">64dp</dimen>
+    <dimen name="slider_offset">102dp</dimen>
+
+    <dimen name="ab_height">38dp</dimen>
+
+    <dimen name="menu_main_height">44dp</dimen>
+    <dimen name="menu_main_icon">22dp</dimen>
+    <dimen name="menu_main_padding">4dp</dimen>
+
+    <dimen name="banner_height">180dp</dimen>
+
+    <dimen name="fm_video_editor_margin">50dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    
+    <dimen name="cardview_marginbottom">6dp</dimen>
+
+    <dimen name="gameheader_margintop">55dp</dimen>
+    <dimen name="gameheader_bgheight">154dp</dimen>
+
+    <!--########## 乐播 ##########-->
+    <dimen name="activity_horizontal_margin_0.5dp">0.5dp</dimen>
+    <dimen name="layout_title_height_1dp">1dp</dimen>
+    <dimen name="layout_title_height_5dp">5dp</dimen>
+    <dimen name="layout_title_height_10dp">10dp</dimen>
+    <dimen name="layout_title_margin">12dp</dimen>
+    <dimen name="layout_title_height_15dp">15dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin_20dp">20dp</dimen>
+    <dimen name="activity_vertical_margin">26dp</dimen>
+    <dimen name="activity_title_width">30dp</dimen>
+    <dimen name="layout_title_height_33dp">33dp</dimen>
+    <dimen name="layout_title_height_36dp">36dp</dimen>
+    <dimen name="activity_title_width_40dp">40dp</dimen>
+    <dimen name="layout_title_height_48dp">48dp</dimen>
+    <dimen name="layout_title_height_46dp">46dp</dimen>
+    <dimen name="activity_title_height">54dp</dimen>
+    <dimen name="layout_title_height_55dp">55dp</dimen>
+    <dimen name="layout_title_height">72dp</dimen>
+    <dimen name="layout_title_height_76dp">76dp</dimen>
+    <dimen name="layout_title_height_83dp">83dp</dimen>
+    <dimen name="layout_title_height_100dp">100dp</dimen>
+    <dimen name="layout_title_height_102dp">102dp</dimen>
+    <dimen name="layout_title_height_200dp">200dp</dimen>
+    <dimen name="layout_title_height_206dp">206dp</dimen>
+    <dimen name="layout_title_height_250dp">250dp</dimen>
+    <dimen name="layout_title_height_196dp">196dp</dimen>
+    <dimen name="layout_title_height_400dp">400dp</dimen>
+    <dimen name="activity_title_size_12sp">12sp</dimen>
+    <dimen name="activity_title_size_14sp">14sp</dimen>
+    <dimen name="activity_title_size_15sp">15sp</dimen>
+    <dimen name="activity_title_size_16sp">16sp</dimen>
+    <dimen name="activity_title_size">24sp</dimen>
+
+</resources>

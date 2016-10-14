@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:ptr="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:clipToPadding="true"
+                android:fitsSystemWindows="true"
+                android:orientation="vertical"
+                tools:ignore="IncludeLayoutParam,ObsoleteLayoutParam,HardcodedText,RtlHardcoded,SpUsage,ContentDescription,DuplicateIds,SmallSp">
+
+    <com.li.videoapplication.ui.view.CommentView
+        android:id="@+id/comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible"/>
+
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/comment"
+        android:scrollbars="none"
+        ptr:ptrAnimationStyle="flip">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/image_comment"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/header_imagedetail_player"
+                android:layout_width="match_parent"
+                android:layout_marginTop="6dp"/>
+
+            <TextView
+                android:id="@+id/imagedetail_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginTop="6dp"
+                android:text=""
+                android:textColor="#2d2d2d"
+                android:textSize="13sp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/imagedetail_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginTop="8dp"
+                android:text=""
+                android:textColor="#606060"
+                android:textSize="11sp"
+                android:visibility="gone"/>
+
+            <!-- 128/66 -->
+
+            <ImageView
+                android:id="@+id/imagedetail_image"
+                android:layout_width="226dp"
+                android:layout_height="128dp"
+                android:layout_marginBottom="11dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginTop="4dp"
+                android:scaleType="centerCrop"
+                android:src="#00555555"
+                android:visibility="visible"/>
+
+            <com.li.videoapplication.views.GridViewY1
+                android:id="@+id/image_gridview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="11dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginTop="8dp"
+                android:background="#ffffff"
+                android:cacheColorHint="#00ffffff"
+                android:horizontalSpacing="6dp"
+                android:listSelector="#00ffffff"
+                android:numColumns="3"
+                android:scrollbars="none"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="6dp"
+                android:visibility="gone"/>
+
+            <include layout="@layout/header_videoplay_status"/>
+
+            <include layout="@layout/menu_videoplay"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#e2e2e2"/>
+
+            <com.li.videoapplication.views.ViewPagerY4
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/aboutwechat_bg"
+    android:layout_marginLeft="@dimen/kaka_36"
+    android:layout_marginRight="@dimen/kaka_36">
+
+    <TextView
+        android:id="@+id/videomanagercopy_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/kaka_46"
+        android:paddingLeft="@dimen/kaka_16"
+        android:gravity="center_vertical"
+        android:text="@string/videomanagercopy_title"
+        android:textSize="14sp"
+        android:textColor="#565656"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e2e2e2"/>
+
+    <EditText
+        android:id="@+id/videomanagercopy_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/kaka_16"
+        android:layout_marginLeft="@dimen/kaka_12"
+        android:layout_marginRight="@dimen/kaka_12"
+        android:padding="@dimen/kaka_12"
+        android:singleLine="true"
+        android:cursorVisible="true"
+        android:background="@null"
+        android:textCursorDrawable="@null"
+        android:hint="@string/videomanagercopy_hint"
+        android:textColor="#787878"
+        android:textColorHint="#dd787878"
+        android:textSize="14sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#bb3fa9fe"
+        android:layout_marginLeft="@dimen/kaka_18"
+        android:layout_marginRight="@dimen/kaka_18"
+        android:layout_marginBottom="@dimen/kaka_24"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e2e2e2"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/kaka_46">
+
+        <TextView
+            android:id="@+id/videomanagercopy_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/aboutwechat_left_btn"
+            android:text="@string/videomanagerrename_cancel"
+            android:textSize="14sp"
+            android:textColor="#88787878"/>
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#e2e2e2"/>
+
+        <TextView
+            android:id="@+id/videomanagercopy_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/aboutwechat_right_btn"
+            android:text="@string/videomanagerrename_confirm"
+            android:textSize="14sp"
+            android:textColor="#2588ff"/>
+    </LinearLayout>
+</LinearLayout>

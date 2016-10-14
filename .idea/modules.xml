@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DanmakuFlameMaster/DanmakuFlameMaster.iml" filepath="$PROJECT_DIR$/DanmakuFlameMaster/DanmakuFlameMaster.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Feedback/Feedback.iml" filepath="$PROJECT_DIR$/Feedback/Feedback.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IMKit_v2_7_0/IMKit_v2_7_0.iml" filepath="$PROJECT_DIR$/IMKit_v2_7_0/IMKit_v2_7_0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JPush/JPush.iml" filepath="$PROJECT_DIR$/JPush/JPush.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PullToRefresh/PullToRefresh.iml" filepath="$PROJECT_DIR$/PullToRefresh/PullToRefresh.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PushSDK/PushSDK.iml" filepath="$PROJECT_DIR$/PushSDK/PushSDK.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ShareSDK/ShareSDK.iml" filepath="$PROJECT_DIR$/ShareSDK/ShareSDK.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SlidingMenu/SlidingMenu.iml" filepath="$PROJECT_DIR$/SlidingMenu/SlidingMenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/VideoApplication.iml" filepath="$PROJECT_DIR$/VideoApplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib-emojix/lib-emojix.iml" filepath="$PROJECT_DIR$/lib-emojix/lib-emojix.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sweet-alert-dialog/sweet-alert-dialog.iml" filepath="$PROJECT_DIR$/sweet-alert-dialog/sweet-alert-dialog.iml" />
+    </modules>
+  </component>
+</project>

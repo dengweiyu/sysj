@@ -1,0 +1,58 @@
+<resources>
+
+    <style name="AppDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTranslucentDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item><!-- 边框 -->
+        <item name="android:windowIsFloating">true</item><!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsTranslucent">true</item><!-- 半透明 -->
+        <item name="android:windowNoTitle">true</item><!-- 无标题 -->
+        <item name="android:windowBackground">@android:color/transparent</item><!-- 背景透明 -->
+        <item name="android:backgroundDimEnabled">false</item><!-- 模糊 -->
+        <item name="android:backgroundDimAmount">0.0</item>
+    </style>
+
+    <style name="emptyAnim" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/empty_enter</item>
+        <item name="android:windowExitAnimation">@anim/empty_exit</item>
+    </style>
+
+    <style name="slideTopAnim" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/slide_top_enter</item>
+        <item name="android:windowExitAnimation">@anim/slide_top_exit</item>
+    </style>
+
+    <style name="slideBottomAnim" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/slide_bottom_enter</item>
+        <item name="android:windowExitAnimation">@anim/slide_bottom_exit</item>
+    </style>
+
+    <style name="slideRightAnim">
+        <item name="android:windowEnterAnimation">@anim/slide_right_enter</item>
+        <item name="android:windowExitAnimation">@anim/slide_right_exit</item>
+    </style>
+
+    <style name="scaleTopAnim">
+        <item name="android:windowEnterAnimation">@anim/scale_top_enter</item>
+        <item name="android:windowExitAnimation">@anim/scale_top_exit</item>
+    </style>
+
+    <style name="scaleBottomAnim">
+        <item name="android:windowEnterAnimation">@anim/scale_bottom_enter</item>
+        <item name="android:windowExitAnimation">@anim/scale_bottom_exit</item>
+    </style>
+
+    <style name="scaleRightRAnim">
+        <item name="android:windowEnterAnimation">@anim/scale_right_enter</item>
+        <item name="android:windowExitAnimation">@anim/scale_right_exit</item>
+    </style>
+
+    <style name="slideBottomAlphaAnim">
+        <item name="android:windowEnterAnimation">@anim/slide_bottom_alpha_enter</item>
+        <item name="android:windowExitAnimation">@anim/slide_bottom_alpha_exit</item>
+    </style>
+
+</resources>

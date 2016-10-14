@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="slider_shadow_width">64dp</dimen>
+    <dimen name="slider_offset">102dp</dimen>
+
+    <dimen name="ab_height">38dp</dimen>
+
+    <dimen name="menu_main_height">44dp</dimen>
+    <dimen name="menu_main_icon">22dp</dimen>
+    <dimen name="menu_main_padding">4dp</dimen>
+
+    <dimen name="banner_height">180dp</dimen>
+
+    <dimen name="fm_video_editor_margin">50dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    
+    <dimen name="cardview_marginbottom">8dp</dimen>
+
+    <dimen name="gameheader_margintop">75dp</dimen>
+    <dimen name="gameheader_bgheight">174dp</dimen>
+</resources>

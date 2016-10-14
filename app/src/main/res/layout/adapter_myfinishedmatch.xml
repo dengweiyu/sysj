@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/myfinishedmatch_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:layout_marginTop="8dp"
+    android:background="@drawable/button_main"
+    android:clickable="true"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/process"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00 进 00"
+        android:textSize="15sp"
+        android:layout_marginTop="8dp"
+        android:textColor="#686868"/>
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="对战时间：2016/05/30 16:30~17:30"
+        android:textSize="12sp"
+        android:textColor="#686868"/>
+    <View
+        android:layout_width="268dp"
+        android:layout_height="1px"
+        android:layout_marginTop="5dp"
+        android:background="#c1ded1d0" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/mybgline"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="12dp"
+                android:layout_weight="1"
+                android:paddingBottom="9dp"
+                android:background="@drawable/match_userinfo"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/myresult_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="28dp"
+                    android:background="@color/menu_main_red"
+                    android:gravity="center"
+                    android:text="我方胜"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+                <com.li.videoapplication.views.CircleImageView
+                    android:id="@+id/myicon"
+                    android:layout_width="61dp"
+                    android:layout_height="61dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="12dp"
+                    android:scaleType="centerCrop"
+                    android:src="#ababab" />
+
+                <TextView
+                    android:id="@+id/myname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="12dp"
+                    android:text=""
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:maxEms="8"
+                    android:textColor="#686868"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/myteamname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:text="战队名："
+                    android:ellipsize="end"
+                    android:maxEms="10"
+                    android:singleLine="true"
+                    android:textColor="#a1a1a1"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/enemybgline"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="12dp"
+                android:layout_weight="1"
+                android:background="@drawable/match_userinfo_blue"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/enemyresult_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="28dp"
+                    android:background="@color/ab_backdround_blue"
+                    android:gravity="center"
+                    android:text="敌方败"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+                <com.li.videoapplication.views.CircleImageView
+                    android:id="@+id/enemyicon"
+                    android:layout_width="61dp"
+                    android:layout_height="61dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="12dp"
+                    android:scaleType="centerCrop"
+                    android:src="#ababab" />
+
+                <TextView
+                    android:id="@+id/enemyname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="12dp"
+                    android:text=""
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:maxEms="8"
+                    android:textColor="#686868"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/enemyteamname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:text="战队名："
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:maxEms="10"
+                    android:textColor="#a1a1a1"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/myresult_image"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/matchresult_win_signet" />
+
+    </RelativeLayout>
+
+</LinearLayout>

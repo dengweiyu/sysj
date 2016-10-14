@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@+id/ab_billboard"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="102dp"
+             android:layout_height="26dp"
+             android:layout_centerInParent="true"
+             android:layout_gravity="center"
+             android:background="@drawable/billboard_bg"
+             android:padding="2px"
+             android:visibility="visible">
+
+    <RadioGroup
+        android:id="@+id/ab_billboard_radio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/ab_billboard_left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/billboard_left_btn"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="@string/billboard_left"
+            android:textColor="@drawable/billboard_text_btn"
+            android:textSize="12sp"/>
+
+        <RadioButton
+            android:id="@+id/ab_billboard_right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/billboard_right_btn"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center"
+            android:text="@string/billboard_right"
+            android:textColor="@drawable/billboard_text_btn"
+            android:textSize="12sp"/>
+    </RadioGroup>
+
+</FrameLayout>

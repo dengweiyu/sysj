@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    >
+
+    <ImageView
+        android:id="@+id/imagedirectory_pic"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/imagedirectory_bg"
+        android:paddingBottom="17dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="9dp"
+        android:scaleType="fitXY"
+        android:src="#888888"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/imagedirectory_pic"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/imagedirectory_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所有图片"
+            android:textColor="#565656"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/imagedirectory_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="12dp"
+            android:text="数量"
+            android:textColor="#898989"
+            android:textSize="10sp"/>
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/imagedirectory_check"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:button="@null"
+        android:enabled="false"
+        android:clickable="false"
+        android:checked="false"
+        android:background="@drawable/imagedirectory_choose_check"/>
+
+</RelativeLayout>

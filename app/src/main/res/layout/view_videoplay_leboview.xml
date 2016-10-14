@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gprs_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+
+    <ImageView
+        android:id="@+id/lebo_goback"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:paddingTop="9.1dp"
+        android:paddingBottom="9.1dp"
+        android:paddingLeft="12.5dp"
+        android:paddingRight="12.5dp"
+        android:layout_marginLeft="4dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/videoplay_goback_gray"/>
+
+    <TextView
+        android:id="@+id/lebo_title"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_toRightOf="@+id/lebo_goback"
+        android:lines="1"
+        android:ellipsize="marquee"
+        android:text=""
+        android:textColor="#ffffff"
+        android:textSize="13sp"/>
+
+    <LinearLayout
+        android:id="@+id/lebo_middleview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/lebo_tv_image"
+            android:layout_width="125.5dp"
+            android:layout_height="68.5dp"
+            android:src="@drawable/lebo_playing"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/lebo_stoplink"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/lebo_stoplink"
+            android:gravity="center"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:text="退出投屏"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lebo_playtext"
+        android:layout_marginTop="1dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/lebo_middleview"
+        android:text="正在播放中"
+        android:layout_centerInParent="true"
+        android:textColor="#c6c6c6"
+        android:textSize="12sp"/>
+
+    <View
+        android:visibility="gone"
+        android:id="@+id/lebo_bottombg"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="#161616"
+        android:layout_alignParentBottom="true"/>
+
+    <ImageView
+        android:id="@+id/lebo_play"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="6dp"
+        android:layout_alignParentBottom="true"
+        android:padding="4dp"
+        android:src="@drawable/videoplay_pause_208" />
+
+</RelativeLayout>

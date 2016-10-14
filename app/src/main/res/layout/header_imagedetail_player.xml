@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:background="#00555555"
+                android:orientation="vertical">
+
+    <com.li.videoapplication.views.CircleImageView
+        android:id="@+id/imagedetail_head"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="6dp"
+        android:src="@null"/>
+
+    <!--越秀马超-->
+
+    <TextView
+        android:id="@+id/imagedetail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imagedetail_head"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="-2dp"
+        android:layout_toRightOf="@+id/imagedetail_head"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="#3f3f3f"
+        android:textSize="11sp"/>
+
+    <!--16小时前上传-->
+
+    <TextView
+        android:id="@+id/imagedetail_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imagedetail_head"
+        android:layout_alignLeft="@+id/imagedetail_name"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="-2dp"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="#7f7f7f"
+        android:textSize="9sp"/>
+
+    <CheckBox
+        android:id="@+id/imagedetail_focus"
+        android:layout_width="37dp"
+        android:layout_height="18dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="18dp"
+        android:background="@drawable/focus_videoplay_btn"
+        android:button="@null"
+        android:checked="false"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/videoplay_focus"
+        android:textColor="#ffffff"
+        android:textSize="11sp"/>
+
+</RelativeLayout>

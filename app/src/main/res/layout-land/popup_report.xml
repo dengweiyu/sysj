@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+
+    <LinearLayout android:layout_width="55.2dp"
+                  android:layout_height="28.8dp"
+                  android:orientation="horizontal"
+                  android:gravity="center">
+
+        <TextView
+            android:id="@+id/report_submit"
+            android:layout_width="48dp"
+            android:layout_height="28.8dp"
+            android:text="@string/report_submit"
+            android:paddingRight="7dp"
+            android:gravity="center"
+            android:textColor="#565656"
+            android:textSize="14.4sp"
+            android:background="@drawable/report_submit_btn"/>
+
+    </LinearLayout>
+
+</LinearLayout>

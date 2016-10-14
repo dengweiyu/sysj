@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <!--音量-->
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_volume"
+                android:textColor="#ffffff"
+                android:textSize="18sp"/>
+
+            <ImageView
+                android:layout_width="25.5dp"
+                android:layout_height="25.5dp"
+                android:padding="3dp"
+                android:layout_marginLeft="24dp"
+                android:src="@drawable/videoplay_volume_left"
+                android:scaleType="fitXY"/>
+
+            <SeekBar
+                android:id="@+id/setting_volume"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="216dp"
+                android:layout_height="wrap_content"
+                android:minHeight="3.6dp"
+                android:maxHeight="3.6dp"
+                android:layout_gravity="center_vertical"
+                android:indeterminateOnly="false"
+                android:mirrorForRtl="true"
+                android:focusable="true"
+                android:thumbOffset="0dp"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/videoplay_setting_progress"
+                android:thumb="@drawable/videoplay_setting_progress_thumb" />
+
+            <ImageView
+                android:layout_width="25.5dp"
+                android:layout_height="25.5dp"
+                android:src="@drawable/videoplay_volume_right"
+                android:scaleType="fitXY"/>
+        </LinearLayout>
+
+        <!--亮度-->
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="29dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_brightness"
+                android:textColor="#ffffff"
+                android:textSize="18sp"/>
+
+            <ImageView
+                android:layout_width="25.5dp"
+                android:layout_height="25.5dp"
+                android:layout_marginLeft="24dp"
+                android:src="@drawable/videoplay_brightness_left"
+                android:scaleType="fitXY"/>
+
+            <SeekBar
+                android:id="@+id/setting_brightness"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="216dp"
+                android:layout_height="wrap_content"
+                android:minHeight="3.6dp"
+                android:maxHeight="3.6dp"
+                android:layout_gravity="center_vertical"
+                android:indeterminateOnly="false"
+                android:mirrorForRtl="true"
+                android:focusable="true"
+                android:thumbOffset="0dp"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/videoplay_setting_progress"
+                android:thumb="@drawable/videoplay_setting_progress_thumb" />
+
+            <ImageView
+                android:layout_width="25.5dp"
+                android:layout_height="25.5dp"
+                android:src="@drawable/videoplay_brightness_right"
+                android:scaleType="fitXY"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

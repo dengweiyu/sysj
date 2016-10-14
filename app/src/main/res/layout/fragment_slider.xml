@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.li.videoapplication.views.MyLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/slider_bg"
+    android:orientation="vertical"
+    tools:ignore="DuplicateIds,HardcodedText">
+
+    <RelativeLayout
+        android:id="@+id/slider_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center_horizontal"
+        android:paddingLeft="22dp"
+        android:paddingRight="20dp"
+        android:visibility="visible">
+
+        <!-- 48 -->
+
+        <ImageView
+            android:id="@+id/slider_phone"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:clickable="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/login_phone" />
+
+        <ImageView
+            android:id="@+id/slider_qq"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_alignTop="@+id/slider_phone"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/slider_phone"
+            android:clickable="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/login_qq" />
+
+        <ImageView
+            android:id="@+id/slider_wx"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_alignTop="@+id/slider_qq"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/slider_qq"
+            android:clickable="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/login_wx" />
+
+        <ImageView
+            android:id="@+id/slider_wb"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_alignTop="@+id/slider_wx"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/slider_wx"
+            android:clickable="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/login_wb" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/slider_phone"
+            android:layout_alignRight="@+id/slider_wb"
+            android:layout_below="@+id/slider_phone"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="请选择以上登录方式"
+            android:textColor="#f0f0f0"
+            android:textSize="11sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/slider_person"
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:layout_marginBottom="22dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/slider_btn"
+        android:paddingLeft="20dp"
+        android:paddingRight="5dp"
+        android:visibility="visible">
+
+        <!--22/20-->
+
+        <com.li.videoapplication.views.CircleImageView
+            android:id="@+id/slider_head"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="#00ffffff" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="1px"
+            android:layout_height="12dp"
+            android:layout_alignBottom="@+id/slider_focus"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp"
+            android:layout_toRightOf="@+id/slider_focus"
+            android:background="#bbbcbd" />
+
+        <TextView
+            android:id="@+id/slider_fans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/slider_focus"
+            android:layout_toRightOf="@+id/divider"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#bbbcbd"
+            android:textSize="10sp" />
+
+        <!--10/16-->
+
+        <ImageView
+            android:id="@+id/go"
+            android:layout_width="50dp"
+            android:layout_height="56dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_go" />
+
+        <TextView
+            android:id="@+id/slider_focus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/slider_head"
+            android:layout_alignLeft="@+id/slider_name"
+            android:layout_marginBottom="5dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#bbbcbd"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/slider_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/slider_head"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@+id/slider_head"
+            android:ellipsize="end"
+            android:maxWidth="120dp"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textSize="11sp" />
+
+        <!--<TextView-->
+            <!--android:id="@+id/slider_level"-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="10dp"-->
+            <!--android:layout_alignBottom="@+id/slider_name"-->
+            <!--android:layout_marginBottom="2dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_toRightOf="@+id/slider_name"-->
+            <!--android:background="@drawable/level_slider_bg"-->
+            <!--android:gravity="center"-->
+            <!--android:text=""-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:textSize="7sp"-->
+            <!--android:textStyle="italic" />-->
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/slider_mymatch"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="22dp"
+        android:background="@drawable/slider_btn"
+        android:paddingLeft="28dp"
+        android:paddingRight="25dp">
+
+        <ImageView
+            android:id="@+id/left"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_mymatch" />
+
+        <TextView
+            android:id="@+id/mid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/left"
+            android:text="我的赛事"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_go" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/slider_mywelfare"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/slider_btn"
+        android:paddingLeft="28dp"
+        android:paddingRight="25dp">
+
+        <ImageView
+            android:id="@+id/left"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_mywelfare" />
+
+        <TextView
+            android:id="@+id/mid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/left"
+            android:text="@string/slider_mywelfare"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_go" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/slider_mymessage"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/slider_btn"
+        android:paddingLeft="28dp"
+        android:paddingRight="25dp">
+
+        <ImageView
+            android:id="@+id/left"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_mymessage" />
+
+        <TextView
+            android:id="@+id/mid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/left"
+            android:text="我的消息"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/slider_message_go"
+            android:layout_width="8dp"
+            android:layout_height="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_go" />
+
+
+        <TextView
+            android:id="@+id/slider_mymessage_count"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/count_point"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textSize="8sp"
+            android:visibility="visible"/>s
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/slider_mytask"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/slider_btn"
+        android:paddingLeft="28dp"
+        android:paddingRight="25dp">
+
+        <ImageView
+            android:id="@+id/left"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_mytask" />
+
+        <TextView
+            android:id="@+id/mid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/left"
+            android:text="@string/slider_mytask"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_go" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/slider_myvideo"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/slider_btn"
+        android:paddingLeft="28dp"
+        android:paddingRight="25dp">
+
+        <ImageView
+            android:id="@+id/left"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_myvideo"
+            tools:ignore="DuplicateIds" />
+
+        <TextView
+            android:id="@+id/mid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/left"
+            android:text="@string/slider_myvideo"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_go" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/slider_collection"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/slider_btn"
+        android:paddingLeft="28dp"
+        android:paddingRight="25dp">
+
+        <ImageView
+            android:id="@+id/left"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_mycollection" />
+
+        <TextView
+            android:id="@+id/mid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/left"
+            android:text="@string/slider_mycollection"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_go" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/slider_setting"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="@drawable/slider_btn"
+        android:paddingLeft="28dp"
+        android:paddingRight="25dp">
+
+        <ImageView
+            android:id="@+id/left"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:padding="4dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_setup" />
+
+        <TextView
+            android:id="@+id/mid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/left"
+            android:text="@string/slider_setup"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_go" />
+    </RelativeLayout>
+
+</com.li.videoapplication.views.MyLinearLayout>

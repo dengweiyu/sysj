@@ -1,0 +1,280 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:clipToPadding="true"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical"
+              tools:ignore="RtlSymmetry,ScrollViewSize,HardcodedText,RtlHardcoded,DisableBaselineAlignment,NestedWeights">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:background="#f5f5f5"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <!-- 视频封面 -->
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="138dp">
+
+                <ImageView
+                    android:id="@+id/videoshare_cover"
+                    android:layout_width="182dp"
+                    android:layout_height="104dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="80dp"
+                    android:layout_marginRight="80dp"
+                    android:layout_marginTop="11dp"
+                    android:scaleType="fitXY"
+                    android:src="#666666"/>
+
+                <TextView
+                    android:id="@+id/videoshare_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/videoshare_cover"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="6dp"
+                    android:text="28.2MB"
+                    android:textColor="#989898"
+                    android:textSize="9sp"
+                    android:visibility="visible"/>
+
+                <TextView
+                    android:id="@+id/videoshare_edit"
+                    android:layout_width="182dp"
+                    android:layout_height="20dp"
+                    android:layout_alignBottom="@+id/videoshare_cover"
+                    android:layout_alignLeft="@+id/videoshare_cover"
+                    android:layout_alignRight="@+id/videoshare_cover"
+                    android:background="#88000000"
+                    android:gravity="center"
+                    android:text="@string/videoshare_edit"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp"/>
+
+            </RelativeLayout>
+
+            <!-- 标题，类型，描述 -->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/videoshare_type"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/imageshare_type_btn"
+                    android:orientation="horizontal"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        android:id="@+id/videoshare_type_text"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="10"
+                        android:gravity="center_vertical"
+                        android:hint="@string/imageshare_type"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:text=""
+                        android:textColor="#dd333333"
+                        android:textColorHint="#898989"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:id="@+id/videoshare_type_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|right"
+                        android:layout_weight="1"
+                        android:background="@drawable/moretype_triangle_right"
+                        android:paddingRight="10dp"
+                        android:scaleX="0.6"
+                        android:scaleY="0.6"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:background="#e2e2e2"/>
+
+                <EditText
+                    android:id="@+id/videoshare_headline"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:ems="10"
+                    android:gravity="center_vertical|left"
+                    android:hint="@string/videoshare_headline"
+                    android:maxLines="1"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text=""
+                    android:textColor="#dd333333"
+                    android:textColorHint="#898989"
+                    android:textSize="12sp">
+                </EditText>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:background="#e2e2e2"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="12dp">
+
+                    <EditText
+                        android:id="@+id/videoshare_description"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|top"
+                        android:background="@null"
+                        android:hint="@string/videoshare_description"
+                        android:minHeight="64dp"
+                        android:maxLength="50"
+                        android:text=""
+                        android:textColor="#dd333333"
+                        android:textColorHint="#898989"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/videoshare_description_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|bottom"
+                        android:hint="10/50"
+                        android:textColor="#886d6d6d"
+                        android:textColorHint="#898989"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 参与活动 -->
+
+            <LinearLayout
+                android:id="@+id/videoshare_join"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#00ffffff"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:background="#e2e2e2"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/videoshare_join"
+                    android:textColor="#dd333333"
+                    android:textSize="12sp"/>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:background="#e2e2e2"/>
+
+                <com.li.videoapplication.views.ListViewY1
+                    android:id="@+id/listview"
+                    style="@style/BaseListViewWhite"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="#e2e2e2"
+                    android:dividerHeight="1px"/>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:background="#e2e2e2"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom"
+        android:layout_weight="0"
+        android:background="#f5f5f5"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/videoshare_share"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/button_blue"
+            android:layout_marginLeft="19dp"
+            android:layout_marginRight="19dp"
+            android:gravity="center"
+            android:text="@string/imageshare_share_now"
+            android:layout_above="@+id/buttom"
+            android:layout_marginBottom="13dp"
+            android:textColor="#ffffff"
+            android:textSize="14sp"/>
+
+        <LinearLayout
+            android:id="@+id/buttom"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="26dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true">
+
+            <CheckBox
+                android:id="@+id/videoshare_apply"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/videoshare_apply"
+                android:button="@null"
+                android:enabled="true"
+                android:clickable="true"
+                android:checked="false"
+                android:gravity="center"
+                tools:ignore="SmallSp"/>
+
+            <TextView
+                android:id="@+id/videoshare_applytext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="@string/videoshare_apply"
+                android:textSize="13sp"
+                android:textColor="#898989"/>
+
+            <ImageView
+                android:id="@+id/videoshare_apply_question"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/videoshare_apply_question_208"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

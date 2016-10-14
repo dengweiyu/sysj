@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false" >
+
+    <item
+        android:drawable="@drawable/swi_gpf"
+        android:duration="150"/>
+    <item
+        android:drawable="@drawable/swi_gpg"
+        android:duration="150"/>
+    <item
+        android:drawable="@drawable/swi_gph"
+        android:duration="150"/>
+    <item
+        android:drawable="@drawable/swi_gpi"
+        android:duration="150"/>
+    <item
+        android:drawable="@drawable/swi_gpj"
+        android:duration="150"/>
+    <item
+        android:drawable="@drawable/swi_gpk"
+        android:duration="150"/>
+    <item
+        android:drawable="@drawable/swi_gpl"
+        android:duration="150"/>
+    <item
+        android:drawable="@drawable/swi_gpm"
+        android:duration="150"/>
+    <item
+        android:drawable="@drawable/swi_gpn"
+        android:duration="150"/>
+    <item
+        android:drawable="@drawable/swi_gpo"
+        android:duration="150"/>
+    <item
+        android:drawable="@drawable/swi_gpq"
+        android:duration="150"/>
+    <item
+        android:drawable="@drawable/swi_gpr"
+        android:duration="150"/>
+        
+</animation-list>

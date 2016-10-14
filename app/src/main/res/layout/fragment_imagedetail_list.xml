@@ -1,0 +1,8 @@
+<com.li.videoapplication.views.ListViewY1 android:id="@+id/listview"
+                                          style="@style/BaseListViewMain"
+                                          xmlns:android="http://schemas.android.com/apk/res/android"
+                                          android:layout_width="match_parent"
+                                          android:layout_height="match_parent"
+                                          android:background="#ffffff"
+                                          android:divider="#e9e9e9"
+                                          android:dividerHeight="1px"/>

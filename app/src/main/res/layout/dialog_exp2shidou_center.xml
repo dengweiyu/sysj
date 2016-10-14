@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="34dp"
+    android:layout_marginRight="34dp"
+    android:background="@drawable/button_main_round"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/exp2sd_greetings"
+        android:textColor="@color/text_color"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="18dp"
+        android:lineSpacingExtra="5dp"
+        android:text="@string/exp2sd_center_text"
+        android:textColor="@color/text_color"
+        android:textSize="15sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="28dp"
+        android:background="#e4e4e4" />
+
+    <TextView
+        android:clickable="true"
+        android:id="@+id/dialog_exp2shidou_ok"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/button_main_round"
+        android:gravity="center"
+        android:text="@string/exp2sd_isee"
+        android:textColor="@color/text_color"
+        android:textSize="16sp" />
+
+</LinearLayout>

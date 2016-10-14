@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/connectivitychange_root"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="#ccffffff"
+        android:gravity="left"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_marginLeft="14dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/connectivitychange_icon"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="#565656"
+            android:textSize="12sp"
+            android:text="视界这么大，联网才能看~"/>
+    </LinearLayout>
+
+</LinearLayout>

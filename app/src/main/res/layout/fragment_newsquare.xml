@@ -1,0 +1,9 @@
+<com.handmark.pulltorefresh.library.PullToRefreshListView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pulltorefresh"
+    style="@style/BaseListViewMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:divider="#e9e9e9"
+    android:dividerHeight="1px"
+    ptr:ptrAnimationStyle="flip" />

@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+    <!-- 120 -->
+
+    <TextView
+        android:id="@+id/systemMessage_time"
+        android:layout_width="82dp"
+        android:layout_height="14dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/time_bg"
+        android:gravity="center"
+        android:text="2015-12-11 22:00"
+        android:textColor="#ffffff"
+        android:textSize="8dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/systemMessage_time"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/system_btn"
+        android:clickable="true"
+        >
+
+        <!--  #333333 #2486ff -->
+        <TextView
+            android:id="@+id/systemMessage_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:ellipsize="end"
+            android:lines="2"
+            android:text="有時候，不是對方不在乎你，而是你把對方看的太重。"
+            android:textColor="#cc333333"
+            android:textSize="12sp"/>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@+id/systemMessage_title"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="#e5e5e5"/>
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="立即查看"
+            android:textColor="#aa404040"
+            android:textSize="10sp"/>
+
+        <!-- 9/5 -->
+        <ImageView
+            android:layout_width="5dp"
+            android:layout_height="9dp"
+            android:layout_alignRight="@+id/systemMessage_title"
+            android:layout_alignTop="@+id/text"
+            android:scaleType="fitXY"
+            android:src="@drawable/go_message"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,142 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_alignParentTop="true"
+    android:background="#000000">
+
+    <com.li.videoapplication.ui.view.AspectRatioLayout
+        android:id="@+id/videoplay_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center">
+
+        <!-- 视频播放器 -->
+        <com.li.videoapplication.ui.view.VideoPlayer
+            android:id="@+id/videoplayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"/>
+
+    </com.li.videoapplication.ui.view.AspectRatioLayout>
+
+    <!--字幕-->
+
+    <com.li.videoapplication.ui.view.TimedTextView
+        android:id="@+id/videoplay_timedtext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="6dp"/>
+
+    <com.li.videoapplication.ui.view.DanmukuPlayer
+        android:id="@+id/danmuku"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- 网页播放器 -->
+
+    <WebView
+        android:id="@+id/webview"
+        android:background="#000000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layerType="hardware"
+        android:visibility="gone" />
+
+    <!--播放触摸控制-->
+
+    <com.li.videoapplication.ui.view.TouchView
+        android:visibility="visible"
+        android:id="@+id/videoplay_touch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!--播放右侧：举报，发弹慕-->
+
+    <com.li.videoapplication.ui.view.RightBarView
+        android:id="@+id/videoplay_rightbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"/>
+
+    <!--标题栏  28/32-->
+
+    <com.li.videoapplication.ui.view.TitleBarView
+        android:id="@+id/videoplay_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"/>
+
+    <!--播放控制 竖屏  32/38-->
+
+    <com.li.videoapplication.ui.view.ControllerView
+        android:id="@+id/videoplay_controller"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"/>
+
+    <!--播放控制 横屏  32/38-->
+
+    <com.li.videoapplication.ui.view.ControllerViewLand
+        android:visibility="gone"
+        android:id="@+id/videoplay_controller_land"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"/>
+
+    <!-- 完成播放：重复播放 -->
+
+    <com.li.videoapplication.ui.view.CompleteView
+        android:visibility="gone"
+        android:id="@+id/videoplay_complete"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!-- 开始播放：封面，中心播放按键 -->
+
+    <com.li.videoapplication.ui.view.StartView
+        android:visibility="gone"
+        android:id="@+id/videoplay_start"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!-- 准备播放：进度条 -->
+
+    <com.li.videoapplication.ui.view.PrepareView
+        android:visibility="gone"
+        android:id="@+id/videoplay_prepare"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!-- 出错了 -->
+
+    <com.li.videoapplication.ui.view.ErrorView
+        android:visibility="gone"
+        android:id="@+id/videoplay_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!--无wifi播放提示-->
+    <com.li.videoapplication.ui.view.GPRSTipView
+        android:visibility="gone"
+        android:id="@+id/videoplay_gprstip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!--乐播投屏时显示-->
+    <com.li.videoapplication.ui.view.LeBoView
+        android:visibility="gone"
+        android:id="@+id/videoplay_lebo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</RelativeLayout>

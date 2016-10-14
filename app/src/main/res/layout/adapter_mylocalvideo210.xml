@@ -1,0 +1,222 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="94dp"
+    android:descendantFocusability="blocksDescendants">
+
+    <RelativeLayout
+        android:id="@+id/root"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_main"
+        android:paddingLeft="@dimen/kaka_12">
+
+        <!--110/56-->
+        <!--110/61.6-->
+        <RelativeLayout
+            android:id="@+id/leftTop"
+            android:layout_width="130dp"
+            android:layout_height="74dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#222222"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/mylocalvideo_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="#e2e2e2"
+                android:scaleType="centerCrop"
+                android:src="#00000000" />
+
+            <FrameLayout
+                android:id="@+id/mylocalvideo_progress_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ProgressBar
+                    android:id="@+id/mylocalvideo_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:max="100"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/mylocalvideo_progress_progress"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/mylocalvideo_progress_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="60%"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/mylocalvideo_pause"
+                    android:layout_width="@dimen/kaka_12"
+                    android:layout_height="@dimen/kaka_12"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/videomanager_pause"
+                    android:visibility="visible" />
+
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/mylocalvideo_play"
+                android:layout_width="@dimen/kaka_20"
+                android:layout_height="@dimen/kaka_20"
+                android:layout_centerInParent="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/play_normal"
+                android:visibility="visible" />
+
+            <CheckBox
+                android:id="@+id/mylocalvideo_deleteState"
+                android:layout_width="@dimen/kaka_12"
+                android:layout_height="@dimen/kaka_12"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/kaka_4"
+                android:layout_marginRight="@dimen/kaka_6"
+                android:background="@drawable/choose_check"
+                android:button="@null"
+                android:checked="true" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="84dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/kaka_10"
+            android:layout_toRightOf="@+id/leftTop"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/mylocalvideo_rename"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="@dimen/kaka_4"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/mylocalvideo_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:button="@null"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:ellipsize="end"
+                    android:enabled="false"
+                    android:hint="@string/loading_text"
+                    android:maxLines="2"
+                    android:text=""
+                    android:textColor="#565656"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:layout_width="@dimen/kaka_12"
+                    android:layout_height="@dimen/kaka_12"
+                    android:layout_marginLeft="@dimen/kaka_8"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/videomanager_edit" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/second"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginRight="12dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!--截图于：2016-01-03 19:16-->
+
+                <TextView
+                    android:id="@+id/mylocalvideo_createTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="保存于：2016-01-03 19:16"
+                    android:textColor="#787878"
+                    android:textSize="9sp" />
+
+                <!--时长：20:15-->
+                <TextView
+                    android:id="@+id/mylocalvideo_allTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/kaka_10"
+                    android:gravity="left"
+                    android:text="时长：20:15"
+                    android:textColor="#787878"
+                    android:textSize="9sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingRight="2dp">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1" />
+
+                <!--剪辑-->
+                <ImageView
+                    android:id="@+id/mylocalvideo_cut"
+                    android:layout_width="@dimen/kaka_36"
+                    android:layout_height="@dimen/kaka_36"
+                    android:padding="@dimen/kaka_10"
+                    android:src="@drawable/videomanager_cut"
+                    android:background="@drawable/localvideo_btn_bg"/>
+
+                <!--复制-->
+                <ImageView
+                    android:id="@+id/mylocalvideo_copy"
+                    android:layout_width="@dimen/kaka_36"
+                    android:layout_height="@dimen/kaka_36"
+                    android:padding="@dimen/kaka_10"
+                    android:src="@drawable/videomanager_copy"
+                    android:background="@drawable/localvideo_btn_bg"/>
+
+                <!--分享-->
+                <ImageView
+                    android:id="@+id/mylocalvideo_share"
+                    android:layout_width="@dimen/kaka_36"
+                    android:layout_height="@dimen/kaka_36"
+                    android:padding="@dimen/kaka_10"
+                    android:src="@drawable/videomanager_share"
+                    android:background="@drawable/localvideo_btn_bg"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/mylocalvideo_deleteButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000"
+        android:button="@null"
+        android:gravity="center"
+        android:visibility="gone" />
+
+</FrameLayout>

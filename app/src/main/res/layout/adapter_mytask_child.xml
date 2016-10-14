@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:paddingBottom="8dp">
+
+    <!-- 48 -->
+
+    <ImageView
+        android:id="@+id/mytask_pic"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="12dp"
+        android:src="#555555"/>
+
+    <TextView
+        android:id="@+id/mytask_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/mytask_pic"
+        android:layout_marginTop="-4dp"
+        android:layout_toRightOf="@+id/mytask_pic"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="xfbhdnjhjneajnej"
+        android:textColor="#636363"
+        android:textSize="12sp"/>
+
+    <!--  #ffa842 -->
+
+    <TextView
+        android:id="@+id/mytask_task"
+        android:layout_width="55dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="23dp"
+        android:background="@drawable/task_red"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="@string/mytask_task_accept"
+        android:textColor="#ffffff"
+        android:textSize="10sp"/>
+
+    <TextView
+        android:id="@+id/mytask_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/mytask_title"
+        android:layout_below="@+id/mytask_title"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_toLeftOf="@+id/mytask_task"
+        android:text="部门肯定没你大过年"
+        android:textColor="#979494"
+        android:textSize="9sp"/>
+
+</RelativeLayout>

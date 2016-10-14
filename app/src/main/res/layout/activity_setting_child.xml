@@ -1,0 +1,543 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#00f7f7f7"
+              android:orientation="vertical"
+              tools:ignore="DuplicateIds">
+
+    <RelativeLayout
+        android:id="@+id/setting_help"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="9dp"
+        android:background="@drawable/button_white">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="72dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/setting_help"
+            android:textColor="#656565"
+            android:textSize="12sp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#88e4e4e4"/>
+
+    <RelativeLayout
+        android:id="@+id/setting_soundRecording"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/button_white">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="72dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/setting_soundRecoeding"
+            android:textColor="#656565"
+            android:textSize="12sp"/>
+
+        <ToggleButton
+            android:id="@+id/setting_soundRecording_toggle"
+            android:layout_width="42dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="22dp"
+            android:background="@drawable/setting_btn"
+            android:button="@null"
+            android:checked="true"
+            android:textOff=""
+            android:textOn=""
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#88e4e4e4"/>
+
+    <RelativeLayout
+        android:id="@+id/setting_shakeRecording"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/button_white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="72dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/setting_shakeRecording"
+            android:textColor="#656565"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/left"
+            android:layout_below="@+id/left"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/setting_shakeRecording_content"
+            android:textColor="#bdbdbd"
+            android:textSize="10sp"
+            android:visibility="visible"/>
+
+        <ToggleButton
+            android:id="@+id/setting_shakeRecording_toggle"
+            android:layout_width="42dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="22dp"
+            android:background="@drawable/setting_btn"
+            android:button="@null"
+            android:checked="false"
+            android:textOff=""
+            android:textOn=""
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#88e4e4e4"/>
+
+    <RelativeLayout
+        android:id="@+id/setting_anchorModel"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/button_white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="72dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/setting_anchorModel"
+            android:textColor="#656565"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/left"
+            android:layout_below="@+id/left"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/setting_anchorModel_content"
+            android:textColor="#bdbdbd"
+            android:textSize="10sp"
+            android:visibility="visible"/>
+
+        <ToggleButton
+            android:id="@+id/setting_anchorModel_toggle"
+            android:layout_width="42dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="22dp"
+            android:background="@drawable/setting_btn"
+            android:button="@null"
+            android:checked="false"
+            android:textOff=""
+            android:textOn=""
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#88e4e4e4"/>
+
+    <RelativeLayout
+        android:id="@+id/setting_touchPosition"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/button_white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="72dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/setting_touchPosition"
+            android:textColor="#656565"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/left"
+            android:layout_below="@+id/left"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/setting_touchPosition_content"
+            android:textColor="#bdbdbd"
+            android:textSize="10sp"
+            android:visibility="visible"/>
+
+        <ToggleButton
+            android:id="@+id/setting_touchPosition_toggle"
+            android:layout_width="42dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="22dp"
+            android:background="@drawable/setting_btn"
+            android:button="@null"
+            android:checked="false"
+            android:textOff=""
+            android:textOn=""
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#88e4e4e4"/>
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/setting_gameScan"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="44dp"-->
+        <!--android:background="@drawable/button_white"-->
+        <!--android:gravity="center_vertical">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/left"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_marginLeft="22dp"-->
+            <!--android:layout_marginRight="72dp"-->
+            <!--android:ellipsize="end"-->
+            <!--android:singleLine="true"-->
+            <!--android:text="@string/setting_gameScan"-->
+            <!--android:textColor="#656565"-->
+            <!--android:textSize="12sp"/>-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignLeft="@+id/left"-->
+            <!--android:layout_below="@+id/left"-->
+            <!--android:layout_marginTop="6dp"-->
+            <!--android:ellipsize="end"-->
+            <!--android:singleLine="true"-->
+            <!--android:text="@string/setting_gameScan_content"-->
+            <!--android:textColor="#bdbdbd"-->
+            <!--android:textSize="10sp"-->
+            <!--android:visibility="visible"/>-->
+
+        <!--<ToggleButton-->
+            <!--android:id="@+id/setting_gameScan_toggle"-->
+            <!--android:layout_width="42dp"-->
+            <!--android:layout_height="22dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="22dp"-->
+            <!--android:background="@drawable/setting_btn"-->
+            <!--android:button="@null"-->
+            <!--android:checked="false"-->
+            <!--android:textOff=""-->
+            <!--android:textOn=""-->
+            <!--android:visibility="visible"/>-->
+    <!--</RelativeLayout>-->
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1px"-->
+        <!--android:background="#88e4e4e4"/>-->
+
+    <!--<RelativeLayout
+        android:id="@+id/setting_recordedJump"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/button_white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="72dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/setting_recordedJump"
+            android:textColor="#656565"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/left"
+            android:layout_below="@+id/left"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/setting_recordedJump_content"
+            android:textColor="#bdbdbd"
+            android:textSize="10sp"
+            android:visibility="visible"/>
+
+        <ToggleButton
+            android:id="@+id/setting_recordedJump_toggle"
+            android:layout_width="42dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="22dp"
+            android:background="@drawable/setting_btn"
+            android:button="@null"
+            android:checked="false"
+            android:textOff=""
+            android:textOn=""
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#88e4e4e4"/>-->
+
+    <RelativeLayout
+        android:id="@+id/setting_screenQuality"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/button_white">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="72dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/setting_screenQuality"
+            android:textColor="#656565"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/setting_screenQuality_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="33dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="高清"
+            android:textColor="#747474"
+            android:textSize="11sp"
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#88e4e4e4"/>
+
+    <RelativeLayout
+        android:id="@+id/setting_floatingWindiws"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/button_white">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="72dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/setting_floatingWindiws"
+            android:textColor="#656565"
+            android:textSize="12sp"/>
+
+        <ToggleButton
+            android:id="@+id/setting_floatingWindiws_toggle"
+            android:layout_width="42dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="22dp"
+            android:background="@drawable/setting_btn"
+            android:button="@null"
+            android:checked="true"
+            android:textOff=""
+            android:textOn=""
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#88e4e4e4"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="9dp"
+        android:background="#88e4e4e4"/>
+
+    <RelativeLayout
+        android:id="@+id/setting_update"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/button_white">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="72dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/setting_update"
+            android:textColor="#656565"
+            android:textSize="12sp"/>
+
+        <ImageView
+            android:id="@+id/setting_update_point"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_alignRight="@+id/left"
+            android:layout_alignTop="@+id/left"
+            android:layout_marginRight="-12dp"
+            android:layout_marginTop="-4dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/point_welfare"
+            android:visibility="visible"/>
+
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="12dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="24dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/go_message"
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#88e4e4e4"/>
+
+    <RelativeLayout
+        android:id="@+id/setting_inviteFriends"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/button_white">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="72dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/setting_inviteFriends"
+            android:textColor="#656565"
+            android:textSize="12sp"/>
+
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="12dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="24dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/go_message"
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#88e4e4e4"/>
+
+    <RelativeLayout
+        android:id="@+id/setting_about"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:layout_marginBottom="9dp"
+        android:background="@drawable/button_white">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="72dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/setting_about"
+            android:textColor="#656565"
+            android:textSize="12sp"/>
+
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="12dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="24dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/go_message"
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+</LinearLayout>

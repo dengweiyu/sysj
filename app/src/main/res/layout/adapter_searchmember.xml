@@ -1,0 +1,188 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="58dp"
+                android:background="@drawable/button_white">
+
+    <RelativeLayout
+        android:id="@+id/searchmember_head_layout"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp">
+
+        <com.li.videoapplication.views.CircleImageView
+            android:id="@+id/searchmember_head"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:scaleType="centerCrop"
+            android:src="#555555"/>
+
+        <ImageView
+            android:id="@+id/searchmember_v"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/home_v_red"
+            android:visibility="invisible"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/playerbillboard_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/searchmember_head_layout"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/searchmember_head_layout"
+        android:ellipsize="end"
+        android:maxEms="10"
+        android:singleLine="true"
+        android:text=""
+        android:hint="名称加载中.."
+        android:textColor="#454545"
+        android:textSize="12sp"/>
+
+    <!--<TextView-->
+        <!--android:id="@+id/searchmember_level"-->
+        <!--android:layout_width="20dp"-->
+        <!--android:layout_height="10dp"-->
+        <!--android:layout_alignBottom="@+id/playerbillboard_name"-->
+        <!--android:layout_marginBottom="2dp"-->
+        <!--android:layout_marginLeft="7dp"-->
+        <!--android:layout_toRightOf="@+id/playerbillboard_name"-->
+        <!--android:background="@drawable/level_slider_bg"-->
+        <!--android:gravity="center"-->
+        <!--android:text="Lv.1"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:textSize="7sp"-->
+        <!--android:textStyle="italic"/>-->
+
+    <TextView
+        android:id="@+id/searchmember_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/searchmember_head_layout"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="14dp"
+        android:layout_toRightOf="@+id/searchmember_head_layout"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="等级 19 视频 236 粉丝 56"
+        android:textColor="#8b8b8b"
+        android:textSize="11sp"
+        android:visibility="gone"/>
+
+    <!--关注： 搜索玩家-->
+
+    <LinearLayout
+        android:id="@+id/searchmember_focus"
+        android:layout_width="48dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/focus_btn"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="+"
+            android:textColor="#ffffff"
+            android:textSize="11sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/dynamic_focus"
+            android:textColor="#ffffff"
+            android:textSize="11sp"/>
+    </LinearLayout>
+
+    <!--关注：圈子详情玩家-->
+
+    <TextView
+        android:id="@+id/groupdetail_player_focus"
+        android:layout_width="48dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/player_focus"
+        android:gravity="center"
+        android:text="@string/dynamic_focus"
+        android:textColor="@color/groupdetail_player_red"
+        android:textSize="10sp"
+        android:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/myplayer_go"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="16dp"
+        android:padding="1dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/go_mytask"/>
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/searchmember_head_layout"
+        android:layout_alignLeft="@+id/playerbillboard_name"
+        android:layout_marginBottom="3dp"
+        android:orientation="horizontal">
+
+        <!--<TextView-->
+            <!--android:id="@+id/searchmember_left"-->
+            <!--android:layout_width="38dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:ellipsize="end"-->
+            <!--android:singleLine="true"-->
+            <!--android:text="Lv. 6"-->
+            <!--android:textColor="#ffb535"-->
+            <!--android:textSize="12sp"-->
+            <!--android:textStyle="italic"/>-->
+
+        <TextView
+            android:id="@+id/searchmember_middle"
+            android:layout_width="58dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="视频 201"
+            android:textColor="#646464"
+            android:textSize="10sp"/>
+
+        <TextView
+            android:id="@+id/searchmember_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="粉丝 201"
+            android:textColor="#646464"
+            android:textSize="10sp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="#efefef"/>
+
+</RelativeLayout>

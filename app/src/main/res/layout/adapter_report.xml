@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="39dp"
+             android:background="@drawable/button_white">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp">
+
+        <TextView
+            android:id="@+id/report_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:text=""
+            android:textColor="#565656"
+            android:textSize="12sp"/>
+
+        <CheckBox
+            android:id="@+id/report_checkState"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:button="@null"
+            android:checked="false"
+            android:background="@drawable/report_check"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/report_checkButton"
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:text=""/>
+
+</FrameLayout>

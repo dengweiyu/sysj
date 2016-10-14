@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#88000000"
+    android:gravity="center_vertical">
+
+    <!--32/38-->
+
+    <!--16-->
+
+    <ImageView
+        android:id="@+id/controller_play"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="6dp"
+        android:padding="7dp"
+        android:src="@drawable/videoplay_pause_208"/>
+
+    <!--05:01-->
+
+    <TextView
+        android:id="@+id/controller_position"
+        android:layout_width="36dp"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:text="08:00"
+        android:textColor="#ffffff"
+        android:textSize="12sp"/>
+
+    <!--4/14-->
+
+    <com.li.videoapplication.views.TouchSeekBar
+        android:id="@+id/controller_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="4dp"
+        android:maxHeight="4dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:indeterminateOnly="false"
+        android:mirrorForRtl="true"
+        android:max="100"
+        android:progress="40"
+        android:secondaryProgress="60"
+        android:progressDrawable="@drawable/videoplay_progress"
+        android:thumb="@drawable/videoplay_progress_thumb"/>
+
+    <!--30:32-->
+
+    <TextView
+        android:id="@+id/controller_duration"
+        android:layout_width="36dp"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#ffffff"
+        android:textSize="12sp"/>
+
+    <ImageView
+        android:visibility="gone"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/videoplay_progress_thumb"/>
+
+    <!--19-->
+
+    <ImageView
+        android:id="@+id/controller_damuku"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginLeft="4dp"
+        android:padding="0dp"
+        android:layout_gravity="center_vertical"
+        android:button="@null"
+        android:checked="true"
+        android:background="@drawable/videoplay_small_danmuku_gray"/>
+
+    <ImageView
+        android:id="@+id/controller_zoom"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="6dp"
+        android:padding="8dp"
+        android:src="@drawable/videoplay_zoom_large"/>
+</LinearLayout>

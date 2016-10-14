@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:background="#ffffff"
+              android:descendantFocusability="blocksDescendants"
+              android:orientation="vertical">
+
+    <com.li.videoapplication.views.GridViewY1
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00ffffff"
+        android:cacheColorHint="#00ffffff"
+        android:horizontalSpacing="0dp"
+        android:listSelector="#00ffffff"
+        android:numColumns="4"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="0dp"
+        android:visibility="visible"/>
+    <!-- 145 -->
+
+</LinearLayout>

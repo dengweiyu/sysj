@@ -1,0 +1,201 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/welcome_bg_four" />
+
+    <ImageView
+        android:id="@+id/first"
+        android:layout_width="130dp"
+        android:layout_height="14dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="58dp"
+        android:src="@drawable/welcome_title" />
+
+    <!-- 58 + 36 + 58/66 -->
+
+    <RelativeLayout
+        android:id="@+id/third"
+        android:layout_width="152dp"
+        android:layout_height="68dp"
+        android:layout_below="@+id/first"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp">
+
+        <CheckBox
+            android:id="@+id/welcome_sex"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/welcome_sex"
+            android:button="@null"
+            android:enabled="false" />
+
+        <ImageView
+            android:id="@+id/welcome_male"
+            android:layout_width="76dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true" />
+
+        <ImageView
+            android:id="@+id/welcome_female"
+            android:layout_width="76dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    <!--
+        <RadioGroup
+            android:id="@+id/welcome_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/first"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="22dp"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <RadioButton
+                android:id="@+id/welcome_male"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:background="@drawable/welcome_male"
+                android:button="@null"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/welcome_female"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:layout_marginLeft="36dp"
+                android:background="@drawable/welcome_female"
+                android:button="@null" />
+        </RadioGroup> -->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/second"-->
+    <!--android:layout_width="155dp"-->
+    <!--android:layout_height="14dp"-->
+    <!--android:layout_below="@+id/third"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_marginTop="22dp"-->
+    <!--android:scaleType="centerCrop"-->
+    <!--android:src="@drawable/welcome_content"/>-->
+
+    <TextView
+        android:id="@+id/second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/third"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="点选你喜欢的游戏类型"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        />
+
+    <RelativeLayout
+        android:layout_width="224dp"
+        android:layout_height="236dp"
+        android:layout_below="@+id/second"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:minHeight="236dp"
+        android:minWidth="224dp">
+
+        <CheckBox
+            android:id="@+id/welcome_group_role"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/welcome_role"
+            android:button="@null"
+            android:checked="true" />
+
+        <CheckBox
+            android:id="@+id/welcome_group_car"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="58dp"
+            android:background="@drawable/welcome_car"
+            android:button="@null"
+            android:checked="false" />
+
+        <CheckBox
+            android:id="@+id/welcome_group_strategy"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="105dp"
+            android:background="@drawable/welcome_strategy"
+            android:button="@null"
+            android:checked="false" />
+
+        <CheckBox
+            android:id="@+id/welcome_group_athletics"
+            android:layout_width="74dp"
+            android:layout_height="74dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="9dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/welcome_athletics"
+            android:button="@null"
+            android:checked="true" />
+
+        <CheckBox
+            android:id="@+id/welcome_group_action"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="70dp"
+            android:background="@drawable/welcome_action"
+            android:button="@null"
+            android:checked="false" />
+
+        <CheckBox
+            android:id="@+id/welcome_group_card"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="54dp"
+            android:background="@drawable/welcome_card"
+            android:button="@null"
+            android:checked="false" />
+
+        <CheckBox
+            android:id="@+id/welcome_group_shot"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="32dp"
+            android:background="@drawable/welcome_shot"
+            android:button="@null"
+            android:checked="false" />
+
+        <CheckBox
+            android:id="@+id/welcome_group_music"
+            android:layout_width="61dp"
+            android:layout_height="61dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/welcome_music"
+            android:button="@null"
+            android:checked="false" />
+    </RelativeLayout>
+
+</RelativeLayout>

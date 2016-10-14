@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "E:\\VideoApplication\\JPush\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\jpush_richpush_progressbar.xml",
+        "source": "E:\\VideoApplication\\JPush\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\jpush_richpush_progressbar.xml"
+    },
+    {
+        "merged": "H:\\MyProject\\VideoApplication\\JPush\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\jpush_richpush_progressbar.xml",
+        "source": "H:\\MyProject\\VideoApplication\\JPush\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\jpush_richpush_progressbar.xml"
+    },
+    {
+        "merged": "H:\\MyProject\\VideoApplication\\JPush\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\jpush_ic_richpush_actionbar_divider.png",
+        "source": "H:\\MyProject\\VideoApplication\\JPush\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\jpush_ic_richpush_actionbar_divider.png"
+    },
+    {
+        "merged": "H:\\MyProject\\VideoApplication\\JPush\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\jpush_richpush_btn_selector.xml",
+        "source": "H:\\MyProject\\VideoApplication\\JPush\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\jpush_richpush_btn_selector.xml"
+    },
+    {
+        "merged": "E:\\VideoApplication\\JPush\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\jpush_ic_richpush_actionbar_divider.png",
+        "source": "E:\\VideoApplication\\JPush\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\jpush_ic_richpush_actionbar_divider.png"
+    },
+    {
+        "merged": "E:\\VideoApplication\\JPush\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\jpush_ic_richpush_actionbar_back.png",
+        "source": "E:\\VideoApplication\\JPush\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\jpush_ic_richpush_actionbar_back.png"
+    },
+    {
+        "merged": "E:\\VideoApplication\\JPush\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\jpush_richpush_btn_selector.xml",
+        "source": "E:\\VideoApplication\\JPush\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\jpush_richpush_btn_selector.xml"
+    },
+    {
+        "merged": "H:\\MyProject\\VideoApplication\\JPush\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\jpush_ic_richpush_actionbar_back.png",
+        "source": "H:\\MyProject\\VideoApplication\\JPush\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\jpush_ic_richpush_actionbar_back.png"
+    }
+]

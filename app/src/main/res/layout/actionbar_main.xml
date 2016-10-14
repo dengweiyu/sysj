@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ab_height"
+                android:background="@color/ab_backdround_red"
+                android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/ab_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text=""
+        android:textColor="#e0333333"
+        android:textSize="16sp"
+        android:visibility="gone"/>
+
+    <FrameLayout
+        android:id="@+id/ab_left"
+        android:layout_width="48dp"
+        android:layout_height="@dimen/ab_height"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:paddingBottom="8dp"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp"
+        android:paddingTop="8dp"
+        android:src="@drawable/ab_person_white">
+
+        <com.li.videoapplication.views.CircleImageView
+            android:id="@+id/ab_left_head"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@null"/>
+
+        <ImageView
+            android:id="@+id/ab_left_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ab_person_white"/>
+    </FrameLayout>
+
+
+    <com.li.videoapplication.views.CircleImageView
+        android:id="@+id/ab_left_count"
+        android:layout_width="6dp"
+        android:layout_height="6dp"
+        android:src="@color/white"
+        android:visibility="invisible"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="5dp"
+        android:layout_alignRight="@+id/ab_left"/>
+
+    <ImageView
+        android:id="@+id/ab_right"
+        android:layout_width="46dp"
+        android:layout_height="@dimen/ab_height"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingBottom="11dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="11dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ab_vedio_white_205"/>
+
+    <LinearLayout
+        android:id="@+id/ab_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_toLeftOf="@+id/ab_right"
+        android:layout_toRightOf="@+id/ab_left"
+        android:background="@drawable/search_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="4dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="4dp"
+        android:visibility="visible">
+
+        <!--17-->
+
+        <ImageView
+            android:id="@+id/ab_search_icon"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ab_search"/>
+
+        <!--10sp-->
+
+        <TextView
+            android:id="@+id/ab_search_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:gravity="left"
+            android:text="@string/ab_search_hint"
+            android:textColor="#cacaca"
+            android:textSize="12sp"/>
+
+        <ImageView
+            android:id="@+id/ab_scanqrcode"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_weight="0"
+            android:layout_marginLeft="10dp"
+            android:scaleType="fitXY"
+            android:padding="1dp"
+            android:src="@drawable/ab_scanqrcode"/>
+    </LinearLayout>
+
+</RelativeLayout>

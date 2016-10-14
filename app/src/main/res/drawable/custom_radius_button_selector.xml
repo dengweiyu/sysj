@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item><shape>
+            <solid android:color="@color/divider_button_bg" />
+
+            <stroke android:width="@dimen/layout_title_height_1dp" android:color="@color/divider_button_bg" />
+
+            <padding android:bottom="@dimen/layout_title_height_1dp" android:left="0dp" android:right="0dp" android:top="0dp" />
+
+            <corners android:radius="@dimen/layout_title_height_10dp" />
+        </shape></item>
+
+</selector>

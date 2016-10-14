@@ -1,0 +1,122 @@
+<RelativeLayout android:id="@+id/fm_float_content_layout"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/content_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:id="@+id/content"
+            android:layout_width="210dp"
+            android:layout_height="210dp"
+            android:layout_gravity="center"
+            android:background="@drawable/floatviewbackround"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bt_pause_layout"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="-24dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/bt_stop"
+                    style="@style/FloatViewImageStyle"
+                    android:src="@drawable/bt_stop_down"/>
+
+                <TextView
+                    android:id="@+id/textView1"
+                    style="@style/FloatViewTextStyle"
+                    android:text="停止"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/bt_pause_layout"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="-24dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/bt_camera"
+                    style="@style/FloatViewImageStyle"
+                    android:src="@drawable/opencamera"
+                    android:visibility="visible"/>
+
+                <TextView
+                    android:id="@+id/bt_camera_tv"
+                    style="@style/FloatViewTextStyle"
+                    android:text="打开主播"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="40dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/float_layout_botton_SC"
+                    style="@style/FloatViewImageStyle"
+                    android:src="@drawable/shears"
+                    android:visibility="visible"/>
+
+                <TextView
+                    style="@style/FloatViewTextStyle"
+                    android:layout_marginBottom="18dp"
+                    android:text="截图"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="2dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="40dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/bt_backHome"
+                    style="@style/FloatViewImageStyle"
+                    android:src="@drawable/bt_backhome"
+                    android:visibility="visible"/>
+
+                <TextView
+                    style="@style/FloatViewTextStyle"
+                    android:layout_marginBottom="18dp"
+                    android:text="主页"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bt_pause_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/bt_pause"
+                    style="@style/FloatViewImageStyle"
+                    android:src="@drawable/bt_pause"/>
+
+                <TextView
+                    android:id="@+id/bt_pause_text"
+                    style="@style/FloatViewTextStyle"
+                    android:text="暂停"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </FrameLayout>
+
+</RelativeLayout>

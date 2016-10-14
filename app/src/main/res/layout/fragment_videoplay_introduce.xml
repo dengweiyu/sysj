@@ -1,0 +1,147 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <!-- 65dp -->
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_white"
+            android:paddingBottom="8.5dp"
+            android:paddingTop="8.5dp">
+
+            <com.li.videoapplication.views.RoundedImageView
+                android:id="@+id/videoplay_introduce_pic"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="12dp"
+                android:scaleType="centerCrop"
+                android:src="#555555"
+                app:riv_border_color="#ffffff"
+                app:riv_border_width="0dp"
+                app:riv_corner_radius="5dp"
+                app:riv_oval="false"/>
+
+            <TextView
+                android:id="@+id/videoplay_introduce_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/videoplay_introduce_pic"
+                android:layout_marginLeft="13dp"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@+id/videoplay_introduce_pic"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text=""
+                android:hint="@string/loading_text"
+                android:textColor="#262626"
+                android:textSize="13sp"/>
+
+            <TextView
+                android:id="@+id/videoplay_introduce_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/videoplay_introduce_title"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_toLeftOf="@+id/videoplay_introduce_install"
+                android:layout_toRightOf="@+id/videoplay_introduce_pic"
+                android:text=""
+                android:hint="@string/loading_text"
+                android:textColor="#696969"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/videoplay_introduce_install"
+                android:layout_width="48dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="12dp"
+                android:layout_alignTop="@+id/videoplay_introduce_title"
+                android:background="@drawable/player_focus"
+                android:gravity="center"
+                android:text="@string/videoplay_install"
+                android:textColor="@color/groupdetail_player_red"
+                android:textSize="11sp"
+                android:visibility="visible"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="12dp"
+            android:background="#e2e2e2"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp"
+            android:layout_marginTop="9dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/videoplay_setting"
+            android:textColor="#f78f2c"
+            android:textSize="12sp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/videoplay_introduce_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp"
+            android:layout_marginTop="12dp"
+            android:text="方，改变了不好大哥，安东尼，方，改变了不好大哥，安东尼，方，改变了不好大哥，安东尼"
+            android:textColor="#454545"
+            android:textSize="10sp"
+            android:visibility="gone"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="12dp"
+            android:background="#e2e2e2"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp"
+            android:layout_marginTop="9dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/videoplay_race"
+            android:textColor="#228af9"
+            android:textSize="12sp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/videoplay_introduce_race"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp"
+            android:layout_marginTop="12dp"
+            android:text="方，改变了不好大哥，安东尼，方，改变了不好大哥，安东尼，方，改变了不好大哥，安东尼"
+            android:textColor="#454545"
+            android:textSize="10sp"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:descendantFocusability="blocksDescendants">
+
+    <TextView
+        android:id="@+id/searchhot_text"
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical|left"
+        android:maxEms="4"
+        android:singleLine="true"
+        android:text="刀塔传奇"
+        android:textColor="#565656"
+        android:textSize="12sp" />
+
+</LinearLayout>
