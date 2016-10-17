@@ -382,7 +382,8 @@
         android:id="@+id/setting_floatingWindiws"
         android:layout_width="fill_parent"
         android:layout_height="44dp"
-        android:background="@drawable/button_white">
+        android:background="@drawable/button_white"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/left"

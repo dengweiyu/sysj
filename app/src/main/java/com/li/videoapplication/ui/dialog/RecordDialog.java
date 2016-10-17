@@ -79,7 +79,6 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
                 if (isLogin) {
                     if (activity != null)
                         ActivityManeger.startHomeImageShareActivity(activity, null, false);
-//                        ActivityManeger.startImageViewActivity(getContext());
                 } else {
                     startLoginActivity();
                 }

@@ -23,7 +23,7 @@ public class TimedTextView extends FrameLayout implements IVideoPlay, MediaPlaye
 
     private LayoutInflater inflater;
     private View view;
-    private TextView content;
+    public TextView content;
     private VideoPlayActivity activity;
 
     public void init(VideoPlayActivity activity) {

@@ -259,7 +259,7 @@ public class TimeHelper {
     @SuppressWarnings("deprecation")
     public static final String getVideoImageUpTime(String time) throws Exception {
 
-        Long l = new Long(time);
+        Long l = Long.valueOf(time);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date originalDate = new Date(l * 1000L);
         String originalTime = format.format(originalDate);

@@ -16,12 +16,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.SubtitleHelper;
 import com.li.videoapplication.ui.view.AspectRatioLayout;
-import com.li.videoapplication.ui.view.VideoPlayer;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
 
@@ -94,8 +95,9 @@ public class VideoActivity extends TBaseActivity {
 
 	public static final float RATIO_MAX = 16F / 9F;
 	private long pos = 0;
-	private VideoPlayer videoPlayer;
+	private VideoView videoPlayer;
 	private MediaController mediaController;
+	private SubtitleHelper subtitleHelper;
 	private TextView subtitle, tl;
 	private AspectRatioLayout aspectRatioLayout;
 
@@ -160,6 +162,7 @@ public class VideoActivity extends TBaseActivity {
 	public void onResume() {
 		super.onResume();
 		resumeVideo();
+		resumeSubtitle();
 	}
 
 	/**
@@ -168,6 +171,7 @@ public class VideoActivity extends TBaseActivity {
 	@Override
 	public void onPause() {
 		pauseVideo();
+		pauseSubtitle();
 		super.onPause();
 	}
 
@@ -260,7 +264,7 @@ public class VideoActivity extends TBaseActivity {
 
 	private void initPlayer() {
 
-		videoPlayer = (VideoPlayer) findViewById(R.id.videoPlayer);
+		videoPlayer = (VideoView) findViewById(R.id.videoPlayer);
 		tl = (TextView) findViewById(R.id.title);
 		subtitle = (TextView) findViewById(R.id.subtitle);
 		setTextViewText(tl,title);
@@ -268,6 +272,7 @@ public class VideoActivity extends TBaseActivity {
 		aspectRatioLayout.setAspectRatio(1.0f / RATIO_MAX);
 
 		mediaController = new MediaController(this);
+
 		videoPlayer.setMediaController(mediaController);
 		mediaController.setMediaPlayer(videoPlayer);
 		mediaController.setAnchorView(videoPlayer);
@@ -378,30 +383,53 @@ public class VideoActivity extends TBaseActivity {
 		if (uri == null)
 			return;
 		File file = SYSJStorageUtil.createSubtitlePath(uri);
-		if (file == null ||
-				file.exists() == false)
+		if (file == null || !file.exists())
 			return;
 		String path = file.getAbsolutePath();
 		Log.d(tag, "addSubtitle/path=" + path);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			try {
-				mediaPlayer.addTimedTextSource(path, MediaPlayer.MEDIA_MIMETYPE_TEXT_SUBRIP);
-				MediaPlayer.TrackInfo[] trackInfos = mediaPlayer.getTrackInfo();
-				int index = -1;
-				for (int i = 0; i < trackInfos.length; i++) {
-					if (trackInfos[i].getTrackType() == MediaPlayer.TrackInfo.MEDIA_TRACK_TYPE_TIMEDTEXT) {
-						index = i;
-					}
-				}
-				if (index >= 0) {
-					mediaPlayer.selectTrack(index);
-					Log.d(tag, "addSubtitle/index=" + index);
-				}
-				mediaPlayer.setOnTimedTextListener(onTimedTextListener);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+
+		playSubtitle(true, path);
+
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//			try {
+//				mediaPlayer.addTimedTextSource(path, MediaPlayer.MEDIA_MIMETYPE_TEXT_SUBRIP);
+//				MediaPlayer.TrackInfo[] trackInfos = mediaPlayer.getTrackInfo();
+//				int index = -1;
+//				for (int i = 0; i < trackInfos.length; i++) {
+//					if (trackInfos[i].getTrackType() == MediaPlayer.TrackInfo.MEDIA_TRACK_TYPE_TIMEDTEXT) {
+//						index = i;
+//					}
+//				}
+//				if (index >= 0) {
+//					mediaPlayer.selectTrack(index);
+//					Log.d(tag, "addSubtitle/index=" + index);
+//				}
+//				mediaPlayer.setOnTimedTextListener(onTimedTextListener);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+	}
+
+	private void resumeSubtitle() {
+		if (subtitleHelper != null) {
+			subtitleHelper.setPlaying(true);
+			subtitleHelper.playSubtitle();
 		}
+	}
+
+	private void pauseSubtitle() {
+		if (subtitleHelper != null) {
+			subtitleHelper.setPlaying(false);
+		}
+	}
+
+	private void playSubtitle(boolean playing, String path) {
+		if (subtitleHelper == null) {
+			subtitleHelper = new SubtitleHelper(path, videoPlayer, subtitle);
+		}
+		subtitleHelper.setPlaying(playing);
+		subtitleHelper.playSubtitle();
 	}
 
 

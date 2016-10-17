@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="fill_parent"
-             android:layout_height="fill_parent"
-             android:fitsSystemWindows="true"
-             android:background="#000000">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#000000"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -26,8 +26,8 @@
                 android:background="@drawable/videoeditor_confirm"
                 android:gravity="center"
                 android:text="取消"
-                android:textSize="14sp"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/videoeditor_title"
@@ -36,7 +36,7 @@
                 android:layout_centerInParent="true"
                 android:text="视频编辑"
                 android:textColor="#ffffff"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/videoeditor_save"
@@ -48,36 +48,43 @@
                 android:background="@drawable/videoeditor_confirm"
                 android:gravity="center"
                 android:text="保存"
-                android:textSize="14sp"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
         </RelativeLayout>
 
         <FrameLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="280dp"
             android:layout_marginTop="20dp"
             android:background="@color/black">
 
-            <com.li.videoapplication.ui.view.VideoPlayer
-                android:id="@+id/videoview"
+            <com.li.videoapplication.ui.view.AspectRatioLayout
+                android:id="@+id/playing_container"
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
-                android:layout_gravity="center"/>
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <VideoView
+                    android:id="@+id/videoview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center" />
+            </com.li.videoapplication.ui.view.AspectRatioLayout>
 
             <ImageView
                 android:id="@+id/videoeditor_cover"
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
 
             <ImageView
                 android:id="@+id/videoeditor_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/icon_play_normal"
                 android:scaleX="0.8"
-                android:scaleY="0.8"/>
+                android:scaleY="0.8" />
         </FrameLayout>
 
         <FrameLayout
@@ -100,25 +107,25 @@
                     android:id="@+id/videoeditor_image1"
                     android:layout_width="0dip"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:id="@+id/videoeditor_image2"
                     android:layout_width="0dip"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:id="@+id/videoeditor_image3"
                     android:layout_width="0dip"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:id="@+id/videoeditor_image4"
                     android:layout_width="0dip"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <com.li.videoapplication.views.VideoSliceSeekBar
@@ -126,7 +133,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:background="@null"/>
+                android:background="@null" />
         </FrameLayout>
 
         <LinearLayout
@@ -154,13 +161,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0:0.0"
-                        android:textColor="#ffffff"/>
+                        android:textColor="#ffffff" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="开始时间"
-                        android:textColor="#ffffff"/>
+                        android:textColor="#ffffff" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -176,13 +183,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0:0.0"
-                        android:textColor="#ffffff"/>
+                        android:textColor="#ffffff" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="已选择"
-                        android:textColor="#ffffff"/>
+                        android:textColor="#ffffff" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -198,13 +205,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0:0.0"
-                        android:textColor="#ffffff"/>
+                        android:textColor="#ffffff" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="结束时间"
-                        android:textColor="#ffffff"/>
+                        android:textColor="#ffffff" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

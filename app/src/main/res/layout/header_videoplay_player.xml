@@ -37,7 +37,8 @@
         android:layout_marginTop="8dp"
         android:layout_toRightOf="@+id/videoplay_head_layout"
         android:singleLine="true"
-        android:text="越秀马超"
+        android:text=""
+        android:hint="@string/loading_text"
         android:textColor="#3f3f3f"
         android:textSize="11sp" />
 
@@ -51,7 +52,7 @@
         android:layout_marginBottom="6dp"
         android:layout_marginTop="6dp"
         android:singleLine="true"
-        android:text="16小时前上传"
+        android:text="小时前上传"
         android:textColor="#7f7f7f"
         android:textSize="9sp" />
 
@@ -83,7 +84,8 @@
         android:layout_marginRight="24dp"
         android:ellipsize="end"
         android:lines="3"
-        android:text="不好看就好那就好那片明白被骗过不能平静不好看就好那就好那片明白被骗过不能平静不好看就好那就好那片明白被骗过不能平静不好看就好那就好那片明白被骗过不能平静不好看就好那就好那片明白被骗过不能平静"
+        android:text=""
+        android:hint="@string/loading_text"
         android:textColor="#dd565656"
         android:textSize="11sp" />
 

@@ -2,9 +2,8 @@ package com.li.videoapplication.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.VideoView;
 
-import com.li.videoapplication.tools.UmengAnalyticsHelper;
+import com.pili.pldroid.player.widget.VideoView;
 
 
 /**

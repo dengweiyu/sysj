@@ -1820,7 +1820,7 @@ public class DataManager {
     public static final void getEventsList204(int page) {
 
         RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().getEventsList210Test();//// FIXME: 2016/9/9 has changed url 4 test!
+        String url = RequestUrl.getInstance().getEventsList204();
         Map<String, Object> params = RequestParams.getInstance().getEventsList204(page);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);

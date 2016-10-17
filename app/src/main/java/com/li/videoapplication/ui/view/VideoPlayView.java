@@ -1,10 +1,7 @@
 package com.li.videoapplication.ui.view;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -21,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.happly.link.HpplayLinkControl;
-import com.happly.link.HpplayLinkReversedControl;
 import com.happly.link.HpplayLinkWindow;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
@@ -33,9 +29,8 @@ import com.li.videoapplication.data.model.response.BulletList203Entity;
 import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
-import com.li.videoapplication.framework.AppManager;
+import com.li.videoapplication.tools.SubtitleHelper2;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.popupwindows.ReportPopupWindow;
 import com.li.videoapplication.utils.LogHelper;
@@ -45,14 +40,11 @@ import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
 
 import java.io.ByteArrayInputStream;
-import java.io.Closeable;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
+
+import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 /**
  * 视图：完成播放：重复播放
@@ -93,7 +85,7 @@ public class VideoPlayView extends RelativeLayout implements
     public DanmukuPlayer danmukuPlayer;
     public TimedTextView timedTextView;
 
-    // 视频播放器
+    // 新视频播放器pldroidplayer
     public VideoPlayer videoPlayer;
     private AspectRatioLayout layout;
     // 网页播放器
@@ -109,6 +101,7 @@ public class VideoPlayView extends RelativeLayout implements
     public VideoImage videoImage;
     public HpplayLinkControl linkControl;
     private int currentVolume;
+    private SubtitleHelper2 subtitleHelper;
 
     public void setVideoImage(VideoImage videoImage) {
         this.videoImage = videoImage;
@@ -554,10 +547,11 @@ public class VideoPlayView extends RelativeLayout implements
         danmukuPlayer.initDanmuku();
     }
 
-    private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
+
+    private IMediaPlayer.OnCompletionListener onCompletionListener = new IMediaPlayer.OnCompletionListener() {
 
         @Override
-        public void onCompletion(MediaPlayer mp) {
+        public void onCompletion(IMediaPlayer PLMediaPlayer) {
             switchPlay(STATE_COMPLETE);
             if (controllerView != null) {
                 controllerView.setPlay(false);
@@ -587,16 +581,16 @@ public class VideoPlayView extends RelativeLayout implements
 
     private long pos;
 
-    private MediaPlayer.OnPreparedListener onPreparedListener = new MediaPlayer.OnPreparedListener() {
+    private IMediaPlayer.OnPreparedListener onPreparedListener = new IMediaPlayer.OnPreparedListener() {
 
         @Override
-        public void onPrepared(MediaPlayer mediaPlayer) {
-            setVideoRatio(mediaPlayer);
+        public void onPrepared(IMediaPlayer iMediaPlayer) {
+            setVideoRatio(iMediaPlayer);
             if (timedTextView != null)
                 timedTextView.showView();
-            addSubtitle(mediaPlayer);
-            mediaPlayer.start();
-            mediaPlayer.seekTo((int) pos);
+            addSubtitle(iMediaPlayer);
+            iMediaPlayer.start();
+            iMediaPlayer.seekTo((int) pos);
             updateProgress();
             if (controllerView != null) {
                 controllerView.setPlay(false);
@@ -621,108 +615,58 @@ public class VideoPlayView extends RelativeLayout implements
     /**
      * 加载字幕
      */
-    private void addSubtitle(MediaPlayer mediaPlayer) {
-        if (mediaPlayer == null)
+    private void addSubtitle(IMediaPlayer iMediaPlayer) {
+        if (iMediaPlayer == null)
             return;
         Log.d(tag, "addSubtitle/file=" + file);
         if (file == null)
             return;
         File f = SYSJStorageUtil.createFilecachePath(file);
-        if (f == null || f.exists() == false)
+        if (f == null || !f.exists())
             return;
         String path = f.getAbsolutePath();
         Log.d(tag, "addSubtitle/path=" + path);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            try {
-                mediaPlayer.addTimedTextSource(path, MediaPlayer.MEDIA_MIMETYPE_TEXT_SUBRIP);
-                MediaPlayer.TrackInfo[] trackInfos = mediaPlayer.getTrackInfo();
-                int index = -1;
-                for (int i = 0; i < trackInfos.length; i++) {
-                    if (trackInfos[i].getTrackType() == MediaPlayer.TrackInfo.MEDIA_TRACK_TYPE_TIMEDTEXT) {
-                        index = i;
-                    }
-                }
-                if (index >= 0) {
-                    mediaPlayer.selectTrack(index);
-                    Log.d(tag, "addSubtitle/index=" + index);
-                }
-                mediaPlayer.setOnTimedTextListener(timedTextView);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        playSubtitle(true, path);
+    }
+
+    private void resumeSubtitle() {
+        if (subtitleHelper != null) {
+            subtitleHelper.setPlaying(true);
+            subtitleHelper.playSubtitle();
         }
     }
 
-    private String getSubtitle(int res) {
-        Context context = AppManager.getInstance().getContext();
-        Resources resources = context.getResources();
-        String fileName = resources.getResourceEntryName(res);
-        File file = context.getFileStreamPath(fileName);
-        try {
-            Log.d(tag, "getSubtitle/file=" + file.getAbsolutePath());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (file.exists()) {
-            try {
-                file.delete();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            is = getResources().openRawResource(res);
-            os = new FileOutputStream(file, false);
-            copyFile(is, os);
-            return file.getAbsolutePath();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            closeStreams(is, os);
-        }
-        return "";
-    }
-
-    private void copyFile(InputStream is, OutputStream os) throws IOException {
-        final int BUFFER_SIZE = 1024;
-        byte[] buffer = new byte[BUFFER_SIZE];
-        int length = -1;
-        while ((length = is.read(buffer)) != -1) {
-            os.write(buffer, 0, length);
+    private void pauseSubtitle() {
+        if (subtitleHelper != null) {
+            subtitleHelper.setPlaying(false);
         }
     }
 
-    private void closeStreams(Closeable... closeables) {
-        if (closeables != null) {
-            for (Closeable c : closeables) {
-                if (c != null) {
-                    try {
-                        c.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+    private void playSubtitle(boolean playing, String path) {
+        if (subtitleHelper == null) {
+            subtitleHelper = new SubtitleHelper2(path, videoPlayer, timedTextView.content);
         }
+        subtitleHelper.setPlaying(playing);
+        subtitleHelper.playSubtitle();
     }
 
-    private MediaPlayer.OnInfoListener onInfoListener = new MediaPlayer.OnInfoListener() {
+
+
+    private IMediaPlayer.OnInfoListener onInfoListener = new IMediaPlayer.OnInfoListener() {
 
         @Override
-        public boolean onInfo(MediaPlayer mp, int what, int extra) {
-            // mp.getDataSource()
-            // mp.getCurrentPosition()
+        public boolean onInfo(IMediaPlayer PLMediaPlayer, int i, int i1) {
+            // PLMediaPlayer.getDataSource()
+            // PLMediaPlayer.getCurrentPosition()
             return false;
         }
     };
 
-    private MediaPlayer.OnErrorListener onErrorListener = new MediaPlayer.OnErrorListener() {
+    private IMediaPlayer.OnErrorListener onErrorListener = new IMediaPlayer.OnErrorListener() {
 
         @Override
-        public boolean onError(MediaPlayer mp, int what, int extra) {
-            Log.d(tag, "onError: code === " + what);
+        public boolean onError(IMediaPlayer iMediaPlayer, int i, int i1) {
+            Log.d(tag, "onError: code === " + i);
             // mp.getDataSource()
             // mp.getCurrentPosition()
             switchPlay(STATE_ERROR);
@@ -736,17 +680,17 @@ public class VideoPlayView extends RelativeLayout implements
             if (timedTextView != null)
                 timedTextView.hideView();
 
-            if (what == 100) {
+            if (i == 100) {
                 videoPlayer.stopPlayback();
-            } else if (what == 1) {
+            } else if (i == 1) {
                 videoPlayer.stopPlayback();
-            } else if (what == 800) {
+            } else if (i == 800) {
                 videoPlayer.stopPlayback();
-            } else if (what == 701) {
+            } else if (i == 701) {
                 videoPlayer.stopPlayback();
-            } else if (what == 700) {
+            } else if (i == 700) {
                 videoPlayer.stopPlayback();
-            } else if (what == -38) {
+            } else if (i == -38) {
                 videoPlayer.stopPlayback();
             }
             return true;
@@ -1111,6 +1055,7 @@ public class VideoPlayView extends RelativeLayout implements
             }
             try {
                 danmukuPlayer.resumeDanmaku();
+                resumeSubtitle();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1137,6 +1082,7 @@ public class VideoPlayView extends RelativeLayout implements
             }
             try {
                 danmukuPlayer.pauseDanmaku();
+                pauseSubtitle();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1191,11 +1137,11 @@ public class VideoPlayView extends RelativeLayout implements
 
     public static final float RATIO_MAX = 16F / 9F;
 
-    private void setVideoRatio(MediaPlayer mediaPlayer) {
-        if (mediaPlayer == null)
+    private void setVideoRatio(IMediaPlayer iMediaPlayer) {
+        if (iMediaPlayer == null)
             return;
-        float width = mediaPlayer.getVideoWidth();
-        float height = mediaPlayer.getVideoHeight();
+        float width = iMediaPlayer.getVideoWidth();
+        float height = iMediaPlayer.getVideoHeight();
         float ratio = width / height;
         if (layout != null)
             layout.setAspectRatio(ratio);

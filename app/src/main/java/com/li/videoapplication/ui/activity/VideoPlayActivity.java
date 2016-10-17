@@ -228,7 +228,7 @@ public class VideoPlayActivity extends TBaseActivity implements
                     @Override
                     public void run() {
                         try {
-                            int position = videoPlayView.videoPlayer.getCurrentPosition();
+                            int position = (int) videoPlayView.videoPlayer.getCurrentPosition();
                             Log.d(tag, "position : " + position);
                             int time = position / 1000;
                             Log.d(tag, "time position : " + time);
