@@ -86,7 +86,7 @@ public class VideoBillboardFragment extends TBaseChildFragment {
 		
 		viewPager = (ViewPagerY4) view.findViewById(R.id.viewpager);
 		viewPager.setScrollable(true);
-		viewPager.setOffscreenPageLimit(6);
+		viewPager.setOffscreenPageLimit(2);
 		adapter = new GamePagerAdapter(childManager, fragments);
 		viewPager.setAdapter(adapter);
 		PageChangeListener listener = new PageChangeListener();

@@ -12,16 +12,14 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import com.fmsysj.zbqmcs.utils.VideoEditor;
+import com.fmsysj.screeclibinvoke.logic.videoedit.MP4parserHelper;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
@@ -33,13 +31,9 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.view.AspectRatioLayout;
-import com.li.videoapplication.ui.view.VideoPlayer;
-import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.views.VideoSliceSeekBar;
 
 import java.io.File;
-
-import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 /**
  * 碎片：视频编辑
@@ -406,7 +400,7 @@ public class VideoEditorActivity extends TBaseActivity implements OnClickListene
                         }
                     });
                     // 开始视频剪辑
-                    boolean flag = VideoEditor.startTrim(entity.getVideo_path(), newPath, textTime[0], textTime[1]);
+                    boolean flag = MP4parserHelper.trimMedia(entity.getVideo_path(), newPath, textTime[0], textTime[1]);
                     if (flag) {
                         msg.obj = "视频剪辑成功";
                         // 加载本地视频

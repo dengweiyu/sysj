@@ -1,0 +1,126 @@
+<FrameLayout android:id="@+id/root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:visibility="visible"
+        android:id="@+id/container"
+        android:layout_width="@dimen/kaka_146"
+        android:layout_height="@dimen/kaka_146"
+        android:layout_gravity="center"
+        android:background="@drawable/floatview_bg">
+
+        <LinearLayout
+            android:id="@+id/floatview_top"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/kaka_6"
+            android:paddingRight="@dimen/kaka_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/kaka_12">
+
+            <ImageView
+                android:layout_width="@dimen/kaka_28.8"
+                android:layout_height="@dimen/kaka_28.8"
+                android:scaleType="fitCenter"
+                android:src="@drawable/floatview_screenrecord_start"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/kaka_0.2"
+                android:text="@string/floatview_screenrecord_start"
+                android:textColor="#ffffff"
+                android:textSize="7.9sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/floatview_bottom"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/kaka_6"
+            android:paddingRight="@dimen/kaka_6"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/kaka_12">
+
+            <ImageView
+                android:layout_width="@dimen/kaka_28.8"
+                android:layout_height="@dimen/kaka_28.8"
+                android:scaleType="fitCenter"
+                android:src="@drawable/floatview_main"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/kaka_0.2"
+                android:text="@string/floatview_main"
+                android:textColor="#ffffff"
+                android:textSize="7.9sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/floatview_right"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/kaka_6"
+            android:paddingRight="@dimen/kaka_6"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/kaka_6">
+
+            <ImageView
+                android:id="@+id/floatview_right_icon"
+                android:layout_width="@dimen/kaka_28.8"
+                android:layout_height="@dimen/kaka_28.8"
+                android:scaleType="fitCenter"
+                android:src="@drawable/floatview_frontcamera_gray"/>
+
+            <TextView
+                android:id="@+id/floatview_right_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/kaka_0.2"
+                android:text="@string/floatview_frontcamera_open"
+                android:textColor="#ffffff"
+                android:textSize="7.9sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/floatview_left"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/kaka_6"
+            android:paddingRight="@dimen/kaka_6"
+            android:gravity="center"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/kaka_6">
+
+            <ImageView
+                android:layout_width="@dimen/kaka_28.8"
+                android:layout_height="@dimen/kaka_28.8"
+                android:scaleType="fitCenter"
+                android:src="@drawable/floatview_screencapture"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/kaka_0.2"
+                android:text="@string/floatview_screencapture"
+                android:textColor="#ffffff"
+                android:textSize="7.9sp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

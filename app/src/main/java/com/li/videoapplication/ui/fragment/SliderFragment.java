@@ -25,6 +25,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.MyPlayerActivity;
+import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 
@@ -36,6 +37,20 @@ import io.rong.imlib.model.Message;
  * 碎片：侧滑菜单
  */
 public class SliderFragment extends TBaseFragment implements OnClickListener {
+
+    /**
+     * 跳转：商城
+     */
+    public void startMallActivity() {
+        ActivityManeger.startMallActivity(getActivity());
+    }
+
+    /**
+     * 跳转：我的钱包
+     */
+    public void startMyWalletActivity() {
+        ActivityManeger.startMyWalletActivity(getActivity());
+    }
 
     /**
      * 跳转：个人资料
@@ -132,7 +147,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
 
     private View login, person;
     private CircleImageView head;
-    private TextView name, fans, focus;
+    private TextView name, fans, focus,beanNum;
     private ImageView go, slider_message_go;
 
     private MainActivity activity;
@@ -178,7 +193,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
         name = (TextView) view.findViewById(R.id.slider_name);
         fans = (TextView) view.findViewById(R.id.slider_fans);
         focus = (TextView) view.findViewById(R.id.slider_focus);
-//        level = (TextView) view.findViewById(R.id.slider_level);
+        beanNum = (TextView) view.findViewById(R.id.slider_bean_num);
 
         go = (ImageView) view.findViewById(R.id.go);
         slider_message_go = (ImageView) view.findViewById(R.id.slider_message_go);
@@ -191,9 +206,11 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
 
         view.findViewById(R.id.slider_mymatch).setOnClickListener(this);
         view.findViewById(R.id.slider_mymessage).setOnClickListener(this);
+        view.findViewById(R.id.slider_mywallet).setOnClickListener(this);
+        view.findViewById(R.id.slider_sjmall).setOnClickListener(this);
         view.findViewById(R.id.slider_mywelfare).setOnClickListener(this);
         view.findViewById(R.id.slider_myvideo).setOnClickListener(this);
-        view.findViewById(R.id.slider_mytask).setOnClickListener(this);
+//        view.findViewById(R.id.slider_mytask).setOnClickListener(this);
         view.findViewById(R.id.slider_collection).setOnClickListener(this);
         view.findViewById(R.id.slider_setting).setOnClickListener(this);
 
@@ -249,20 +266,11 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             setTextViewText(name, item.getNickname());
             setTextViewText(fans, getFans(item));
             setTextViewText(focus, getFocus(item));
-//            setTextViewText(level, getLevel(item));
+            setTextViewText(beanNum, item.getCurrency());
         } else {
             login.setVisibility(View.VISIBLE);
             person.setVisibility(View.GONE);
         }
-    }
-
-    /**
-     * 等级
-     *
-     * @return Lv.11
-     */
-    private String getLevel(Member item) {
-        return "Lv." + item.getDegree();
     }
 
     public String getFans(Member member) {
@@ -334,8 +342,12 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
                 startVideoMangerActivity();
                 break;
 
-            case R.id.slider_mytask:
-                startMyTaskActivity();
+            case R.id.slider_mywallet:
+                startMyWalletActivity();
+                break;
+
+            case R.id.slider_sjmall:
+                startMallActivity();
                 break;
 
             case R.id.slider_collection:

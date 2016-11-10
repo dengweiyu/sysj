@@ -88,7 +88,7 @@
     <string name="rc_notice_input_conversation_error">Activity was not created</string>
     <string name="rc_notice_load_data_fail">Failed to get the data</string>
     <string name="rc_notice_network_unavailable">Network unavailable</string>
-    <string name="rc_notice_select_one_picture_at_last">Please select at least a picture</string>
+    <string name="rc_notice_select_one_picture_at_last">Please select at least a cover</string>
     <string name="rc_notice_tick">The account has been logged in to other devices</string>
     <string name="rc_notification_new_msg">%1$s sent %2$d messages</string>
     <string name="rc_notification_new_plural_msg">%1$d contacts sent %2$d messages</string>
@@ -104,7 +104,7 @@
     <string name="rc_picsel_catalog_number">%d</string>
     <string name="rc_picsel_pictype">Picture</string>
     <string name="rc_picsel_selected_max">You can only choose 9 pictures at most.</string>
-    <string name="rc_picsel_take_picture">Take picture</string>
+    <string name="rc_picsel_take_picture">Take cover</string>
     <string name="rc_picsel_toolbar">Picture</string>
     <string name="rc_picsel_toolbar_preview">Preview</string>
     <string name="rc_picsel_toolbar_preview_num">Preview(%d)</string>

@@ -16,6 +16,29 @@ import java.util.regex.Pattern;
 public class StringUtil {
 
     /**
+     * 字符串数字格式（以万为单位）
+     */
+    public static String toUnitW(String num) {
+        try {
+            double number = Double.valueOf(num);
+            if (number < 10000) {
+                return num;
+
+            } else if (number >= 10000 && number < 11000) {
+                return "1万";
+
+            } else {
+                double n = number / 10000;
+                DecimalFormat df = new DecimalFormat("#.00");
+                return df.format(n) + "万";
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return "0";
+    }
+
+    /**
      * 字符串转数字格式（三位一个逗号）
      */
     public static String formatNum(String num) {
@@ -124,15 +147,7 @@ public class StringUtil {
     }
 
     /**
-     * 校验手机格式
-     *
-     * @param @param  mobiles
-     * @param @return 设定文件
-     * @return boolean 返回类型
-     * @throws
-     * @Title: isMobileNumber
-     * @Description: TODO(手机格式)
-     * @author lkun
+     * 校验手机格式  fixme 太严，缺少177
      */
     public static boolean isMobileNumber(String mobiles) {
 

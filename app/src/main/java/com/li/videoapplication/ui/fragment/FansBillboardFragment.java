@@ -17,10 +17,12 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.response.MemberRankingCurrencyEntity;
 import com.li.videoapplication.data.model.response.RankingMemberRankingEntity;
 import com.li.videoapplication.data.model.response.RankingMemberRankingFansEntity;
 import com.li.videoapplication.data.model.response.RankingMemberRankingRankEntity;
 import com.li.videoapplication.data.model.response.RankingMemberRankingVideoEntity;
+import com.li.videoapplication.framework.BaseResponseEntity;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -80,7 +82,7 @@ public class FansBillboardFragment extends TBaseFragment implements OnRefreshLis
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             if (getTab() == PLAYERBILLBOARD_RANK) {
-                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "玩家榜-等级榜");
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "玩家榜-磨豆榜");
             } else if (getTab() == PLAYERBILLBOARD_VIDEO) {
                 UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "玩家榜-视频榜");
             }
@@ -94,20 +96,25 @@ public class FansBillboardFragment extends TBaseFragment implements OnRefreshLis
             container = (RelativeLayout) mHeaderView.findViewById(R.id.container);
             setTextViewText(rank, "");
             container.setVisibility(View.GONE);
-//			setListViewLayoutParams(mHeaderView, dp2px(24));
         }
         return mHeaderView;
     }
 
-    private void refreshHeaderView(RankingMemberRankingEntity data) {
+    private void refreshHeaderView(BaseResponseEntity data) {
+        String myRanking = "";
+        if (data instanceof RankingMemberRankingEntity) {
+            RankingMemberRankingEntity entity = (RankingMemberRankingEntity) data;
+            if (isLogin()) myRanking = entity.getData().getMyRanking();
 
-        if (isLogin() && data != null) {
-            String myRanking = data.getData().getMyRanking();
-            if (!StringUtil.isNull(myRanking)) {
-                container.setVisibility(View.VISIBLE);
-                setTextViewText(rank, "您当前的排名是：" + myRanking + " 快去发布视频提高排名吧~");
-                return;
-            }
+        } else if (data instanceof MemberRankingCurrencyEntity) {
+            MemberRankingCurrencyEntity entity = (MemberRankingCurrencyEntity) data;
+            if (isLogin()) myRanking = entity.getMyRanking();
+        }
+
+        if (!StringUtil.isNull(myRanking)) {
+            container.setVisibility(View.VISIBLE);
+            setTextViewText(rank, "您当前的排名是：" + myRanking + " 快去发布视频提高排名吧~");
+            return;
         }
         setTextViewText(rank, "");
         container.setVisibility(View.GONE);
@@ -129,7 +136,7 @@ public class FansBillboardFragment extends TBaseFragment implements OnRefreshLis
         listView = pullToRefreshListView.getRefreshableView();
         listView.addHeaderView(getHeaderView());
 
-        data = new ArrayList<Member>();
+        data = new ArrayList<>();
         adapter = new PlayerBillboardAdapter(getActivity(), getTab(), data);
         listView.setAdapter(adapter);
 
@@ -178,8 +185,8 @@ public class FansBillboardFragment extends TBaseFragment implements OnRefreshLis
                 // 玩家榜--粉丝榜
                 DataManager.rankingMemberRankingFans(getMember_id(), page);
             } else if (getTab() == PLAYERBILLBOARD_RANK) {
-                // 玩家榜--等级榜
-                DataManager.rankingMemberRankingRank(getMember_id(), page);
+                // 玩家榜--磨豆榜
+                DataManager.memberRankingCurrency(getMember_id(), page);
             } else if (getTab() == PLAYERBILLBOARD_VIDEO) {
                 // 玩家榜--视频榜
                 DataManager.rankingMemberRankingVideo(getMember_id(), page);
@@ -198,8 +205,8 @@ public class FansBillboardFragment extends TBaseFragment implements OnRefreshLis
                 // 玩家榜--粉丝榜
                 DataManager.rankingMemberRankingFans(getMember_id(), page);
             } else if (getTab() == PLAYERBILLBOARD_RANK) {
-                // 玩家榜--等级榜
-                DataManager.rankingMemberRankingRank(getMember_id(), page);
+                // 玩家榜--磨豆榜
+                DataManager.memberRankingCurrency(getMember_id(), page);
             } else if (getTab() == PLAYERBILLBOARD_VIDEO) {
                 // 玩家榜--视频榜
                 DataManager.rankingMemberRankingVideo(getMember_id(), page);
@@ -219,12 +226,22 @@ public class FansBillboardFragment extends TBaseFragment implements OnRefreshLis
     }
 
     /**
-     * 回调：玩家榜--等级榜
+     * 回调：玩家榜--磨豆榜
      */
-    public void onEventMainThread(RankingMemberRankingRankEntity event) {
+    public void onEventMainThread(MemberRankingCurrencyEntity event) {
 
         if (getTab() == PLAYERBILLBOARD_RANK && event != null) {
-            refreshData(event);
+            if (event.getData().size() > 0) {
+                refreshHeaderView(event);
+                if (page == 1) {
+                    data.clear();
+                }
+                data.addAll(event.getData());
+                adapter.notifyDataSetChanged();
+                ++page;
+            }
+            isRefreshing = false;
+            onRefreshComplete();
         }
     }
 

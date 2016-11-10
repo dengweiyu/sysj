@@ -24,6 +24,7 @@ import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.ShareSDKLoginHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
+import com.li.videoapplication.utils.PatternUtil;
 import com.li.videoapplication.utils.StringUtil;
 /**
  * 活动：登录
@@ -207,8 +208,8 @@ public class LoginActivity extends TBaseActivity implements OnClickListener, OnC
 			animationHelper.startAnimationShake(phone);
 			return;
 		}
-		if (!StringUtil.isMobileNumber(getPhoneText())) {
-			showToastShort("填入的不是手机号码");
+		if (!PatternUtil.isMatchMobile(getPhoneText())) {
+			showToastShort("请输入正确的手机号");
 			animationHelper.startAnimationShake(code);
 			return;
 		}
@@ -227,7 +228,7 @@ public class LoginActivity extends TBaseActivity implements OnClickListener, OnC
 			animationHelper.startAnimationShake(phone);
 			return;
 		}
-		if (!StringUtil.isMobileNumber(getPhoneText())) {
+		if (!PatternUtil.isMatchMobile(getPhoneText())) {
 			showToastShort("填入的不是手机号码");
 			animationHelper.startAnimationShake(phone);
 			return;

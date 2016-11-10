@@ -239,7 +239,7 @@ public class ConversationActivity extends TBaseAppCompatActivity implements View
             }
         }
 
-        if (conversationType == PRIVATE)
+        if (conversationType == PRIVATE && StringUtil.isNull(mTitle))
             setConversationTitle(member.getNickname());
     }
 

@@ -88,18 +88,19 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
     }
 
     private CircleImageView head;
-    private RelativeLayout headBtn, nameBtn, mobileBtn;
-    private TextView name;;
+    private RelativeLayout headBtn, nameBtn, mobileBtn, beanBtn;
+    private TextView name;
     private TextView gender;
     private RadioGroup genderRadio;
     private RadioButton female;
     private RadioButton male;
     private TextView introduce;
     private EditText introduceEdit;
-    private TextView qq, mobile;
+    private TextView qq, mobile,beanNum;
     private EditText qqEdit;
     private CheckBox publicCheck;
     private RelativeLayout logoutBtn;
+    private View dividerBean;
 
     private Member member = getUser();
 
@@ -187,9 +188,12 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         qqEdit = (EditText) findViewById(R.id.mypersonnalinfo_qq_edit);
         mobile = (TextView) findViewById(R.id.mypersonnalinfo_mobile);
         mobileBtn = (RelativeLayout) findViewById(R.id.mypersonnalinfo_mobile_btn);
-
         publicCheck = (CheckBox) findViewById(R.id.mypersonnalinfo_public);
         logoutBtn = (RelativeLayout) findViewById(R.id.mypersonnalinfo_logout_btn);
+        beanBtn = (RelativeLayout) findViewById(R.id.mypersonnalinfo_bean_btn);
+        beanNum = (TextView) findViewById(R.id.mypersonnalinfo_bean_num);
+        dividerBean = findViewById(R.id.divider_bean);
+
 
         genderRadio.setOnCheckedChangeListener(this);
         publicCheck.setOnCheckedChangeListener(this);
@@ -386,7 +390,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
 
             setTextViewText(qq, item.getQq());
             setTextViewText(qqEdit, item.getQq());
-
+            setTextViewText(beanNum,item.getCurrency());
             setTextViewText(mobile, item.getMobile());
 
             if (item.getSex() == 1) {
@@ -399,7 +403,6 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
             setDisplay(member);
         }
     }
-
 
 
     private void setContentNormal() {
@@ -426,7 +429,8 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
 
         qq.setVisibility(View.VISIBLE);
         qqEdit.setVisibility(View.GONE);
-
+        beanBtn.setVisibility(View.VISIBLE);
+        dividerBean.setVisibility(View.VISIBLE);
         mobile.setVisibility(View.VISIBLE);
 
         headBtn.setOnClickListener(null);
@@ -453,6 +457,9 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
 
         qq.setVisibility(View.GONE);
         qqEdit.setVisibility(View.VISIBLE);
+
+        beanBtn.setVisibility(View.GONE);
+        dividerBean.setVisibility(View.GONE);
 
         mobile.setVisibility(View.VISIBLE);
 

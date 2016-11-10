@@ -87,7 +87,6 @@
         android:visibility="visible">
 
         <!--22/20-->
-
         <com.li.videoapplication.views.CircleImageView
             android:id="@+id/slider_head"
             android:layout_width="54dp"
@@ -96,15 +95,63 @@
             android:scaleType="centerCrop"
             android:src="#00ffffff" />
 
+        <TextView
+            android:id="@+id/slider_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/slider_head"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="2dp"
+            android:layout_toRightOf="@+id/slider_head"
+            android:ellipsize="end"
+            android:maxWidth="120dp"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textSize="11sp" />
+
+        <ImageView
+            android:id="@+id/slider_bean"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_centerInParent="true"
+            android:layout_alignLeft="@+id/slider_name"
+            android:src="@drawable/slider_bean" />
+
+        <TextView
+            android:id="@+id/slider_bean_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="10sp"
+            android:layout_toRightOf="@+id/slider_bean"
+            android:layout_alignBottom="@+id/slider_bean"
+            android:layout_marginLeft="6dp"
+            android:textColor="@color/currency_modou_gold"/>
+
         <View
             android:id="@+id/divider"
             android:layout_width="1px"
-            android:layout_height="12dp"
-            android:layout_alignBottom="@+id/slider_focus"
+            android:layout_height="10dp"
+            android:layout_alignTop="@+id/slider_focus"
             android:layout_marginLeft="9dp"
             android:layout_marginRight="9dp"
+            android:layout_marginTop="1dp"
             android:layout_toRightOf="@+id/slider_focus"
             android:background="#bbbcbd" />
+
+        <TextView
+            android:id="@+id/slider_focus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/slider_head"
+            android:layout_alignLeft="@+id/slider_name"
+            android:layout_marginBottom="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="#bbbcbd"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/slider_fans"
@@ -113,13 +160,12 @@
             android:layout_alignBottom="@+id/slider_focus"
             android:layout_toRightOf="@+id/divider"
             android:ellipsize="end"
-            android:singleLine="true"
+            android:maxLines="1"
             android:text=""
             android:textColor="#bbbcbd"
             android:textSize="10sp" />
 
         <!--10/16-->
-
         <ImageView
             android:id="@+id/go"
             android:layout_width="50dp"
@@ -133,48 +179,6 @@
             android:scaleType="fitCenter"
             android:src="@drawable/slider_go" />
 
-        <TextView
-            android:id="@+id/slider_focus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/slider_head"
-            android:layout_alignLeft="@+id/slider_name"
-            android:layout_marginBottom="5dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text=""
-            android:textColor="#bbbcbd"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/slider_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/slider_head"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="4dp"
-            android:layout_toRightOf="@+id/slider_head"
-            android:ellipsize="end"
-            android:maxWidth="120dp"
-            android:singleLine="true"
-            android:text=""
-            android:textColor="#ffffff"
-            android:textSize="11sp" />
-
-        <!--<TextView-->
-            <!--android:id="@+id/slider_level"-->
-            <!--android:layout_width="20dp"-->
-            <!--android:layout_height="10dp"-->
-            <!--android:layout_alignBottom="@+id/slider_name"-->
-            <!--android:layout_marginBottom="2dp"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_toRightOf="@+id/slider_name"-->
-            <!--android:background="@drawable/level_slider_bg"-->
-            <!--android:gravity="center"-->
-            <!--android:text=""-->
-            <!--android:textColor="#ffffff"-->
-            <!--android:textSize="7sp"-->
-            <!--android:textStyle="italic" />-->
     </RelativeLayout>
 
     <RelativeLayout
@@ -298,12 +302,11 @@
             android:text=""
             android:textColor="#ffffff"
             android:textSize="8sp"
-            android:visibility="visible"/>s
+            android:visibility="visible"/>
     </RelativeLayout>
 
-
     <RelativeLayout
-        android:id="@+id/slider_mytask"
+        android:id="@+id/slider_mywallet"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@drawable/slider_btn"
@@ -316,7 +319,7 @@
             android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/slider_mytask" />
+            android:src="@drawable/slider_mywallet" />
 
         <TextView
             android:id="@+id/mid"
@@ -325,11 +328,12 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@+id/left"
-            android:text="@string/slider_mytask"
+            android:text="我的钱包"
             android:textColor="#ffffff"
             android:textSize="14sp" />
 
         <ImageView
+            android:id="@+id/slider_message_go"
             android:layout_width="8dp"
             android:layout_height="14dp"
             android:layout_alignParentRight="true"
@@ -337,6 +341,79 @@
             android:scaleType="fitCenter"
             android:src="@drawable/slider_go" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/slider_sjmall"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/slider_btn"
+        android:paddingLeft="28dp"
+        android:paddingRight="25dp">
+
+        <ImageView
+            android:id="@+id/left"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_sjmall" />
+
+        <TextView
+            android:id="@+id/mid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/left"
+            android:text="视界商城"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/slider_message_go"
+            android:layout_width="8dp"
+            android:layout_height="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_go" />
+    </RelativeLayout>
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/slider_mytask"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:background="@drawable/slider_btn"-->
+        <!--android:paddingLeft="28dp"-->
+        <!--android:paddingRight="25dp">-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/left"-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:scaleType="fitCenter"-->
+            <!--android:src="@drawable/slider_mytask" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/mid"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_toRightOf="@+id/left"-->
+            <!--android:text="@string/slider_mytask"-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:textSize="14sp" />-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="8dp"-->
+            <!--android:layout_height="14dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:scaleType="fitCenter"-->
+            <!--android:src="@drawable/slider_go" />-->
+    <!--</RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/slider_myvideo"

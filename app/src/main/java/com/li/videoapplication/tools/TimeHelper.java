@@ -24,6 +24,112 @@ public class TimeHelper {
     public static final String TAG = TimeHelper.class.getSimpleName();
 
     /**
+     * 判断两个时间戳是否为同一天
+     */
+    public static boolean IsSameDay(long time1 ,long time2) throws Exception {
+        Calendar c1 = Calendar.getInstance();
+        Date date = new Date(time1* 1000L);
+        c1.setTime(date);
+
+        Calendar c2 = Calendar.getInstance();
+        Date date2 = new Date(time2 * 1000L);
+        c2.setTime(date2);
+
+        if (c1.get(Calendar.YEAR) == (c2.get(Calendar.YEAR))) {
+            if (c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 输入时间戳
+     * 返回周
+     */
+    public static String getWeek(String time) throws Exception {
+        SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        long lcc = Long.valueOf(time);
+        int i = Integer.parseInt(time);
+        String times = sdr.format(new Date(i * 1000L));
+        Date date = null;
+        int mydate = 0;
+        String week = null;
+
+        date = sdr.parse(times);
+        Calendar cd = Calendar.getInstance();
+        cd.setTime(date);
+        mydate = cd.get(Calendar.DAY_OF_WEEK);
+        // 获取指定日期转换成星期几
+        if (IsToday(Long.valueOf(time))){
+            return "今天";
+        }else if (IsYesterday(Long.valueOf(time))){
+            return "昨天";
+        } else if (mydate == 1) {
+            week = "周日";
+        } else if (mydate == 2) {
+            week = "周一";
+        } else if (mydate == 3) {
+            week = "周二";
+        } else if (mydate == 4) {
+            week = "周三";
+        } else if (mydate == 5) {
+            week = "周四";
+        } else if (mydate == 6) {
+            week = "周五";
+        } else if (mydate == 7) {
+            week = "周六";
+        }
+        return week;
+    }
+
+    /**
+     * 判断是否为今天
+     */
+    public static boolean IsToday(long time) throws Exception {
+        Calendar currentCal = Calendar.getInstance();
+        Date date = new Date(System.currentTimeMillis());
+        currentCal.setTime(date);
+
+        Calendar c = Calendar.getInstance();
+        Date date2 = new Date(time * 1000L);
+        c.setTime(date2);
+
+        if (c.get(Calendar.YEAR) == (currentCal.get(Calendar.YEAR))) {
+            int diffDay = currentCal.get(Calendar.DAY_OF_YEAR)
+                    - c.get(Calendar.DAY_OF_YEAR);
+            if (diffDay == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 判断是否为昨天
+     */
+    public static boolean IsYesterday(long time) throws Exception {
+
+        Calendar currentCal = Calendar.getInstance();
+        Date date = new Date(System.currentTimeMillis());
+        currentCal.setTime(date);
+
+        Calendar c = Calendar.getInstance();
+        Date date2 = new Date(time * 1000L);
+        c.setTime(date2);
+
+        if (currentCal.get(Calendar.YEAR) == (c.get(Calendar.YEAR))) {
+            int diffDay = currentCal.get(Calendar.DAY_OF_YEAR)
+                    - c.get(Calendar.DAY_OF_YEAR);
+
+            if (diffDay == -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 返回当前时间
      */
     public static long getCurrentTime() throws Exception {
@@ -147,7 +253,7 @@ public class TimeHelper {
      */
     public static final String getTime2MdFormat(String time) throws Exception {
         String format = "MM-dd";
-        Long l = new Long(time);
+        Long l = Long.valueOf(time);
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         Date date = new Date(l * 1000L);
         String s = sdf.format(date);
@@ -395,11 +501,8 @@ public class TimeHelper {
         return minuteString + ":" + secondString;
     }
 
-    /**
-     * 分享时检查视频长度及安全性
-     */
-    public static boolean checkVideoInfo(String filePath) {
-        // 检查文件是否存在
+    // 检查视频文件是否存在
+    public static boolean checkVideoExists(String filePath) {
         File file = null;
         try {
             file = new File(filePath);
@@ -412,6 +515,11 @@ public class TimeHelper {
             VideoCaptureManager.deleteByPath(filePath);
             return false;
         }
+        return true;
+    }
+
+    // 检查视频文件时长，大小是否符合分享要求（要求：10s<分享时长<30min，大小<800M）
+    public static boolean checkVideoDuration(String filePath) {
         String duration;
         try {
             duration = VideoDuration.getDuration(filePath);
@@ -441,6 +549,19 @@ public class TimeHelper {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 分享时检查视频长度及安全性
+     */
+    public static boolean checkVideoInfo(String filePath) {
+
+        // 检查文件是否存在
+        boolean isExists = checkVideoExists(filePath);
+        if (!isExists) return false;
+
+        //检查是否符合分享要求，符合则全部检查完成返回true，不符合返回false
+        return checkVideoDuration(filePath);
     }
 
     /**

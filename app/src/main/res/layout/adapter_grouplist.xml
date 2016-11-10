@@ -23,18 +23,23 @@
         android:layout_toRightOf="@+id/grouplist_pic"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="秦时明月"
+        android:text=""
         android:textColor="#242424"
         android:textSize="12sp"/>
 
-    <ImageView
-        android:id="@+id/go"
-        android:layout_width="8dp"
-        android:layout_height="14dp"
+    <TextView
+        android:id="@+id/grouplist_focus"
+        android:layout_width="42dp"
+        android:layout_height="20dp"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:layout_marginRight="12dp"
-        android:src="@drawable/go_about"/>
+        android:background="@drawable/player_focus"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:text="@string/dynamic_focus"
+        android:textColor="@color/groupdetail_player_red"
+        android:textSize="11sp"
+        android:visibility="visible"/>
 
     <!-- #ff372d -->
 

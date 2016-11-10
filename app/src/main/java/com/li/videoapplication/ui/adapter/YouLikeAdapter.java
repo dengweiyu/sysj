@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -18,6 +20,7 @@ import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.utils.ScreenUtil;
+import com.li.videoapplication.utils.StringUtil;
 
 /**
  * 适配器：猜你喜欢
@@ -58,7 +61,11 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
 		setPicLayoutParams(holder.cover);
 
 		setTextViewText(holder.title, record.getTitle());
-		setTextViewText(holder.playCount, record.getClick_count());
+		if (!StringUtil.isNull(record.getClick_count())){
+			//播放数格式成以万为单位
+			String clickCount = StringUtil.toUnitW(record.getClick_count());
+			setTextViewText(holder.playCount, clickCount);
+		}
 		setTimeLength(holder.allTime, record);
 		setImageViewImageNetAlpha(holder.cover, record.getFlagPath());
 		holder.deleteState.setVisibility(View.GONE);

@@ -49,7 +49,7 @@ public class SearchAssociateAdapter extends BaseArrayAdapter<Associate> {
         }
 
         //天天酷跑
-        String name = record.getGame_name();
+        String name = record.getName();
 
         //关键字变红
         if (!StringUtil.isNull(keyword) && name != null && name.contains(keyword)) {

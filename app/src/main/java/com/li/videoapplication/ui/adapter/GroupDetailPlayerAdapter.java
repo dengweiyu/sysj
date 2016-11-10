@@ -69,15 +69,12 @@ public class GroupDetailPlayerAdapter extends RecyclerView.Adapter<GroupDetailPl
             holder.isV.setVisibility(View.INVISIBLE);
         }
 
-//        setLevel(holder.level, record);
-
         holder.content.setVisibility(View.VISIBLE);
         holder.mark.setVisibility(View.GONE);
-//        holder.left.setVisibility(View.GONE);
         setFans(holder.middle, record);
         setVideo(holder.right, record);
 
-        setFocus(record, holder.focus, holder.focusContainer, holder.go);
+        setFocus(record, holder.focus,holder.go);
     }
 
     @Override
@@ -86,19 +83,9 @@ public class GroupDetailPlayerAdapter extends RecyclerView.Adapter<GroupDetailPl
     }
 
     /**
-     * 等级
-     */
-    private void setLevel(TextView view, final Member record) {
-        helper.setTextViewText(view, "Lv." + record.getDegree());
-        view.setVisibility(View.VISIBLE);
-    }
-
-    /**
      * 关注
      */
-    public void setFocus(final Member record, TextView focus, LinearLayout focusContainer, ImageView go) {
-        focus.setVisibility(View.VISIBLE);
-        focusContainer.setVisibility(View.GONE);
+    private void setFocus(final Member record, TextView focus, ImageView go) {
         go.setVisibility(View.GONE);
         if (record != null) {
             if (record.getMember_tick() == 1) { // 已关注状态
@@ -137,13 +124,6 @@ public class GroupDetailPlayerAdapter extends RecyclerView.Adapter<GroupDetailPl
     }
 
     /**
-     * 等级
-     */
-    private String getLevel(final Member record) {
-        return "Lv." + record.getDegree();
-    }
-
-    /**
      * 粉丝
      */
     private void setFans(TextView view, final Member record) {
@@ -170,13 +150,10 @@ public class GroupDetailPlayerAdapter extends RecyclerView.Adapter<GroupDetailPl
     public class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView head;
         TextView mark;// 粉丝 56 视频 236
-//        TextView level;// Lv.1
         LinearLayout content;
-//        TextView left;
         TextView middle;// 视频 236
         TextView right;// 粉丝 56
         TextView name;
-        LinearLayout focusContainer;
         TextView focus;
         ImageView go, isV;
 
@@ -188,13 +165,10 @@ public class GroupDetailPlayerAdapter extends RecyclerView.Adapter<GroupDetailPl
             isV = (ImageView) itemView.findViewById(R.id.searchmember_v);
             name = (TextView) itemView.findViewById(R.id.playerbillboard_name);
             mark = (TextView) itemView.findViewById(R.id.searchmember_mark);
-//            level = (TextView) itemView.findViewById(R.id.searchmember_level);
             content = (LinearLayout) itemView.findViewById(R.id.content);
-//            left = (TextView) itemView.findViewById(R.id.searchmember_left);
             middle = (TextView) itemView.findViewById(R.id.searchmember_middle);
             right = (TextView) itemView.findViewById(R.id.searchmember_right);
-            focusContainer = (LinearLayout) itemView.findViewById(R.id.searchmember_focus);
-            focus = (TextView) itemView.findViewById(R.id.groupdetail_player_focus);
+            focus = (TextView) itemView.findViewById(R.id.searchmember_focus);
             go = (ImageView) itemView.findViewById(R.id.myplayer_go);
 
             itemView.setOnClickListener(new View.OnClickListener() {

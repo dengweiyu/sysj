@@ -142,8 +142,10 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
             setTextViewText(holder.title, record.getTitle());
         }
 
+        //播放数格式成以万为单位
+        String clickCount = StringUtil.toUnitW(record.getClick_count());
         // 播放数
-        setTextViewText(holder.playCount, record.getClick_count());
+        setTextViewText(holder.playCount, clickCount);
 
         // 播放时长
         setTimeLength(holder.allTime, record);
@@ -151,7 +153,6 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
         // 封面
         if (!StringUtil.isNull(record.getFlag())) {
             if (URLUtil.isURL(record.getFlag())) {
-//				ImageLoaderHelper.displayImageVideo(record.getFlag(), holder.cover);
                 setImageViewImageNetAlpha(holder.cover, record.getFlag());
             }
         }

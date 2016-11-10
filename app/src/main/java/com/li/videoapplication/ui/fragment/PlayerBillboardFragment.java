@@ -88,11 +88,11 @@ public class PlayerBillboardFragment extends TBaseChildFragment {
 
         viewPager = (ViewPagerY4) view.findViewById(R.id.viewpager);
         viewPager.setScrollable(true);
-        viewPager.setOffscreenPageLimit(6);
+        viewPager.setOffscreenPageLimit(2);
         adapter = new GamePagerAdapter(manager, fragments);
         viewPager.setAdapter(adapter);
         PageChangeListener listener = new PageChangeListener();
-        viewPager.setOnPageChangeListener(listener);
+        viewPager.addOnPageChangeListener(listener);
 
         for (int i = 0; i < topButtons.size(); i++) {
             OnTabClickListener onTabClickListener = new OnTabClickListener(i);
@@ -154,7 +154,7 @@ public class PlayerBillboardFragment extends TBaseChildFragment {
                         topText.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_blue));
                         break;
                     case 1:
-                        topText.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_red));
+                        topText.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_yellow));
                         break;
                     case 2:
                         topText.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_purple));
@@ -172,7 +172,7 @@ public class PlayerBillboardFragment extends TBaseChildFragment {
                         topLine.get(i).setImageResource(R.color.menu_billboard_blue);
                         break;
                     case 1:
-                        topLine.get(i).setImageResource(R.color.menu_billboard_red);
+                        topLine.get(i).setImageResource(R.color.menu_billboard_yellow);
                         break;
                     case 2:
                         topLine.get(i).setImageResource(R.color.menu_billboard_purple);
@@ -188,17 +188,17 @@ public class PlayerBillboardFragment extends TBaseChildFragment {
                 switch (index) {
                     case 0:
                         setImageViewImageRes(topIcon.get(0), R.drawable.playerbillboard_fans);
-                        setImageViewImageRes(topIcon.get(1), R.drawable.playerbillboard_grade_gray);
+                        setImageViewImageRes(topIcon.get(1), R.drawable.slider_bean_gray);
                         setImageViewImageRes(topIcon.get(2), R.drawable.playerbillboard_vedio_gray);
                         break;
                     case 1:
                         setImageViewImageRes(topIcon.get(0), R.drawable.playerbillboard_fans_gray);
-                        setImageViewImageRes(topIcon.get(1), R.drawable.playerbillboard_grade);
+                        setImageViewImageRes(topIcon.get(1), R.drawable.slider_bean);
                         setImageViewImageRes(topIcon.get(2), R.drawable.playerbillboard_vedio_gray);
                         break;
                     case 2:
                         setImageViewImageRes(topIcon.get(0), R.drawable.playerbillboard_fans_gray);
-                        setImageViewImageRes(topIcon.get(1), R.drawable.playerbillboard_grade_gray);
+                        setImageViewImageRes(topIcon.get(1), R.drawable.slider_bean_gray);
                         setImageViewImageRes(topIcon.get(2), R.drawable.playerbillboard_vedio);
                         break;
                 }

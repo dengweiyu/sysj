@@ -2,6 +2,7 @@ package com.li.videoapplication.data.preferences;
 
 import android.util.Log;
 
+import com.fmsysj.screeclibinvoke.data.model.configuration.RecordingSetting;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.li.videoapplication.data.DataManager;
@@ -16,6 +17,7 @@ import com.li.videoapplication.data.model.response.IndexLaunchImageEntity;
 import com.li.videoapplication.data.model.response.LaunchImageEntity;
 import com.li.videoapplication.tools.ArrayHelper;
 import com.li.videoapplication.tools.JPushHelper;
+import com.li.videoapplication.tools.JSONHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.utils.StringUtil;
 
@@ -52,6 +54,135 @@ public class PreferencesHepler {
     }
 
     private Gson gson = new Gson();
+
+    /* ##############  任务  ############### */
+
+    /**
+     * 获取刷新任务时间
+     */
+    public long getTaskTime() {
+        long taskTime = UserPreferences.getInstance().getLong(Constants.TASK_TIME);
+        Log.d(tag, "get/getTaskTime=" + taskTime);
+        return taskTime;
+    }
+
+    /**
+     * 保存刷新任务时间
+     */
+    public void saveTaskTime(long currentTime) {
+        UserPreferences.getInstance().putLong(Constants.TASK_TIME, currentTime);
+        Log.d(tag, "save/saveTaskTime=" + currentTime);
+    }
+
+    /** ##############  录屏设置  ############### */
+
+    /**
+     * 获取录屏设置
+     */
+    public RecordingSetting getRecordingSetting() {
+        String string = NormalPreferences.getInstance().getString(Constants.RECORDING_SETTING);
+        if (StringUtil.isNull(string))
+            return RecordingSetting.DEFAULT;
+        RecordingSetting entity = JSONHelper.parse(string, RecordingSetting.class);
+        if (entity == null)
+            return RecordingSetting.DEFAULT;
+        Log.d(tag, "getRecordingSetting: entity=" + entity);
+        return entity;
+    }
+
+    /**
+     * 保存录屏设置
+     */
+    public void saveRecordingSetting(RecordingSetting entity) {
+        Log.d(tag, "saveRecordingSetting: entity=" + entity);
+        if (entity != null)
+            NormalPreferences.getInstance().putString(Constants.RECORDING_SETTING, JSONHelper.to(entity));
+    }
+
+    /**
+     * 保存录屏设置：声音
+     */
+    public void saveRecordingSettingSoundRecording(boolean flag) {
+        RecordingSetting recordingSetting = getRecordingSetting();
+        recordingSetting.setSoundRecording(flag);
+        saveRecordingSetting(recordingSetting);
+    }
+
+    /**
+     * 保存录屏设置：摇晃
+     */
+    public void saveRecordingSettingShakeRecording(boolean flag) {
+        RecordingSetting recordingSetting = getRecordingSetting();
+        recordingSetting.setShakeRecording(flag);
+        saveRecordingSetting(recordingSetting);
+    }
+
+    /**
+     * 保存录屏设置：悬浮窗
+     */
+    public void saveRecordingSettingFloatingWindiws(boolean flag) {
+        RecordingSetting recordingSetting = getRecordingSetting();
+        recordingSetting.setFloatingWindiws(flag);
+        saveRecordingSetting(recordingSetting);
+    }
+
+    /**
+     * 保存录屏设置：触摸位置
+     */
+    public void saveRecordingSettingTouchPosition(boolean flag) {
+        RecordingSetting recordingSetting = getRecordingSetting();
+        recordingSetting.setTouchPosition(flag);
+        saveRecordingSetting(recordingSetting);
+    }
+
+    /**
+     * 保存录屏设置：游戏扫描
+     */
+    public void saveRecordingSettingGameScan(boolean flag) {
+        RecordingSetting recordingSetting = getRecordingSetting();
+        recordingSetting.setGameScan(flag);
+        saveRecordingSetting(recordingSetting);
+    }
+
+    /**
+     * 保存录屏设置：主播模式
+     */
+    public void saveRecordingSettingAnchorModel(boolean flag) {
+        RecordingSetting recordingSetting = getRecordingSetting();
+        recordingSetting.setAnchorModel(flag);
+        saveRecordingSetting(recordingSetting);
+    }
+
+    /**
+     * 保存录屏设置：录屏后跳转
+     */
+    public void saveRecordingSettingRecordedJump(boolean flag) {
+        RecordingSetting recordingSetting = getRecordingSetting();
+        recordingSetting.setRecordedJump(flag);
+        saveRecordingSetting(recordingSetting);
+    }
+
+    /**
+     * 保存录屏设置：录屏清晰度
+     */
+    public void saveRecordingSettingQuality(String s) {
+        RecordingSetting recordingSetting = getRecordingSetting();
+        recordingSetting.setQuality(s);
+        saveRecordingSetting(recordingSetting);
+    }
+
+    /**
+     * 保存录屏设置：是否横屏
+     */
+    public void saveRecordingSettingLandscape(boolean flag) {
+        RecordingSetting recordingSetting = getRecordingSetting();
+        if (flag) {
+            recordingSetting.setLandscape(1);
+        } else {
+            recordingSetting.setLandscape(2);
+        }
+        saveRecordingSetting(recordingSetting);
+    }
 
     /* ##############  动态  ############### */
 

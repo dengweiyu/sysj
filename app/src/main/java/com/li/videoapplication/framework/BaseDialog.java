@@ -87,6 +87,10 @@ public abstract class BaseDialog extends Dialog {
 	protected void setImageViewImageLocal(ImageView mImageView, String path) {
 		textImageHelper.setImageViewImageLocal(mImageView, path);
 	}
+
+	protected void setImageViewImageNet(ImageView mImageView, String url) {
+		textImageHelper.setImageViewImageNet(mImageView, url);
+	}
 	
 	/*##############  提示   ##############*/
 	

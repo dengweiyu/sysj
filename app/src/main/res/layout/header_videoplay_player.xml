@@ -58,21 +58,21 @@
 
     <TextView
         android:id="@+id/videoplay_focus"
-        android:layout_width="37dp"
-        android:layout_height="18dp"
+        android:layout_width="42dp"
+        android:layout_height="20dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="18dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/focus_videoplay_btn"
+        android:background="@drawable/player_focus"
         android:button="@null"
         android:checked="false"
         android:gravity="center"
-        android:singleLine="true"
+        android:maxLines="1"
         android:text="@string/videoplay_focus"
-        android:textColor="#ffffff"
-        android:textSize="9sp" />
+        android:textColor="@color/groupdetail_player_red"
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/videoplay_content"

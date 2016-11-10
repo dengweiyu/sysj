@@ -1,25 +1,20 @@
 package com.li.videoapplication.framework;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
-import java.util.Vector;
-
-import org.jdesktop.application.ApplicationContext;
-
-import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
-import android.content.pm.ServiceInfo;
 import android.content.res.Resources;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
 import com.li.videoapplication.ui.activity.MainActivity;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.Stack;
+import java.util.Vector;
 
 /**
  * 

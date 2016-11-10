@@ -263,6 +263,12 @@ public class RequestUrl {
         return BaseHome + "/video/commentList.html";
     }
 
+    /**
+     * 视频评论删除接口
+     */
+    public final String commentDel() {
+        return BaseSYSJ + "/Sysj211/Video/commentDel";
+    }
 
     /**
      * 活动评论208
@@ -341,6 +347,13 @@ public class RequestUrl {
     }
 
     /**
+     * 获取验证码211
+     */
+    public final String sendCode() {
+        return BaseSYSJ + "/Sysj211/CurrencyMall/sendCode";
+    }
+
+    /**
      * 获取验证码210
      */
     public final String phoneRequestMsg() {
@@ -359,6 +372,13 @@ public class RequestUrl {
      */
     public final String verifyCodeNew() {
         return BaseHome + "/member/verifyCodeNew.html";
+    }
+
+    /**
+     * 提交手机和验证码211
+     */
+    public final String verifyCode() {
+        return BaseSYSJ + "/Sysj211/CurrencyMall/verifyCode";
     }
 
     /**
@@ -817,6 +837,13 @@ public class RequestUrl {
     }
 
     /**
+     * 视频评论列表211
+     */
+    public final String videoCommentList211() {
+        return BaseSYSJ + "/Sysj211/Video/commentList";
+    }
+
+    /**
      * 视频发布评论（多级）
      */
     public final String videoDoComment() {
@@ -1174,6 +1201,71 @@ public class RequestUrl {
         return BaseHome + "/sys/checkAndroidStatus";
     }
 
+    /* ############## 货币商城 ############## */
+
+    /**
+     * 首页任务
+     */
+    public final String unfinishedTask() {
+        return BaseSYSJ + "/Sysj211/Currency/unfinishedTask";
+    }
+
+    /**
+     * 兑换
+     */
+    public final String recommendedLocation() {
+        return BaseSYSJ + "/Sysj211/CurrencyMall/recommendedLocation";
+    }
+
+    /**
+     * 兑换
+     */
+    public final String getMemberTask() {
+        return BaseSYSJ + "/Sysj211/Currency/getMemberTask";
+    }
+
+    /**
+     * 兑换
+     */
+    public final String payment() {
+        return BaseSYSJ + "/Sysj211/CurrencyMall/payment";
+    }
+
+    /**
+     * 商品详情
+     */
+    public final String goodsDetail() {
+        return BaseSYSJ + "/Sysj211/CurrencyMall/goodsDetail";
+    }
+
+    /**
+     * 订单详情
+     */
+    public final String orderDetail() {
+        return BaseSYSJ + "/Sysj211/CurrencyMall/orderDetail";
+    }
+
+    /**
+     * 商品列表
+     */
+    public final String getOrderList() {
+        return BaseSYSJ + "/Sysj211/CurrencyMall/orderList";
+    }
+
+    /**
+     * 商品列表
+     */
+    public final String goodsList() {
+        return BaseSYSJ + "/Sysj211/CurrencyMall/goodsList";
+    }
+
+    /**
+     * 账单
+     */
+    public final String getCurrencyRecord() {
+        return BaseSYSJ + "/Sysj211/Currency/getCurrencyRecord";
+    }
+
 	/* ############## 赛事 ############## */
 
     /**
@@ -1498,6 +1590,13 @@ public class RequestUrl {
      */
     public final String rankingMemberRanking() {
         return BaseSYSJ + "/sysj201/ranking/memberRanking";
+    }
+
+    /**
+     * 磨豆榜
+     */
+    public final String memberRankingCurrency() {
+        return BaseSYSJ + "/Sysj211/Currency/memberRanking";
     }
 
     /**
@@ -1896,6 +1995,13 @@ public class RequestUrl {
      */
     public final String videoClickVideo201() {
         return BaseSYSJ + "/sysj201/video/clickVideo";
+    }
+
+    /**
+     * 视频分享数+1
+     */
+    public final String videoShare211() {
+        return BaseSYSJ + "/Sysj211/Video/share";
     }
 
     /**

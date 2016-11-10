@@ -30,7 +30,46 @@ public class RequestParams {
         return instance;
     }
 
-    /** ############## 标签 ############## */
+    /**
+     * ############## 货币商城 ##############
+     */
+    public Map<String, Object> payment(String member_id, String goods_id, String mobile, String account) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        map.put("goods_id", goods_id);
+        map.put("mobile", mobile);
+        map.put("account", account);
+        return map;
+    }
+
+    public Map<String, Object> orderDetail(String member_id, String order_id) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        map.put("order_id", order_id);
+        return map;
+    }
+
+    public Map<String, Object> goodsDetail(String goods_id) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("goods_id", goods_id);
+        return map;
+    }
+
+    public Map<String, Object> getOrderList(String member_id) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        return map;
+    }
+
+    public Map<String, Object> getCurrencyRecord(String member_id) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        return map;
+    }
+
+    /**
+     * ############## 标签 ##############
+     */
 
     public Map<String, Object> gameTagList(String game_id) {
         Map<String, Object> map = new HashMap<>();
@@ -366,7 +405,7 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> getCompVideoLists208(String member_id,String match_id,int page) {
+    public Map<String, Object> getCompVideoLists208(String member_id, String match_id, int page) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", member_id);
         map.put("match_id", match_id);
@@ -560,11 +599,18 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> sendComment208(String match_id, String member_id,String content) {
+    public Map<String, Object> sendComment208(String match_id, String member_id, String content) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("match_id", match_id);
         map.put("member_id", member_id);
         map.put("content", content);
+        return map;
+    }
+
+    public Map<String, Object> commentDel(String member_id, String comment_id) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        map.put("comment_id", comment_id);
         return map;
     }
 
@@ -778,9 +824,24 @@ public class RequestParams {
         return map;
     }
 
+    public Map<String, Object> sendCode(String mobile, String target) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("mobile", mobile);
+        map.put("target", target);// target = "sysj"
+        return map;
+    }
+
     public Map<String, Object> msgRequestNew(String key, String target) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("key", key);
+        map.put("target", target);// target = "sysj"
+        return map;
+    }
+
+    public Map<String, Object> verifyCode(String mobile, String code, String target) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("mobile", mobile);
+        map.put("code", code);
         map.put("target", target);// target = "sysj"
         return map;
     }
@@ -1123,7 +1184,7 @@ public class RequestParams {
     }
 
     public Map<String, Object> joinEvents210(String member_id, String event_id, String type_id,
-                                             String team_name, String game_role, String qq, String phone,String team_member_qq) {
+                                             String team_name, String game_role, String qq, String phone, String team_member_qq) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("event_id", event_id);
@@ -1202,7 +1263,7 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> groupJoin208(String member_id,String chatroom_group_id) {
+    public Map<String, Object> groupJoin208(String member_id, String chatroom_group_id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("chatroom_group_id", chatroom_group_id);
@@ -1284,6 +1345,13 @@ public class RequestParams {
     public Map<String, Object> myDaRenList(String member_id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
+        return map;
+    }
+
+    public Map<String, Object> memberRankingCurrency(String member_id, int page) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        map.put("page", page);
         return map;
     }
 
@@ -1720,10 +1788,10 @@ public class RequestParams {
     }
 
     public Map<String, Object> savePhoto208(String member_id,
-                                              String match_id,
-                                              String key,
-                                              String title,
-                                              String description) {
+                                            String match_id,
+                                            String key,
+                                            String title,
+                                            String description) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("match_id", match_id);
@@ -1760,9 +1828,10 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> videoClickVideo201(String video_id) {
+    public Map<String, Object> videoClickVideo201(String video_id, String member_id) {
         Map<String, Object> map = new HashMap<>();
         map.put("video_id", video_id);
+        map.put("member_id", member_id);
         return map;
     }
 
@@ -1772,10 +1841,11 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> fansList203(String member_id, String type) {
+    public Map<String, Object> fansList203(String member_id, String type, int page) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", member_id);
         map.put("type", type);// type=fans/attention
+        map.put("page", page);
         return map;
     }
 

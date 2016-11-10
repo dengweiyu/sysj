@@ -116,7 +116,11 @@ public class VideoCaptureHelper {
         LightTask.postAtFrontOfQueue(new Runnable() {
             @Override
             public void run() {
-                importVideoCaptures(null);
+                try {
+                    importVideoCaptures(null);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 Log.d(tag, "run: data" + data);
                 result = true;
                 resultCode = RESULT_CODE_IMPORTING;
@@ -250,6 +254,7 @@ public class VideoCaptureHelper {
             }
         }
         data.addAll(list);
+        cursor.close();
     }
 
     /**

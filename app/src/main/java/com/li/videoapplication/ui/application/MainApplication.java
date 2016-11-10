@@ -4,6 +4,7 @@ import android.os.Debug;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
+import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.cache.CacheManager;
 import com.li.videoapplication.data.image.ImageLoaderHelper;
@@ -51,14 +52,12 @@ public class MainApplication extends BaseApplication {
 
                     CacheManager.getInstance().initCache();
 
-                    //友盟推送
-                    // UPushHelper.initUPush(MainApplication.this);
+                    RecordingManager.getInstance().initialize(MainApplication.this);
 
                     // 极光推送
                     JPushHelper.initUPush(MainApplication.this, DEBUG);
 
                     if (PreferencesHepler.getInstance().isLogin()) {
-                        // UPushHelper.setAlias(PreferencesHepler.getInstance().getMember_id());
                         JPushHelper.setAlias(PreferencesHepler.getInstance().getMember_id());
                     }
 

@@ -6,8 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 
+import com.fmsysj.screeclibinvoke.ui.dialog.ManufacturerDialog;
+import com.fmsysj.screeclibinvoke.ui.dialog.SettingQualityDialog;
+import com.li.videoapplication.data.database.VideoCaptureEntity;
+import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.response.RecommendedLocationEntity;
 import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.framework.AppManager;
@@ -24,8 +29,10 @@ import com.li.videoapplication.ui.dialog.GameTipDialog;
 import com.li.videoapplication.ui.dialog.MatchOpponentDialog;
 import com.li.videoapplication.ui.dialog.MyTaskGrowupDialog;
 import com.li.videoapplication.ui.dialog.MyTaskLevelDialog;
+import com.li.videoapplication.ui.dialog.OfficialPaymentDialog;
 import com.li.videoapplication.ui.dialog.OnGoingContactTipDialog;
 import com.li.videoapplication.ui.dialog.OnGoingUploadImageTipDialog;
+import com.li.videoapplication.ui.dialog.PaymentDialog;
 import com.li.videoapplication.ui.dialog.PhotoDialog;
 import com.li.videoapplication.ui.dialog.RecordDialog;
 import com.li.videoapplication.ui.dialog.RegisterMobileDialog;
@@ -34,16 +41,72 @@ import com.li.videoapplication.ui.dialog.ShareDialog;
 import com.li.videoapplication.ui.dialog.SignInSuccessDialog;
 import com.li.videoapplication.ui.dialog.SignUpSuccessDialog;
 import com.li.videoapplication.ui.dialog.UploadVideoDialog;
+import com.li.videoapplication.ui.dialog.VerifyPhoneBeforePaymentDialog;
 import com.li.videoapplication.ui.dialog.VictoryDialog;
 import com.li.videoapplication.ui.dialog.VideoManagerCopyDialog;
+import com.li.videoapplication.ui.dialog.VideoManagerImportDialog;
 import com.li.videoapplication.ui.dialog.VideoManagerRenameDialog;
 import com.li.videoapplication.ui.dialog.VideoPlayDialog;
 import com.li.videoapplication.ui.dialog.VideoTipDialog;
+import com.li.videoapplication.ui.fragment.MyLocalVideoFragment;
+
+import java.util.List;
 
 /**
  * 功能：弹框管理
  */
 public class DialogManager {
+
+    /**
+     * 申请官方推荐
+     */
+    public static void showOfficialPaymentDialog(Context context, VideoCaptureEntity entity, RecommendedLocationEntity event) {
+        Dialog dialog = new OfficialPaymentDialog(context, entity, event);
+        dialog.show();
+    }
+
+    /**
+     * 验证手机 (推荐位)
+     */
+    public static void showVerifyPhoneDialog(Context context, VideoCaptureEntity entity, RecommendedLocationEntity event) {
+        Dialog dialog = new VerifyPhoneBeforePaymentDialog(context, entity,event);
+        dialog.show();
+    }
+
+    /**
+     * 兑换商品
+     */
+    public static void showPaymentDialog(Context context, Currency childList) {
+        Dialog dialog = new PaymentDialog(context, childList);
+        dialog.show();
+    }
+
+    /**
+     * 导入外部视频
+     */
+    public static void showVideoManagerImportDialog(Context context,
+                                                    List<VideoCaptureEntity> data,
+                                                    MyLocalVideoFragment fragment,
+                                                    DialogInterface.OnClickListener listener) {
+        Dialog dialog = new VideoManagerImportDialog(context, data, fragment, listener);
+        dialog.show();
+    }
+
+    /**
+     * 悬浮窗设置
+     */
+    public static void showManufacturerDialog(Context context) {
+        Dialog dialog = new ManufacturerDialog(context);
+        dialog.show();
+    }
+
+    /**
+     * 清晰度设置
+     */
+    public static void showSettingQualityDialog(Context context, SettingQualityDialog.Qualityable listener) {
+        Dialog dialog = new SettingQualityDialog(context, listener);
+        dialog.show();
+    }
 
     /**
      * 获胜

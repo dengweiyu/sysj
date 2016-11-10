@@ -110,7 +110,7 @@ public class RegisterMobileDialog extends BaseDialog implements View.OnClickList
             animationHelper.startAnimationShake(mobile);
             return;
         }
-        if (!StringUtil.isMobileNumber(getMobileText())) {
+        if (!PatternUtil.isMatchMobile(getMobileText())) {
             showToastShort("请输入正确的手机号");
             animationHelper.startAnimationShake(code);
             return;

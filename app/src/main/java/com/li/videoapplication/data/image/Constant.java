@@ -11,5 +11,5 @@ public class Constant {
 
     public static final Drawable PICTRUE_DEFAULT_TRANSPARENT = new ColorDrawable(Color.TRANSPARENT);
 
-    public static final Drawable PICTRUE_DEFAULT_VIDEO = AppManager.getInstance().getContext().getResources().getDrawable(R.drawable.default_video_208);
+    public static final Drawable PICTRUE_DEFAULT_VIDEO = AppManager.getInstance().getContext().getResources().getDrawable(R.drawable.default_video_211);
 }

@@ -12,6 +12,15 @@ public class Associate extends BaseEntity {
 	private String group_id;
 	private String game_name;
 	private String flag;
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getGame_id() {
 		return game_id;

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CompoundButton;
@@ -17,10 +18,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.fmsysj.zbqmcs.record.RecordAction;
-import com.fmsysj.zbqmcs.service.ScreenRECService;
-import com.fmsysj.zbqmcs.utils.ExApplication;
-import com.fmsysj.zbqmcs.utils.RecordVideo;
+import com.fmsysj.screeclibinvoke.data.model.configuration.RecordingSetting;
+import com.fmsysj.screeclibinvoke.data.observe.listener.FrontCameraObservable;
+import com.fmsysj.screeclibinvoke.logic.floatview.FloatViewManager;
+import com.fmsysj.screeclibinvoke.logic.frontcamera.FrontCameraManager;
+import com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService;
+import com.fmsysj.screeclibinvoke.ui.dialog.SettingQualityDialog;
+import com.fmsysj.screeclibinvoke.utils.RootUtil;
+import com.fmsysj.screeclibinvoke.utils.ViewUtil;
+import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Update;
@@ -29,6 +35,7 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.utils.ScreenUtil;
@@ -36,7 +43,8 @@ import com.li.videoapplication.utils.ScreenUtil;
 /**
  * 活动：设置
  */
-public class SettingActivity extends TBaseActivity implements OnClickListener, OnCheckedChangeListener {
+public class SettingActivity extends TBaseActivity implements OnClickListener, OnCheckedChangeListener,
+        FrontCameraObservable {
 
     /**
      * 跳转：关于
@@ -88,7 +96,6 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
     @Override
     public void afterOnCreate() {
         super.afterOnCreate();
-        mContext = this;
         setSystemBarBackgroundWhite();
         setAbTitle(R.string.setting_title);
     }
@@ -144,71 +151,47 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
 //        recordedJumpToggle = (ToggleButton) findViewById(R.id.setting_recordedJump_toggle);
         floatingWindiwsToggle = (ToggleButton) findViewById(R.id.setting_floatingWindiws_toggle);
 
-        soundRecordingToggle.setOnCheckedChangeListener(this);
-        shakeRecordingToggle.setOnCheckedChangeListener(this);
-        anchorModelToggle.setOnCheckedChangeListener(this);
-        touchPositionToggle.setOnCheckedChangeListener(this);
-//        gameScanToggle.setOnCheckedChangeListener(this);
-//        recordedJumpToggle.setOnCheckedChangeListener(this);
-        floatingWindiwsToggle.setOnCheckedChangeListener(this);
-
         screenQualityText = (TextView) findViewById(R.id.setting_screenQuality_text);
 
         point.setVisibility(View.GONE);
         refreshRedPoint();
     }
 
-    private SharedPreferences sharedPreferences;
 
     private void initData() {
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        RecordingSetting setting = PreferencesHepler.getInstance().getRecordingSetting();
         // 录制声音
-        boolean recoudsound = sharedPreferences.getBoolean("record_sound", true);
-        soundRecordingToggle.setChecked(recoudsound);
+        soundRecordingToggle.setChecked(setting.isSoundRecording());
         // 摇晃录屏
-        boolean yahuan = sharedPreferences.getBoolean("yahangjieping", false);
-        shakeRecordingToggle.setChecked(yahuan);
-        // 显示浮窗
-        boolean showfloat = sharedPreferences.getBoolean("no_float_view_record", false);
-        floatingWindiwsToggle.setChecked(!showfloat);
+        shakeRecordingToggle.setChecked(setting.isShakeRecording());
         // 触摸位置
-        boolean showtouch = sharedPreferences.getBoolean("show_touch_view", false);
-        touchPositionToggle.setChecked(showtouch);
-        // 前摄像头
-        boolean showcamera = sharedPreferences.getBoolean("show_front_camera", false);
-        anchorModelToggle.setChecked(showcamera);
-        // 跳转到视频管理
-//        boolean showvideomanage = sharedPreferences.getBoolean("isGotoVideoManage", true);
-//        recordedJumpToggle.setChecked(showvideomanage);
+        touchPositionToggle.setChecked(setting.isTouchPosition());
+        // 显示浮窗
+        floatingWindiwsToggle.setChecked(!setting.isFloatingWindiws());
         // 扫描游戏列表
-//        boolean showgamelist = sharedPreferences.getBoolean("PackageInfoGridviewNotify", false);
-//        gameScanToggle.setChecked(showgamelist);
+//        gameScanToggle.setChecked(setting.isGameScan());
+        // 跳转到视频管理
+//        recordedJumpToggle.setChecked(setting.isRecordedJump());
 
-        // 清晰度
-        String quality = "";
-        if (ExApplication.getAndroidSDKVersion() >= 19) {
-            quality = sharedPreferences.getString("quality_of_video", "0");
-        } else {
+        soundRecordingToggle.setOnCheckedChangeListener(this);
+        shakeRecordingToggle.setOnCheckedChangeListener(this);
+        touchPositionToggle.setOnCheckedChangeListener(this);
+        floatingWindiwsToggle.setOnCheckedChangeListener(this);
+//        gameScanToggle.setOnCheckedChangeListener(this);
+//        recordedJumpToggle.setOnCheckedChangeListener(this);
 
-            quality = sharedPreferences.getString("quality_of_video", "1");
-        }
-        // 将2.0.1.1及之前版本的清晰度修改成最新版本
-        if (quality.equals("高清")) {
-            quality = "0";
-            sharedPreferences.edit().putString("quality_of_video", ExApplication.HQuality).apply();
-        } else if (quality.equals("标准")) {
-            quality = "1";
-            sharedPreferences.edit().putString("quality_of_video", ExApplication.HQuality).apply();
-        } else if (quality.equals("流畅")) {
-            sharedPreferences.edit().putString("quality_of_video", ExApplication.HQuality).apply();
-            quality = "0";
-        }
+        anchorModelToggle.setOnClickListener(this);
+        refreshFrontCamera();
+    }
 
-        if (quality.equals("0")) {
-            screenQualityText.setText(ExApplication.HQualityVaule);
-        } else {
-            screenQualityText.setText(ExApplication.SQualityVaule);
+    private void refreshFrontCamera() {
+        Log.d(tag, "refreshFrontCamera: // ---------------------------------------------------");
+        if (anchorModelToggle != null) {
+            if (FrontCameraManager.getInstance().isOpen()) {
+                anchorModelToggle.setChecked(true);
+            } else {
+                anchorModelToggle.setChecked(false);
+            }
         }
     }
 
@@ -216,6 +199,17 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
     public void onClick(View v) {
 
         switch (v.getId()) {
+
+            case R.id.setting_anchorModel_toggle:// 主播
+                ViewUtil.enabled(v, 1200);
+                if (!FrontCameraManager.getInstance().isOpen()) {
+                    // 打开前置摄像头
+                    RecordingService.openFrontCamera();
+                } else {
+                    // 关闭前置摄像头
+                    RecordingService.closeFrontCamera();
+                }
+                break;
 
             case R.id.setting_help:// 帮助与教程
                 ActivityManeger.startHelpActivity(this);
@@ -251,49 +245,49 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (buttonView == soundRecordingToggle) {// 声音选项，开启声音录制
             if (isChecked) {
-                sharedPreferences.edit().putBoolean("record_sound", true).apply();
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "开启声音录制-被开启");
-            } else {
-                sharedPreferences.edit().putBoolean("record_sound", false).apply();
+            }else {
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "开启声音录制-被关闭");
             }
+            PreferencesHepler.getInstance().saveRecordingSettingSoundRecording(isChecked);
+
         } else if (buttonView == shakeRecordingToggle) {// 开启摇晃录屏
             if (isChecked) {// 摇晃截屏
-                startYaohuangjiepingService();
-                sharedPreferences.edit().putBoolean("yahangjieping", true).apply();
+                RecordingService.openShake();
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "摇晃录制-被开启");
             } else {
-                endYaohuangjiepingService();
-                sharedPreferences.edit().putBoolean("yahangjieping", false).apply();
+                RecordingService.closeShake();
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "摇晃录制-被关闭");
             }
+            PreferencesHepler.getInstance().saveRecordingSettingShakeRecording(isChecked);
         } else if (buttonView == floatingWindiwsToggle) { // 开启悬浮窗
-            if (RecordVideo.isRecordering) {// 录屏时不允许修改状态
-                ToastHelper.s("正在录屏中，无法修改");
-                floatingWindiwsToggle.setChecked(!isChecked);
+            if (RecordingManager.getInstance().isRecording()) {// 录屏时不允许修改状态
+                showToastShort(R.string.record_cannot_change_floatingwindiws);
+                floatingWindiwsToggle.setChecked(!PreferencesHepler.getInstance().getRecordingSetting().isFloatingWindiws());
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "浮窗模式-被关闭");
             } else {// 显示悬浮框
-                sharedPreferences.edit().putBoolean("no_float_view_record", !isChecked).apply();
+                PreferencesHepler.getInstance().saveRecordingSettingFloatingWindiws(!isChecked);
+                // 隐藏与显示悬浮窗
+                RecordingService.toogleFloatView(!isChecked);
+                FloatViewManager.getInstance().isFloatingWindiws = !isChecked;
+
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "浮窗模式-被开启");
             }
         } /*else if (buttonView == recordedJumpToggle) { // 录屏后跳转
             if (isChecked) {
-                sharedPreferences.edit().putBoolean("isGotoVideoManage", true).apply();
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "录屏后跳转-被开启");
             } else {
-                sharedPreferences.edit().putBoolean("isGotoVideoManage", false).apply();
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "录屏后跳转-被关闭");
             }
-
+            PreferencesHepler.getInstance().saveRecordingSettingRecordedJump(isChecked);
         }*/ else if (buttonView == touchPositionToggle) {// 触摸选项， 显示触摸位置
             if (isChecked) {
-                sharedPreferences.edit().putBoolean("show_touch_view", true).apply();
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "显示触摸位置-被开启");
             } else {
-                sharedPreferences.edit().putBoolean("show_touch_view", false).apply();
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "显示触摸位置-被关闭");
             }
-        } else if (buttonView == anchorModelToggle) {// 前摄像头选项，开启主播模式
+            PreferencesHepler.getInstance().saveRecordingSettingTouchPosition(isChecked);
+        } /*else if (buttonView == anchorModelToggle) {// 前摄像头选项，开启主播模式
             if (isChecked) {
                 sharedPreferences.edit().putBoolean("show_front_camera", true).apply();
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "主播模式-被开启");
@@ -301,7 +295,7 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
                 sharedPreferences.edit().putBoolean("show_front_camera", false).apply();
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "主播模式-被关闭");
             }
-        } /*else if (buttonView == gameScanToggle) {// 游戏列表框，启动游戏扫描
+        } else if (buttonView == gameScanToggle) {// 游戏列表框，启动游戏扫描
             if (isChecked) {
                 sharedPreferences.edit().putBoolean("PackageInfoGridviewNotify", true).apply();
             } else {
@@ -331,36 +325,6 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
             updateNow(update);
         } else if ("A".equals(update.getUpdate_flag())) {// 强制升级
             updateNow(update);
-            /*String changelog = update.getChange_log();
-            String[] changeArray = changelog.split(";");
-            changelog = "";
-            for (int i = 0; i < changeArray.length; i++) {
-                if (i != changeArray.length) {
-                    changelog += changeArray[i] + "\n";
-                } else {
-                    changelog += changeArray[i];
-                }
-            }
-            AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
-            builder.setTitle("更新提示");
-            builder.setMessage("手游视界" + update.getVersion_str() + "\n\n\t\t更新日志：\n" + changelog);
-            builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
-            	
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Uri uri = Uri.parse(update.getUpdate_url());
-                    Intent it = new Intent(Intent.ACTION_VIEW, uri);
-                    SettingActivity.this.startActivity(it);
-                }
-            });
-            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            	
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            builder.create().show();*/
         } else if ("N".equals(update.getUpdate_flag())) {// 最新版本
             showToastLong("当前已经是最新版本");
         }
@@ -411,38 +375,6 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
                 dialog.dismiss();
             }
         });
-
-
-		/*String changelog = update.getChange_log();
-        String[] changeArray = changelog.split(";");
-		changelog = "";
-		for (int i = 0; i < changeArray.length; i++) {
-            if (i != changeArray.length) {
-                changelog += changeArray[i] + "\n";
-            } else {
-                changelog += changeArray[i];
-            }
-        }
-		AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
-		builder.setTitle("发现新版本");
-		String versionName = VersionUtils.getCurrentVersionName(AppManager.getInstance().getContext());
-		builder.setMessage("你当前安装的版本是" + versionName + "手游视界已经发布最新" + update.getVersion_str() + "版本，是否现在升级？" + "\n\n\t\t更新日志：\n" + changelog);
-		builder.setPositiveButton("立即升级", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Uri uri = Uri.parse(update.getUpdate_url());
-                Intent it = new Intent(Intent.ACTION_VIEW, uri);
-                SettingActivity.this.startActivity(it);
-            }
-        });
-		builder.setNegativeButton("暂不升级", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-		builder.create().show();*/
     }
 
     /**
@@ -457,56 +389,15 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
      * 清晰度选择对话框
      */
     public void dialogQualityOfVideo() {
-        final String[] array = new String[]{ExApplication.HQualityVaule, ExApplication.SQualityVaule};
-        Dialog alertDialog = new AlertDialog.Builder(this).setTitle("画质选择").setItems(array, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case 0:
-                        sharedPreferences.edit().putString("quality_of_video", ExApplication.HQuality).apply();
-                        screenQualityText.setText(array[which]);
-                        UmengAnalyticsHelper.onEvent(SettingActivity.this, UmengAnalyticsHelper.SLIDER, "画质切换-超清");
-                        // 写入XML配置文件
-                        // xmlFileWriter.creat(context);
-                        break;
-                    case 1:
-                        sharedPreferences.edit().putString("quality_of_video", ExApplication.SQuality).apply();
-                        screenQualityText.setText(array[which]);
-                        UmengAnalyticsHelper.onEvent(SettingActivity.this, UmengAnalyticsHelper.SLIDER, "画质切换-标清");
-                        // 写入XML配置文件
-                        // xmlFileWriter.creat(context);
-                        break;
-                }
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        DialogManager.showSettingQualityDialog(this, new SettingQualityDialog.Qualityable() {
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+                    @Override
+                    public void quality(String quality) {
 
-            }
-        }).create();
-        alertDialog.show();
-    }
-
-    private Context mContext;
-
-    private void startService() {
-        // UtilService.startService(SettingActivity.this);
-        mContext.startService(new Intent(mContext, ScreenRECService.class));
-    }
-
-    private void endYaohuangjiepingService() {
-        startService();
-        Intent intent = new Intent(RecordAction.ACTION);
-        intent.putExtra("action", "end_yaohuangjieping_service");
-        sendBroadcast(intent);
-    }
-
-    private void startYaohuangjiepingService() {
-        startService();
-        Intent intent = new Intent(RecordAction.ACTION);
-        intent.putExtra("action", "start_yaohuangjieping_service");
-        sendBroadcast(intent);
+                        PreferencesHepler.getInstance().saveRecordingSettingQuality(quality);
+                        screenQualityText.setText(PreferencesHepler.getInstance().getRecordingSetting().getQualityText());
+                    }
+                });
     }
 
     /**
@@ -522,5 +413,18 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
                 }
             }
         }
+    }
+
+    /**
+     * 回调：发布前置摄像头事件
+     */
+    @Override
+    public void onCamera() {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                refreshFrontCamera();
+            }
+        });
     }
 }

@@ -43,6 +43,8 @@ import com.li.videoapplication.views.GridViewY1;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import cn.nekocode.emojix.Emojix;
+
 /**
  * 适配器：圈子详情（最新/最热视频）,活动页参与活动
  */
@@ -77,6 +79,7 @@ public class GroupDetailVideoRecyclerAdapter extends RecyclerView.Adapter<GroupD
     public GroupDetailVideoRecyclerAdapter(Context context, List<VideoImage> data) {
         this.context = context;
         this.data = data;
+        Emojix.wrap(context);
         try {
             activity = (Activity) context;
         } catch (Exception e) {

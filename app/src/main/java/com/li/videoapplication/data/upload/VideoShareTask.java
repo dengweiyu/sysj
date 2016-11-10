@@ -11,12 +11,12 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-import com.fmsysj.zbqmcs.utils.MyUtils;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.local.StorageUtil;
+import com.li.videoapplication.data.model.response.QiniuTokenPassEntity;
 import com.li.videoapplication.data.model.response.VideoDoVideoMark203Entity;
 import com.li.videoapplication.data.model.response.VideoQiniuTokenPass203Entity;
 import com.li.videoapplication.data.model.response.VideoUploadPicQiniuEntity;
@@ -35,6 +35,7 @@ import com.li.videoapplication.framework.BaseResponseEntity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.utils.LogHelper;
+import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 
 import org.json.JSONObject;
@@ -251,7 +252,7 @@ public class VideoShareTask{
 
         this.context = AppManager.getInstance().getContext();
 
-        int netType = MyUtils.getNetworkType(context);
+        int netType = NetUtil.getNetworkType(context);
         if (netType == 0) {
             msg = "当前网络不可用，请检查后再上传";
             status = STATUS_END;
@@ -641,7 +642,8 @@ public class VideoShareTask{
      */
     private void completing() {
         // 图片上传回调
-        VideoQiniuTokenPass203Entity entity = DataManager.UPLOAD.videoQiniuTokenPass203(video_id, game_id, is_success, join_id);
+        QiniuTokenPassEntity entity =
+                DataManager.UPLOAD.qiniuTokenPassSync(video_id, game_id, is_success,member_id, join_id);
 
 
         Log.i(tag, "entity=" + entity);
@@ -652,6 +654,7 @@ public class VideoShareTask{
             status = STATUS_SUCCESS;
             h.sendEmptyMessage(0);
 
+            DataManager.TASK.videoShareVideo211(video_id, member_id);
             UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.MACROSCOPIC_DATA, "玩家上传视频数");
         } else {
             if (entity != null && !StringUtil.isNull(entity.getMsg()))

@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.li.videoapplication.data.record.camera2.cameraView.CameraGLView
+        android:id="@+id/cameraview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"/>
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ab_height"
+        android:layout_alignParentTop="true"
+        android:background="#88262626">
+
+        <ImageView
+            android:id="@+id/camerarecord_delete"
+            android:layout_width="@dimen/ab_height"
+            android:layout_height="@dimen/ab_height"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentLeft="true"
+            android:onClick="doBack"
+            android:padding="11dp"
+            android:src="@drawable/camerarecord_delete"
+            android:scaleType="fitCenter"/>
+
+        <ImageView
+            android:id="@+id/camerarecord_change"
+            android:layout_width="48dp"
+            android:layout_height="@dimen/ab_height"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:padding="8dp"
+            android:onClick="doBack"
+            android:src="@drawable/camerarecord_change"
+            android:scaleType="fitCenter"/>
+
+        <ImageView
+            android:id="@+id/camerarecord_light"
+            android:layout_width="48dp"
+            android:layout_height="@dimen/ab_height"
+            android:layout_centerHorizontal="true"
+            android:padding="8dp"
+            android:layout_toLeftOf="@+id/camerarecord_change"
+            android:onClick="doBack"
+            android:src="@drawable/camerarecord_light_off"
+            android:scaleType="fitCenter"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_alignParentBottom="true"
+        android:background="#88262626">
+
+        <ImageView
+            android:id="@+id/camerarecord_start"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/camerarecord_start"
+            android:scaleType="fitXY"/>
+
+        <ImageView
+            android:id="@+id/camerarecord_complete"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/camerarecord_start_tick"
+            android:scaleType="fitXY"/>
+
+        <ImageView
+            android:id="@+id/camerarecord_look"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="48dp"
+            android:src="@drawable/camerarecord_look"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:id="@+id/camerarecord_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12:56"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="16dp"/>
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.happly.link.device.Const;
+import com.happly.link.net.RefreshUIInterface;
 import com.happly.link.util.ReversedCallBack;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
@@ -56,10 +57,12 @@ import com.li.videoapplication.ui.fragment.VideoPlayCommentFragment;
 import com.li.videoapplication.ui.fragment.VideoPlayIntroduceFragment;
 import com.li.videoapplication.ui.fragment.VideoPlayVideoFragment;
 import com.li.videoapplication.ui.pageradapter.GamePagerAdapter;
+import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.ui.view.AddDanmukuView;
 import com.li.videoapplication.ui.view.CommentView;
 import com.li.videoapplication.ui.view.VideoPlayView;
 import com.li.videoapplication.utils.HareWareUtil;
+import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
@@ -78,7 +81,7 @@ import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdap
 @SuppressLint("SetJavaScriptEnabled")
 public class VideoPlayActivity extends TBaseActivity implements
         OnPageChangeListener,
-        CommentView.CommentListener {
+        CommentView.CommentListener, RefreshUIInterface {
 
     public static long playPos;
     public static String playUrl;
@@ -158,7 +161,6 @@ public class VideoPlayActivity extends TBaseActivity implements
     @Override
     public void beforeOnCreate() {
         super.beforeOnCreate();
-
         setSystemBar(false);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
@@ -167,8 +169,6 @@ public class VideoPlayActivity extends TBaseActivity implements
     @Override
     public void afterOnCreate() {
         super.afterOnCreate();
-
-        ShareSDKShareHelper.initSDK(this);
 
         actionBar.hide();
 
@@ -203,13 +203,6 @@ public class VideoPlayActivity extends TBaseActivity implements
         // 字幕列表
         DataManager.SUBTITLE.srtList203(item.getId());
 
-        List<String> videoIds = PreferencesHepler.getInstance().getVideoIds();
-
-        if (videoIds != null && videoIds.size() > 0) {
-            // 推荐视频详情
-            DataManager.changeVideo208(getVideoIdsRandom(videoIds));
-        }
-
         IntentFilter filter = new IntentFilter();
         filter.addAction(Const.LINK_PLAY_STATE);
         registerReceiver(myBroadcastReceiver, filter);
@@ -219,39 +212,33 @@ public class VideoPlayActivity extends TBaseActivity implements
     private BroadcastReceiver myBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d(tag, "~~~~~~~~~~~~~~~play_state == " + intent.getBooleanExtra("play_state", false));
-            boolean play_state = intent.getBooleanExtra("play_state", false);
-            if (play_state) {//已成功连接
-                videoPlayView.switchPlay(VideoPlayView.STATE_TV);
+            if (Const.LINK_PLAY_STATE.equals(intent.getAction())) {
+                Log.d(tag, "~~~~~~~~~~~~~~~play_state == " + intent.getBooleanExtra("play_state", false));
+                boolean play_state = intent.getBooleanExtra("play_state", false);
+                if (play_state) {//已成功连接
+                    videoPlayView.switchPlay(VideoPlayView.STATE_TV);
 
-                RequestExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            int position = (int) videoPlayView.videoPlayer.getCurrentPosition();
-                            Log.d(tag, "position : " + position);
-                            int time = position / 1000;
-                            Log.d(tag, "time position : " + time);
-
-                            //设置投屏播放进度
-                            videoPlayView.linkControl.setPlayRateControl(time);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                    RequestExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                int position = (int) videoPlayView.videoPlayer.getCurrentPosition();
+                                Log.d(tag, "position : " + position);
+                                int time = position / 1000;
+                                Log.d(tag, "time position : " + time);
+                                //设置投屏播放进度
+                                if (!StringUtil.isNull(qn_key) && URLUtil.isURL(qn_url)) {
+                                    videoPlayView.linkControl.setPlayVideoPosition(VideoPlayActivity.this, 2, qn_url, time);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         }
     };
-
-    private String getVideoIdsRandom(List<String> videoIds) {
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            int index = RandomUtil.getRandom(0, videoIds.size() - 1);
-            list.add(videoIds.get(index));
-        }
-        return ArrayHelper.list2Array(list);
-    }
 
     public CommentView commentView;
     public AddDanmukuView addDanmukuView;
@@ -260,7 +247,6 @@ public class VideoPlayActivity extends TBaseActivity implements
     private void initContentView() {
         videoPlayView = (VideoPlayView) findViewById(R.id.videoplay);
         videoPlayView.init(this);
-
         videoPlayView.minView();
 
         if (NetUtil.isWIFI()) {
@@ -289,12 +275,11 @@ public class VideoPlayActivity extends TBaseActivity implements
         Log.d(tag, "comment/text=" + text);
         if (videoPlayView != null && videoPlayView.isVoideoPlaying()) {
             videoPlayView.addDanmuku(text);
-        } else {
-            // 评论
-            DataManager.DANMUKU.bulletDo203Comment2Video(item.getVideo_id(),
-                    getMember_id(),
-                    text);
         }
+        // 评论
+        DataManager.DANMUKU.bulletDo203Comment2Video(item.getVideo_id(),
+                getMember_id(),
+                text);
         bullet = false;
         return true;
     }
@@ -334,8 +319,8 @@ public class VideoPlayActivity extends TBaseActivity implements
         }
 
         viewPager = (ViewPagerY4) findViewById(R.id.viewpager);
-        viewPager.setScrollable(true);
         viewPager.setOffscreenPageLimit(2);
+        viewPager.setScrollable(true);
         new HorizontalOverScrollBounceEffectDecorator(new ViewPagerOverScrollDecorAdapter(viewPager));
 
         adapter = new GamePagerAdapter(manager, fragments);
@@ -369,7 +354,8 @@ public class VideoPlayActivity extends TBaseActivity implements
         authorVideoListFragment.setArguments(bundle);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.setCustomAnimations(R.anim.activity_slide_in_right, R.anim.activity_disappear);
         ft.add(R.id.authorVideoList, authorVideoListFragment).commit();
     }
 
@@ -458,12 +444,13 @@ public class VideoPlayActivity extends TBaseActivity implements
     public void onEventMainThread(BulletDo203Comment2VideoEntity event) {
         if (event.isResult()) {
             if (comment != null) {
+                ToastHelper.s("发布评论成功");
                 comment.setVideoImage(item);
                 viewPager.setCurrentItem(0);
                 comment.smoothScrollToPosition(0);
 
                 String video_comment_id = event.getData().getVideo_comment_id();
-                if (video_comment_id != null && !video_comment_id.equals("")) {
+                if (!StringUtil.isNull(video_comment_id)) {
                     //用户内容及言论入口，IP等行为统计接口
                     DataManager.userdatabehavior(getMember_id(), "", "", video_comment_id, "sysj_a", "",
                             HareWareUtil.getHardwareCode(), HareWareUtil.getIMEI(), "");
@@ -714,6 +701,21 @@ public class VideoPlayActivity extends TBaseActivity implements
         super.onResume();
         if (videoPlayView != null)
             videoPlayView.resume();
+
+        List<String> videoIds = PreferencesHepler.getInstance().getVideoIds();
+        if (videoIds != null && videoIds.size() > 0) {
+            // 推荐视频详情
+            DataManager.changeVideo208(getVideoIdsRandom(videoIds));
+        }
+    }
+
+    private String getVideoIdsRandom(List<String> videoIds) {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            int index = RandomUtil.getRandom(0, videoIds.size() - 1);
+            list.add(videoIds.get(index));
+        }
+        return ArrayHelper.list2Array(list);
     }
 
     /**
@@ -879,6 +881,43 @@ public class VideoPlayActivity extends TBaseActivity implements
             } else {
                 super.onBackPressed();
             }
+        }
+    }
+
+    //乐播端口数据接收回调
+    @Override
+    public void onRefresh(Object object, int port) {
+        switch (port) {
+            case 2://播放进度控制
+                Log.d(tag, "onRefresh: setPlayVideoPosition == " + (boolean) object);
+                break;
+            case 4://开始播放
+                Log.d(tag, "onRefresh: setPlayControl == " + (boolean) object);
+                break;
+            case 5://暂停播放
+                Log.d(tag, "onRefresh: setPlayControl == " + (boolean) object);
+                break;
+            case 7://退出播放
+                Log.d(tag, "onRefresh: setStopVideo == " + (boolean) object);
+                try {
+                    if ((boolean) object) {
+                        getHandler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                videoPlayView.leBoView.hideView();
+                                videoPlayView.touchView.showView();
+                                videoPlayView.toogleView();
+                                setCurrentVolume(currentVolume);
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LogHelper.e(tag, "乐播退出播放出错");
+                }
+            case 9://是否播放随手机端APK退出
+                Log.d(tag, "onRefresh: setIsBackgroundPlay == " + (boolean) object);
+                break;
         }
     }
 }

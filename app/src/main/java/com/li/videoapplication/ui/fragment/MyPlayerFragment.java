@@ -32,170 +32,177 @@ import java.util.List;
  */
 public class MyPlayerFragment extends TBaseChildFragment implements OnRefreshListener2<ListView> {
 
-	private MyPlayerActivity activity;
+    private MyPlayerActivity activity;
 
-	public static MyPlayerFragment newInstance(int page) {
-		MyPlayerFragment fragment = new MyPlayerFragment();
-		Bundle bundle = new Bundle();
-		bundle.putInt("page", page);
-		fragment.setArguments(bundle);
-		return fragment;
-	}
+    public static MyPlayerFragment newInstance(int page) {
+        MyPlayerFragment fragment = new MyPlayerFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("page", page);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
-	private int tab;
+    private int tab;
 
-	private void refreshIntent() {
-		try {
-			tab = getArguments().getInt("page", 0);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private PullToRefreshListView pullToRefreshListView;
-	private ListView listView;
-	private SearchMemberAdapter adapter;
-	private List<Member> data;
-	
-	private int page = 1;
+    private void refreshIntent() {
+        try {
+            tab = getArguments().getInt("page", 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private PullToRefreshListView pullToRefreshListView;
+    private ListView listView;
+    private SearchMemberAdapter adapter;
+    private List<Member> data;
+    private int page_count = 1;
+    private int page = 1;
 
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		try {
-			this.activity = (MyPlayerActivity) activity;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            this.activity = (MyPlayerActivity) activity;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Override
-	protected int getCreateView() {
-		return R.layout.fragment_searchmember;
-	}
+    @Override
+    protected int getCreateView() {
+        return R.layout.fragment_searchmember;
+    }
 
-	@SuppressWarnings("rawtypes")
-	@Override
-	protected IPullToRefresh getPullToRefresh() {
-		return pullToRefreshListView;
-	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-		adapter.notifyDataSetChanged();
-	}
+    @SuppressWarnings("rawtypes")
+    @Override
+    protected IPullToRefresh getPullToRefresh() {
+        return pullToRefreshListView;
+    }
 
-	@Override
-	protected void initContentView(View view) {
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
 
-		refreshIntent();
-		
-		initListView(view);
-		refreshListView();
-	}
+    @Override
+    protected void initContentView(View view) {
 
-	private void initListView(View view) {
-		
-		pullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pulltorefresh);
-		pullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
-		listView = pullToRefreshListView.getRefreshableView();
-		
-		data = new ArrayList<>();
-		if (tab == MyPlayerActivity.PAGE_MYFANS)
-			adapter = new SearchMemberAdapter(getActivity(), SearchMemberAdapter.PAGE_MYFANS, data);
-		if (tab == MyPlayerActivity.PAGE_MYFOCUS)
-			adapter = new SearchMemberAdapter(getActivity(), SearchMemberAdapter.PAGE_MYFOCUS, data);
-		listView.setAdapter(adapter);
-		
-		pullToRefreshListView.setOnRefreshListener(this);
-	}
-	
-	public void refreshListView() {
-		
-		handler.postDelayed(new Runnable() {
+        refreshIntent();
 
-			@Override
-			public void run() {
-				onPullDownToRefresh(pullToRefreshListView);
-			}
-		}, AppConstant.TIME.SEARCH_MEMBER);
-	}
+        initListView(view);
+        refreshListView();
+    }
 
-	@Override
-	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-	    page = 1;
-	    onPullUpToRefresh(refreshView);
-	}
+    private void initListView(View view) {
 
-	@Override
-	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-		PullToRefreshHepler.setLastUpdatedLabel(refreshView);
-		onRefreshCompleteDelayed(PullToRefreshActivity.TIME_REFRESH_SHORT);
-		if (activity!=null&& !StringUtil.isNull(activity.member_id)) {
+        pullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pulltorefresh);
+        pullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
+        listView = pullToRefreshListView.getRefreshableView();
 
-			if (tab == MyPlayerActivity.PAGE_MYFANS) {
-				// 粉丝列表
-				DataManager.fansList203Fans(activity.member_id);
-			} else if (tab == MyPlayerActivity.PAGE_MYFOCUS) {
-				// 关注列表
-				DataManager.fansList203Attention(activity.member_id);
-			}
-		}
-	}
+        data = new ArrayList<>();
+        if (tab == MyPlayerActivity.PAGE_MYFANS)
+            adapter = new SearchMemberAdapter(getActivity(), SearchMemberAdapter.PAGE_MYFANS, data);
+        if (tab == MyPlayerActivity.PAGE_MYFOCUS)
+            adapter = new SearchMemberAdapter(getActivity(), SearchMemberAdapter.PAGE_MYFOCUS, data);
+        listView.setAdapter(adapter);
 
-	/**
-	 * 回调：粉丝列表
-	 */
-	public void onEventMainThread(FansList203FansEntity event) {
+        pullToRefreshListView.setOnRefreshListener(this);
+    }
 
-		if (tab == MyPlayerActivity.PAGE_MYFANS) {
-			if (event.isResult()) {
-				if (event.getData().getList().size() > 0) {
-					if (page == 1) {
-						data.clear();
-					}
-					data.addAll(event.getData().getList());
-					adapter.notifyDataSetChanged();
-					++ page;
-				}
-			}
-			onRefreshComplete();
-		}
-	}
+    public void refreshListView() {
 
-	/**
-	 * 回调：粉丝列表
-	 */
-	public void onEventMainThread(FansList203AttentionEntity event) {
+        handler.postDelayed(new Runnable() {
 
-		if (tab == MyPlayerActivity.PAGE_MYFOCUS) {
-			if (event.isResult()) {
-				if (event.getData().getList().size() > 0) {
-					if (page == 1) {
-						data.clear();
-					}
-					data.addAll(event.getData().getList());
-					adapter.notifyDataSetChanged();
-					++ page;
-				}
-			}
-			onRefreshComplete();
-		}
-	}
+            @Override
+            public void run() {
+                onPullDownToRefresh(pullToRefreshListView);
+            }
+        }, AppConstant.TIME.SEARCH_MEMBER);
+    }
 
-	/**
-	 * 回调：玩家关注
-	 */
-	public void onEventMainThread(MemberAttention201Entity event) {
+    @Override
+    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+        page = 1;
+        onPullUpToRefresh(refreshView);
+        loadData();
+    }
 
-		if (event != null) {
-			if (event.isResult()) {
-				showToastShort(event.getMsg());
-			} else {
-				showToastShort(event.getMsg());
-			}
-		}
-	}
+    @Override
+    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+        PullToRefreshHepler.setLastUpdatedLabel(refreshView);
+        onRefreshCompleteDelayed(PullToRefreshActivity.TIME_REFRESH_SHORT);
+        if (page < page_count) {
+            loadData();
+        }
+    }
+
+    private void loadData(){
+        if (activity != null && !StringUtil.isNull(activity.member_id)) {
+            if (tab == MyPlayerActivity.PAGE_MYFANS) {
+                // 粉丝列表
+                DataManager.fansList203Fans(activity.member_id,page);
+            } else if (tab == MyPlayerActivity.PAGE_MYFOCUS) {
+                // 关注列表
+                DataManager.fansList203Attention(activity.member_id,page);
+            }
+        }
+    }
+
+    /**
+     * 回调：粉丝列表
+     */
+    public void onEventMainThread(FansList203FansEntity event) {
+
+        if (tab == MyPlayerActivity.PAGE_MYFANS) {
+            if (event.isResult()) {
+                page_count = event.getData().getPage_count();
+                if (event.getData().getList().size() > 0) {
+                    if (page == 1) {
+                        data.clear();
+                    }
+                    data.addAll(event.getData().getList());
+                    adapter.notifyDataSetChanged();
+                    ++page;
+                }
+            }
+            onRefreshComplete();
+        }
+    }
+
+    /**
+     * 回调：粉丝列表
+     */
+    public void onEventMainThread(FansList203AttentionEntity event) {
+
+        if (tab == MyPlayerActivity.PAGE_MYFOCUS) {
+            if (event.isResult()) {
+                if (event.getData().getList().size() > 0) {
+                    if (page == 1) {
+                        data.clear();
+                    }
+                    data.addAll(event.getData().getList());
+                    adapter.notifyDataSetChanged();
+                    ++page;
+                }
+            }
+            onRefreshComplete();
+        }
+    }
+
+    /**
+     * 回调：玩家关注
+     */
+    public void onEventMainThread(MemberAttention201Entity event) {
+
+        if (event != null) {
+            if (event.isResult()) {
+                showToastShort(event.getMsg());
+            } else {
+                showToastShort(event.getMsg());
+            }
+        }
+    }
 }

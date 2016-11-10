@@ -1,308 +1,85 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/login_bg"
-    android:orientation="vertical">
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/main_close"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/close"
-            android:scaleX="0.3"
-            android:scaleY="0.3" />
-    </RelativeLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/fm_main_record_server_framelayout"
+        <include
+            layout="@layout/content_screenrecord"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#e6e6e6"/>
+
+        <LinearLayout
+            android:id="@+id/screenrecord_bottomlayout"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/screenrecord_video"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:gravity="center_horizontal"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="@drawable/screenrecord_btn"
+                android:gravity="center"
                 android:orientation="vertical">
 
-                <FrameLayout
-                    android:id="@+id/frameLayout1"
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/video_ash_205"
+                    android:gravity="center" />
+
+                <TextView
+                    style="@style/MainTextStyle"
                     android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/main_recording_bt_horizontal"
-                        android:layout_width="100dp"
-                        android:layout_height="120dp"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
-
-                        <ImageView
-                            android:id="@+id/main_record_server_bt_horizontal_pause"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/btn_selector_starting_pause" />
-
-                        <ImageView
-                            android:id="@+id/main_record_server_bt_horizontal_stop"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/btn_selector_starting_stop" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/main_record_server_bt_horizontal"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/btn_selector_startservice_horizontal" />
-
-                    <TextView
-                        android:id="@+id/fm_main_record_horizontal_timing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="70dp"
-                        android:text="横屏录制"
-                        android:textColor="#3fa7fe" />
-
-                    <TextView
-                        android:id="@+id/fm_main_record_horizontal_hint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="90dp"
-                        android:text="点击左侧按钮暂停录制，点击右侧按钮停止录制"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        android:visibility="gone" />
-
-                    <LinearLayout
-                        android:id="@+id/down_button"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center_horizontal|bottom"
-                        android:gravity="center_horizontal|bottom"
-                        android:orientation="horizontal"
-                        android:paddingBottom="10dp">
-
-                        <ImageView
-                            android:id="@+id/down_img"
-                            android:layout_width="40dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal|bottom"
-                            android:src="@drawable/main_down" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/fm_main_record_horizontal_shade"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:alpha="0.5"
-                        android:background="@color/black"
-                        android:visibility="gone" />
-                </FrameLayout>
-
-                <View
-                    android:id="@+id/halvingLine"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:background="#3fa7fe" />
-
-                <FrameLayout
-                    android:id="@+id/frameLayout2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/main_recording_bt_vertical"
-                        android:layout_width="100dp"
-                        android:layout_height="120dp"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal"
-                        android:visibility="gone">
-
-                        <ImageView
-                            android:id="@+id/main_record_server_bt_vertical_pause"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/btn_selector_starting_pause" />
-
-                        <ImageView
-                            android:id="@+id/main_record_server_bt_vertical_stop"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/btn_selector_starting_stop" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/main_record_server_bt_vertical"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/btn_selector_startservice_vertical"
-                        android:visibility="visible" />
-
-                    <TextView
-                        android:id="@+id/fm_main_hint_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="80dp"
-                        android:text="上下滑动设置为全屏"
-                        android:textColor="#3fa7fe"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/fm_main_record_vertical_timing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="70dp"
-                        android:text="竖屏录制"
-                        android:textColor="#3fa7fe" />
-
-                    <TextView
-                        android:id="@+id/fm_main_record_vertical_hint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="90dp"
-                        android:text="点击左侧按钮暂停录制，点击右侧按钮停止录制"
-                        android:textColor="#3fa7fe"
-                        android:textSize="10sp"
-                        android:visibility="gone" />
-
-                    <LinearLayout
-                        android:id="@+id/up_button"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center_horizontal|top"
-                        android:gravity="center_horizontal|top"
-                        android:paddingTop="10dp">
-
-                        <ImageView
-                            android:id="@+id/up_img"
-                            android:layout_width="40dp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/main_up_0" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/fm_main_record_vertical_shade"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:alpha="0.5"
-                        android:background="@color/black"
-                        android:visibility="gone" />
-                </FrameLayout>
+                    android:text="视频" />
             </LinearLayout>
-        </FrameLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/main_button_linearlayout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="#00ffffff"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/main_button_video"
-            android:layout_width="fill_parent"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:background="@drawable/screenrecord_btn"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/video_ash_205"
-                android:gravity="center" />
-
-            <TextView
-                style="@style/MainTextStyle"
+            <LinearLayout
+                android:id="@+id/screenrecord_setting"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="@drawable/screenrecord_btn"
                 android:gravity="center"
-                android:text="视频" />
-        </LinearLayout>
+                android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/main_button_setting"
-            android:layout_width="fill_parent"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:background="@drawable/screenrecord_btn"
-            android:gravity="center"
-            android:orientation="vertical">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/setup_ash_205"
+                    android:gravity="center" />
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/setup_ash_205"
-                android:gravity="center" />
-
-            <TextView
-                style="@style/MainTextStyle"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="设置" />
+                <TextView
+                    style="@style/MainTextStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="设置" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/fm_main_hint_linearlayout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:alpha="0.6"
-        android:background="@color/black"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
+    <ImageView
+        android:id="@+id/screenrecord_close"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/videoplay_video_close"
+        android:padding="18dp" />
 
-        <ImageView
-            android:layout_width="250dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="80dp"
-            android:background="@drawable/main_text_image" />
-
-        <ImageView
-            android:id="@+id/fm_main_hint_button"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            android:layout_marginBottom="80dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/main_try_button" />
-    </LinearLayout>
-
-</FrameLayout>
+</RelativeLayout>

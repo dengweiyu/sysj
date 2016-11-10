@@ -1,24 +1,18 @@
 package com.li.videoapplication.utils;
 
-import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.telephony.TelephonyManager;
 
-import com.fmsysj.zbqmcs.record.Recorder44;
-import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
@@ -81,20 +75,22 @@ public class AppUtil {
     }
 
     /**
-     * 功能：判断当前应用是否在前台或后台
+     * 应用是否处于后台
+     *
+     * @return true:处于后台 false:处于前台
      */
-    public static boolean isBackground(Context context) {
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<RunningAppProcessInfo> processInfos = activityManager.getRunningAppProcesses();
-        for (RunningAppProcessInfo processInfo : processInfos) {
-            if (processInfo.processName.equals(context.getPackageName())) {
-                if (processInfo.importance == RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
-                    return true; // "后台"
-                } else {
-                    return false; // "前台"
-                }
+    public static boolean isAppBackground() {
+        Context context = AppManager.getInstance().getContext();
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (!tasks.isEmpty()) {
+            ComponentName topActivity = tasks.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                // 后台
+                return true;
             }
         }
+        // 前台
         return false;
     }
 
@@ -160,77 +156,10 @@ public class AppUtil {
     public static int getAndroidSDKVersion() {
         int version = 1;
         try {
-            version = Integer.valueOf(android.os.Build.VERSION.SDK_INT);
+            version = android.os.Build.VERSION.SDK_INT;
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
         return version;
-    }
-
-    static int copytimes = 0;
-
-    /**
-     * 将文件拷贝至data下的应用文件夹内
-     */
-    public static void cpRecrodCore() {
-        if (copytimes == 0) {
-            copyFile("fmNewCore", R.raw.screenrecord1111);
-        } else if (copytimes == 1) {
-            copyFile("busybox", R.raw.busybox);
-        } else if (copytimes == 2) {
-            copyFile("fmOldCore", R.raw.screenrecord10272);
-        }
-        if (copytimes == 0) {
-            Recorder44.StartRecord("chmod 777 " + getFilesDirs() + "/fmNewCore");
-        } else if (copytimes == 1) {
-            Recorder44.StartRecord("chmod 777 " + getFilesDirs() + "/busybox");
-        } else if (copytimes == 2) {
-            Recorder44.StartRecord("chmod 777 " + getFilesDirs() + "/fmOldCore");
-        }
-        copytimes++;
-        if (copytimes < 3) {
-            cpRecrodCore();
-        }
-    }
-
-    /**
-     * 将文件拷贝至data下的应用文件夹内
-     */
-    @SuppressLint("SdCardPath")
-    private static void copyFile(String FileName, int Raw) {
-        InputStream is = null;
-        FileOutputStream fos = null;
-        try {
-            File file = new File(getFilesDirs(), FileName);
-            is = AppManager.getInstance().getContext().getResources()
-                    .openRawResource(Raw);
-            fos = new FileOutputStream(file);
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        byte[] buffer = new byte[1024];
-        int count = 0;
-        try {
-            while ((count = is.read(buffer)) > 0) {
-                fos.write(buffer, 0, count);
-            }
-            fos.close();
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    static String filesDir;
-
-    /**
-     * 获取包名目录下的files
-     */
-    private static String getFilesDirs() {
-        if (filesDir == null) {
-            filesDir = AppManager.getInstance().getContext().getFilesDir()
-                    .getPath();
-        }
-        return filesDir;
     }
 }

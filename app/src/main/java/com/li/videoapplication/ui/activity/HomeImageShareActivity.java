@@ -75,6 +75,7 @@ public class HomeImageShareActivity extends TBaseActivity implements
     private View type;
     private ImageView typeArrow;
     private EditText title;
+    private boolean isFirstIn = true;
 
     public String getTypeText() {
         if (typeText.getText() == null)
@@ -138,6 +139,17 @@ public class HomeImageShareActivity extends TBaseActivity implements
 
         adapter = new ResultImageUploadAdapter(this, data, R.layout.adapter_imageupload);
         gridView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (isFirstIn) {
+            //启动后进入选择图片页
+            ActivityManeger.startImageViewActivity(this);
+            isFirstIn = false;
+        }
     }
 
     @SuppressLint("InlinedApi")

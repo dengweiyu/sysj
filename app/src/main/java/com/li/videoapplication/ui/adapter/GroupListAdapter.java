@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -45,6 +46,7 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
             holder.left = (TextView) view.findViewById(R.id.grouplist_left);
             holder.right = (TextView) view.findViewById(R.id.grouplist_right);
             holder.pic = (ImageView) view.findViewById(R.id.grouplist_pic);
+            holder.focus = (TextView) view.findViewById(R.id.grouplist_focus);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -56,6 +58,7 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
         setImageViewImageNet(holder.pic, record.getFlag());
         setTopic(holder.left, record);
         setRemark(holder.right, record);
+        setFocus(record, holder.focus);
         view.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -87,11 +90,53 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
         view.setText("关注\t" + record.getAttention_num());
     }
 
+    /**
+     * 关注
+     */
+    private void setFocus(final Game record, TextView view) {
+
+        view.setVisibility(View.VISIBLE);
+        if (record != null) {
+            if (record.getTick() == 1) {
+                view.setBackgroundResource(R.drawable.player_focus_gray);
+                view.setTextColor(resources.getColorStateList(R.color.groupdetail_player_white));
+                setTextViewText(view, R.string.dynamic_focused);
+            } else {
+                view.setBackgroundResource(R.drawable.player_focus_red);
+                view.setTextColor(resources.getColorStateList(R.color.groupdetail_player_red));
+                setTextViewText(view, R.string.dynamic_focus);
+            }
+        }
+
+        view.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (!isLogin()) {
+                    showToastLogin();
+                    return;
+                }
+                if (record.getTick() == 1) {
+                    record.setAttention_num(Integer.valueOf(record.getAttention_num()) - 1 + "");
+                    record.setTick(0);
+                } else {
+                    record.setAttention_num(Integer.valueOf(record.getAttention_num()) + 1 + "");
+                    record.setTick(1);
+                }
+                // 关注圈子201
+                DataManager.groupAttentionGroup(record.getGroup_id(), getMember_id());
+                notifyDataSetChanged();
+                UmengAnalyticsHelper.onEvent(getContext(),UmengAnalyticsHelper.GAME,"找游戏专区-关注");
+            }
+        });
+    }
+
     private static class ViewHolder {
         TextView title;
         TextView content;// 视频 2020 关注 201
         TextView left;
         TextView right;
+        TextView focus;
         ImageView pic;
     }
 }

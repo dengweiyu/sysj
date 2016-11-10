@@ -13,7 +13,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:onClick="doBack"
-        android:padding="11dp"
+        android:padding="13dp"
         android:scaleType="fitXY"
         android:src="@drawable/ab_goback_gray"
         android:visibility="visible" />

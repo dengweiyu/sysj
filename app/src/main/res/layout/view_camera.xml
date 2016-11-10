@@ -1,0 +1,14 @@
+<FrameLayout android:id="@+id/root"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:orientation="vertical">
+
+    <!--120/120-->
+
+    <SurfaceView
+        android:id="@+id/surfaceview"
+        android:layout_width="42dp"
+        android:layout_height="42dp" />
+
+</FrameLayout>

@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.fmsysj.zbqmcs.views.CustomViewPager;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
@@ -43,6 +42,7 @@ import com.li.videoapplication.ui.fragment.MyScreenShotFragment;
 import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
+import com.li.videoapplication.views.CustomViewPager;
 
 import java.io.File;
 import java.util.ArrayList;

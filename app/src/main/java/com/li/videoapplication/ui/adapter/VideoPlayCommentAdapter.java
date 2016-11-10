@@ -78,6 +78,7 @@ public class VideoPlayCommentAdapter extends BaseArrayAdapter<Comment> {
             holder.good = (ImageView) view.findViewById(R.id.videoplay_comment_good);
             holder.goodCount = (TextView) view.findViewById(R.id.videoplay_comment_goodCount);
             holder.comment = (ImageView) view.findViewById(R.id.videoplay_comment_comment);
+            holder.delete = (ImageView) view.findViewById(R.id.videoplay_comment_del);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -97,35 +98,38 @@ public class VideoPlayCommentAdapter extends BaseArrayAdapter<Comment> {
             holder.isV.setVisibility(View.INVISIBLE);
         }
 
+        if (record.isCanBeDel()) {
+            holder.delete.setVisibility(View.VISIBLE);
+        } else {
+            holder.delete.setVisibility(View.GONE);
+        }
+
         holder.comment.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                if (getContext() != null) {
+                if (getContext() instanceof VideoPlayActivity) {
                     if (getContext() instanceof VideoPlayActivity) {
-                        if (getContext() instanceof VideoPlayActivity) {
-                            VideoPlayActivity activity = (VideoPlayActivity) getContext();
-                            activity.commentView.replyComment(record);
-                            UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放-回复");
-                        } else if (getContext() instanceof ImageDetailActivity) {
-                            ImageDetailActivity activity = (ImageDetailActivity) getContext();
+                        VideoPlayActivity activity = (VideoPlayActivity) getContext();
+                        activity.commentView.replyComment(record);
+                        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放-回复");
+                    } else if (getContext() instanceof ImageDetailActivity) {
+                        ImageDetailActivity activity = (ImageDetailActivity) getContext();
 //							activity.replyComment(checkPosition, record);
-                        }
                     }
                 }
             }
         });
 
-        return view;
-    }
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataManager.commentDel(getMember_id(), record.getComment_id());
+            }
+        });
 
-    private Member getMember(Comment record) {
-        Member member = new Member();
-        member.setMember_id(record.getMember_id());
-        member.setNickname(record.getNickname());
-        member.setAvatar(record.getAvatar());
-        return member;
+        return view;
     }
 
     /**
@@ -264,5 +268,6 @@ public class VideoPlayCommentAdapter extends BaseArrayAdapter<Comment> {
         TextView goodCount;
         ImageView comment;
         ImageView isV;
+        ImageView delete;
     }
 }

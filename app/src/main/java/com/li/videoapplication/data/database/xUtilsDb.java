@@ -75,7 +75,7 @@ public class xUtilsDb {
      *      match_name
      */
     private static void addColumnV4(DbManager db) {
-        Log.d(TAG, "addColumnV2: // ----------------------------------------------------");
+        Log.d(TAG, "addColumnV4: // ----------------------------------------------------");
         try {
             db.addColumn(VideoCaptureEntity.class, VideoCaptureEntity.UPVIDEO_GAMETAGS);
         } catch (DbException e) {

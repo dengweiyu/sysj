@@ -18,6 +18,24 @@ public class Comment extends BaseEntity {
 	private String avatar;
 	private int like_tick;
 	private boolean isV;
+	private boolean canBeDel;
+	private boolean isUploader;
+
+	public boolean isCanBeDel() {
+		return canBeDel;
+	}
+
+	public void setCanBeDel(boolean canBeDel) {
+		this.canBeDel = canBeDel;
+	}
+
+	public boolean isUploader() {
+		return isUploader;
+	}
+
+	public void setUploader(boolean uploader) {
+		isUploader = uploader;
+	}
 
 	public boolean isV() {
 		return isV;

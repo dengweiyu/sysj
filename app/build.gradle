@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'//增加这一句
 
 android {
     packagingOptions {
@@ -33,7 +34,7 @@ android {
 
     defaultConfig {
         applicationId "com.li.videoapplication"
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 22
         // 20160628 2.0.7  test:20151105,1.1.7
         versionCode 20161014
@@ -98,8 +99,6 @@ dependencies {
     compile 'org.xutils:xutils:3.3.20'
     // 二维码
     compile files('libs/zxing.jar')
-    // 视频剪辑
-    compile files('libs/isoviewer-1.0-RC-35.jar')
     // 编译依赖模块
     compile project(':SlidingMenu')
     compile project(':Feedback')
@@ -107,7 +106,6 @@ dependencies {
     compile project(':ShareSDK')
     compile project(':DanmakuFlameMaster')
     compile files('libs/MobLogCollector.jar')
-    compile files('libs/RootTools-2.6.jar')
     compile files('libs/systembartint-1.0.4.jar')
     compile files('libs/umeng-analytics-v5.6.4.jar')
     // OKHttp
@@ -133,15 +131,23 @@ dependencies {
     //融云
     compile project(':IMKit_v2_7_0')
     compile project(':sweet-alert-dialog')
-    //乐播
-    compile files('libs/hpplay-link.jar')
-    compile files('libs/android_for_sdk_1.7.jar')
     //emoji
     compile project(':lib-emojix')
-    compile project(':PushSDK')
     // 极光推送
     compile project(':JPush')
     // 播放器
     compile files('libs/ijkmediaplayer.jar')
     compile files('libs/pldroid-player-1.1.1.jar')
+    // 注解
+    compile 'com.jakewharton:butterknife:8.1.0'
+    apt 'com.jakewharton:butterknife-compiler:8.1.0'
+    // 录屏
+    compile project(':ScreenRecordLib-2')
+    // 视频剪辑
+    compile 'com.googlecode.mp4parser:isoparser:1.1.21'
+    //recyclerview框架帮助库
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v2.0.0'
+    //乐播
+    compile files('libs/hpplay_link_shouyou.jar')
+    compile files('libs/android_for_sdk_1.7.jar')
 }

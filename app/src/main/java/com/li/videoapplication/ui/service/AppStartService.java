@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.fmsysj.screeclibinvoke.data.preferences.Utils_Preferens;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.preferences.Constants;
@@ -49,6 +50,8 @@ public class AppStartService extends BaseIntentService {
         indexChangeGuess();
         advertisementAdLocation204();
         advertisementAdImage204();
+        // 迁移并删除2.0.7以前录屏设置
+        Utils_Preferens.copyRecordingSetting();
     }
 
     /**

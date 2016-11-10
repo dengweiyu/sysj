@@ -36,7 +36,7 @@
     <string name="umeng_fb_count_down">Count down</string>
     <string name="umeng_fb_record_fail">Record fail</string>
     <string name="umeng_fb_no_record_permission">No permission of record</string>
-    <string name="umeng_fb_please_select_picture">Please select a picture</string>
+    <string name="umeng_fb_please_select_picture">Please select a cover</string>
 
     <string name="umeng_fb_questions_question">Q:</string>
     <string name="umeng_fb_questions_anwser">A:</string>

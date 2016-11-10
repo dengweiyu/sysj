@@ -23,8 +23,10 @@ import com.li.videoapplication.ui.activity.ActivityListActivity;
 import com.li.videoapplication.ui.activity.ActivityVideoActivity;
 import com.li.videoapplication.ui.activity.BillboardActivity;
 import com.li.videoapplication.ui.activity.CameraRecoedActivity;
+import com.li.videoapplication.ui.activity.CameraRecoedActivity50;
 import com.li.videoapplication.ui.activity.CollectionActivity;
 import com.li.videoapplication.ui.activity.ConversationActivity;
+import com.li.videoapplication.ui.activity.ExchangeRecordActivity;
 import com.li.videoapplication.ui.activity.GameMatchDetailActivity;
 import com.li.videoapplication.ui.activity.GiftDetailActivity;
 import com.li.videoapplication.ui.activity.GiftListActivity;
@@ -39,8 +41,10 @@ import com.li.videoapplication.ui.activity.ImageShareActivity;
 import com.li.videoapplication.ui.activity.ImageViewActivity;
 import com.li.videoapplication.ui.activity.LoginActivity;
 import com.li.videoapplication.ui.activity.MainActivity;
+import com.li.videoapplication.ui.activity.MallActivity;
 import com.li.videoapplication.ui.activity.MessageActivity;
 import com.li.videoapplication.ui.activity.MessageListActivity;
+import com.li.videoapplication.ui.activity.MyCurrencyRecordActivity;
 import com.li.videoapplication.ui.activity.MyDynamicActivity;
 import com.li.videoapplication.ui.activity.MyMatchActivity;
 import com.li.videoapplication.ui.activity.MyMatchProcessActivity;
@@ -48,10 +52,13 @@ import com.li.videoapplication.ui.activity.MyPersonalCenterActivity;
 import com.li.videoapplication.ui.activity.MyPersonalInfoActivity;
 import com.li.videoapplication.ui.activity.MyPlayerActivity;
 import com.li.videoapplication.ui.activity.MyTaskActivity;
+import com.li.videoapplication.ui.activity.MyWalletActivity;
 import com.li.videoapplication.ui.activity.MyWelfareActivity;
+import com.li.videoapplication.ui.activity.OrderDetailActivity;
 import com.li.videoapplication.ui.activity.PlayerDynamicActivity;
 import com.li.videoapplication.ui.activity.PlayerPersonalInfoActivity;
 import com.li.videoapplication.ui.activity.PrivacyActivity;
+import com.li.videoapplication.ui.activity.ProductsDetailActivity;
 import com.li.videoapplication.ui.activity.RecommendActivity;
 import com.li.videoapplication.ui.activity.ReportActivity;
 import com.li.videoapplication.ui.activity.ReportResultActivity;
@@ -170,6 +177,19 @@ public class ActivityManeger {
         context.startActivity(intent);
     }
 
+    /**
+     * 视频分享
+     */
+    public static void startVideoShareActivity210NewTask(Context context, VideoCaptureEntity entity) {
+        Log.d(TAG, "startVideoShareActivity: ");
+        Intent intent = new Intent();
+        if (entity != null)
+            intent.putExtra("entity", entity);
+        intent.setClass(context, VideoShareActivity210.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
 
     /**
      * 视频上传208
@@ -272,32 +292,6 @@ public class ActivityManeger {
 
     /******************************************/
 
-    public static final String LUPINGDASHI_URL = "http://lp.ifeimo.com/";
-    public static final String LUPINGDASHI_ICONURL = "http://apps.ifeimo.com/Public/Uploads/Game/Flag/icon.png";
-    public static final String LUPINGDASHI_TITLE = "录屏大师";
-    public static final String LUPINGDASHI_CONTENT = "我刚刚发现了一个有趣的录屏软件,可以很方便地录制手机视频，推荐你也来试试";
-    public static final String MYCLOUDVIDEO_CONTENT = "刚才我用《录屏大师》在手机上录制了一段精彩视频，大家快来欣赏吧";
-
-    /**
-     * 分享录屏大师
-     */
-    public synchronized final static void startActivityShareActivity4LuPingDaShi(Activity activity) {
-        Intent intent = new Intent(activity, ShareActivity.class);
-        intent.putExtra("videoUrl", LUPINGDASHI_URL);
-        intent.putExtra("VideoTitle", LUPINGDASHI_TITLE);
-        intent.putExtra("imageUrl", LUPINGDASHI_ICONURL);
-        intent.putExtra("content", LUPINGDASHI_CONTENT);
-        intent.putExtra("page", ShareActivity.PAGE_SYSJ);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.push_bottom_in, R.anim.activity_hold);
-
-        // 推广手游视界APP
-        DataManager.TASK.doTask_17(PreferencesHepler.getInstance().getMember_id());
-    }
-
-    /******************************************/
-
     public static final String SYSJ_URL = "http://sj.ifeimo.com/";
     public static final String SYSJ_ICONURL = "http://apps.ifeimo.com/Public/Uploads/Game/Flag/576b9a94632f9.png";
     public static final String SYSJ_TITLE = "手游视界";
@@ -348,7 +342,7 @@ public class ActivityManeger {
         intent.putExtra("videoUrl", url);
         intent.putExtra("imageUrl", imageUrl);
         intent.putExtra("VideoTitle", videoTitle);
-        intent.putExtra("content", MYCLOUDVIDEO_CONTENT);
+        intent.putExtra("content", SYSJ_CONTENT);
         intent.putExtra("page", ShareActivity.PAGE_MYCLOUDVIDEO);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
@@ -416,7 +410,7 @@ public class ActivityManeger {
         context.startActivity(intent);
 
         // 视频播放数+1
-        DataManager.TASK.videoClickVideo201(item.getVideo_id());
+        DataManager.TASK.videoClickVideo201(item.getVideo_id(), PreferencesHepler.getInstance().getMember_id());
     }
 
     /**
@@ -440,7 +434,7 @@ public class ActivityManeger {
         context.startActivity(intent);
 
         // 视频播放数+1
-        DataManager.TASK.videoClickVideo201(item.getVideo_id());
+        DataManager.TASK.videoClickVideo201(item.getVideo_id(),PreferencesHepler.getInstance().getMember_id());
     }
 
     /**
@@ -713,7 +707,7 @@ public class ActivityManeger {
     }
 
     /**
-     * 视频拍摄
+     * 视频拍摄4.+
      */
     public synchronized final static void startCameraRecoedActivity(Context context) {
 
@@ -721,12 +715,32 @@ public class ActivityManeger {
     }
 
     /**
-     * 视频拍摄
+     * 视频拍摄4.+
      */
     public synchronized final static void startCameraRecoedActivity(Context context, Game game) {
 
         Intent intent = new Intent();
         intent.setClass(context, CameraRecoedActivity.class);
+        if (game != null)
+            intent.putExtra("game", game);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 视频拍摄5.0以上
+     */
+    public synchronized final static void startCameraRecoed50Activity(Context context) {
+
+        startCameraRecoed50Activity(context, null);
+    }
+
+    /**
+     * 视频拍摄5.0以上
+     */
+    public synchronized final static void startCameraRecoed50Activity(Context context, Game game) {
+
+        Intent intent = new Intent();
+        intent.setClass(context, CameraRecoedActivity50.class);
         if (game != null)
             intent.putExtra("game", game);
         context.startActivity(intent);
@@ -762,10 +776,14 @@ public class ActivityManeger {
      */
     public synchronized final static void startMainActivityNewTask() {
         Context context = AppManager.getInstance().getContext();
-        Intent intent = new Intent();
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setClass(context, MainActivity.class);
-        context.startActivity(intent);
+        try {
+            Intent intent = new Intent();
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setClass(context, MainActivity.class);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -814,11 +832,77 @@ public class ActivityManeger {
      * 我的关注，我的粉丝
      */
     public synchronized final static void startMyPlayerActivity(Context context, int page, String member_id) {
-
         Intent intent = new Intent();
         intent.setClass(context, MyPlayerActivity.class);
         intent.putExtra("page", page);
         intent.putExtra("member_id", member_id);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 我的钱包
+     */
+    public synchronized static void startMyWalletActivity(Context context) {
+        if (!PreferencesHepler.getInstance().isLogin()) {
+            ToastHelper.s("请先登录");
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass(context, MyWalletActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 兑换记录
+     */
+    public synchronized static void startExchangeRecordActivity(Context context) {
+        if (!PreferencesHepler.getInstance().isLogin()) {
+            ToastHelper.s("请先登录");
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass(context, ExchangeRecordActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 订单详情
+     */
+    public synchronized static void startOrderDetailActivity(Context context,String order_id) {
+        if (!PreferencesHepler.getInstance().isLogin()) {
+            ToastHelper.s("请先登录");
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass(context, OrderDetailActivity.class);
+        intent.putExtra("order_id",order_id);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 商品详情
+     */
+    public synchronized static void startProductsDetailActivity(Context context,String goods_id) {
+        if (!PreferencesHepler.getInstance().isLogin()) {
+            ToastHelper.s("请先登录");
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass(context, ProductsDetailActivity.class);
+        intent.putExtra("goods_id",goods_id);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 商城
+     */
+    public synchronized static void startMallActivity(Context context) {
+        if (!PreferencesHepler.getInstance().isLogin()) {
+            ToastHelper.s("请先登录");
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass(context, MallActivity.class);
         context.startActivity(intent);
     }
 
@@ -832,6 +916,19 @@ public class ActivityManeger {
         }
         Intent intent = new Intent();
         intent.setClass(context, MyMatchActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 我的账单
+     */
+    public synchronized final static void startMyCurrencyRecordActivity(Context context) {
+        if (!PreferencesHepler.getInstance().isLogin()) {
+            ToastHelper.s("请先登录");
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass(context, MyCurrencyRecordActivity.class);
         context.startActivity(intent);
     }
 

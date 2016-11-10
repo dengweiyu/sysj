@@ -25,9 +25,7 @@ import com.li.videoapplication.ui.activity.RecommendActivity;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.utils.StringUtil;
-import com.umeng.message.entity.UMessage;
 
-import java.util.Map;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;

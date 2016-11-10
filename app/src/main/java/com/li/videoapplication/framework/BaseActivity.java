@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.li.videoapplication.data.image.ImageLoaderHelper;
 import com.li.videoapplication.data.network.RequestManager;
-import com.umeng.message.PushAgent;
 
 import io.rong.eventbus.EventBus;
 
@@ -41,7 +40,6 @@ public abstract class BaseActivity extends FragmentActivity implements IBaseActi
 		afterOnCreate();
 		initView();
 		loadData();
-		PushAgent.getInstance(this).onAppStart();
 	}
 
 	@Override
@@ -54,7 +52,6 @@ public abstract class BaseActivity extends FragmentActivity implements IBaseActi
 		Log.d(tag, "afterOnCreate");
 		AppManager.getInstance().addActivity(this);
 		EventBus.getDefault().register(this);
-		PushAgent.getInstance(this).onAppStart();
 	}
 
 	@Override

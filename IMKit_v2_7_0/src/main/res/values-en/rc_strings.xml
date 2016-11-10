@@ -94,7 +94,7 @@
     <string name="rc_notice_data_is_loading">Data loading</string>
     <string name="rc_notice_load_data_fail">Failed to get the data</string>
     <string name="rc_notice_download_fail">Download failed!</string>
-    <string name="rc_notice_select_one_picture_at_last">Please select at least a picture</string>
+    <string name="rc_notice_select_one_picture_at_last">Please select at least a cover</string>
 
     <string name="rc_message_unknown">The current version does not support viewing this message</string>
     <string name="rc_new_messages">&#160;new messages</string>
@@ -152,7 +152,7 @@
     <string name="rc_picsel_toolbar_preview">Preview</string>
     <string name="rc_picsel_toolbar_preview_num">Preview(%d)</string>
     <string name="rc_picsel_selected_max">You can only choose 9 pictures at most.</string>
-    <string name="rc_picsel_take_picture">Take picture</string>
+    <string name="rc_picsel_take_picture">Take cover</string>
     <string name="rc_picsel_catalog_allpic">All pictures</string>
     <string name="rc_picsel_catalog_number">%d</string>
 

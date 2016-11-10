@@ -26,4 +26,8 @@
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:backgroundDimAmount">0.4</item>
-    </style></file></source><source path="H:\MyProject\VideoApplication\sweet-alert-dialog\build\generated\res\rs\debug"/><source path="H:\MyProject\VideoApplication\sweet-alert-dialog\build\generated\res\resValues\debug"/></dataSet><dataSet config="debug" generated-set="debug$Generated"><source path="H:\MyProject\VideoApplication\sweet-alert-dialog\src\debug\res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="Rotate3dAnimation"><attr format="enum" name="rollType"><enum name="x" value="0"/><enum name="y" value="1"/><enum name="z" value="2"/></attr><attr format="float" name="fromDeg"/><attr format="float" name="toDeg"/><attr format="fraction" name="pivotX"/><attr format="fraction" name="pivotY"/></declare-styleable></configuration></mergedItems></merger>
+    </style></file></source><source path="H:\MyProject\VideoApplication\sweet-alert-dialog\build\generated\res\rs\debug"/><source path="H:\MyProject\VideoApplication\sweet-alert-dialog\build\generated\res\resValues\debug"/></dataSet><dataSet config="debug" generated-set="debug$Generated"><source path="H:\MyProject\VideoApplication\sweet-alert-dialog\src\debug\res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="Rotate3dAnimation"><attr format="enum" name="rollType">
+            <enum name="x" value="0"/>
+            <enum name="y" value="1"/>
+            <enum name="z" value="2"/>
+        </attr><attr format="float" name="fromDeg"/><attr format="float" name="toDeg"/><attr format="fraction" name="pivotX"/><attr format="fraction" name="pivotY"/></declare-styleable></configuration></mergedItems></merger>

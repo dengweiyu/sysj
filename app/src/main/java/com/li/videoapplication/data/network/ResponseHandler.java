@@ -257,8 +257,7 @@ public class ResponseHandler {
                 // 保存
                 PreferencesHepler.getInstance().saveLogin(member);
 
-                // 设置友盟推送别名
-                // UPushHelper.setAlias(member.getId());
+                // 设置推送别名
                 JPushHelper.setAlias(member.getId());
 
                 if (NetUtil.isConnect()) {

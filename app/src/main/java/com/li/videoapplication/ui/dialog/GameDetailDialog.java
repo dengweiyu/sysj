@@ -15,10 +15,8 @@ package com.li.videoapplication.ui.dialog;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-import com.fmsysj.zbqmcs.utils.RecordVideo;
+import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
@@ -28,6 +26,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
 import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.utils.AppUtil;
 
 /**
  * 弹框：游戏详情
@@ -41,8 +40,36 @@ public class GameDetailDialog extends BaseTopDialog implements View.OnClickListe
     /**
      * 跳转：登录
      */
-    public void startLoginActivity() {
+    private void startLoginActivity() {
         ActivityManeger.startLoginActivity(getContext());
+    }
+
+    /**
+     * 跳转：外拍（5.0以上）
+     */
+    private void startCameraRecoed50Activity() {
+        ActivityManeger.startCameraRecoed50Activity(getContext(), game);
+    }
+
+    /**
+     * 跳转：外拍（5.0以下）
+     */
+    private void startCameraRecoedActivity() {
+        ActivityManeger.startCameraRecoedActivity(getContext(), game);
+    }
+
+    /**
+     * 跳转：图文分享
+     */
+    private void startHomeImageShareActivity() {
+        ActivityManeger.startHomeImageShareActivity(getContext(), game, true);
+    }
+
+    /**
+     * 跳转：视频管理
+     */
+    private void startVideoMangerActivity() {
+        ActivityManeger.startVideoMangerActivity(getContext(), game);
     }
 
     public GameDetailDialog(Context context, Game game) {
@@ -74,7 +101,7 @@ public class GameDetailDialog extends BaseTopDialog implements View.OnClickListe
 
             case R.id.gamedetail_local://视频
                 if (game != null)
-                    ActivityManeger.startVideoMangerActivity(getContext(), game);
+                    startVideoMangerActivity();
                 UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "游戏圈-本地上传");
                 break;
 
@@ -90,13 +117,19 @@ public class GameDetailDialog extends BaseTopDialog implements View.OnClickListe
                 break;
 
             case R.id.gamedetail_record://外拍
-                if (RecordVideo.isRecordering) {
+                if (RecordingManager.getInstance().isRecording()) {
                     ToastHelper.s("正在录屏中");
                     return;
                 }
                 if (isLogin) {
-                    if (game != null)
-                        ActivityManeger.startCameraRecoedActivity(getContext(), game);
+                    if (game != null){
+                        int SDKVesion = AppUtil.getAndroidSDKVersion();
+                        if (SDKVesion >= 21) {
+                            startCameraRecoed50Activity();
+                        } else {
+                            startCameraRecoedActivity();
+                        }
+                    }
                     UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "游戏圈-视频拍摄");
                 } else {
                     startLoginActivity();
@@ -106,7 +139,7 @@ public class GameDetailDialog extends BaseTopDialog implements View.OnClickListe
             case R.id.gamedetail_image://图文
                 if (isLogin) {
                     if (game != null)
-                        ActivityManeger.startHomeImageShareActivity(getContext(), game, true);
+                       startHomeImageShareActivity();
                     UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "游戏圈-发表图文");
                 } else {
                     startLoginActivity();

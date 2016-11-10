@@ -77,7 +77,6 @@ public class VideoCaptureManager {
         name = name.replace(extName, "");
         Log.i(TAG, "name=" + name);
         Log.i(TAG, "extName=" + extName);
-        // String fileName = file.getName().split("\\.mp4")[0];
         save(name, video_path, video_source, video_station);
     }
 

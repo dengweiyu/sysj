@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/aboutwechat_bg"
+    android:layout_marginLeft="@dimen/kaka_36"
+    android:layout_marginRight="@dimen/kaka_36"
+    android:layout_marginTop="@dimen/kaka_24"
+    android:layout_marginBottom="@dimen/kaka_24">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/kaka_46"
+        android:paddingLeft="@dimen/kaka_16"
+        android:gravity="center_vertical"
+        android:text="@string/videomanagerimport_title"
+        android:textSize="14sp"
+        android:textColor="#565656"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e2e2e2"/>
+
+    <ListView
+        android:id="@+id/listview"
+        style="@style/BaseListViewWhite"
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e2e2e2"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/kaka_46"
+        android:layout_weight="0">
+
+        <TextView
+            android:id="@+id/videomanagerimport_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/aboutwechat_left_btn"
+            android:text="@string/videomanagerrename_cancel"
+            android:textSize="14sp"
+            android:textColor="#88787878"/>
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#e2e2e2"/>
+
+        <TextView
+            android:id="@+id/videomanagerimport_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/aboutwechat_right_btn"
+            android:text="@string/videomanagerimport_confirm"
+            android:textSize="14sp"
+            android:textColor="#2588ff"/>
+    </LinearLayout>
+</LinearLayout>

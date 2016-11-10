@@ -150,7 +150,7 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
                         animationHelper.startAnimationShake(code);
                     } else {
                         //验证手机、验证码
-                        DataManager.verifyCodeNew(getMobileText(), getCodeText());
+                        DataManager.verifyCodeNew(getPhone(), getCodeText());
                     }
                 }
                 break;
@@ -178,18 +178,6 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
         }
     }
 
-    private String getMobileText() {
-        if (phone.getText() != null)
-            return phone.getText().toString();
-        return "";
-    }
-
-    private String getCodeText() {
-        if (code.getText() != null)
-            return code.getText().toString();
-        return "";
-    }
-
     private String getTeamQQText() {
 
         StringBuilder teamQQ = new StringBuilder();
@@ -215,18 +203,18 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
      * 获取验证码
      */
     private void msgRequestNew() {
-        if (StringUtil.isNull(getMobileText())) {
+        if (StringUtil.isNull(getPhone())) {
             showToastShort("手机号码不能为空");
             animationHelper.startAnimationShake(phone);
             return;
         }
-        if (!StringUtil.isMobileNumber(getMobileText())) {
+        if (!PatternUtil.isMatchMobile(getPhone())) {
             showToastShort("请输入正确的手机号");
-            animationHelper.startAnimationShake(code);
+            animationHelper.startAnimationShake(phone);
             return;
         }
         // 获取验证码
-        DataManager.eventRequestMsg(getMobileText(), match.getTitle());
+        DataManager.eventRequestMsg(getPhone(), match.getTitle());
 
         CountDownTimerUtils countDownTimer = new CountDownTimerUtils(getCode, 60000, 1000,
                 R.drawable.dialog_registermobile_gray, R.drawable.dialog_registermobile_red);
@@ -263,7 +251,13 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
 
         // FIXME: 2016/6/7 取消逻辑还没有写，只是显示了对话框！用于在网络不好的时候可以取消菊花圈的显示
         showLoadingDialogWithCancel("报名中", "请稍候几秒钟", "取消",
-                "已取消", "报名中断，请检查后重试!", "好的");
+                "已取消", "报名中断，请检查后重试!", "确定");
+    }
+
+    private String getCodeText() {
+        if (code.getText() != null)
+            return code.getText().toString();
+        return "";
     }
 
     private String getPhone() {
@@ -311,8 +305,6 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
         boolean isNeedSign = event.getData().getList().getIs_sign().equals("1");
         //是否即时匹配
         boolean isOnce = event.getData().getList().getIs_once().equals("1");
-
-
 
         if (isOnce) {//即时匹配
             showSuccessDontNeedSignInDialog(event);

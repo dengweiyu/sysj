@@ -60,8 +60,8 @@ public class ImageLoaderHelper {
      * 显示图片的配置
      */
     private static final DisplayImageOptions OPTIONS_VIDEO = new DisplayImageOptions.Builder()
-            .showImageOnLoading(R.drawable.default_video)
-            .showImageOnFail(R.drawable.default_video)
+            .showImageOnLoading(R.drawable.default_video_211)
+            .showImageOnFail(R.drawable.default_video_211)
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .bitmapConfig(Bitmap.Config.RGB_565)
@@ -71,8 +71,8 @@ public class ImageLoaderHelper {
      * 显示图片的配置
      */
     private static final DisplayImageOptions OPTIONS_VIDEO_ALPHA = new DisplayImageOptions.Builder()
-            .showImageOnLoading(R.drawable.default_video_208)
-            .showImageOnFail(R.drawable.default_video_208)
+            .showImageOnLoading(R.drawable.default_video_211)
+            .showImageOnFail(R.drawable.default_video_211)
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .bitmapConfig(Bitmap.Config.RGB_565)

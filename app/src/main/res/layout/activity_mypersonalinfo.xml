@@ -1,12 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:background="#f7f7f7"
-              android:clipToPadding="true"
-              android:fitsSystemWindows="true"
-              android:orientation="vertical"
-              tools:ignore="DuplicateIds,UnusedAttribute,HardcodedText,RtlHardcoded,SmallSp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#f7f7f7"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:ignore="DuplicateIds,UnusedAttribute,HardcodedText,RtlHardcoded,SmallSp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,13 +24,13 @@
             android:singleLine="true"
             android:text="@string/mypersonalinfo_base"
             android:textColor="#6d6d6d"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#e2e2e2"/>
+        android:background="#e2e2e2" />
 
     <RelativeLayout
         android:id="@+id/mypersonnalinfo_head_btn"
@@ -54,7 +54,7 @@
             android:singleLine="true"
             android:text="@string/mypersonalinfo_head"
             android:textColor="#6d6d6d"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <com.li.videoapplication.views.CircleImageView
             android:id="@+id/mypersonnalinfo_head"
@@ -62,14 +62,14 @@
             android:layout_height="41dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"/>
+            android:layout_marginLeft="12dp" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginLeft="19dp"
-        android:background="#e2e2e2"/>
+        android:background="#e2e2e2" />
 
     <RelativeLayout
         android:id="@+id/mypersonnalinfo_name_btn"
@@ -91,7 +91,7 @@
             android:singleLine="true"
             android:text="@string/mypersonalinfo_name"
             android:textColor="#6d6d6d"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/mypersonnalinfo_name"
@@ -104,7 +104,7 @@
             android:gravity="right"
             android:text=""
             android:textColor="#6d6d6d"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
     </RelativeLayout>
 
@@ -112,7 +112,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginLeft="19dp"
-        android:background="#e2e2e2"/>
+        android:background="#e2e2e2" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -134,7 +134,7 @@
             android:singleLine="true"
             android:text="@string/mypersonalinfo_gender"
             android:textColor="#6d6d6d"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/mypersonnalinfo_gender"
@@ -147,7 +147,7 @@
             android:gravity="right"
             android:text=""
             android:textColor="#6d6d6d"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <RadioGroup
             android:id="@+id/mypersonnalinfo_gender_radio"
@@ -168,7 +168,7 @@
                 android:gravity="right"
                 android:text="@string/mypersonalinfo_female"
                 android:textColor="#6d6d6d"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/mypersonnalinfo_female"
@@ -178,7 +178,7 @@
                 android:layout_marginRight="12dp"
                 android:layout_toLeftOf="@+id/female"
                 android:background="@drawable/mypersonalinfo_btn"
-                android:button="@null"/>
+                android:button="@null" />
 
             <TextView
                 android:id="@+id/male"
@@ -188,7 +188,7 @@
                 android:gravity="right"
                 android:text="@string/mypersonalinfo_male"
                 android:textColor="#6d6d6d"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/mypersonnalinfo_male"
@@ -197,104 +197,64 @@
                 android:layout_marginRight="9dp"
                 android:background="@drawable/mypersonalinfo_btn"
                 android:button="@null"
-                android:checked="true"/>
+                android:checked="true" />
         </RadioGroup>
     </RelativeLayout>
-
-    <!--<View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="19dp"
-        android:background="#e2e2e2"/>
-
-    <RelativeLayout-->
-        <!--android:id="@+id/mypersonnalinfo_level_btn"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="#ffffff"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:paddingBottom="9dp"-->
-        <!--android:paddingLeft="19dp"-->
-        <!--android:paddingRight="19dp"-->
-        <!--android:paddingTop="9dp">-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/left"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:ellipsize="end"-->
-            <!--android:singleLine="true"-->
-            <!--android:text="@string/mypersonalinfo_level"-->
-            <!--android:textColor="#6d6d6d"-->
-            <!--android:textSize="12sp"/>-->
-
-        <!--<RelativeLayout-->
-            <!--android:layout_width="106dp"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_alignParentTop="true">-->
-
-            <!--<ProgressBar-->
-                <!--android:id="@+id/mypersonnalinfo_level_bar"-->
-                <!--style="?android:attr/progressBarStyleHorizontal"-->
-                <!--android:layout_width="106dp"-->
-                <!--android:layout_height="6dp"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:max="0"-->
-                <!--android:progress="0"-->
-                <!--android:progressDrawable="@drawable/level_mypersoninfo_progress"-->
-                <!--android:secondaryProgress="70"/>-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/mypersonnalinfo_level"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentTop="true"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:ellipsize="end"-->
-                <!--android:singleLine="true"-->
-                <!--android:text="12/15"-->
-                <!--android:textColor="#fed660"-->
-                <!--android:textSize="9sp"/>-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/mypersonnalinfo_level_left"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentTop="true"-->
-                <!--android:ellipsize="end"-->
-                <!--android:singleLine="true"-->
-                <!--android:text="lv.1"-->
-                <!--android:textColor="#717171"-->
-                <!--android:textSize="9sp"-->
-                <!--android:textStyle="italic"/>-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/mypersonnalinfo_level_right"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:layout_alignParentTop="true"-->
-                <!--android:ellipsize="end"-->
-                <!--android:singleLine="true"-->
-                <!--android:text="lv.2"-->
-                <!--android:textColor="#717171"-->
-                <!--android:textSize="9sp"-->
-                <!--android:textStyle="italic"/>-->
-        <!--</RelativeLayout>-->
-    <!--</RelativeLayout>-->
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginLeft="19dp"
-        android:background="#e2e2e2"/>
+        android:background="#e2e2e2" />
+
+    <RelativeLayout
+        android:id="@+id/mypersonnalinfo_bean_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="9dp"
+        android:paddingLeft="19dp"
+        android:paddingRight="19dp"
+        android:paddingTop="9dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="飞磨豆"
+            android:textColor="#6d6d6d"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@+id/mypersonnalinfo_bean_num"
+            android:src="@drawable/slider_bean" />
+
+        <TextView
+            android:id="@+id/mypersonnalinfo_bean_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text=""
+            android:textColor="#f7b500"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider_bean"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="19dp"
+        android:background="#e2e2e2" />
 
     <RelativeLayout
         android:id="@+id/mypersonnalinfo_introduce_btn"
@@ -316,7 +276,7 @@
             android:singleLine="true"
             android:text="@string/mypersonalinfo_introduce"
             android:textColor="#6d6d6d"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/mypersonnalinfo_introduce"
@@ -326,15 +286,15 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:layout_toRightOf="@+id/left"
+            android:ellipsize="end"
             android:gravity="right"
             android:hint="@string/dynamic_introduce_hint"
-            android:text=""
-            android:ellipsize="end"
             android:maxEms="30"
+            android:maxLines="2"
+            android:text=""
             android:textColor="#6d6d6d"
             android:textColorHint="#886d6d6d"
-            android:textSize="12sp"
-            android:maxLines="2"/>
+            android:textSize="12sp" />
 
         <EditText
             android:id="@+id/mypersonnalinfo_introduce_edit"
@@ -346,22 +306,22 @@
             android:layout_toRightOf="@+id/left"
             android:background="@null"
             android:cursorVisible="true"
+            android:ellipsize="end"
             android:gravity="right"
             android:hint="@string/mypersonalinfo_introduce_hint"
+            android:maxEms="30"
+            android:maxLines="2"
             android:text=""
             android:textColor="#6d6d6d"
-            android:maxEms="30"
-            android:ellipsize="end"
             android:textColorHint="#886d6d6d"
             android:textCursorDrawable="@null"
-            android:textSize="12sp"
-            android:maxLines="2"/>
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#e2e2e2"/>
+        android:background="#e2e2e2" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -370,6 +330,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -379,8 +340,7 @@
             android:singleLine="true"
             android:text="@string/mypersonalinfo_private"
             android:textColor="#6d6d6d"
-            android:textSize="12sp"
-            android:id="@+id/textView" />
+            android:textSize="12sp" />
 
         <CheckBox
             android:id="@+id/mypersonnalinfo_public"
@@ -390,7 +350,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="19dp"
             android:background="@drawable/setting_btn"
-            android:button="@null"/>
+            android:button="@null" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -401,14 +361,14 @@
             android:gravity="right"
             android:text="@string/mypersonalinfo_public"
             android:textColor="#6d6d6d"
-            android:textSize="9sp"/>
+            android:textSize="9sp" />
 
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#e2e2e2"/>
+        android:background="#e2e2e2" />
 
     <RelativeLayout
         android:id="@+id/mypersonnalinfo_qq_btn"
@@ -430,7 +390,7 @@
             android:singleLine="true"
             android:text="@string/mypersonalinfo_qq"
             android:textColor="#6d6d6d"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/mypersonnalinfo_qq"
@@ -443,7 +403,7 @@
             android:gravity="right"
             android:text=""
             android:textColor="#6d6d6d"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <EditText
             android:id="@+id/mypersonnalinfo_qq_edit"
@@ -461,14 +421,14 @@
             android:textColor="#6d6d6d"
             android:textColorHint="#886d6d6d"
             android:textCursorDrawable="@null"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginLeft="19dp"
-        android:background="#e2e2e2"/>
+        android:background="#e2e2e2" />
 
     <RelativeLayout
         android:id="@+id/mypersonnalinfo_mobile_btn"
@@ -490,7 +450,7 @@
             android:singleLine="true"
             android:text="@string/mypersonalinfo_mobile"
             android:textColor="#6d6d6d"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/mypersonnalinfo_mobile"
@@ -503,14 +463,14 @@
             android:gravity="right"
             android:text=""
             android:textColor="#6d6d6d"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginLeft="19dp"
-        android:background="#e2e2e2"/>
+        android:background="#e2e2e2" />
 
     <RelativeLayout
         android:id="@+id/mypersonnalinfo_like_btn"
@@ -532,7 +492,7 @@
             android:singleLine="true"
             android:text="@string/mypersonalinfo_like"
             android:textColor="#6d6d6d"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <com.li.videoapplication.views.HorizontalListView
             android:id="@+id/horizontallistvierw"
@@ -540,22 +500,22 @@
             android:layout_height="64dp"
             android:layout_below="@+id/left"
             android:layout_marginTop="7dp"
-            android:background="#00e2e2e2"/>
+            android:background="#00e2e2e2" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#e2e2e2"/>
+        android:background="#e2e2e2" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"/>
+        android:layout_height="10dp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#e2e2e2"/>
+        android:background="#e2e2e2" />
 
     <RelativeLayout
         android:id="@+id/mypersonnalinfo_logout_btn"
@@ -578,12 +538,12 @@
             android:singleLine="true"
             android:text="@string/mypersonalinfo_logout"
             android:textColor="#6d6d6d"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#e2e2e2"/>
+        android:background="#e2e2e2" />
 
 </LinearLayout>

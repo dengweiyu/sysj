@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/aboutwechat_bg"
+    android:layout_marginLeft="@dimen/kaka_36"
+    android:layout_marginRight="@dimen/kaka_36">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/kaka_46"
+        android:paddingLeft="@dimen/kaka_16"
+        android:gravity="center_vertical"
+        android:text="@string/settingquality_title"
+        android:textSize="16sp"
+        android:textColor="#565656"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e2e2e2"/>
+
+    <TextView
+        android:id="@+id/settingquality_low"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/kaka_46"
+        android:gravity="center"
+        android:background="@drawable/settingquatity_middle_btn"
+        android:text="@string/settingquality_low"
+        android:textSize="16sp"
+        android:textColor="#676767"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e2e2e2"/>
+
+    <TextView
+        android:id="@+id/settingquality_standard"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/kaka_46"
+        android:gravity="center"
+        android:background="@drawable/settingquatity_middle_btn"
+        android:text="@string/settingquality_standard"
+        android:textSize="16sp"
+        android:textColor="#676767"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e2e2e2"/>
+
+    <TextView
+        android:id="@+id/settingquality_high"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/kaka_46"
+        android:gravity="center"
+        android:background="@drawable/settingquatity_middle_btn"
+        android:text="@string/settingquality_high"
+        android:textSize="16sp"
+        android:textColor="#676767"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e2e2e2"/>
+
+    <TextView
+        android:id="@+id/settingquality_ultrahigh"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/kaka_46"
+        android:gravity="center"
+        android:background="@drawable/settingquatity_middle_btn"
+        android:text="@string/settingquality_ultrahigh"
+        android:textSize="16sp"
+        android:textColor="#676767"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e2e2e2"/>
+
+    <TextView
+        android:id="@+id/settingquality_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/kaka_46"
+        android:gravity="center"
+        android:background="@drawable/settingquatity_bottom_btn"
+        android:text="@string/settingquality_cancel"
+        android:textSize="12sp"
+        android:textColor="#89565656"/>
+</LinearLayout>

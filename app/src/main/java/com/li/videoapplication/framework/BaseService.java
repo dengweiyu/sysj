@@ -1,6 +1,7 @@
 package com.li.videoapplication.framework;
 
 import android.app.Service;
+import android.content.res.Resources;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -15,6 +16,7 @@ public abstract class BaseService extends Service {
 	protected final String action = this.getClass().getName();
 	protected final String tag = this.getClass().getSimpleName();
     protected Gson gson = new Gson();
+    protected Resources resources;
     
     @Override
     public void onCreate() {
@@ -23,6 +25,8 @@ public abstract class BaseService extends Service {
 
         EventBus.getDefault().register(this);
         AppManager.getInstance().addService(this);
+
+        resources = getResources();
     }
     
     @Override

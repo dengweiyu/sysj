@@ -31,7 +31,7 @@ import com.li.videoapplication.ui.ActivityManeger;
 @SuppressLint("HandlerLeak")
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class VideoUploadActivity extends TBaseActivity implements OnClickListener,
-        CompoundButton.OnCheckedChangeListener,VideoShareTask.Callback {
+        CompoundButton.OnCheckedChangeListener, VideoShareTask.Callback {
 
     private VideoCaptureEntity entity;
     private Match match;

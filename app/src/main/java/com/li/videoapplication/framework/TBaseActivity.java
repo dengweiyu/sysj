@@ -35,12 +35,10 @@ import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.ui.activity.LoginActivity;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.ui.toast.ToastHelper;
-import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.message.PushAgent;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -104,9 +102,7 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
 
         if (getContentView() != 0) {
             setContentView(getContentView());
-        }/* else {
-            throw new NullPointerException();
-		}*/
+        }
 
         actionBar = getActionBar();
         if (inflateActionBar() != 0) {

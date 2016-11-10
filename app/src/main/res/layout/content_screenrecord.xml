@@ -1,0 +1,212 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootlayout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/screenrecord_landscape"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#3fa9fe">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/downcenter"
+                android:layout_width="@dimen/kaka_104"
+                android:layout_height="@dimen/kaka_104"
+                android:layout_centerInParent="true"/>
+
+            <com.fmsysj.screeclibinvoke.ui.view.FlickerView2
+                android:id="@+id/screenrecord_landscape_point"
+                android:layout_width="@dimen/kaka_6"
+                android:layout_height="@dimen/kaka_6"
+                android:layout_alignTop="@+id/screenrecord_landscape_text"
+                android:layout_alignRight="@+id/screenrecord_landscape_text"
+                android:layout_marginTop="-3dp"
+                android:layout_marginRight="-8dp"
+                android:background="@drawable/screenrecord_point_bg"/>
+
+            <TextView
+                android:id="@+id/screenrecord_landscape_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/screenrecord_landscape"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/downcenter"
+                android:layout_marginTop="@dimen/kaka_22"
+                android:textSize="16sp"
+                android:textColor="#ffffff"/>
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="@dimen/kaka_104"
+            android:layout_height="@dimen/kaka_104"
+            android:layout_gravity="center"
+            android:id="@+id/up">
+
+            <ImageView
+                android:id="@+id/screenrecord_landscape_start"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/screenrecord_landscape_btn"
+                android:scaleType="fitXY"/>
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/screenrecord_landscape_left"
+                android:layout_width="@dimen/kaka_52"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|left"
+                android:src="@drawable/screenrecord_pause_btn"
+                android:scaleType="fitXY"/>
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/screenrecord_landscape_right"
+                android:layout_width="@dimen/kaka_52"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|right"
+                android:src="@drawable/screenrecord_stop_btn"
+                android:scaleType="fitXY"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/screenrecord_landscape_arrows_container"
+            android:layout_width="@dimen/kaka_50"
+            android:layout_height="@dimen/kaka_24"
+            android:paddingLeft="@dimen/kaka_12"
+            android:paddingRight="@dimen/kaka_12"
+            android:paddingTop="@dimen/kaka_12"
+            android:paddingBottom="@dimen/kaka_6"
+            android:layout_gravity="center_horizontal|bottom">
+
+            <!--26/6-->
+
+            <ImageView
+                android:id="@+id/screenrecord_landscape_arrows"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/screenrecord_down_white"
+                android:scaleType="fitXY"/>
+
+        </FrameLayout>
+
+        <View
+            android:visibility="gone"
+            android:id="@+id/screenrecord_landscape_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#88000000"
+            android:layout_centerInParent="true"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/screenrecord_portrait"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#ffffff">
+
+        <FrameLayout
+            android:layout_width="@dimen/kaka_104"
+            android:layout_height="@dimen/kaka_104"
+            android:layout_gravity="center"
+            android:id="@+id/down">
+
+            <ImageView
+                android:id="@+id/screenrecord_portrait_start"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/screenrecord_portrait_btn"
+                android:scaleType="fitXY"/>
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/screenrecord_portrait_left"
+                android:layout_width="@dimen/kaka_52"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|left"
+                android:src="@drawable/screenrecord_pause_btn"
+                android:scaleType="fitXY"/>
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/screenrecord_portrait_right"
+                android:layout_width="@dimen/kaka_52"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|right"
+                android:src="@drawable/screenrecord_stop_btn"
+                android:scaleType="fitXY"/>
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/upcenter"
+                android:layout_width="@dimen/kaka_104"
+                android:layout_height="@dimen/kaka_104"
+                android:layout_centerInParent="true"/>
+
+            <com.fmsysj.screeclibinvoke.ui.view.FlickerView2
+                android:id="@+id/screenrecord_portrait_point"
+                android:layout_width="@dimen/kaka_6"
+                android:layout_height="@dimen/kaka_6"
+                android:layout_alignTop="@+id/screenrecord_portrait_text"
+                android:layout_alignRight="@+id/screenrecord_portrait_text"
+                android:layout_marginTop="-3dp"
+                android:layout_marginRight="-8dp"
+                android:background="@drawable/screenrecord_point_bg"/>
+
+            <TextView
+                android:id="@+id/screenrecord_portrait_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/screenrecord_portrait"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/upcenter"
+                android:layout_marginTop="@dimen/kaka_22"
+                android:textSize="16sp"
+                android:textColor="#3fa9fe"/>
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/screenrecord_portrait_arrows_container"
+            android:layout_width="@dimen/kaka_50"
+            android:layout_height="@dimen/kaka_24"
+            android:paddingLeft="@dimen/kaka_12"
+            android:paddingRight="@dimen/kaka_12"
+            android:paddingTop="@dimen/kaka_6"
+            android:paddingBottom="@dimen/kaka_12"
+            android:layout_gravity="center_horizontal|top">
+
+            <!--26/6-->
+
+            <ImageView
+                android:id="@+id/screenrecord_portrait_arrows"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/screenrecord_up_blue"
+                android:scaleType="fitXY"/>
+
+        </FrameLayout>
+
+        <View
+            android:visibility="gone"
+            android:id="@+id/screenrecord_portrait_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#88000000"
+            android:layout_centerInParent="true"/>
+    </FrameLayout>
+</LinearLayout>

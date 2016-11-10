@@ -12,6 +12,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.ImageLoaderHelper;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.entity.VideoImageGroup;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseBaseAdapter;
 import com.li.videoapplication.ui.ActivityManeger;
@@ -53,7 +54,7 @@ public class VideoRecommendationAdapter extends BaseBaseAdapter {
 //            return Integer.MAX_VALUE;
 //        } else {
 //            LogHelper.d(tag, "getCount : " + data.size());
-            return data.size();
+        return data.size();
 //        }
     }
 
@@ -99,18 +100,20 @@ public class VideoRecommendationAdapter extends BaseBaseAdapter {
         setTextViewText(holder.text2, record.get(1).getTitle());
 
         final boolean isLandscape = activity.isLandscape();
+
         holder.cover1.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
-                ActivityManeger.startVideoPlayActivity208(activity,record.get(0),isLandscape);
+                ActivityManeger.startVideoPlayActivity208(activity, record.get(0), isLandscape);
             }
         });
 
         holder.cover2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManeger.startVideoPlayActivity208(activity,record.get(1),isLandscape);
+                ActivityManeger.startVideoPlayActivity208(activity, record.get(1), isLandscape);
             }
         });
 

@@ -75,6 +75,8 @@ public class ResultImageUploadAdapter extends CommonAdapter<ScreenShotEntity> {
                 notifyDataSetChanged();
             }
         });
+
+
 	}
 
     private void statAcionView(int position) {

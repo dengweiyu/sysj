@@ -34,6 +34,7 @@ import com.li.videoapplication.data.model.event.Share2VideoShareEvent;
 import com.li.videoapplication.data.model.event.Tag2VideoShareEvent;
 import com.li.videoapplication.data.model.response.BaseInfoEntity;
 import com.li.videoapplication.data.model.response.GameTagListEntity;
+import com.li.videoapplication.data.model.response.RecommendedLocationEntity;
 import com.li.videoapplication.data.model.response.SelectMatchEntity;
 import com.li.videoapplication.data.model.response.VideoDisplayVideoEntity;
 import com.li.videoapplication.data.upload.VideoShareTask208;
@@ -41,6 +42,7 @@ import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.JoinAdapter;
 import com.li.videoapplication.ui.popupwindows.ApplyPopupWindow;
 import com.li.videoapplication.ui.popupwindows.MoreTypePopupWindow;
@@ -50,7 +52,9 @@ import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.SpanUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.GridViewY1;
+import com.li.videoapplication.views.ListViewY1;
 import com.li.videoapplication.views.SmoothCheckBox;
+import com.li.videoapplication.views.SmoothCheckBox.OnCheckedChangeListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,7 +71,8 @@ import cn.sharesdk.framework.ShareSDK;
  */
 @SuppressLint("HandlerLeak")
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-public class VideoShareActivity210 extends TBaseActivity implements OnClickListener, TextWatcher {
+public class VideoShareActivity210 extends TBaseActivity implements OnClickListener,
+        TextWatcher {
 
     public static final List<Tag> TAGS = Collections.synchronizedList(new ArrayList<Tag>());
     public static final List<String> IDS = Collections.synchronizedList(new ArrayList<String>());
@@ -78,6 +83,7 @@ public class VideoShareActivity210 extends TBaseActivity implements OnClickListe
     private VideoCaptureEntity entity;
     private Game game;
     private Match match;
+    private RecommendedLocationEntity event;
 
     public static String getMatch_id() {
         if (m == null)
@@ -153,15 +159,19 @@ public class VideoShareActivity210 extends TBaseActivity implements OnClickListe
             return 0;
     }
 
+    public void sharePerformClick() {
+        share.performClick();
+    }
+
     // 分享
     private TextView share;
-    private SmoothCheckBox apply;
+    public SmoothCheckBox apply;
     private TextView applyText;
     private ImageView applyQuestion;
 
     // 活动
     private View join;
-    private GridViewY1 gridView;
+    private ListViewY1 activityListview;
     private ArrayList<Match> data = new ArrayList<>();
     private JoinAdapter adapter;
 
@@ -351,7 +361,7 @@ public class VideoShareActivity210 extends TBaseActivity implements OnClickListe
 
         join = findViewById(R.id.videoshare_join);
         join.setVisibility(View.GONE);
-        gridView = (GridViewY1) findViewById(R.id.gridView);
+        activityListview = (ListViewY1) findViewById(R.id.activity_listview);
     }
 
     private void refresAdapterView() {
@@ -538,10 +548,38 @@ public class VideoShareActivity210 extends TBaseActivity implements OnClickListe
             showToastShort("申请官方推荐游戏标题不少于10个字");
             return;
         }
-        ActivityManeger.startShareActivity4MyLocalVideo(this);
+        if (apply.isChecked()) { //申请推荐位
+            // 推荐位信息
+            DataManager.recommendedLocation(getMember_id());
+        } else {
+            ActivityManeger.startShareActivity4MyLocalVideo(this);
+        }
+    }
+
+    public String getGoods_id() {
+        if (event != null && event.isResult() && event.getGoods() != null && event.getGoods().getId() != null) {
+            return event.getGoods().getId();
+        } else {
+            return null;
+        }
     }
 
     // ----------------------------------------------------------------------------------------
+
+    /**
+     * 回调:推荐位
+     */
+    public void onEventMainThread(RecommendedLocationEntity event) {
+
+        if (event != null && event.isResult()) {
+            this.event = event;
+
+            entity.setVideo_name(getDescription());
+
+            DialogManager.showOfficialPaymentDialog(this, entity, event);
+
+        }
+    }
 
     /**
      * 回调：敏感词过滤
@@ -691,7 +729,8 @@ public class VideoShareActivity210 extends TBaseActivity implements OnClickListe
                 "",
                 getIsofficial(),
                 ids,
-                entity);
+                entity,
+                getGoods_id());
 
         finish();
     }
@@ -706,9 +745,7 @@ public class VideoShareActivity210 extends TBaseActivity implements OnClickListe
     }
 
     public void updateTagSpan() {
-        Iterator<Tag> iterator = TAGS.iterator();
-        while (iterator.hasNext()) {
-            Tag tag = iterator.next();
+        for (Tag tag : TAGS) {
             String id = tag.getGame_tag_id();
             // 添加选中的
             if (IDS.contains(id) &&
@@ -737,7 +774,7 @@ public class VideoShareActivity210 extends TBaseActivity implements OnClickListe
             if (event.getData() != null && event.getData().size() > 0) {
                 data.addAll(event.getData());
                 adapter = new JoinAdapter(this, data, R.layout.adapter_join);
-                gridView.setAdapter(adapter);
+                activityListview.setAdapter(adapter);
             }
         }
 

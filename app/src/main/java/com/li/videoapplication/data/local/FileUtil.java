@@ -159,6 +159,42 @@ public class FileUtil {
     }
 
     /**
+     * 移动文件
+     * @param srcPath 	源文件完整路径
+     * @param destPath 	目的目录完整路径
+     * @return 文件移动成功返回true，否则返回false
+     */
+    public static boolean moveFile(String srcPath, String destPath) {
+        Log.d(TAG, "moveFile: srcPath=" + srcPath);
+        Log.d(TAG, "moveFile: destPath=" + destPath);
+        if (srcPath == null || destPath == null)
+            return false;
+        File srcFile = null;
+        try {
+            srcFile = new File(srcPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(srcFile == null ||
+                !srcFile.exists() ||
+                !srcFile.isFile())
+            return false;
+        File destFile = null;
+        try {
+            destFile = new File(destPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(destFile == null)
+            return false;
+        if (!destFile.getParentFile().exists())
+            destFile.getParentFile().mkdirs();
+        boolean flag = srcFile.renameTo(new File(destPath));
+        Log.d(TAG, "moveFile: flag=" + flag);
+        return flag;
+    }
+
+    /**
      * 获得SD卡总大小
      */
     public static String getExternalStorageTotalSize() {

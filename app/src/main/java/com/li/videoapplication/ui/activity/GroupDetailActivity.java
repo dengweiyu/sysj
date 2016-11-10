@@ -18,7 +18,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fmsysj.zbqmcs.activity.ScreenRecordActivity;
+import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.image.ImageLoaderHelper;
@@ -99,6 +99,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     private TextView name;
     private TextView mark;
     private TextView focus;
+    private View focusView;
     public AppBarLayout appBarLayout;
 
     public Game game;
@@ -124,10 +125,6 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     @Override
     public int getContentView() {
         return R.layout.activity_groupdetail;
-    }
-
-    public int inflateActionBar() {
-        return R.layout.actionbar_second;
     }
 
     @Override
@@ -253,10 +250,13 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
         head = (RoundedImageView) findViewById(R.id.groupdetail_head);
         name = (TextView) findViewById(R.id.groupdetail_name);
         mark = (TextView) findViewById(R.id.groupdetail_mark);
+        focusView = findViewById(R.id.groupdetail_focusview);
         focus = (TextView) findViewById(R.id.groupdetail_focus);
         bg = (ImageView) findViewById(R.id.groupdetail_bg);
 
-        focus.setOnClickListener(this);
+        findViewById(R.id.groupdetail_chatview).setOnClickListener(this);
+        findViewById(R.id.groupdetail_matchview).setOnClickListener(this);
+        focusView.setOnClickListener(this);
     }
 
     public void refreshHeaderView(final Game item) {
@@ -268,7 +268,6 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 
     private void setHeaderData(final Game item) {
         if (item != null) {
-//            setImageViewImageNet(head, item.getFlag());
             ImageLoaderHelper.displayImageWhiteListener(item.getFlag(), head, new ImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String imageUri, View view) {
@@ -304,10 +303,10 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     public void setFocus(final Game game) {
         if (game != null) {
             if (game.getTick() == 1) {
-                focus.setBackgroundResource(R.drawable.focus_gray);
+                focusView.setBackgroundColor(resources.getColor(R.color.groupdetail_player_gray));
                 setTextViewText(focus, R.string.dynamic_focused);
             } else {
-                focus.setBackgroundResource(R.drawable.focus_red);
+                focusView.setBackgroundResource(R.drawable.gamematch_cs_bg);
                 setTextViewText(focus, R.string.dynamic_focus);
             }
         }
@@ -315,14 +314,14 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 
     private void setMark(TextView view, final Game item) {
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         String attention_num = item.getAttention_num();
         String video_num = item.getVideo_num();
         if (!StringUtil.isNull(video_num)) {
-            sb.append("话题\t" + video_num);
+            sb.append("话题\t").append(video_num);
         }
         if (!StringUtil.isNull(attention_num)) {
-            sb.append("\t\t玩家\t" + attention_num);
+            sb.append("\t\t玩家\t").append(attention_num);
         }
         view.setText(sb.toString());
     }
@@ -351,7 +350,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈-发表");
                 break;
 
-            case R.id.groupdetail_focus:
+            case R.id.groupdetail_focusview:
                 if (!isLogin()) {
                     showToastLogin();
                     return;
@@ -367,6 +366,14 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 DataManager.groupAttentionGroup(game.getGroup_id(), getMember_id());
                 refreshHeaderView(game);
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈关注");
+                break;
+
+            case R.id.groupdetail_chatview:
+                // TODO: 2016/10/24 chat
+                break;
+
+            case R.id.groupdetail_matchview:
+                // TODO: 2016/10/24 chat
                 break;
         }
     }

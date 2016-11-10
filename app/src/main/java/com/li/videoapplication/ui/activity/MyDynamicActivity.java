@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
@@ -96,9 +97,9 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
     private GroupDetailVideoAdapter adapter;
 
     private View headerView;
-    private View user, tourist, personalcenter;
+    private View user, tourist, personalcenter,focusView;
     private CircleImageView head;
-    private TextView loginText, name, level, introduce, focus, fans, attention;
+    private TextView loginText, name, introduce, fans, attention;
     private RelativeLayout touch;
     private ImageView loginIcon, textBg, go, text, textBtn, head_v;
 
@@ -180,9 +181,8 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
             fans = (TextView) headerView.findViewById(R.id.dynamic_fans);
             attention = (TextView) headerView.findViewById(R.id.dynamic_attention);
             name = (TextView) headerView.findViewById(R.id.dynamic_name);
-            level = (TextView) headerView.findViewById(R.id.dynamic_level);
             introduce = (TextView) headerView.findViewById(R.id.dynamic_introduce);
-            focus = (TextView) headerView.findViewById(R.id.dynamic_focus);
+            focusView = headerView.findViewById(R.id.dynamic_focus_layout);
             text = (ImageView) headerView.findViewById(R.id.dynamic_text);
             textBtn = (ImageView) headerView.findViewById(R.id.dynamic_textBtn);
             textBg = (ImageView) headerView.findViewById(R.id.dynamic_textBg);
@@ -195,11 +195,10 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
             attention.setOnClickListener(this);
             personalcenter.setOnClickListener(this);
             textBtn.setOnClickListener(this);
-            focus.setOnClickListener(this);
             touch.setOnClickListener(this);
             go.setOnClickListener(this);
 
-            focus.setVisibility(View.GONE);
+            focusView.setVisibility(View.GONE);
             text.setVisibility(View.INVISIBLE);
             setListViewLayoutParams(headerView, 206);
         }
@@ -257,7 +256,7 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
                 } else {
                     setTextViewText(introduce, item.getSignature());
                 }
-                setLevel(level, item);
+
                 setMark(fans, attention, item);
             }
         } else {// 游客
@@ -265,15 +264,6 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
             user.setVisibility(View.GONE);
             setAbGobackGray();
         }
-    }
-
-    /**
-     * 等级
-     *
-     * @return Lv.11
-     */
-    private void setLevel(TextView view, Member item) {
-        view.setText("Lv." + item.getDegree());
     }
 
     /**

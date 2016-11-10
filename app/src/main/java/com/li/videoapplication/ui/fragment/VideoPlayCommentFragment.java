@@ -19,6 +19,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Comment;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.response.CommentDelEntity;
 import com.li.videoapplication.data.model.response.VideoCommentListEntity;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseFragment;
@@ -119,7 +120,7 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
 
         // 视频评论列表
-        DataManager.videoCommentList(videoImage.getId(), getMember_id(), page);
+        DataManager.videoCommentList211(videoImage.getId(), getMember_id(), page);
         onRefreshCompleteDelayed(PullToRefreshActivity.TIME_REFRESH_SHORT);
     }
 
@@ -407,10 +408,12 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
     public void setFocus(VideoImage item) {
         if (item != null) {
             if (item.getMember_tick() == 1) {// 已关注状态
-                focus.setBackgroundResource(R.drawable.focus_videoplay_gray);
+                focus.setBackgroundResource(R.drawable.player_focus_gray);
+                focus.setTextColor(resources.getColorStateList(R.color.groupdetail_player_white));
                 focus.setText(R.string.videoplay_focused);
             } else {// 未关注状态
-                focus.setBackgroundResource(R.drawable.focus_videoplay_red);
+                focus.setBackgroundResource(R.drawable.player_focus_red);
+                focus.setTextColor(resources.getColorStateList(R.color.groupdetail_player_red));
                 focus.setText(R.string.videoplay_focus);
             }
         }
@@ -487,5 +490,16 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
             }
         }
         onRefreshComplete();
+    }
+
+    /**
+     * 回调:视频评论删除
+     */
+    public void onEventMainThread(CommentDelEntity event) {
+
+        if (event != null && event.isResult()) {
+            ToastHelper.s("评论删除成功");
+            onPullDownToRefresh(pullToRefreshListView);
+        }
     }
 }

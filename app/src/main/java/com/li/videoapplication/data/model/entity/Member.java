@@ -63,6 +63,15 @@ public class Member extends BaseEntity {
 	private String NAME;
 	private String token;
 	private boolean isV;
+	private String currency;
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
 
 	public boolean isV() {
 		return isV;

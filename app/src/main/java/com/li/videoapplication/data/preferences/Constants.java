@@ -6,6 +6,8 @@ public class Constants {
 
 	/**############### normal  ##################*/
 
+	public static final String MANUFACTURER = "manufacturer";// 悬浮窗设置
+	public static final String COPY_RECORDING_SETTING = "copyRecordingSetting";// 迁移并删除2.0.7以前录屏设置
 	public static final String APPSTART_ACTIVITY_FIRSTSETUP = "appstartActivityFirstsetup";// 首次安装
 	public static final String TIP_ONGOING_CONTACT = "tipOnGoingContact";// 进行中约战他提示页
 	public static final String TIP_VEDIO = "tipVideo";// 遮罩提示页
@@ -33,6 +35,7 @@ public class Constants {
 	public static final String PUSH_STATUS = "push_status";
 
 	/**############### setting  ##################*/
+	public static final String RECORDING_SETTING = "recordingSetting";// 录屏设置
 
 	/**############### user  ##################*/
 
@@ -52,4 +55,5 @@ public class Constants {
 	public static final String CHANGE_EXPTOSHIDOU_TASK = "changeExp2Shidou_task";// 经验转视豆
 
 	public static final String DYNAMICT_TIME = "dynamicTime";// 动态刷新时间
+	public static final String TASK_TIME = "taskTime";// 任务刷新时间
 }

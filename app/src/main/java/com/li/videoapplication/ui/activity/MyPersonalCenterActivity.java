@@ -87,9 +87,9 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
     private DynamicVideoAdapter adapter;
 
     private View headerView;
-    private View user, tourist, mypersoncenter;
+    private View user, tourist, mypersoncenter,focusView;
     private CircleImageView head;
-    private TextView loginText, name, level, introduce, focus ,fans, attention;
+    private TextView loginText, name, introduce ,fans, attention;
     private RelativeLayout touch;
     private ImageView loginIcon, textBg, go, text, textBtn;
 
@@ -154,11 +154,10 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
             loginText = (TextView) headerView.findViewById(R.id.dynamic_loginText);
 
             name = (TextView) headerView.findViewById(R.id.dynamic_name);
-            level = (TextView) headerView.findViewById(R.id.dynamic_level);
             fans = (TextView) headerView.findViewById(R.id.dynamic_fans);
             attention = (TextView) headerView.findViewById(R.id.dynamic_attention);
             introduce = (TextView) headerView.findViewById(R.id.dynamic_introduce);
-            focus = (TextView) headerView.findViewById(R.id.dynamic_focus);
+            focusView = headerView.findViewById(R.id.dynamic_focus_layout);
             text = (ImageView) headerView.findViewById(R.id.dynamic_text);
             textBtn = (ImageView) headerView.findViewById(R.id.dynamic_textBtn);
             textBg = (ImageView) headerView.findViewById(R.id.dynamic_textBg);
@@ -171,13 +170,12 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
 
             head.setOnClickListener(this);
             textBtn.setOnClickListener(this);
-            focus.setOnClickListener(this);
             touch.setOnClickListener(this);
             fans.setOnClickListener(this);
             attention.setOnClickListener(this);
-            focus.setVisibility(View.GONE);
+            focusView.setVisibility(View.GONE);
             text.setVisibility(View.INVISIBLE);
-            setListViewLayoutParams(headerView, 206);
+            setListViewLayoutParams(headerView, 170);
         }
         return headerView;
     }
@@ -226,7 +224,6 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
                 } else {
                     setTextViewText(introduce, item.getSignature());
                 }
-                setLevel(level, item);
                 setMark(fans,attention, item);
             }
         } else {// 游客
@@ -234,15 +231,6 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
             user.setVisibility(View.GONE);
             setAbGobackGray();
         }
-    }
-
-    /**
-     * 等级
-     *
-     * @return Lv.11
-     */
-    private void setLevel(TextView view, Member item) {
-        level.setText("Lv." + item.getDegree());
     }
 
     /**

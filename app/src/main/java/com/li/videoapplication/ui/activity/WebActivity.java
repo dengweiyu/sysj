@@ -1,10 +1,5 @@
 package com.li.videoapplication.ui.activity;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -19,18 +14,20 @@ import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
-import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.ZoomButtonsController;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.js.User;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.utils.StringUtil;
+
+import java.lang.reflect.Field;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * 活动：网页浏览
@@ -174,17 +171,7 @@ public class WebActivity extends TBaseActivity {
 		webSettings.setJavaScriptEnabled(true);
 		webSettings.setDomStorageEnabled(true);
 
-		/*
-		webSettings.setJavaScriptEnabled(true);
-		webSettings.setAllowFileAccess(true);
-		webSettings.setSupportZoom(true);
-		webSettings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
-		webSettings.setBuiltInZoomControls(true);
-		webSettings.setDefaultFontSize(20);
-		webSettings.setUseWideViewPort(true);
-		webSettings.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
-		webSettings.setLoadWithOverviewMode(true);*/
-		// setZoomControlGone(webView);
+		webView.addJavascriptInterface(new User(this), "user");
 
 		webView.setDownloadListener(new DownloadListener() {
 
@@ -270,14 +257,10 @@ public class WebActivity extends TBaseActivity {
 			mZoomButtonsController.getZoomControls().setVisibility(View.GONE);
 			try {
 				field.set(view, mZoomButtonsController);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
+			} catch (IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();
 			}
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
+		} catch (SecurityException | NoSuchFieldException e) {
 			e.printStackTrace();
 		}
 	}

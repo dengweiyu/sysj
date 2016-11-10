@@ -2,6 +2,7 @@ package com.li.videoapplication.ui.view;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -19,6 +20,7 @@ import android.widget.RelativeLayout;
 
 import com.happly.link.HpplayLinkControl;
 import com.happly.link.HpplayLinkWindow;
+import com.happly.link.net.RefreshUIInterface;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.danmuku.DanmukuListEntity;
@@ -27,6 +29,7 @@ import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.BulletList203Entity;
 import com.li.videoapplication.data.network.RequestExecutor;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.tools.SubtitleHelper2;
@@ -78,9 +81,9 @@ public class VideoPlayView extends RelativeLayout implements
     private ControllerView controllerView;
     public ControllerViewLand controllerViewLand;
     private RightBarView rightBarView;
-    private TouchView touchView;
+    public TouchView touchView;
     private GPRSTipView gprsTipView;
-    private LeBoView leBoView;
+    public LeBoView leBoView;
 
     public DanmukuPlayer danmukuPlayer;
     public TimedTextView timedTextView;
@@ -234,7 +237,7 @@ public class VideoPlayView extends RelativeLayout implements
                     activity.addDanmukuView.showView();
                 break;
 
-            case R.id.rightbar_tv:
+            case R.id.rightbar_tv: //投屏
 
                 if (!StringUtil.isNull(activity.qn_key) && URLUtil.isURL(activity.qn_url)) {
                     //选择投屏设备窗口
@@ -259,24 +262,8 @@ public class VideoPlayView extends RelativeLayout implements
             @Override
             public void run() {
                 try {
-                    boolean isSuccess1 = linkControl.setIsBackgroundPlay(false);
-                    boolean isSuccess2 = linkControl.setStopVideo();
-                    try {
-                        if (isSuccess1 && isSuccess2) {
-                            getHandler().post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    leBoView.hideView();
-                                    touchView.showView();
-                                    showWiget();
-                                    activity.setCurrentVolume(currentVolume);
-                                }
-                            });
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        LogHelper.e(tag, "乐播stopLebo出错");
-                    }
+                    linkControl.setIsBackgroundPlay(activity, 9, false);
+                    linkControl.setStopVideo(activity, 7);
                 } catch (Exception e) {
                     e.printStackTrace();
                     LogHelper.e(tag, "退出投屏出错");
@@ -298,7 +285,7 @@ public class VideoPlayView extends RelativeLayout implements
                     public void run() {
                         //乐播暂停/继续播放控制：参数：isPlay : true为继续播放,false为暂停播放
                         try {
-                            linkControl.setPlayControl(false);
+                            linkControl.setPlayControl(activity, 5, false);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -312,7 +299,7 @@ public class VideoPlayView extends RelativeLayout implements
                     @Override
                     public void run() {
                         try {
-                            linkControl.setPlayControl(true);
+                            linkControl.setPlayControl(activity, 4,true);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -651,7 +638,6 @@ public class VideoPlayView extends RelativeLayout implements
     }
 
 
-
     private IMediaPlayer.OnInfoListener onInfoListener = new IMediaPlayer.OnInfoListener() {
 
         @Override
@@ -749,7 +735,7 @@ public class VideoPlayView extends RelativeLayout implements
         dismissPopupWindow();
     }
 
-    @SuppressWarnings("                                                                                                                                                                           ")
+    @SuppressWarnings("")
     private void initWeb() {
 
         // 网页播放

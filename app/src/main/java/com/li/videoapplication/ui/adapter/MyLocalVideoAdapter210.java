@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.LocalManager;
+import com.li.videoapplication.data.database.Contant;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.image.VideoCoverHelper;
@@ -83,6 +84,13 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
     }
 
     /**
+     * 跳转：视频分享
+     */
+    private void startVideoShareActivity210(VideoCaptureEntity record) {
+        ActivityManeger.startVideoShareActivity210(context, record);
+    }
+
+    /**
      * 回调：更新进度
      */
     @Override
@@ -113,21 +121,19 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                 holder.progress.setProgress(pro);
             }
         }
-        if (status == Contants.STATUS_SUCCESS ||
-                status == Contants.STATUS_END ||
+        if (status  == Contants.STATUS_SUCCESS){
+            updataRecordAndView(filePath);
+            ToastHelper.s("视频上传成功");
+
+        }else if (status == Contants.STATUS_END ||
                 status == Contants.STATUS_PAUSE ||
                 status == Contants.STATUS_START) {
             updataRecordAndView(filePath);
-            Log.d(tag, "updateProgress: 1");
-        } /*else if (status == Contants.STATUS_FAILURE) {
-            updataRecordAndView(filePath);
-            ToastHelper.l("视频上传失败");
-            Log.d(tag, "updateProgress: 2");
-        }*/ else if (status == Contants.STATUS_UPLOADING){
-            Log.d(tag, "updateProgress: 3");
+
+        } else if (status == Contants.STATUS_UPLOADING){
+
         } else {
             updataRecordAndView(filePath);
-            Log.d(tag, "updateProgress: 4");
         }
     }
 
@@ -139,7 +145,6 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
 		inflater = LayoutInflater.from(context);
 
         durationHelper = new VideoDurationHelper(listView);
-
 
         String[] filePaths = new String[this.data.size()];
         VideoMangerActivity.myLocalVideoDeleteData.clear();
@@ -282,15 +287,14 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                     if (netType == 0) {
                     ToastHelper.s("当前网络不可用，请检查后再上传");
                 } else if (netType == 1) {// wifi
-                    ActivityManeger.startVideoShareActivity210(context, record);
-                } else {
+                        startVideoShareActivity210(record);
+                    } else {
                     // 上传视频
                     DialogManager.showUploadVideoDialog(context, new DialogInterface.OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
-                            ActivityManeger.startVideoShareActivity210(context, record);
+                            startVideoShareActivity210(record);
                         }
                     });
                 }
@@ -388,7 +392,9 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
         holder.root.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.cover.performClick();
+                if (!VideoMangerActivity.isDeleteMode) {
+                    holder.cover.performClick();
+                }
             }
         });
         holder.root.setOnLongClickListener(new View.OnLongClickListener() {

@@ -213,7 +213,12 @@ public class ControllerView extends RelativeLayout implements View.OnClickListen
             long duration = videoPlayer.getDuration();
             // 缓冲进度
             int buffer = videoPlayer.getBufferPercentage();
-            int progress = (int) (position * 100 / duration);
+            int progress = 0;
+            try {
+                progress = (int) (position * 100 / duration);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             Log.i(tag, "position=" + position);
             Log.i(tag, "duration=" + duration);
             Log.i(tag, "buffer=" + buffer);

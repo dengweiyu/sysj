@@ -110,6 +110,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.li.videoapplication.ui.activity.CameraRecoedActivity50"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.li.videoapplication.ui.activity.AboutActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -277,10 +281,41 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!-- ################################# 2.1.1商城相关   ######################### -->
+
+        <activity
+            android:name=".ui.activity.MyWalletActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar"/>
+
+        <activity
+            android:name=".ui.activity.MyCurrencyRecordActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.ExchangeRecordActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.MallActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.ProductsDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.OrderDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+
         <!-- ################################# 2.0.5赛事相关   ######################### -->
-
-
-
         <!--单聊界面，包括客服-->
         <activity
             android:name=".ui.activity.ConversationActivity"
@@ -376,33 +411,13 @@
         <!-- ################################# 录屏部分   ######################### -->
 
         <activity
-            android:name="com.fmsysj.zbqmcs.activity.ScreenRecordActivity"
+            android:name="com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
-        <!--5.0截屏-->
-        <activity
-            android:name="com.fmsysj.zbqmcs.activity.ScreenCapture50"
-            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize|smallestScreenSize"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@android:style/Theme.Holo.Panel"
-            android:launchMode="standard"
-            android:taskAffinity=":recording"
-            android:screenOrientation="unspecified"/>
+        <!--录屏服务-->
+        <service android:name="com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService"/>
 
-        <!-- 5.0录屏 -->
-        <activity
-            android:name="com.fmsysj.zbqmcs.activity.ScreenRecord50"
-            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize|smallestScreenSize"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@android:style/Theme.Holo.Panel"
-            android:launchMode="standard"
-            android:taskAffinity=":recording"
-            android:screenOrientation="unspecified"/>
-
-        <service android:name="com.fmsysj.zbqmcs.floatview.FloatViewService" />
-        <service android:name="com.fmsysj.zbqmcs.service.PanelTimeService" />
-        <service android:name="com.fmsysj.zbqmcs.frontcamera.FrontCameraService" />
 
         <!-- ################################# 网页跳转和图片显示部分   ######################### -->
 
@@ -420,6 +435,11 @@
             android:name=".ui.activity.WebActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.WebActivityJS"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar"/>
         <activity
             android:name=".ui.activity.VideoEditorActivity"
             android:launchMode="singleTask"

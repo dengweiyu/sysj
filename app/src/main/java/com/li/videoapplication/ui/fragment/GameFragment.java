@@ -90,7 +90,7 @@ public class GameFragment extends TBaseChildFragment {
 		adapter = new GamePagerAdapter(childManager, fragments);
 		mViewPager.setAdapter(adapter);
 		PageChangeListener listener = new PageChangeListener();
-		mViewPager.setOnPageChangeListener(listener);
+		mViewPager.addOnPageChangeListener(listener);
 		
 		for (int i = 0; i < topButtons.size(); i++) {
 			OnTabClickListener onTabClickListener = new OnTabClickListener(i);

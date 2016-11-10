@@ -24,8 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fmsysj.zbqmcs.activity.ScreenRecordActivity;
-import com.fmsysj.zbqmcs.floatview.FloatViewManager;
+import com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService;
+import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
+import com.ifeimo.screenrecordlib.RecordingManager;
+import com.ifeimo.screenrecordlib.TaskUtil;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnCloseListener;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnClosedListener;
@@ -162,12 +164,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             overridePendingTransition(R.anim.activity_slide_in_top, R.anim.activity_hold);
         } else {
             if (AppUtil.appRoot()) {
-                // 开始拷贝文件
-                try {
-                    AppUtil.cpRecrodCore();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 ScreenRecordActivity.startScreenRecordActivity(this);
                 overridePendingTransition(R.anim.activity_slide_in_top, R.anim.activity_hold);
             } else {// 提示用户获取root
@@ -314,7 +310,13 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     public void onBackPressed() {
 
         if (isExit) {
-            FloatViewManager.destroyView();
+            if (RecordingManager.getInstance().isRecording()) {
+                TaskUtil.clearTaskAndAffinity(this);
+            } else {
+                super.onBackPressed();
+                // 停止录屏服务
+                RecordingService.stopRecordingService();
+            }
             super.onBackPressed();
             // moveTaskToBack(true);
         } else {
@@ -665,17 +667,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
     }
 
-    public void replaceFragment(Fragment target) {
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.container, target).commit();
-    }
-
-    public void chooseFragment(Fragment fragment) {
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.commit();
-    }
-
     public void switchContent(Fragment from, Fragment to) {
         if (context != to) {
             context = to;
@@ -711,7 +702,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     @TargetApi(19)
     private void setTranslucentStatus(Activity activity, boolean on) {
-        Window win = (Window) activity.getWindow();
+        Window win = activity.getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
         final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
         if (on) {

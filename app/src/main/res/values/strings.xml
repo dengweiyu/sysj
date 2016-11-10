@@ -1,4 +1,46 @@
 <resources>
+    <string name="manufacturer_title">设置悬浮窗</string>
+    <string name="manufacturer_content_huawei">您所使用的是华为设备，须在: \n"手机管家 >> 设置 >> 悬浮窗管理 >> 录屏大师 >> 打勾 \n将浮窗打开才能正常使用</string>
+    <string name="manufacturer_content_miui">您的系统是MIUI，请到“安全中 >> 应用权限管 >> 录屏大 >> 悬浮窗权 >> 允许 \n将浮窗打开才能正常使用</string>
+    <string name="manufacturer_content_oppo">您的系统是OPPO，手机桌面→手机管家（安全中心）→权限管理→悬浮窗管理→录屏大师（找到后设置允许）</string>
+    <string name="manufacturer_content_meizu">您的系统是Flyme，请到“设置 >> 应用管理 >> 录屏大师 >> 权限管理 >> 打勾 \n将浮窗打开才能正常使用</string>
+    <string name="manufacturer_cancel">取消</string>
+    <string name="manufacturer_confirm">前往设置</string>
+
+    <string name="screenrecord_title">录屏大师</string>
+    <string name="screenrecord_landscape">横屏游戏录制</string>
+    <string name="screenrecord_landscape_tip">横屏录制已打开</string>
+    <string name="screenrecord_portrait">竖屏游戏录制</string>
+    <string name="screenrecord_portrait_tip">竖屏录制已打开</string>
+
+    <string name="settingquality_title">清晰度设置</string>
+    <string name="settingquality_cancel">取消</string>
+    <string name="settingquality_low">低清</string>
+    <string name="settingquality_standard">标清</string>
+    <string name="settingquality_high">高清</string>
+    <string name="settingquality_ultrahigh">超高清</string>
+
+    <string name="record_cannot_change_floatingwindiws">正在录屏中，无法修改</string>
+    <string name="capturing_success">截图成功</string>
+    <string name="shake_not_support">抱歉，此设备不支持摇晃录屏</string>
+
+    <string name="recording_failure">录屏失败，请重启录屏大师再试</string>
+    <string name="recording_title">录屏服务已启动</string>
+    <string name="recording_success">视频已合成，请前往视频管理查看</string>
+    <string name="recording_frontcamera_open">主播模式已启动</string>
+
+    <string name="root_title">Root权限</string>
+    <string name="root_content">您的设备尚未开启Root权限，请获取Root权限后再重启本应用程序。</string>
+    <string name="root_confirm">确定</string>
+
+    <string name="floatview_screenrecord_start">录制</string>
+    <string name="floatview_screencapture">截图</string>
+    <string name="floatview_frontcamera_open">打开主播</string>
+    <string name="floatview_frontcamera_close">关闭主播</string>
+    <string name="floatview_main">主页</string>
+    <string name="floatview_screenrecord_pause">暂停</string>
+    <string name="floatview_screenrecord_resume">继续</string>
+    <string name="floatview_screenrecord_stop">停止</string>
 
     <!--########## 乐播 ##########-->
     <string name="button_cal">取消</string>
@@ -138,7 +180,7 @@
     <string name="videoBillboard_right">观看榜</string>
 
     <string name="playerBillboard_left">粉丝榜</string>
-    <string name="playerBillboard_middle">等级榜</string>
+    <string name="playerBillboard_middle">财富榜</string>
     <string name="playerBillboard_right">视频榜</string>
 
     <string name="searchresult_first">相关视频</string>
@@ -766,7 +808,7 @@
     <string name="searchgame_left">最近游戏</string>
     <string name="searchgame_right">最近游戏</string>
 
-    <string name="apply_content">在视频描述中你需要填写至少十个字，方可申请官方推荐，小编将会挑选精彩视频在首页或玩家秀场推荐展示。</string>
+    <string name="apply_content">在视频描述中你需要填写至少十个字，小编将会挑选精彩视频在首页或玩家秀场推荐展示。</string>
 
     <string name="videoshare_title">视频分享</string>
     <string name="videoshare_info">视频信息</string>

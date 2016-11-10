@@ -70,8 +70,7 @@
             android:enabled="true"
             android:exported="false" >
             <intent-filter android:priority="1000" >
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
- <!-- Required  显示通知栏 -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!-- Required  显示通知栏 -->
                 <category android:name="com.li.videoapplication" />
             </intent-filter>
             <intent-filter>
@@ -98,8 +97,7 @@
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="d7d696338f92a84c48fae4d7" />
- <!-- </>值来自开发者平台取得的AppKey -->
+            android:value="d7d696338f92a84c48fae4d7" /> <!-- </>值来自开发者平台取得的AppKey -->
 
     </application>
 

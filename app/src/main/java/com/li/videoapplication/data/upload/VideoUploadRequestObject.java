@@ -36,6 +36,8 @@ public class VideoUploadRequestObject extends BaseEntity {
 
     private List<String> game_tags;
 
+    private String goods_id;
+
 
     public VideoUploadRequestObject(int status) {
         this.status = status;
@@ -56,7 +58,8 @@ public class VideoUploadRequestObject extends BaseEntity {
                                     String description,
                                     int isofficial,
                                     List<String> game_tags,
-                                    VideoCaptureEntity data) {
+                                    VideoCaptureEntity data,
+                                    String goods_id) {
         this.status = status;
         this.shareChannel = shareChannel;
         this.member_id = member_id;
@@ -67,8 +70,16 @@ public class VideoUploadRequestObject extends BaseEntity {
         this.isofficial = isofficial;
         this.game_tags = game_tags;
         this.data = data;
+        this.goods_id = goods_id;
     }
 
+    public String getGoods_id() {
+        return goods_id;
+    }
+
+    public void setGoods_id(String goods_id) {
+        this.goods_id = goods_id;
+    }
 
     public List<String> getGame_tags() {
         return game_tags;

@@ -103,15 +103,17 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
     /**
      * 关注
      */
-    public void setFocus(final Game record, TextView view) {
+    private void setFocus(final Game record, TextView view) {
 
         view.setVisibility(View.VISIBLE);
         if (record != null) {
             if (record.getTick() == 1) {
-                view.setBackgroundResource(R.drawable.focus_gray);
+                view.setBackgroundResource(R.drawable.player_focus_gray);
+                view.setTextColor(resources.getColorStateList(R.color.groupdetail_player_white));
                 setTextViewText(view, R.string.dynamic_focused);
             } else {
-                view.setBackgroundResource(R.drawable.focus_red);
+                view.setBackgroundResource(R.drawable.player_focus_red);
+                view.setTextColor(resources.getColorStateList(R.color.groupdetail_player_red));
                 setTextViewText(view, R.string.dynamic_focus);
             }
         }

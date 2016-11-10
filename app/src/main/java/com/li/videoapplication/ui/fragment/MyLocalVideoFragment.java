@@ -6,10 +6,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.text.Html;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
@@ -17,13 +19,16 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.database.VideoCaptureResponseObject;
+import com.li.videoapplication.data.model.response.PaymentEntity;
 import com.li.videoapplication.data.preferences.VideoPreferences;
 import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.adapter.MyImportVideoAdapter;
 import com.li.videoapplication.ui.adapter.MyLocalVideoAdapter210;
+import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 
@@ -163,37 +168,43 @@ public class MyLocalVideoFragment extends TBaseFragment {
      */
     private void showImportDialog(List<VideoCaptureEntity> list) {
         myImportData.clear();
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("导入外部视频");
-        MyImportVideoAdapter adapter = new MyImportVideoAdapter(getActivity(), list, this);
-        builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
 
+        // 导入外部视频
+        DialogManager.showVideoManagerImportDialog(getActivity(), list, this,
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Log.i(tag, "import=" + myImportData);
+                        for (int i = 0; i < myImportData.size(); i++) {
+                            Log.i(tag, "import=" + 1);
+                            VideoCaptureManager.save(myImportData.get(i).getVideo_path(),
+                                    VideoCaptureEntity.VIDEO_SOURCE_EXT,
+                                    VideoCaptureEntity.VIDEO_STATION_LOCAL);
+                            // 用来记录视频是否已经导入
+                            VideoPreferences.getInstance().putBoolean(myImportData.get(i).getVideo_path(), true);
+                        }
+                        // 验证并加载本地视频
+                        DataManager.LOCAL.checkVideoCaptures();
+                    }
+                });
+    }
+
+    /**
+     * 回调:兑换
+     */
+    public void onEventMainThread(PaymentEntity event) {
+
+        if (event != null) {
+            if (event.isResult()) {// 支付视频推荐位成功
+                ToastHelper.s("申请视频推荐成功，请到兑换记录里查看详情");
+
+                DataManager.userProfilePersonalInformation(getMember_id(),getMember_id());
+            } else {
+                ToastHelper.s(event.getMsg());
             }
-        });
-        builder.setPositiveButton("导入", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                Log.i(tag, "import=" + myImportData);
-                for (int i = 0; i < myImportData.size(); i++) {
-                    Log.i(tag, "import=" + 1);
-                    VideoCaptureManager.save(myImportData.get(i).getVideo_path(),
-                            VideoCaptureEntity.VIDEO_SOURCE_EXT,
-                            VideoCaptureEntity.VIDEO_STATION_LOCAL);
-                    // 用来记录视频是否已经导入
-                    VideoPreferences.getInstance().putBoolean(myImportData.get(i).getVideo_path(), true);
-                }
-                // 验证并加载本地视频
-                DataManager.LOCAL.checkVideoCaptures();
-            }
-        });
-        builder.show();
+        }
     }
 
     /**
@@ -207,6 +218,7 @@ public class MyLocalVideoFragment extends TBaseFragment {
             if (event.getData() != null && event.getData().size() > 0) {
                 data.clear();
                 data.addAll(event.getData());
+                Log.d(tag, "data: == "+data);
                 activity.setMyLocalVideoSize(data.size());
                 refreshContentView();
             }

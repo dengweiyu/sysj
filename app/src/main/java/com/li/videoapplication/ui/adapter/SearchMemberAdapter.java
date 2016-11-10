@@ -12,8 +12,10 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.activity.MyPlayerActivity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.CircleImageView;
@@ -37,6 +39,7 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 	 */
 	private void startDynamicActivity(Member member) {
 		ActivityManeger.startPlayerDynamicActivity(getContext(), member);
+		AppManager.getInstance().currentActivity().finish();
 	}
 
 	public SearchMemberAdapter(Context context, int page, List<Member> data) {
@@ -57,12 +60,9 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 			holder.name = (TextView) view.findViewById(R.id.playerbillboard_name);
 			holder.mark = (TextView) view.findViewById(R.id.searchmember_mark);
 			holder.content = (LinearLayout) view.findViewById(R.id.content);
-//			holder.left = (TextView) view.findViewById(R.id.searchmember_left);
 			holder.middle = (TextView) view.findViewById(R.id.searchmember_middle);
 			holder.right = (TextView) view.findViewById(R.id.searchmember_right);
-//			holder.level = (TextView) view.findViewById(R.id.searchmember_level);
-			holder.focusContainer = (LinearLayout) view.findViewById(R.id.searchmember_focus);
-			holder.focus = (TextView) view.findViewById(R.id.groupdetail_player_focus);
+			holder.focus = (TextView) view.findViewById(R.id.searchmember_focus);
 			holder.go = (ImageView) view.findViewById(R.id.myplayer_go);
 			view.setTag(holder);
 		} else {
@@ -75,14 +75,12 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 		setTextViewText(holder.name, record.getNickname());
 		
 		setMark(holder.mark, record);
-//		setLevel(holder.level, record);
 
 		holder.content.setVisibility(View.VISIBLE);
-//		setDegree(holder.left, record);
 		setVideo(holder.middle, record);
 		setFans(holder.right, record);
 		
-		setFocus(record, holder.focusContainer, holder.focus, holder.go);
+		setFocus(record, holder.focus, holder.go);
 		
 		view.setOnClickListener(new View.OnClickListener() {
 			
@@ -101,8 +99,8 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 	/**
 	 * 关注
 	 */
-	public void setFocus(final Member record, LinearLayout focusContainer, TextView focus, ImageView go) {
-		focusContainer.setOnClickListener(new View.OnClickListener() {
+	private void setFocus(final Member record, TextView focus, ImageView go) {
+		focus.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -140,48 +138,33 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 				}
 			}
 		});
-		focus.setVisibility(View.GONE);
 		if (page == PAGE_SEARCHMEMBER) {
-			focusContainer.setVisibility(View.VISIBLE);
 			go.setVisibility(View.GONE);
 			if (record.getMember_tick() == 1) {
-				focusContainer.setBackgroundResource(R.drawable.focus_gray);
+				focus.setBackgroundResource(R.drawable.player_focus_gray);
+				focus.setTextColor(resources.getColorStateList(R.color.groupdetail_player_white));
 			} else {
-				focusContainer.setBackgroundResource(R.drawable.focus_red);
+				focus.setBackgroundResource(R.drawable.player_focus_red);
+				focus.setTextColor(resources.getColorStateList(R.color.groupdetail_player_red));
 			}
 		} else if (page == PAGE_MYFOCUS) {
-			focusContainer.setVisibility(View.GONE);
+			focus.setVisibility(View.GONE);
 			go.setVisibility(View.VISIBLE);
 		} else if (page == PAGE_MYFANS) {
-			focusContainer.setVisibility(View.VISIBLE);
 			go.setVisibility(View.GONE);
 			if (record.getTick() == 1) {
-				focusContainer.setBackgroundResource(R.drawable.focus_gray);
+				focus.setBackgroundResource(R.drawable.player_focus_gray);
+				focus.setTextColor(resources.getColorStateList(R.color.groupdetail_player_white));
 			} else {
-				focusContainer.setBackgroundResource(R.drawable.focus_red);
+				focus.setBackgroundResource(R.drawable.player_focus_red);
+				focus.setTextColor(resources.getColorStateList(R.color.groupdetail_player_red));
 			}
 		} else {
-			focusContainer.setVisibility(View.GONE);
+			focus.setVisibility(View.GONE);
 			go.setVisibility(View.GONE);
 		}
 	}
-	
-	/**
-	 * 等级
-	 */
-	private void setLevel(TextView view, final Member record) {
-		setTextViewText(view, "Lv." + record.getRank());
-		view.setVisibility(View.GONE);
-	}
-	
-	/**
-	 * 等级
-	 */
-	private void setDegree(TextView view, final Member record) {
-		
-		view.setText("Lv." + record.getDegree());
-	}
-	
+
 	/**
 	 * 视频
 	 */
@@ -216,17 +199,17 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
         //<!-- #ffb535 黄色 -->
         //<!-- #a9a9a9 灰色 -->
         //<!-- #ff5f5d 红色 -->
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		if (!StringUtil.isNull(record.getRank())) {
 			buffer.append(TextUtil.toColorItalic(String.valueOf("Lv." + record.getDegree()), "#ffb535"));
 		}
 		if (!StringUtil.isNull(record.getVideo_num())) {
-			buffer.append("\t\t视频\t" + record.getVideo_num());
+			buffer.append("\t\t视频\t").append(record.getVideo_num());
 		} else if (!StringUtil.isNull(record.getUploadVideoCount())) {
-			buffer.append("\t\t视频\t" + record.getUploadVideoCount());
+			buffer.append("\t\t视频\t").append(record.getUploadVideoCount());
 		}
 		if (!StringUtil.isNull(record.getFans())) {
-			buffer.append("\t\t粉丝\t" + record.getFans());
+			buffer.append("\t\t粉丝\t").append(record.getFans());
 		}
 		view.setText(Html.fromHtml(buffer.toString()));
 		view.setVisibility(View.GONE);
@@ -235,13 +218,10 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 	private static class ViewHolder {
 		CircleImageView head;
 		TextView mark;// 等级 19 视频 236 粉丝 56
-//		TextView level;//Lv.1
 		LinearLayout content;
-//		TextView left;//Lv.1
 		TextView middle;// 视频 236
 		TextView right;// 粉丝 56
 		TextView name;
-		LinearLayout focusContainer;
 		TextView focus;
 		ImageView go,head_v;
 	}

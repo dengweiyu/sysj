@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:layout_weight="1.0">
 
-        <com.fmsysj.zbqmcs.views.CustomViewPager
+        <com.li.videoapplication.views.CustomViewPager
             android:id="@+id/viewpager"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

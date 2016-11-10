@@ -14,6 +14,28 @@ public class SYSJStorageUtil {
 
     public final static String TAG = SYSJStorageUtil.class.getSimpleName();
 
+
+    /************************  以下为手游视界 视频/图片/录音文件  **************************/
+
+    /**
+     * 生成临时视频文件（V2.0.8版本）
+     *
+     * [存储卡]/LuPingDaShi/Tmp/2016-03-07_12_15_12.mp4
+     */
+    public static File createTmpRecPath() {
+        Log.d(TAG, "-----------------------------------[createTmpRecPath]--------------------------------------");
+        String path = getSysjTmp().getPath() + File.separator + StorageUtil.createRecName();
+        File file = null;
+        try {
+            file = new File(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "createTmpRecPath: " + file);
+        return file;
+    }
+
+
     /************************  以下为手游视界2.0.3 目录  **************************/
 
     /**

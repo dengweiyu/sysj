@@ -77,53 +77,18 @@
 
     <!--关注： 搜索玩家-->
 
-    <LinearLayout
+    <TextView
         android:id="@+id/searchmember_focus"
         android:layout_width="48dp"
         android:layout_height="20dp"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="12dp"
-        android:background="@drawable/focus_btn"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="+"
-            android:textColor="#ffffff"
-            android:textSize="11sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="@string/dynamic_focus"
-            android:textColor="#ffffff"
-            android:textSize="11sp"/>
-    </LinearLayout>
-
-    <!--关注：圈子详情玩家-->
-
-    <TextView
-        android:id="@+id/groupdetail_player_focus"
-        android:layout_width="48dp"
-        android:layout_height="20dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="4dp"
         android:layout_marginRight="12dp"
         android:background="@drawable/player_focus"
+        android:layout_centerVertical="true"
         android:gravity="center"
         android:text="@string/dynamic_focus"
         android:textColor="@color/groupdetail_player_red"
-        android:textSize="10sp"
+        android:textSize="11sp"
         android:visibility="visible"/>
 
     <ImageView

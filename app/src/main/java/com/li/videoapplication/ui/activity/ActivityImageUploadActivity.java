@@ -13,6 +13,7 @@ import com.li.videoapplication.data.model.event.ImageView2ImageShareEvent;
 import com.li.videoapplication.data.upload.Contants;
 import com.li.videoapplication.data.upload.ImageShareResponseObject;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.adapter.ImageShareAdapter;
 
 import java.util.ArrayList;
@@ -25,13 +26,14 @@ import cn.sharesdk.framework.ShareSDK;
  */
 @SuppressLint("HandlerLeak")
 public class ActivityImageUploadActivity extends TBaseActivity implements
-                    OnClickListener {
-	public static final String TAG = ActivityImageUploadActivity.class.getSimpleName();
+        OnClickListener {
+    public static final String TAG = ActivityImageUploadActivity.class.getSimpleName();
 
     private String match_id;
+    private boolean isFirstIn = true;
 
     @Override
-	public void refreshIntent() {
+    public void refreshIntent() {
         try {
             match_id = getIntent().getStringExtra("match_id");
         } catch (Exception e) {
@@ -39,11 +41,11 @@ public class ActivityImageUploadActivity extends TBaseActivity implements
         }
     }
 
-	private GridView gridView;
-	private ImageShareAdapter adapter;
-	private List<ScreenShotEntity> data = new ArrayList<>();
+    private GridView gridView;
+    private ImageShareAdapter adapter;
+    private List<ScreenShotEntity> data = new ArrayList<>();
 
-	private EditText title;
+    private EditText title;
 
     public String getDescription() {
         if (title.getText() == null)
@@ -51,15 +53,15 @@ public class ActivityImageUploadActivity extends TBaseActivity implements
         return title.getText().toString().trim();
     }
 
-	@Override
-	public int getContentView() {
-		return R.layout.activity_activityimageupload;
-	}
+    @Override
+    public int getContentView() {
+        return R.layout.activity_activityimageupload;
+    }
 
-	@Override
+    @Override
     public int inflateActionBar() {
-		return R.layout.actionbar_second;
-	}
+        return R.layout.actionbar_second;
+    }
 
     @Override
     public void afterOnCreate() {
@@ -90,6 +92,15 @@ public class ActivityImageUploadActivity extends TBaseActivity implements
 
         adapter = new ImageShareAdapter(this, data, R.layout.adapter_imageshare);
         gridView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isFirstIn) {
+            ActivityManeger.startImageViewActivity(this);
+            isFirstIn = false;
+        }
     }
 
     @SuppressLint("InlinedApi")

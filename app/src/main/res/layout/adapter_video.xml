@@ -95,7 +95,7 @@
             android:layout_marginTop="6dp"
             android:ellipsize="end"
             android:lines="2"
-            android:text="是我如果呵呵"
+            android:text=""
             android:textColor="#696969"
             android:textSize="10dp"/>
     </LinearLayout>

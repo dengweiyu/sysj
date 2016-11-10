@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,7 @@ public class PlayerBillboardAdapter extends BaseArrayAdapter<Member> {
             holder.middle = (TextView) view.findViewById(R.id.playerbillboard_middle);
             holder.right = (TextView) view.findViewById(R.id.playerbillboard_right);
             holder.focus = (LinearLayout) view.findViewById(R.id.playerbillboard_focus);
+            holder.focusText = (TextView) view.findViewById(R.id.playerbillboard_focus_text);
             holder.playerFocus = (TextView) view.findViewById(R.id.groupdetail_player_focus);
             holder.ranking = (ImageView) view.findViewById(R.id.playerbillboard_ranking);
             holder.number = (TextView) view.findViewById(R.id.playerbillboard_number);
@@ -114,7 +116,7 @@ public class PlayerBillboardAdapter extends BaseArrayAdapter<Member> {
             holder.right.setVisibility(View.VISIBLE);
         }
 
-        setFocus(record, holder.focus, holder.playerFocus);
+        setFocus(record, holder.focus, holder.focusText,holder.playerFocus);
 
         view.setOnClickListener(new View.OnClickListener() {
 
@@ -133,17 +135,21 @@ public class PlayerBillboardAdapter extends BaseArrayAdapter<Member> {
     /**
      * 关注
      */
-    public void setFocus(final Member record, LinearLayout view, TextView v) {
-        view.setVisibility(View.VISIBLE);
+    private void setFocus(final Member record, LinearLayout focusView, TextView focusText, TextView v) {
+        focusView.setVisibility(View.VISIBLE);
         v.setVisibility(View.GONE);
         if (record != null) {
             if (record.getMember_tick() == 1) {
-                view.setBackgroundResource(R.drawable.focus_gray);
+                focusView.setBackgroundResource(R.drawable.focus_gray);
+                setTextViewText(focusText,"已关注");
+                focusText.setTextColor(Color.WHITE);
             } else {
-                view.setBackgroundResource(R.drawable.focus_red);
+                focusView.setBackgroundResource(R.drawable.player_focus);
+                setTextViewText(focusText,"关注");
+                focusText.setTextColor(resources.getColor(R.color.groupdetail_player_red));
             }
         }
-        view.setOnClickListener(new View.OnClickListener() {
+        focusView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -170,11 +176,13 @@ public class PlayerBillboardAdapter extends BaseArrayAdapter<Member> {
     }
 
     /**
-     * 等级
+     * 磨豆
      */
     private void setDegree(TextView view, final Member record) {
 
-        view.setText("Lv." + record.getDegree());
+        if (!StringUtil.isNull(record.getFans())) {
+            setTextViewText(view, "磨豆\t" + record.getCurrency());
+        }
     }
 
     /**
@@ -211,17 +219,17 @@ public class PlayerBillboardAdapter extends BaseArrayAdapter<Member> {
         //<!-- #ffb535 黄色 -->
         //<!-- #a9a9a9 灰色 -->
         //<!-- #ff5f5d 红色 -->
-        StringBuffer buffer = new StringBuffer();
-        if (!StringUtil.isNull(record.getRank())) {
-            buffer.append(TextUtil.toColorItalic(String.valueOf("Lv." + record.getDegree()), "#ffb535"));
+        StringBuilder buffer = new StringBuilder();
+        if (!StringUtil.isNull(record.getCurrency())) {
+            buffer.append("\t\t磨豆\t").append(record.getCurrency());
         }
         if (!StringUtil.isNull(record.getVideo_num())) {
-            buffer.append("\t\t视频\t" + record.getVideo_num());
+            buffer.append("\t\t视频\t").append(record.getVideo_num());
         } else if (!StringUtil.isNull(record.getUploadVideoCount())) {
-            buffer.append("\t\t视频\t" + record.getUploadVideoCount());
+            buffer.append("\t\t视频\t").append(record.getUploadVideoCount());
         }
         if (!StringUtil.isNull(record.getFans())) {
-            buffer.append("\t\t粉丝\t" + record.getFans());
+            buffer.append("\t\t粉丝\t").append(record.getFans());
         }
         view.setText(Html.fromHtml(buffer.toString()));
         view.setVisibility(View.GONE);
@@ -230,13 +238,14 @@ public class PlayerBillboardAdapter extends BaseArrayAdapter<Member> {
     private static class ViewHolder {
         CircleImageView head;
         ImageView head_v;
-        TextView mark;// 等级 19 视频 236 粉丝 56
+        TextView mark;// 磨豆 19 视频 236 粉丝 56
         LinearLayout content;
-        TextView left;//Lv.1
+        TextView left;//磨豆 1911
         TextView middle;// 视频 236
         TextView right;// 粉丝 56
         TextView name;
         LinearLayout focus;
+        TextView focusText;
         TextView playerFocus;
         ImageView ranking;// 排名 金牌 银牌 铜牌
         TextView number;// 排名 4

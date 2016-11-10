@@ -111,9 +111,14 @@ public class JoinActivityFragment extends TBaseFragment implements PullLoadMoreR
                 if (page == 1) {
                     data.clear();
                 }
-                data.addAll(event.getData().getData());
+                String recordOld = event.toJSON();
+                String recordNew = recordOld.replace("\\\\", "\\");// \\ud83d\\ude24 --> \ud83d\ude24
+
+                GetCompVideoLists208Entity entity = gson.fromJson(recordNew, GetCompVideoLists208Entity.class);
+
+                data.addAll(entity.getData().getData());
                 adapter.notifyDataSetChanged();
-                if (event.getData().getData().size() > 0) {
+                if (entity.getData().getData().size() > 0) {
                     ++page;
                 }
             }

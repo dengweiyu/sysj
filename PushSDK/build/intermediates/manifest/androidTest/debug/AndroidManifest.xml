@@ -154,8 +154,7 @@
             android:exported="false"
             android:process=":channel" >
             <grant-uri-permission android:pathPattern=".*" />
-        </provider>
- <!-- mipush -->
+        </provider> <!-- mipush -->
         <service
             android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
             android:enabled="true"
@@ -173,8 +172,7 @@
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.ERROR" />
             </intent-filter>
-        </receiver>
- <!-- huawei push -->
+        </receiver> <!-- huawei push -->
         <receiver android:name="org.android.agoo.huawei.HuaWeiReceiver" >
             <intent-filter>
                 <action android:name="com.huawei.android.push.intent.REGISTRATION" />

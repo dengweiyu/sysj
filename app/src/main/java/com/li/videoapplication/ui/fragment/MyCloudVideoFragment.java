@@ -109,14 +109,14 @@ public class MyCloudVideoFragment extends TBaseFragment implements PullToRefresh
         PullToRefreshHepler.setLastUpdatedLabel(refreshView);
         onRefreshCompleteDelayed(PullToRefreshActivity.TIME_REFRESH_SHORT);
 
-        //云端视频列表
-        DataManager.cloudList(getMember_id());
+        // 用户视频列表2
+        DataManager.authorVideoList2(getMember_id(), page);
     }
 
     /**
      * 回调:云端视频列表
      */
-    public void onEventMainThread(CloudListEntity event) {
+    public void onEventMainThread(AuthorVideoList2Entity event) {
         onRefreshComplete();
         if (event.isResult()) {
             if (event.getData() != null

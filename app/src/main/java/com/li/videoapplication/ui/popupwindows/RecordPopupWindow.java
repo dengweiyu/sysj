@@ -9,7 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-import com.fmsysj.zbqmcs.utils.RecordVideo;
+import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.ui.ActivityManeger;
@@ -99,7 +99,7 @@ public class RecordPopupWindow extends PopupWindow implements OnClickListener, P
 		} else if (v == record) {
 			if (activity == null)
 				return;
-			if (RecordVideo.isRecordering == true) {
+			if (RecordingManager.getInstance().isRecording()) {
 				ToastHelper.s("正在录屏中");
 				return;
 			}

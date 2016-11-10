@@ -1,16 +1,89 @@
 package com.li.videoapplication.tools;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.media.MediaMetadataRetriever;
 import android.util.Log;
+import android.view.View;
+
+import com.li.videoapplication.data.local.FileOperateUtil;
 
 public class BitmapHelper {
 
     private static String TAG;
+
+    /**
+     * 保存视频帧缩略图
+     */
+    public static Bitmap saveVideoThumbnail(View view, String recordPath) {
+        Bitmap bitmap = null;
+        if (recordPath != null) {
+            //创建缩略图,该方法只能获取384X512的缩略图，舍弃，使用源码中的获取缩略图方法
+            // Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(recordPath, Thumbnails.MINI_KIND);
+            bitmap = getVideoThumbnail(view, recordPath);
+            if (bitmap != null) {
+                String thumPath = FileOperateUtil.getVideoThumPath(recordPath);
+                File thumFile = new File(thumPath);
+                //存图片小图
+                try {
+                    FileOutputStream fos = new FileOutputStream(thumFile);
+                    BufferedOutputStream bos = new BufferedOutputStream(fos);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                    bos.flush();
+                    bos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return bitmap;
+    }
+
+    /**
+     * 获取视频帧缩略图，根据容器的高宽进行缩放
+     */
+    private static Bitmap getVideoThumbnail(View view, String recordPath) {
+        Bitmap bitmap = null;
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            retriever.setDataSource(recordPath);
+            bitmap = retriever.getFrameAtTime(-1);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                retriever.release();
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            }
+        }
+        if (bitmap == null)
+            return null;
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int pWidth = view.getWidth();// 容器宽度
+        int pHeight = view.getHeight();//容器高度
+        if (pWidth <= 0 || pHeight <= 0) {
+            pWidth = 640;
+            pHeight = 640;
+        }
+        //获取宽高跟容器宽高相比较小的倍数，以此为标准进行缩放
+        float scale = Math.min((float) width / pWidth, (float) height / pHeight);
+        int w = Math.round(scale * pWidth);
+        int h = Math.round(scale * pHeight);
+        bitmap = Bitmap.createScaledBitmap(bitmap, w, h, true);
+        return bitmap;
+    }
 
     /**
      * 质量压缩方法

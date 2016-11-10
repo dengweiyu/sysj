@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import com.fmsysj.screeclibinvoke.data.model.event.ScreenShotEvent;
+import com.fmsysj.screeclibinvoke.data.model.event.VideoCaptureEvent;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureResponseObject;
 import com.li.videoapplication.data.local.ImageDirectoryEntity;
@@ -16,6 +18,7 @@ import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
 import com.li.videoapplication.data.model.event.ImageView2ImageShareEvent;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
+import com.li.videoapplication.data.model.event.RefreshCurrencyEvent;
 import com.li.videoapplication.data.model.event.SearchGame2VideoShareEvent;
 import com.li.videoapplication.data.model.event.Share2VideoShareEvent;
 import com.li.videoapplication.data.model.event.Tag2VideoShareEvent;
@@ -114,6 +117,24 @@ public class EventManager {
     public static void postShare2VideoShareEvent(String shareChannel) {
         Share2VideoShareEvent event = new Share2VideoShareEvent();
         event.setShareChannel(shareChannel);
+        EventBus.getDefault().post(event);
+    }
+
+    /**
+     * 发布录屏事件（完成）
+     */
+    public static void postVideoCaptureEvent() {
+        Log.d(TAG, "postVideoCaptureEvent: ");
+        VideoCaptureEvent event = new VideoCaptureEvent();
+        EventBus.getDefault().post(event);
+    }
+
+    /**
+     * 发布截屏事件
+     */
+    public static void postScreenShotEvent() {
+        Log.d(TAG, "postScreenShotEvent: ");
+        ScreenShotEvent event = new ScreenShotEvent();
         EventBus.getDefault().post(event);
     }
 

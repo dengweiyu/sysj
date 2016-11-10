@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.li.videoapplication.data.image.ImageLoaderHelper;
 import com.li.videoapplication.data.network.RequestManager;
 import com.li.videoapplication.utils.LogHelper;
-import com.umeng.message.PushAgent;
 
 import io.rong.eventbus.EventBus;
 
@@ -42,7 +41,6 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
 		afterOnCreate();
 		initView();
 		loadData();
-		PushAgent.getInstance(this).onAppStart();
 	}
 
 	@Override
@@ -55,7 +53,6 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
 		LogHelper.d(tag, "afterOnCreate");
 		AppManager.getInstance().addActivity(this);
 		EventBus.getDefault().register(this);
-		PushAgent.getInstance(this).onAppStart();
 	}
 
 	@Override

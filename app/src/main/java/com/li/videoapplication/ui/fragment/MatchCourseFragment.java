@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.js.User;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -65,6 +67,7 @@ public class MatchCourseFragment extends Fragment {
             public void onPageFinished(WebView view, String url) {
                 pDialog.cancel();
                 super.onPageFinished(view, url);
+                requestNoTitle();
             }
         });
 
@@ -78,6 +81,9 @@ public class MatchCourseFragment extends Fragment {
         ws.setDisplayZoomControls(false);//不显示缩放按钮
         ws.setDefaultFontSize(40);//默认字体大小
         ws.setUseWideViewPort(true);//双击变大，再双击后变小，当手动放大后，双击可以恢复到原始大小
+
+        webView.addJavascriptInterface(new User(getActivity()), "user");//app与js交互接口
+
         webView.setOnLongClickListener(new View.OnLongClickListener() {
 
             @Override
@@ -114,5 +120,14 @@ public class MatchCourseFragment extends Fragment {
         super.onDestroyView();
         if (null != rootView)
             ((ViewGroup) rootView.getParent()).removeView(rootView);
+    }
+
+    /**
+     * 隐藏标题栏
+     */
+    private void requestNoTitle() {
+        if (webView != null) {
+            webView.loadUrl("javascript:requestNoTitle()");
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.li.videoapplication.ui.activity;
 
+import android.graphics.Color;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -57,7 +58,7 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
     private DynamicVideoAdapter adapter;
     private View noData;
     private View headerView;
-    private View user, tourist;
+    private View user, tourist,focusView;
     private CircleImageView head;
     private TextView loginText, name, fans, attention, introduce, focus;
     private RelativeLayout touch;
@@ -145,10 +146,10 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
             loginText = (TextView) headerView.findViewById(R.id.dynamic_loginText);
 
             name = (TextView) headerView.findViewById(R.id.dynamic_name);
-//            level = (TextView) headerView.findViewById(R.id.dynamic_level);
             fans = (TextView) headerView.findViewById(R.id.dynamic_fans);
             attention = (TextView) headerView.findViewById(R.id.dynamic_attention);
             introduce = (TextView) headerView.findViewById(R.id.dynamic_introduce);
+            focusView = headerView.findViewById(R.id.dynamic_focus_layout);
             focus = (TextView) headerView.findViewById(R.id.dynamic_focus);
             text = (ImageView) headerView.findViewById(R.id.dynamic_text);
             textBtn = (ImageView) headerView.findViewById(R.id.dynamic_textBtn);
@@ -161,16 +162,16 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
 
             head.setOnClickListener(this);
             textBtn.setOnClickListener(this);
-            focus.setOnClickListener(this);
+            focusView.setOnClickListener(this);
             touch.setOnClickListener(this);
             go.setOnClickListener(this);
             fans.setOnClickListener(this);
             attention.setOnClickListener(this);
 
             textBtn.setVisibility(View.GONE);
-            focus.setVisibility(View.GONE);
+            focusView.setVisibility(View.VISIBLE);
             text.setVisibility(View.INVISIBLE);
-            setListViewLayoutParams(headerView, 206);
+            setListViewLayoutParams(headerView, 170);
         }
         return headerView;
     }
@@ -193,8 +194,7 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
     }
 
     @Override
-    public void onScrollStateChanged(AbsListView listview, int scrollState) {
-    }
+    public void onScrollStateChanged(AbsListView listview, int scrollState) {}
 
     /**
      * 页头数据
@@ -213,7 +213,6 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
             } else {
                 introduce.setText(item.getSignature());
             }
-//            setLevel(level, item);
             setMark(fans, attention, item);
             setFocus(item);
             if (!StringUtil.isNull(item.getCover())) {
@@ -232,23 +231,14 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
     public void setFocus(Member item) {
         if (item != null) {
             if (item.getIsAttent() == 1) {// 已关注
-                focus.setBackgroundResource(R.drawable.focus_gray);
+                focusView.setBackgroundColor(Color.parseColor("#e2e2e2"));
                 setTextViewText(focus, R.string.dynamic_focused);
             } else { // 未关注
-                focus.setBackgroundResource(R.drawable.focus_red);
+                focusView.setBackgroundResource(R.drawable.gamematch_cs_bg);
                 setTextViewText(focus, R.string.dynamic_focus);
             }
         }
     }
-
-    /**
-     * 等级
-     *
-     * @return Lv.11
-     */
-//    private void setLevel(TextView view, Member item) {
-//        level.setText("Lv." + item.getDegree());
-//    }
 
     /**
      * 内容
@@ -273,7 +263,7 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
                 startPlayePersonalInfoActivity(item);
                 break;
 
-            case R.id.dynamic_focus:
+            case R.id.dynamic_focus_layout:
                 if (!isLogin()) {
                     showToastShort("请先登录！");
                     return;
@@ -285,7 +275,7 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
                 }
                 // 玩家关注
                 DataManager.memberAttention201(item.getMember_id(), getMember_id());
-                refreshHeaderView(item);
+                setFocus(item);
                 break;
             case R.id.dynamic_fans:
                 if (!isLogin()) {

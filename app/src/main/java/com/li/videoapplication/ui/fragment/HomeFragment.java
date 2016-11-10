@@ -23,6 +23,7 @@ import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
 import com.li.videoapplication.data.model.response.IndexChangeGuessEntity;
 import com.li.videoapplication.data.model.response.IndexChangeGuessSecondEntity;
 import com.li.videoapplication.data.model.response.IndexIndex204Entity;
+import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ArrayHelper;
@@ -37,6 +38,7 @@ import com.li.videoapplication.ui.adapter.HotGameAdapter;
 import com.li.videoapplication.ui.adapter.HotNarrateAdapter;
 import com.li.videoapplication.ui.adapter.YouLikeAdapter;
 import com.li.videoapplication.ui.view.BannerView;
+import com.li.videoapplication.ui.view.HomeTaskView;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.views.CircleFlowIndicator;
 import com.li.videoapplication.views.DynamicHeightImageView;
@@ -72,6 +74,8 @@ public class HomeFragment extends TBaseFragment implements OnClickListener,
 
     /* 广告位 */
     private BannerView banner;
+    /* 任务位 */
+    private HomeTaskView taskView;
 
     /* 猜你喜欢 */
     private View youLikeView;
@@ -173,6 +177,9 @@ public class HomeFragment extends TBaseFragment implements OnClickListener,
         refreshListView.setPullRefreshEnable(true);
         refreshListView.setXListViewListener(this);
         refreshListView.onHiddenFooterView();
+
+        //task
+        taskView = (HomeTaskView) view.findViewById(R.id.home_task);
     }
 
     private boolean isInitAdapter = false;
@@ -214,6 +221,8 @@ public class HomeFragment extends TBaseFragment implements OnClickListener,
         page = 1;
         // 首页
         DataManager.indexIndex204(page);
+        // 任务
+        DataManager.unfinishedTask(getMember_id());
 
         refreshBanner();
     }
@@ -619,6 +628,29 @@ public class HomeFragment extends TBaseFragment implements OnClickListener,
         item.setMembers(list);
         homeGroupData.add(item);
         homeGroupAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 回调：首页任务
+     */
+    public void onEventMainThread(UnfinishedTaskEntity event) {
+        if (event != null && event.isResult()) {
+            if (event.getNum() > 0) {
+                long lastTime4Task = PreferencesHepler.getInstance().getTaskTime();
+                try {
+                    long currentTime = TimeHelper.getCurrentTime();
+                    //上次保存时间与当前时间不是同一天，则显示任务提示条
+                    if (!TimeHelper.IsSameDay(lastTime4Task, currentTime)) {
+                        taskView.appear();
+                        taskView.setAmount(event.getAmount() + "");
+                        //保存当前时间
+                        PreferencesHepler.getInstance().saveTaskTime(currentTime);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     /**

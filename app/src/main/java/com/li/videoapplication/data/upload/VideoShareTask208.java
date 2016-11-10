@@ -22,6 +22,7 @@ import com.li.videoapplication.data.model.response.DoVideoMarkEntity;
 import com.li.videoapplication.data.model.response.QiniuTokenPassEntity;
 import com.li.videoapplication.data.model.response.SrtUpload203Entity;
 import com.li.videoapplication.data.model.response.VideoUploadPicQiniuEntity;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.data.qiniu.http.ResponseInfo;
 import com.li.videoapplication.data.qiniu.storage.KeyGenerator;
 import com.li.videoapplication.data.qiniu.storage.UpCancellationSignal;
@@ -132,6 +133,7 @@ public class VideoShareTask208 {
     private String join_id = "";
     private long tokenTime;
     private List<String> game_tags;
+    private String goods_id;
 
     private String threadName = "LoopThread-" + tag;
     private HandlerThread thread;
@@ -201,11 +203,6 @@ public class VideoShareTask208 {
                 case Contants.STATUS_SUCCESS:
                     destroy();
                     break;
-
-//                 case Constants_Upload.STATUS_FAILURE:
-//                     failure();
-//                     destroy();
-//                     break;
 
                 case Contants.STATUS_PAUSE:
                     destroy();
@@ -277,6 +274,7 @@ public class VideoShareTask208 {
             this.description = request.getDescription();
             this.isofficial = request.getIsofficial();
             this.game_tags = request.getGame_tags();
+            this.goods_id = request.getGoods_id();
         } else {
             VideoCaptureEntity e = VideoCaptureManager.findByPath(path);
             if (e != null)
@@ -320,6 +318,7 @@ public class VideoShareTask208 {
 
         Log.d(tag, "create: flag=" + flag);
         Log.d(tag, "create: covertoken=" + covertoken);
+        Log.d(tag, "create: goods_id=" + goods_id);
 
         cancel = false;
         per = 0d;
@@ -393,7 +392,9 @@ public class VideoShareTask208 {
         }
         final String time_length = VideoDuration.getDuration(entity.getVideo_path());
         try {
-            b.recycle();
+            if (b != null) {
+                b.recycle();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -422,6 +423,20 @@ public class VideoShareTask208 {
             video_id = entity.getData().getVideo_id();
             qn_key = entity.getData().getQn_key();
             Log.d(tag, "preparing: 1");
+
+            if (isofficial == 1 && !StringUtil.isNull(video_id) &&
+                    !StringUtil.isNull(goods_id) && !StringUtil.isNull(member_id)) {
+
+                String mobile = "";
+                try {
+                    mobile = PreferencesHepler.getInstance().getUserProfilePersonalInformation().getMobile();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                // 商品兑换
+                DataManager.payment(member_id, goods_id, mobile, video_id);
+            }
+
             if (!StringUtil.isNull(key) &&
                     !StringUtil.isNull(token) &&
                     !StringUtil.isNull(qn_key) &&
@@ -466,11 +481,8 @@ public class VideoShareTask208 {
                 // 七牛视频上传
                 qiniuRec(token, key, path);
 
-
                 // 七牛封面上传
                 qiniuCover(covertoken, flag);
-                // 封面
-                // cover();
 
                 // 分享
                 share();
@@ -674,82 +686,6 @@ public class VideoShareTask208 {
     }
 
     /**
-     * 封面
-     */
-    private void cover() {
-        File coverFile = SYSJStorageUtil.createCoverPath(this.entity.getVideo_path());
-        if (coverFile == null ||
-                !coverFile.exists()) {
-            try {
-                Bitmap bitmap = VideoCover.generateBitmap(this.entity.getVideo_path());
-                coverFile = SYSJStorageUtil.createCoverPath(this.entity.getVideo_path());
-                BitmapUtil.saveBitmap(bitmap, coverFile.getPath());
-                VideoCaptureManager.updateCoverByPath(path, coverFile.getPath());
-                Log.d(tag, "cover: 1");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (coverFile == null) {
-            msg = "本地视频封面不存在";
-            h.sendEmptyMessage(0);
-            Log.d(tag, "cover: 2");
-        }
-
-        File tmpFile = SYSJStorageUtil.createCoverPath(coverFile.getPath());
-        Bitmap srcBitmap = null;
-        Bitmap targetBitmap = null;
-        try {
-            srcBitmap = BitmapUtil.readLocalBitmap(coverFile.getPath());
-            targetBitmap = BitmapHelper.getCover(srcBitmap);
-            Log.d(tag, "cover: 3");
-            if (targetBitmap != null && tmpFile != null) {
-                BitmapUtil.saveBitmap(targetBitmap, tmpFile.getPath());
-                Log.d(tag, "cover: 4");
-            }
-            Log.d(tag, "cover: width=" + srcBitmap.getWidth());
-            Log.d(tag, "cover: height=" + srcBitmap.getHeight());
-            Log.d(tag, "cover: byteCount=" + srcBitmap.getByteCount());
-            Log.d(tag, "cover: width=" + targetBitmap.getWidth());
-            Log.d(tag, "cover: height=" + targetBitmap.getHeight());
-            Log.d(tag, "cover: byteCount=" + targetBitmap.getByteCount());
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            BitmapUtil.recycleBitmap(srcBitmap);
-            BitmapUtil.recycleBitmap(targetBitmap);
-        }
-
-        tmpFile = SYSJStorageUtil.createCoverPath(coverFile.getPath());
-        VideoUploadPicQiniuEntity e;
-        if (tmpFile != null && tmpFile.exists()) {
-            // 上传视频封面
-            e = DataManager.UPLOAD.videoUploadPicQiniuSync(video_id, tmpFile);
-            Log.d(tag, "cover: 5");
-        } else {
-            // 上传视频封面
-            e = DataManager.UPLOAD.videoUploadPicQiniuSync(video_id, coverFile);
-            Log.d(tag, "cover: 6");
-        }
-
-        Log.d(tag, "entity=" + e);
-        if (e != null && e.isResult()) {
-            msg = "视频封面上传成功";
-            h.sendEmptyMessage(0);
-            Log.d(tag, "cover: 7");
-
-            if (e.getData() != null && e.getData().getFlag() != null) {
-                imageUrl = e.getData().getFlag();
-                Log.d(tag, "cover: 8");
-            }
-        } else {
-            msg = "视频封面上传失败";
-            h.sendEmptyMessage(0);
-            Log.d(tag, "cover: 9");
-        }
-    }
-
-    /**
      * 七牛视频上传
      */
     private void qiniuRec(final String token, final String key, final String path) {
@@ -821,7 +757,7 @@ public class VideoShareTask208 {
                             }
                         });
                     } else {
-                        if (respInfo.error.toString().equals("cancelled by user")) {// 用户取消上传
+                        if (respInfo.error.equals("cancelled by user")) {// 用户取消上传
                             // 保存上传状态
                             VideoCaptureManager.updateStationByPath(path, per);
                             // 保存上传状态
@@ -840,44 +776,43 @@ public class VideoShareTask208 {
                 }
 
                 private String getErroeCode(String code) {
-                    if (code.equals("400")) {
-                        return "请求报文格式错误";
-                    } else if (code.equals("401")) {
-                        return "认证授权失败";
-                    } else if (code.equals("401")) {
-                        return "认证授权失败";
-                    } else if (code.equals("404")) {
-                        return "资源不存在";
-                    } else if (code.equals("405")) {
-                        return "请求方式错误";
-                    } else if (code.equals("406")) {
-                        return "上传的数据 CRC32 校验错误";
-                    } else if (code.equals("419")) {
-                        return "用户账号被冻结";
-                    } else if (code.equals("478")) {
-                        return "镜像回源失败";
-                    } else if (code.equals("503")) {
-                        return "服务端不可用";
-                    } else if (code.equals("504")) {
-                        return "服务端操作超时";
-                    } else if (code.equals("579")) {
-                        return "上传成功但是回调失败";
-                    } else if (code.equals("599")) {
-                        return "服务端操作失败";
-                    } else if (code.equals("608")) {
-                        return "指定资源不存在或已被删除";
-                    } else if (code.equals("612")) {
-                        return "上传的数据 CRC32 校验错误";
-                    } else if (code.equals("614")) {
-                        return "目标资源已存在";
-                    } else if (code.equals("630")) {
-                        return "已创建的空间数量达到上限，无法创建新空间";
-                    } else if (code.equals("631")) {
-                        return "指定空间不存在";
-                    } else if (code.equals("640")) {
-                        return "指定非法的marker参数";
-                    } else if (code.equals("701")) {
-                        return "上传接收地址不正确或ctx信息已过期";
+                    switch (code) {
+                        case "400":
+                            return "请求报文格式错误";
+                        case "401":
+                            return "认证授权失败";
+                        case "404":
+                            return "资源不存在";
+                        case "405":
+                            return "请求方式错误";
+                        case "406":
+                            return "上传的数据 CRC32 校验错误";
+                        case "419":
+                            return "用户账号被冻结";
+                        case "478":
+                            return "镜像回源失败";
+                        case "503":
+                            return "服务端不可用";
+                        case "504":
+                            return "服务端操作超时";
+                        case "579":
+                            return "上传成功但是回调失败";
+                        case "599":
+                            return "服务端操作失败";
+                        case "608":
+                            return "指定资源不存在或已被删除";
+                        case "612":
+                            return "上传的数据 CRC32 校验错误";
+                        case "614":
+                            return "目标资源已存在";
+                        case "630":
+                            return "已创建的空间数量达到上限，无法创建新空间";
+                        case "631":
+                            return "指定空间不存在";
+                        case "640":
+                            return "指定非法的marker参数";
+                        case "701":
+                            return "上传接收地址不正确或ctx信息已过期";
                     }
                     return "";
                 }
@@ -890,11 +825,11 @@ public class VideoShareTask208 {
      */
     private void completing() {
         Log.d(tag, "completing: // ------------------------------------------------------");
-        Log.d(tag, "completing: video_id == "+video_id);
-        Log.d(tag, "completing: game_id == "+game_id);
-        Log.d(tag, "completing: is_success == "+is_success);
-        Log.d(tag, "completing: member_id == "+member_id);
-        Log.d(tag, "completing: join_id == "+join_id);
+        Log.d(tag, "completing: video_id == " + video_id);
+        Log.d(tag, "completing: game_id == " + game_id);
+        Log.d(tag, "completing: is_success == " + is_success);
+        Log.d(tag, "completing: member_id == " + member_id);
+        Log.d(tag, "completing: join_id == " + join_id);
         // 图片上传回调
         QiniuTokenPassEntity entity =
                 DataManager.UPLOAD.qiniuTokenPassSync(video_id,
@@ -911,17 +846,16 @@ public class VideoShareTask208 {
             result = true;
             h.sendEmptyMessage(0);
 
+            DataManager.TASK.videoShareVideo211(video_id, member_id);
             UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.MACROSCOPIC_DATA, "玩家上传视频数");
         } else {
             if (entity != null && !StringUtil.isNull(entity.getMsg())) {
                 msg = entity.getMsg();
-                status = Contants.STATUS_END;
-                h.sendEmptyMessage(0);
             } else {
                 msg = "保存视频信息失败";
-                status = Contants.STATUS_END;
-                h.sendEmptyMessage(0);
             }
+            status = Contants.STATUS_END;
+            h.sendEmptyMessage(0);
         }
     }
 

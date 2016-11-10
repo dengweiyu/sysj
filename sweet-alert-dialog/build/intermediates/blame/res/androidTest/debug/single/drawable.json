@@ -1,89 +1,5 @@
 [
     {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\gray_button_background.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\gray_button_background.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_item_background_holo_light.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_item_background_holo_light.xml"
-    },
-    {
-        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_cab_background_top_material.xml",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_cab_background_top_material.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_list_selector_background_transition_holo_light.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_list_selector_background_transition_holo_light.xml"
-    },
-    {
-        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_edit_text_material.xml",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_edit_text_material.xml"
-    },
-    {
-        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\success_circle.xml",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\success_circle.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\success_bow.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\success_bow.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_btn_check_material.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_btn_check_material.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_list_selector_holo_light.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_list_selector_holo_light.xml"
-    },
-    {
-        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\success_bow.xml",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\success_bow.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_edit_text_material.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_edit_text_material.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\warning_sigh.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\warning_sigh.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_cab_background_internal_bg.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_cab_background_internal_bg.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\error_circle.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\error_circle.xml"
-    },
-    {
-        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_list_selector_background_transition_holo_dark.xml",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_list_selector_background_transition_holo_dark.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_textfield_search_material.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_textfield_search_material.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\error_center_x.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\error_center_x.xml"
-    },
-    {
-        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\error_circle.xml",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\error_circle.xml"
-    },
-    {
-        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_item_background_holo_light.xml",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_item_background_holo_light.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_btn_radio_material.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_btn_radio_material.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_switch_thumb_material.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_switch_thumb_material.xml"
-    },
-    {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\blue_button_background.xml",
         "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\blue_button_background.xml"
     },
@@ -92,12 +8,12 @@
         "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_textfield_search_material.xml"
     },
     {
-        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\warning_circle.xml",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\warning_circle.xml"
+        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_cab_background_top_material.xml",
+        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_cab_background_top_material.xml"
     },
     {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\red_button_background.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\red_button_background.xml"
+        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\warning_circle.xml",
+        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\warning_circle.xml"
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_switch_thumb_material.xml",
@@ -112,40 +28,28 @@
         "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_tab_indicator_material.xml"
     },
     {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_cab_background_top_material.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_cab_background_top_material.xml"
+        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_edit_text_material.xml",
+        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_edit_text_material.xml"
+    },
+    {
+        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\success_circle.xml",
+        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\success_circle.xml"
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_list_selector_holo_dark.xml",
         "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_list_selector_holo_dark.xml"
     },
     {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\blue_button_background.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\blue_button_background.xml"
-    },
-    {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\warning_sigh.xml",
         "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\warning_sigh.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_list_selector_holo_dark.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_list_selector_holo_dark.xml"
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_list_selector_background_transition_holo_light.xml",
         "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_list_selector_background_transition_holo_light.xml"
     },
     {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_list_selector_background_transition_holo_dark.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_list_selector_background_transition_holo_dark.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\dialog_background.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\dialog_background.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_tab_indicator_material.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_tab_indicator_material.xml"
+        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\success_bow.xml",
+        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\success_bow.xml"
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\error_center_x.xml",
@@ -156,16 +60,20 @@
         "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_list_selector_holo_light.xml"
     },
     {
+        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_list_selector_background_transition_holo_dark.xml",
+        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_list_selector_background_transition_holo_dark.xml"
+    },
+    {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_cab_background_internal_bg.xml",
         "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_cab_background_internal_bg.xml"
     },
     {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\success_circle.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\success_circle.xml"
-    },
-    {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_btn_radio_material.xml",
         "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_btn_radio_material.xml"
+    },
+    {
+        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\error_circle.xml",
+        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\error_circle.xml"
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\dialog_background.xml",
@@ -176,8 +84,8 @@
         "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\red_button_background.xml"
     },
     {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_item_background_holo_dark.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_item_background_holo_dark.xml"
+        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_item_background_holo_light.xml",
+        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_item_background_holo_light.xml"
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\gray_button_background.xml",
@@ -186,9 +94,5 @@
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_item_background_holo_dark.xml",
         "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable\\abc_item_background_holo_dark.xml"
-    },
-    {
-        "merged": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\warning_circle.xml",
-        "source": "E:\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\bundles\\debug\\res\\drawable\\warning_circle.xml"
     }
 ]
