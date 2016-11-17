@@ -29,6 +29,7 @@ import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.toast.ToastHelper;
@@ -511,6 +512,8 @@ public class ScreenRecordActivity extends TBaseActivity implements
         } else {
             r.run();
         }
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "首页-录制按钮-录制屏幕次数");
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MACROSCOPIC_DATA, "录制视频次数");
     }
 
     /**

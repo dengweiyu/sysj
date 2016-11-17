@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:clipToPadding="true"
     android:fitsSystemWindows="true">
 
@@ -56,7 +57,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-   <include layout="@layout/activity_videochoose_content"/>
+   <include layout="@layout/activity_videochoose_content" />
 
     <TextView
         android:id="@+id/videochoose_empty"

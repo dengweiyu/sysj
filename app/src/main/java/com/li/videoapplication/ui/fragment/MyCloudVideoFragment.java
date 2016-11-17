@@ -110,7 +110,10 @@ public class MyCloudVideoFragment extends TBaseFragment implements PullToRefresh
         onRefreshCompleteDelayed(PullToRefreshActivity.TIME_REFRESH_SHORT);
 
         // 用户视频列表2
-        DataManager.authorVideoList2(getMember_id(), page);
+//        DataManager.authorVideoList2(getMember_id(), page);
+
+        // 用户视频列表
+        DataManager.videoCloudList(getMember_id(), page);
     }
 
     /**

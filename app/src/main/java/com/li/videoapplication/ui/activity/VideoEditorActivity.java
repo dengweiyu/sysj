@@ -22,14 +22,17 @@ import android.widget.VideoView;
 import com.fmsysj.screeclibinvoke.logic.videoedit.MP4parserHelper;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.network.LightTask;
 import com.li.videoapplication.data.network.UITask;
+import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
+import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.view.AspectRatioLayout;
 import com.li.videoapplication.views.VideoSliceSeekBar;
 
@@ -348,8 +351,9 @@ public class VideoEditorActivity extends TBaseActivity implements OnClickListene
         final EditText editText = new EditText(this);
         editText.setPadding(dp2px(6), dp2px(12), dp2px(6), dp2px(12));
         editText.setText(oldName + "_tmp");
+        editText.setTextColor(resources.getColor(R.color.title_bg_color));
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
         builder.setTitle("请输入视频名称");
         builder.setView(editText);
         builder.setPositiveButton("确定", null);
@@ -403,8 +407,8 @@ public class VideoEditorActivity extends TBaseActivity implements OnClickListene
                     boolean flag = MP4parserHelper.trimMedia(entity.getVideo_path(), newPath, textTime[0], textTime[1]);
                     if (flag) {
                         msg.obj = "视频剪辑成功";
-                        // 加载本地视频
-                        DataManager.LOCAL.loadVideoCaptures();
+                        //发布视频剪辑完成事件
+                        EventManager.postVideoCutEvent();
                         finish();
                     } else {
                         msg.obj = "视频剪辑失败了";

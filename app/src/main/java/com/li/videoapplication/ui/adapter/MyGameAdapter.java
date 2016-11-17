@@ -135,14 +135,14 @@ public class MyGameAdapter extends BaseArrayAdapter<Game> {
      * 话题
      */
     private void setTopic(TextView view, final Game record) {
-        view.setText("话题\t" + record.getVideo_num());
+        view.setText("话题\t" + StringUtil.formatNum(record.getVideo_num()));
     }
 
     /**
      * 关注
      */
     private void setRemark(TextView view, final Game record) {
-        view.setText("关注\t" + record.getAttention_num());
+        view.setText("关注\t" + StringUtil.formatNum(record.getAttention_num()));
     }
 
     private static class ViewHolder {

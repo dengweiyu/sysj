@@ -32,14 +32,27 @@
         android:textColor="#242424"
         android:textSize="12sp"/>
 
+    <TextView
+        android:id="@+id/classifiedgame_focus"
+        android:layout_width="42dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/player_focus"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:text="@string/dynamic_focus"
+        android:textColor="@color/groupdetail_player_red"
+        android:textSize="11sp"
+        android:visibility="visible"/>
+
     <LinearLayout
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_alignBottom="@+id/classifiedgame_pic"
-        android:layout_alignLeft="@+id/classifiedgame_title"
-        android:layout_marginBottom="2dp"
-        android:orientation="horizontal">
+        android:layout_toEndOf="@+id/classifiedgame_pic">
 
         <TextView
             android:id="@+id/classifiedgame_left"
@@ -61,20 +74,6 @@
             android:textColor="#646464"
             android:textSize="10sp"/>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/classifiedgame_focus"
-        android:layout_width="42dp"
-        android:layout_height="20dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="12dp"
-        android:background="@drawable/player_focus"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:text="@string/dynamic_focus"
-        android:textColor="@color/groupdetail_player_red"
-        android:textSize="11sp"
-        android:visibility="visible"/>
     <!-- #ff372d -->
 
 </RelativeLayout>

@@ -315,8 +315,8 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     private void setMark(TextView view, final Game item) {
 
         StringBuilder sb = new StringBuilder();
-        String attention_num = item.getAttention_num();
-        String video_num = item.getVideo_num();
+        String attention_num = StringUtil.formatNum(item.getAttention_num());
+        String video_num = StringUtil.formatNum(item.getVideo_num());
         if (!StringUtil.isNull(video_num)) {
             sb.append("话题\t").append(video_num);
         }
@@ -373,7 +373,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 break;
 
             case R.id.groupdetail_matchview:
-                // TODO: 2016/10/24 chat
+                ActivityManeger.startGroupMatchListActivity(this, game.getGame_id());
                 break;
         }
     }

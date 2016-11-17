@@ -7,6 +7,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="9dp"
+        android:layout_marginTop="9dp"
         android:layout_marginRight="9dp"
         android:background="@drawable/button_main"
         android:clickable="true">
@@ -21,7 +22,7 @@
             android:layout_marginRight="9dp"
             android:layout_marginTop="9dp"
             android:scaleType="centerCrop"
-            android:src="#555555"/>
+            android:src="#555555" />
 
         <TextView
             android:id="@+id/activity_title"
@@ -50,7 +51,7 @@
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="起止时间：2015/12/04-2015/12/16"
+            android:text="起止时间："
             android:textColor="#eea9a9a9"
             android:textSize="11sp"/>
 

@@ -340,10 +340,10 @@ public class RequestUrl {
     }
 
     /**
-     * 获取验证码
+     * 获取验证码 登陆注册
      */
-    public final String msgRequestNew() {
-        return BaseHome + "/member/msgRequestNew.html";
+    public final String msgRequestCode() {
+        return BaseSYSJ + "/Sysj211/message/msgRequestCode";
     }
 
     /**
@@ -354,24 +354,25 @@ public class RequestUrl {
     }
 
     /**
-     * 获取验证码210
+     * 个人中心绑定手机号请求验证码
      */
     public final String phoneRequestMsg() {
-        return BaseHome + "/Member/phoneRequestMsg";
+        return BaseSYSJ + "/Sysj211/message/phoneRequestMsg";
     }
 
     /**
-     * 获取验证码210
+     * 获取验证码211
      */
     public final String eventRequestMsg() {
-        return BaseHome + "/Member/eventRequestMsg";
+        return BaseSYSJ + "/Sysj211/message/eventRequestMsg";
     }
 
     /**
      * 提交手机和验证码
+     * 参加赛事验证、个人中心验证
      */
     public final String verifyCodeNew() {
-        return BaseHome + "/member/verifyCodeNew.html";
+        return BaseSYSJ + "/Sysj211/message/verifyCode";
     }
 
     /**
@@ -582,6 +583,13 @@ public class RequestUrl {
     }
 
     /**
+     * 用户视频列表211
+     */
+    public final String videoCloudList() {
+        return BaseSYSJ + "/sysj208/video/cloudList";
+    }
+
+    /**
      * 用户视频列表208
      */
     public final String authorVideoList208() {
@@ -616,6 +624,13 @@ public class RequestUrl {
      */
     public final String messageMyMessage() {
         return BaseSYSJ + "/sysj201/message/myMessage";
+    }
+
+    /**
+     * 清除视频图文消息
+     */
+    public final String allRead() {
+        return BaseSYSJ + "/sysj211/message/allRead";
     }
 
     /**
@@ -1339,15 +1354,17 @@ public class RequestUrl {
     }
 
     /**
-     * 赛事列表204
+     * 圈子赛事列表211
      */
-    public final String getEventsList204() {
-        return BaseSYSJ + "/sysj204/events/getEventsList";
+    public final String getGroupEventsList211() {
+        return BaseSYSJ + "/sysj211/events/getGroupEventsList";
     }
 
-    //fixme test!!!
-    public final String getEventsList210Test() {
-        return BaseSYSJ + "/sysj210/events/getEventsListTest";
+    /**
+     * 赛事列表211
+     */
+    public final String getEventsList211() {
+        return BaseSYSJ + "/sysj211/events/getEventsList";
     }
 
     /**

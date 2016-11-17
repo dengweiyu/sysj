@@ -56,7 +56,12 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
         ActivityManeger.startVideoMangerActivity(activity);
     }
 
-
+    /**
+     * 跳转：选择上传视频
+     */
+    private void startVideoChooseActivity() {
+        ActivityManeger.startVideoChooseActivity(getContext(), null);
+    }
 
     public RecordDialog(Context context) {
         super(context);
@@ -122,7 +127,8 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
 
             case R.id.record_local://视频
                 if (activity != null)
-                    startVideoMangerActivity();
+//                    startVideoMangerActivity();
+                    startVideoChooseActivity();
                 break;
         }
         cancel();

@@ -7,7 +7,7 @@ import com.li.videoapplication.framework.BaseResponseEntity;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public class EventsList204Entity extends BaseResponseEntity {
+public class EventsList211Entity extends BaseResponseEntity {
     private Data data;
 
     public Data getData() {

@@ -65,6 +65,7 @@ public class ActivityDetailActivity208 extends TBaseAppCompatActivity implements
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (StringUtil.isNull(match_id)) finish();
     }
 
     @Override

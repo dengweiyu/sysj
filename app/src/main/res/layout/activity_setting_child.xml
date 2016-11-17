@@ -285,7 +285,7 @@
         <!--android:layout_height="1px"-->
         <!--android:background="#88e4e4e4"/>-->
 
-    <!--<RelativeLayout
+    <RelativeLayout
         android:id="@+id/setting_recordedJump"
         android:layout_width="fill_parent"
         android:layout_height="44dp"
@@ -336,7 +336,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#88e4e4e4"/>-->
+        android:background="#88e4e4e4"/>
 
     <RelativeLayout
         android:id="@+id/setting_screenQuality"

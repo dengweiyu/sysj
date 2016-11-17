@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.happly.link.HpplayLinkControl;
+import com.happly.link.bean.VideoInfo;
 import com.happly.link.device.Const;
 import com.happly.link.net.RefreshUIInterface;
 import com.happly.link.util.ReversedCallBack;
@@ -81,7 +83,8 @@ import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdap
 @SuppressLint("SetJavaScriptEnabled")
 public class VideoPlayActivity extends TBaseActivity implements
         OnPageChangeListener,
-        CommentView.CommentListener, RefreshUIInterface {
+        CommentView.CommentListener,
+        RefreshUIInterface{
 
     public static long playPos;
     public static String playUrl;
@@ -205,6 +208,7 @@ public class VideoPlayActivity extends TBaseActivity implements
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(Const.LINK_PLAY_STATE);
+        filter.addAction(Const.HPPLAY_LINK_DISCONNECT);
         registerReceiver(myBroadcastReceiver, filter);
     }
 
@@ -218,24 +222,22 @@ public class VideoPlayActivity extends TBaseActivity implements
                 if (play_state) {//已成功连接
                     videoPlayView.switchPlay(VideoPlayView.STATE_TV);
 
-                    RequestExecutor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                int position = (int) videoPlayView.videoPlayer.getCurrentPosition();
-                                Log.d(tag, "position : " + position);
-                                int time = position / 1000;
-                                Log.d(tag, "time position : " + time);
-                                //设置投屏播放进度
-                                if (!StringUtil.isNull(qn_key) && URLUtil.isURL(qn_url)) {
-                                    videoPlayView.linkControl.setPlayVideoPosition(VideoPlayActivity.this, 2, qn_url, time);
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                    try {
+                        int position = (int) videoPlayView.videoPlayer.getCurrentPosition();
+                        Log.d(tag, "position : " + position);
+                        int time = position / 1000;
+                        Log.d(tag, "time position : " + time);
+                        //设置投屏播放进度
+                        if (!StringUtil.isNull(qn_key) && URLUtil.isURL(qn_url)) {
+                            videoPlayView.linkControl.setPlayVideoPosition(VideoPlayActivity.this, 2, qn_url, time);
                         }
-                    });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
+            } else if (Const.HPPLAY_LINK_DISCONNECT.equals(intent.getAction())) {
+                ToastHelper.s("投屏连接已断开");
+                Log.d(tag, "投屏连接已断开: ");
             }
         }
     };
@@ -268,7 +270,7 @@ public class VideoPlayActivity extends TBaseActivity implements
     }
 
     // 是否是弹幕
-    public boolean bullet;
+//    public boolean bullet;
 
     @Override
     public boolean comment(boolean isSecondComment, String text) {
@@ -277,10 +279,10 @@ public class VideoPlayActivity extends TBaseActivity implements
             videoPlayView.addDanmuku(text);
         }
         // 评论
-        DataManager.DANMUKU.bulletDo203Comment2Video(item.getVideo_id(),
-                getMember_id(),
-                text);
-        bullet = false;
+//        DataManager.DANMUKU.bulletDo203Comment2Video(item.getVideo_id(),
+//                getMember_id(),
+//                text);
+//        bullet = false;
         return true;
     }
 
@@ -441,7 +443,31 @@ public class VideoPlayActivity extends TBaseActivity implements
     /**
      * 回调：评论
      */
-    public void onEventMainThread(BulletDo203Comment2VideoEntity event) {
+//    public void onEventMainThread(BulletDo203Comment2VideoEntity event) {
+//        if (event.isResult()) {
+//            if (comment != null) {
+//                ToastHelper.s("发布评论成功");
+//                comment.setVideoImage(item);
+//                viewPager.setCurrentItem(0);
+//                comment.smoothScrollToPosition(0);
+//
+//                String video_comment_id = event.getData().getVideo_comment_id();
+//                if (!StringUtil.isNull(video_comment_id)) {
+//                    //用户内容及言论入口，IP等行为统计接口
+//                    DataManager.userdatabehavior(getMember_id(), "", "", video_comment_id, "sysj_a", "",
+//                            HareWareUtil.getHardwareCode(), HareWareUtil.getIMEI(), "");
+//                }
+//                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.VIDEOPLAY, "视频播放-评论");
+//                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.VIDEOPLAY, "总评论次数");
+//            }
+//        }
+//    }
+
+    /**
+     * 回调：弹幕发射
+     */
+    public void onEventMainThread(BulletDo203Bullet2VideoEntity event) {
+
         if (event.isResult()) {
             if (comment != null) {
                 ToastHelper.s("发布评论成功");
@@ -457,21 +483,6 @@ public class VideoPlayActivity extends TBaseActivity implements
                 }
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.VIDEOPLAY, "视频播放-评论");
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.VIDEOPLAY, "总评论次数");
-            }
-        }
-    }
-
-    /**
-     * 回调：弹幕发射
-     */
-    public void onEventMainThread(BulletDo203Bullet2VideoEntity event) {
-        if (bullet)
-            return;
-        if (event.isResult()) {
-            if (comment != null) {
-                comment.setVideoImage(item);
-                viewPager.setCurrentItem(0);
-                comment.smoothScrollToPosition(0);
             }
         }
     }
@@ -889,34 +900,33 @@ public class VideoPlayActivity extends TBaseActivity implements
     public void onRefresh(Object object, int port) {
         switch (port) {
             case 2://播放进度控制
-                Log.d(tag, "onRefresh: setPlayVideoPosition == " + (boolean) object);
+                Log.d(tag, "播放进度控制: setPlayVideoPosition == " + (boolean) object);
                 break;
             case 4://开始播放
-                Log.d(tag, "onRefresh: setPlayControl == " + (boolean) object);
+                Log.d(tag, "开始播放: setPlayControl == " + (boolean) object);
                 break;
             case 5://暂停播放
-                Log.d(tag, "onRefresh: setPlayControl == " + (boolean) object);
+                Log.d(tag, "暂停播放: setPlayControl == " + (boolean) object);
                 break;
             case 7://退出播放
-                Log.d(tag, "onRefresh: setStopVideo == " + (boolean) object);
+                Log.d(tag, "退出播放: setStopVideo == " + (boolean) object);
                 try {
                     if ((boolean) object) {
-                        getHandler().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                videoPlayView.leBoView.hideView();
-                                videoPlayView.touchView.showView();
-                                videoPlayView.toogleView();
-                                setCurrentVolume(currentVolume);
-                            }
-                        });
+                        videoPlayView.RefreshViewAfterStopLebo();
+                        setCurrentVolume(videoPlayView.volumeBeforeTV);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                     LogHelper.e(tag, "乐播退出播放出错");
                 }
             case 9://是否播放随手机端APK退出
-                Log.d(tag, "onRefresh: setIsBackgroundPlay == " + (boolean) object);
+                Log.d(tag, "是否播放随手机端APK退出: setIsBackgroundPlay == " + (boolean) object);
+                break;
+            case 14://TV弹幕是否显示
+                Log.d(tag, "TV弹幕是否显示: setWebPushVisibility == " + (boolean) object);
+                break;
+            case 20://发布弹幕
+                Log.d(tag, "发布弹幕: sendUserBeantoJSon == " + (boolean) object);
                 break;
         }
     }

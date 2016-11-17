@@ -9,6 +9,7 @@ import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.CurrencySection;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.utils.StringUtil;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class CurrencyRecordAdapter extends BaseSectionQuickAdapter<CurrencySecti
         }
 
         holder.setText(R.id.currencyrecord_description, currency.getTitle())
-                .setText(R.id.currencyrecord_amount, "余额：" + currency.getAmount() + "豆");
+                .setText(R.id.currencyrecord_amount, "余额：" + StringUtil.formatNum(currency.getAmount()) + "豆");
 
         ImageView pic = holder.getView(R.id.currencyrecord_pic);
         helper.setImageViewImageNet(pic, currency.getIco());

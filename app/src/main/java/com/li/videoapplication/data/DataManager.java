@@ -11,9 +11,11 @@ import com.li.videoapplication.data.model.entity.Advertisement;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.*;
 import com.li.videoapplication.data.network.Contants;
+import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.network.RequestHelper;
 import com.li.videoapplication.data.network.RequestObject;
 import com.li.videoapplication.data.network.RequestParams;
+import com.li.videoapplication.data.network.RequestRunnable;
 import com.li.videoapplication.data.network.RequestService;
 import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
@@ -1823,6 +1825,7 @@ public class DataManager {
 
     /** ############ 赛事 ############# */
 
+
     /**
      * 功能：赛事胜利者弹出框判断第一次接口
      */
@@ -1838,7 +1841,7 @@ public class DataManager {
     }
 
     /**
-     * 功能：获取验证码210
+     * 功能：个人中心绑定手机号请求验证码
      */
     public static void phoneRequestMsg(String key) {
 
@@ -1853,7 +1856,7 @@ public class DataManager {
     }
 
     /**
-     * 功能：获取验证码210
+     * 功能：报名时获取验证码210
      */
     public static void eventRequestMsg(String key, String title) {
 
@@ -1996,23 +1999,47 @@ public class DataManager {
     }
 
     /**
-     * 功能：赛事列表204
+     * 功能：圈子赛事列表211
      */
-    public static final void getEventsList204(int page) {
+    public static void getGroupEventsList211(String game_id, int page) {
 
         RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().getEventsList204();
+        String url = RequestUrl.getInstance().getGroupEventsList211();
+        Map<String, Object> params = RequestParams.getInstance().getGroupEventsList211(game_id, page);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new GroupEventsList211Entity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：下载保存图片
+     */
+    public static void saveImage(String url){
+        RequestHelper helper = new RequestHelper();
+        RequestObject request = new RequestObject(Contants.TYPE_DOWNLOAD, url, null, null);
+        request.setEntity(null);
+        helper.doService(request);
+    }
+
+    /**
+     * 功能：赛事列表211
+     */
+    public static void getEventsList211(int page) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getEventsList211();
         Map<String, Object> params = RequestParams.getInstance().getEventsList204(page);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new EventsList204Entity());
+        request.setEntity(new EventsList211Entity());
         helper.doNetwork(request);
     }
 
     /**
      * 功能：赛事详情210
      */
-    public static final void getEventsInfo210(String event_id, String member_id) {
+    public static void getEventsInfo210(String event_id, String member_id) {
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().getEventsInfo210();
         Map<String, Object> params = RequestParams.getInstance().getEventsInfo204(event_id, member_id);
@@ -2503,7 +2530,7 @@ public class DataManager {
     public static void msgRequestNew(String key) {
 
         RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().msgRequestNew();
+        String url = RequestUrl.getInstance().msgRequestCode();
         String target = "sysj";
         Map<String, Object> params = RequestParams.getInstance().msgRequestNew(key, target);
 
@@ -2528,7 +2555,8 @@ public class DataManager {
     }
 
     /**
-     * 功能：提交验证码
+     * 功能：提交手机和验证码
+     * 参加赛事验证、个人中心验证
      */
     public static void verifyCodeNew(String key, String code) {
 
@@ -2838,6 +2866,20 @@ public class DataManager {
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(entity);
         helper.doNetwork(request);
+    }
+
+    /**
+     * 用户视频列表211
+     */
+    public static void videoCloudList(String member_id, int page) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().videoCloudList();
+        Map<String, Object> params = RequestParams.getInstance().authorVideoList2(member_id, page);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new AuthorVideoList2Entity());
+        helper.doService(request);
     }
 
     /**
@@ -3876,6 +3918,20 @@ public class DataManager {
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new MessageMyMessageEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：清除视频图文消息
+     */
+    public static void allRead(String member_id) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().allRead();
+        Map<String, Object> params = RequestParams.getInstance().allRead(member_id);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new AllReadEntity());
         helper.doNetwork(request);
     }
 

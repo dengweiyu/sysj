@@ -120,14 +120,15 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
 
         if (!StringUtil.isNull(getUser().getMobile())) {//已有手机号
             phone.setText(getUser().getMobile());
-            phone.setEnabled(false);
+            phone.setFocusableInTouchMode(false);
             phone.setFocusable(false);
 
             changePhoneNum.setVisibility(View.VISIBLE);
             getCode.setVisibility(View.GONE);
             code.setVisibility(View.GONE);
         } else {//没有手机号
-            phone.setEnabled(true);
+            phone.setFocusableInTouchMode(true);
+            phone.setFocusable(true);
 
             changePhoneNum.setVisibility(View.GONE);
             getCode.setVisibility(View.VISIBLE);
@@ -171,7 +172,7 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
                 getCode.setVisibility(View.VISIBLE);
                 code.setVisibility(View.VISIBLE);
                 phone.setText("");
-                phone.setEnabled(true);
+                phone.setFocusableInTouchMode(true);
                 phone.setFocusable(true);
                 phone.requestFocus();
                 break;

@@ -732,6 +732,7 @@ public class VideoShareActivity210 extends TBaseActivity implements OnClickListe
                 entity,
                 getGoods_id());
 
+        ActivityManeger.startVideoMangerActivityNewTask(this);
         finish();
     }
 

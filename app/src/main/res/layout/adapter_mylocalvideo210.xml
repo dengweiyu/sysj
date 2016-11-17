@@ -98,6 +98,15 @@
                 android:background="@drawable/choose_check"
                 android:button="@null"
                 android:checked="true" />
+
+            <ImageView
+                android:id="@+id/mylocalvideo_cancelupload"
+                android:layout_width="@dimen/kaka_18"
+                android:layout_height="@dimen/kaka_18"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/mylocalvideo_cancelupload"
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <LinearLayout

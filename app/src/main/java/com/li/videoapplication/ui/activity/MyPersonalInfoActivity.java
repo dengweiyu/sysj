@@ -96,7 +96,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
     private RadioButton male;
     private TextView introduce;
     private EditText introduceEdit;
-    private TextView qq, mobile,beanNum;
+    private TextView qq, mobile, beanNum;
     private EditText qqEdit;
     private CheckBox publicCheck;
     private RelativeLayout logoutBtn;
@@ -162,14 +162,6 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 }
             }, 400);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        //一次性提示对话框：经验转视豆
-        DialogManager.showChangeExp2ShidouDialog_Center(this);
     }
 
     private void initContentView() {
@@ -390,7 +382,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
 
             setTextViewText(qq, item.getQq());
             setTextViewText(qqEdit, item.getQq());
-            setTextViewText(beanNum,item.getCurrency());
+            setTextViewText(beanNum, StringUtil.formatNum(item.getCurrency()));
             setTextViewText(mobile, item.getMobile());
 
             if (item.getSex() == 1) {

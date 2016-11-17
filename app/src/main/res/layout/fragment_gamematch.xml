@@ -3,46 +3,18 @@
     android:layout_height="match_parent"
     android:background="#f3f3f3">
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        xmlns:ptr="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/pulltorefresh"
-        style="@style/BaseListViewMain"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/gamematch_swipeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#f3f3f3"
-        android:divider="#00ffffff"
-        android:dividerHeight="9dp"
-        ptr:ptrAnimationStyle="flip" />
+        android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/nodata_root"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#f5f5f5"
-        android:visibility="gone">
-
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/gamematch_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:background="#f3f3f3" />
 
-            <ImageView
-                android:id="@+id/nodata_logo"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/sysj_logo_gray" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-            <TextView
-                android:id="@+id/nodata_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center_horizontal"
-                android:text="敬请期待更多赛事"
-                android:textColor="#afafaf"
-                android:textSize="18sp" />
-        </LinearLayout>
-    </RelativeLayout>
 </RelativeLayout>

@@ -91,6 +91,12 @@ public class WebActivityJS extends TBaseAppCompatActivity {
     }
 
     @Override
+    public void afterOnCreate() {
+        super.afterOnCreate();
+        setSystemBarBackgroundWhite();
+    }
+
+    @Override
     public void initView() {
         super.initView();
 
@@ -149,7 +155,6 @@ public class WebActivityJS extends TBaseAppCompatActivity {
             }
         });
 
-        webView.loadUrl(url);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -207,6 +212,8 @@ public class WebActivityJS extends TBaseAppCompatActivity {
                 super.onReceivedTitle(view, title);
             }
         });
+
+        webView.loadUrl(url);
     }
 
     @SuppressWarnings("unused")
@@ -278,8 +285,8 @@ public class WebActivityJS extends TBaseAppCompatActivity {
      */
     private void requestNoTitle() {
         if (webView != null) {
+            Log.d(TAG, "----------------- requestNoTitle: -----------------");
             webView.loadUrl("javascript:requestNoTitle()");
-            Log.d(tag, "requestNoTitle: true");
         }
     }
 

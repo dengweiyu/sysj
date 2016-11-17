@@ -90,7 +90,6 @@ public class RegisterMobileDialog extends BaseDialog implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.dialog_registermobile_getcode:
-                // FIXME: 2016/8/27
                 // 获取验证码
                 msgRequestNew();
                 break;

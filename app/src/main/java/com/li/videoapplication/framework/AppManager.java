@@ -169,17 +169,16 @@ public class AppManager {
 	 */
 	public void removeActivity(final Class<?>[] clss) {
 		synchronized (instance) {
-			for (int i = 0; i < clss.length; i++) {
-				Log.i(tag, "[finishActivity]" + clss[i].getSimpleName());
-			}
-			for (int i = 0; i < clss.length; i++) {
-				Class<?> cls = clss[i];
-				for (FragmentActivity activity : activities) {
-					if (activity.getClass().equals(cls)) {
-						removeActivity(activity);
-					}
-				}
-			}
+            for (Class<?> cls1 : clss) {
+                Log.i(tag, "[finishActivity]" + cls1.getSimpleName());
+            }
+            for (Class<?> cls : clss) {
+                for (FragmentActivity activity : activities) {
+                    if (activity.getClass().equals(cls)) {
+                        removeActivity(activity);
+                    }
+                }
+            }
 			printAllActivity();
 		}
 	}

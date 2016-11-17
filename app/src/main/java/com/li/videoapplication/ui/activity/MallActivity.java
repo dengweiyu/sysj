@@ -1,7 +1,9 @@
 package com.li.videoapplication.ui.activity;
 
+import android.os.Build;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ImageView;
@@ -14,8 +16,10 @@ import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.response.GoodsListEntity;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.adapter.MallExpListViewAdapter;
+import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +91,7 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
     private void refreshHeaderView() {
         Member member = getUser();
         setTextViewText(name, member.getNickname());
-        setTextViewText(beanNum, member.getCurrency());
+        setTextViewText(beanNum, StringUtil.formatNum(member.getCurrency()));
         setImageViewImageNet(pic, member.getAvatar());
     }
 

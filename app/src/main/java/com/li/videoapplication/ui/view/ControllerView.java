@@ -99,7 +99,8 @@ public class ControllerView extends RelativeLayout implements View.OnClickListen
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -114,14 +115,13 @@ public class ControllerView extends RelativeLayout implements View.OnClickListen
     public void onClick(View v) {
 
         if (v == play) {
-                videoPlayView.toogleVideo();
+            videoPlayView.toogleVideo();
         } else if (v == zoom) {
             if (activity != null && videoPlayer != null) {
                 activity.toogleScreen();
                 if (activity.isLandscape()) {
                     setZoom(true);
-                }
-                else {
+                } else {
                     setZoom(false);
                 }
             }
@@ -214,11 +214,9 @@ public class ControllerView extends RelativeLayout implements View.OnClickListen
             // 缓冲进度
             int buffer = videoPlayer.getBufferPercentage();
             int progress = 0;
-            try {
+            if (duration != 0 && position != 0)
                 progress = (int) (position * 100 / duration);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
             Log.i(tag, "position=" + position);
             Log.i(tag, "duration=" + duration);
             Log.i(tag, "buffer=" + buffer);

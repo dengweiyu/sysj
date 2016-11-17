@@ -20,12 +20,14 @@ import android.widget.RelativeLayout;
 
 import com.happly.link.HpplayLinkControl;
 import com.happly.link.HpplayLinkWindow;
+import com.happly.link.bean.WebPushInfo;
 import com.happly.link.net.RefreshUIInterface;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.danmuku.DanmukuListEntity;
 import com.li.videoapplication.data.danmuku.DanmukuListXmlParser;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
+import com.li.videoapplication.data.model.entity.Bullet;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.BulletList203Entity;
 import com.li.videoapplication.data.network.RequestExecutor;
@@ -36,6 +38,7 @@ import com.li.videoapplication.tools.SubtitleHelper2;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.popupwindows.ReportPopupWindow;
+import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.ScreenUtil;
@@ -46,6 +49,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 
@@ -103,7 +108,7 @@ public class VideoPlayView extends RelativeLayout implements
 
     public VideoImage videoImage;
     public HpplayLinkControl linkControl;
-    private int currentVolume;
+    public int volumeBeforeTV;
     private SubtitleHelper2 subtitleHelper;
 
     public void setVideoImage(VideoImage videoImage) {
@@ -258,17 +263,24 @@ public class VideoPlayView extends RelativeLayout implements
 
     //退出投屏
     private void stopLebo() {
-        RequestExecutor.execute(new Runnable() {
+        try {
+            linkControl.setIsBackgroundPlay(activity, 9, false);
+            linkControl.setStopVideo(activity, 7);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogHelper.e(tag, "退出投屏出错");
+            activity.finish();
+        }
+    }
+
+    public void RefreshViewAfterStopLebo() {
+        getHandler().post(new Runnable() {
             @Override
             public void run() {
-                try {
-                    linkControl.setIsBackgroundPlay(activity, 9, false);
-                    linkControl.setStopVideo(activity, 7);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    LogHelper.e(tag, "退出投屏出错");
-                    activity.finish();
-                }
+                leBoView.hideView();
+                touchView.showView();
+                toogleView();
+
             }
         });
     }
@@ -280,31 +292,21 @@ public class VideoPlayView extends RelativeLayout implements
                 videoPlayer.pause();
                 if (danmukuPlayer != null)
                     danmukuPlayer.pauseDanmaku();
-                RequestExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        //乐播暂停/继续播放控制：参数：isPlay : true为继续播放,false为暂停播放
-                        try {
-                            linkControl.setPlayControl(activity, 5, false);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                //乐播暂停/继续播放控制：参数：isPlay : true为继续播放,false为暂停播放
+                try {
+                    linkControl.setPlayControl(activity, 5, false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             } else {
                 videoPlayer.start();
                 if (danmukuPlayer != null)
                     danmukuPlayer.resumeDanmaku();
-                RequestExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            linkControl.setPlayControl(activity, 4,true);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                try {
+                    linkControl.setPlayControl(activity, 4, true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -339,6 +341,19 @@ public class VideoPlayView extends RelativeLayout implements
             resumeDanmuku(true);
             seekToDanmaku();
             UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.VIDEOPLAY, "弹幕-被打开");
+        }
+    }
+
+    /**
+     * 是否在TV显示弹幕
+     */
+    private void showTVDanmu(boolean isShow) {
+        //接收端是否支持弹幕
+        Boolean isSucceed = linkControl.isHasWebPush();
+        Log.d(tag, "接收端是否支持弹幕: " + isSucceed);
+        ToastHelper.s("接收端是否支持弹幕: " + isSucceed);
+        if (isSucceed) {
+            linkControl.setWebPushVisibility(activity, 14, isShow);
         }
     }
 
@@ -409,6 +424,20 @@ public class VideoPlayView extends RelativeLayout implements
             if (is != null)
                 danmukuPlayer.loadDanmaku(is);
         }
+        // FIXME: 2016/11/16
+//        List<WebPushInfo> webPushList = new ArrayList<>();
+//        for (int i = 0; i < entity.getData().size(); i++) {
+//            Bullet bullet = entity.getData().get(i);
+//
+//            WebPushInfo webPushInfo = new WebPushInfo();
+//            webPushInfo.setContent(bullet.getContent());
+//
+//            Double time = Double.valueOf(bullet.getVideo_node());
+//            webPushInfo.setDelaytime((long) (time * 1000));
+//
+//            webPushList.add(webPushInfo);
+//        }
+//        linkControl.sendOtherBeantoJSon(activity, 19, webPushList, 2);
     }
 
     /**
@@ -435,7 +464,20 @@ public class VideoPlayView extends RelativeLayout implements
                 video_node,
                 PreferencesHepler.getInstance().getMember_id(),
                 text);
-        activity.bullet = true;
+//        activity.bullet = true;
+
+        if (state == STATE_TV) {
+            boolean hasWebPush = linkControl.isHasWebPush();//接收端是否支持弹幕
+            Log.d(tag, "接收端是否支持弹幕: " + hasWebPush);
+            if (hasWebPush) {
+                List<WebPushInfo> webPushuserList = new ArrayList<>();
+                WebPushInfo webPushInfo = new WebPushInfo();
+                webPushInfo.setContent(text);
+                webPushInfo.setDelaytime(videoPlayer.getVideoPosition());
+                webPushuserList.add(webPushInfo);
+                linkControl.sendUserBeantoJSon(activity, 20, webPushuserList, 2);//type：1为直播，2为非直播流
+            }
+        }
         return true;
     }
 
@@ -950,7 +992,7 @@ public class VideoPlayView extends RelativeLayout implements
             rightBarView.hideView();
             titleBarView.hideView();
 
-            currentVolume = activity.getCurrentVolume();
+            volumeBeforeTV = activity.getCurrentVolume();
             activity.setCurrentVolume(0);
 
             leBoView.showView();
@@ -960,6 +1002,7 @@ public class VideoPlayView extends RelativeLayout implements
             videoPlayer.setVisibility(VISIBLE);
             webPlayer.setVisibility(GONE);
 
+//            showTVDanmu(isDanmukuShow); // FIXME: 2016/11/16
             return;
         }
 
@@ -1094,13 +1137,8 @@ public class VideoPlayView extends RelativeLayout implements
             webPlayer.destroy();
             try {
                 webPlayer.getClass().getMethod("destroy").invoke(webPlayer, (Object[]) null);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
+            } catch (IllegalAccessException | IllegalArgumentException |
+                    NoSuchMethodException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         }

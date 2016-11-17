@@ -348,11 +348,9 @@ public class ControllerViewLand extends RelativeLayout implements View.OnClickLi
             // 缓冲进度
             int buffer = videoPlayer.getBufferPercentage();
             int progress = 0;
-            try {
+            if (duration != 0 && position !=0)
                 progress = (int) (position * 100 / duration);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
             Log.i(tag, "position=" + position);
             Log.i(tag, "duration=" + duration);
             Log.i(tag, "buffer=" + buffer);

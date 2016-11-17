@@ -156,11 +156,7 @@ public class CommentView extends FrameLayout implements
                 }
                 hideInput();
                 boolean flag;
-                if (listener != null) {
-                    flag = listener.comment(isSecondComment, getEdit());
-                } else {
-                    flag = false;
-                }
+                flag = listener != null && listener.comment(isSecondComment, getEdit());
 
                 if (flag) {
                     container.setFocusable(true);

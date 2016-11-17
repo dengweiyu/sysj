@@ -31,16 +31,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 /**
  * 活动：视频上传 选择
  */
-public class VideoChooseActivity extends TBaseAppCompatActivity implements OnClickListener{
+public class VideoChooseActivity extends TBaseAppCompatActivity implements OnClickListener {
 
     /*
     * 跳转：参加活动--视频上传
     */
     private void startVideoUploadActivity(VideoCaptureEntity entity) {
         ActivityManeger.startVideoUploadActivity(this, entity, match);
+    }
+
+    /**
+     * 跳转：视频分享
+     */
+    private void startVideoShareActivity210(VideoCaptureEntity record) {
+        ActivityManeger.startVideoShareActivity210(this, record);
     }
 
     private RecyclerView recyclerView;
@@ -104,6 +113,7 @@ public class VideoChooseActivity extends TBaseAppCompatActivity implements OnCli
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
         adapter = new ChooseLocalVideoAdapter(this, data, recyclerView);
         recyclerView.setAdapter(adapter);
@@ -129,7 +139,12 @@ public class VideoChooseActivity extends TBaseAppCompatActivity implements OnCli
 
                             // 10秒以上，30分钟以内，800M以内
                             if (share(entity.getVideo_path())) {
-                                startVideoUploadActivity(entity);
+                                if (match != null) { //活动上传视频
+                                    startVideoUploadActivity(entity);
+                                } else { //首页上传视频
+                                    startVideoShareActivity210(entity);
+                                    finish();
+                                }
                             }
                         }
                     }
@@ -195,7 +210,7 @@ public class VideoChooseActivity extends TBaseAppCompatActivity implements OnCli
                 if (pageIndex == 0) {
                     data.clear();
                 }
-                Log.d(tag, "List<VideoCaptureEntity> : "+event.getData());
+                Log.d(tag, "List<VideoCaptureEntity> : " + event.getData());
                 data.addAll(event.getData());
                 adapter.notifyDataChanged();
                 refreshContentView();

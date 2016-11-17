@@ -154,14 +154,6 @@ public class MyTaskActivity extends PullToRefreshActivity<TaskGroup> implements 
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-
-		//一次性提示对话框：经验转视豆
-		DialogManager.showChangeExp2ShidouDialog_Task(this);
-	}
-
-	@Override
 	public void onRefresh() {
 		doRequest();
 	}

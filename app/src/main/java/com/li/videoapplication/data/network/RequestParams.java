@@ -94,6 +94,13 @@ public class RequestParams {
         return map;
     }
 
+    public Map<String, Object> allRead(String member_id) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        map.put("type", "video");
+        return map;
+    }
+
     public Map<String, Object> messageSysMessage(String member_id, int page) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
@@ -1230,6 +1237,13 @@ public class RequestParams {
         map.put("schedule_id", schedule_id);
         map.put("page", page);
         map.put("member_id", member_id);
+        return map;
+    }
+
+    public Map<String, Object> getGroupEventsList211(String game_id,int page) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("game_id", game_id);
+        map.put("page", page);
         return map;
     }
 

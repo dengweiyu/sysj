@@ -167,12 +167,11 @@ public class VideoUploadActivity extends TBaseActivity implements OnClickListene
             } else {
                 showToastShort("30秒以上的时长才可以编辑");
             }
-        }  else if (v == share) {
+        } else if (v == share) {
             updateDatabase();
             uploadNow();
         }
     }
-
 
 
     /**
@@ -194,9 +193,9 @@ public class VideoUploadActivity extends TBaseActivity implements OnClickListene
             return;
         }
         DataManager.UPLOAD.uploadVideo("SYSJ", getMember_id(), getVideoTitle(),
-                match.getGame_id(), match.getMatch_id(),"", 0, entity);
+                match.getGame_id(), match.getMatch_id(), "", 0, entity);
 
-        showLoadingDialog("上传中","正在上传视频，请耐心等候...",false);
+        showLoadingDialog("上传中", "正在上传视频，请耐心等候...", false);
     }
 
     @Override
@@ -207,14 +206,16 @@ public class VideoUploadActivity extends TBaseActivity implements OnClickListene
         Log.i(tag, "msg=" + msg);
         Log.i(tag, "progress=" + percent);
 
-        if (status == Contants.STATUS_UPLOADING){
-            pro = (int) (percent * 100);
-            process = "已上传 " + pro + "%";
-            getSweetDialog().setTitleText(process);
+        if (status == Contants.STATUS_UPLOADING) {
+            if ((int) (percent * 100) > pro) {
+                pro = (int) (percent * 100);
+                process = "已上传 " + pro + "%";
+                getSweetDialog().setTitleText(process);
+            }
         }
 
         if (status == Contants.STATUS_SUCCESS) {
-            change2SuccessWithOKListener("上传完成","视频已成功上传，请等候审核","确定");
+            change2SuccessWithOKListener("上传完成", "视频已成功上传，请等候审核", "确定");
         }
     }
 

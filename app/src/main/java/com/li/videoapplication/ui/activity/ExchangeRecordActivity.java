@@ -3,6 +3,8 @@ package com.li.videoapplication.ui.activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -62,6 +64,13 @@ public class ExchangeRecordActivity extends TBaseActivity {
         datas = new ArrayList<>();
         adapter = new ExchangeRecordAdapter(datas);
         adapter.openLoadAnimation();
+        View emptyView = getLayoutInflater().inflate(R.layout.emptyview,
+                (ViewGroup) recyclerView.getParent(), false);
+        TextView emptyViewText = (TextView) emptyView.findViewById(R.id.emptyview_text);
+        emptyViewText.setText("您还没有兑换过商品喔~");
+        adapter.setEmptyView(emptyView);
+
+
         recyclerView.setAdapter(adapter);
         //recyclerview item点击事件处理
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {

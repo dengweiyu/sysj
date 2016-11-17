@@ -87,13 +87,9 @@ public class AddDanmukuView extends FrameLayout implements
             }
             hideInput();
             boolean flag;
-            if (listener != null) {
-                flag = listener.addDanmuku(getText());
-            } else {
-                flag = false;
-            }
+            flag = listener != null && listener.addDanmuku(getText());
 
-            if (flag == true) {
+            if (flag) {
                 hideView();
             }
             return true;

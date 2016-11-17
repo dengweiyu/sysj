@@ -1,9 +1,15 @@
 package com.li.videoapplication.ui;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
@@ -33,6 +39,7 @@ import com.li.videoapplication.ui.activity.GiftListActivity;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
 import com.li.videoapplication.ui.activity.GroupGiftActivity;
 import com.li.videoapplication.ui.activity.GroupListActivity;
+import com.li.videoapplication.ui.activity.GroupMatchListActivity;
 import com.li.videoapplication.ui.activity.HelpActivity;
 import com.li.videoapplication.ui.activity.HomeImageShareActivity;
 import com.li.videoapplication.ui.activity.HomeMoreActivity;
@@ -91,33 +98,33 @@ import io.rong.imkit.RongIM;
  */
 public class ActivityManeger {
 
-    private static final String TAG = ActivityManeger.class.getSimpleName();
+    private static String TAG = ActivityManeger.class.getSimpleName();
 
     /**
      * 视频管理
      */
-    public synchronized final static void startVideoMangerActivity(Context context) {
+    public synchronized static void startVideoMangerActivity(Context context) {
         startVideoMangerActivity(context, null, null);
     }
 
     /**
      * 视频管理
      */
-    public synchronized final static void startVideoMangerActivity(Context context, Game game) {
+    public synchronized static void startVideoMangerActivity(Context context, Game game) {
         startVideoMangerActivity(context, game, null);
     }
 
     /**
      * 视频管理
      */
-    public synchronized final static void startVideoMangerActivity(Context context, Match match) {
+    public synchronized static void startVideoMangerActivity(Context context, Match match) {
         startVideoMangerActivity(context, null, match);
     }
 
     /**
      * 视频管理
      */
-    public synchronized final static void startVideoMangerActivity(Context context, Game game, Match match) {
+    public synchronized static void startVideoMangerActivity(Context context, Game game, Match match) {
         Intent intent = new Intent();
         intent.setClass(context, VideoMangerActivity.class);
         if (game != null)
@@ -127,33 +134,43 @@ public class ActivityManeger {
         context.startActivity(intent);
     }
 
+    /**
+     * 视频管理
+     */
+    public synchronized static void startVideoMangerActivityNewTask(Context context) {
+        Intent intent = new Intent();
+        intent.setClass(context, VideoMangerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
     /******************************************/
 
     /**
      * 视频分享
      */
-    public synchronized final static void startVideoShareActivity(Context context, VideoCaptureEntity entity) {
+    public synchronized static void startVideoShareActivity(Context context, VideoCaptureEntity entity) {
         startVideoShareActivity(context, entity, null, null);
     }
 
     /**
      * 视频分享
      */
-    public synchronized final static void startVideoShareActivity(Context context, VideoCaptureEntity entity, Game game) {
+    public synchronized static void startVideoShareActivity(Context context, VideoCaptureEntity entity, Game game) {
         startVideoShareActivity(context, entity, game, null);
     }
 
     /**
      * 视频分享
      */
-    public synchronized final static void startVideoShareActivity(Context context, VideoCaptureEntity entity, Match match) {
+    public synchronized static void startVideoShareActivity(Context context, VideoCaptureEntity entity, Match match) {
         startVideoShareActivity(context, entity, null, match);
     }
 
     /**
      * 视频分享
      */
-    public synchronized final static void startVideoShareActivity(Context context, VideoCaptureEntity entity, Game game, Match match) {
+    public synchronized static void startVideoShareActivity(Context context, VideoCaptureEntity entity, Game game, Match match) {
         Intent intent = new Intent();
         if (entity != null)
             intent.putExtra("entity", entity);
@@ -194,8 +211,8 @@ public class ActivityManeger {
     /**
      * 视频上传208
      */
-    public synchronized final static void startVideoUploadActivity(Context context, VideoCaptureEntity entity,
-                                                                   Match match) {
+    public synchronized static void startVideoUploadActivity(Context context, VideoCaptureEntity entity,
+                                                             Match match) {
         Intent intent = new Intent();
         if (entity != null)
             intent.putExtra("entity", entity);
@@ -210,21 +227,21 @@ public class ActivityManeger {
     /**
      * 图文分享
      */
-    public synchronized final static void startImageShareActivity(Context context, String imageUrl) {
+    public synchronized static void startImageShareActivity(Context context, String imageUrl) {
         startImageShareActivity(context, imageUrl, null);
     }
 
     /**
      * 图文分享
      */
-    public synchronized final static void startImageShareActivity(Context context, Game game) {
+    public synchronized static void startImageShareActivity(Context context, Game game) {
         startImageShareActivity(context, null, game);
     }
 
     /**
      * 图文分享
      */
-    public synchronized final static void startImageShareActivity(Context context, String imageUrl, Game game) {
+    public synchronized static void startImageShareActivity(Context context, String imageUrl, Game game) {
         Intent intent = new Intent();
         intent.setClass(context, ImageShareActivity.class);
         intent.putExtra("imageUrl", imageUrl);
@@ -237,7 +254,7 @@ public class ActivityManeger {
     /**
      * 图文分享208
      */
-    public synchronized final static void startActivityImageUploadActivity(Context context, String match_id) {
+    public synchronized static void startActivityImageUploadActivity(Context context, String match_id) {
         Intent intent = new Intent();
         intent.setClass(context, ActivityImageUploadActivity.class);
         intent.putExtra("match_id", match_id);
@@ -249,7 +266,7 @@ public class ActivityManeger {
     /**
      * 视频编辑
      */
-    public synchronized final static void startVideoEditorActivity(Context context, VideoCaptureEntity entity) {
+    public synchronized static void startVideoEditorActivity(Context context, VideoCaptureEntity entity) {
         Intent intnet = new Intent(context, VideoEditorActivity.class);
         if (entity != null)
             intnet.putExtra("entity", entity);
@@ -261,7 +278,7 @@ public class ActivityManeger {
     /**
      * 查找游戏
      */
-    public synchronized final static void startSearchGameActivity(Activity activity) {
+    public synchronized static void startSearchGameActivity(Activity activity) {
         Intent intent = new Intent(activity, SearchGameActivity.class);
         intent.putExtra("type", "game");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -273,7 +290,7 @@ public class ActivityManeger {
     /**
      * 查找查找精彩生活
      */
-    public synchronized final static void startSearchLifeActivity(Activity activity) {
+    public synchronized static void startSearchLifeActivity(Activity activity) {
         Intent intent = new Intent(activity, SearchLifeActivity.class);
         intent.putExtra("type", "life");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -285,22 +302,22 @@ public class ActivityManeger {
     /**
      * 图片选择
      */
-    public synchronized final static void startImageViewActivity(Context context) {
+    public synchronized static void startImageViewActivity(Context context) {
         Intent intent = new Intent(context, ImageViewActivity.class);
         context.startActivity(intent);
     }
 
     /******************************************/
 
-    public static final String SYSJ_URL = "http://sj.ifeimo.com/";
-    public static final String SYSJ_ICONURL = "http://apps.ifeimo.com/Public/Uploads/Game/Flag/576b9a94632f9.png";
-    public static final String SYSJ_TITLE = "手游视界";
-    public static final String SYSJ_CONTENT = "我刚刚发现了一个有趣的手游视频平台，可以和方便的观看所有手游的视频、攻略等，推荐你也来试试。";
+    public static String SYSJ_URL = "http://sj.ifeimo.com/";
+    public static String SYSJ_ICONURL = "http://apps.ifeimo.com/Public/Uploads/Game/Flag/576b9a94632f9.png";
+    public static String SYSJ_TITLE = "手游视界";
+    public static String SYSJ_CONTENT = "我刚刚发现了一个有趣的手游视频平台，可以和方便的观看所有手游的视频、攻略等，推荐你也来试试。";
 
     /**
      * 分享手游视界
      */
-    public synchronized final static void startActivityShareActivity4SYSJ(Activity activity) {
+    public synchronized static void startActivityShareActivity4SYSJ(Activity activity) {
         Intent intent = new Intent(activity, ShareActivity.class);
         intent.putExtra("videoUrl", SYSJ_URL);
         intent.putExtra("VideoTitle", SYSJ_TITLE);
@@ -318,7 +335,7 @@ public class ActivityManeger {
     /**
      * 分享视频播放
      */
-    public synchronized final static void startActivityShareActivity4VideoPlay(Activity activity, String videoUrl, String VideoTitle, String imageUrl, String content) {
+    public synchronized static void startActivityShareActivity4VideoPlay(Activity activity, String videoUrl, String VideoTitle, String imageUrl, String content) {
         Intent intent = new Intent(activity, ShareActivity.class);
         intent.putExtra("videoUrl", videoUrl);
         intent.putExtra("VideoTitle", VideoTitle);
@@ -337,7 +354,7 @@ public class ActivityManeger {
     /**
      * 分享云端视频
      */
-    public synchronized final static void startActivityShareActivity4MyCloudVideo(Activity activity, String url, String imageUrl, String videoTitle) {
+    public synchronized static void startActivityShareActivity4MyCloudVideo(Activity activity, String url, String imageUrl, String videoTitle) {
         Intent intent = new Intent(activity, ShareActivity.class);
         intent.putExtra("videoUrl", url);
         intent.putExtra("imageUrl", imageUrl);
@@ -352,7 +369,7 @@ public class ActivityManeger {
     /**
      * 分享本地图片
      */
-    public synchronized final static void startActivityShareActivity4MyScreenShot(Activity activity, String imageUrl, String videoTitle) {
+    public synchronized static void startActivityShareActivity4MyScreenShot(Activity activity, String imageUrl, String videoTitle) {
         Intent intent = new Intent(activity, ShareActivity.class);
         intent.putExtra("imageUrl", imageUrl);
         intent.putExtra("VideoTitle", videoTitle);
@@ -365,7 +382,7 @@ public class ActivityManeger {
     /**
      * 分享本地视频
      */
-    public synchronized final static void startShareActivity4MyLocalVideo(Activity activity) {
+    public synchronized static void startShareActivity4MyLocalVideo(Activity activity) {
         Intent intent = new Intent(activity, ShareActivity.class);
         intent.putExtra("page", ShareActivity.PAGE_MYCLOCALVIDEO);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -378,7 +395,7 @@ public class ActivityManeger {
     /**
      * 举报
      */
-    public synchronized final static void startReportActivity(Context context, VideoImage videoImage) {
+    public synchronized static void startReportActivity(Context context, VideoImage videoImage) {
         Intent intent = new Intent();
         intent.setClass(context, ReportActivity.class);
         intent.putExtra("videoImage", videoImage);
@@ -416,7 +433,7 @@ public class ActivityManeger {
     /**
      * 视频详情
      */
-    public synchronized final static void startVideoPlayActivity(Context context, VideoImage item) {
+    public synchronized static void startVideoPlayActivity(Context context, VideoImage item) {
         if (!NetUtil.isConnect()) {
             ToastHelper.s("网络错误");
             return;
@@ -434,13 +451,13 @@ public class ActivityManeger {
         context.startActivity(intent);
 
         // 视频播放数+1
-        DataManager.TASK.videoClickVideo201(item.getVideo_id(),PreferencesHepler.getInstance().getMember_id());
+        DataManager.TASK.videoClickVideo201(item.getVideo_id(), PreferencesHepler.getInstance().getMember_id());
     }
 
     /**
      * 视频详情
      */
-    public synchronized final static void startVideoPlayActivityNewTask(Context context, VideoImage item) {
+    public synchronized static void startVideoPlayActivityNewTask(Context context, VideoImage item) {
         if (!NetUtil.isConnect()) {
             ToastHelper.s("网络错误");
             return;
@@ -458,7 +475,7 @@ public class ActivityManeger {
     /**
      * 举报结果
      */
-    public synchronized final static void startReportResultActivity(Context context) {
+    public synchronized static void startReportResultActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, ReportResultActivity.class);
         context.startActivity(intent);
@@ -467,7 +484,7 @@ public class ActivityManeger {
     /**
      * 收藏
      */
-    public synchronized final static void startCollectionActivity(Context context) {
+    public synchronized static void startCollectionActivity(Context context) {
 
         Intent intent = new Intent();
         intent.setClass(context, CollectionActivity.class);
@@ -477,7 +494,7 @@ public class ActivityManeger {
     /**
      * 关于
      */
-    public synchronized final static void startAboutActivity(Context context) {
+    public synchronized static void startAboutActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, AboutActivity.class);
         context.startActivity(intent);
@@ -486,7 +503,7 @@ public class ActivityManeger {
     /**
      * 活动详情208
      */
-    public synchronized final static void startActivityDetailActivity208(Context context, String match_id) {
+    public synchronized static void startActivityDetailActivity208(Context context, String match_id) {
         if (context == null) {
             return;
         }
@@ -499,7 +516,7 @@ public class ActivityManeger {
     /**
      * 活动详情
      */
-    public synchronized final static void startActivityDetailActivityNewTask(Context context, String match_id) {
+    public synchronized static void startActivityDetailActivityNewTask(Context context, String match_id) {
         if (context == null) {
             return;
         }
@@ -513,7 +530,7 @@ public class ActivityManeger {
     /**
      * 活动列表
      */
-    public synchronized final static void startActivityListActivity(Context context) {
+    public synchronized static void startActivityListActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, ActivityListActivity.class);
         context.startActivity(intent);
@@ -522,7 +539,7 @@ public class ActivityManeger {
     /**
      * 活动列表
      */
-    public synchronized final static void startGiftListActivity(Context context) {
+    public synchronized static void startGiftListActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, GiftListActivity.class);
         context.startActivity(intent);
@@ -531,7 +548,7 @@ public class ActivityManeger {
     /**
      * 精彩推荐
      */
-    public synchronized final static void startRecommendActivity(Context context) {
+    public synchronized static void startRecommendActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, RecommendActivity.class);
         context.startActivity(intent);
@@ -540,7 +557,7 @@ public class ActivityManeger {
     /**
      * 精彩推荐
      */
-    public synchronized final static void startRecommendActivityNewTask(Context context) {
+    public synchronized static void startRecommendActivityNewTask(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, RecommendActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -550,7 +567,7 @@ public class ActivityManeger {
     /**
      * 风云榜
      */
-    public synchronized final static void startBillboardActivity(Context context) {
+    public synchronized static void startBillboardActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, BillboardActivity.class);
         context.startActivity(intent);
@@ -559,7 +576,7 @@ public class ActivityManeger {
     /**
      * 礼包详情
      */
-    public synchronized final static void startGiftDetailActivity(Context context, String id) {
+    public synchronized static void startGiftDetailActivity(Context context, String id) {
         Intent intent = new Intent();
         intent.setClass(context, GiftDetailActivity.class);
         intent.putExtra("id", id);
@@ -569,7 +586,7 @@ public class ActivityManeger {
     /**
      * 礼包详情
      */
-    public synchronized final static void startGiftDetailActivityNewTask(Context context, String id) {
+    public synchronized static void startGiftDetailActivityNewTask(Context context, String id) {
         Intent intent = new Intent();
         intent.setClass(context, GiftDetailActivity.class);
         intent.putExtra("id", id);
@@ -580,7 +597,7 @@ public class ActivityManeger {
     /**
      * 圈子详情
      */
-    public synchronized final static void startGroupDetailActivity(Context context, String group_id) {
+    public synchronized static void startGroupDetailActivity(Context context, String group_id) {
 
         Intent intent = new Intent();
         intent.setClass(context, GroupDetailActivity.class);
@@ -591,7 +608,7 @@ public class ActivityManeger {
     /**
      * 圈子详情
      */
-    public synchronized final static void startGroupDetailActivityNewTask(Context context, String group_id) {
+    public synchronized static void startGroupDetailActivityNewTask(Context context, String group_id) {
 
         Intent intent = new Intent();
         intent.setClass(context, GroupDetailActivity.class);
@@ -603,7 +620,7 @@ public class ActivityManeger {
     /**
      * 游戏圈子列表
      */
-    public synchronized final static void startGroupListActivity(Context context, GroupType groupType) {
+    public synchronized static void startGroupListActivity(Context context, GroupType groupType) {
 
         Intent intent = new Intent();
         intent.setClass(context, GroupListActivity.class);
@@ -614,7 +631,7 @@ public class ActivityManeger {
     /**
      * 游戏圈子礼包
      */
-    public synchronized final static void startGroupGiftActivity(Context context, Game game) {
+    public synchronized static void startGroupGiftActivity(Context context, Game game) {
 
         Intent intent = new Intent();
         intent.setClass(context, GroupGiftActivity.class);
@@ -625,7 +642,7 @@ public class ActivityManeger {
     /**
      * 首页更多
      */
-    public synchronized final static void startHomeMoreActivity(Context context, VideoImageGroup group) {
+    public synchronized static void startHomeMoreActivity(Context context, VideoImageGroup group) {
         Intent intent = new Intent();
         intent.setClass(context, HomeMoreActivity.class);
         intent.putExtra("group", group);
@@ -635,7 +652,7 @@ public class ActivityManeger {
     /**
      * 首页更多
      */
-    public synchronized final static void startHomeMoreActivityNewTask(Context context, VideoImageGroup group) {
+    public synchronized static void startHomeMoreActivityNewTask(Context context, VideoImageGroup group) {
         Intent intent = new Intent();
         intent.setClass(context, HomeMoreActivity.class);
         intent.putExtra("group", group);
@@ -646,7 +663,7 @@ public class ActivityManeger {
     /**
      * 图文详情
      */
-    public synchronized final static void startImageDetailActivity(Context context, VideoImage item) {
+    public synchronized static void startImageDetailActivity(Context context, VideoImage item) {
         if (!StringUtil.isNull(item.getPic_id())) {
             String pic_id = item.getPic_id();
             item.setId(pic_id);
@@ -660,7 +677,7 @@ public class ActivityManeger {
     /**
      * 登录
      */
-    public synchronized final static void startLoginActivity(Context context) {
+    public synchronized static void startLoginActivity(Context context) {
 
         Intent intent = new Intent();
         intent.setClass(context, LoginActivity.class);
@@ -670,7 +687,7 @@ public class ActivityManeger {
     /**
      * 登录
      */
-    public synchronized final static void startLoginActivityFromChat(Context context, String event_id) {
+    public synchronized static void startLoginActivityFromChat(Context context, String event_id) {
 
         Intent intent = new Intent();
         intent.putExtra("isFromChat", true);
@@ -682,7 +699,7 @@ public class ActivityManeger {
     /**
      * 主页
      */
-    public synchronized final static void startMainActivity(Context context) {
+    public synchronized static void startMainActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, MainActivity.class);
         context.startActivity(intent);
@@ -691,7 +708,7 @@ public class ActivityManeger {
     /**
      * 主页
      */
-    public synchronized final static void startMainActivityBottom(Activity activity) {
+    public synchronized static void startMainActivityBottom(Activity activity) {
         startMainActivity(activity);
         activity.overridePendingTransition(R.anim.push_bottom_in, R.anim.activity_hold);
     }
@@ -699,7 +716,7 @@ public class ActivityManeger {
     /**
      * 二维码扫描
      */
-    public synchronized final static void startScanQRCodeActivity(Context context) {
+    public synchronized static void startScanQRCodeActivity(Context context) {
 
         Intent intent = new Intent();
         intent.setClass(context, ScanQRCodeActivity.class);
@@ -709,7 +726,7 @@ public class ActivityManeger {
     /**
      * 视频拍摄4.+
      */
-    public synchronized final static void startCameraRecoedActivity(Context context) {
+    public synchronized static void startCameraRecoedActivity(Context context) {
 
         startCameraRecoedActivity(context, null);
     }
@@ -717,7 +734,7 @@ public class ActivityManeger {
     /**
      * 视频拍摄4.+
      */
-    public synchronized final static void startCameraRecoedActivity(Context context, Game game) {
+    public synchronized static void startCameraRecoedActivity(Context context, Game game) {
 
         Intent intent = new Intent();
         intent.setClass(context, CameraRecoedActivity.class);
@@ -729,7 +746,7 @@ public class ActivityManeger {
     /**
      * 视频拍摄5.0以上
      */
-    public synchronized final static void startCameraRecoed50Activity(Context context) {
+    public synchronized static void startCameraRecoed50Activity(Context context) {
 
         startCameraRecoed50Activity(context, null);
     }
@@ -737,7 +754,7 @@ public class ActivityManeger {
     /**
      * 视频拍摄5.0以上
      */
-    public synchronized final static void startCameraRecoed50Activity(Context context, Game game) {
+    public synchronized static void startCameraRecoed50Activity(Context context, Game game) {
 
         Intent intent = new Intent();
         intent.setClass(context, CameraRecoedActivity50.class);
@@ -749,7 +766,7 @@ public class ActivityManeger {
     /**
      * 主页图文上传
      */
-    public synchronized final static void startHomeImageShareActivity(Context context, Game game) {
+    public synchronized static void startHomeImageShareActivity(Context context, Game game) {
 
         Intent intent = new Intent();
         intent.setClass(context, HomeImageShareActivity.class);
@@ -761,7 +778,7 @@ public class ActivityManeger {
     /**
      * 主页图文上传
      */
-    public synchronized final static void startHomeImageShareActivity(Context context, Game game, boolean isHideLife) {
+    public synchronized static void startHomeImageShareActivity(Context context, Game game, boolean isHideLife) {
 
         Intent intent = new Intent();
         intent.setClass(context, HomeImageShareActivity.class);
@@ -774,7 +791,7 @@ public class ActivityManeger {
     /**
      * 主页
      */
-    public synchronized final static void startMainActivityNewTask() {
+    public synchronized static void startMainActivityNewTask() {
         Context context = AppManager.getInstance().getContext();
         try {
             Intent intent = new Intent();
@@ -789,7 +806,7 @@ public class ActivityManeger {
     /**
      * 消息
      */
-    public synchronized final static void startMessageActivity(Context context) {
+    public synchronized static void startMessageActivity(Context context) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
@@ -802,7 +819,7 @@ public class ActivityManeger {
     /**
      * 消息
      */
-    public synchronized final static void startMessageListActivity(Context context, int message) {
+    public synchronized static void startMessageListActivity(Context context, int message) {
         Intent intent = new Intent();
         intent.setClass(context, MessageListActivity.class);
         intent.putExtra("message", message);
@@ -812,7 +829,7 @@ public class ActivityManeger {
     /**
      * 个人中心
      */
-    public synchronized final static void startMyPersonalCenterActivity(Context context) {
+    public synchronized static void startMyPersonalCenterActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, MyPersonalCenterActivity.class);
         context.startActivity(intent);
@@ -821,7 +838,7 @@ public class ActivityManeger {
     /**
      * 个人资料
      */
-    public synchronized final static void startMyPersonalInfoActivity(Context context) {
+    public synchronized static void startMyPersonalInfoActivity(Context context) {
 
         Intent intent = new Intent();
         intent.setClass(context, MyPersonalInfoActivity.class);
@@ -831,7 +848,7 @@ public class ActivityManeger {
     /**
      * 我的关注，我的粉丝
      */
-    public synchronized final static void startMyPlayerActivity(Context context, int page, String member_id) {
+    public synchronized static void startMyPlayerActivity(Context context, int page, String member_id) {
         Intent intent = new Intent();
         intent.setClass(context, MyPlayerActivity.class);
         intent.putExtra("page", page);
@@ -868,29 +885,48 @@ public class ActivityManeger {
     /**
      * 订单详情
      */
-    public synchronized static void startOrderDetailActivity(Context context,String order_id) {
+    public synchronized static void startOrderDetailActivity(Context context, String order_id) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
         }
         Intent intent = new Intent();
         intent.setClass(context, OrderDetailActivity.class);
-        intent.putExtra("order_id",order_id);
+        intent.putExtra("order_id", order_id);
         context.startActivity(intent);
     }
 
     /**
      * 商品详情
      */
-    public synchronized static void startProductsDetailActivity(Context context,String goods_id) {
+    public synchronized static void startProductsDetailActivity(Context context, String goods_id) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
         }
         Intent intent = new Intent();
         intent.setClass(context, ProductsDetailActivity.class);
-        intent.putExtra("goods_id",goods_id);
+        intent.putExtra("goods_id", goods_id);
+
         context.startActivity(intent);
+    }
+
+    /**
+     * 商品详情 5.0 // TODO: 2016/11/14 共享元素过渡
+     */
+    public synchronized static void startProductsDetailActivity(Context context, String goods_id, View view) {
+        if (!PreferencesHepler.getInstance().isLogin()) {
+            ToastHelper.s("请先登录");
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass(context, ProductsDetailActivity.class);
+        intent.putExtra("goods_id", goods_id);
+
+        ActivityOptionsCompat options = ActivityOptionsCompat
+                .makeSceneTransitionAnimation((MallActivity) context, view, "mallpic");
+
+        ActivityCompat.startActivity((MallActivity) context, intent, options.toBundle());
     }
 
     /**
@@ -909,7 +945,7 @@ public class ActivityManeger {
     /**
      * 我的赛事
      */
-    public synchronized final static void startMyMatchActivity(Context context) {
+    public synchronized static void startMyMatchActivity(Context context) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
@@ -922,7 +958,7 @@ public class ActivityManeger {
     /**
      * 我的账单
      */
-    public synchronized final static void startMyCurrencyRecordActivity(Context context) {
+    public synchronized static void startMyCurrencyRecordActivity(Context context) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
@@ -935,7 +971,7 @@ public class ActivityManeger {
     /**
      * 我的消息
      */
-    public synchronized final static void startMyMessageActivity(Context context) {
+    public synchronized static void startMyMessageActivity(Context context) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
@@ -948,7 +984,7 @@ public class ActivityManeger {
     /**
      * 我的任务
      */
-    public synchronized final static void startMyTaskActivity(Context context) {
+    public synchronized static void startMyTaskActivity(Context context) {
 
         Intent intent = new Intent();
         intent.setClass(context, MyTaskActivity.class);
@@ -958,7 +994,7 @@ public class ActivityManeger {
     /**
      * 我的福利
      */
-    public synchronized final static void startMyWelfareActivity(Context context) {
+    public synchronized static void startMyWelfareActivity(Context context) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
@@ -971,7 +1007,7 @@ public class ActivityManeger {
     /**
      * 单聊
      */
-    public synchronized final static void startConversationActivity(Context context, String id, String title, boolean isFromCombat, String qq) {
+    public synchronized static void startConversationActivity(Context context, String id, String title, boolean isFromCombat, String qq) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
@@ -988,10 +1024,10 @@ public class ActivityManeger {
     /**
      * 单聊
      */
-    public synchronized final static void startConversationActivity(Context context,
-                                                                    String id,
-                                                                    String title,
-                                                                    int conversationType) {
+    public synchronized static void startConversationActivity(Context context,
+                                                              String id,
+                                                              String title,
+                                                              int conversationType) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
@@ -1007,12 +1043,12 @@ public class ActivityManeger {
     /**
      * 单聊
      */
-    public synchronized final static void startConversationActivity(Context context,
-                                                                    String id,
-                                                                    String title,
-                                                                    int conversationType,
-                                                                    String customerServiceID,
-                                                                    String customerServiceName) {
+    public synchronized static void startConversationActivity(Context context,
+                                                              String id,
+                                                              String title,
+                                                              int conversationType,
+                                                              String customerServiceID,
+                                                              String customerServiceName) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
@@ -1030,7 +1066,7 @@ public class ActivityManeger {
     /**
      * 单聊
      */
-    public synchronized final static void startConversationActivity(Context context, String id, String title, boolean isFromCombat) {
+    public synchronized static void startConversationActivity(Context context, String id, String title, boolean isFromCombat) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
@@ -1044,9 +1080,22 @@ public class ActivityManeger {
     }
 
     /**
+     * 圈子赛事列表211
+     */
+    public synchronized static void startGroupMatchListActivity(Context context, String game_id) {
+        if (context == null || game_id == null) {
+            return;
+        }
+        Intent intent = new Intent();
+        intent.putExtra("game_id", game_id);
+        intent.setClass(context, GroupMatchListActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
      * 游戏赛事详情
      */
-    public synchronized final static void startGameMatchDetailActivity(Context context, String event_id) {
+    public synchronized static void startGameMatchDetailActivity(Context context, String event_id) {
         if (context == null || event_id == null) {
             return;
         }
@@ -1060,7 +1109,7 @@ public class ActivityManeger {
     /**
      * 游戏赛事详情
      */
-    public synchronized final static void startGameMatchDetailActivityNewTask(Context context, String event_id) {
+    public synchronized static void startGameMatchDetailActivityNewTask(Context context, String event_id) {
         if (context == null || event_id == null) {
             return;
         }
@@ -1075,9 +1124,9 @@ public class ActivityManeger {
     /**
      * 赛事报名
      */
-    public synchronized final static void startSignUpActivity(Context context, String event_id,
-                                                              Match match, String customer_service,
-                                                              String name) {
+    public synchronized static void startSignUpActivity(Context context, String event_id,
+                                                        Match match, String customer_service,
+                                                        String name) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
@@ -1094,9 +1143,9 @@ public class ActivityManeger {
     /**
      * 我的赛程
      */
-    public synchronized final static void startMyMatchProcessActivity(Context context, Match match,
-                                                                      String customer_service,
-                                                                      String name) {
+    public synchronized static void startMyMatchProcessActivity(Context context, Match match,
+                                                                String customer_service,
+                                                                String name) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
@@ -1112,9 +1161,9 @@ public class ActivityManeger {
     /**
      * 我的赛程
      */
-    public synchronized final static void startMyMatchProcessActivityNewTask(Context context, Match match,
-                                                                             String customer_service,
-                                                                             String name) {
+    public synchronized static void startMyMatchProcessActivityNewTask(Context context, Match match,
+                                                                       String customer_service,
+                                                                       String name) {
 
         Intent intent = new Intent();
         intent.putExtra("match", match);
@@ -1128,14 +1177,14 @@ public class ActivityManeger {
     /**
      * 上传比赛结果截图
      */
-    public synchronized final static void startUploadMatchResultImageActivity(Context context,
-                                                                              Match match,
-                                                                              String pk_id,
-                                                                              String team_id,
-                                                                              String over_time,
-                                                                              String is_last,
-                                                                              String customer_service,
-                                                                              String name) {
+    public synchronized static void startUploadMatchResultImageActivity(Context context,
+                                                                        Match match,
+                                                                        String pk_id,
+                                                                        String team_id,
+                                                                        String over_time,
+                                                                        String is_last,
+                                                                        String customer_service,
+                                                                        String name) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
@@ -1155,7 +1204,7 @@ public class ActivityManeger {
     /**
      * 选择上传比赛视频
      */
-    public synchronized final static void startVideoChooseActivity(Context context, Match match) {
+    public synchronized static void startVideoChooseActivity(Context context, Match match) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
@@ -1169,7 +1218,7 @@ public class ActivityManeger {
     /**
      * 玩家动态
      */
-    public synchronized final static void startPlayerDynamicActivity(Context context, Member record) {
+    public synchronized static void startPlayerDynamicActivity(Context context, Member record) {
         if (!StringUtil.isNull(record.getMember_id())) {
             record.setId(record.getMember_id());
         }
@@ -1204,7 +1253,7 @@ public class ActivityManeger {
     /**
      * 隐私及免责声明
      */
-    public synchronized final static void startPrivacyActivity(Context context) {
+    public synchronized static void startPrivacyActivity(Context context) {
         Intent intent = new Intent(context, PrivacyActivity.class);
         context.startActivity(intent);
     }
@@ -1212,7 +1261,7 @@ public class ActivityManeger {
     /**
      * 搜索
      */
-    public synchronized final static void startSearchActivity(Context context) {
+    public synchronized static void startSearchActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, SearchActivity.class);
         context.startActivity(intent);
@@ -1221,7 +1270,7 @@ public class ActivityManeger {
     /**
      * 搜索结果
      */
-    public synchronized final static void startSearchResultActivity(Context context, String content) {
+    public synchronized static void startSearchResultActivity(Context context, String content) {
         Intent intent = new Intent();
         intent.setClass(context, SearchResultActivity.class);
         intent.putExtra("content", content);
@@ -1231,7 +1280,7 @@ public class ActivityManeger {
     /**
      * 设置
      */
-    public synchronized final static void startSettingActivity(Context context) {
+    public synchronized static void startSettingActivity(Context context) {
 
         Intent intent = new Intent();
         intent.setClass(context, SettingActivity.class);
@@ -1241,7 +1290,7 @@ public class ActivityManeger {
     /**
      * 广场
      */
-    public synchronized final static void startSquareActivity(Context context) {
+    public synchronized static void startSquareActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, SquareActivity.class);
         context.startActivity(intent);
@@ -1250,7 +1299,7 @@ public class ActivityManeger {
     /**
      * 我的动态
      */
-    public synchronized final static void startMyDynamicActivity(Context context) {
+    public synchronized static void startMyDynamicActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, MyDynamicActivity.class);
         context.startActivity(intent);
@@ -1259,7 +1308,7 @@ public class ActivityManeger {
     /**
      * 帮助与教程
      */
-    public synchronized final static void startHelpActivity(Context context) {
+    public synchronized static void startHelpActivity(Context context) {
 
         Intent intent = new Intent();
         intent.setClass(context, HelpActivity.class);
@@ -1269,7 +1318,7 @@ public class ActivityManeger {
     /**
      * 参赛视频
      */
-    public static synchronized final void startActivityVideoActivity(Context context, Match item) {
+    public static synchronized void startActivityVideoActivity(Context context, Match item) {
         Intent intent = new Intent();
         intent.setClass(context, ActivityVideoActivity.class);
         intent.putExtra("item", item);

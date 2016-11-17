@@ -241,6 +241,10 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
                 break;
 
             case R.id.videoplay_star:// 收藏
+                if (!isLogin()) {
+                    ToastHelper.s("请先登录");
+                    return;
+                }
                 if (videoImage.getCollection_tick() == 0) {
                     star.setChecked(true);
                     star.playAnimation();

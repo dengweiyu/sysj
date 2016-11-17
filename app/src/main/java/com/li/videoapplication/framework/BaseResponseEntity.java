@@ -12,11 +12,13 @@ public class BaseResponseEntity extends BaseEntity {
 	
 	private String msg = Contants.DEFAULT_STRING;
 
+	private String status;
+
+	private int total_page;
+
 	public boolean isResult() {
 		return result;
 	}
-
-	private String status;
 
 	public String getStatus() {
 		return status;
@@ -37,8 +39,6 @@ public class BaseResponseEntity extends BaseEntity {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-	
-	private int total_page;
 
 	public int getTotal_page() {
 		return total_page;

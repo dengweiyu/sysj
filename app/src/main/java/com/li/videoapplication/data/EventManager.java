@@ -18,11 +18,11 @@ import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
 import com.li.videoapplication.data.model.event.ImageView2ImageShareEvent;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
-import com.li.videoapplication.data.model.event.RefreshCurrencyEvent;
 import com.li.videoapplication.data.model.event.SearchGame2VideoShareEvent;
 import com.li.videoapplication.data.model.event.Share2VideoShareEvent;
 import com.li.videoapplication.data.model.event.Tag2VideoShareEvent;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
+import com.li.videoapplication.data.model.event.VideoCutEvent;
 import com.li.videoapplication.data.model.event.postConnectedTVSuccessEvent;
 
 import java.util.List;
@@ -36,6 +36,14 @@ import io.rong.eventbus.EventBus;
 public class EventManager {
 
     protected static final String TAG = EventManager.class.getSimpleName();
+
+    /**
+     * 发布视频剪辑完成事件
+     */
+    public static void postVideoCutEvent() {
+        VideoCutEvent event = new VideoCutEvent();
+        EventBus.getDefault().post(event);
+    }
 
     /**
      * 发布登录事件

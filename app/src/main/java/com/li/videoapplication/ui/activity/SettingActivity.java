@@ -80,7 +80,7 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
     private ToggleButton touchPositionToggle;
 //    private ToggleButton gameScanToggle;
     private ToggleButton floatingWindiwsToggle;
-//    private ToggleButton recordedJumpToggle;
+    private ToggleButton recordedJumpToggle;
 
     private TextView screenQualityText;
 
@@ -124,7 +124,7 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
 //        gameScan = (RelativeLayout) findViewById(R.id.setting_gameScan);
         screenQuality = (RelativeLayout) findViewById(R.id.setting_screenQuality);
         floatingWindiws = (RelativeLayout) findViewById(R.id.setting_floatingWindiws);
-//        recordedJump = (RelativeLayout) findViewById(R.id.setting_recordedJump);
+        recordedJump = (RelativeLayout) findViewById(R.id.setting_recordedJump);
         update = (RelativeLayout) findViewById(R.id.setting_update);
         point = (ImageView) findViewById(R.id.setting_update_point);
         inviteFriends = (RelativeLayout) findViewById(R.id.setting_inviteFriends);
@@ -138,7 +138,7 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
 //        gameScan.setOnClickListener(this);
         screenQuality.setOnClickListener(this);
         floatingWindiws.setOnClickListener(this);
-//        recordedJump.setOnClickListener(this);
+        recordedJump.setOnClickListener(this);
         update.setOnClickListener(this);
         inviteFriends.setOnClickListener(this);
         about.setOnClickListener(this);
@@ -148,7 +148,7 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
         anchorModelToggle = (ToggleButton) findViewById(R.id.setting_anchorModel_toggle);
         touchPositionToggle = (ToggleButton) findViewById(R.id.setting_touchPosition_toggle);
 //        gameScanToggle = (ToggleButton) findViewById(R.id.setting_gameScan_toggle);
-//        recordedJumpToggle = (ToggleButton) findViewById(R.id.setting_recordedJump_toggle);
+        recordedJumpToggle = (ToggleButton) findViewById(R.id.setting_recordedJump_toggle);
         floatingWindiwsToggle = (ToggleButton) findViewById(R.id.setting_floatingWindiws_toggle);
 
         screenQualityText = (TextView) findViewById(R.id.setting_screenQuality_text);
@@ -168,17 +168,20 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
         touchPositionToggle.setChecked(setting.isTouchPosition());
         // 显示浮窗
         floatingWindiwsToggle.setChecked(!setting.isFloatingWindiws());
+
+        screenQualityText.setText(setting.getQualityText());
+
         // 扫描游戏列表
 //        gameScanToggle.setChecked(setting.isGameScan());
         // 跳转到视频管理
-//        recordedJumpToggle.setChecked(setting.isRecordedJump());
+        recordedJumpToggle.setChecked(setting.isRecordedJump());
 
         soundRecordingToggle.setOnCheckedChangeListener(this);
         shakeRecordingToggle.setOnCheckedChangeListener(this);
         touchPositionToggle.setOnCheckedChangeListener(this);
         floatingWindiwsToggle.setOnCheckedChangeListener(this);
 //        gameScanToggle.setOnCheckedChangeListener(this);
-//        recordedJumpToggle.setOnCheckedChangeListener(this);
+        recordedJumpToggle.setOnCheckedChangeListener(this);
 
         anchorModelToggle.setOnClickListener(this);
         refreshFrontCamera();
@@ -273,14 +276,14 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
 
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "浮窗模式-被开启");
             }
-        } /*else if (buttonView == recordedJumpToggle) { // 录屏后跳转
+        } else if (buttonView == recordedJumpToggle) { // 录屏后跳转
             if (isChecked) {
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "录屏后跳转-被开启");
             } else {
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "录屏后跳转-被关闭");
             }
             PreferencesHepler.getInstance().saveRecordingSettingRecordedJump(isChecked);
-        }*/ else if (buttonView == touchPositionToggle) {// 触摸选项， 显示触摸位置
+        } else if (buttonView == touchPositionToggle) {// 触摸选项， 显示触摸位置
             if (isChecked) {
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "显示触摸位置-被开启");
             } else {

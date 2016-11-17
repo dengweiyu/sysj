@@ -40,6 +40,23 @@
         android:visibility="gone"/>
 
     <TextView
+        android:id="@+id/ab_message_clean"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_alignParentRight="true"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/ab_edit_videomanager"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="清除未读"
+        android:textColor="#5e5e5e"
+        android:textSize="12sp"
+        android:visibility="gone"/>
+
+    <TextView
         android:id="@+id/ab_videomanager_cancel"
         android:layout_width="50dp"
         android:layout_height="24dp"

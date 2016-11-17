@@ -58,36 +58,44 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/currencyrecord_num"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="+200"
-                android:textColor="@color/menu_main_red"
-                android:textSize="12sp" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/currencyrecord_num"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="+200"
+                    android:textColor="@color/menu_main_red"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/currencyrecord_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="余额：5000豆"
+                    android:textColor="@color/textcolor_french_gray"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/currencyrecord_description"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="上传一个新视频"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@color/title_bg_color"
                 android:textSize="12sp" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/currencyrecord_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="4dp"
-            android:text="余额：5000豆"
-            android:textColor="@color/textcolor_french_gray"
-            android:textSize="11sp" />
 
     </LinearLayout>
 

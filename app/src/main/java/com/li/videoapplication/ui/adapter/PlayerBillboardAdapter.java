@@ -180,8 +180,8 @@ public class PlayerBillboardAdapter extends BaseArrayAdapter<Member> {
      */
     private void setDegree(TextView view, final Member record) {
 
-        if (!StringUtil.isNull(record.getFans())) {
-            setTextViewText(view, "磨豆\t" + record.getCurrency());
+        if (!StringUtil.isNull(record.getCurrency())) {
+            setTextViewText(view, "磨豆\t" + StringUtil.formatNum(record.getCurrency()));
         }
     }
 
@@ -191,9 +191,9 @@ public class PlayerBillboardAdapter extends BaseArrayAdapter<Member> {
     private void setVideo(TextView view, final Member record) {
 
         if (!StringUtil.isNull(record.getVideo_num())) {
-            setTextViewText(view, "视频\t" + record.getVideo_num());
+            setTextViewText(view, "视频\t" + StringUtil.formatNum(record.getVideo_num()));
         } else if (!StringUtil.isNull(record.getUploadVideoCount())) {
-            setTextViewText(view, "视频\t" + record.getUploadVideoCount());
+            setTextViewText(view, "视频\t" + StringUtil.formatNum(record.getUploadVideoCount()));
         } else {
             setTextViewText(view, "");
         }
@@ -205,7 +205,7 @@ public class PlayerBillboardAdapter extends BaseArrayAdapter<Member> {
     private void setFans(TextView view, final Member record) {
 
         if (!StringUtil.isNull(record.getFans())) {
-            setTextViewText(view, "粉丝\t" + record.getFans());
+            setTextViewText(view, "粉丝\t" + StringUtil.formatNum(record.getFans()));
         } else {
             setTextViewText(view, "");
         }
@@ -221,15 +221,15 @@ public class PlayerBillboardAdapter extends BaseArrayAdapter<Member> {
         //<!-- #ff5f5d 红色 -->
         StringBuilder buffer = new StringBuilder();
         if (!StringUtil.isNull(record.getCurrency())) {
-            buffer.append("\t\t磨豆\t").append(record.getCurrency());
+            buffer.append("\t\t磨豆\t").append(StringUtil.formatNum(record.getCurrency()));
         }
         if (!StringUtil.isNull(record.getVideo_num())) {
-            buffer.append("\t\t视频\t").append(record.getVideo_num());
+            buffer.append("\t\t视频\t").append(StringUtil.formatNum(record.getVideo_num()));
         } else if (!StringUtil.isNull(record.getUploadVideoCount())) {
-            buffer.append("\t\t视频\t").append(record.getUploadVideoCount());
+            buffer.append("\t\t视频\t").append(StringUtil.formatNum(record.getUploadVideoCount()));
         }
         if (!StringUtil.isNull(record.getFans())) {
-            buffer.append("\t\t粉丝\t").append(record.getFans());
+            buffer.append("\t\t粉丝\t").append(StringUtil.formatNum(record.getFans()));
         }
         view.setText(Html.fromHtml(buffer.toString()));
         view.setVisibility(View.GONE);

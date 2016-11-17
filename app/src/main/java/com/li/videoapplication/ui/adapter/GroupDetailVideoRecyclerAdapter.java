@@ -39,6 +39,7 @@ import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 import com.li.videoapplication.views.GridViewY1;
+import com.li.videoapplication.views.sparkbutton.SparkButton;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -120,13 +121,13 @@ public class GroupDetailVideoRecyclerAdapter extends RecyclerView.Adapter<GroupD
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final VideoImage record = data.get(position);
 
         if (activity instanceof ActivityDetailActivity208) {
             holder.root.setBackgroundResource(R.drawable.button_blueblack);
             holder.goodstarcomment.setVisibility(View.GONE);
-            holder.floor.setVisibility(View.VISIBLE);
+            holder.goodFloorView.setVisibility(View.VISIBLE);
 
             holder.name.setTextColor(Color.WHITE);
             holder.content.setTextColor(Color.WHITE);
@@ -135,6 +136,10 @@ public class GroupDetailVideoRecyclerAdapter extends RecyclerView.Adapter<GroupD
             holder.grid.setBackgroundColor(Color.parseColor("#0f0f20"));
 
             helper.setTextViewText(holder.floor, record.getFloor() + " 楼");
+            helper.setTextViewText(holder.joinLikeCount, record.getFlower_count());
+            helper.setTextViewText(holder.joinCommentCount, record.getComment_count());
+            //活动点赞
+            setGood(holder, record);
 
             if (isComment(record)) {
                 holder.content.setSingleLine(false);
@@ -150,7 +155,7 @@ public class GroupDetailVideoRecyclerAdapter extends RecyclerView.Adapter<GroupD
         } else if (activity instanceof GroupDetailActivity) {
             holder.root.setBackgroundResource(R.drawable.button_white);
             holder.goodstarcomment.setVisibility(View.VISIBLE);
-            holder.floor.setVisibility(View.GONE);
+            holder.goodFloorView.setVisibility(View.GONE);
 
             holder.grid.setBackgroundColor(Color.WHITE);
             holder.name.setTextColor(Color.parseColor("#454545"));
@@ -160,9 +165,9 @@ public class GroupDetailVideoRecyclerAdapter extends RecyclerView.Adapter<GroupD
 
             helper.setTextViewText(holder.content, record.getTitle());
             // 点赞设置
-            setLike(record, holder.like);
+            setLike(record, holder);
             // 收藏设置
-            setStar(record, holder.star);
+            setStar(record, holder);
             // 评论
             setComment(record, holder.comment);
             helper.setTextViewText(holder.likeCount, record.getFlower_count());
@@ -242,6 +247,50 @@ public class GroupDetailVideoRecyclerAdapter extends RecyclerView.Adapter<GroupD
     }
 
     /**
+     * 活动页点赞
+     */
+    private void setGood(final ViewHolder holder, final VideoImage item) {
+        if (item != null) {
+            if (item.getFlower_tick() == 1) {// 已点赞状态
+                holder.joinLike.setChecked(true);
+            } else {// 未点赞状态
+                holder.joinLike.setChecked(false);
+            }
+        }
+
+        holder.joinLike.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (item != null) {
+                    if (StringUtil.isNull(item.getFlower_count())) {
+                        item.setFlower_count("0");
+                    }
+                    if (isVideo(item)) {
+                        setFlower_tick(item);
+                        // 视频点赞
+                        DataManager.videoFlower2(item.getVideo_id(), PreferencesHepler.getInstance().getMember_id());
+                    } else if (isImage(item)) {
+                        setFlower_tick(item);
+                        // 献花/取消献花用户
+                        DataManager.photoFlower(item.getPic_id(), PreferencesHepler.getInstance().getMember_id(), item.getFlower_tick());
+                    }
+                    notifyItemChanged(holder.getAdapterPosition());
+                }
+            }
+        });
+    }
+
+    private void setFlower_tick(VideoImage item){
+        if (item.getFlower_tick() == 0) { //未点赞
+            item.setFlower_tick(1);
+            item.setFlower_count(Integer.valueOf(item.getFlower_count()) + 1 + "");
+        } else { //已点赞
+            item.setFlower_tick(0);
+            item.setFlower_count(Integer.valueOf(item.getFlower_count()) - 1 + "");
+        }
+    }
+
+    /**
      * 发布时间
      */
     private void setTime(final VideoImage record, TextView view) {
@@ -263,19 +312,19 @@ public class GroupDetailVideoRecyclerAdapter extends RecyclerView.Adapter<GroupD
     /**
      * 点赞
      */
-    public void setLike(final VideoImage record, ImageView view) {
+    private void setLike(final VideoImage record, final ViewHolder holder) {
 
         if (StringUtil.isNull(record.getPic_id()) && StringUtil.isNull(record.getVideo_id()) && !StringUtil.isNull(record.getId())) { // 搜索视频
             return;
         }
         if (record.getFlower_tick() == 1) {// 已点赞状态
-            view.setImageResource(R.drawable.videoplay_good_red_205);
+            holder.like.setImageResource(R.drawable.videoplay_good_red_205);
         } else {// 未点赞状态
-            view.setImageResource(R.drawable.videoplay_good_gray_205);
+            holder.like.setImageResource(R.drawable.videoplay_good_gray_205);
         }
 
-        view.setVisibility(View.VISIBLE);
-        view.setOnClickListener(new OnClickListener() {
+        holder.like.setVisibility(View.VISIBLE);
+        holder.like.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -288,30 +337,18 @@ public class GroupDetailVideoRecyclerAdapter extends RecyclerView.Adapter<GroupD
                     record.setFlower_count("0");
                 }
                 if (isVideo(record)) {// 视频
-                    if (record.getFlower_tick() == 1) {// 已点赞状态
-                        record.setFlower_count(Integer.valueOf(record.getFlower_count()) - 1 + "");
-                        record.setFlower_tick(0);
-                    } else {// 未点赞状态
-                        record.setFlower_count(Integer.valueOf(record.getFlower_count()) + 1 + "");
-                        record.setFlower_tick(1);
-                    }
+                    setFlower_tick(record);
                     // 视频点赞
                     DataManager.videoFlower2(record.getVideo_id(), PreferencesHepler.getInstance().getMember_id());
                 }
                 if (isImage(record)) { // 图文
                     int flag = record.getFlower_tick();
-                    if (flag == 1) {// 已点赞状态
-                        record.setFlower_count(Integer.valueOf(record.getFlower_count()) - 1 + "");
-                        record.setFlower_tick(0);
-                    } else {// 未点赞状态
-                        record.setFlower_count(Integer.valueOf(record.getFlower_count()) + 1 + "");
-                        record.setFlower_tick(1);
-                    }
+                    setFlower_tick(record);
                     // 献花/取消献花用户
                     DataManager.photoFlower(record.getPic_id(), PreferencesHepler.getInstance().getMember_id(), flag);
 
                 }
-                notifyDataSetChanged();
+                notifyItemChanged(holder.getAdapterPosition());
             }
         });
     }
@@ -319,20 +356,20 @@ public class GroupDetailVideoRecyclerAdapter extends RecyclerView.Adapter<GroupD
     /**
      * 收藏
      */
-    public void setStar(final VideoImage record, ImageView view) {
+    private void setStar(final VideoImage record, final ViewHolder holder) {
 
         if (StringUtil.isNull(record.getPic_id()) && StringUtil.isNull(record.getVideo_id()) && !StringUtil.isNull(record.getId())) { // 搜索视频
 
             return;
         }
         if (record.getCollection_tick() == 1) {// 已收藏状态
-            view.setImageResource(R.drawable.videoplay_star_red_205);
+            holder.star.setImageResource(R.drawable.videoplay_star_red_205);
         } else {// 未收藏状态
-            view.setImageResource(R.drawable.videoplay_star_gray_205);
+            holder.star.setImageResource(R.drawable.videoplay_star_gray_205);
         }
 
-        view.setVisibility(View.VISIBLE);
-        view.setOnClickListener(new OnClickListener() {
+        holder.star.setVisibility(View.VISIBLE);
+        holder.star.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -367,7 +404,7 @@ public class GroupDetailVideoRecyclerAdapter extends RecyclerView.Adapter<GroupD
                     // 收藏/取收藏花用户
                     DataManager.photoCollection(record.getPic_id(), PreferencesHepler.getInstance().getMember_id(), flag);
                 }
-                notifyDataSetChanged();
+                notifyItemChanged(holder.getAdapterPosition());
             }
         });
     }
@@ -469,11 +506,7 @@ public class GroupDetailVideoRecyclerAdapter extends RecyclerView.Adapter<GroupD
      */
     private boolean isVideo(final VideoImage record) {
         // 视频
-        if (!StringUtil.isNull(record.getVideo_id()) && !record.getVideo_id().equals("0")) {
-            return true;
-        } else {
-            return false;
-        }
+        return !StringUtil.isNull(record.getVideo_id()) && !record.getVideo_id().equals("0");
     }
 
     /**
@@ -481,11 +514,7 @@ public class GroupDetailVideoRecyclerAdapter extends RecyclerView.Adapter<GroupD
      */
     private boolean isImage(final VideoImage record) {
         // 图文
-        if (!StringUtil.isNull(record.getPic_id()) && !record.getPic_id().equals("0")) {
-            return true;
-        } else {
-            return false;
-        }
+        return !StringUtil.isNull(record.getPic_id()) && !record.getPic_id().equals("0");
     }
 
     /**
@@ -511,17 +540,18 @@ public class GroupDetailVideoRecyclerAdapter extends RecyclerView.Adapter<GroupD
         ImageView play;
 
         ImageView like;
-        TextView likeCount;
+        TextView likeCount, joinLikeCount;
         ImageView star;
         TextView starCount;
         ImageView comment;
-        TextView commentCount;
+        TextView commentCount,joinCommentCount;
 
         RelativeLayout video;
         RelativeLayout image;
         GridViewY1 grid;
-        View goodstarcomment, divider;
+        View goodstarcomment, goodFloorView, divider;
         TextView floor;
+        SparkButton joinLike;
         RelativeLayout root;
 
         public ViewHolder(View itemView) {
@@ -548,8 +578,14 @@ public class GroupDetailVideoRecyclerAdapter extends RecyclerView.Adapter<GroupD
             grid = (GridViewY1) itemView.findViewById(R.id.gridview);
             goodstarcomment = itemView.findViewById(R.id.goodstarcomment);
             divider = itemView.findViewById(R.id.divider);
-            floor = (TextView) itemView.findViewById(R.id.tv_floor);
             root = (RelativeLayout) itemView.findViewById(R.id.root);
+
+            //活动页
+            goodFloorView = itemView.findViewById(R.id.joinactivity_goodfloor);
+            floor = (TextView) itemView.findViewById(R.id.joinactivity_floor);
+            joinLike = (SparkButton) itemView.findViewById(R.id.joinactivity_like);
+            joinLikeCount = (TextView) itemView.findViewById(R.id.joinactivity_likeCount);
+            joinCommentCount = (TextView) itemView.findViewById(R.id.joinactivity_commentCount);
         }
     }
 }

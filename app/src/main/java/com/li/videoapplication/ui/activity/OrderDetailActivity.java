@@ -99,7 +99,7 @@ public class OrderDetailActivity extends TBaseActivity implements View.OnClickLi
     private void refreshView(Currency data) {
         setImageViewImageNet(pic, data.getCover());
         setTextViewText(name, data.getGoods_name());
-        setTextViewText(beam, data.getCurrency_num() + "飞磨豆");
+        setTextViewText(beam, StringUtil.formatNum(data.getCurrency_num()) + "飞磨豆");
         try {
             String time = TimeHelper.getWholeTimeFormat(data.getAdd_time());
             setTextViewText(this.time, time);

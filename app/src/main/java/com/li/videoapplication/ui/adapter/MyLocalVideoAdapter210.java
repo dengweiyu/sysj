@@ -1,8 +1,10 @@
 package com.li.videoapplication.ui.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +22,6 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.LocalManager;
-import com.li.videoapplication.data.database.Contant;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.image.VideoCoverHelper;
@@ -34,7 +35,6 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.data.upload.Contants;
 import com.li.videoapplication.data.upload.VideoShareTask208;
-import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
@@ -55,8 +55,8 @@ import java.util.Map;
  * 设配器:本地视频
  */
 public class MyLocalVideoAdapter210 extends BaseAdapter implements
-                AbsListView.OnScrollListener,
-                VideoShareTask208.Callback {
+        AbsListView.OnScrollListener,
+        VideoShareTask208.Callback {
 
     private final VideoMangerActivity activity;
     private String tag = this.getClass().getSimpleName();
@@ -66,7 +66,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
     private Context context;
     private LayoutInflater inflater;
 
-	public VideoCoverHelper helper;
+    public VideoCoverHelper helper;
     private VideoDurationHelper durationHelper;
 
     private boolean result;
@@ -76,6 +76,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
 
     private Map<String, ViewHolder> holders = new HashMap<>();
     private Map<String, VideoCaptureEntity> entities = new HashMap<>();
+    public boolean Need2Cache;
 
     private void printHolders() {
         for (String key : holders.keySet()) {
@@ -106,12 +107,13 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
         this.pro = (int) (percent * 100);
         printHolders();
         final ViewHolder holder = holders.get(filePath);
-        if (holder != null && holder.filePath != null && holder.filePath.equals(filePath)){
+        if (holder != null && holder.filePath != null && holder.filePath.equals(filePath)) {
             Log.d(tag, "holder=" + holder);
             Log.d(tag, "holder.filePath=" + holder.filePath);
             holder.cover.setClickable(false);
             holder.root.setClickable(true);
             holder.play.setVisibility(View.GONE);
+            holder.cancelUpload.setVisibility(View.VISIBLE);
             holder.progressContainer.setVisibility(View.VISIBLE);
             holder.pause.setVisibility(View.GONE);
             holder.progressText.setVisibility(View.VISIBLE);
@@ -121,16 +123,16 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                 holder.progress.setProgress(pro);
             }
         }
-        if (status  == Contants.STATUS_SUCCESS){
+        if (status == Contants.STATUS_SUCCESS) {
             updataRecordAndView(filePath);
             ToastHelper.s("视频上传成功");
 
-        }else if (status == Contants.STATUS_END ||
+        } else if (status == Contants.STATUS_END ||
                 status == Contants.STATUS_PAUSE ||
                 status == Contants.STATUS_START) {
             updataRecordAndView(filePath);
 
-        } else if (status == Contants.STATUS_UPLOADING){
+        } else if (status == Contants.STATUS_UPLOADING) {
 
         } else {
             updataRecordAndView(filePath);
@@ -138,25 +140,25 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
     }
 
     public MyLocalVideoAdapter210(final Context context, List<VideoCaptureEntity> data, ListView listView, VideoMangerActivity activity) {
-		this.data = data;
+        this.data = data;
         this.context = context;
         this.activity = activity;
 
-		inflater = LayoutInflater.from(context);
+        inflater = LayoutInflater.from(context);
 
         durationHelper = new VideoDurationHelper(listView);
 
         String[] filePaths = new String[this.data.size()];
         VideoMangerActivity.myLocalVideoDeleteData.clear();
-		for (int i = 0; i < this.data.size(); i++) {
+        for (int i = 0; i < this.data.size(); i++) {
             VideoCaptureEntity entity = data.get(i);
             VideoMangerActivity.myLocalVideoDeleteData.add(false);
-			filePaths[i] = entity.getVideo_path();
+            filePaths[i] = entity.getVideo_path();
             entities.put(entity.getVideo_path(), entity);
-		}
+        }
         helper = new VideoCoverHelper(listView, filePaths);
         listView.setOnScrollListener(this);
-	}
+    }
 
     @Override
     public int getCount() {
@@ -183,54 +185,62 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
         super.notifyDataSetChanged();
     }
 
-    @SuppressLint({ "NewApi", "ResourceAsColor" })
-	@Override
-	public View getView(final int position, View convertView, ViewGroup parent) {
+    @SuppressLint({"NewApi", "ResourceAsColor"})
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final VideoCaptureEntity record = getItem(position);
         final ViewHolder holder;
-		if (convertView == null) {
+        if (convertView == null) {
             holder = new ViewHolder();
-			convertView = inflater.inflate(R.layout.adapter_mylocalvideo210, null);
+            convertView = inflater.inflate(R.layout.adapter_mylocalvideo210, null);
             holder.root = convertView.findViewById(R.id.root);
-			holder.cover = (ImageView) convertView.findViewById(R.id.mylocalvideo_cover);
-			holder.title = (EditText) convertView.findViewById(R.id.mylocalvideo_title);
+            holder.cover = (ImageView) convertView.findViewById(R.id.mylocalvideo_cover);
+            holder.title = (EditText) convertView.findViewById(R.id.mylocalvideo_title);
             holder.play = (ImageView) convertView.findViewById(R.id.mylocalvideo_play);
             holder.pause = (ImageView) convertView.findViewById(R.id.mylocalvideo_pause);
-			holder.deleteState = (CheckBox) convertView.findViewById(R.id.mylocalvideo_deleteState);
-			holder.createTime = (TextView) convertView.findViewById(R.id.mylocalvideo_createTime);
-			holder.allTime = (TextView) convertView.findViewById(R.id.mylocalvideo_allTime);
-			holder.rename = convertView.findViewById(R.id.mylocalvideo_rename);
-			holder.deleteButton = (TextView) convertView.findViewById(R.id.mylocalvideo_deleteButton);
+            holder.deleteState = (CheckBox) convertView.findViewById(R.id.mylocalvideo_deleteState);
+            holder.createTime = (TextView) convertView.findViewById(R.id.mylocalvideo_createTime);
+            holder.allTime = (TextView) convertView.findViewById(R.id.mylocalvideo_allTime);
+            holder.rename = convertView.findViewById(R.id.mylocalvideo_rename);
+            holder.deleteButton = (TextView) convertView.findViewById(R.id.mylocalvideo_deleteButton);
             holder.progressContainer = convertView.findViewById(R.id.mylocalvideo_progress_container);
             holder.progress = (ProgressBar) convertView.findViewById(R.id.mylocalvideo_progress);
             holder.progressText = (TextView) convertView.findViewById(R.id.mylocalvideo_progress_text);
             holder.share = (ImageView) convertView.findViewById(R.id.mylocalvideo_share);
             holder.cut = (ImageView) convertView.findViewById(R.id.mylocalvideo_cut);
             holder.copy = (ImageView) convertView.findViewById(R.id.mylocalvideo_copy);
-			convertView.setTag(holder);
-		} else {
-			holder = (ViewHolder) convertView.getTag();
-		}
+            holder.cancelUpload = (ImageView) convertView.findViewById(R.id.mylocalvideo_cancelupload);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
         final String filePath = record.getVideo_path();
         final String fileName = record.getVideo_name();
 
         holder.title.setText(fileName);
 
-		holder.createTime.setText("保存于：" + VideoCaptureHelper.getLastModified(record.getVideo_path()));
-		holder.filePath = filePath;
+        holder.createTime.setText("保存于：" + VideoCaptureHelper.getLastModified(record.getVideo_path()));
+        holder.filePath = filePath;
 
         holders.put(filePath, holder);
 
-		// 视频缩略图
+        // 视频缩略图
         holder.cover.setTag(filePath);
-		helper.displayImage(filePath, holder.cover);
 
-		// 视频时长
+        if (Need2Cache){
+            //剪辑后新增的子项，先缓存
+            helper.loadImage(0, 1);
+            Need2Cache = false;
+        }
+        //从缓存中加载视频图片
+        helper.displayImage(filePath, holder.cover);
+
+        // 视频时长
         holder.allTime.setTag(filePath + filePath);
-		durationHelper.displayDuration(filePath, holder.allTime);
+        durationHelper.displayDuration(filePath, holder.allTime);
 
-		holder.position = position;
+        holder.position = position;
 
         // 刷新删除状态
         refreshDeleteState(holder, convertView, position, record);
@@ -244,9 +254,40 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
             @SuppressLint("NewApi")
             @Override
             public void onClick(View v) {
+                if (record.getVideo_station().equals(VideoCaptureEntity.VIDEO_STATION_SHOW) ||
+                        record.getVideo_station().equals(VideoCaptureEntity.VIDEO_STATION_HIDE) ||
+                        record.getVideo_station().equals(VideoCaptureEntity.VIDEO_STATION_LOCAL)) {
 
-                startPlayerActivity(record);
-                UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "本地视频-有效");
+                    startPlayerActivity(record);
+                    UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "本地视频-有效");
+                }
+            }
+        });
+
+        //取消上传
+        holder.cancelUpload.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (record.getVideo_station().equals(VideoCaptureEntity.VIDEO_STATION_UPLOADING) ||
+                                record.getVideo_station().equals(VideoCaptureEntity.VIDEO_STATION_PAUSE)) {
+
+                    // 暂停上传视频服务
+                    DataManager.UPLOAD.pauseVideo210();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context,AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                    builder.setTitle("取消上传")
+                            .setMessage("是否取消正在上传的视频？")
+                            .setNegativeButton("取消", null)
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // 移除上传信息
+                                    VideoCaptureManager.removeStationByPath(record.getVideo_path());
+                                    //更新一项数据
+                                    updataRecordAndView(record.getVideo_path());
+                                }
+                            }).show();
+                }
             }
         });
 
@@ -284,11 +325,11 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                 }
                 // 获取当前网络环境
                 int netType = NetUtil.getNetworkType(context);
-                    if (netType == 0) {
+                if (netType == 0) {
                     ToastHelper.s("当前网络不可用，请检查后再上传");
                 } else if (netType == 1) {// wifi
-                        startVideoShareActivity210(record);
-                    } else {
+                    startVideoShareActivity210(record);
+                } else {
                     // 上传视频
                     DialogManager.showUploadVideoDialog(context, new DialogInterface.OnClickListener() {
 
@@ -392,7 +433,9 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
         holder.root.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!VideoMangerActivity.isDeleteMode) {
+                if (VideoMangerActivity.isDeleteMode) {
+                    holder.deleteButton.performClick();
+                } else {
                     holder.cover.performClick();
                 }
             }
@@ -410,7 +453,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
         });
 
         return convertView;
-	}
+    }
 
     /**
      * 刷新删除状态
@@ -426,7 +469,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
             if (holder.root.getId() != -1) {
                 VideoMangerActivity.myLocalVideoDeleteData.set(position, true);
                 if (activity != null) {
-                     activity.myLocalData.add(record);
+                    activity.myLocalData.add(record);
                 }
                 VideoMangerActivity.refreshAbTitle2();
                 holder.root.setId(-1);
@@ -472,7 +515,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
 
                             dialog.dismiss();
                             try {
-                                activity.showLoadingDialog("复制中","正在复制文件，请稍候...",false);
+                                activity.showLoadingDialog("复制中", "正在复制文件，请稍候...", false);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -511,7 +554,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                                                 public void run() {
 
                                                     try {
-                                                        activity.changeType2SuccessDialog("成功","视频复制已完成!","确认");
+                                                        activity.changeType2SuccessDialog("成功", "视频复制已完成!", "确认");
                                                     } catch (Exception e) {
                                                         e.printStackTrace();
                                                     }
@@ -532,11 +575,12 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
     private void refreshProgressState(final VideoCaptureEntity record, final ViewHolder holder) {
         int progress = (int) (record.getUpvideo_precent() * 100);
         // 有视频在上传
-        if (VideoShareTask208.isUploading() && VideoShareTask208.getUploadingPath().equals(record.getVideo_path())){
+        if (VideoShareTask208.isUploading() && VideoShareTask208.getUploadingPath().equals(record.getVideo_path())) {
             Log.d(tag, "02");
             holder.cover.setClickable(false);
             holder.root.setClickable(true);
             holder.play.setVisibility(View.GONE);
+            holder.cancelUpload.setVisibility(View.VISIBLE);
             holder.progressContainer.setVisibility(View.VISIBLE);
             holder.pause.setVisibility(View.GONE);
             holder.progressText.setVisibility(View.VISIBLE);
@@ -551,6 +595,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                     holder.cover.setClickable(false);
                     holder.root.setClickable(true);
                     holder.play.setVisibility(View.GONE);
+                    holder.cancelUpload.setVisibility(View.VISIBLE);
                     holder.progressContainer.setVisibility(View.VISIBLE);
                     holder.pause.setVisibility(View.VISIBLE);
                     holder.progressText.setVisibility(View.GONE);
@@ -564,6 +609,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                     holder.cover.setClickable(true);
                     holder.root.setClickable(false);
                     holder.play.setVisibility(View.VISIBLE);
+                    holder.cancelUpload.setVisibility(View.GONE);
                     holder.progressContainer.setVisibility(View.GONE);
                     holder.pause.setVisibility(View.GONE);
                     holder.progressText.setVisibility(View.GONE);
@@ -578,6 +624,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                     holder.play.setVisibility(View.VISIBLE);
                     holder.progressContainer.setVisibility(View.GONE);
                     holder.pause.setVisibility(View.GONE);
+                    holder.cancelUpload.setVisibility(View.GONE);
                     holder.progressText.setVisibility(View.GONE);
                     holder.progressText.setText(pro + "%");
                     holder.progress.setMax(100);
@@ -585,7 +632,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                     break;
             }
         }
-        
+
         // 继续，暂停
         holder.progressContainer.setOnClickListener(new OnClickListener() {
 
@@ -842,11 +889,14 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
+        Log.d(tag, "onScrollStateChanged: 1");
         if (scrollState == SCROLL_STATE_IDLE) {// 滚动完毕后加载可见项的图片
             helper.loadImage(firstVisibleItem, lastVisibleItem);
-        } else {// 取载所有图片的加载
+            Log.d(tag, "onScrollStateChanged: 2");
+        } else {// 取消所有图片的加载
             try {
                 helper.cancelAllTask();
+                Log.d(tag, "onScrollStateChanged: 3");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -858,7 +908,9 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
         this.firstVisibleItem = firstVisibleItem;
         lastVisibleItem = firstVisibleItem + visibleItemCount;
         // 第一次启动时加载可见项的图片
+        Log.d(tag, "onScroll: 1");
         if (firstEnter && visibleItemCount > 0) {
+            Log.d(tag, "onScroll: 2");
             helper.loadImage(this.firstVisibleItem, lastVisibleItem);
             firstEnter = false;
         }
@@ -898,6 +950,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
         ImageView share;
         // 复制
         ImageView copy;
-        // 删除
+        // 取消上传
+        ImageView cancelUpload;
     }
 }

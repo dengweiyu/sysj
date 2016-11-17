@@ -2,16 +2,13 @@ package com.li.videoapplication.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.text.Html;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
@@ -19,6 +16,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.database.VideoCaptureResponseObject;
+import com.li.videoapplication.data.model.event.VideoCutEvent;
 import com.li.videoapplication.data.model.response.PaymentEntity;
 import com.li.videoapplication.data.preferences.VideoPreferences;
 import com.li.videoapplication.data.upload.VideoShareTask208;
@@ -26,7 +24,6 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
-import com.li.videoapplication.ui.adapter.MyImportVideoAdapter;
 import com.li.videoapplication.ui.adapter.MyLocalVideoAdapter210;
 import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
@@ -205,6 +202,16 @@ public class MyLocalVideoFragment extends TBaseFragment {
                 ToastHelper.s(event.getMsg());
             }
         }
+    }
+
+    /**
+     * 回调:视频剪辑完成
+     */
+    public void onEventMainThread(VideoCutEvent event) {
+        //视频封面需要加载到缓存，然后才设置上去。
+        adapter.Need2Cache = true;
+        // 验证并加载本地视频
+        DataManager.LOCAL.checkVideoCaptures();
     }
 
     /**

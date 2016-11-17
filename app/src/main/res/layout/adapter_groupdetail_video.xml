@@ -6,6 +6,13 @@
     android:orientation="vertical"
     tools:ignore="DuplicateIds">
 
+    <!--e2e2e2-->
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#f1f1f1" />
+
     <RelativeLayout
         android:id="@+id/root"
         android:layout_width="fill_parent"
@@ -167,20 +174,67 @@
             </RelativeLayout>
         </FrameLayout>
 
-        <TextView
-            android:id="@+id/tv_floor"
+        <LinearLayout
+            android:id="@+id/joinactivity_goodfloor"
             android:layout_width="wrap_content"
-            android:layout_height="31dp"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/middle"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="36dp"
-            android:ellipsize="end"
             android:gravity="center_vertical"
-            android:singleLine="true"
-            android:text=""
-            android:textColor="#ffffff"
-            android:textSize="10sp" />
+            android:visibility="gone">
+
+            <com.li.videoapplication.views.sparkbutton.SparkButton
+                android:id="@+id/joinactivity_like"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:paddingBottom="4dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center_vertical"
+                app:sparkbutton_activeImage="@drawable/videoplay_good_red_205"
+                app:sparkbutton_inActiveImage="@drawable/videoplay_good_white_211"
+                app:sparkbutton_iconSize="14dp"
+                app:sparkbutton_primaryColor="@color/heart_primary_color"
+                app:sparkbutton_secondaryColor="@color/heart_secondary_color" />
+
+            <TextView
+                android:id="@+id/joinactivity_likeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="0"
+                android:textColor="#ffffff"
+                android:textSize="10sp" />
+
+            <ImageView
+                android:id="@+id/joinactivity_comment"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginRight="12dp"
+                android:src="@drawable/videoplay_comment_white_211" />
+
+            <TextView
+                android:id="@+id/joinactivity_commentCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/white"
+                android:layout_marginRight="20dp"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/joinactivity_floor"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_marginRight="20dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="1楼"
+                android:textColor="#ffffff"
+                android:textSize="10sp" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/groupdetail_time"
@@ -202,7 +256,8 @@
             android:layout_height="31dp"
             android:layout_alignLeft="@+id/middle"
             android:layout_below="@+id/middle"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/groupdetail_like"
@@ -266,12 +321,5 @@
         </RelativeLayout>
 
     </RelativeLayout>
-
-    <!--e2e2e2-->
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#f1f1f1" />
 
 </LinearLayout>

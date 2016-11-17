@@ -32,7 +32,7 @@ import com.li.videoapplication.views.GridViewY1;
 import java.util.List;
 
 /**
- * 适配器：圈子详情（最新/最热视频）；广场（最新，最热）;风云榜视频 ;动态视频
+ * 适配器：圈子详情（最新/最热视频）；广场（最新，最热）; 风云榜视频 ; 动态视频;
  */
 @SuppressLint("InflateParams")
 public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
@@ -209,9 +209,9 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
     private void setTime(final VideoImage record, TextView view) {
         // 1小时前
         if (view != null && record != null) {
-            if (!StringUtil.isNull(record.getUptime())) {
+            if (!StringUtil.isNull(record.getUpload_time())) {
                 try {
-                    setTextViewText(view, TimeHelper.getVideoImageUpTime(record.getUptime()));
+                    setTextViewText(view, TimeHelper.getVideoImageUpTime(record.getUpload_time()));
                 } catch (Exception e) {
                     e.printStackTrace();
                     setTextViewText(view, "");

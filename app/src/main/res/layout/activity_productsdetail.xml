@@ -42,7 +42,7 @@
                     app:riv_border_color="#ffffff"
                     app:riv_border_width="0dp"
                     app:riv_corner_radius="3dp"
-                    app:riv_oval="false" />
+                    app:riv_oval="false"/>
 
                 <TextView
                     android:id="@+id/productsdetail_name"

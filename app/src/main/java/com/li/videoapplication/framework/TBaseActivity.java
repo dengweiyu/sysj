@@ -497,6 +497,7 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
     protected Button abImageViewDone;
     protected TextView abScanQRCodeCancel;
     protected TextView abTagConfirm;
+    protected TextView abMessageClean;
 
     private void setActionBar(int layout) {
         if (layout != 0) {
@@ -553,6 +554,8 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
 
             abImageViewDone = (Button) findViewById(R.id.ab_imageview_done);
 
+            abMessageClean = (TextView)findViewById(R.id.ab_message_clean);
+
             setAbTitle("");
             abTitle.setVisibility(View.VISIBLE);
             abGoback.setVisibility(View.VISIBLE);
@@ -591,6 +594,8 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
             abSearchContainer.setVisibility(View.GONE);
 
             abBillboardBg.setVisibility(View.GONE);
+
+            abMessageClean.setVisibility(View.GONE);
         }
     }
 

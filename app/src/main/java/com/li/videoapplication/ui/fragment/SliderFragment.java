@@ -266,7 +266,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             setTextViewText(name, item.getNickname());
             setTextViewText(fans, getFans(item));
             setTextViewText(focus, getFocus(item));
-            setTextViewText(beanNum, item.getCurrency());
+            setTextViewText(beanNum,  StringUtil.formatNum(item.getCurrency()));
         } else {
             login.setVisibility(View.VISIBLE);
             person.setVisibility(View.GONE);

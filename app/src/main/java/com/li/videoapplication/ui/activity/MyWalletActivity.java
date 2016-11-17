@@ -17,6 +17,7 @@ import com.li.videoapplication.ui.fragment.DailyRewardFragment;
 import com.li.videoapplication.ui.fragment.HonorRewardFragment;
 import com.li.videoapplication.ui.fragment.MatchRewardFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
+import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,7 +146,7 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
 
         if (event != null && event.isResult()) {
             setTabAndFragment(event);
-            setTextViewText(beanNum, event.getMember_currency());
+            setTextViewText(beanNum, StringUtil.formatNum(event.getMember_currency()));
             setFragmentData(event);
         }
     }

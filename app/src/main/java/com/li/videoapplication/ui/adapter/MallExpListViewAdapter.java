@@ -1,6 +1,9 @@
 package com.li.videoapplication.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +39,7 @@ public class MallExpListViewAdapter extends BaseExpandableListAdapter {
      * 跳转：商品详情
      */
     private void startProductsDetailActivity(Currency childList) {
-        ActivityManeger.startProductsDetailActivity(context, childList.getId());
+            ActivityManeger.startProductsDetailActivity(context, childList.getId());
     }
 
     public MallExpListViewAdapter(Context context, List<Currency> mDatas) {
@@ -110,7 +113,7 @@ public class MallExpListViewAdapter extends BaseExpandableListAdapter {
         TextView beanNum = (TextView) convertView.findViewById(R.id.mall_item_beannum);
         TextView overplus = (TextView) convertView.findViewById(R.id.mall_item_overplus);
         TextView exchange = (TextView) convertView.findViewById(R.id.mall_item_exchange);
-        ImageView pic = (ImageView) convertView.findViewById(R.id.mall_item_pic);
+        final ImageView pic = (ImageView) convertView.findViewById(R.id.mall_item_pic);
 
         if (childList.getExchange_way().equals("0") || //周边商品
                 childList.getExchange_way().equals("1")) {//首页推荐位

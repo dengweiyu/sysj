@@ -4,6 +4,7 @@ import android.os.Debug;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
+import com.happly.link.util.LogCat;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.cache.CacheManager;
@@ -37,6 +38,9 @@ public class MainApplication extends BaseApplication {
         if (DEBUG) Debug.startMethodTracing(StorageUtil.createMethodTracingName("MainApplication", "onCreate"));
 
         MultiDex.install(MainApplication.this);
+
+        //乐播debug
+        LogCat.setNotDebug(true);
 
         // 初始化主进程
         if (getApplicationInfo().packageName.equals(AppUtil.getCurrentProcessName(getApplicationContext()))) {

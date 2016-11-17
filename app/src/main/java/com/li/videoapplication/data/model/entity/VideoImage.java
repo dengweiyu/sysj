@@ -37,12 +37,21 @@ public class VideoImage extends BaseEntity {
 	public int flowerMark;
 	private boolean isV;
 	private String more_mark;
+	private String upload_time;
 	/*
 	1：转码完成，可以播放
 	3：转码中
 	4：审核中*/
 	public int state;
 	public List<Tag> game_tag;
+
+	public String getUpload_time() {
+		return upload_time;
+	}
+
+	public void setUpload_time(String upload_time) {
+		this.upload_time = upload_time;
+	}
 
 	public int getState() {
 		return state;
