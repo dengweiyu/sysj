@@ -25,7 +25,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.adapter.MyLocalVideoAdapter210;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 
@@ -124,7 +124,6 @@ public class MyLocalVideoFragment extends TBaseFragment {
     }
 
     public void refreshStorge() {
-
         if (storgeRoot == null || storgeText == null)
             return;
 
@@ -238,6 +237,7 @@ public class MyLocalVideoFragment extends TBaseFragment {
                     showToastShort("本地没有相关视频");
                 }
             }
+            activity.setImporting(false);
         }
     }
 }

@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/homebanner_root"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent">
+
+    <!-- 320/180 -->
+    <com.li.videoapplication.views.ViewFlow
+        android:id="@+id/homebanner_viewflow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.li.videoapplication.views.CircleFlowIndicator
+        android:id="@+id/homebanner_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="8dp"
+        android:alpha="0.6"
+        app:activeColor="#ffffff"
+        app:activeType="fill"
+        app:circleSeparation="10dp"
+        app:inactiveColor="#9fb7c8"
+        app:inactiveType="fill"
+        app:radius="3dp" />
+
+</RelativeLayout>

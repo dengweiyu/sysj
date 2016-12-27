@@ -17,7 +17,7 @@ import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.LayoutParamsHelper;
 import com.li.videoapplication.tools.TextImageHelper;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.ScreenUtil;
 /**
  * 基本适配器

@@ -13,7 +13,7 @@ public class Utils_Preferens {
 
     public static final String TAG = Utils_Preferens.class.getSimpleName();
 
-    /**s
+    /**
      * 迁移并删除2.1.0以前录屏设置
      */
     public static void copyRecordingSetting() {
@@ -33,7 +33,7 @@ public class Utils_Preferens {
         boolean record_sound = DefaultPreferences.getInstance().getBoolean("record_sound", true);
         boolean yahangjieping = DefaultPreferences.getInstance().getBoolean("yahangjieping", false);
         boolean no_float_view_record = DefaultPreferences.getInstance().getBoolean("no_float_view_record", false);
-        boolean isGotoVideoManage = DefaultPreferences.getInstance().getBoolean("isGotoVideoManage", true);
+        boolean isGotoVideoManage = DefaultPreferences.getInstance().getBoolean("isGotoVideoManage", false);
         boolean show_front_camera = DefaultPreferences.getInstance().getBoolean("show_front_camera", false);
         boolean show_touch_view = DefaultPreferences.getInstance().getBoolean("show_touch_view", false);
         boolean PackageInfoGridviewNotify = DefaultPreferences.getInstance().getBoolean("PackageInfoGridviewNotify", true);

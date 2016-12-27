@@ -14,7 +14,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.framework.AppManager;
-import com.li.videoapplication.ui.toast.ToastHelper;
 
 import java.io.File;
 

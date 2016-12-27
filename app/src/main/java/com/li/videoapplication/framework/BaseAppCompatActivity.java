@@ -62,7 +62,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
 
 	@Override
 	public void loadData() {
-		LogHelper.d(tag, "loadData");
+		LogHelper.d(tag, "loadHomeData");
 	}
 
 	@Override

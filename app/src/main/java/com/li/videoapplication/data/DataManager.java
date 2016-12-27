@@ -11,18 +11,15 @@ import com.li.videoapplication.data.model.entity.Advertisement;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.*;
 import com.li.videoapplication.data.network.Contants;
-import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.network.RequestHelper;
 import com.li.videoapplication.data.network.RequestObject;
 import com.li.videoapplication.data.network.RequestParams;
-import com.li.videoapplication.data.network.RequestRunnable;
 import com.li.videoapplication.data.network.RequestService;
 import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.data.upload.ImageShareRequestObject;
 import com.li.videoapplication.data.upload.ImageShareRequestObject208;
 import com.li.videoapplication.data.upload.ImageUploadRequstObject;
-import com.li.videoapplication.data.upload.VideoShareRequestObject;
 import com.li.videoapplication.data.upload.VideoUploadRequestObject;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
@@ -240,20 +237,6 @@ public class DataManager {
         }
 
         /**
-         * 功能：视频下载数+1
-         */
-        public static void videoDownLoad201(String video_id) {
-
-            RequestHelper helper = new RequestHelper();
-            String url = RequestUrl.getInstance().videoDownLoad201();
-            Map<String, Object> params = RequestParams.getInstance().videoDownLoad201(video_id);
-
-            RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-            request.setEntity(new VideoDownLoad2Entity());
-            helper.doNetwork(request);
-        }
-
-        /**
          * 功能：视频播放数+1
          */
         public static void videoClickVideo201(String video_id, String member_id) {
@@ -455,35 +438,6 @@ public class DataManager {
         }
 
         /**
-         * 功能：上传视频服务
-         */
-        public static void uploadVideo(String shareChannel,
-                                       String member_id,
-                                       String title,
-                                       String game_id,
-                                       String match_id,
-                                       String description,
-                                       int isofficial,
-                                       VideoCaptureEntity data) {
-
-            VideoShareRequestObject request = new VideoShareRequestObject(VideoShareRequestObject.STATUS_START,
-                    shareChannel,
-                    member_id,
-                    title,
-                    game_id,
-                    match_id,
-                    description,
-                    isofficial,
-                    data);
-            try {
-                RequestService.startRequestService();
-                RequestService.postVideoShareEvent(request);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        /**
          * 上传视频服务210
          */
         public static final void startVideo(String shareChannel,
@@ -521,23 +475,7 @@ public class DataManager {
          * 功能：继续上传视频服务210
          */
         public static void resumeVideo210(VideoCaptureEntity entity) {
-            // TODO: 注意此处的 Object是 Upload
             VideoUploadRequestObject request = new VideoUploadRequestObject(VideoUploadRequestObject.STATUS_RESUME,
-                    entity);
-            try {
-                RequestService.startRequestService();
-                RequestService.postVideoShareEvent(request);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        /**
-         * 功能：继续上传视频服务
-         */
-        public static void resumeVideo(VideoCaptureEntity entity) {
-            // TODO: 注意此处的 Object是 Share
-            VideoShareRequestObject request = new VideoShareRequestObject(VideoShareRequestObject.STATUS_RESUME,
                     entity);
             try {
                 RequestService.startRequestService();
@@ -551,7 +489,6 @@ public class DataManager {
          * 功能：暂停上传视频服务210
          */
         public static void pauseVideo210() {
-            // TODO: 注意此处的 Object是 Upload
             VideoUploadRequestObject request = new VideoUploadRequestObject(VideoUploadRequestObject.STATUS_PAUSE);
             try {
                 RequestService.startRequestService();
@@ -559,88 +496,6 @@ public class DataManager {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-
-        /**
-         * 功能：暂停上传视频服务
-         */
-        public static void pauseVideo() {
-            // TODO: 注意此处的 Object是 Share
-            VideoShareRequestObject request = new VideoShareRequestObject(VideoShareRequestObject.STATUS_PAUSE);
-            try {
-                RequestService.startRequestService();
-                RequestService.postVideoShareEvent(request);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        /**
-         * 功能：视频上传凭证（POST）
-         */
-        public static VideoDoVideoMarkEntity videoDoVideoMark(String member_id,
-                                                              String video_title,
-                                                              String game_id,
-                                                              String width,
-                                                              String height,
-                                                              String time_length,
-                                                              String channel,
-                                                              String match_id,
-                                                              String description) {
-
-            RequestHelper helper = new RequestHelper();
-            String url = RequestUrl.getInstance().videoDoVideoMark();
-            Map<String, Object> params = RequestParams.getInstance().videoDoVideoMark(member_id, video_title, game_id, width, height, time_length, channel, match_id, description);
-            RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
-            request.setEntity(new VideoDoVideoMarkEntity());
-            VideoDoVideoMarkEntity entity = (VideoDoVideoMarkEntity) helper.postEntity(request);
-            return entity;
-        }
-
-        /**
-         * 功能：视频上传统计204（POST）
-         */
-        public static SaveEventVideo204Entity saveEventVideo204(String pk_id, String video_id) {
-
-            RequestHelper helper = new RequestHelper();
-            String url = RequestUrl.getInstance().saveEventVideo204();
-            Map<String, Object> params = RequestParams.getInstance().saveEventVideo204(pk_id, video_id);
-            RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
-            request.setEntity(new SaveEventVideo204Entity());
-            SaveEventVideo204Entity entity = (SaveEventVideo204Entity) helper.postEntity(request);
-            return entity;
-        }
-
-        /**
-         * 功能：视频上传凭证203（POST）
-         */
-        public static VideoDoVideoMark203Entity videoDoVideoMark203(String member_id,
-                                                                    String video_title,
-                                                                    String game_id,
-                                                                    String width,
-                                                                    String height,
-                                                                    String time_length,
-                                                                    String channel,
-                                                                    String match_id,
-                                                                    String description,
-                                                                    int isofficial) {
-
-            RequestHelper helper = new RequestHelper();
-            String url = RequestUrl.getInstance().videoDoVideoMark203();
-            Map<String, Object> params = RequestParams.getInstance().videoDoVideoMark203(member_id,
-                    video_title,
-                    game_id,
-                    width,
-                    height,
-                    time_length,
-                    channel,
-                    match_id,
-                    description,
-                    isofficial);
-            RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
-            request.setEntity(new VideoDoVideoMark203Entity());
-            VideoDoVideoMark203Entity entity = (VideoDoVideoMark203Entity) helper.postEntity(request);
-            return entity;
         }
 
         /**
@@ -682,48 +537,6 @@ public class DataManager {
         }
 
         /**
-         * 功能：视频上传回调（POST）
-         */
-        public static VideoQiniuTokenPassEntity videoQiniuTokenPass(String video_id,
-                                                                    String game_id,
-                                                                    String is_success,
-                                                                    String join_id) {
-
-            RequestHelper helper = new RequestHelper();
-            String url = RequestUrl.getInstance().videoQiniuTokenPass();
-            Map<String, Object> params = RequestParams.getInstance().videoQiniuTokenPass(
-                    video_id,
-                    game_id,
-                    is_success,
-                    join_id);
-            RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
-            request.setEntity(new VideoQiniuTokenPassEntity());
-            VideoQiniuTokenPassEntity entity = (VideoQiniuTokenPassEntity) helper.postEntity(request);
-            return entity;
-        }
-
-        /**
-         * 功能：视频上传回调203（POST）
-         */
-        public static VideoQiniuTokenPass203Entity videoQiniuTokenPass203(String video_id,
-                                                                          String game_id,
-                                                                          String is_success,
-                                                                          String join_id) {
-
-            RequestHelper helper = new RequestHelper();
-            String url = RequestUrl.getInstance().videoQiniuTokenPass203();
-            Map<String, Object> params = RequestParams.getInstance().videoQiniuTokenPass203(
-                    video_id,
-                    game_id,
-                    is_success,
-                    join_id);
-            RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
-            request.setEntity(new VideoQiniuTokenPass203Entity());
-            VideoQiniuTokenPass203Entity entity = (VideoQiniuTokenPass203Entity) helper.postEntity(request);
-            return entity;
-        }
-
-        /**
          * 视频上传回调（同步）208
          */
         public static final QiniuTokenPassEntity qiniuTokenPassSync(String video_id,
@@ -742,38 +555,6 @@ public class DataManager {
             RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
             request.setEntity(new QiniuTokenPassEntity());
             QiniuTokenPassEntity entity = (QiniuTokenPassEntity) helper.postEntity(request);
-            return entity;
-        }
-
-        /**
-         * 上传视频封面（POST）
-         */
-        public static final VideoUploadPicQiniuEntity videoUploadPicQiniuSync(String video_id, File file) {
-
-            RequestHelper helper = new RequestHelper();
-            String url = RequestUrl.getInstance().videoUploadPicQiniu();
-            Map<String, Object> params = RequestParams.getInstance().videoUploadPicQiniu(video_id);
-            Map<String, File> files = new HashMap<>();
-            files.put("cover", file);
-            RequestObject request = new RequestObject(Contants.TYPE_UPLOAD, url, params, files);
-            request.setEntity(new VideoUploadPicQiniuEntity());
-            VideoUploadPicQiniuEntity entity = (VideoUploadPicQiniuEntity) helper.postEntity(request);
-            return entity;
-        }
-
-        /**
-         * 功能：上传视频封面（POST）
-         */
-        public static VideoUploadPicQiniuEntity videoUploadPicQiniu(String video_id, File file) {
-
-            RequestHelper helper = new RequestHelper();
-            String url = RequestUrl.getInstance().videoUploadPicQiniu();
-            Map<String, Object> params = RequestParams.getInstance().videoUploadPicQiniu(video_id);
-            Map<String, File> files = new HashMap<>();
-            files.put("cover", file);
-            RequestObject request = new RequestObject(Contants.TYPE_UPLOAD, url, params, files);
-            request.setEntity(new VideoUploadPicQiniuEntity());
-            VideoUploadPicQiniuEntity entity = (VideoUploadPicQiniuEntity) helper.postEntity(request);
             return entity;
         }
     }
@@ -1159,7 +940,7 @@ public class DataManager {
         Map<String, Object> params = RequestParams.getInstance().indexChangeGuess(group_ids);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new IndexChangeGuessEntity());
+        request.setEntity(new ChangeGuessEntity());
         helper.doNetwork(request);
     }
 
@@ -1822,9 +1603,34 @@ public class DataManager {
         helper.doNetwork(request);
     }
 
-
     /** ############ 赛事 ############# */
 
+    /**
+     * 功能：获取赛事报名问号内容
+     */
+    public static void getEventMsg() {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getEventMsg();
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, null, null);
+        request.setEntity(new GetEventMsgEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：获取赛事参赛队员人数接口
+     */
+    public static void getTeamMemberNumber(String event_id) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getTeamMemberNumber();
+        Map<String, Object> params = RequestParams.getInstance().eventsSchedule204(event_id);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new GetTeamMemberNumEntity());
+        helper.doNetwork(request);
+    }
 
     /**
      * 功能：赛事胜利者弹出框判断第一次接口
@@ -1841,7 +1647,7 @@ public class DataManager {
     }
 
     /**
-     * 功能：个人中心绑定手机号请求验证码
+     * 功能：个人中心绑定手机号请求验证码, 视界商场兑换
      */
     public static void phoneRequestMsg(String key) {
 
@@ -1867,20 +1673,6 @@ public class DataManager {
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new PhoneRequestMsgEntity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：聊天加入群组
-     */
-    public static void groupJoin208(String member_id, String chatroom_group_id) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().groupJoin208();
-        Map<String, Object> params = RequestParams.getInstance().groupJoin208(member_id, chatroom_group_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new JoinGroup208Entity());
         helper.doNetwork(request);
     }
 
@@ -1914,20 +1706,6 @@ public class DataManager {
     }
 
     /**
-     * 功能：获取客服ID204
-     */
-    public static void getServiceName204(String member_id) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().getServiceName204();
-        Map<String, Object> params = RequestParams.getInstance().getServiceName204(member_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new getServiceName204Entity());
-        helper.doNetwork(request);
-    }
-
-    /**
      * 功能：获取融云token204
      */
     public static void getRongCloudToken204(String member_id, String nickname) {
@@ -1938,49 +1716,6 @@ public class DataManager {
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new GetRongCloudToken204Entity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：赛事列表（旧接口）
-     */
-    public static void getMatchList1(int page) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().getMatchList1();
-        Map<String, Object> params = RequestParams.getInstance().getMatchList1_2(page);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new GetMatchList1Entity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：赛事列表（旧接口）
-     */
-    public static void getMatchList2(int page) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().getMatchList2();
-        Map<String, Object> params = RequestParams.getInstance().getMatchList1_2(page);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new GetMatchList2Entity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：赛事列表（旧接口）
-     */
-    public static void getMatchList3() {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().getMatchList2();
-        String alone_id = "";
-        Map<String, Object> params = RequestParams.getInstance().getMatchList3(alone_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new GetMatchList3Entity());
         helper.doNetwork(request);
     }
 
@@ -1999,80 +1734,13 @@ public class DataManager {
     }
 
     /**
-     * 功能：圈子赛事列表211
-     */
-    public static void getGroupEventsList211(String game_id, int page) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().getGroupEventsList211();
-        Map<String, Object> params = RequestParams.getInstance().getGroupEventsList211(game_id, page);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new GroupEventsList211Entity());
-        helper.doNetwork(request);
-    }
-
-    /**
      * 功能：下载保存图片
      */
-    public static void saveImage(String url){
+    public static void saveImage(String url) {
         RequestHelper helper = new RequestHelper();
         RequestObject request = new RequestObject(Contants.TYPE_DOWNLOAD, url, null, null);
         request.setEntity(null);
         helper.doService(request);
-    }
-
-    /**
-     * 功能：赛事列表211
-     */
-    public static void getEventsList211(int page) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().getEventsList211();
-        Map<String, Object> params = RequestParams.getInstance().getEventsList204(page);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new EventsList211Entity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：赛事详情210
-     */
-    public static void getEventsInfo210(String event_id, String member_id) {
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().getEventsInfo210();
-        Map<String, Object> params = RequestParams.getInstance().getEventsInfo204(event_id, member_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new EventsInfo204Entity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：赛事详情204
-     */
-    public static final void getEventsInfo204(String event_id, String member_id) {
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().getEventsInfo204();
-        Map<String, Object> params = RequestParams.getInstance().getEventsInfo204(event_id, member_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new EventsInfo204Entity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：赛事签到204
-     */
-    public static final void signSchedule204(String member_id, String event_id) {
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().signSchedule204();
-        Map<String, Object> params = RequestParams.getInstance().signSchedule204(member_id, event_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new SignSchedule204Entity());
-        helper.doNetwork(request);
     }
 
     /**
@@ -2089,50 +1757,19 @@ public class DataManager {
     }
 
     /**
-     * 功能：赛事报名204
+     * 功能：赛事报名214
      */
-    public static final void joinEvents204(String member_id, String event_id, String type_id,
-                                           String team_name, String game_role, String qq, String phone) {
+    public static void joinEvents(String member_id, String event_id, String type_id,
+                                  String team_name, String game_role, String qq,
+                                  String phone, String invite_code, String team_member_tel) {
 
         RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().joinEvents204();
-        Map<String, Object> params = RequestParams.getInstance().joinEvents204(member_id,
-                event_id, type_id, team_name, game_role, qq, phone);
+        String url = RequestUrl.getInstance().joinEvents();
+        Map<String, Object> params = RequestParams.getInstance().joinEvents(member_id,
+                event_id, type_id, team_name, game_role, qq, phone, invite_code, team_member_tel);
 
         RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
-        request.setEntity(new JoinEvents204Entity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：赛事报名210个人
-     */
-    public static final void joinEvents210(String member_id, String event_id, String type_id,
-                                           String team_name, String game_role, String qq, String phone) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().joinEvents210();
-        Map<String, Object> params = RequestParams.getInstance().joinEvents210(member_id,
-                event_id, type_id, team_name, game_role, qq, phone);
-
-        RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
-        request.setEntity(new JoinEvents204Entity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：赛事报名210团队
-     */
-    public static final void joinEvents210(String member_id, String event_id, String type_id,
-                                           String team_name, String game_role, String qq, String phone, String team_member_qq) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().joinEvents210();
-        Map<String, Object> params = RequestParams.getInstance().joinEvents210(member_id,
-                event_id, type_id, team_name, game_role, qq, phone, team_member_qq);
-
-        RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
-        request.setEntity(new JoinEvents204Entity());
+        request.setEntity(new JoinEventsEntity());
         helper.doNetwork(request);
     }
 
@@ -2142,32 +1779,6 @@ public class DataManager {
     public static final void getMemberMatchPK210(String member_id, String event_id) {
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().getMemberMatchPK210();
-        Map<String, Object> params = RequestParams.getInstance().getMemberMatchPK204(member_id, event_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new MemberMatchPKEntity204());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：我的赛事（进行中）208
-     */
-    public static final void getMemberMatchPK208(String member_id, String event_id) {
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().getMemberMatchPK208();
-        Map<String, Object> params = RequestParams.getInstance().getMemberMatchPK204(member_id, event_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new MemberMatchPKEntity204());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：我的赛事（进行中）204
-     */
-    public static final void getMemberMatchPK204(String member_id, String event_id) {
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().getMemberMatchPK204();
         Map<String, Object> params = RequestParams.getInstance().getMemberMatchPK204(member_id, event_id);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
@@ -2198,101 +1809,6 @@ public class DataManager {
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new EventsSetAlert210Entity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：赛程时间表204
-     */
-    public static final void eventsSchedule204(String event_id) {
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().eventsSchedule204();
-        Map<String, Object> params = RequestParams.getInstance().eventsSchedule204(event_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new EventsSchedule204Entity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：PK列表接口204
-     */
-    public static final void eventsPKList204(String schedule_id, int page, String member_id) {
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().eventsPKList204();
-        Map<String, Object> params = RequestParams.getInstance().eventsPKList204(schedule_id, page, member_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new EventsPKList204Entity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：PK列表接口210
-     */
-    public static final void eventsPKList210(String schedule_id, int page, String member_id) {
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().eventsPKList210();
-        Map<String, Object> params = RequestParams.getInstance().eventsPKList204(schedule_id, page, member_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new EventsPKList204Entity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：赛事详情（旧接口）
-     */
-    public static void matchInfo(String match_id, String member_id) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().matchInfo();
-        Map<String, Object> params = RequestParams.getInstance().matchInfo(match_id, member_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new MatchInfoEntity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：参加赛事（旧接口）
-     */
-    public static void joinMatch(String match_id, String member_id) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().joinMatch();
-        Map<String, Object> params = RequestParams.getInstance().joinMatch(match_id, member_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new JoinMatchEntity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：赛事视频列表（旧接口）
-     */
-    public static void matchVideoList(String match_id, int page) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().matchVideoList();
-        Map<String, Object> params = RequestParams.getInstance().matchVideoList(match_id, page);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new MatchVideoListEntity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：我的赛事列表
-     */
-    public static void myMatchList(String member_id) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().myMatchList();
-        Map<String, Object> params = RequestParams.getInstance().myMatchList(member_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new MyMatchListEntity());
         helper.doNetwork(request);
     }
 
@@ -2338,16 +1854,19 @@ public class DataManager {
         helper.doNetwork(request);
     }
 
+    /** ################# 活动 ################# */
+
     /**
-     * 功能：参加活动列表203
+     * 功能：活动纯文本评论点赞
      */
-    public static void selectMatch201() {
+    public static void flowerComment(String member_id, String comment_id) {
 
         RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().selectMatch201();
+        String url = RequestUrl.getInstance().flowerComment();
+        Map<String, Object> params = RequestParams.getInstance().commentDel(member_id, comment_id);
 
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, null, null);
-        request.setEntity(new SelectMatch201Entity());
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(null);
         helper.doNetwork(request);
     }
 
@@ -2376,6 +1895,20 @@ public class DataManager {
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new GetMatchInfo208Entity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：活动tab分页
+     */
+    public static void getDetailMode(String match_id,String member_id) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getDetailMode();
+        Map<String, Object> params = RequestParams.getInstance().getDetailMode(match_id,member_id);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new GetDetailModeEntity());
         helper.doNetwork(request);
     }
 
@@ -3441,7 +2974,7 @@ public class DataManager {
         Map<String, Object> params = RequestParams.getInstance().groupDataList(group_id, member_id, page);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new GroupDataListEntity());
+        request.setEntity(new GroupNewDataListEntity());
         helper.doNetwork(request);
     }
 
@@ -3548,62 +3081,6 @@ public class DataManager {
     /** ############ 视频 ############# */
 
     /**
-     * 功能：视频点赞
-     */
-    public static void videoFlower(String id, String member_id) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().videoFlower();
-        Map<String, Object> params = RequestParams.getInstance().videoFlower(id, member_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new VideoFlowerEntity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：取消视频点赞
-     */
-    public static void videoCancelFlower(String id, String member_id) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().videoCancelFlower();
-        Map<String, Object> params = RequestParams.getInstance().videoCancelFlower(id, member_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new VideoCancelFlowerEntity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：收藏视频
-     */
-    public static void videoCollect(String id, String member_id) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().videoCollect();
-        Map<String, Object> params = RequestParams.getInstance().videoCollect(id, member_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new VideoCollectEntity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：取消收藏视频
-     */
-    public static void videoCancelCollect(String id, String member_id) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().videoCancelCollect();
-        Map<String, Object> params = RequestParams.getInstance().videoCancelCollect(id, member_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new VideoCancelCollectEntity());
-        helper.doNetwork(request);
-    }
-
-    /**
      * 功能：视频详情201
      */
     public static void videoDetail201(String video_id, String member_id) {
@@ -3628,20 +3105,6 @@ public class DataManager {
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new FndownClick203Entity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：下一个视频
-     */
-    public static void videoPlayNext(String id) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().videoPlayNext();
-        Map<String, Object> params = RequestParams.getInstance().videoPlayNext(id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new VideoPlayNextEntity());
         helper.doNetwork(request);
     }
 
@@ -3758,27 +3221,6 @@ public class DataManager {
     /** ############ 榜单 ############# */
 
     /**
-     * 功能：达人榜--粉丝
-     */
-    public static void daRenListNewFan(String member_id, int page) {
-        DataManager.daRenListNew(new DaRenListNewFanEntity(), member_id, "fan", page);
-    }
-
-    /**
-     * 功能：达人榜--等级
-     */
-    public static void daRenListNewVideo(String member_id, int page) {
-        DataManager.daRenListNew(new DaRenListNewVideoEntity(), member_id, "rank", page);
-    }
-
-    /**
-     * 功能：达人榜--视频
-     */
-    public static void daRenListNewRank(String member_id, int page) {
-        DataManager.daRenListNew(new DaRenListNewRankEntity(), member_id, "video", page);
-    }
-
-    /**
      * 功能：达人榜
      */
     public static void daRenListNew(BaseResponseEntity e, String member_id, String flag, int page) {
@@ -3792,20 +3234,11 @@ public class DataManager {
         helper.doNetwork(request);
     }
 
-    // fans/rank/video
-
     /**
      * 功能：玩家榜--粉丝榜
      */
     public static void rankingMemberRankingFans(String member_id, int page) {
-        DataManager.rankingMemberRanking(new RankingMemberRankingFansEntity(), member_id, "fans", page);
-    }
-
-    /**
-     * 功能：玩家榜--等级榜
-     */
-    public static void rankingMemberRankingRank(String member_id, int page) {
-        DataManager.rankingMemberRanking(new RankingMemberRankingRankEntity(), member_id, "rank", page);
+//        DataManager.rankingMemberRanking(new RankingMemberRankingFansEntity(), member_id, "fans", page);
     }
 
     /**
@@ -3817,7 +3250,7 @@ public class DataManager {
         Map<String, Object> params = RequestParams.getInstance().memberRankingCurrency(member_id, page);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new MemberRankingCurrencyEntity());
+        request.setEntity(new PlayerRankingCurrencyEntity());
         helper.doNetwork(request);
     }
 
@@ -3825,7 +3258,7 @@ public class DataManager {
      * 功能：玩家榜--视频榜
      */
     public static void rankingMemberRankingVideo(String member_id, int page) {
-        DataManager.rankingMemberRanking(new RankingMemberRankingVideoEntity(), member_id, "video", page);
+//        DataManager.rankingMemberRanking(new RankingMemberRankingVideoEntity(), member_id, "video", page);
     }
 
     /**
@@ -3843,34 +3276,13 @@ public class DataManager {
     }
 
     /**
-     * 功能：玩家榜--点赞榜
-     */
-    public static void rankingVideoRankingLike(String member_id, int page) {
-        DataManager.rankingVideoRanking(new RankingVideoRankingLikeEntity(), member_id, "like", page);
-    }
-
-    /**
-     * 功能：玩家榜--评论榜
-     */
-    public static void rankingVideoRankingComment(String member_id, int page) {
-        DataManager.rankingVideoRanking(new RankingVideoRankingCommentEntity(), member_id, "comment", page);
-    }
-
-    /**
-     * 功能：玩家榜--观看榜
-     */
-    public static void rankingVideoRankingClick(String member_id, int page) {
-        DataManager.rankingVideoRanking(new RankingVideoRankingClickEntity(), member_id, "click", page);
-    }
-
-    /**
      * 功能：视频榜
      */
     private static void rankingVideoRanking(BaseResponseEntity e, String member_id, String sort, int page) {
 
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().rankingVideoRanking();
-        Map<String, Object> params = RequestParams.getInstance().rankingVideoRanking(member_id, sort, page);
+        Map<String, Object> params = RequestParams.getInstance().rankingVideoRanking(member_id, sort, page);// like/comment/click
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(e);
@@ -4050,20 +3462,6 @@ public class DataManager {
     }
 
     /**
-     * 功能：图文评论点赞
-     */
-    public static void photoCommentLike(String piccommentid, String member_id, boolean isLike) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().photoCommentLike();
-        Map<String, Object> params = RequestParams.getInstance().photoCommentLike(piccommentid, member_id, isLike);
-
-        RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
-        request.setEntity(new PhotoPhotoCommentListEntity());
-        helper.doNetwork(request);
-    }
-
-    /**
      * 功能：图文献花
      */
     public static void photoFlower(String pic_id, String member_id, int isflower) {
@@ -4088,20 +3486,6 @@ public class DataManager {
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new PhotoCollectionEntity());
-        helper.doNetwork(request);
-    }
-
-    /**
-     * 功能：玩家关注
-     */
-    public static void photoAttention(String fan_id, String member_id, boolean isAttent) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().photoAttention();
-        Map<String, Object> params = RequestParams.getInstance().photoAttention(fan_id, member_id, isAttent);
-
-        RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
-        request.setEntity(new PhotoAttentionEntity());
         helper.doNetwork(request);
     }
 

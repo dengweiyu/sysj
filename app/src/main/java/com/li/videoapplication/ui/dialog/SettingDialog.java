@@ -91,7 +91,7 @@ public class SettingDialog extends BaseDialog{
 		brightness.setProgress(0);
 		if (activity != null) {
 			currentBrightness = activity.getCurrentBrightness();
-			int brightness = (int) currentBrightness * 100;
+			int brightness = (int) (currentBrightness * 100);
 			Log.i(tag, "currentBrightness=" + currentBrightness);
 			Log.i(tag, "brightness=" + brightness);
 			this.brightness.setProgress(brightness);

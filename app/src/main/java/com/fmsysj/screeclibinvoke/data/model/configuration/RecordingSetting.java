@@ -49,7 +49,7 @@ public class RecordingSetting extends BaseEntity {
 	/**
 	 * 录屏后跳转
 	 */
-	private boolean recordedJump = true;
+	private boolean recordedJump = false;
 
 	/**
 	 * 是否横屏

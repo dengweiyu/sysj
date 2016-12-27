@@ -17,9 +17,8 @@ import android.widget.RelativeLayout;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.ImageLoaderHelper;
 import com.li.videoapplication.ui.activity.ImageViewActivity;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.ScreenUtil;
-import com.li.videoapplication.views.SmoothCheckBox;
 
 /**
  * 适配器：图片选择

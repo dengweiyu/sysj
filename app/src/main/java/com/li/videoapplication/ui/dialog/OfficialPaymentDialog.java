@@ -29,7 +29,7 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
     private VideoShareActivity210 activity;
     private VideoCaptureEntity entity;
     private ImageView pic;
-    private TextView title, currency, price, ps, confirm;
+    private TextView title, currency, price, confirm;
     private RecommendedLocationEntity event;
     private Bitmap bitmap;
     private boolean haveEnoughCurrency;
@@ -51,6 +51,7 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
                 Integer.valueOf(event.getGoods().getCurrency_num());
 
         initView();
+
         initData();
     }
 
@@ -77,14 +78,12 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
 
         setTextViewText(title, entity.getVideo_name());
         setTextViewText(price, event.getGoods().getCurrency_num());
-        setTextViewText(ps, "备注：" + event.getGoods().getRemark());
 
         if (haveEnoughCurrency) {
             currency.setTextColor(getContext().getResources().getColor(R.color.title_bg_color));
             setTextViewText(currency, "余额：" + event.getMember_currency());
             confirm.setBackgroundResource(R.drawable.button_blue);
             setTextViewText(confirm, "确认支付");
-
         } else {
             currency.setTextColor(getContext().getResources().getColor(R.color.currency_red));
             setTextViewText(currency, "余额不足：" + event.getMember_currency());
@@ -98,7 +97,6 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
         title = (TextView) findViewById(R.id.official_title);
         currency = (TextView) findViewById(R.id.official_currency);
         price = (TextView) findViewById(R.id.official_price);
-        ps = (TextView) findViewById(R.id.official_ps);
         confirm = (TextView) findViewById(R.id.official_confirm);
 
         findViewById(R.id.official_detail).setOnClickListener(this);

@@ -406,6 +406,13 @@ public class RequestParams {
         return map;
     }
 
+    public Map<String, Object> getDetailMode(String match_id,String member_id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("match_id", match_id);
+        map.put("member_id", member_id);
+        return map;
+    }
+
     public Map<String, Object> selectMatch(String game_id) {
         Map<String, Object> map = new HashMap<>();
         map.put("game_id", game_id);
@@ -1141,11 +1148,11 @@ public class RequestParams {
     }
 
 	/* ############## 赛事 ############## */
-
-    public Map<String, Object> signSchedule204(String member_id, String event_id) {
+    public Map<String, Object> signSchedule214(String member_id, String schedule_id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
-        map.put("event_id", event_id);
+        map.put("schedule_id", schedule_id);
+        map.put("source", "a_sysj");
         return map;
     }
 
@@ -1156,28 +1163,9 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> getEventsInfo204(String event_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("event_id", event_id);
-        map.put("member_id", member_id);
-        return map;
-    }
-
-    public Map<String, Object> joinEvents204(String member_id, String event_id, String type_id,
-                                             String team_name, String game_role, String qq, String phone) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("event_id", event_id);
-        map.put("type_id", type_id);
-        map.put("team_name", team_name);
-        map.put("game_role", game_role);
-        map.put("qq", qq);
-        map.put("phone", phone);
-        return map;
-    }
-
-    public Map<String, Object> joinEvents210(String member_id, String event_id, String type_id,
-                                             String team_name, String game_role, String qq, String phone) {
+    public Map<String, Object> joinEvents(String member_id, String event_id, String type_id,
+                                          String team_name, String game_role, String qq,
+                                          String phone, String invite_code, String team_member_tel) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("event_id", event_id);
@@ -1187,21 +1175,8 @@ public class RequestParams {
         map.put("game_role", game_role);
         map.put("qq", qq);
         map.put("phone", phone);
-        return map;
-    }
-
-    public Map<String, Object> joinEvents210(String member_id, String event_id, String type_id,
-                                             String team_name, String game_role, String qq, String phone, String team_member_qq) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("event_id", event_id);
-        map.put("target", "a_sysj");
-        map.put("type_id", type_id);
-        map.put("team_name", team_name);
-        map.put("game_role", game_role);
-        map.put("qq", qq);
-        map.put("phone", phone);
-        map.put("team_member_qq", team_member_qq);
+        map.put("invite_code", invite_code);
+        map.put("team_member_tel", team_member_tel);
         return map;
     }
 
@@ -1232,7 +1207,7 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> eventsPKList204(String schedule_id, int page, String member_id) {
+    public Map<String, Object> eventsPKList(String schedule_id, int page, String member_id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("schedule_id", schedule_id);
         map.put("page", page);
@@ -1277,7 +1252,7 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> groupJoin208(String member_id, String chatroom_group_id) {
+    public Map<String, Object> groupJoin(String member_id, String chatroom_group_id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("chatroom_group_id", chatroom_group_id);

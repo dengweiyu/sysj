@@ -13,7 +13,7 @@
         android:clickable="true">
 
         <ImageView
-            android:id="@+id/activity_pic"
+            android:id="@+id/match_pic"
             android:layout_width="match_parent"
             android:layout_height="94dp"
             android:layout_alignParentTop="true"
@@ -28,7 +28,7 @@
             android:id="@+id/activity_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/activity_pic"
+            android:layout_below="@+id/match_pic"
             android:layout_marginLeft="9dp"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
@@ -69,14 +69,32 @@
             android:gravity="center"
             android:background="@drawable/matchlist_matchtype"
             android:textColor="#ff641f"
+            android:textSize="11sp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/activity_reward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/activity_time"
+            android:layout_alignBottom="@+id/activity_time"
+            android:layout_alignParentRight="true"
+            android:layout_alignRight="@+id/activity_title"
+            android:layout_marginBottom="9dp"
+            android:layout_marginRight="9dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:visibility="gone"
+            android:text="获奖名单"
+            android:textColor="#fe3626"
             android:textSize="11sp"/>
 
         <ImageView
             android:id="@+id/activity_bg"
             android:layout_width="36dp"
             android:layout_height="21dp"
-            android:layout_alignRight="@+id/activity_pic"
-            android:layout_alignTop="@+id/activity_pic"
+            android:layout_alignRight="@+id/match_pic"
+            android:layout_alignTop="@+id/match_pic"
             android:layout_marginRight="-4dp"
             android:layout_marginTop="4dp"
             android:scaleType="fitXY"

@@ -16,7 +16,6 @@ import cn.sharesdk.wechat.friends.Wechat;
 
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.framework.AppManager;
-import com.li.videoapplication.ui.toast.ToastHelper;
 import com.mob.tools.utils.UIHandler;
 
 /**

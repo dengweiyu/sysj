@@ -22,7 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.li.videoapplication.data.local.FileOperateUtil;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.ScreenUtil;
 
 import java.io.IOException;
@@ -370,9 +370,7 @@ public class CameraView extends SurfaceView implements CameraOperation {
         if (supportedPictureSizes.size() > 0) {
             int width = parameters.getPictureSize().width;
             int height = parameters.getPictureSize().height;
-            Iterator<Size> iterator = supportedPictureSizes.iterator();
-            while (iterator.hasNext()) {
-                Size s = iterator.next();
+            for (Size s : supportedPictureSizes) {
                 if (s.width >= width
                         && s.height >= height
                         && s.width >= size.width
@@ -485,11 +483,11 @@ public class CameraView extends SurfaceView implements CameraOperation {
             h = a;
         }
 
-        if (h * 10000/ (w * 10000) >= screenHeight * 10000/ (screenWidth * 10000))
+        if (h * 10000 / (w * 10000) >= screenHeight * 10000 / (screenWidth * 10000))
             return;
         ViewGroup.LayoutParams params = getLayoutParams();
         if (params == null)
-            params = new ViewGroup.LayoutParams(0 , 0);
+            params = new ViewGroup.LayoutParams(0, 0);
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         params.height = screenWidth * h / w;
         Log.i(TAG, "width=" + params.width);
@@ -530,7 +528,7 @@ public class CameraView extends SurfaceView implements CameraOperation {
         mediaRecorder.setCamera(camera);
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        if(videoWidth <= 0 || videoHeight <= 0)
+        if (videoWidth <= 0 || videoHeight <= 0)
             setMediaProfile();
         else
             setMediaParameters();
@@ -599,10 +597,8 @@ public class CameraView extends SurfaceView implements CameraOperation {
             // 查找中间的录制尺寸
             int index = supportedVideoSizes.size() / 2;
             size = supportedVideoSizes.get(index);
-            Iterator<Size> iterator = supportedVideoSizes.iterator();
             // 查找宽高比相近的预览尺寸
-            while (iterator.hasNext()) {
-                Size s = iterator.next();
+            for (Size s : supportedVideoSizes) {
                 Log.d(TAG, "findMediaParameters/width=" + s.width);
                 Log.d(TAG, "findMediaParameters/height=" + s.height);
                 ratio = ((float) videoWidth) / ((float) videoHeight);
@@ -636,7 +632,7 @@ public class CameraView extends SurfaceView implements CameraOperation {
     private void setMediaParameters() {
         if (mediaRecorder == null)
             return;
-            Log.d(TAG, "----------------setMediaParameters------------------");
+        Log.d(TAG, "----------------setMediaParameters------------------");
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
@@ -733,7 +729,7 @@ public class CameraView extends SurfaceView implements CameraOperation {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            ++ seconds;
+            ++seconds;
             cameraListener.onRecorderUpdate(true, seconds);
             if (seconds > maxTime && isRecording()) {
                 stopRecord();
@@ -765,7 +761,6 @@ public class CameraView extends SurfaceView implements CameraOperation {
             seconds = 0l;
         }
     }
-
 
 
     /**

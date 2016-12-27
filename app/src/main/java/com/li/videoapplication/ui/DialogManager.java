@@ -13,19 +13,16 @@ import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.RecommendedLocationEntity;
-import com.li.videoapplication.data.preferences.Constants;
-import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.activity.GameMatchDetailActivity;
+import com.li.videoapplication.mvp.match.view.GameMatchDetailActivity;
 import com.li.videoapplication.ui.activity.SignUpActivity;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.dialog.DiscoverTipDialog;
 import com.li.videoapplication.ui.dialog.EditNameDialog;
-import com.li.videoapplication.ui.dialog.Exp2ShidouCenterDialog;
-import com.li.videoapplication.ui.dialog.Exp2ShidouTaskDialog;
 import com.li.videoapplication.ui.dialog.GameDetailDialog;
 import com.li.videoapplication.ui.dialog.GameTipDialog;
+import com.li.videoapplication.ui.dialog.LogInDialog;
 import com.li.videoapplication.ui.dialog.MatchOpponentDialog;
 import com.li.videoapplication.ui.dialog.MyTaskGrowupDialog;
 import com.li.videoapplication.ui.dialog.MyTaskLevelDialog;
@@ -39,9 +36,9 @@ import com.li.videoapplication.ui.dialog.RegisterMobileDialog;
 import com.li.videoapplication.ui.dialog.SettingDialog;
 import com.li.videoapplication.ui.dialog.ShareDialog;
 import com.li.videoapplication.ui.dialog.SignInSuccessDialog;
+import com.li.videoapplication.ui.dialog.SignUpQuestionDialog;
 import com.li.videoapplication.ui.dialog.SignUpSuccessDialog;
 import com.li.videoapplication.ui.dialog.UploadVideoDialog;
-import com.li.videoapplication.ui.dialog.VerifyPhoneBeforePaymentDialog;
 import com.li.videoapplication.ui.dialog.VictoryDialog;
 import com.li.videoapplication.ui.dialog.VideoManagerCopyDialog;
 import com.li.videoapplication.ui.dialog.VideoManagerImportDialog;
@@ -56,20 +53,27 @@ import java.util.List;
  * 功能：弹框管理
  */
 public class DialogManager {
+    /**
+     * 赛事报名问号
+     */
+    public static void showSignUpQuestionDialog(Context context) {
+        Dialog dialog = new SignUpQuestionDialog(context);
+        dialog.show();
+    }
+
+    /**
+     * 登陆
+     */
+    public static void showLogInDialog(Context context) {
+        Dialog dialog = new LogInDialog(context);
+        dialog.show();
+    }
 
     /**
      * 申请官方推荐
      */
     public static void showOfficialPaymentDialog(Context context, VideoCaptureEntity entity, RecommendedLocationEntity event) {
         Dialog dialog = new OfficialPaymentDialog(context, entity, event);
-        dialog.show();
-    }
-
-    /**
-     * 验证手机 (推荐位)
-     */
-    public static void showVerifyPhoneDialog(Context context, VideoCaptureEntity entity, RecommendedLocationEntity event) {
-        Dialog dialog = new VerifyPhoneBeforePaymentDialog(context, entity,event);
         dialog.show();
     }
 
@@ -291,33 +295,5 @@ public class DialogManager {
     public static void showOnGoingUploadImageTipDialog(Context context/*,int btnLeft,int btnTop*/) {
         Dialog dialog = new OnGoingUploadImageTipDialog(context);
         dialog.show();
-    }
-
-    /**
-     * 提示对话框：经验转视豆
-     */
-    public static void showChangeExp2ShidouDialog_Center(Context context) {
-
-        boolean tip = NormalPreferences.getInstance().getBoolean(Constants.CHANGE_EXPTOSHIDOU_CENTER, true);
-        if (tip) {
-            Dialog dialog = new Exp2ShidouCenterDialog(context);
-            dialog.show();
-
-            NormalPreferences.getInstance().putBoolean(Constants.CHANGE_EXPTOSHIDOU_CENTER, false);
-        }
-    }
-
-    /**
-     * 提示对话框：经验转视豆
-     */
-    public static void showChangeExp2ShidouDialog_Task(Context context) {
-
-        boolean tip = NormalPreferences.getInstance().getBoolean(Constants.CHANGE_EXPTOSHIDOU_TASK, true);
-        if (tip) {
-            Dialog dialog = new Exp2ShidouTaskDialog(context);
-            dialog.show();
-
-            NormalPreferences.getInstance().putBoolean(Constants.CHANGE_EXPTOSHIDOU_TASK, false);
-        }
     }
 }

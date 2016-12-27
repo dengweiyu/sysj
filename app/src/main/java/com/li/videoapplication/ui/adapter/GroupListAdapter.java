@@ -16,6 +16,8 @@ import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.GroupListActivity;
+import com.li.videoapplication.ui.activity.WebActivity;
+import com.li.videoapplication.utils.StringUtil;
 
 /**
  * 适配器：圈子
@@ -63,7 +65,11 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
 
             @Override
             public void onClick(View v) {
-                startGroupDetailActivity(record);
+                if (!StringUtil.isNull(record.getUrl())) { //H5游戏
+                    WebActivity.startWebActivity(getContext(), record.getUrl());
+                } else {
+                    startGroupDetailActivity(record);
+                }
                 try {
                     GroupListActivity activity = (GroupListActivity) getContext();
                     UmengAnalyticsHelper.onGameMoreEvent(getContext(), activity.groupType.getGroup_type_id());

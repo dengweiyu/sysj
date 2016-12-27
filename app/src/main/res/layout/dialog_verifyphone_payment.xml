@@ -37,7 +37,7 @@
             android:maxLines="1"
             android:textColor="@color/text_color"
             android:textColorHint="#b9b9b9"
-            android:textCursorDrawable="@drawable/signup_cursor"
+            android:textCursorDrawable="@drawable/cursor_red"
             android:textSize="14sp"
             android:inputType="phone"/>
 
@@ -61,7 +61,7 @@
                 android:maxLines="1"
                 android:textColor="@color/text_color"
                 android:textColorHint="#b9b9b9"
-                android:textCursorDrawable="@drawable/signup_cursor"
+                android:textCursorDrawable="@drawable/cursor_red"
                 android:textSize="14sp"
                 android:inputType="number"/>
 

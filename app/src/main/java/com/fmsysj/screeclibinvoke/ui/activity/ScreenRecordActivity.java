@@ -3,7 +3,6 @@ package com.fmsysj.screeclibinvoke.ui.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -29,18 +28,17 @@ import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
-import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.ScreenUtil;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 碎片：录屏
+ * 活动：录屏
  */
 @SuppressLint("SdCardPath")
 public class ScreenRecordActivity extends TBaseActivity implements
@@ -123,7 +121,6 @@ public class ScreenRecordActivity extends TBaseActivity implements
     @Override
     public void initView() {
         super.initView();
-        ButterKnife.bind(this);
         ObserveManager.getInstance().addRecordingObservable(this);
         ObserveManager.getInstance().addRecording2Observable(this);
 
@@ -662,11 +659,9 @@ public class ScreenRecordActivity extends TBaseActivity implements
                                     for (int i = 0; i < Math.abs(deltaHeight); i++) {
                                         try {
                                             portraitParams.height = portraitParams.height - 1;
-                                            // portraitParams.height = (int) ((float) portraitParams.height - AUTO_MOVING_STEP);
                                             post(new Runnable() {
                                                 @Override
                                                 public void run() {
-
                                                     setPortraitParams(true, false);
                                                 }
                                             });

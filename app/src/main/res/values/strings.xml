@@ -92,8 +92,8 @@
     <string name="app_name">手游视界</string>
 
     <string name="menu_main_first">首页</string>
-    <string name="menu_main_second">发现</string>
-    <string name="menu_main_third">找游戏</string>
+    <string name="menu_main_second">找游戏</string>
+    <string name="menu_main_third">发现</string>
     <string name="menu_main_fourth">赛事</string>
     <!--<string name="menu_main_fourth">福利</string>-->
 
@@ -366,9 +366,9 @@
     <string name="giftdetail_receive_gray">已领完</string>
     <string name="giftdetail_copy">复制激活码</string>
 
-    <string name="login_title">手机登录</string>
+    <string name="login_title">登录</string>
     <string name="login_phone">手机号</string>
-    <string name="login_phone_hint">请输入手机号码</string>
+    <string name="login_phone_hint">手机号</string>
     <string name="login_code">验证码</string>
     <string name="login_code_hint">请输入验证码</string>
     <string name="login_get">获取验证码</string>

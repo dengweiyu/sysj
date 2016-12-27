@@ -21,17 +21,17 @@ import com.li.videoapplication.data.image.VideoTimeLoader;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.upload.Contants;
-import com.li.videoapplication.data.upload.VideoShareTask;
+import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.ui.ActivityManeger;
 
 /**
- * 活动：视频上传
+ * 活动：活动视频上传
  */
 @SuppressLint("HandlerLeak")
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class VideoUploadActivity extends TBaseActivity implements OnClickListener,
-        CompoundButton.OnCheckedChangeListener, VideoShareTask.Callback {
+        CompoundButton.OnCheckedChangeListener, VideoShareTask208.Callback {
 
     private VideoCaptureEntity entity;
     private Match match;
@@ -93,7 +93,7 @@ public class VideoUploadActivity extends TBaseActivity implements OnClickListene
     @Override
     public void initView() {
         super.initView();
-        VideoShareTask.addCallbacks(this);
+        VideoShareTask208.addCallbacks(this);
         initContentView();
         refreshVideoData();
         refreshContentView();
@@ -109,7 +109,7 @@ public class VideoUploadActivity extends TBaseActivity implements OnClickListene
         super.onDestroy();
         if (bitmap != null && !bitmap.isRecycled())
             bitmap.recycle();
-        VideoShareTask.removeCallbacks(this);
+        VideoShareTask208.removeCallbacks(this);
     }
 
     private void initContentView() {
@@ -192,8 +192,8 @@ public class VideoUploadActivity extends TBaseActivity implements OnClickListene
             showToastShort("请输入视频标题");
             return;
         }
-        DataManager.UPLOAD.uploadVideo("SYSJ", getMember_id(), getVideoTitle(),
-                match.getGame_id(), match.getMatch_id(), "", 0, entity);
+        DataManager.UPLOAD.startVideo("SYSJ", getMember_id(), getVideoTitle(),
+                match.getGame_id(), match.getMatch_id(), "", 0, null, entity, null);
 
         showLoadingDialog("上传中", "正在上传视频，请耐心等候...", false);
     }
@@ -216,6 +216,8 @@ public class VideoUploadActivity extends TBaseActivity implements OnClickListene
 
         if (status == Contants.STATUS_SUCCESS) {
             change2SuccessWithOKListener("上传完成", "视频已成功上传，请等候审核", "确定");
+        } else if (status == Contants.STATUS_FAILURE) {
+            changeType2ErrorDialog("上传失败", msg, "确定");
         }
     }
 

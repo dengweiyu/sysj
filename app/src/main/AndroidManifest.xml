@@ -6,9 +6,6 @@
     <uses-permission android:name="com.screeclibinvoke.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" />
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -37,7 +34,6 @@
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.BROADCAST_PACKAGE_CHANGED" />
     <uses-permission android:name="android.permission.RESTART_PACKAGES" />
@@ -47,26 +43,18 @@
     <permission
         android:name="com.li.videoapplication.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
-    <!-- Required  一些系统要求的权限，如访问网络等-->
+
     <uses-permission android:name="com.li.videoapplication.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- Optional for location -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" />
 
     <application
         android:name=".ui.application.MainApplication"
@@ -133,17 +121,9 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.li.videoapplication.ui.activity.ActivityDetailActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.li.videoapplication.ui.activity.ActivityDetailActivity208"
             android:launchMode="singleTask"
             android:theme="@style/MyTheme.NoActionBar"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.ActivityVideoActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.li.videoapplication.ui.activity.SettingActivity"
@@ -166,9 +146,15 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.li.videoapplication.ui.activity.BillboardActivity"
+            android:name=".mvp.billboard.view.BillboardActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar"/>
+        <activity
+            android:name=".mvp.billboard.view.MatchRewardBillboardActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar"/>
         <activity
             android:name=".ui.activity.RecommendActivity"
             android:launchMode="singleTask"
@@ -245,17 +231,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
-            android:name="com.li.videoapplication.ui.activity.SearchResultActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name="com.li.videoapplication.ui.activity.ReportActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -310,13 +285,19 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.GroupMatchListActivity"
+            android:name=".mvp.match.view.GroupMatchListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar"/>
 
 
-        <!-- ################################# 2.0.5赛事相关   ######################### -->
+        <!-- #################################   赛事相关   ######################### -->
+        <activity
+            android:name=".mvp.match.view.MatchResultActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar">
+        </activity>
         <!--单聊界面，包括客服-->
         <activity
             android:name=".ui.activity.ConversationActivity"
@@ -335,14 +316,12 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".ui.activity.GameMatchDetailActivity"
+            android:name=".mvp.match.view.GameMatchDetailActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar">
         </activity>
-
         <!--我的消息-->
         <activity
             android:name="com.li.videoapplication.ui.activity.MyMessageActivity"
@@ -366,9 +345,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.li.videoapplication.ui.activity.MyMatchActivity"
+            android:name="com.li.videoapplication.mvp.match.view.MyMatchActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar"/>
         <activity
             android:name="com.li.videoapplication.ui.activity.MyMatchProcessActivity"
             android:launchMode="singleTask"
@@ -450,10 +430,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.VideoShareActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.activity.VideoShareActivity210"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -464,6 +440,7 @@
         <activity
             android:name=".ui.activity.SearchGameActivity"
             android:launchMode="singleTask"
+            android:theme="@style/MyTheme.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.HomeImageShareActivity"
@@ -585,7 +562,7 @@
 
 
 
-        <!-- User defined.  For test only  用户自定义的广播接收器-->
+        <!-- JSInterface defined.  For test only  用户自定义的广播接收器-->
         <receiver
             android:name="com.li.videoapplication.tools.JPushHelper$MyReceiver"
             android:exported="false"

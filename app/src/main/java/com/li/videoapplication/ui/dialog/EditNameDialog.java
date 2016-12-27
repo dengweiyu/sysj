@@ -3,7 +3,6 @@ package com.li.videoapplication.ui.dialog;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -11,7 +10,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.response.IsRepeatEntity;
 import com.li.videoapplication.framework.BaseDialog;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.StringUtil;
 

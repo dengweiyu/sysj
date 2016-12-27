@@ -15,7 +15,7 @@ import com.li.videoapplication.data.model.entity.Comment;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.ui.adapter.FaceAdapter;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.lang.reflect.Field;

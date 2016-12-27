@@ -9,7 +9,7 @@ import android.util.Log;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.fmsysj.screeclibinvoke.logic.frontcamera.FrontCameraManager;
 import com.li.videoapplication.R;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 
 /**
  * 摇晃监听

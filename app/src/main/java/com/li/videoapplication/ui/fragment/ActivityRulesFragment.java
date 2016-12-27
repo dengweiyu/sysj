@@ -16,6 +16,8 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.ActivityDetailActivity208;
+import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.utils.URLUtil;
 
 /**
  * 碎片：活动规则
@@ -24,6 +26,7 @@ public class ActivityRulesFragment extends TBaseFragment {
 
     private ActivityDetailActivity208 activity;
     public WebView webView;
+    private String url;
 
     @Override
     public void onAttach(Activity activity) {
@@ -108,6 +111,16 @@ public class ActivityRulesFragment extends TBaseFragment {
                 }
             }
         });
+        loadUrl(url);
+    }
+
+    public void setUrl(String url){
+        this.url = url;
+    }
+
+    public void loadUrl(String url){
+        if (URLUtil.isURL(url) && !StringUtil.isNull(url))
+            webView.loadUrl(url);
     }
 
     @Override

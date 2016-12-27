@@ -34,7 +34,7 @@ import com.li.videoapplication.tools.LayoutParamsHelper;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.ui.activity.LoginActivity;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -45,6 +45,7 @@ import java.lang.reflect.Method;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
@@ -102,6 +103,7 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
 
         if (getContentView() != 0) {
             setContentView(getContentView());
+            ButterKnife.bind(this);
         }
 
         actionBar = getActionBar();
@@ -487,7 +489,7 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
             abReportCancel, abReportConfirm;
     protected TextView abVideoManagerSelected, abVideoManagerDelete, abVideoManagerImport, abVideoManagerCancel;
     protected ImageView abGoback, abGroupDetailPlus, abGroupDetailDownload, abGroupDetailGift,
-            abVideoPlayShare, abVideoPlayRemark;
+            abVideoPlayShare,abShareBlack,abQuestion, abVideoPlayRemark;
     protected ImageView abCollectionDelte;
     protected TextView abCollectionCancel, abCollectionConfirm;
     protected FrameLayout abBillboardBg;
@@ -532,6 +534,8 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
             abScanQRCodeCancel = (TextView) findViewById(R.id.ab_scanqrcode_cancel);
 
             abVideoPlayShare = (ImageView) findViewById(R.id.ab_videoplay_share);
+            abShareBlack = (ImageView) findViewById(R.id.ab_share_black);
+            abQuestion = (ImageView) findViewById(R.id.ab_question);
             abVideoPlayRemark = (ImageView) findViewById(R.id.ab_videoplay_remark);
 
             abReportCancel = (TextView) findViewById(R.id.ab_report_cancel);
@@ -589,6 +593,8 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
 
             abVideoPlayTitle.setVisibility(View.GONE);
             abVideoPlayShare.setVisibility(View.GONE);
+            abShareBlack.setVisibility(View.GONE);
+            abQuestion.setVisibility(View.GONE);
             abVideoPlayRemark.setVisibility(View.GONE);
 
             abSearchContainer.setVisibility(View.GONE);

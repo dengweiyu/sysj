@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.framework.AppManager;
@@ -68,18 +69,6 @@ public class ImageLoaderHelper {
             .build();
 
     /**
-     * 显示图片的配置
-     */
-    private static final DisplayImageOptions OPTIONS_VIDEO_ALPHA = new DisplayImageOptions.Builder()
-            .showImageOnLoading(R.drawable.default_video_211)
-            .showImageOnFail(R.drawable.default_video_211)
-            .cacheInMemory(true)
-            .cacheOnDisk(true)
-            .bitmapConfig(Bitmap.Config.RGB_565)
-            .displayer(new FadeInBitmapDisplayer(2000))//渐变
-            .build();
-
-    /**
      *
      */
     @SuppressWarnings("deprecation")
@@ -112,11 +101,16 @@ public class ImageLoaderHelper {
     }
 
     /**
-     * 加载图片，空白占位符
+     * 加载图片，sysj默认占位符渐变消失
      */
     public static void displayImageWithAlpha(String uri, ImageView view) {
         Log.d(TAG, "imageUrl=" + uri);
-        ImageLoader.getInstance().displayImage(uri, view, OPTIONS_VIDEO_ALPHA);
+        Glide.with(AppManager.getInstance().getContext())
+                .load(uri)
+                .placeholder(R.drawable.default_video_211)
+                .error(R.drawable.default_video_211)
+                .crossFade(1000)
+                .into(view);
     }
 
     /**

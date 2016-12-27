@@ -2,20 +2,16 @@ package com.li.videoapplication.tools;
 
 
 import java.io.File;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.image.VideoDuration;
-import com.li.videoapplication.data.image.VideoTimeLoader;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.model.entity.VideoImage;
-import com.li.videoapplication.ui.toast.ToastHelper;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.util.Log;
 
 @SuppressLint("SimpleDateFormat")
@@ -183,7 +179,23 @@ public class TimeHelper {
      * 返回时间
      *
      * @param time 时间戳：秒数
-     * @return MM-dd HH:mm
+     * @return MM月dd日
+     */
+    public static final String getMMddTimeFormat(String time) throws Exception {
+        String format = "MM月dd日";
+        Long l = Long.valueOf(time);
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        Date date = new Date(l * 1000L);
+        String s = sdf.format(date);
+        System.out.println(s);
+        return s;
+    }
+
+    /**
+     * 返回时间
+     *
+     * @param time 时间戳：秒数
+     * @return MM月dd日 HH:mm
      */
     public static final String getMMddHHmmTimeFormat(String time) throws Exception {
         String format = "MM月dd日 HH:mm";

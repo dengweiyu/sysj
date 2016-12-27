@@ -9,7 +9,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.UUIDUtil;
 
 import java.io.File;

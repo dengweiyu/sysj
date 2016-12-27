@@ -18,6 +18,10 @@ public abstract class BaseScaleTopDialog extends BaseDialog {
 		super(context);
 	}
 
+	public BaseScaleTopDialog(Context context, int theme) {
+		super(context, theme);
+	}
+
 	@Override
 	protected void afterContentView(Context context) {
 		super.afterContentView(context);

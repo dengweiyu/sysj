@@ -1,9 +1,13 @@
 package com.li.videoapplication.ui.activity;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.li.videoapplication.mvp.adapter.HomeHotNarrateAdapter;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Banner;
@@ -13,14 +17,14 @@ import com.li.videoapplication.data.model.response.EditBanner203Entity;
 import com.li.videoapplication.data.model.response.EditGoldMember203Entity;
 import com.li.videoapplication.data.model.response.EditList203Entity;
 import com.li.videoapplication.framework.PullToRefreshActivity;
+import com.li.videoapplication.mvp.billboard.view.*;
+import com.li.videoapplication.mvp.billboard.view.BillboardActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.adapter.BannerAdapter;
-import com.li.videoapplication.ui.adapter.HotNarrateAdapter;
 import com.li.videoapplication.ui.adapter.RecommendAdapter;
-import com.li.videoapplication.utils.ScreenUtil;
+import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleFlowIndicator;
-import com.li.videoapplication.views.HorizontalListView;
 import com.li.videoapplication.views.ViewFlow;
 
 import java.util.ArrayList;
@@ -35,8 +39,19 @@ public class RecommendActivity extends PullToRefreshActivity<VideoImage> impleme
 	 * 跳转：风云榜
 	 */
 	private void startBillboardActivity() {
-		ActivityManeger.startBillboardActivity(this);
+		ActivityManeger.startBillboardActivity(this, BillboardActivity.TYPE_PLAYER);
 		UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.DISCOVER, "精彩推荐-金牌主播更多");
+	}
+
+	/**
+	 * 跳转：玩家动态
+	 */
+	private void startPlayerDynamicActivity(Member member) {
+		if (StringUtil.isNull(member.getId())) {
+			member.setId(member.getMember_id());
+		}
+		ActivityManeger.startPlayerDynamicActivity(this, member);
+		UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.DISCOVER, "精彩推荐-金牌主播");
 	}
 
 	/* 广告 */
@@ -52,8 +67,8 @@ public class RecommendActivity extends PullToRefreshActivity<VideoImage> impleme
 	/* 金牌主播 */
 	private View hotNarrateView;
 	private TextView hotNarrateTitle;
-	private HorizontalListView hotNarrateListView;
-	private HotNarrateAdapter hotNarrateAdapter;
+	private RecyclerView hotNarrateRecyerView;
+	private HomeHotNarrateAdapter hotNarrateAdapter;
 	private List<Member> hotNarrateData = new ArrayList<>();
 
 	@Override
@@ -187,24 +202,24 @@ public class RecommendActivity extends PullToRefreshActivity<VideoImage> impleme
 	 */
 	private View getHotNarrateView() {
 		if (hotNarrateView == null) {
-			hotNarrateView = inflater.inflate(R.layout.header_home_hotnarrate, null);
+			hotNarrateView = inflater.inflate(R.layout.adapter_hometype_hotnarrate, null);
 			hotNarrateTitle = (TextView) hotNarrateView.findViewById(R.id.home_hotnarrate_title);
 			hotNarrateView.findViewById(R.id.home_hotnarrate_more).setOnClickListener(this);
 
 			hotNarrateTitle.setText("金牌主播");
-			hotNarrateListView = (HorizontalListView) hotNarrateView.findViewById(R.id.horizontallistvierw);
-			setHotNarrateView(hotNarrateListView);
-			hotNarrateAdapter = new HotNarrateAdapter(this, hotNarrateData);
-			hotNarrateListView.setAdapter(hotNarrateAdapter);
+			hotNarrateRecyerView = (RecyclerView) hotNarrateView.findViewById(R.id.homehotnarrate_recyclerview);
+			hotNarrateRecyerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+			hotNarrateAdapter = new HomeHotNarrateAdapter(hotNarrateData);
+			hotNarrateRecyerView.setAdapter(hotNarrateAdapter);
+			hotNarrateRecyerView.addOnItemTouchListener(new OnItemClickListener() {
+				@Override
+				public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int i) {
+					Member member = (Member) adapter.getItem(i);
+					startPlayerDynamicActivity(member);
+				}
+			});
 		}
 		return hotNarrateView;
-	}
-
-	private void setHotNarrateView(HorizontalListView view) {
-		// 72
-		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
-		params.height = ScreenUtil.dp2px(72);
-		view.setLayoutParams(params);
 	}
 
 	@Override
@@ -239,7 +254,7 @@ public class RecommendActivity extends PullToRefreshActivity<VideoImage> impleme
 			if (event.getData() != null &&
 					event.getData().getList() != null &&
 					event.getData().getList().size() > 0) {
-				refreshHotNarrate(event.getData().getList());
+				hotNarrateAdapter.setNewData(event.getData().getList());
 			}
 		}
 	}
@@ -276,14 +291,5 @@ public class RecommendActivity extends PullToRefreshActivity<VideoImage> impleme
 		bannerData.addAll(list);
 		bannerAdapter.notifyDataSetChanged();
 		startAutoFlowTimer();
-	}
-
-	/**
-	 * 刷新金牌主播
-	 */
-	private void refreshHotNarrate(List<Member> list) {
-		hotNarrateData.clear();
-		hotNarrateData.addAll(list);
-		hotNarrateAdapter.notifyDataSetChanged();
 	}
 }

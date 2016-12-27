@@ -8,6 +8,12 @@ import com.li.videoapplication.framework.BaseEntity;
 @SuppressWarnings("serial")
 public class Advertisement extends BaseEntity {
 
+	//下载类：
+	public static final int AD_CLICK_STATUS_11 = 11; //点击广告位，展示页面或直接下载
+	public static final int AD_CLICK_STATUS_12 = 12; //点击展示页面下载按键并进行下载
+	//落地类：
+	public static final int AD_CLICK_STATUS_23 = 23; //点击广告位，展示页面
+
 	private long ad_location_id;
 	private long ad_location_port;
 	private String ad_location_name;
@@ -26,6 +32,25 @@ public class Advertisement extends BaseEntity {
 	private int ad_period_start;
 	private int ad_period_end;
 	private int changetime;
+
+	private String server_pic_a;
+	private String download_android;
+
+	public String getDownload_android() {
+		return download_android;
+	}
+
+	public void setDownload_android(String download_android) {
+		this.download_android = download_android;
+	}
+
+	public String getServer_pic_a() {
+		return server_pic_a;
+	}
+
+	public void setServer_pic_a(String server_pic_a) {
+		this.server_pic_a = server_pic_a;
+	}
 
 	public long getAd_location_id() {
 		return ad_location_id;

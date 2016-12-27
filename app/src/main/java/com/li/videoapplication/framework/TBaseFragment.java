@@ -22,10 +22,11 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.LayoutParamsHelper;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.ui.activity.LoginActivity;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.ScreenUtil;
 
 import butterknife.ButterKnife;
+import rx.functions.Action1;
 
 
 /**

@@ -68,7 +68,7 @@
                 android:id="@+id/mall_item_beannum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="150000"
+                android:text=""
                 android:layout_marginLeft="6dp"
                 android:textColor="@color/currency_modou_gold"
                 android:textSize="12sp" />
@@ -89,7 +89,7 @@
                 android:id="@+id/mall_item_overplus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8"
+                android:text=""
                 android:textColor="@color/menu_main_red"
                 android:textSize="12sp" />
         </LinearLayout>

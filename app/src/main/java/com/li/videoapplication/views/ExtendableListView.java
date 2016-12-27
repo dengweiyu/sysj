@@ -774,7 +774,7 @@ public abstract class ExtendableListView extends AbsListView {
 
                 int motionPosition = findMotionRow(y);
                 if (touchMode != TOUCH_MODE_FLINGING && motionPosition >= 0) {
-                    // User clicked on an actual view (and was not stopping a fling).
+                    // JSInterface clicked on an actual view (and was not stopping a fling).
                     // Remember where the motion event started
                     mMotionX = x;
                     mMotionY = y;

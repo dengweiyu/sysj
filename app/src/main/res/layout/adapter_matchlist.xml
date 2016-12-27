@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="9dp"
+    android:layout_marginRight="9dp"
+    android:layout_marginTop="9dp"
+    android:background="@drawable/button_main"
+    android:clickable="true">
+
+    <ImageView
+        android:id="@+id/match_pic"
+        android:layout_width="@dimen/kaka_133.7"
+        android:layout_height="78dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:scaleType="centerCrop"
+        android:src="#8e8e8e" />
+
+    <LinearLayout
+        android:id="@+id/match_right"
+        android:layout_width="match_parent"
+        android:layout_toRightOf="@+id/match_pic"
+        android:layout_height="102dp"
+        android:orientation="vertical"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="9dp">
+
+        <TextView
+            android:id="@+id/match_title"
+            android:layout_width="match_parent"
+            android:layout_marginRight="32dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:hint="@string/loading_text"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="@color/text_color"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="赛制："
+                android:textColor="@color/textcolor_gray"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/match_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=""
+                android:hint="@string/loading_text"
+                android:textColor="@color/textcolor_gray"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="奖励："
+                android:textColor="@color/textcolor_gray"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/match_reward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=""
+                android:hint="@string/loading_text"
+                android:textColor="@color/match_orange"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="时间："
+                android:textColor="@color/textcolor_gray"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/match_time"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=""
+                android:hint="@string/loading_text"
+                android:textColor="@color/match_blue"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/match_result"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="赛事结果"
+                android:paddingLeft="8dp"
+                android:textColor="@color/match_orange"
+                android:textSize="10sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/match_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/match_pic"
+        android:text="报名中"
+        android:textColor="@color/white"
+        android:textSize="9sp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
+        android:background="@color/match_green"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/match_right"
+        android:layout_marginLeft="1px"
+        android:background="#e5e5e5"/>
+</RelativeLayout>

@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * 适配器：赛事奖励
  */
-public class MatchAdapter extends BaseQuickAdapter<Currency> {
+public class MatchAdapter extends BaseQuickAdapter<Currency, BaseViewHolder> {
 
     private TextImageHelper helper;
 

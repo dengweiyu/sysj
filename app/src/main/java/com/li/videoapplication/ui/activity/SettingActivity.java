@@ -1,13 +1,8 @@
 package com.li.videoapplication.ui.activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,7 +19,6 @@ import com.fmsysj.screeclibinvoke.logic.floatview.FloatViewManager;
 import com.fmsysj.screeclibinvoke.logic.frontcamera.FrontCameraManager;
 import com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService;
 import com.fmsysj.screeclibinvoke.ui.dialog.SettingQualityDialog;
-import com.fmsysj.screeclibinvoke.utils.RootUtil;
 import com.fmsysj.screeclibinvoke.utils.ViewUtil;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.R;
@@ -36,7 +30,6 @@ import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
-import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.utils.ScreenUtil;
 

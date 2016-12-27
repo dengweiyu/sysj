@@ -18,12 +18,14 @@ import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
 import com.li.videoapplication.data.model.event.ImageView2ImageShareEvent;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
+import com.li.videoapplication.data.model.event.MatchListFliterEvent;
 import com.li.videoapplication.data.model.event.SearchGame2VideoShareEvent;
 import com.li.videoapplication.data.model.event.Share2VideoShareEvent;
 import com.li.videoapplication.data.model.event.Tag2VideoShareEvent;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.event.VideoCutEvent;
 import com.li.videoapplication.data.model.event.postConnectedTVSuccessEvent;
+import com.li.videoapplication.framework.RxBus;
 
 import java.util.List;
 
@@ -36,6 +38,16 @@ import io.rong.eventbus.EventBus;
 public class EventManager {
 
     protected static final String TAG = EventManager.class.getSimpleName();
+
+    /**
+     * 发布赛事列表筛选完成更新事件
+     */
+    public static void postMatchListFliterEvent(String gameIds, String gameNames,
+                                                int match_type, String match_type_names) {
+
+        EventBus.getDefault().post(new MatchListFliterEvent(gameIds, gameNames,
+                match_type, match_type_names));
+    }
 
     /**
      * 发布视频剪辑完成事件
@@ -52,13 +64,13 @@ public class EventManager {
         LoginEvent event = new LoginEvent();
         EventBus.getDefault().post(event);
     }
-	
+
     /**
      * 发布登出事件
      */
     public static void postLogoutEvent() {
-    	LogoutEvent event = new LogoutEvent();
-    	EventBus.getDefault().post(event);
+        LogoutEvent event = new LogoutEvent();
+        EventBus.getDefault().post(event);
     }
 
     /**

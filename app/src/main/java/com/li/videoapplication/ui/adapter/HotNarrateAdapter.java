@@ -20,7 +20,7 @@ import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 
 /**
- * 适配器：首页热门游戏
+ * 适配器：金牌主播
  */
 @SuppressLint("InflateParams")
 public class HotNarrateAdapter extends BaseArrayAdapter<Member> {

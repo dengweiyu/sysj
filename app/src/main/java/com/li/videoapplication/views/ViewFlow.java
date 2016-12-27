@@ -421,7 +421,6 @@ public class ViewFlow extends AdapterView<Adapter> {
 				}
 			} else {
 				if (getOnItemClickListener()!=null){
-					// TODO 瑙ｅ喅鐐瑰嚮浜嬩欢
 					getOnItemClickListener().onItemClick(this, getSelectedView(), mCurrentAdapterIndex, getId());
 				}
 			}

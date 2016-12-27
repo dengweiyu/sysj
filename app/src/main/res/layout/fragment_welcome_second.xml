@@ -7,15 +7,14 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/welcome_bg_first"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/welcome_content_second"/>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/welcome_content_second"/>
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/welcome_content_second_text" />
 
 </RelativeLayout>

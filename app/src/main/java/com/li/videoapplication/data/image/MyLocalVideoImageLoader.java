@@ -65,10 +65,7 @@ public class MyLocalVideoImageLoader {
 		};
 
 		// 默认缓存图片存储到应用缓存文件夹
-		path = context.getExternalCacheDir().getPath().toString() + "/";
-		if (path == null) {
-			path = Environment.getExternalStorageDirectory().getPath() + "/LuPingDaShi/LazyList/";
-		}
+		path = context.getExternalCacheDir().getPath() + "/";
 	}
 
 	/**

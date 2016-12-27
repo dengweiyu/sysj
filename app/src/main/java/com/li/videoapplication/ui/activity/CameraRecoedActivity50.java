@@ -56,7 +56,7 @@ public class CameraRecoedActivity50 extends TBaseActivity implements OnClickList
 
     private void startVideoShareActivity() {
         if (entity != null) {
-            ActivityManeger.startVideoShareActivity(this, entity, game);
+            ActivityManeger.startVideoShareActivity210(this, entity, game);
             finish();
         }
     }

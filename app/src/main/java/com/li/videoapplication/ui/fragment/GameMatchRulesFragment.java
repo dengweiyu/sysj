@@ -1,7 +1,6 @@
 package com.li.videoapplication.ui.fragment;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,18 +14,16 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.activity.GameMatchDetailActivity;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
+import com.li.videoapplication.mvp.match.view.GameMatchDetailActivity;
 
 /**
  * 碎片：赛规
  */
 public class GameMatchRulesFragment extends Fragment {
+
     private View rootView;
     private WebView webView;
     private TextView noData;
-    private SweetAlertDialog pDialog;
     private GameMatchDetailActivity activity;
     public boolean isFirstIn = true;
 
@@ -46,10 +43,6 @@ public class GameMatchRulesFragment extends Fragment {
         if (null == rootView) {
             rootView = inflater.inflate(R.layout.fragment_gamematch_rules, container, false);
             initWebView();
-            pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
-            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-            pDialog.setTitleText("加载中...");
-            pDialog.show();
         }
         return rootView;
     }
@@ -78,12 +71,6 @@ public class GameMatchRulesFragment extends Fragment {
                 view.loadUrl(url);
                 //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
                 return true;
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                pDialog.cancel();
-                super.onPageFinished(view, url);
             }
         });
 

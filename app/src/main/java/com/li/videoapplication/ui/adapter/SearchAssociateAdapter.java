@@ -64,6 +64,8 @@ public class SearchAssociateAdapter extends BaseArrayAdapter<Associate> {
         } else {
             holder.text.setText(name);
         }
+
+        
         return view;
     }
 

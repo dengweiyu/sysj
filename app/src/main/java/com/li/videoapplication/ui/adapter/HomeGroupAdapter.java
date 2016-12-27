@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.VideoImageGroup;
 import com.li.videoapplication.framework.BaseArrayAdapter;
+import com.li.videoapplication.mvp.billboard.view.BillboardActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.utils.ScreenUtil;
@@ -39,7 +40,7 @@ public class HomeGroupAdapter extends BaseArrayAdapter<VideoImageGroup> {
      * 跳转：风云榜
      */
     private void startBillboardActivity() {
-        ActivityManeger.startBillboardActivity(getContext());
+        ActivityManeger.startBillboardActivity(getContext(), BillboardActivity.TYPE_PLAYER);
     }
 
     public HomeGroupAdapter(Context context, List<VideoImageGroup> data) {

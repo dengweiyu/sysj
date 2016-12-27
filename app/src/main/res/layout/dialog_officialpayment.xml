@@ -93,18 +93,49 @@
             android:textColor="#6e6e6e" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/official_currency"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="6dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="余额："
-        android:textColor="@color/title_bg_color"
-        android:textSize="13sp"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:ellipsize="end"/>
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/official_currency"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="余额："
+            android:textColor="@color/title_bg_color"
+            android:textSize="13sp"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="充值QQ："
+            android:textColor="@color/title_bg_color"
+            android:textSize="13sp"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2768484684"
+            android:textColor="@color/currency_blue"
+            android:textSize="13sp"
+            android:gravity="center_vertical"
+            android:textIsSelectable="true"
+            android:maxLines="1"
+            android:layout_marginRight="8dp"
+            android:ellipsize="end"/>
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/official_confirm"
@@ -126,25 +157,12 @@
         android:background="@color/divider_bg"/>
 
     <TextView
-        android:id="@+id/official_ps"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_width="match_parent"
-        android:lineSpacingExtra="3dp"
-        android:layout_height="wrap_content"
-        android:text="备注："
-        android:textColor="@color/title_bg_color"
-        android:textSize="11sp"
-        android:gravity="center_vertical" />
-
-    <TextView
         android:id="@+id/official_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp"
+        android:paddingTop="8dp"
         android:text="查看详情>>"
         android:textSize="11sp"
         android:textColor="#77CAFE"/>

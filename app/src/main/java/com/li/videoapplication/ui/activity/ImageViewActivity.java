@@ -2,6 +2,7 @@ package com.li.videoapplication.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,28 +35,30 @@ import java.util.TreeSet;
 @SuppressLint("HandlerLeak")
 public class ImageViewActivity extends TBaseActivity implements OnClickListener {
 
-    /** 图文选中的图片 */
+    /**
+     * 图文选中的图片
+     */
     public static Set<String> imageViewDeleteData = new LinkedHashSet<>();
-	
-	private GridView gridView;
-	private ImageViewAdapter adapter;
-	private List<ImageDirectoryEntity> data = new LinkedList<>();
-	
-	private RelativeLayout bottom;
-	private TextView name;
-	private TextView count;
 
-	private String directoryPath;
+    private GridView gridView;
+    private ImageViewAdapter adapter;
+    private List<ImageDirectoryEntity> data = new LinkedList<>();
+
+    private RelativeLayout bottom;
+    private TextView name;
+    private TextView count;
+
+    private String directoryPath;
 
     @Override
-	public int getContentView() {
-		return R.layout.activity_imageview;
-	}
+    public int getContentView() {
+        return R.layout.activity_imageview;
+    }
 
-	@Override
+    @Override
     public int inflateActionBar() {
-		return R.layout.actionbar_second;
-	}
+        return R.layout.actionbar_second;
+    }
 
     @Override
     public void afterOnCreate() {
@@ -100,18 +103,18 @@ public class ImageViewActivity extends TBaseActivity implements OnClickListener 
     }
 
     @Override
-	public void onClick(View v) {
-		if (v == bottom) {
+    public void onClick(View v) {
+        if (v == bottom) {
             if (data.size() > 0) {
                 showPopupWindow();
             } else {
                 showToastShort("未扫描到图片");
             }
-			lightOff();
-		} else if (v == abImageViewDone) {
+            lightOff();
+        } else if (v == abImageViewDone) {
             finish();
-		}
-	}
+        }
+    }
 
     /**
      * 图片文件夹
@@ -131,7 +134,7 @@ public class ImageViewActivity extends TBaseActivity implements OnClickListener 
         popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
     }
 
-    private void dismissPopupWindow(){
+    private void dismissPopupWindow() {
         if (popupWindow != null && popupWindow.isShowing())
             popupWindow.dismiss();
     }
@@ -179,7 +182,6 @@ public class ImageViewActivity extends TBaseActivity implements OnClickListener 
      * 回调：加载图片文件夹
      */
     public void onEventMainThread(ImageDirectoryResponseObject event) {
-
         if (!event.isResult()) {
             if (event.getMsg() != null)
                 showToastShort(event.getMsg());
@@ -189,7 +191,16 @@ public class ImageViewActivity extends TBaseActivity implements OnClickListener 
         }
         if (event.getDirectorys() != null && event.getDirectorys().size() > 0) {
             data.addAll(event.getDirectorys());
-            ImageDirectoryEntity entity = event.getDirectorys().get(0);
+            ImageDirectoryEntity entity = null;
+            for (int i = 0; i < event.getDirectorys().size(); i++) { //查找有没系统截图文件夹，有则首先展示截图文件夹
+                if (event.getDirectorys().get(i).getName().equals("截屏") ||
+                        event.getDirectorys().get(i).getName().toLowerCase().equals("screenshots")) {
+                    entity = event.getDirectorys().get(i);
+                }
+            }
+            if (entity == null) {
+                entity = event.getDirectorys().get(0);
+            }
             refreshContentView(entity);
         } else {
             showToastShort("未扫描到图片");

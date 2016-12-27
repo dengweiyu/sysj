@@ -22,7 +22,7 @@
                 android:id="@+id/goback"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                android:padding="10dp"
+                android:padding="12dp"
                 android:src="@drawable/ab_goback_gray" />
 
             <TextView

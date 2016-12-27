@@ -562,7 +562,7 @@ public final class CameraGLView extends GLSurfaceView {
                     // request preview size
                     // this is a sample project and just use fixed value
                     // if you want to use other size, you also need to change the recording size.
-                    params.setPreviewSize(ScreenUtil.getScreenHeight(),ScreenUtil.getScreenWidth());
+                    params.setPreviewSize(ScreenUtil.getScreenHeight(), ScreenUtil.getScreenWidth());
 /*					final Size preferedSize = params.getPreferredPreviewSizeForVideo();
                     if (preferedSize != null) {
 						params.setPreviewSize(preferedSize.width, preferedSize.height);

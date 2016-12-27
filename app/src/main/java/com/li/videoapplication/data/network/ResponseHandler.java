@@ -20,7 +20,7 @@ import com.li.videoapplication.data.model.response.BulletList203Entity;
 import com.li.videoapplication.data.model.response.CheckAndroidStatusEntity;
 import com.li.videoapplication.data.model.response.DetailNewEntity;
 import com.li.videoapplication.data.model.response.GetRongCloudToken204Entity;
-import com.li.videoapplication.data.model.response.IndexChangeGuessEntity;
+import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.IndexLaunchImageEntity;
 import com.li.videoapplication.data.model.response.LaunchImageEntity;
 import com.li.videoapplication.data.model.response.LoginEntity;
@@ -350,7 +350,7 @@ public class ResponseHandler {
         if (url.equals(RequestUrl.getInstance().indexChangeGuess())) {
             Log.d(tag, "savePreferences: indexChangeGuess");
             // 保存猜你喜歡
-            PreferencesHepler.getInstance().saveVideoIds(((IndexChangeGuessEntity) this.entity).getVideoIds());
+            PreferencesHepler.getInstance().saveVideoIds(((ChangeGuessEntity) this.entity).getVideoIds());
             // 获取猜你喜歡视频保存的时间
             PreferencesHepler.getInstance().saveVideoIdsTime();
         }

@@ -22,6 +22,16 @@
         <item name="toolbarStyle">@style/NoMarginToolbar</item>
     </style>
 
+    <style name="MyDialog" parent="MyTheme.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.7</item>
+    </style>
+
     <style name="NoMarginToolbar" parent="Widget.AppCompat.Toolbar">
         <!-- 设置该属性解决空白部分-->
         <item name="contentInsetStart">0dp</item>
@@ -41,6 +51,25 @@
     <style name="MyTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="MyTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="appcompat_edittext" parent="TextAppearance.AppCompat">
+        <!-- 默认状态提示颜色和字体-->
+        <item name="android:textColorHint">#b9b9b9</item>
+        <item name="android:textSize">14sp</item>
+
+        <!-- 下面可以根据需要设置，如果没有将默认使用默认theme的颜色 -->
+        <!-- Label标签的颜色 -->
+        <item name="colorAccent">#FF4081</item>
+        <!-- 默认状态状态设置底线颜色 -->
+        <item name="colorControlNormal">#3F51b5</item>
+        <!-- 选择的底线颜色 -->
+        <item name="colorControlActivated">#FF4081</item>
+    </style>
+
+    <style name="appcompat_edittext_msg" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#ff3d2e</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 
     <!--乐播选择窗口-->
     <style name="custom_dialog" parent="android:style/Theme.Dialog">

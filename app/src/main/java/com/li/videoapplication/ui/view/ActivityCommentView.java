@@ -1,14 +1,11 @@
 package com.li.videoapplication.ui.view;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,13 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.model.entity.Comment;
 import com.li.videoapplication.data.network.UITask;
-import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.ActivityDetailActivity208;
 import com.li.videoapplication.ui.adapter.FaceAdapter;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.lang.reflect.Field;

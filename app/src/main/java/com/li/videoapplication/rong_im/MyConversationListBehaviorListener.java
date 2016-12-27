@@ -64,7 +64,7 @@ public class MyConversationListBehaviorListener implements RongIM.ConversationLi
                 new RongIMClient.ResultCallback<Boolean>() {
                     @Override
                     public void onSuccess(Boolean aBoolean) {
-                        Log.d(TAG, "clearMessagesUnreadStatus onSuccess: ");
+                        Log.d(TAG, "clearMessagesUnreadStatus onLoadHomeSuccess: ");
                     }
 
                     @Override

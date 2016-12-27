@@ -2,7 +2,6 @@ package com.li.videoapplication.ui.view;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Debug;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -21,29 +20,26 @@ import android.widget.RelativeLayout;
 import com.happly.link.HpplayLinkControl;
 import com.happly.link.HpplayLinkWindow;
 import com.happly.link.bean.WebPushInfo;
-import com.happly.link.net.RefreshUIInterface;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.danmuku.DanmukuListEntity;
 import com.li.videoapplication.data.danmuku.DanmukuListXmlParser;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
-import com.li.videoapplication.data.model.entity.Bullet;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.BulletList203Entity;
-import com.li.videoapplication.data.network.RequestExecutor;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.tools.SubtitleHelper2;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.popupwindows.ReportPopupWindow;
-import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
+import com.pili.pldroid.player.PLMediaPlayer;
+import com.pili.pldroid.player.widget.PLVideoView;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -51,8 +47,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 /**
  * 视图：完成播放：重复播放
@@ -62,6 +56,7 @@ public class VideoPlayView extends RelativeLayout implements
         AddDanmukuView.AddDanmukuListener,
         IVideoPlay {
 
+    private static boolean DEBUG = true;
     public final String action = this.getClass().getName();
     public final String tag = this.getClass().getSimpleName();
 
@@ -76,7 +71,6 @@ public class VideoPlayView extends RelativeLayout implements
     private int state = STATE_PREPARE;
 
     private View view;
-    private RelativeLayout root;
 
     private PrepareView prepareView;
     private ErrorView errorView;
@@ -95,7 +89,6 @@ public class VideoPlayView extends RelativeLayout implements
 
     // 新视频播放器pldroidplayer
     public VideoPlayer videoPlayer;
-    private AspectRatioLayout layout;
     // 网页播放器
     private WebView webPlayer;
 
@@ -113,18 +106,18 @@ public class VideoPlayView extends RelativeLayout implements
 
     public void setVideoImage(VideoImage videoImage) {
         this.videoImage = videoImage;
-        Log.d(tag, "setVideoImage/videoImage=" + videoImage);
 
         if (videoImage != null) {
             yk_url = videoImage.getYk_url();
             youku_url = AppConstant.getYoukuUrl(yk_url);
             qn_key = videoImage.getQn_key();
             qn_url = AppConstant.getQnUrl(qn_key);
-            Log.d(tag, "yk_url=" + yk_url);
-            Log.d(tag, "youku_url=" + youku_url);
-            Log.d(tag, "qn_key=" + qn_key);
-            Log.d(tag, "qn_url=" + qn_url);
-
+            if (DEBUG) {
+                Log.d(tag, "yk_url=" + yk_url);
+                Log.d(tag, "youku_url=" + youku_url);
+                Log.d(tag, "qn_key=" + qn_key);
+                Log.d(tag, "qn_url=" + qn_url);
+            }
             controllerViewLand.setVideoImage(videoImage);
         }
     }
@@ -162,7 +155,6 @@ public class VideoPlayView extends RelativeLayout implements
     private void initContentView() {
 
         view = inflater.inflate(R.layout.view_videoplay, this);
-        root = (RelativeLayout) findViewById(R.id.root);
 
         errorView = (ErrorView) view.findViewById(R.id.videoplay_error);
         prepareView = (PrepareView) view.findViewById(R.id.videoplay_prepare);
@@ -176,9 +168,6 @@ public class VideoPlayView extends RelativeLayout implements
         timedTextView = (TimedTextView) view.findViewById(R.id.videoplay_timedtext);
         leBoView = (LeBoView) view.findViewById(R.id.videoplay_lebo);
         gprsTipView = (GPRSTipView) view.findViewById(R.id.videoplay_gprstip);
-
-        layout = (AspectRatioLayout) view.findViewById(R.id.videoplay_container);
-        layout.setAspectRatio(RATIO_MAX);
 
         initWeb();
         initPlayer();
@@ -209,7 +198,6 @@ public class VideoPlayView extends RelativeLayout implements
 
         switch (v.getId()) {
             case R.id.start_play:// 中心播放
-
                 break;
 
             case R.id.lebo_play:
@@ -268,7 +256,7 @@ public class VideoPlayView extends RelativeLayout implements
             linkControl.setStopVideo(activity, 7);
         } catch (Exception e) {
             e.printStackTrace();
-            LogHelper.e(tag, "退出投屏出错");
+            if (DEBUG) LogHelper.e(tag, "退出投屏出错");
             activity.finish();
         }
     }
@@ -280,7 +268,8 @@ public class VideoPlayView extends RelativeLayout implements
                 leBoView.hideView();
                 touchView.showView();
                 toogleView();
-
+                activity.setCurrentVolume(volumeBeforeTV);
+                if (DEBUG) Log.d(tag, "投屏结束后恢复的音量: " + activity.getCurrentVolume());
             }
         });
     }
@@ -345,13 +334,13 @@ public class VideoPlayView extends RelativeLayout implements
     }
 
     /**
-     * 是否在TV显示弹幕
+     * 是否在TV显示弹幕 fixme 没执行到~
      */
     private void showTVDanmu(boolean isShow) {
+        if (DEBUG) Log.d(tag, "showTVDanmu: isDanmukuShow == " + isShow);
         //接收端是否支持弹幕
         Boolean isSucceed = linkControl.isHasWebPush();
-        Log.d(tag, "接收端是否支持弹幕: " + isSucceed);
-        ToastHelper.s("接收端是否支持弹幕: " + isSucceed);
+        if (DEBUG) Log.d(tag, "接收端是否支持弹幕: " + isSucceed);
         if (isSucceed) {
             linkControl.setWebPushVisibility(activity, 14, isShow);
         }
@@ -379,10 +368,10 @@ public class VideoPlayView extends RelativeLayout implements
 //        titleBarView.setDanmukuEnabledDelayed();
         if (isShow) {
             danmukuPlayer.showDanmaku();
-            Log.i(tag, "showDanmaku");
+            if (DEBUG) Log.i(tag, "showDanmaku");
         } else {
             danmukuPlayer.hideDanmaku();
-            Log.i(tag, "hideDanmaku");
+            if (DEBUG) Log.i(tag, "hideDanmaku");
         }
         isDanmukuShow = isShow;
     }
@@ -399,10 +388,10 @@ public class VideoPlayView extends RelativeLayout implements
             return;
         if (isResume) {
             danmukuPlayer.resumeDanmaku();
-            Log.i(tag, "resumeDanmaku");
+            if (DEBUG) Log.i(tag, "resumeDanmaku");
         } else {
             danmukuPlayer.pauseDanmaku();
-            Log.i(tag, "pauseDanmaku");
+            if (DEBUG) Log.i(tag, "pauseDanmaku");
         }
     }
 
@@ -410,7 +399,7 @@ public class VideoPlayView extends RelativeLayout implements
      * 加载弹幕
      */
     public void loadDanmuku(BulletList203Entity entity) {
-        Log.d(tag, "loadDanmuku/entity=" + entity);
+        if (DEBUG) Log.d(tag, "loadDanmuku/entity=" + entity);
         if (danmukuPlayer != null && !danmukuPlayer.prepared) {
             DanmukuListEntity danmulku = DanmukuListEntity.tranform(entity);
             DanmukuListXmlParser parser = new DanmukuListXmlParser();
@@ -424,20 +413,6 @@ public class VideoPlayView extends RelativeLayout implements
             if (is != null)
                 danmukuPlayer.loadDanmaku(is);
         }
-        // FIXME: 2016/11/16
-//        List<WebPushInfo> webPushList = new ArrayList<>();
-//        for (int i = 0; i < entity.getData().size(); i++) {
-//            Bullet bullet = entity.getData().get(i);
-//
-//            WebPushInfo webPushInfo = new WebPushInfo();
-//            webPushInfo.setContent(bullet.getContent());
-//
-//            Double time = Double.valueOf(bullet.getVideo_node());
-//            webPushInfo.setDelaytime((long) (time * 1000));
-//
-//            webPushList.add(webPushInfo);
-//        }
-//        linkControl.sendOtherBeantoJSon(activity, 19, webPushList, 2);
     }
 
     /**
@@ -445,7 +420,7 @@ public class VideoPlayView extends RelativeLayout implements
      */
     @Override
     public boolean addDanmuku(String text) {
-        Log.d(tag, "addDanmuku:/text=" + text);
+        if (DEBUG) Log.d(tag, "addDanmuku:/text=" + text);
 
         if (activity.isLandscape()) {
             if (controllerViewLand != null)
@@ -466,13 +441,16 @@ public class VideoPlayView extends RelativeLayout implements
                 text);
 //        activity.bullet = true;
 
-        if (state == STATE_TV) {
+        if (DEBUG)
+            Log.d(tag, "addDanmuku: state == " + state + " ,isDanmukuShow == " + isDanmukuShow);
+        if (state == STATE_TV && isDanmukuShow) {
             boolean hasWebPush = linkControl.isHasWebPush();//接收端是否支持弹幕
-            Log.d(tag, "接收端是否支持弹幕: " + hasWebPush);
+            if (DEBUG) Log.d(tag, "接收端是否支持弹幕: " + hasWebPush);
             if (hasWebPush) {
                 List<WebPushInfo> webPushuserList = new ArrayList<>();
                 WebPushInfo webPushInfo = new WebPushInfo();
                 webPushInfo.setContent(text);
+                if (DEBUG) Log.d(tag, "addDanmuku: getVideoPosition == "+videoPlayer.getVideoPosition());
                 webPushInfo.setDelaytime(videoPlayer.getVideoPosition());
                 webPushuserList.add(webPushInfo);
                 linkControl.sendUserBeantoJSon(activity, 20, webPushuserList, 2);//type：1为直播，2为非直播流
@@ -498,12 +476,12 @@ public class VideoPlayView extends RelativeLayout implements
      * 快进快退弹幕
      */
     public void seekToDanmaku(int progress) {
-        Log.d(tag, "seekToDanmaku/progress=" + progress);
+        if (DEBUG) Log.d(tag, "seekToDanmaku/progress=" + progress);
         if (danmukuPlayer != null) {
             long duration = videoPlayer.getVideoDuration();
             long position = progress * duration / 100;
-            Log.i(tag, "seekToDanmaku/duration=" + duration);
-            Log.i(tag, "seekToDanmaku/position=" + position);
+            if (DEBUG) Log.i(tag, "seekToDanmaku/duration=" + duration);
+            if (DEBUG) Log.i(tag, "seekToDanmaku/position=" + position);
             danmukuPlayer.seekToDanmaku(position);
         }
     }
@@ -516,8 +494,8 @@ public class VideoPlayView extends RelativeLayout implements
             long duration = videoPlayer.getVideoDuration();
             long position = videoPlayer.getVideoPosition();
             int progress = (int) (position / duration);
-            Log.i(tag, "seekToDanmaku/duration=" + duration);
-            Log.i(tag, "seekToDanmaku/position=" + position);
+            if (DEBUG) Log.i(tag, "seekToDanmaku/duration=" + duration);
+            if (DEBUG) Log.i(tag, "seekToDanmaku/position=" + position);
             seekToDanmaku(progress);
         }
     }
@@ -552,12 +530,14 @@ public class VideoPlayView extends RelativeLayout implements
      * 快进快退播放器
      */
     public void seekToVideo(int progress) {
-        Log.d(tag, "seekToVideo/progress=" + progress);
+        if (DEBUG) Log.d(tag, "seekToVideo/progress=" + progress);
         if (videoPlayer != null) {
             long duration = videoPlayer.getVideoDuration();
             long position = progress * duration / 100;
-            Log.i(tag, "seekToVideo/duration=" + duration);
-            Log.i(tag, "seekToVideo/position=" + position);
+            if (DEBUG) {
+                Log.i(tag, "seekToVideo/duration=" + duration);
+                Log.i(tag, "seekToVideo/position=" + position);
+            }
             videoPlayer.seekToVideo(position);
             seekToDanmaku(progress);
             resumeDanmuku(videoPlayer.isPlayingVideo());
@@ -568,19 +548,18 @@ public class VideoPlayView extends RelativeLayout implements
 
         videoPlayer = (VideoPlayer) findViewById(R.id.videoplayer);
         videoPlayer.setOnErrorListener(onErrorListener);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            videoPlayer.setOnInfoListener(onInfoListener);
-        }
+        videoPlayer.setOnInfoListener(onInfoListener);
 
         danmukuPlayer = (DanmukuPlayer) findViewById(R.id.danmuku);
         danmukuPlayer.initDanmuku();
     }
 
 
-    private IMediaPlayer.OnCompletionListener onCompletionListener = new IMediaPlayer.OnCompletionListener() {
+    private PLMediaPlayer.OnCompletionListener onCompletionListener = new PLMediaPlayer.OnCompletionListener() {
 
         @Override
-        public void onCompletion(IMediaPlayer PLMediaPlayer) {
+        public void onCompletion(PLMediaPlayer plMediaPlayer) {
+            videoPlayer.stopPlayback();
             switchPlay(STATE_COMPLETE);
             if (controllerView != null) {
                 controllerView.setPlay(false);
@@ -610,16 +589,17 @@ public class VideoPlayView extends RelativeLayout implements
 
     private long pos;
 
-    private IMediaPlayer.OnPreparedListener onPreparedListener = new IMediaPlayer.OnPreparedListener() {
+    private PLMediaPlayer.OnPreparedListener onPreparedListener = new PLMediaPlayer.OnPreparedListener() {
 
         @Override
-        public void onPrepared(IMediaPlayer iMediaPlayer) {
-            setVideoRatio(iMediaPlayer);
+        public void onPrepared(PLMediaPlayer plMediaPlayer) {
+//            setVideoRatio(plMediaPlayer); // 拉伸问题
+            videoPlayer.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_FIT_PARENT);//画面预览模式--适应屏幕
             if (timedTextView != null)
                 timedTextView.showView();
-            addSubtitle(iMediaPlayer);
-            iMediaPlayer.start();
-            iMediaPlayer.seekTo((int) pos);
+            addSubtitle(plMediaPlayer);
+            plMediaPlayer.start();
+            plMediaPlayer.seekTo((int) pos);
             updateProgress();
             if (controllerView != null) {
                 controllerView.setPlay(false);
@@ -644,17 +624,17 @@ public class VideoPlayView extends RelativeLayout implements
     /**
      * 加载字幕
      */
-    private void addSubtitle(IMediaPlayer iMediaPlayer) {
-        if (iMediaPlayer == null)
+    private void addSubtitle(PLMediaPlayer plMediaPlayer) {
+        if (plMediaPlayer == null)
             return;
-        Log.d(tag, "addSubtitle/file=" + file);
+        if (DEBUG) Log.d(tag, "addSubtitle/file=" + file);
         if (file == null)
             return;
         File f = SYSJStorageUtil.createFilecachePath(file);
         if (f == null || !f.exists())
             return;
         String path = f.getAbsolutePath();
-        Log.d(tag, "addSubtitle/path=" + path);
+        if (DEBUG) Log.d(tag, "addSubtitle/path=" + path);
         playSubtitle(true, path);
     }
 
@@ -679,24 +659,28 @@ public class VideoPlayView extends RelativeLayout implements
         subtitleHelper.playSubtitle();
     }
 
-
-    private IMediaPlayer.OnInfoListener onInfoListener = new IMediaPlayer.OnInfoListener() {
+    private PLMediaPlayer.OnInfoListener onInfoListener = new PLMediaPlayer.OnInfoListener() {
 
         @Override
-        public boolean onInfo(IMediaPlayer PLMediaPlayer, int i, int i1) {
-            // PLMediaPlayer.getDataSource()
-            // PLMediaPlayer.getCurrentPosition()
+        public boolean onInfo(PLMediaPlayer plMediaPlayer, int what, int extra) {
+            if (DEBUG) Log.d(tag, "onInfo: what == " + what + " , extra == " + extra);
+            switch (what) {
+                case PLMediaPlayer.MEDIA_INFO_BUFFERING_START:
+                    if (DEBUG) Log.d(tag, "onInfo: " + what + "----正在缓冲----");
+                    break;
+                case PLMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:
+                    if (DEBUG) Log.d(tag, "onInfo: " + what + "----第一帧视频已成功渲染----");
+                    break;
+            }
             return false;
         }
     };
 
-    private IMediaPlayer.OnErrorListener onErrorListener = new IMediaPlayer.OnErrorListener() {
+    private PLMediaPlayer.OnErrorListener onErrorListener = new PLMediaPlayer.OnErrorListener() {
 
         @Override
-        public boolean onError(IMediaPlayer iMediaPlayer, int i, int i1) {
-            Log.d(tag, "onError: code === " + i);
-            // mp.getDataSource()
-            // mp.getCurrentPosition()
+        public boolean onError(PLMediaPlayer plMediaPlayer, int errorCode) {
+            if (DEBUG) Log.d(tag, "onError: code === " + errorCode);
             switchPlay(STATE_ERROR);
             if (danmukuPlayer != null)
                 danmukuPlayer.hideDanmaku();
@@ -708,17 +692,17 @@ public class VideoPlayView extends RelativeLayout implements
             if (timedTextView != null)
                 timedTextView.hideView();
 
-            if (i == 100) {
+            if (errorCode == 100) {
                 videoPlayer.stopPlayback();
-            } else if (i == 1) {
+            } else if (errorCode == 1) {
                 videoPlayer.stopPlayback();
-            } else if (i == 800) {
+            } else if (errorCode == 800) {
                 videoPlayer.stopPlayback();
-            } else if (i == 701) {
+            } else if (errorCode == 701) {
                 videoPlayer.stopPlayback();
-            } else if (i == 700) {
+            } else if (errorCode == 700) {
                 videoPlayer.stopPlayback();
-            } else if (i == -38) {
+            } else if (errorCode == -38) {
                 videoPlayer.stopPlayback();
             }
             return true;
@@ -843,13 +827,13 @@ public class VideoPlayView extends RelativeLayout implements
 
     public void switchPlay(int state) {
         this.state = state;
-        Log.d(tag, "switchPlay/state=" + state);
+        if (DEBUG) Log.d(tag, "switchPlay/state=" + state);
 
         /**
          * 准备播放
          */
         if (state == STATE_PREPARE) {
-            LogHelper.d(tag, "========= STATE_PREPARE =========");
+            if (DEBUG) LogHelper.d(tag, "========= STATE_PREPARE =========");
             prepareView.showView();
 
             touchView.hideView();
@@ -872,7 +856,7 @@ public class VideoPlayView extends RelativeLayout implements
          * 完成播放
          */
         if (state == STATE_COMPLETE) {
-            LogHelper.d(tag, "========= STATE_COMPLETE =========");
+            if (DEBUG) LogHelper.d(tag, "========= STATE_COMPLETE =========");
             completeView.showView();
 
             touchView.hideView();
@@ -898,7 +882,7 @@ public class VideoPlayView extends RelativeLayout implements
          * 网页播放
          */
         if (state == STATE_WEBPLAY && !StringUtil.isNull(yk_url) && URLUtil.isURL(youku_url)) {
-            LogHelper.d(tag, "========= STATE_WEBPLAY =========");
+            if (DEBUG) LogHelper.d(tag, "========= STATE_WEBPLAY =========");
             touchView.hideView();
             errorView.hideView();
             prepareView.hideView();
@@ -921,7 +905,7 @@ public class VideoPlayView extends RelativeLayout implements
          * 开始播放
          */
         if (state == STATE_START && !StringUtil.isNull(qn_key) && URLUtil.isURL(qn_url)) {
-            LogHelper.d(tag, "========= STATE_START =========");
+            if (DEBUG) LogHelper.d(tag, "========= STATE_START =========");
             errorView.hideView();
             prepareView.hideView();
             touchView.hideView();
@@ -953,7 +937,7 @@ public class VideoPlayView extends RelativeLayout implements
          * 视频播放
          */
         if (state == STATE_VIDEOPLAY && qn_url != null && URLUtil.isURL(qn_url)) {
-            LogHelper.d(tag, "========= STATE_VIDEOPLAY =========");
+            if (DEBUG) LogHelper.d(tag, "========= STATE_VIDEOPLAY =========");
             errorView.hideView();
             prepareView.hideView();
             startView.hideView();
@@ -980,7 +964,7 @@ public class VideoPlayView extends RelativeLayout implements
          * 乐播投屏
          */
         if (state == STATE_TV) {
-            LogHelper.d(tag, "========= STATE_TV =========");
+            if (DEBUG) LogHelper.d(tag, "========= STATE_TV =========");
             errorView.hideView();
             prepareView.hideView();
             startView.hideView();
@@ -993,7 +977,9 @@ public class VideoPlayView extends RelativeLayout implements
             titleBarView.hideView();
 
             volumeBeforeTV = activity.getCurrentVolume();
+            if (DEBUG) Log.d(tag, "手机投屏前音量: " + volumeBeforeTV);
             activity.setCurrentVolume(0);
+            showTVDanmu(isDanmukuShow);
 
             leBoView.showView();
             if (videoImage != null && videoImage.getTitle() != null)
@@ -1002,12 +988,11 @@ public class VideoPlayView extends RelativeLayout implements
             videoPlayer.setVisibility(VISIBLE);
             webPlayer.setVisibility(GONE);
 
-//            showTVDanmu(isDanmukuShow); // FIXME: 2016/11/16
             return;
         }
 
         if (state == STATE_ERROR) {
-            LogHelper.d(tag, "========= STATE_ERROR =========");
+            if (DEBUG) LogHelper.d(tag, "========= STATE_ERROR =========");
             errorView.showView();
             leBoView.hideView();
             prepareView.hideView();
@@ -1027,9 +1012,11 @@ public class VideoPlayView extends RelativeLayout implements
      * 开始播放
      */
     private void startPlayer(final String url, final long pos) {
-        Log.d(tag, "url=" + url);
-        Log.d(tag, "startPlayer uri = " + Uri.parse(url));
-        Log.d(tag, "pos=" + pos);
+        if (DEBUG) {
+            Log.d(tag, "url=" + url);
+            Log.d(tag, "startPlayer uri = " + Uri.parse(url));
+            Log.d(tag, "pos=" + pos);
+        }
 
         if (window != null)
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -1038,7 +1025,7 @@ public class VideoPlayView extends RelativeLayout implements
 
         if (videoPlayer != null) {
             this.pos = pos;
-            videoPlayer.setVideoURI(Uri.parse(url));
+            videoPlayer.setVideoPath(url);
             videoPlayer.setOnPreparedListener(onPreparedListener);
             videoPlayer.setOnCompletionListener(onCompletionListener);
         }
@@ -1069,7 +1056,7 @@ public class VideoPlayView extends RelativeLayout implements
     public void resume() {
         // 继续播放
         lastPos = VideoPlayActivity.playPos;
-        Log.d(tag, "resume: state == " + state);
+        if (DEBUG) Log.d(tag, "resume: state == " + state);
         if (state != STATE_TV) {
             if (lastPos != 0 && URLUtil.isURL(qn_url)) {
                 startPlayer(qn_url, lastPos);
@@ -1092,13 +1079,13 @@ public class VideoPlayView extends RelativeLayout implements
     }
 
     public void pause() {
-        Log.d(tag, "pause: state == " + state);
+        if (DEBUG) Log.d(tag, "pause: state == " + state);
         if (state != STATE_TV) {
             if (videoPlayer != null) {
                 lastPos = videoPlayer.getVideoPosition();
                 VideoPlayActivity.playPos = lastPos;
                 VideoPlayActivity.playUrl = qn_url;
-                Log.e(tag, "lastPos=" + lastPos);
+                if (DEBUG) Log.e(tag, "lastPos=" + lastPos);
                 videoPlayer.pauseVideo();
             }
             if (webPlayer != null) {
@@ -1159,21 +1146,21 @@ public class VideoPlayView extends RelativeLayout implements
 //        }
     }
 
-    public static final float RATIO_MAX = 16F / 9F;
+//    public static final float RATIO_MAX = 16F / 9F;
 
-    private void setVideoRatio(IMediaPlayer iMediaPlayer) {
-        if (iMediaPlayer == null)
-            return;
-        float width = iMediaPlayer.getVideoWidth();
-        float height = iMediaPlayer.getVideoHeight();
-        float ratio = width / height;
-        if (layout != null)
-            layout.setAspectRatio(ratio);
-    }
+//    private void setVideoRatio(PLMediaPlayer plMediaPlayer) {
+//        if (plMediaPlayer == null)
+//            return;
+//        float width = plMediaPlayer.getVideoWidth();
+//        float height = plMediaPlayer.getVideoHeight();
+//        float ratio = width / height;
+//        if (layout != null)
+//            layout.setAspectRatio(ratio);
+//    }
 
     @Override
     public void minView() {
-        Log.i(tag, "state=" + state);
+        if (DEBUG) Log.i(tag, "state=" + state);
         setRelativeMinSixe(this);
         setRelativeMinSixe(videoPlayer);
 
@@ -1192,7 +1179,7 @@ public class VideoPlayView extends RelativeLayout implements
 
     @Override
     public void maxView() {
-        Log.i(tag, "state=" + state);
+        if (DEBUG) Log.i(tag, "state=" + state);
         setRelativeFullScreen(this);
         setRelativeFullScreen(videoPlayer);
 

@@ -6,8 +6,7 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.BaseDialog;
-import com.li.videoapplication.ui.activity.GameMatchDetailActivity;
-import com.li.videoapplication.ui.activity.SignUpActivity;
+import com.li.videoapplication.mvp.match.view.GameMatchDetailActivity;
 import com.li.videoapplication.utils.TextUtil;
 
 

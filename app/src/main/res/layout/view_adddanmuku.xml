@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <View
         android:id="@+id/adddanmuku_touch"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"/>
@@ -31,11 +30,11 @@
             android:cursorVisible="true"
             android:hint="@string/adddanmuku_hint"
             android:inputType="text"
-            android:imeOptions="actionSend"
+            android:imeOptions="flagNoExtractUi|actionSend"
             android:text=""
             android:textColor="#787878"
             android:textColorHint="#969696"
-            android:textCursorDrawable="@null"
+            android:textCursorDrawable="@drawable/cursor_red"
             android:textSize="13sp"/>
 
     </LinearLayout>

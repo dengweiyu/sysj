@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 
 import io.rong.eventbus.EventBus;
+import rx.Subscription;
 
 
 /**

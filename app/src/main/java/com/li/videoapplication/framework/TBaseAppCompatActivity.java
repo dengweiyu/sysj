@@ -28,7 +28,7 @@ import com.li.videoapplication.tools.LayoutParamsHelper;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.ui.activity.LoginActivity;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -39,6 +39,7 @@ import java.lang.reflect.Method;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
@@ -88,6 +89,7 @@ public abstract class TBaseAppCompatActivity extends BaseAppCompatActivity {
 
         if (getContentView() != 0) {
             setContentView(getContentView());
+            ButterKnife.bind(this);
         }/* else {
             throw new NullPointerException();
 		}*/

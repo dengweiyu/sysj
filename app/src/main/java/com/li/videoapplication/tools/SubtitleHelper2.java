@@ -8,7 +8,7 @@ import com.li.videoapplication.ui.srt.SRT;
 import com.li.videoapplication.ui.srt.SRTInfo;
 import com.li.videoapplication.ui.srt.SRTReader;
 import com.li.videoapplication.ui.srt.SRTTimeFormat;
-import com.pili.pldroid.player.widget.VideoView;
+import com.pili.pldroid.player.widget.PLVideoView;
 
 import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * 播放字幕
  * SubtitleHelper和SubtitleHelper2的区别，仅仅只有videoview的包不同。
+ *
  * pldroidplayer为新更换的播放器，解决播放到中间出错
  */
 public class SubtitleHelper2 {
@@ -30,7 +31,7 @@ public class SubtitleHelper2 {
     private AtomicBoolean isPlaying = new AtomicBoolean(false);
     private SRTInfo info;
     private String path;
-    private VideoView videoView;
+    private PLVideoView videoView;
     private TextView text;
 
     public boolean isPlaying() {
@@ -41,7 +42,7 @@ public class SubtitleHelper2 {
         isPlaying.set(playing);
     }
 
-    public SubtitleHelper2(String path, VideoView videoView, TextView text) {
+    public SubtitleHelper2(String path, PLVideoView videoView, TextView text) {
         super();
         this.path = path;
         this.videoView = videoView;

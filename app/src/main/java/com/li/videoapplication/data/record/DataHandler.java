@@ -14,7 +14,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.li.videoapplication.data.local.FileOperateUtil;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;

@@ -23,7 +23,7 @@ import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.adapter.ChooseLocalVideoAdapter;
 import com.li.videoapplication.ui.adapter.MyImportVideoAdapter;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.LogHelper;
 
 import java.io.File;
@@ -34,7 +34,7 @@ import java.util.Map;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
- * 活动：视频上传 选择
+ * 活动：活动视频上传 选择
  */
 public class VideoChooseActivity extends TBaseAppCompatActivity implements OnClickListener {
 

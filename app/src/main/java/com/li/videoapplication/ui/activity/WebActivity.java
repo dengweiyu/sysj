@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.ZoomButtonsController;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.js.User;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.utils.StringUtil;
@@ -171,8 +170,6 @@ public class WebActivity extends TBaseActivity {
 		webSettings.setJavaScriptEnabled(true);
 		webSettings.setDomStorageEnabled(true);
 
-		webView.addJavascriptInterface(new User(this), "user");
-
 		webView.setDownloadListener(new DownloadListener() {
 
 			@Override
@@ -281,6 +278,20 @@ public class WebActivity extends TBaseActivity {
 		} else {
 			finish();
 		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		webView.onPause();
+		webView.pauseTimers();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		webView.onResume();
+		webView.resumeTimers();
 	}
 
 	/**

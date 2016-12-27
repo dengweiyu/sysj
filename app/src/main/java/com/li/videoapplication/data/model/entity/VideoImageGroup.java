@@ -12,7 +12,11 @@ public class VideoImageGroup extends BaseResponse2Entity {
 
 	private String title;
 	private String pic;
+	private String icon_pic;
+	private String more_mark;
 	private List<VideoImage> list;
+	private String video_ids;
+
 
 	public String getTitle() {
 		return title;
@@ -38,7 +42,6 @@ public class VideoImageGroup extends BaseResponse2Entity {
 		this.list = list;
 	}
 
-	private String video_ids;
 
 	public String getVideo_ids() {
 		return video_ids;
@@ -48,8 +51,6 @@ public class VideoImageGroup extends BaseResponse2Entity {
 		this.video_ids = video_ids;
 	}
 
-	private String icon_pic;
-	private String more_mark;
 
 	public String getIcon_pic() {
 		return icon_pic;

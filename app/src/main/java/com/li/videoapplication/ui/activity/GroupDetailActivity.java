@@ -34,9 +34,8 @@ import com.li.videoapplication.tools.FglassHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
-import com.li.videoapplication.ui.fragment.GroupdetailHotVideoFragment;
 import com.li.videoapplication.ui.fragment.GroupdetailIntroduceFragment;
-import com.li.videoapplication.ui.fragment.GroupdetailNewVideoFragment;
+import com.li.videoapplication.ui.fragment.GroupdetailVideoFragment;
 import com.li.videoapplication.ui.fragment.GroupdetailPlayerFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.utils.StringUtil;
@@ -62,8 +61,8 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     public static final String TAG = GroupDetailActivity.class.getSimpleName();
 
     private GroupdetailIntroduceFragment introduceFragment;
-    private GroupdetailNewVideoFragment newVideoFragment;
-    private GroupdetailHotVideoFragment hotVideoFragment;
+    private GroupdetailVideoFragment newVideoFragment;
+    private GroupdetailVideoFragment hotVideoFragment;
     private GroupdetailPlayerFragment playerFragment;
 
     /**
@@ -128,14 +127,6 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     }
 
     @Override
-    public void beforeOnCreate() {
-        super.beforeOnCreate();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0
-            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-        }
-    }
-
-    @Override
     public void afterOnCreate() {
         super.afterOnCreate();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0
@@ -151,7 +142,6 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 
         initToolbar();
         initHeaderView();
-
 //        setHeaderData(game);
         initViewPager();
     }
@@ -161,8 +151,8 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
             fragments = new ArrayList<>();
 
             introduceFragment = new GroupdetailIntroduceFragment();
-            newVideoFragment = new GroupdetailNewVideoFragment();
-            hotVideoFragment = new GroupdetailHotVideoFragment();
+            newVideoFragment = GroupdetailVideoFragment.newInstance(GroupdetailVideoFragment.GROUPDETAILVIDEO_NEW);
+            hotVideoFragment = GroupdetailVideoFragment.newInstance(GroupdetailVideoFragment.GROUPDETAILVIDEO_HOT);
             playerFragment = new GroupdetailPlayerFragment();
 
             fragments.add(introduceFragment);
@@ -190,9 +180,15 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        ImageView tb_download = (ImageView) findViewById(R.id.tb_download);
+        ImageView tb_plus = (ImageView) findViewById(R.id.tb_plus);
+        tb_download.setVisibility(View.VISIBLE);
+        tb_plus.setVisibility(View.VISIBLE);
+
         findViewById(R.id.tb_back).setOnClickListener(this);
-        findViewById(R.id.tb_download).setOnClickListener(this);
-        findViewById(R.id.tb_plus).setOnClickListener(this);
+        tb_download.setOnClickListener(this);
+        tb_plus.setOnClickListener(this);
+
         tb_gift = (ImageView) findViewById(R.id.tb_gift);
         tb_gift.setOnClickListener(this);
         TextView tb_title = (TextView) findViewById(R.id.tb_title);
@@ -211,33 +207,6 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 
         // 圈子详情
         DataManager.groupInfo(group_id, getMember_id());
-
-        postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-
-                newVideoFragment.onRefresh();
-            }
-        }, AppConstant.TIME.GAMEDETAIL_SECOND);
-
-        postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-
-                hotVideoFragment.onRefresh();
-            }
-        }, AppConstant.TIME.GAMEDETAIL_THIRD);
-
-        postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-
-                playerFragment.onRefresh();
-            }
-        }, AppConstant.TIME.GAMEDETAIL_FOURTH);
     }
 
     @Override

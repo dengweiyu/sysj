@@ -1,15 +1,12 @@
 package com.li.videoapplication.ui;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
@@ -22,24 +19,25 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.entity.VideoImageGroup;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
+import com.li.videoapplication.mvp.billboard.view.BillboardActivity;
+import com.li.videoapplication.mvp.billboard.view.MatchRewardBillboardActivity;
+import com.li.videoapplication.mvp.match.view.MatchResultActivity;
 import com.li.videoapplication.ui.activity.AboutActivity;
 import com.li.videoapplication.ui.activity.ActivityDetailActivity208;
 import com.li.videoapplication.ui.activity.ActivityImageUploadActivity;
 import com.li.videoapplication.ui.activity.ActivityListActivity;
-import com.li.videoapplication.ui.activity.ActivityVideoActivity;
-import com.li.videoapplication.ui.activity.BillboardActivity;
 import com.li.videoapplication.ui.activity.CameraRecoedActivity;
 import com.li.videoapplication.ui.activity.CameraRecoedActivity50;
 import com.li.videoapplication.ui.activity.CollectionActivity;
 import com.li.videoapplication.ui.activity.ConversationActivity;
 import com.li.videoapplication.ui.activity.ExchangeRecordActivity;
-import com.li.videoapplication.ui.activity.GameMatchDetailActivity;
+import com.li.videoapplication.mvp.match.view.GameMatchDetailActivity;
 import com.li.videoapplication.ui.activity.GiftDetailActivity;
 import com.li.videoapplication.ui.activity.GiftListActivity;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
 import com.li.videoapplication.ui.activity.GroupGiftActivity;
 import com.li.videoapplication.ui.activity.GroupListActivity;
-import com.li.videoapplication.ui.activity.GroupMatchListActivity;
+import com.li.videoapplication.mvp.match.view.GroupMatchListActivity;
 import com.li.videoapplication.ui.activity.HelpActivity;
 import com.li.videoapplication.ui.activity.HomeImageShareActivity;
 import com.li.videoapplication.ui.activity.HomeMoreActivity;
@@ -53,7 +51,7 @@ import com.li.videoapplication.ui.activity.MessageActivity;
 import com.li.videoapplication.ui.activity.MessageListActivity;
 import com.li.videoapplication.ui.activity.MyCurrencyRecordActivity;
 import com.li.videoapplication.ui.activity.MyDynamicActivity;
-import com.li.videoapplication.ui.activity.MyMatchActivity;
+import com.li.videoapplication.mvp.match.view.MyMatchActivity;
 import com.li.videoapplication.ui.activity.MyMatchProcessActivity;
 import com.li.videoapplication.ui.activity.MyPersonalCenterActivity;
 import com.li.videoapplication.ui.activity.MyPersonalInfoActivity;
@@ -73,7 +71,6 @@ import com.li.videoapplication.ui.activity.ScanQRCodeActivity;
 import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.activity.SearchGameActivity;
 import com.li.videoapplication.ui.activity.SearchLifeActivity;
-import com.li.videoapplication.ui.activity.SearchResultActivity;
 import com.li.videoapplication.ui.activity.SettingActivity;
 import com.li.videoapplication.ui.activity.ShareActivity;
 import com.li.videoapplication.ui.activity.SignUpActivity;
@@ -84,10 +81,9 @@ import com.li.videoapplication.ui.activity.VideoChooseActivity;
 import com.li.videoapplication.ui.activity.VideoEditorActivity;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
-import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.ui.activity.VideoShareActivity210;
 import com.li.videoapplication.ui.activity.VideoUploadActivity;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 
@@ -149,44 +145,7 @@ public class ActivityManeger {
     /**
      * 视频分享
      */
-    public synchronized static void startVideoShareActivity(Context context, VideoCaptureEntity entity) {
-        startVideoShareActivity(context, entity, null, null);
-    }
-
-    /**
-     * 视频分享
-     */
-    public synchronized static void startVideoShareActivity(Context context, VideoCaptureEntity entity, Game game) {
-        startVideoShareActivity(context, entity, game, null);
-    }
-
-    /**
-     * 视频分享
-     */
-    public synchronized static void startVideoShareActivity(Context context, VideoCaptureEntity entity, Match match) {
-        startVideoShareActivity(context, entity, null, match);
-    }
-
-    /**
-     * 视频分享
-     */
-    public synchronized static void startVideoShareActivity(Context context, VideoCaptureEntity entity, Game game, Match match) {
-        Intent intent = new Intent();
-        if (entity != null)
-            intent.putExtra("entity", entity);
-        if (game != null)
-            intent.putExtra("game", game);
-        if (match != null)
-            intent.putExtra("match", match);
-        intent.setClass(context, VideoShareActivity.class);
-        context.startActivity(intent);
-    }
-
-    /**
-     * 视频分享
-     */
     public static void startVideoShareActivity210(Context context, VideoCaptureEntity entity) {
-        Log.d(TAG, "startVideoShareActivity: ");
         Intent intent = new Intent();
         if (entity != null)
             intent.putExtra("entity", entity);
@@ -195,10 +154,9 @@ public class ActivityManeger {
     }
 
     /**
-     * 视频分享
+     * 录屏后跳转 --> 视频分享
      */
     public static void startVideoShareActivity210NewTask(Context context, VideoCaptureEntity entity) {
-        Log.d(TAG, "startVideoShareActivity: ");
         Intent intent = new Intent();
         if (entity != null)
             intent.putExtra("entity", entity);
@@ -207,6 +165,19 @@ public class ActivityManeger {
         context.startActivity(intent);
     }
 
+    /**
+     * 视频上传
+     */
+    public synchronized static void startVideoShareActivity210(Context context, VideoCaptureEntity entity,
+                                                               Game game) {
+        Intent intent = new Intent();
+        if (entity != null)
+            intent.putExtra("entity", entity);
+        if (game != null)
+            intent.putExtra("game", game);
+        intent.setClass(context, VideoShareActivity210.class);
+        context.startActivity(intent);
+    }
 
     /**
      * 视频上传208
@@ -555,21 +526,21 @@ public class ActivityManeger {
     }
 
     /**
-     * 精彩推荐
+     * 玩家榜, 视频榜
      */
-    public synchronized static void startRecommendActivityNewTask(Context context) {
+    public synchronized static void startBillboardActivity(Context context, int type) {
         Intent intent = new Intent();
-        intent.setClass(context, RecommendActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setClass(context, BillboardActivity.class);
+        intent.putExtra("type", type);
         context.startActivity(intent);
     }
 
     /**
-     * 风云榜
+     * 赛事奖金榜
      */
-    public synchronized static void startBillboardActivity(Context context) {
+    public synchronized static void startMatchReswardBillboardActivity(Context context) {
         Intent intent = new Intent();
-        intent.setClass(context, BillboardActivity.class);
+        intent.setClass(context, MatchRewardBillboardActivity.class);
         context.startActivity(intent);
     }
 
@@ -580,17 +551,6 @@ public class ActivityManeger {
         Intent intent = new Intent();
         intent.setClass(context, GiftDetailActivity.class);
         intent.putExtra("id", id);
-        context.startActivity(intent);
-    }
-
-    /**
-     * 礼包详情
-     */
-    public synchronized static void startGiftDetailActivityNewTask(Context context, String id) {
-        Intent intent = new Intent();
-        intent.setClass(context, GiftDetailActivity.class);
-        intent.putExtra("id", id);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -700,6 +660,7 @@ public class ActivityManeger {
      * 主页
      */
     public synchronized static void startMainActivity(Context context) {
+        Log.d(TAG, "startMainActivity: ");
         Intent intent = new Intent();
         intent.setClass(context, MainActivity.class);
         context.startActivity(intent);
@@ -1080,6 +1041,19 @@ public class ActivityManeger {
     }
 
     /**
+     * 赛事结果214
+     */
+    public synchronized static void startMatchResultActivity(Context context, String event_id) {
+        if (context == null || event_id == null) {
+            return;
+        }
+        Intent intent = new Intent();
+        intent.putExtra("event_id", event_id);
+        intent.setClass(context, MatchResultActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
      * 圈子赛事列表211
      */
     public synchronized static void startGroupMatchListActivity(Context context, String game_id) {
@@ -1268,16 +1242,6 @@ public class ActivityManeger {
     }
 
     /**
-     * 搜索结果
-     */
-    public synchronized static void startSearchResultActivity(Context context, String content) {
-        Intent intent = new Intent();
-        intent.setClass(context, SearchResultActivity.class);
-        intent.putExtra("content", content);
-        context.startActivity(intent);
-    }
-
-    /**
      * 设置
      */
     public synchronized static void startSettingActivity(Context context) {
@@ -1312,16 +1276,6 @@ public class ActivityManeger {
 
         Intent intent = new Intent();
         intent.setClass(context, HelpActivity.class);
-        context.startActivity(intent);
-    }
-
-    /**
-     * 参赛视频
-     */
-    public static synchronized void startActivityVideoActivity(Context context, Match item) {
-        Intent intent = new Intent();
-        intent.setClass(context, ActivityVideoActivity.class);
-        intent.putExtra("item", item);
         context.startActivity(intent);
     }
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="34dp"
+    android:layout_marginRight="34dp"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/signup_question_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="奖励说明："
+        android:textColor="@color/menu_main_red"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/signup_question_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:lineSpacingExtra="3dp"
+        android:text=""
+        android:hint="@string/loading_text"
+        android:textColor="@color/title_bg_color"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/signup_question_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="具体规则："
+        android:textColor="@color/lpds_blue"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/signup_question_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="3dp"
+        android:lineSpacingExtra="3dp"
+        android:text=""
+        android:hint="@string/loading_text"
+        android:textColor="@color/title_bg_color"
+        android:textSize="12sp" />
+</LinearLayout>

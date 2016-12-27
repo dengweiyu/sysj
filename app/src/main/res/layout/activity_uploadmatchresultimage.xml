@@ -68,7 +68,7 @@
                 <!--android:paddingTop="8dp"-->
                 <!--android:textColor="#dd333333"-->
                 <!--android:textColorHint="#898989"-->
-                <!--android:textCursorDrawable="@drawable/signup_cursor"-->
+                <!--android:textCursorDrawable="@drawable/cursor_red"-->
                 <!--android:textSize="12sp"-->
                <!--/>-->
 

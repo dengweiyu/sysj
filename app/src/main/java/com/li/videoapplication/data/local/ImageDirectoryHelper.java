@@ -91,7 +91,11 @@ public class ImageDirectoryHelper {
         directorys.clear();
         Uri mImgUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         ContentResolver cr = context.getContentResolver();
-        Cursor cursor = cr.query(mImgUri, null, MediaStore.Images.Media.MIME_TYPE + "= ? or " + MediaStore.Images.Media.MIME_TYPE + "= ?", new String[]{"image/jpeg", "image/png"}, MediaStore.Images.Media.DATE_MODIFIED);
+        Cursor cursor = cr.query(mImgUri,
+                null,
+                MediaStore.Images.Media.MIME_TYPE + "= ? or " + MediaStore.Images.Media.MIME_TYPE + "= ?",
+                new String[]{"image/jpeg", "image/png"},
+                MediaStore.Images.Media.DATE_MODIFIED);
         // 存储文件父路径,防止重复遍历
         Set<String> directorys = new HashSet<>();
         while (cursor.moveToNext()) {

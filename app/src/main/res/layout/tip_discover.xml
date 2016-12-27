@@ -29,16 +29,16 @@
                 android:layout_weight="1"
                 android:src="@color/tip_bg"/>
 
-            <com.li.videoapplication.views.TipView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
-
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@color/tip_bg"/>
+
+            <com.li.videoapplication.views.TipView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
 
             <ImageView
                 android:layout_width="match_parent"

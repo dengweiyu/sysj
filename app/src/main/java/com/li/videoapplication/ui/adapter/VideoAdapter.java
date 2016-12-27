@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.entity.VideoImageGroup;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.TimeHelper;

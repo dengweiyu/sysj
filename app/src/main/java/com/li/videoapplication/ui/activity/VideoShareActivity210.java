@@ -13,7 +13,6 @@ import android.text.style.MetricAffectingSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,15 +45,13 @@ import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.JoinAdapter;
 import com.li.videoapplication.ui.popupwindows.ApplyPopupWindow;
 import com.li.videoapplication.ui.popupwindows.MoreTypePopupWindow;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.BitmapUtil;
 import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.SpanUtil;
 import com.li.videoapplication.utils.StringUtil;
-import com.li.videoapplication.views.GridViewY1;
 import com.li.videoapplication.views.ListViewY1;
 import com.li.videoapplication.views.SmoothCheckBox;
-import com.li.videoapplication.views.SmoothCheckBox.OnCheckedChangeListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -571,13 +568,15 @@ public class VideoShareActivity210 extends TBaseActivity implements OnClickListe
      */
     public void onEventMainThread(RecommendedLocationEntity event) {
 
-        if (event != null && event.isResult()) {
+        if (event != null && event.isResult()) {//正常情况，商城有卖推荐位
             this.event = event;
 
             entity.setVideo_name(getDescription());
 
             DialogManager.showOfficialPaymentDialog(this, entity, event);
-
+        } else {
+            //非正常情况下，商城没卖推荐位，或者什么鬼原因推荐位接口返回false了，直接不管，开启分享。
+            ActivityManeger.startShareActivity4MyLocalVideo(this);
         }
     }
 

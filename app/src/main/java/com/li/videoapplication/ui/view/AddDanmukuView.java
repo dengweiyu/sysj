@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 
 /**
@@ -120,14 +120,6 @@ public class AddDanmukuView extends FrameLayout implements
     }
 
     /**
-     * toggle键盘
-     */
-    private void toggleInput() {
-        if (activity != null && manager != null)
-            manager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
-    /**
      * 隐藏键盘
      */
     private void hideInput() {
@@ -159,24 +151,23 @@ public class AddDanmukuView extends FrameLayout implements
 
     @Override
     public void showView() {
-        Log.d(tag, "hideView");
-        if (activity != null &&
-                activity.videoPlayView != null &&
-                activity.videoPlayView.videoPlayer != null &&
-                activity.videoPlayView.videoPlayer.isPlayingVideo()) {
-            activity.videoPlayView.videoPlayer.pauseVideo();
-        }
-        if (activity != null &&
-                activity.videoPlayView != null &&
-                activity.videoPlayView.danmukuPlayer != null)
-            activity.videoPlayView.danmukuPlayer.pauseDanmaku();
+        Log.d(tag, "showView");
+//        if (activity != null &&
+//                activity.videoPlayView != null &&
+//                activity.videoPlayView.videoPlayer != null &&
+//                activity.videoPlayView.videoPlayer.isPlayingVideo()) {
+//            activity.videoPlayView.videoPlayer.pauseVideo();
+//        }
+//        if (activity != null &&
+//                activity.videoPlayView != null &&
+//                activity.videoPlayView.danmukuPlayer != null)
+//            activity.videoPlayView.danmukuPlayer.pauseDanmaku();
         if (text != null) {
             text.requestFocus();
             text.setText("");
         }
         setVisibility(VISIBLE);
         view.setVisibility(VISIBLE);
-        //showInput();
     }
 
     @Override
@@ -185,15 +176,15 @@ public class AddDanmukuView extends FrameLayout implements
         hideInput();
         setVisibility(GONE);
         view.setVisibility(GONE);
-        if (activity != null &&
-                activity.videoPlayView != null &&
-                activity.videoPlayView.videoPlayer != null) {
-            activity.videoPlayView.videoPlayer.startVideo();
-        }
-        if (activity != null &&
-                activity.videoPlayView != null &&
-                activity.videoPlayView.danmukuPlayer != null)
-            activity.videoPlayView.danmukuPlayer.resumeDanmaku();
+//        if (activity != null &&
+//                activity.videoPlayView != null &&
+//                activity.videoPlayView.videoPlayer != null) {
+//            activity.videoPlayView.videoPlayer.startVideo();
+//        }
+//        if (activity != null &&
+//                activity.videoPlayView != null &&
+//                activity.videoPlayView.danmukuPlayer != null)
+//            activity.videoPlayView.danmukuPlayer.resumeDanmaku();
         if (text != null) {
             text.clearFocus();
             text.setText("");

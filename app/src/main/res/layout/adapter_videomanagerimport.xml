@@ -5,10 +5,13 @@
                 android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/videomanagerimport_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:clickable="true"
+        android:background="@drawable/button_white"
         android:paddingLeft="@dimen/kaka_16"
         android:paddingRight="@dimen/kaka_16"
         android:paddingTop="@dimen/kaka_4"

@@ -3,14 +3,16 @@ package com.li.videoapplication.ui.dialog;
 import android.content.Context;
 import android.view.View;
 
+import com.fmsysj.screeclibinvoke.utils.RootUtil;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseTopDialog;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.MainActivity;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.AppUtil;
 
 /**
@@ -24,8 +26,8 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
     /**
      * 跳转：登录
      */
-    private void startLoginActivity() {
-        ActivityManeger.startLoginActivity(getContext());
+    private void startLoginDialog() {
+        DialogManager.showLogInDialog(activity);
     }
 
     /**
@@ -47,13 +49,6 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
      */
     private void startHomeImageShareActivity() {
         ActivityManeger.startHomeImageShareActivity(activity, null, false);
-    }
-
-    /**
-     * 跳转：视频管理
-     */
-    private void startVideoMangerActivity() {
-        ActivityManeger.startVideoMangerActivity(activity);
     }
 
     /**
@@ -87,14 +82,8 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.record_video://录屏
-                if (isLogin) {
-                    if (activity != null)
-                        activity.startScreenRecordActivity();
-                } else {
-                    startLoginActivity();
-                }
+                activity.startScreenRecordActivity();
                 break;
 
             case R.id.record_record://外拍
@@ -106,13 +95,15 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
                 }
                 if (isLogin) {
                     int SDKVesion = AppUtil.getAndroidSDKVersion();
-                    if (SDKVesion >= 21) {
+                    // FIXME: CameraGLView第565行，setPreviewSize（预览宽高有几个固定比例等级），
+                    // FIXME: 华为的垃圾机屏幕分辨率不是正常比例来的(因为有条垃圾返回键等底栏) 所以会抛异常。没空先不给华为进入先，看到的大神有空修一下
+                    if (SDKVesion >= 21 && !RootUtil.getManufacturer().equals("HUAWEI")) {
                         startCameraRecoed50Activity();
                     } else {
                         startCameraRecoedActivity();
                     }
                 } else {
-                    startLoginActivity();
+                    startLoginDialog();
                 }
                 break;
 
@@ -121,13 +112,12 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
                     if (activity != null)
                         startHomeImageShareActivity();
                 } else {
-                    startLoginActivity();
+                    startLoginDialog();
                 }
                 break;
 
             case R.id.record_local://视频
                 if (activity != null)
-//                    startVideoMangerActivity();
                     startVideoChooseActivity();
                 break;
         }

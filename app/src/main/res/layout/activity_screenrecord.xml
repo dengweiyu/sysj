@@ -79,7 +79,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
-        android:src="@drawable/videoplay_video_close"
+        android:src="@drawable/close_white"
         android:padding="18dp" />
 
 </RelativeLayout>

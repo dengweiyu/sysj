@@ -13,8 +13,6 @@ import com.li.videoapplication.data.upload.ImageShareRequestObject208;
 import com.li.videoapplication.data.upload.ImageShareTask;
 import com.li.videoapplication.data.upload.ImageShareTask208;
 import com.li.videoapplication.data.upload.ImageUploadRequstObject;
-import com.li.videoapplication.data.upload.VideoShareRequestObject;
-import com.li.videoapplication.data.upload.VideoShareTask;
 import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.data.upload.VideoUploadRequestObject;
 import com.li.videoapplication.framework.AppManager;
@@ -137,36 +135,10 @@ public class RequestService extends BaseService {
     }
 
     /**
-     * 上传视频：传递请求参数
-     */
-    public synchronized final static void postVideoShareEvent(VideoShareRequestObject request) {
-        EventBus.getDefault().post(request);
-    }
-
-    /**
      * 上传视频：传递请求参数208
      */
     public synchronized final static void postVideoShareEvent(VideoUploadRequestObject request) {
         EventBus.getDefault().post(request);
-    }
-
-    private VideoShareTask service;
-
-    /**
-     * 上传视频：接受请求参数
-     */
-    public void onEventMainThread(VideoShareRequestObject event) {
-        if (event.getStatus() == VideoShareRequestObject.STATUS_START ||
-                event.getStatus() == VideoShareRequestObject.STATUS_RESUME) {
-            service = new VideoShareTask(event);
-            service.upload();
-            Log.d(tag, "postVideoShareEvent/upload");
-        } else if (event.getStatus() == VideoShareRequestObject.STATUS_PAUSE) {
-            if (service != null) {
-                service.cancel();
-                Log.d(tag, "postVideoShareEvent/cancel");
-            }
-        }
     }
 
     private VideoShareTask208 service208;

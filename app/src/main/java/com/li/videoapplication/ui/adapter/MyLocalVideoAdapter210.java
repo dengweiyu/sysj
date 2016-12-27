@@ -43,7 +43,7 @@ import com.li.videoapplication.ui.activity.VideoActivity;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.dialog.VideoManagerCopyDialog;
 import com.li.videoapplication.ui.dialog.VideoManagerRenameDialog;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.NetUtil;
 
 import java.io.File;
@@ -126,14 +126,13 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
         if (status == Contants.STATUS_SUCCESS) {
             updataRecordAndView(filePath);
             ToastHelper.s("视频上传成功");
-
         } else if (status == Contants.STATUS_END ||
                 status == Contants.STATUS_PAUSE ||
                 status == Contants.STATUS_START) {
             updataRecordAndView(filePath);
-
-        } else if (status == Contants.STATUS_UPLOADING) {
-
+        } else if (status == Contants.STATUS_FAILURE) {
+            updataRecordAndView(filePath);
+            ToastHelper.l("视频上传失败");
         } else {
             updataRecordAndView(filePath);
         }

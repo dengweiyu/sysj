@@ -80,7 +80,11 @@ public class AppstartActivity extends TBaseActivity {
 	}
 
 	public void replaceFragment(Fragment target) {
-		FragmentTransaction transaction = manager.beginTransaction();
-		transaction.replace(R.id.container, target).commit();
+		try {
+			FragmentTransaction transaction = manager.beginTransaction();
+			transaction.replace(R.id.container, target).commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

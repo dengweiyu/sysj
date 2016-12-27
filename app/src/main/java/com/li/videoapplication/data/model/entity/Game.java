@@ -24,6 +24,15 @@ public class Game extends BaseEntity {
     private String type_name;
     private String time;
 	private int is_gift;
+    private String url;
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public int getIs_gift() {
 		return is_gift;

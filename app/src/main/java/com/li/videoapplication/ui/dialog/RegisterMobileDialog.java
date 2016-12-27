@@ -9,12 +9,11 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.data.model.response.MsgRequestNewEntity;
 import com.li.videoapplication.data.model.response.PhoneRequestMsgEntity;
 import com.li.videoapplication.data.model.response.VerifyCodeNewEntity;
 import com.li.videoapplication.framework.BaseDialog;
 import com.li.videoapplication.tools.AnimationHelper;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.CountDownTimerUtils;
 import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.PatternUtil;
@@ -116,10 +115,6 @@ public class RegisterMobileDialog extends BaseDialog implements View.OnClickList
         }
         // 获取验证码
         DataManager.phoneRequestMsg(getMobileText());
-
-        CountDownTimerUtils countDownTimer = new CountDownTimerUtils(getCode, 60000, 1000,
-                R.drawable.dialog_registermobile_gray, R.drawable.dialog_registermobile_red);
-        countDownTimer.start();
     }
 
     /**
@@ -142,11 +137,8 @@ public class RegisterMobileDialog extends BaseDialog implements View.OnClickList
             return;
         }
 
-        // FIXME: 2016/8/27
         // 提交手机和验证码
         DataManager.verifyCodeNew(getMobileText(), getCodeText());
-
-
     }
 
     @Override
@@ -169,10 +161,11 @@ public class RegisterMobileDialog extends BaseDialog implements View.OnClickList
     public void onEventMainThread(PhoneRequestMsgEntity event) {
 
         if (event != null) {
-            boolean result = event.isResult();
-            String msg = event.getMsg();
-            if (result) {// 成功
-                showToastShort(msg);
+            showToastShort(event.getMsg());
+            if (event.isResult()) {// 成功
+                CountDownTimerUtils countDownTimer = new CountDownTimerUtils(getCode, 60000, 1000,
+                        R.drawable.dialog_registermobile_gray, R.drawable.dialog_registermobile_red);
+                countDownTimer.start();
             }
         }
     }

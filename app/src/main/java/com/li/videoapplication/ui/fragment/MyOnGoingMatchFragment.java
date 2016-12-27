@@ -23,7 +23,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.MyMatchProcessActivity;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 
@@ -181,7 +181,6 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
             //手动匹配：需要签到--已签到--未发布对战表 -->匹配中
             //反之：已经发布对战表--非即时匹配--B!=null --> 正常显示，其余匹配中。
             //我劝你不要动，这里逻辑很乱
-
             if (isPublicMatchList) {
                 if (isOnce && StringUtil.isNull(b_leader_id)) {
                     showMatchingView();
@@ -212,6 +211,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
         setTextViewText(b_leader_game_role, "匹配中");
         contact_text.setTextColor(Color.parseColor("#cacaca"));//gray
         setImageViewImageRes(contact_img, R.drawable.ongoing_contact_gray);
+        uploadBtn.setBackgroundResource(R.drawable.button_gray);
     }
 
     //显示有数据时正常显示视图

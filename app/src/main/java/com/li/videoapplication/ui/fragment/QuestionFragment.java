@@ -88,7 +88,6 @@ public class QuestionFragment extends TBaseFragment implements View.OnClickListe
         data = new ArrayList<>();
         doMyMission();
         adapter = new HelpQuestionAdapter(getActivity(), groups, data);
-        expandableListView.setGroupIndicator(null);
         setExpandableHeight(expandableListView);
         expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
 

@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.tools.TextImageHelper;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 /**
  * 基本弹框
  */
@@ -44,6 +45,7 @@ public abstract class BaseDialog extends Dialog {
 	}
 	
 	protected void beforeContentView(Context context) {
+		Log.d(tag, "beforeContentView: ");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		Window window = getWindow();
 		window.setBackgroundDrawableResource(android.R.color.transparent);
@@ -52,7 +54,7 @@ public abstract class BaseDialog extends Dialog {
 	
 	@SuppressWarnings("deprecation")
 	protected void afterContentView(Context context) {
-
+		Log.d(tag, "afterContentView: ");
 		Window window = getWindow();
 		WindowManager manager = ((Activity) context).getWindowManager();
 		Display display = manager.getDefaultDisplay();

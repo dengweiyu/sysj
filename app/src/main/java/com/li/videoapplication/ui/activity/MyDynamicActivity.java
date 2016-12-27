@@ -200,7 +200,7 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
 
             focusView.setVisibility(View.GONE);
             text.setVisibility(View.INVISIBLE);
-            setListViewLayoutParams(headerView, 206);
+            setListViewLayoutParams(headerView, 170);
         }
         return headerView;
     }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,10 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Match;
+import com.li.videoapplication.data.model.entity.Tag;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.ui.fragment.GameMatchProcessFragment;
+import com.li.videoapplication.mvp.match.view.GameMatchProcessFragment;
 import com.li.videoapplication.utils.TextUtil;
 
 import java.util.List;
@@ -24,13 +26,12 @@ import java.util.List;
  */
 @SuppressLint("InflateParams")
 public class MatchProcessHeaderAdapter extends RecyclerView.Adapter<MatchProcessHeaderAdapter.ViewHolder> {
+    private static final String TAG = MatchProcessHeaderAdapter.class.getSimpleName();
 
     private final List<Match> data;
-    private Context context;
     private GameMatchProcessFragment processFragment;
 
-    public MatchProcessHeaderAdapter(Context context, List<Match> data) {
-        this.context=  context;
+    public MatchProcessHeaderAdapter(List<Match> data) {
         this.data = data;
     }
 

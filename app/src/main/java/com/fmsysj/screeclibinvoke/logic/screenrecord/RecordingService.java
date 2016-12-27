@@ -33,7 +33,7 @@ import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseService;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.AppUtil;
 
 import java.io.File;
@@ -998,11 +998,13 @@ public class RecordingService extends BaseService implements
                             @Override
                             public void run() {
 
-                                //录屏后跳转分享
-                                VideoCaptureEntity videoCaptureEntity = VideoCaptureManager.findByPath(p);
+                                if (PreferencesHepler.getInstance().isLogin()) {
+                                    //录屏后跳转分享
+                                    VideoCaptureEntity videoCaptureEntity = VideoCaptureManager.findByPath(p);
 
-                                ActivityManeger.startVideoShareActivity210NewTask(AppManager.getInstance().getContext(),
-                                        videoCaptureEntity);
+                                    ActivityManeger.startVideoShareActivity210NewTask(AppManager.getInstance().getContext(),
+                                            videoCaptureEntity);
+                                }
 
                             }
                         }, 1200);

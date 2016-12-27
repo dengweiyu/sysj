@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -15,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.li.videoapplication.data.local.FileOperateUtil;
+import com.li.videoapplication.data.local.SYSJStorageUtil;
+import com.li.videoapplication.framework.AppConstant;
 
 public class BitmapHelper {
 
@@ -192,6 +195,17 @@ public class BitmapHelper {
     }
 
     /**
+     * 传入 图片路径，压缩后允许的最大大小，进行压缩图片
+     * 返回新图片的临时地址
+     */
+    public static String compressBitmap(String originPath, double maxSize) {
+        Bitmap oriBitmap = BitmapFactory.decodeFile(originPath);
+        Bitmap zoomImage = zoomImage(oriBitmap, maxSize);
+        return saveBitmapToTmp(zoomImage);
+    }
+
+
+    /**
      * 压缩图片
      */
     public static Bitmap zoomImage(Bitmap srcBitmap, double maxSize) {
@@ -229,7 +243,40 @@ public class BitmapHelper {
         float scaleHeight = ((float) newHeight) / height;
         // 缩放图片动作
         matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap bitmap = Bitmap.createBitmap(srcBitmap, 0, 0, (int) width, (int) height, matrix, true);
-        return bitmap;
+        return Bitmap.createBitmap(srcBitmap, 0, 0, (int) width, (int) height, matrix, true);
+    }
+
+    /**
+     * 根据 bitmap保存图片到 sysj--tmp临时文件夹中
+     */
+    public static String saveBitmapToTmp(Bitmap bitmap) {
+        if (null == bitmap) {
+            return null;
+        }
+        String filePath;
+        FileOutputStream fileOutput = null;
+        File imgFile;
+        try {
+            File sysjTmp = SYSJStorageUtil.getSysjTmp();
+            // 使用随机数使得发送的图片的缩略图文件名不相同
+            imgFile = new File(sysjTmp.getAbsoluteFile() + "/" + String.valueOf(bitmap.hashCode() + Math.random()) + ".jpg");
+            imgFile.createNewFile();
+            fileOutput = new FileOutputStream(imgFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, fileOutput);
+            fileOutput.flush();
+            filePath = imgFile.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+            filePath = null;
+        } finally {
+            if (null != fileOutput) {
+                try {
+                    fileOutput.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return filePath;
     }
 }

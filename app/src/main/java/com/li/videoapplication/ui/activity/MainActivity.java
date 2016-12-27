@@ -33,6 +33,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnCloseListener;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnClosedListener;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenListener;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenedListener;
+import com.li.videoapplication.mvp.home.view.HomeFragment;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.image.ImageLoaderHelper;
@@ -53,11 +54,11 @@ import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.fragment.DiscoverFragment;
 import com.li.videoapplication.ui.fragment.GameFragment;
-import com.li.videoapplication.ui.fragment.GameMatchFragment;
-import com.li.videoapplication.ui.fragment.HomeFragment;
+import com.li.videoapplication.mvp.match.view.GameMatchFragment;
+
 import com.li.videoapplication.ui.fragment.SliderFragment;
 import com.li.videoapplication.ui.pageradapter.WelfarePagerAdapter;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.HareWareUtil;
 import com.li.videoapplication.utils.LogHelper;
@@ -119,7 +120,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private HomeFragment home;
     private DiscoverFragment discover;
     private GameFragment game;
-    //    private WelfareFragment welfare;
     private GameMatchFragment matchFragment;
 
     private Fragment context;
@@ -175,7 +175,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     public void locationAtGame() {
 
         if (viewPager != null) {
-            viewPager.setCurrentItem(2);
+            viewPager.setCurrentItem(1);
         }
         handler.postDelayed(new Runnable() {
 
@@ -308,7 +308,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     @Override
     public void onBackPressed() {
-
         if (isExit) {
             if (RecordingManager.getInstance().isRecording()) {
                 TaskUtil.clearTaskAndAffinity(this);
@@ -318,7 +317,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 RecordingService.stopRecordingService();
             }
             super.onBackPressed();
-            // moveTaskToBack(true);
         } else {
             isExit = true;
             ToastHelper.s("再按一次将退出手游视界");
@@ -555,18 +553,18 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     private void initFragment() {
         if (fragments == null) {
-            fragments = new ArrayList<Fragment>();
+            fragments = new ArrayList<>();
         }
         fragments.clear();
 
         home = new HomeFragment();
-        discover = new DiscoverFragment();
         game = new GameFragment();
+        discover = new DiscoverFragment();
         matchFragment = new GameMatchFragment();
 
         fragments.add(home);
-        fragments.add(discover);
         fragments.add(game);
+        fragments.add(discover);
         fragments.add(matchFragment);
 
         viewPager = (ViewPagerY4) findViewById(R.id.pager);
@@ -640,28 +638,28 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         switch (index) {
             case 0:// 首页
                 bottomIcon.get(0).setImageResource(R.drawable.home_selected);
-                bottomIcon.get(1).setImageResource(R.drawable.discover_normal);
-                bottomIcon.get(2).setImageResource(R.drawable.game_normal);
+                bottomIcon.get(1).setImageResource(R.drawable.game_normal);
+                bottomIcon.get(2).setImageResource(R.drawable.discover_normal);
                 bottomIcon.get(3).setImageResource(R.drawable.event_nomal);
                 break;
-            case 1: // 发现
+            case 1: // 打游戏
                 bottomIcon.get(0).setImageResource(R.drawable.home_normal);
-                bottomIcon.get(1).setImageResource(R.drawable.discover_selected);
-                bottomIcon.get(2).setImageResource(R.drawable.game_normal);
-                bottomIcon.get(3).setImageResource(R.drawable.event_nomal);
-                showDiscoverTipDialog();
-                break;
-            case 2: // 打游戏
-                bottomIcon.get(0).setImageResource(R.drawable.home_normal);
-                bottomIcon.get(1).setImageResource(R.drawable.discover_normal);
-                bottomIcon.get(2).setImageResource(R.drawable.game_selected);
+                bottomIcon.get(1).setImageResource(R.drawable.game_selected);
+                bottomIcon.get(2).setImageResource(R.drawable.discover_normal);
                 bottomIcon.get(3).setImageResource(R.drawable.event_nomal);
                 showGameTipDialog();
                 break;
+            case 2: // 发现
+                bottomIcon.get(0).setImageResource(R.drawable.home_normal);
+                bottomIcon.get(1).setImageResource(R.drawable.game_normal);
+                bottomIcon.get(2).setImageResource(R.drawable.discover_selected);
+                bottomIcon.get(3).setImageResource(R.drawable.event_nomal);
+                showDiscoverTipDialog();
+                break;
             case 3:// 福利
                 bottomIcon.get(0).setImageResource(R.drawable.home_normal);
-                bottomIcon.get(1).setImageResource(R.drawable.discover_normal);
-                bottomIcon.get(2).setImageResource(R.drawable.game_normal);
+                bottomIcon.get(1).setImageResource(R.drawable.game_normal);
+                bottomIcon.get(2).setImageResource(R.drawable.discover_normal);
                 bottomIcon.get(3).setImageResource(R.drawable.event_selected);
                 break;
         }

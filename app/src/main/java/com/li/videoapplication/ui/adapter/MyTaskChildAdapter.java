@@ -12,13 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Task;
 import com.li.videoapplication.data.model.entity.TaskGroup;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.ui.activity.MyTaskActivity;
-import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.TextUtil;
 
 /**

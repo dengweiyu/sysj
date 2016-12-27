@@ -24,15 +24,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.happly.link.HpplayLinkControl;
-import com.happly.link.bean.VideoInfo;
+import com.happly.link.bean.WebPushInfo;
 import com.happly.link.device.Const;
 import com.happly.link.net.RefreshUIInterface;
-import com.happly.link.util.ReversedCallBack;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.model.entity.Bullet;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.BulletDo203Bullet2VideoEntity;
-import com.li.videoapplication.data.model.response.BulletDo203Comment2VideoEntity;
 import com.li.videoapplication.data.model.response.BulletList203Entity;
 import com.li.videoapplication.data.model.response.ChangeVideo208Entity;
 import com.li.videoapplication.data.model.response.FndownClick203Entity;
@@ -43,14 +42,12 @@ import com.li.videoapplication.data.model.response.VideoCommentLike2Entity;
 import com.li.videoapplication.data.model.response.VideoDetail201Entity;
 import com.li.videoapplication.data.model.response.VideoDoComment2CommentEntity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
-import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.ArrayHelper;
 import com.li.videoapplication.tools.RandomUtil;
 import com.li.videoapplication.tools.ShareSDKShareHelper;
-import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
@@ -59,7 +56,7 @@ import com.li.videoapplication.ui.fragment.VideoPlayCommentFragment;
 import com.li.videoapplication.ui.fragment.VideoPlayIntroduceFragment;
 import com.li.videoapplication.ui.fragment.VideoPlayVideoFragment;
 import com.li.videoapplication.ui.pageradapter.GamePagerAdapter;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.view.AddDanmukuView;
 import com.li.videoapplication.ui.view.CommentView;
 import com.li.videoapplication.ui.view.VideoPlayView;
@@ -73,7 +70,6 @@ import com.li.videoapplication.views.ViewPagerY4;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.nekocode.emojix.Emojix;
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
 
@@ -84,7 +80,7 @@ import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdap
 public class VideoPlayActivity extends TBaseActivity implements
         OnPageChangeListener,
         CommentView.CommentListener,
-        RefreshUIInterface{
+        RefreshUIInterface {
 
     public static long playPos;
     public static String playUrl;
@@ -506,11 +502,30 @@ public class VideoPlayActivity extends TBaseActivity implements
      */
     public void onEventMainThread(BulletList203Entity entity) {
 
-        if (entity != null &&
-                entity.getData() != null) {
+        if (entity != null && entity.getData() != null) {
             if (videoPlayView != null)
                 videoPlayView.loadDanmuku(entity);
+            initTVDanmuDatas(entity);
         }
+    }
+
+    //投屏弹幕数据
+    private List<WebPushInfo> danmuDatasOnTV;
+
+    private void initTVDanmuDatas(BulletList203Entity entity) {
+        danmuDatasOnTV = new ArrayList<>();
+        for (int i = 0; i < entity.getData().size(); i++) {
+            Bullet bullet = entity.getData().get(i);
+
+            WebPushInfo webPushInfo = new WebPushInfo();
+            webPushInfo.setContent(bullet.getContent());
+
+            Double time = Double.valueOf(bullet.getVideo_node());
+            webPushInfo.setDelaytime((long) (time * 1000));
+
+            danmuDatasOnTV.add(webPushInfo);
+        }
+        Log.d(tag, "initTVDanmuDatas: datas == " + danmuDatasOnTV);
     }
 
     /**
@@ -913,7 +928,6 @@ public class VideoPlayActivity extends TBaseActivity implements
                 try {
                     if ((boolean) object) {
                         videoPlayView.RefreshViewAfterStopLebo();
-                        setCurrentVolume(videoPlayView.volumeBeforeTV);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -924,8 +938,13 @@ public class VideoPlayActivity extends TBaseActivity implements
                 break;
             case 14://TV弹幕是否显示
                 Log.d(tag, "TV弹幕是否显示: setWebPushVisibility == " + (boolean) object);
+                if ((boolean) object)
+                    HpplayLinkControl.getInstance().sendOtherBeantoJSon(VideoPlayActivity.this, 19, danmuDatasOnTV, 2);
                 break;
-            case 20://发布弹幕
+            case 19://弹幕数据（非自己发的）
+                Log.d(tag, "TV弹幕数据: sendOtherBeantoJSon == " + (boolean) object);
+                break;
+            case 20://发布弹幕（自己发的）
                 Log.d(tag, "发布弹幕: sendUserBeantoJSon == " + (boolean) object);
                 break;
         }

@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="login_pink">#ffa1a1</color>
+
+    <color name="match_orange">#ff3819</color>
+    <color name="match_blue">#2585fe</color>
+    <color name="match_green">#4ccb00</color>
+    <color name="match_process_blue">#48c5ff</color>
+    <color name="match_process_gray">#acacac</color>
+
+    <color name="billboard_matchreward_bg">#111520</color>
+
     <color name="currency_blue">#4aacfc</color>
     <color name="currency_green">#1dd649</color>
     <color name="currency_red">#fe5e5e</color>
@@ -11,6 +21,11 @@
 
     <color name="groupdetail_match_blue">#33b4fe</color>
     <color name="groupdetail_match_blue_pressed">#2a94d1</color>
+
+    <color name="video_name">#454545</color>
+    <color name="video_content">#aa454545</color>
+    <color name="video_time">#8c8c8c</color>
+    <color name="joinfragment_video_divider">#b0595959</color>
 
     <color name="gamematch_cs_yellow">#ffc331</color>
     <color name="gamematch_cs_yellow_pressed">#c79825</color>
@@ -44,8 +59,9 @@
     <!--tab之类下划线颜色-->
     <color name="colorAccent">#FF4081</color>
 
+    <color name="lpds_blue">#40a7ff</color>
+
     <color name="app_background">#ffffff</color>
-    
     <color name="ab_backdround_white">#ffffff</color>
     <color name="ab_backdround_white_pressed">#99e2e2e2</color>
     <color name="ab_backdround_red">#fc3c2e</color>

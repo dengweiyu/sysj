@@ -33,7 +33,7 @@ public class WelcomePagerAdapter extends PagerAdapter {
 
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
-		container.removeView(views.get(position));// ɾ��ҳ��
+		container.removeView(views.get(position));
 	}
 
 	@Override

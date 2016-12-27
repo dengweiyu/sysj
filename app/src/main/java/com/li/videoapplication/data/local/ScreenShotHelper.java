@@ -11,7 +11,7 @@ import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.network.LightTask;
 import com.li.videoapplication.data.preferences.DefaultPreferences;
 import com.li.videoapplication.framework.AppManager;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 
 import java.io.File;
 import java.util.ArrayList;

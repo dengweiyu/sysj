@@ -1,8 +1,6 @@
 package com.li.videoapplication.ui.fragment;
 
 import android.app.Activity;
-import android.media.Image;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -25,13 +23,8 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.MyPlayerActivity;
-import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
-
-import io.rong.imkit.RongIM;
-import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Message;
 
 /**
  * 碎片：侧滑菜单
@@ -378,6 +371,12 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
                 UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "新浪微博登录");
                 break;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DataManager.userProfilePersonalInformation(getMember_id(), getMember_id());
     }
 
     /**

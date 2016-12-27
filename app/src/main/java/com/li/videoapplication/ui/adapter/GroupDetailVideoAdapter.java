@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -22,8 +20,8 @@ import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.MyDynamicActivity;
+import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.activity.SquareActivity;
-import com.li.videoapplication.ui.fragment.LikeBillboardFragment;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.CircleImageView;
@@ -32,7 +30,9 @@ import com.li.videoapplication.views.GridViewY1;
 import java.util.List;
 
 /**
- * 适配器：圈子详情（最新/最热视频）；广场（最新，最热）; 风云榜视频 ; 动态视频;
+ * 适配器：广场（最新，最热）; 动态视频 ; 视频搜索结果
+ *
+ * 风云榜视频(已改成新的 VideoBillboardAdapter，剩下的这些全部要换，此适配器换完作废)
  */
 @SuppressLint("InflateParams")
 public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
@@ -135,9 +135,9 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
             setTimeLength(holder.allTime, record);
 
             if (tab != 0 && tab == 3) {
-                holder.playCount.setText(Html.fromHtml(TextUtil.toColor(record.getClick_count(), "#ff3d2e")));
+                holder.playCount.setText(Html.fromHtml(TextUtil.toColor(StringUtil.toUnitW(record.getClick_count()), "#ff3d2e")));
             } else {
-                setTextViewText(holder.playCount, record.getClick_count());// 785
+                setTextViewText(holder.playCount, StringUtil.toUnitW(record.getClick_count()));// 785
             }
             if (!StringUtil.isNull(record.getVideo_flag())) {
                 setImageViewImageNet(holder.cover, record.getVideo_flag());
@@ -209,15 +209,19 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
     private void setTime(final VideoImage record, TextView view) {
         // 1小时前
         if (view != null && record != null) {
-            if (!StringUtil.isNull(record.getUpload_time())) {
+
+            if (activity instanceof SearchActivity){
                 try {
                     setTextViewText(view, TimeHelper.getVideoImageUpTime(record.getUpload_time()));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    setTextViewText(view, "");
                 }
-            } else {
-                setTextViewText(view, "");
+            }else {
+                try {
+                    setTextViewText(view, TimeHelper.getVideoImageUpTime(record.getUptime()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

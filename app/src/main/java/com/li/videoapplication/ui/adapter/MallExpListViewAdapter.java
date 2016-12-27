@@ -1,10 +1,6 @@
 package com.li.videoapplication.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +15,7 @@ import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.WebActivity;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.util.List;
@@ -124,7 +120,7 @@ public class MallExpListViewAdapter extends BaseExpandableListAdapter {
         } else {
             description.setVisibility(View.GONE);
             beanView.setVisibility(View.VISIBLE);
-            helper.setTextViewText(beanNum, childList.getCurrency_num());
+            helper.setTextViewText(beanNum, StringUtil.formatNum(childList.getCurrency_num()));
             helper.setTextViewText(overplus, childList.getInventory());
             helper.setTextViewText(exchange, "兑换");
         }

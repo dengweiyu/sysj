@@ -64,7 +64,7 @@
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:textColor="#6d6d6d"
-                android:textCursorDrawable="@drawable/signup_cursor"
+                android:textCursorDrawable="@drawable/cursor_red"
                 android:textSize="14sp" />
 
             <LinearLayout
@@ -107,7 +107,7 @@
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:textColor="#6d6d6d"
-                android:textCursorDrawable="@drawable/signup_cursor"
+                android:textCursorDrawable="@drawable/cursor_red"
                 android:textSize="14sp" />
 
             <LinearLayout
@@ -149,7 +149,7 @@
                 android:inputType="number"
                 android:singleLine="true"
                 android:textColor="#6d6d6d"
-                android:textCursorDrawable="@drawable/signup_cursor"
+                android:textCursorDrawable="@drawable/cursor_red"
                 android:textSize="14sp" />
 
             <LinearLayout
@@ -198,7 +198,7 @@
                     android:inputType="phone"
                     android:singleLine="true"
                     android:textColor="#6d6d6d"
-                    android:textCursorDrawable="@drawable/signup_cursor"
+                    android:textCursorDrawable="@drawable/cursor_red"
                     android:textSize="14sp" />
 
                 <TextView
@@ -221,7 +221,7 @@
                     android:inputType="phone"
                     android:singleLine="true"
                     android:textColor="#6d6d6d"
-                    android:textCursorDrawable="@drawable/signup_cursor"
+                    android:textCursorDrawable="@drawable/cursor_red"
                     android:textSize="14sp"
                     android:visibility="visible" />
 
@@ -262,15 +262,18 @@
                     android:textSize="14sp" />
 
                 <LinearLayout
+                    android:id="@+id/signup_teamqq_12_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/signup_teamqq_1_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="invisible">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -283,7 +286,7 @@
                             android:textSize="14sp" />
 
                         <EditText
-                            android:id="@+id/signup_teamqq_1"
+                            android:id="@+id/signup_teamphone_1"
                             android:layout_width="match_parent"
                             android:layout_height="38dp"
                             android:layout_marginEnd="12dp"
@@ -292,20 +295,22 @@
                             android:background="@drawable/edittext_shape"
                             android:cursorVisible="true"
                             android:gravity="center_vertical"
-                            android:hint="QQ号码"
+                            android:hint="手机号"
                             android:inputType="number"
                             android:singleLine="true"
                             android:textColor="#6d6d6d"
                             android:textColorHint="#c4c4c4"
-                            android:textCursorDrawable="@drawable/signup_cursor"
+                            android:textCursorDrawable="@drawable/cursor_red"
                             android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/signup_teamqq_2_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="invisible">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -318,7 +323,7 @@
                             android:textSize="14sp" />
 
                         <EditText
-                            android:id="@+id/signup_teamqq_2"
+                            android:id="@+id/signup_teamphone_2"
                             android:layout_width="match_parent"
                             android:layout_height="38dp"
                             android:layout_marginEnd="12dp"
@@ -327,29 +332,33 @@
                             android:background="@drawable/edittext_shape"
                             android:cursorVisible="true"
                             android:gravity="center_vertical"
-                            android:hint="QQ号码"
+                            android:hint="手机号"
                             android:inputType="number"
                             android:singleLine="true"
                             android:textColor="#6d6d6d"
                             android:textColorHint="#c4c4c4"
-                            android:textCursorDrawable="@drawable/signup_cursor"
+                            android:textCursorDrawable="@drawable/cursor_red"
                             android:textSize="14sp" />
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/signup_teamqq_34_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <LinearLayout
+                        android:id="@+id/signup_teamqq_3_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="invisible">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -362,7 +371,7 @@
                             android:textSize="14sp" />
 
                         <EditText
-                            android:id="@+id/signup_teamqq_3"
+                            android:id="@+id/signup_teamphone_3"
                             android:layout_width="match_parent"
                             android:layout_height="38dp"
                             android:layout_marginEnd="12dp"
@@ -371,20 +380,22 @@
                             android:background="@drawable/edittext_shape"
                             android:cursorVisible="true"
                             android:gravity="center_vertical"
-                            android:hint="QQ号码"
+                            android:hint="手机号"
                             android:inputType="number"
                             android:singleLine="true"
                             android:textColor="#6d6d6d"
                             android:textColorHint="#c4c4c4"
-                            android:textCursorDrawable="@drawable/signup_cursor"
+                            android:textCursorDrawable="@drawable/cursor_red"
                             android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/signup_teamqq_4_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="invisible">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -397,7 +408,7 @@
                             android:textSize="14sp" />
 
                         <EditText
-                            android:id="@+id/signup_teamqq_4"
+                            android:id="@+id/signup_teamphone_4"
                             android:layout_width="match_parent"
                             android:layout_height="38dp"
                             android:layout_marginEnd="12dp"
@@ -406,22 +417,102 @@
                             android:background="@drawable/edittext_shape"
                             android:cursorVisible="true"
                             android:gravity="center_vertical"
-                            android:hint="QQ号码"
+                            android:hint="手机号"
                             android:inputType="number"
                             android:singleLine="true"
                             android:textColor="#6d6d6d"
                             android:textColorHint="#c4c4c4"
-                            android:textCursorDrawable="@drawable/signup_cursor"
+                            android:textCursorDrawable="@drawable/cursor_red"
                             android:textSize="14sp" />
                     </LinearLayout>
 
                 </LinearLayout>
             </LinearLayout>
 
+            <!--邀请赛-->
             <LinearLayout
+                android:id="@+id/signup_invitecode_hint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:drawableLeft="@drawable/signup_rec_red"
+                    android:drawablePadding="12dp"
+                    android:text="邀请码"
+                    android:textColor="#686868"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="*"
+                    android:textColor="@color/ab_backdround_red"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/signup_invitecode"
+                android:layout_width="100dp"
+                android:layout_height="38dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edittext_shape"
+                android:cursorVisible="true"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:textColor="#6d6d6d"
+                android:textCursorDrawable="@drawable/cursor_red"
+                android:textSize="14sp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/signup_kindly_reminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="温馨提示："
+                android:textColor="@color/ab_backdround_red"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:id="@+id/signup_kindly_reminder_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="2dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="队长填写队员手机号会获得飞磨豆奖励，队员也可获得飞磨豆奖励。"
+                    android:textColor="@color/textcolor_gray"
+                    android:textSize="11sp" />
+
+                <ImageView
+                    android:id="@+id/signup_question"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/question_blue"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -431,7 +522,7 @@
                     android:layout_marginLeft="12dp"
                     android:text="注："
                     android:textColor="@color/ab_backdround_red"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/signup_tip"
@@ -439,17 +530,16 @@
                     android:layout_height="wrap_content"
                     android:text="本次比赛仅限手Q用户"
                     android:textColor="#686868"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/signup_cardview"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_centerInParent="true"
+                android:layout_height="44dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="12dp"
                 android:clickable="true"
                 app:cardBackgroundColor="@color/menu_main_red"
                 app:cardCornerRadius="2dp"
@@ -463,7 +553,7 @@
                     android:gravity="center"
                     android:text="提交报名"
                     android:textColor="#ffffff"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
             </android.support.v7.widget.CardView>
 
@@ -473,13 +563,14 @@
                 android:layout_gravity="right"
                 android:layout_marginBottom="22dp"
                 android:layout_marginRight="12dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="24dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="以上内容如有任何疑问请联系"
+                    android:textColor="@color/textcolor_gray"
                     android:textSize="12sp" />
 
                 <TextView

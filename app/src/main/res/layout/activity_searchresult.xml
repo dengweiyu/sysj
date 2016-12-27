@@ -1,14 +1,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:background="#ffffff"
-              android:clipToPadding="true"
-              android:fitsSystemWindows="true"
-              android:orientation="vertical">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ffffff"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <include
-        android:id="@+id/searchresult_top"
-        layout="@layout/menu_searchresult_tab"/>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        app:tabIndicatorColor="@color/menu_videomanager_red"
+        app:tabSelectedTextColor="@color/menu_videomanager_red"
+        app:tabTextColor="@color/menu_videomanager_gray"/>
 
     <com.li.videoapplication.views.ViewPagerY4
         android:id="@+id/viewpager"

@@ -4,10 +4,12 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v4.os.EnvironmentCompat;
 import android.util.Log;
 
 import com.li.videoapplication.data.EventManager;
@@ -19,6 +21,7 @@ import com.li.videoapplication.data.preferences.VideoPreferences;
 import com.li.videoapplication.framework.AppManager;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -256,6 +259,42 @@ public class VideoCaptureHelper {
         data.addAll(list);
         cursor.close();
     }
+
+    public static  List<VideoCaptureEntity> allVideoList = null;
+
+    // FIXME: 2016/11/23 寻求一个扫描大量媒体文件的方法。
+    public void importVideo211(){
+        // 视频信息集合
+        allVideoList = new ArrayList<>();
+        getVideoFile(allVideoList,Environment.getExternalStorageDirectory());
+    }
+
+    // 获得视频文件
+    private void getVideoFile(final List<VideoCaptureEntity> list, File file) {
+        // 获得视频文件
+        file.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                // sdCard找到视频名称
+                String name = file.getName();
+                int i = name.indexOf('.');
+                if (i != -1) {
+                    name = name.substring(i);
+                    if (name.equalsIgnoreCase(".mp4")) {
+                        VideoCaptureEntity entity = new VideoCaptureEntity();
+                        entity.setVideo_name(file.getName());
+                        entity.setVideo_path(file.getAbsolutePath());
+                        list.add(entity);
+                        return true;
+                    }
+                } else if (file.isDirectory()) {
+                    getVideoFile(list, file);
+                }
+                return false;
+            }
+        });
+    }
+
 
     /**
      * 文件创建时间

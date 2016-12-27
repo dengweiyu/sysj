@@ -132,6 +132,72 @@ public class Match extends BaseEntity {
     private Match team_b;
     private int is_win;
 
+    private String share_url;
+    private String apply_share_url;
+
+    //2.1.4
+    private String new_cover;
+    private String event_award;//总奖金3000元
+    private String event_format;//5v5淘汰赛
+    private int format_type; //1:普通淘汰赛, 2:邀请赛
+    private int is_invite; //是否设置邀请码0为否，1为是
+
+    public int getIs_invite() {
+        return is_invite;
+    }
+
+    public void setIs_invite(int is_invite) {
+        this.is_invite = is_invite;
+    }
+
+    public String getNew_cover() {
+        return new_cover;
+    }
+
+    public void setNew_cover(String new_cover) {
+        this.new_cover = new_cover;
+    }
+
+    public String getEvent_award() {
+        return event_award;
+    }
+
+    public void setEvent_award(String event_award) {
+        this.event_award = event_award;
+    }
+
+    public String getEvent_format() {
+        return event_format;
+    }
+
+    public void setEvent_format(String event_format) {
+        this.event_format = event_format;
+    }
+
+    public int getFormat_type() {
+        return format_type;
+    }
+
+    public void setFormat_type(int format_type) {
+        this.format_type = format_type;
+    }
+
+    public String getShare_url() {
+        return share_url;
+    }
+
+    public void setShare_url(String share_url) {
+        this.share_url = share_url;
+    }
+
+    public String getApply_share_url() {
+        return apply_share_url;
+    }
+
+    public void setApply_share_url(String apply_share_url) {
+        this.apply_share_url = apply_share_url;
+    }
+
     public String getA_qq() {
         return a_qq;
     }

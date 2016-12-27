@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 适配器：账单
  */
-public class CurrencyRecordAdapter extends BaseSectionQuickAdapter<CurrencySection> {
+public class CurrencyRecordAdapter extends BaseSectionQuickAdapter<CurrencySection, BaseViewHolder> {
 
 
     private TextImageHelper helper;

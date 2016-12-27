@@ -3,7 +3,6 @@ package com.li.videoapplication.ui.adapter;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -20,8 +19,6 @@ import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.activity.ActivityListActivity;
-import com.li.videoapplication.ui.activity.MyWelfareActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -32,8 +29,6 @@ import com.li.videoapplication.utils.URLUtil;
  */
 @SuppressLint("InflateParams")
 public class ActivityAdapter extends BaseArrayAdapter<Match> {
-
-    private Activity activity;
 
     /**
      * 跳转：活动详情
@@ -50,20 +45,8 @@ public class ActivityAdapter extends BaseArrayAdapter<Match> {
         WebActivity.startWebActivity(getContext(), url);
     }
 
-    /**
-     * 跳转：参赛视频
-     */
-    private void startActivityVideoActivity(Match item) {
-        ActivityManeger.startActivityVideoActivity(getContext(), item);
-    }
-
     public ActivityAdapter(Context context, List<Match> data) {
         super(context, R.layout.adapter_activity, data);
-        try {
-            activity = (Activity) context;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -74,7 +57,7 @@ public class ActivityAdapter extends BaseArrayAdapter<Match> {
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.adapter_activity, null);
             holder.bg = (ImageView) view.findViewById(R.id.activity_bg);
-            holder.pic = (ImageView) view.findViewById(R.id.activity_pic);
+            holder.pic = (ImageView) view.findViewById(R.id.match_pic);
             holder.title = (TextView) view.findViewById(R.id.activity_title);
             holder.time = (TextView) view.findViewById(R.id.activity_time);
             holder.joined = (TextView) view.findViewById(R.id.activity_joined);
@@ -94,24 +77,8 @@ public class ActivityAdapter extends BaseArrayAdapter<Match> {
 
             @Override
             public void onClick(View v) {
-
-                if (StringUtil.isNull(record.getUrl()) || !URLUtil.isURL(record.getUrl())) {
-                    showToastShort("此活动已经束");
-                    return;
-                }
-
                 startActivityDetailActivity(record);
-
-                if (activity != null && activity instanceof ActivityListActivity) {
-                    if (record.getStatus().equals("进行中")) {
-                        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "热门活动-进行中");
-                    } else if (record.getStatus().equals("已结束")) {
-                        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "热门活动-已结束");
-                    }
-                } else if (activity != null && activity instanceof MyWelfareActivity) {
-                    UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.SLIDER, "我的福利-活动");
-                }
-
+                UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.SLIDER, "我的福利-活动");
             }
         });
 
@@ -147,7 +114,6 @@ public class ActivityAdapter extends BaseArrayAdapter<Match> {
         // fc9b28
         // 00b4ff
         try {
-
             String string = "起止时间：<font color=\"#fc9b28\">"
                     + TimeHelper.getTimeFormat(record.getStarttime())
                     + "~" + TimeHelper.getTimeFormat(record.getEndtime()) + "</font>";
@@ -188,8 +154,6 @@ public class ActivityAdapter extends BaseArrayAdapter<Match> {
                         URLUtil.isURL(record.getReward_url())) {// 获奖名单
 
                     startWebActivity(record.getReward_url());
-                } else {// 参赛视频
-                    startActivityVideoActivity(record);
                 }
             }
         });

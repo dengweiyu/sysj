@@ -23,7 +23,6 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
-import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.util.HashMap;

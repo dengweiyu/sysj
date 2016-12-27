@@ -2,12 +2,13 @@ package com.li.videoapplication.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
@@ -21,11 +22,12 @@ import com.li.videoapplication.data.upload.Contants;
 import com.li.videoapplication.data.upload.ImageShareResponseObject;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.BitmapHelper;
+import com.li.videoapplication.tools.BitmapLoader;
 import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.adapter.ImageShareAdapter;
 import com.li.videoapplication.ui.adapter.ResultImageUploadAdapter;
 import com.li.videoapplication.ui.popupwindows.MoreTypePopupWindow;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -34,7 +36,6 @@ import com.li.videoapplication.views.SmoothCheckBox;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import cn.sharesdk.framework.ShareSDK;
@@ -45,7 +46,6 @@ import cn.sharesdk.framework.ShareSDK;
 @SuppressLint("HandlerLeak")
 public class HomeImageShareActivity extends TBaseActivity implements
         OnClickListener {
-    public static final String TAG = HomeImageShareActivity.class.getSimpleName();
 
     @Override
     public void refreshIntent() {
@@ -244,6 +244,8 @@ public class HomeImageShareActivity extends TBaseActivity implements
         // 上传图片服务
         DataManager.UPLOAD.uploadImage(game_id, member_id, title, "", list);
     }
+
+
 
     public static final int STATUS_START = Contants.STATUS_START;
 

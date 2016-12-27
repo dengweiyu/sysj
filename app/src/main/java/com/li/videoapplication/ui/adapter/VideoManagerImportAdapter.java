@@ -90,6 +90,7 @@ public class VideoManagerImportAdapter extends BaseAdapter implements AbsListVie
             holder.title = (TextView) convertView.findViewById(R.id.videomanagerimport_title);
             holder.state = (TextView) convertView.findViewById(R.id.videomanagerimport_state);
             holder.check = (SmoothCheckBox) convertView.findViewById(R.id.videomanagerimport_check);
+            holder.root = convertView.findViewById(R.id.videomanagerimport_root);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -159,5 +160,6 @@ public class VideoManagerImportAdapter extends BaseAdapter implements AbsListVie
         TextView title;
         TextView state;
         SmoothCheckBox check;
+        View root;
     }
 }

@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/menu_main_padding"
             android:gravity="center"
-            android:singleLine="true"
+            android:maxLines="1"
             android:text="@string/menu_main_first"
             android:textColor="@color/menu_main_red"
             android:textSize="9sp"/>
@@ -43,21 +43,20 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="2dp"
+        android:paddingBottom="1dp"
         android:visibility="visible">
 
         <ImageView
             android:id="@+id/bottom_second_icon"
-            android:layout_width="@dimen/menu_main_icon"
-            android:layout_height="@dimen/menu_main_icon"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/discover_normal"/>
+            android:src="@drawable/game_normal"/>
 
         <TextView
             android:id="@+id/bottom_second_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/menu_main_padding"
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/menu_main_second"
@@ -80,7 +79,7 @@
             android:layout_width="@dimen/menu_main_icon"
             android:layout_height="@dimen/menu_main_icon"
             android:scaleType="fitCenter"
-            android:src="@drawable/game_normal"/>
+            android:src="@drawable/discover_normal"/>
 
         <TextView
             android:id="@+id/bottom_third_text"

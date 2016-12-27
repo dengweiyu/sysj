@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.webkit.DownloadListener;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
@@ -21,8 +20,7 @@ import android.widget.TextView;
 import android.widget.ZoomButtonsController;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.js.User;
-import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.data.js.JSInterface;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.utils.StringUtil;
@@ -140,7 +138,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
 
-        webView.addJavascriptInterface(new User(this), "user");
+        webView.addJavascriptInterface(new JSInterface(this), "user");
 
         webView.setDownloadListener(new DownloadListener() {
 
@@ -290,12 +288,12 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         }
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
         if (webView != null) {
             webView.onResume();
+            webView.resumeTimers();
         }
     }
 
@@ -304,6 +302,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         super.onPause();
         if (webView != null) {
             webView.onPause();
+            webView.pauseTimers();
         }
     }
 

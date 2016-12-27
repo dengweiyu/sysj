@@ -21,7 +21,6 @@ public class HomeTaskView extends LinearLayout implements
         View.OnClickListener {
 
     private Animation appearAnim, disappearAnim;
-    private TextView textView;
     private View container;
 
     public HomeTaskView(Context context) {
@@ -37,7 +36,9 @@ public class HomeTaskView extends LinearLayout implements
         View view = LayoutInflater.from(getContext()).inflate(R.layout.view_hometask, this);
 
         container = view.findViewById(R.id.hometask_container);
-        textView = (TextView) view.findViewById(R.id.hometask_text2);
+        TextView textView = (TextView) view.findViewById(R.id.hometask_text2);
+        String s = "完成" + toRed("任务") + "，参与" + toRed("赛事，活动") + "获得海量飞磨豆";
+        textView.setText(Html.fromHtml(s));
 
         view.findViewById(R.id.hometask_go2task).setOnClickListener(this);
         view.findViewById(R.id.hometask_close).setOnClickListener(this);
@@ -50,9 +51,8 @@ public class HomeTaskView extends LinearLayout implements
         disappearAnim.setDuration(500);
     }
 
-    public void setAmount(String amount) {
-        String s = "完成所有任务可获得" + TextUtil.toColor(amount, "#f7b500") + "飞磨豆";
-        textView.setText(Html.fromHtml(s));
+    private String toRed(String string) {
+        return TextUtil.toColor(string, "#fe5e5e");
     }
 
     public void disappear() {

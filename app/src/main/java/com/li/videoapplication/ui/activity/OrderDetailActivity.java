@@ -3,20 +3,15 @@ package com.li.videoapplication.ui.activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Currency;
-import com.li.videoapplication.data.model.response.GoodsDetailEntity;
 import com.li.videoapplication.data.model.response.OrderDetailEntity;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.DialogManager;
-import com.li.videoapplication.ui.toast.ToastHelper;
-import com.li.videoapplication.utils.ScreenUtil;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.RoundedImageView;
 
@@ -26,9 +21,9 @@ import com.li.videoapplication.views.RoundedImageView;
 public class OrderDetailActivity extends TBaseActivity implements View.OnClickListener {
 
     private RoundedImageView pic;
-    private TextView name, beam, time, key, value, status, code;
+    private TextView name, beam, time, key, value, status, code,recommend;
     private String order_id;
-    private View codeView;
+    private View codeView,recommendView;
     private Currency data;
 
     @Override
@@ -73,7 +68,8 @@ public class OrderDetailActivity extends TBaseActivity implements View.OnClickLi
         status = (TextView) findViewById(R.id.orderdetail_status);
         code = (TextView) findViewById(R.id.orderdetail_code);
         codeView = findViewById(R.id.orderdetail_codeView);
-
+        recommendView = findViewById(R.id.orderdetail_recommendview);
+        recommend = (TextView) findViewById(R.id.orderdetail_recommend);
         findViewById(R.id.orderdetail_copy).setOnClickListener(this);
     }
 
@@ -127,12 +123,20 @@ public class OrderDetailActivity extends TBaseActivity implements View.OnClickLi
                 break;
         }
 
-        if (data.getStatus().equals("4") && !StringUtil.isNull(data.getCode())) {
+        if (data.getStatus().equals("4") && !StringUtil.isNull(data.getCode())) {//兑换码
             codeView.setVisibility(View.VISIBLE);
             setTextViewText(code, data.getCode());
         } else {
             codeView.setVisibility(View.GONE);
         }
+
+        if (data.getExchange_way().equals("1") && !StringUtil.isNull(data.getNote())) {//推荐位
+            recommendView.setVisibility(View.VISIBLE);
+            setTextViewText(recommend, data.getNote());
+        } else {
+            recommendView.setVisibility(View.GONE);
+        }
+
     }
 
     private void setColor(int color) {

@@ -14,18 +14,14 @@ package com.li.videoapplication.ui.dialog;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseDialog;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 
 import java.util.HashMap;
-
-import javax.crypto.interfaces.PBEKey;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;

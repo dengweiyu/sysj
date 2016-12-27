@@ -13,6 +13,7 @@ import com.li.videoapplication.data.model.entity.GroupMessage;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.RoundedImageView;
 
 import java.util.List;

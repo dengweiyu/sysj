@@ -16,14 +16,11 @@ import com.li.videoapplication.data.model.response.AdvertisementAdLocation204Ent
 import com.li.videoapplication.data.model.response.IndexLaunchImageEntity;
 import com.li.videoapplication.data.model.response.LaunchImageEntity;
 import com.li.videoapplication.tools.ArrayHelper;
-import com.li.videoapplication.tools.JPushHelper;
 import com.li.videoapplication.tools.JSONHelper;
-import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -839,10 +836,11 @@ public class PreferencesHepler {
     }
 
     /**
-     * 获取猜你喜歡视频保存的时间
+     * 保存猜你喜歡视频保存的时间
      */
     public void saveVideoIdsTime() {
         long mills = System.currentTimeMillis();
+        Log.d(tag, "saveVideoIdsTime: == " + mills);
         NormalPreferences.getInstance().putLong(Constants.VIDEO_IDS_TIME, mills);
     }
 

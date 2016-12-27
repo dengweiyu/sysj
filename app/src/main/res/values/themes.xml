@@ -15,6 +15,11 @@
         <item name="android:backgroundDimAmount">0.0</item>
     </style>
 
+    <style name="dialogAnim">
+        <item name="android:windowEnterAnimation">@anim/dialog_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialog_out</item>
+    </style>
+
     <style name="emptyAnim" mce_bogus="1" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/empty_enter</item>
         <item name="android:windowExitAnimation">@anim/empty_exit</item>

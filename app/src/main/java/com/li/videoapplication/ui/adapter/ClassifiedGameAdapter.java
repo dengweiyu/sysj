@@ -16,6 +16,7 @@ import com.li.videoapplication.data.network.RequestConstant;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.ui.fragment.ClassifiedGameFragment;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.RoundedImageView;
@@ -69,8 +70,11 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
 
             @Override
             public void onClick(View v) {
-
-                startGameDetailActivity(record);
+                if (!StringUtil.isNull(record.getUrl())) { //H5游戏
+                    WebActivity.startWebActivity(getContext(), record.getUrl());
+                } else {
+                    startGameDetailActivity(record);
+                }
 
                 if (fragment != null) {
                     if (fragment.sort.equals(RequestConstant.GAMELIST_SORT_TIME)) {

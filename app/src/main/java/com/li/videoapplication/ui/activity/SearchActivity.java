@@ -1,25 +1,17 @@
 package com.li.videoapplication.ui.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
-import android.text.Selection;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Associate;
@@ -28,14 +20,18 @@ import com.li.videoapplication.data.model.response.AssociateEntity;
 import com.li.videoapplication.data.model.response.KeyWordListNewEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseActivity;
-import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.adapter.SearchAssociateAdapter;
 import com.li.videoapplication.ui.adapter.SearchHistoryAdapter;
 import com.li.videoapplication.ui.adapter.SearchHotAdapter;
+import com.li.videoapplication.ui.dialog.LoadingDialog;
+import com.li.videoapplication.ui.fragment.SearchResultFragment;
 import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.GridViewY1;
 import com.li.videoapplication.views.ListViewY1;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 活动：搜索
@@ -46,12 +42,37 @@ public class SearchActivity extends TBaseActivity implements
         OnItemClickListener,
         View.OnFocusChangeListener {
 
+    private SearchResultFragment searchResultFragment;
+
     /**
      * 跳转：搜索结果
      */
-    private void startSearchResultActivity(String content) {
-        ActivityManeger.startSearchResultActivity(this, content);
+    public void startSearchResultFragment(String content) {
+        setLoading(true);
         PreferencesHepler.getInstance().addSearchHistory(content);
+
+        if (searchResultFragment == null) {
+            searchResultFragment = new SearchResultFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("content", content);
+            searchResultFragment.setArguments(bundle);
+
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.activity_slide_in_right, R.anim.activity_disappear);
+            ft.add(R.id.frag_container, searchResultFragment).commit();
+        } else {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.show(searchResultFragment).commit();
+            searchResultFragment.refreshSearchResult(content);
+        }
+    }
+
+    public void hideSearchResultFragment() {
+        if (searchResultFragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+            ft.hide(searchResultFragment).commit();
+        }
     }
 
     private View contentContainer;
@@ -76,7 +97,7 @@ public class SearchActivity extends TBaseActivity implements
     private List<Associate> associateData = new ArrayList<>();
     private SearchAssociateAdapter associateAdapter;
 
-    private String getAbSearchEdit() {
+    public String getAbSearchEdit() {
         if (abSearchEdit.getText() == null)
             return "";
         return abSearchEdit.getText().toString().trim();
@@ -166,6 +187,14 @@ public class SearchActivity extends TBaseActivity implements
         DataManager.keyWordListNew();
     }
 
+    public void setLoading(boolean isLoading){
+        if (isLoading){
+            showProgressDialog(LoadingDialog.LOADING);
+        }else {
+            dismissProgressDialog();
+        }
+    }
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
@@ -189,6 +218,7 @@ public class SearchActivity extends TBaseActivity implements
         if (StringUtil.isNull(getAbSearchEdit())) {
             abSearchDelete.setVisibility(View.GONE);
         } else {
+            hideSearchResultFragment();
             abSearchDelete.setVisibility(View.VISIBLE);
         }
     }
@@ -217,7 +247,7 @@ public class SearchActivity extends TBaseActivity implements
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                startSearchResultActivity(getAbSearchEdit());
+                startSearchResultFragment(getAbSearchEdit());
                 break;
 
             case R.id.ab_search_delete:
@@ -241,7 +271,7 @@ public class SearchActivity extends TBaseActivity implements
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                startSearchResultActivity(record);
+                startSearchResultFragment(record);
             }
         }
 
@@ -256,22 +286,20 @@ public class SearchActivity extends TBaseActivity implements
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                startSearchResultActivity(record.getName());
+                startSearchResultFragment(record.getName());
             }
         }
 
         if (parent.getAdapter() == associateAdapter) {
             Associate record = (Associate) parent.getAdapter().getItem(position);
-            if (!StringUtil.isNull(record.getGame_name())) {
-                //abSearchEdit.setText(record.getName());
-                //Editable e = abSearchEdit.getText();
-                //Selection.setSelection(e, e.length());
+            if (!StringUtil.isNull(record.getName())) {
                 try {
                     InputUtil.closeKeyboard(this);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                startSearchResultActivity(record.getGame_name());
+                abSearchEdit.setText(record.getName());
+                startSearchResultFragment(record.getName());
             }
         }
     }

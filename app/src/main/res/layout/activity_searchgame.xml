@@ -1,18 +1,111 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:clipToPadding="true"
-              android:fitsSystemWindows="true"
-              android:orientation="vertical"
-    android:background="#f7f7f7">
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fafafa"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
 
-    <ListView
-        android:id="@+id/listview"
-        style="@style/BaseListViewWhite"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:divider="#e2e2e2"
-        android:dividerHeight="1px"/>
+        android:theme="@style/MyTheme.AppBarOverlay"
+        app:elevation="2dp">
 
-</LinearLayout>
+        <include layout="@layout/toolbar_white"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#d4ded1d0" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f7f7f7">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="6dp"
+                android:paddingLeft="14dp"
+                android:paddingRight="10dp"
+                android:paddingTop="6dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/search"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="0"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ab_search" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/search_edit"
+                    style="@style/BaseListViewWhite"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:cursorVisible="true"
+                    android:hint="请输入游戏名称"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textColor="#555555"
+                    android:textColorHint="#cacaca"
+                    android:textCursorDrawable="@null"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/search_delete"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="0"
+                    android:padding="3.2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/gamedetail_delete" />
+
+            </LinearLayout>
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#d4ded1d0" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/search_tab"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            app:tabIndicatorColor="@color/menu_main_red"
+            app:tabSelectedTextColor="@color/menu_main_red"
+            app:tabTextColor="#7c7c7c" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#a7dfbab8" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/search_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</android.support.design.widget.CoordinatorLayout>

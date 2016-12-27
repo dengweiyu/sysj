@@ -1,35 +1,29 @@
 package com.li.videoapplication.ui.adapter;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.TextImageHelper;
-import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.fragment.GameMatchProcessFragment;
-import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.mvp.match.view.GameMatchProcessFragment;
 import com.li.videoapplication.utils.TextUtil;
 
 import java.util.List;
-
-import io.rong.imkit.RongIM;
 
 /**
  * 适配器：赛程
  */
 @SuppressLint("InflateParams")
-public class MatchProcessAdapter extends RecyclerView.Adapter<MatchProcessAdapter.PKViewHolder> {
+public class MatchProcessAdapter extends BaseQuickAdapter<Match, BaseViewHolder> {
+
     private static final String TAG = MatchProcessAdapter.class.getSimpleName();
     private String member_id;
     private TextImageHelper textImageHelper;
@@ -37,6 +31,7 @@ public class MatchProcessAdapter extends RecyclerView.Adapter<MatchProcessAdapte
     private GameMatchProcessFragment fragment;
 
     public MatchProcessAdapter(GameMatchProcessFragment fragment, List<Match> data) {
+        super(R.layout.adapter_matchprocess, data);
         this.fragment = fragment;
         this.data = data;
         textImageHelper = new TextImageHelper();
@@ -46,20 +41,11 @@ public class MatchProcessAdapter extends RecyclerView.Adapter<MatchProcessAdapte
     }
 
     @Override
-    public int getItemCount() {
-        return data.size();
-    }
-
-    @Override
-    public PKViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new PKViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.adapter_matchprocess, parent, false));
-    }
-
-    @Override
-    public void onBindViewHolder(PKViewHolder holder, int position) {
-        holder.root.setVisibility(View.VISIBLE);
-        final Match record = data.get(position);
+    protected void convert(BaseViewHolder holder, Match record) {
+        holder.setVisible(R.id.adapter_root, true)
+                .setText(R.id.match_status_text, record.getStatus())
+                .addOnClickListener(R.id.red_icon)
+                .addOnClickListener(R.id.blue_icon);
 
         if (fragment.is_last == 1 && record.getB_member_id().equals(member_id)) {//冠季军赛时，我出现在右边情况
             //置换两边数据，保证我在左边
@@ -87,52 +73,56 @@ public class MatchProcessAdapter extends RecyclerView.Adapter<MatchProcessAdapte
         }
 
         // 头像右上角聊天角标
-        if (record.getA_member_id().equals(member_id) &&
-                !record.getB_member_id().equals("0")) {
-            holder.blue_contact.setVisibility(View.VISIBLE);
-        } else {
-            holder.blue_contact.setVisibility(View.GONE);
-        }
+        boolean isShowChatIcon = record.getA_member_id().equals(member_id)
+                && !record.getB_member_id().equals("0");
+        holder.setVisible(R.id.blue_contact, isShowChatIcon);
+
+        ImageView match_status_image = holder.getView(R.id.match_status_image);
+        TextView match_result = holder.getView(R.id.match_result);
 
         if (fragment.is_last == 1) {//冠季军赛
-            holder.champion_image.setVisibility(View.VISIBLE);
-            holder.match_result.setVisibility(View.VISIBLE);
-            if (position == 0) {
-                textImageHelper.setImageViewImageRes(holder.champion_image, R.drawable.champion);
-            } else if (position == 1) {
-                textImageHelper.setImageViewImageRes(holder.champion_image, R.drawable.thirdwinner);
+            holder.setVisible(R.id.champion_image, true)
+                    .setVisible(R.id.match_result, true);
+
+            ImageView champion_image = holder.getView(R.id.champion_image);
+            if (holder.getLayoutPosition() == 0) {
+                textImageHelper.setImageViewImageRes(champion_image, R.drawable.champion);
+            } else if (holder.getLayoutPosition() == 1) {
+                textImageHelper.setImageViewImageRes(champion_image, R.drawable.thirdwinner);
             }
-            setChampion(holder.match_status_image, holder.match_result, record, position);
+            setChampion(match_status_image, match_result, record, holder.getLayoutPosition());
         } else {//非决赛
-            holder.champion_image.setVisibility(View.GONE);
-            setWinner(holder.match_status_image, holder.match_result, record);
+            holder.setVisible(R.id.champion_image, false);
+            setWinner(match_status_image, match_result, record);
         }
 
         if (!record.getPk_a().equals("0")) {
-            textImageHelper.setTextViewText(holder.red_name, record.getA_name());
-            textImageHelper.setImageViewImageNet(holder.red_icon, record.getA_avatar());
+            holder.setText(R.id.red_name, record.getA_name());
+            ImageView red_icon = holder.getView(R.id.red_icon);
+            textImageHelper.setImageViewImageNet(red_icon, record.getA_avatar());
         }
 
+        ImageView blue_icon = holder.getView(R.id.blue_icon);
         //is_mate : 判断b队是轮空或匹配中（1正常,2轮空,3匹配中）
         switch (record.getIs_mate()) {
             case "1":
-                holder.blue_name.setTextColor(Color.parseColor("#48c5ff"));//blue
-                textImageHelper.setTextViewText(holder.blue_name, record.getB_name());
-                textImageHelper.setImageViewImageNet(holder.blue_icon, record.getB_avatar());
+                setBlueName(holder, R.color.match_process_blue, record.getB_name());
+                textImageHelper.setImageViewImageNet(blue_icon, record.getB_avatar());
                 break;
             case "2": //B轮空
-                textImageHelper.setTextViewText(holder.blue_name, "本局轮空");
-                holder.blue_name.setTextColor(Color.parseColor("#acacac"));//gray
-                textImageHelper.setImageViewImageRes(holder.blue_icon, R.drawable.matchprocess_noenemy);
+                setBlueName(holder, R.color.match_process_gray, "本局轮空");
+                textImageHelper.setImageViewImageRes(blue_icon, R.drawable.matchprocess_noenemy);
                 break;
             case "3": //匹配中
-                textImageHelper.setTextViewText(holder.blue_name, "匹配中");
-                holder.blue_name.setTextColor(Color.parseColor("#acacac"));//gray
-                textImageHelper.setImageViewImageRes(holder.blue_icon, R.drawable.ongoing_nullicon);
+                setBlueName(holder, R.color.match_process_gray, "匹配中");
+                textImageHelper.setImageViewImageRes(blue_icon, R.drawable.ongoing_nullicon);
                 break;
         }
+    }
 
-        textImageHelper.setTextViewText(holder.match_status_text, record.getStatus());
+    private void setBlueName(BaseViewHolder holder, int color, String b_name) {
+        holder.setTextColor(R.id.blue_name, mContext.getResources().getColor(color))
+                .setText(R.id.blue_name, b_name);
     }
 
     private void setChampion(ImageView vsIcon, TextView pkResult, Match record, int pos) {
@@ -206,67 +196,6 @@ public class MatchProcessAdapter extends RecyclerView.Adapter<MatchProcessAdapte
         //B位轮空。暂时目前轮空位置只会出现在B位
         if (record.getIs_mate().equals("2")) { //B轮空
             textView.setText(Html.fromHtml(TextUtil.toColor("胜", "#ff3d2e") + " : 败"));
-        }
-    }
-
-    public class PKViewHolder extends RecyclerView.ViewHolder {
-        ImageView red_icon, blue_icon, match_status_image, champion_image;
-        TextView red_name, blue_name, match_status_text, match_result;
-        View root, blue_contact;
-
-        public PKViewHolder(View itemView) {
-            super(itemView);
-
-            red_icon = (ImageView) itemView.findViewById(R.id.red_icon);
-            blue_icon = (ImageView) itemView.findViewById(R.id.blue_icon);
-            match_status_image = (ImageView) itemView.findViewById(R.id.match_status_image);
-            red_name = (TextView) itemView.findViewById(R.id.red_name);
-            blue_name = (TextView) itemView.findViewById(R.id.blue_name);
-            match_status_text = (TextView) itemView.findViewById(R.id.match_status_text);
-            root = itemView.findViewById(R.id.adapter_root);
-            blue_contact = itemView.findViewById(R.id.blue_contact);
-            champion_image = (ImageView) itemView.findViewById(R.id.champion_image);
-            match_result = (TextView) itemView.findViewById(R.id.match_result);
-
-            red_icon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (RongIM.getInstance() != null &&
-                            !StringUtil.isNull(data.get(getAdapterPosition()).getA_member_id()) &&
-                            !StringUtil.isNull(data.get(getAdapterPosition()).getA_name()) &&
-                            !data.get(getAdapterPosition()).getA_member_id().equals(member_id)) {
-
-                        ActivityManeger.startConversationActivity(fragment.getActivity(),
-                                data.get(getAdapterPosition()).getA_member_id(),
-                                data.get(getAdapterPosition()).getA_name(), false);
-                        UmengAnalyticsHelper.onEvent(fragment.getActivity(), UmengAnalyticsHelper.MATCH, "对战表-头像");
-                    }
-                }
-            });
-
-            blue_icon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (RongIM.getInstance() != null &&
-                            !StringUtil.isNull(data.get(getAdapterPosition()).getB_member_id()) &&
-                            !StringUtil.isNull(data.get(getAdapterPosition()).getB_name())) {
-
-                        if (data.get(getAdapterPosition()).getA_member_id()
-                                .equals(member_id)) {
-
-                            ActivityManeger.startConversationActivity(fragment.getActivity(),
-                                    data.get(getAdapterPosition()).getB_member_id(),
-                                    data.get(getAdapterPosition()).getB_name(), true,
-                                    data.get(getAdapterPosition()).getB_qq());
-                        } else {
-                            ActivityManeger.startConversationActivity(fragment.getActivity(),
-                                    data.get(getAdapterPosition()).getB_member_id(),
-                                    data.get(getAdapterPosition()).getB_name(), false);
-                        }
-                        UmengAnalyticsHelper.onEvent(fragment.getActivity(), UmengAnalyticsHelper.MATCH, "对战表-头像");
-                    }
-                }
-            });
         }
     }
 }

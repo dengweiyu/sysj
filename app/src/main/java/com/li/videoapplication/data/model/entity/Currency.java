@@ -40,6 +40,15 @@ public class Currency extends BaseEntity {
     private String title;
     private int operation;
     private String ico;
+    private String note;
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 
     public String getIco() {
         return ico;

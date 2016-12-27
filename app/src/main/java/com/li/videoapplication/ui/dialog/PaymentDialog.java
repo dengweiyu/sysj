@@ -30,7 +30,7 @@ import com.li.videoapplication.data.model.response.UserProfileFinishMemberInfoEn
 import com.li.videoapplication.data.model.response.VerifyCodeNewEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.BaseDialog;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.CountDownTimerUtils;
 import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.PatternUtil;
@@ -138,8 +138,7 @@ public class PaymentDialog extends BaseDialog implements View.OnClickListener {
             case R.id.payment_getcode:
                 if (checkPhoneNumber()) break;
                 // 获取验证码
-                DataManager.sendCode(getPhoneText());
-
+                DataManager.phoneRequestMsg(getPhoneText());
                 break;
 
             case R.id.payment_confirm:
@@ -243,9 +242,8 @@ public class PaymentDialog extends BaseDialog implements View.OnClickListener {
     public void onEventMainThread(PhoneRequestMsgEntity event) {
 
         if (event != null) {
-            boolean result = event.isResult();
             showToastShort(event.getMsg());
-            if (result) {// 成功
+            if (event.isResult()) {// 成功
                 // 获取验证码计时
                 startCountDown();
                 code.requestFocus();

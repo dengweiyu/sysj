@@ -1284,6 +1284,20 @@ public class RequestUrl {
 	/* ############## 赛事 ############## */
 
     /**
+     * 获取赛事报名问号内容
+     */
+    public final String getEventMsg() {
+        return BaseSYSJ + "/Sysj214/NewEvents/getEventMsg";
+    }
+
+    /**
+     * 获取赛事参赛队员人数接口
+     */
+    public final String getTeamMemberNumber() {
+        return BaseSYSJ + "/Sysj213/Events/getTeamMemberNumber";
+    }
+
+    /**
      * 赛事胜利者弹出框判断第一次接口
      */
     public final String setAlert() {
@@ -1368,6 +1382,13 @@ public class RequestUrl {
     }
 
     /**
+     * 赛事列表211 -- 测试用
+     */
+    public final String getEventsList211Test() {
+        return BaseSYSJ + "/sysj211/events/getEventsTestList";
+    }
+
+    /**
      * 赛事详情204
      */
     public final String getEventsInfo204() {
@@ -1403,10 +1424,10 @@ public class RequestUrl {
     }
 
     /**
-     * 赛事报名210
+     * 赛事报名214
      */
-    public final String joinEvents210() {
-        return BaseSYSJ + "/sysj210/events/joinEvents";
+    public final String joinEvents() {
+        return BaseSYSJ + "/Sysj214/NewEvents/joinEvents";
     }
     /**
      * 赛程时间表204
@@ -1528,10 +1549,24 @@ public class RequestUrl {
     }
 
     /**
+     * 活动纯文本评论点赞
+     */
+    public final String flowerComment() {
+        return BaseSYSJ + "/sysj201/Video/flowerComment";
+    }
+
+    /**
      * 活动详情208
      */
     public final String getMatchInfo208() {
         return BaseSYSJ + "/sysj204/events/getMatchInfo";
+    }
+
+    /**
+     * 活动tab分页
+     */
+    public final String getDetailMode() {
+        return BaseSYSJ + "/Sysj213/Match/getDetailMode";
     }
 
     /**

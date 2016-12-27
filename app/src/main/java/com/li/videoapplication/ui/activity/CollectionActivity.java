@@ -17,7 +17,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.fragment.MyCollectionFragment;
 import com.li.videoapplication.ui.fragment.MyHistoryFragment;
 import com.li.videoapplication.ui.pageradapter.GamePagerAdapter;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.views.ViewPagerY4;
 
 import java.util.ArrayList;

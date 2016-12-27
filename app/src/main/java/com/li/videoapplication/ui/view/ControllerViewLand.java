@@ -18,7 +18,7 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.views.TouchSeekBar;
 
 /**

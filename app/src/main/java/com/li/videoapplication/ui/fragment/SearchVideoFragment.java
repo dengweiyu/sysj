@@ -3,6 +3,7 @@ package com.li.videoapplication.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseChildFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
+import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.adapter.GroupDetailVideoAdapter;
 
 /**
@@ -32,6 +34,17 @@ import com.li.videoapplication.ui.adapter.GroupDetailVideoAdapter;
 public class SearchVideoFragment extends TBaseChildFragment implements OnRefreshListener2<ListView> {
 
     private int page_count;
+    private SearchActivity activity;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            this.activity = (SearchActivity) activity;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static SearchVideoFragment newInstance(String content) {
         SearchVideoFragment fragment = new SearchVideoFragment();
@@ -45,7 +58,6 @@ public class SearchVideoFragment extends TBaseChildFragment implements OnRefresh
 
     public void setContent(String content) {
         this.content = content;
-
         refreshListView();
     }
 
@@ -103,14 +115,7 @@ public class SearchVideoFragment extends TBaseChildFragment implements OnRefresh
     }
 
     public void refreshListView() {
-
-        handler.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                onPullDownToRefresh(pullToRefreshListView);
-            }
-        }, AppConstant.TIME.SEARCH_VIDEO);
+        onPullDownToRefresh(pullToRefreshListView);
     }
 
     @SuppressWarnings("rawtypes")
@@ -150,6 +155,8 @@ public class SearchVideoFragment extends TBaseChildFragment implements OnRefresh
             }
         }
         onRefreshComplete();
+        if (activity != null)
+            activity.setLoading(false);
     }
 
     /**

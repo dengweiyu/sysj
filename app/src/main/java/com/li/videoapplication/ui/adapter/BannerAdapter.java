@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +23,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.RecommendActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 
@@ -55,6 +56,13 @@ public class BannerAdapter extends BaseBaseAdapter {
      */
     private void startGameMatchDetailActivity(String event_id) {
         ActivityManeger.startGameMatchDetailActivity(getContext(), event_id);
+    }
+
+    /**
+     * 页面跳转：活动
+     */
+    private void startActivityDetailActivity208(String match_id) {
+        ActivityManeger.startActivityDetailActivity208(getContext(), match_id);
     }
 
     /**
@@ -136,7 +144,6 @@ public class BannerAdapter extends BaseBaseAdapter {
                 ImageLoaderHelper.displayImageVideo(record.getFlag(), holder.pic);
             }
         }
-
         view.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -159,12 +166,12 @@ public class BannerAdapter extends BaseBaseAdapter {
                             startGiftDetailActivity(getGift(record));
                         }
                         if (record.getType().equals(Banner.TYPE_ACTIVITY)) {// 活动
-                            if (!StringUtil.isNull(record.getGo_url())) {
-                                startWebActivity(record.getGo_url());
-                            }
+                            if (!StringUtil.isNull(record.getType_id()))
+                                startActivityDetailActivity208(record.getType_id());
                         }
                         if (record.getType().equals(Banner.TYPE_EVENT)) {// 赛事
-                            startGameMatchDetailActivity(record.getType_id());
+                            if (!StringUtil.isNull(record.getType_id()))
+                                startGameMatchDetailActivity(record.getType_id());
                         }
                     }
                 } else if (page == PAGER_RECOMMEND) {

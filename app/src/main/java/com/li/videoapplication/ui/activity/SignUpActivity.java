@@ -10,9 +10,12 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Match;
-import com.li.videoapplication.data.model.response.JoinEvents204Entity;
+import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.response.GetTeamMemberNumEntity;
+import com.li.videoapplication.data.model.response.JoinEventsEntity;
 import com.li.videoapplication.data.model.response.PhoneRequestMsgEntity;
 import com.li.videoapplication.data.model.response.VerifyCodeNewEntity;
+import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -23,6 +26,7 @@ import com.li.videoapplication.utils.PatternUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 
+import butterknife.BindView;
 import io.rong.imkit.RongIM;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
@@ -30,16 +34,52 @@ import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
  * 活动：报名
  */
 public class SignUpActivity extends TBaseActivity implements View.OnClickListener {
+
+    @BindView(R.id.signup_teaminfoview)
+    View teamInfoView;
+    @BindView(R.id.signup_teamqq_1_view)
+    View teamQQ_1View;
+    @BindView(R.id.signup_teamqq_2_view)
+    View teamQQ_2View;
+    @BindView(R.id.signup_teamqq_3_view)
+    View teamQQ_3View;
+    @BindView(R.id.signup_teamqq_4_view)
+    View teamQQ_4View;
+    @BindView(R.id.signup_teamqq_34_view)
+    View teamQQ_34View;
+    @BindView(R.id.signup_teamphone_1)
+    EditText teamPhone_1;
+    @BindView(R.id.signup_teamphone_2)
+    EditText teamPhone_2;
+    @BindView(R.id.signup_teamphone_3)
+    EditText teamPhone_3;
+    @BindView(R.id.signup_teamphone_4)
+    EditText teamPhone_4;
+
+
     private final String PERSONAL_MATCH = "1", TEAM_MATCH = "2";
     private String event_id;
-    private View teamNameHint;
-    private EditText teamName, roleName, qq, phone;
+    private EditText teamName, roleName, qq, phone, inviteCode;
     private String type_id;
     private Match match;
     private String customer_service_id, customer_service_name;
     private TextView getCode, changePhoneNum;
-    private EditText code, teamqq_1, teamqq_2, teamqq_3, teamqq_4;
+    private EditText code;
     private boolean isChanged;
+
+    /**
+     * 分享
+     */
+    public void startShareActivity() {
+        if (match != null) {
+            final String url = match.getApply_share_url();
+            final String title = "精彩赛事分享";
+            final String imageUrl = match.getFlag();
+            final String content = "快来看看" + match.getTitle();
+
+            ActivityManeger.startActivityShareActivity4VideoPlay(this, url, title, imageUrl, content);
+        }
+    }
 
     @Override
     public void refreshIntent() {
@@ -75,20 +115,19 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
     public void initView() {
         super.initView();
 
-        teamNameHint = findViewById(R.id.signup_teamname_hint);
+        View teamNameHint = findViewById(R.id.signup_teamname_hint);
+        View inviteCodeHint = findViewById(R.id.signup_invitecode_hint);
+        View kindlyReminder = findViewById(R.id.signup_kindly_reminder);
+        View kindlyReminderContent = findViewById(R.id.signup_kindly_reminder_content);
         teamName = (EditText) findViewById(R.id.signup_teamname_et);
         roleName = (EditText) findViewById(R.id.signup_rolename);
+        inviteCode = (EditText) findViewById(R.id.signup_invitecode);
         qq = (EditText) findViewById(R.id.signup_qq);
         phone = (EditText) findViewById(R.id.signup_phone);
         getCode = (TextView) findViewById(R.id.signup_getcode);
         changePhoneNum = (TextView) findViewById(R.id.signup_changephonenum);
         code = (EditText) findViewById(R.id.signup_code);
-        teamqq_1 = (EditText) findViewById(R.id.signup_teamqq_1);
-        teamqq_2 = (EditText) findViewById(R.id.signup_teamqq_2);
-        teamqq_3 = (EditText) findViewById(R.id.signup_teamqq_3);
-        teamqq_4 = (EditText) findViewById(R.id.signup_teamqq_4);
         TextView tip = (TextView) findViewById(R.id.signup_tip);
-        View teamInfoView = findViewById(R.id.signup_teaminfoview);
         ScrollView scrollView = (ScrollView) findViewById(R.id.signup_scrollview);
         OverScrollDecoratorHelper.setUpOverScroll(scrollView);
 
@@ -101,22 +140,37 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
             teamNameHint.setVisibility(View.GONE);
             teamName.setVisibility(View.GONE);
             teamInfoView.setVisibility(View.GONE);
+            kindlyReminder.setVisibility(View.GONE);
+            kindlyReminderContent.setVisibility(View.GONE);
         } else if (type_id.equals(TEAM_MATCH)) { //团体赛
             teamNameHint.setVisibility(View.VISIBLE);
             teamName.setVisibility(View.VISIBLE);
-            teamInfoView.setVisibility(View.VISIBLE);
+            kindlyReminder.setVisibility(View.VISIBLE);
+            kindlyReminderContent.setVisibility(View.VISIBLE);
+        }
+
+        if (match.getIs_invite() == 1) { //邀请赛
+            inviteCodeHint.setVisibility(View.VISIBLE);
+            inviteCode.setVisibility(View.VISIBLE);
+        } else {
+            inviteCodeHint.setVisibility(View.GONE);
+            inviteCode.setVisibility(View.GONE);
         }
 
         findViewById(R.id.signup_cardview).setOnClickListener(this);
         findViewById(R.id.signup_customerservice).setOnClickListener(this);
-
+        findViewById(R.id.signup_question).setOnClickListener(this);
+        abShareBlack.setOnClickListener(this);
         getCode.setOnClickListener(this);
         changePhoneNum.setOnClickListener(this);
+        abShareBlack.setVisibility(View.VISIBLE);
+        abShareBlack.setOnClickListener(this);
     }
 
     @Override
     public void loadData() {
         super.loadData();
+        DataManager.getTeamMemberNumber(event_id);
 
         if (!StringUtil.isNull(getUser().getMobile())) {//已有手机号
             phone.setText(getUser().getMobile());
@@ -142,6 +196,10 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ab_share_black:
+                startShareActivity();
+                break;
+
             case R.id.signup_cardview://提交报名
                 if (!StringUtil.isNull(getUser().getMobile()) && !isChanged) {//已有手机号
                     signupNow();
@@ -176,28 +234,31 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
                 phone.setFocusable(true);
                 phone.requestFocus();
                 break;
+            case R.id.signup_question:
+                DialogManager.showSignUpQuestionDialog(this);
+                break;
         }
     }
 
-    private String getTeamQQText() {
+    private String getTeamPhoneText() {
 
-        StringBuilder teamQQ = new StringBuilder();
+        StringBuilder teamPhone = new StringBuilder();
 
-        if (teamqq_1.getText() != null)
-            teamQQ.append(teamqq_1.getText().toString());
+        if (teamPhone_1.getText() != null)
+            teamPhone.append(teamPhone_1.getText().toString());
 
-        if (teamqq_2.getText() != null)
-            teamQQ.append(",").append(teamqq_2.getText().toString());
+        if (teamPhone_2.getText() != null)
+            teamPhone.append(",").append(teamPhone_2.getText().toString());
 
-        if (teamqq_3.getText() != null)
-            teamQQ.append(",").append(teamqq_3.getText().toString());
+        if (teamPhone_3.getText() != null)
+            teamPhone.append(",").append(teamPhone_3.getText().toString());
 
-        if (teamqq_4.getText() != null)
-            teamQQ.append(",").append(teamqq_4.getText().toString());
+        if (teamPhone_4.getText() != null)
+            teamPhone.append(",").append(teamPhone_4.getText().toString());
 
-        Log.d(tag, "getTeamQQText: teamQQ == " + teamQQ);
+        Log.d(tag, "getTeamPhoneText: " + teamPhone);
 
-        return teamQQ.toString();
+        return teamPhone.toString();
     }
 
     /**
@@ -216,10 +277,6 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
         }
         // 获取验证码
         DataManager.eventRequestMsg(getPhone(), match.getTitle());
-
-        CountDownTimerUtils countDownTimer = new CountDownTimerUtils(getCode, 60000, 1000,
-                R.drawable.dialog_registermobile_gray, R.drawable.dialog_registermobile_red);
-        countDownTimer.start();
     }
 
     private void signupNow() {
@@ -240,19 +297,20 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
             showToastShort("请输入正确的qq号");
             return;
         }
-        if (type_id.equals(PERSONAL_MATCH)) {
 
-            DataManager.joinEvents210(getMember_id(), event_id, type_id,
-                    "", getGameRoleName(), getQQ(), getPhone());
-
-        } else if (type_id.equals(TEAM_MATCH)) {
-            DataManager.joinEvents210(getMember_id(), event_id, type_id,
-                    getTeamName(), getGameRoleName(), getQQ(), getPhone(), getTeamQQText());
-        }
+        DataManager.joinEvents(getMember_id(), event_id, type_id,
+                getTeamName(), getGameRoleName(), getQQ(), getPhone(),
+                getInviteCodeText(), getTeamPhoneText());
 
         // FIXME: 2016/6/7 取消逻辑还没有写，只是显示了对话框！用于在网络不好的时候可以取消菊花圈的显示
         showLoadingDialogWithCancel("报名中", "请稍候几秒钟", "取消",
                 "已取消", "报名中断，请检查后重试!", "确定");
+    }
+
+    private String getInviteCodeText() {
+        if (inviteCode.getText() != null)
+            return inviteCode.getText().toString();
+        return "";
     }
 
     private String getCodeText() {
@@ -285,10 +343,47 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
         return teamName.getText().toString().trim();
     }
 
+    private void refreshTeamView(int teamMemberNum) {
+        if (teamMemberNum > 0)
+            teamInfoView.setVisibility(View.VISIBLE);
+        switch (teamMemberNum) {
+            case 1:
+                teamQQ_1View.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                teamQQ_1View.setVisibility(View.VISIBLE);
+                teamQQ_2View.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                teamQQ_34View.setVisibility(View.VISIBLE);
+                teamQQ_1View.setVisibility(View.VISIBLE);
+                teamQQ_2View.setVisibility(View.VISIBLE);
+                teamQQ_3View.setVisibility(View.VISIBLE);
+                break;
+            case 4:
+                teamQQ_34View.setVisibility(View.VISIBLE);
+                teamQQ_1View.setVisibility(View.VISIBLE);
+                teamQQ_2View.setVisibility(View.VISIBLE);
+                teamQQ_3View.setVisibility(View.VISIBLE);
+                teamQQ_4View.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    /**
+     * 回调：获取赛事参赛队员人数接口
+     */
+    public void onEventMainThread(GetTeamMemberNumEntity event) {
+
+        if (event != null && event.isResult()) {
+            refreshTeamView(event.getTeamMemberNum());
+        }
+    }
+
     /**
      * 回调：报名
      */
-    public void onEventMainThread(JoinEvents204Entity event) {
+    public void onEventMainThread(JoinEventsEntity event) {
 
         if (event != null) {
             if (event.isResult()) {
@@ -302,7 +397,7 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
         }
     }
 
-    private void showSignUpSuccessDialog(JoinEvents204Entity event) {
+    private void showSignUpSuccessDialog(JoinEventsEntity event) {
         boolean isNeedSign = event.getData().getList().getIs_sign().equals("1");
         //是否即时匹配
         boolean isOnce = event.getData().getList().getIs_once().equals("1");
@@ -342,7 +437,7 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
         finish();
     }
 
-    private void showSuccessDontNeedSignInDialog(JoinEvents204Entity event) {
+    private void showSuccessDontNeedSignInDialog(JoinEventsEntity event) {
         try {
             //签到开始时间 （格式：06月01日 15:30）
             String sign_starttime = TimeHelper.getMMddHHmmTimeFormat(event.getData().getList().getSign_starttime());
@@ -364,10 +459,12 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
     public void onEventMainThread(PhoneRequestMsgEntity event) {
 
         if (event != null) {
-            boolean result = event.isResult();
-            String msg = event.getMsg();
-            if (result) {// 成功
-                showToastShort(msg);
+            showToastShort(event.getMsg());
+            if (event.isResult()) {// 成功
+
+                CountDownTimerUtils countDownTimer = new CountDownTimerUtils(getCode, 60000, 1000,
+                        R.drawable.dialog_registermobile_gray, R.drawable.dialog_registermobile_red);
+                countDownTimer.start();
             }
         }
     }
@@ -379,10 +476,25 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
 
         if (event != null) {
             if (event.isResult()) {// 验证成功
+                saveUserPhoneNum();
                 signupNow();
             } else {
                 showToastShort(event.getMsg());
             }
         }
+    }
+
+    //手机号同步保存到个人资料
+    private void saveUserPhoneNum() {
+        RequestExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Member member = getUser();
+                Member newMember = (Member) member.clone();
+                newMember.setMobile(getPhone());
+                // 编辑个人资料
+                DataManager.userProfileFinishMemberInfo(newMember);
+            }
+        });
     }
 }

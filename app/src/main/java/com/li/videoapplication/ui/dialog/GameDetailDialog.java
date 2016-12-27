@@ -13,6 +13,7 @@
 package com.li.videoapplication.ui.dialog;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
@@ -22,10 +23,11 @@ import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseTopDialog;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
-import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.AppUtil;
 
 /**
@@ -34,14 +36,15 @@ import com.li.videoapplication.utils.AppUtil;
 @SuppressLint("CutPasteId")
 public class GameDetailDialog extends BaseTopDialog implements View.OnClickListener {
 
+    private Activity activity;
     private Game game;
     private boolean isLogin;
 
     /**
      * 跳转：登录
      */
-    private void startLoginActivity() {
-        ActivityManeger.startLoginActivity(getContext());
+    private void startLoginDialog() {
+        DialogManager.showLogInDialog(activity);
     }
 
     /**
@@ -75,6 +78,11 @@ public class GameDetailDialog extends BaseTopDialog implements View.OnClickListe
     public GameDetailDialog(Context context, Game game) {
         super(context);
         this.game = game;
+        try {
+            activity = (Activity) context;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -106,14 +114,10 @@ public class GameDetailDialog extends BaseTopDialog implements View.OnClickListe
                 break;
 
             case R.id.gamedetail_video://录屏
-                if (isLogin) {
-                    GroupDetailActivity activity = (GroupDetailActivity) AppManager.getInstance().getActivity(GroupDetailActivity.class);
-                    if (activity != null && game != null)
-                        activity.startScreenRecordActivity();
-                    UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "游戏圈-录制一段视频");
-                } else {
-                    startLoginActivity();
-                }
+                GroupDetailActivity activity = (GroupDetailActivity) AppManager.getInstance().getActivity(GroupDetailActivity.class);
+                if (activity != null && game != null)
+                    activity.startScreenRecordActivity();
+                UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "游戏圈-录制一段视频");
                 break;
 
             case R.id.gamedetail_record://外拍
@@ -122,7 +126,7 @@ public class GameDetailDialog extends BaseTopDialog implements View.OnClickListe
                     return;
                 }
                 if (isLogin) {
-                    if (game != null){
+                    if (game != null) {
                         int SDKVesion = AppUtil.getAndroidSDKVersion();
                         if (SDKVesion >= 21) {
                             startCameraRecoed50Activity();
@@ -132,17 +136,17 @@ public class GameDetailDialog extends BaseTopDialog implements View.OnClickListe
                     }
                     UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "游戏圈-视频拍摄");
                 } else {
-                    startLoginActivity();
+                    startLoginDialog();
                 }
                 break;
 
             case R.id.gamedetail_image://图文
                 if (isLogin) {
                     if (game != null)
-                       startHomeImageShareActivity();
+                        startHomeImageShareActivity();
                     UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "游戏圈-发表图文");
                 } else {
-                    startLoginActivity();
+                    startLoginDialog();
                 }
                 break;
         }

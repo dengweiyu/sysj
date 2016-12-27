@@ -4,4 +4,7 @@ import com.li.videoapplication.framework.BaseResponseEntity;
 
 
 @SuppressWarnings("serial")
-public class VerifyCodeNewEntity extends BaseResponseEntity {}
+public class VerifyCodeNewEntity extends BaseResponseEntity {
+
+
+}

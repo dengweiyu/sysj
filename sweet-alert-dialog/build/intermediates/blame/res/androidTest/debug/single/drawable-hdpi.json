@@ -1,11 +1,11 @@
 [
     {
-        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi\\abc_switch_track_mtrl_alpha.9.png",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable-hdpi\\abc_switch_track_mtrl_alpha.9.png"
-    },
-    {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi\\abc_ic_menu_paste_mtrl_am_alpha.png",
         "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable-hdpi\\abc_ic_menu_paste_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi\\abc_switch_track_mtrl_alpha.9.png",
+        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable-hdpi\\abc_switch_track_mtrl_alpha.9.png"
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi\\abc_list_longpressed_holo.9.png",

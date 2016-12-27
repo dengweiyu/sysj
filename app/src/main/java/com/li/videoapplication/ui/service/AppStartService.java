@@ -2,16 +2,18 @@ package com.li.videoapplication.ui.service;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.fmsysj.screeclibinvoke.data.preferences.Utils_Preferens;
+import com.li.videoapplication.data.model.entity.AdvertisementDto;
+import com.li.videoapplication.mvp.home.HomeContract;
+import com.li.videoapplication.mvp.home.presenter.HomePresenter;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.network.RequestExecutor;
-import com.li.videoapplication.data.preferences.Constants;
-import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseIntentService;
+import com.li.videoapplication.utils.NetUtil;
+import com.li.videoapplication.utils.StringUtil;
 
 /**
  * 服务：初始化数据
@@ -20,6 +22,7 @@ public class AppStartService extends BaseIntentService {
 
     public static final String TAG = AppStartService.class.getSimpleName();
     public static final String ACTION = AppStartService.class.getName();
+    private HomeContract.IHomePresenter homePresenter;
 
     /**
      * 启动服务
@@ -43,8 +46,7 @@ public class AppStartService extends BaseIntentService {
                 refreshData();
             }
         });
-
-        indexLaunchImage();
+        homePresenter = HomePresenter.getInstance();
         userProfilePersonalInformation();
         indexIndex();
         indexChangeGuess();
@@ -58,8 +60,6 @@ public class AppStartService extends BaseIntentService {
      * 初始化数据
      */
     private void refreshData() {
-        Log.d(TAG, "refreshData: ");
-
         // 删除数据库
         com.li.videoapplication.data.database.Utils.deleteDatabase();
 
@@ -68,17 +68,6 @@ public class AppStartService extends BaseIntentService {
 
         // 初始化数据库
         com.li.videoapplication.data.database.Utils.scanRecToDatabase();
-    }
-
-    /**
-     * 启动图片广告
-     */
-    private void indexLaunchImage() {
-        Log.d(tag, "indexLaunchImage: ");
-        final int changeTime = NormalPreferences.getInstance().getInt(Constants.INDEX_LAUNCH_IMAHE_CHANGETIME);
-        Log.d(tag, "changeTime=" + changeTime);
-        // 启动图片广告
-        DataManager.indexLaunchImageAsync(changeTime);
     }
 
     /**
@@ -92,7 +81,7 @@ public class AppStartService extends BaseIntentService {
         }
     }
 
-    private void indexChangeGuess(){
+    private void indexChangeGuess() {
         if (PreferencesHepler.getInstance().canVideoIdsTime()) {// 已过期
             // 首页猜你喜歡
             DataManager.indexChangeGuess(PreferencesHepler.getInstance().getGroupIds2());
@@ -104,14 +93,18 @@ public class AppStartService extends BaseIntentService {
      */
     private void indexIndex() {
         // 首页
-        DataManager.indexIndex204Async(1);
+        if (NetUtil.isConnect()) {
+            homePresenter.loadHomeData(1, true);
+            String member_id = PreferencesHepler.getInstance().getMember_id();
+            if (!StringUtil.isNull(member_id))
+                homePresenter.unfinishedTask(member_id, true);
+        }
     }
 
     /**
      * 广告位置列表
      */
     private void advertisementAdLocation204() {
-        Log.d(TAG, "advertisementAdLocation204: ");
         // 广告位置列表
         DataManager.advertisementAdLocation204Asnyc();
     }
@@ -121,7 +114,7 @@ public class AppStartService extends BaseIntentService {
      */
     private void advertisementAdImage204() {
         // 首页-热门游戏下方通栏
-        DataManager.ADVERTISEMENT.advertisement_8();
+        homePresenter.adImage208(AdvertisementDto.ADVERTISEMENT_8, true);
         // 首页-第四副轮播
         DataManager.ADVERTISEMENT.advertisement_7();
     }

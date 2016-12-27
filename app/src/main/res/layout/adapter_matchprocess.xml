@@ -145,7 +145,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#f4f4f4"/>
+        android:background="@color/divider_bg"/>
 </LinearLayout>
 
 

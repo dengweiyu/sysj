@@ -179,12 +179,12 @@ public class BannerView extends FrameLayout implements
 
     public void refreshData(int ad_location_id) {
         this.ad_location_id = ad_location_id;
-        Log.d(tag, "refreshData: ad_location_id=" + ad_location_id);
+        Log.d(tag, "refreshHomeData: ad_location_id=" + ad_location_id);
         if (ad_location_id == DataManager.ADVERTISEMENT.ADVERTISEMENT_8) {
             // 视频管理-本地视频
             this.advertisement = PreferencesHepler.getInstance().getAdvertisement_8();
         }
-        Log.d(tag, "refreshData: advertisement=" + advertisement);
+        Log.d(tag, "refreshHomeData: advertisement=" + advertisement);
         if (this.advertisement != null) {
             if (this.ad_location_id == this.advertisement.getAd_location_id()) {
                 refreshContentView();

@@ -5,22 +5,16 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.response.GoodsDetailEntity;
 import com.li.videoapplication.framework.TBaseActivity;
-import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.RoundedImageView;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
-import android.os.Build;
-import android.support.v4.view.ViewCompat;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 

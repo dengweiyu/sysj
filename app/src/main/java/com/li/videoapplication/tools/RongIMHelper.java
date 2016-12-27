@@ -94,7 +94,7 @@ public class RongIMHelper {
 
                         @Override
                         public void onSuccess(String userid) {
-                            Log.d(TAG, "--------RongIM.connect onSuccess-------- userid == " + userid);
+                            Log.d(TAG, "--------RongIM.connect onLoadHomeSuccess-------- userid == " + userid);
 
                             //融云个人信息
                             setUserInfoProvider();
@@ -139,15 +139,15 @@ public class RongIMHelper {
                     @Override
                     public void onSuccess(Conversation.ConversationNotificationStatus status) {
                         if (status == Conversation.ConversationNotificationStatus.DO_NOT_DISTURB) {
-                            Log.d(TAG, "onSuccess: 设置免打扰成功");
+                            Log.d(TAG, "onLoadHomeSuccess: 设置免打扰成功");
                         } else if (status == Conversation.ConversationNotificationStatus.NOTIFY) {
-                            Log.d(TAG, "onSuccess: 关闭免打扰成功");
+                            Log.d(TAG, "onLoadHomeSuccess: 关闭免打扰成功");
                         }
                     }
 
                     @Override
                     public void onError(RongIMClient.ErrorCode errorCode) {
-                        Log.d(TAG, "onSuccess: 设置免打扰失败");
+                        Log.d(TAG, "onLoadHomeSuccess: 设置免打扰失败");
                     }
                 });
     }
@@ -163,7 +163,7 @@ public class RongIMHelper {
 
             @Override
             public void onSuccess(Integer integer) {
-                Log.d(TAG, "getTotalUnreadCount onSuccess: "+integer);
+                Log.d(TAG, "getTotalUnreadCount onLoadHomeSuccess: "+integer);
                 callback.totalUnreadCount(integer);
             }
 

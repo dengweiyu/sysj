@@ -1,33 +1,57 @@
 package com.li.videoapplication.ui.activity;
 
-import android.widget.ListView;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.response.GetMatchList201Entity;
-import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseActivity;
-import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.adapter.ActivityAdapter;
+import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.adapter.GameMatchAdapter;
+import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.utils.URLUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+
 /**
  * 活动：活动列表
  */
-public class ActivityListActivity extends TBaseActivity implements PullToRefreshBase.OnRefreshListener2<ListView> {
+public class ActivityListActivity extends TBaseActivity implements OnRefreshListener, RequestLoadMoreListener {
 
-    private PullToRefreshListView pullToRefreshListView;
-    private ListView listView;
-    private ActivityAdapter adapter;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    private GameMatchAdapter adapter;
     private List<Match> data;
     private int page = 1;
     private int page_count;
+
+    /**
+     * 跳转：活动详情
+     */
+    private void startActivityDetailActivity(Match record) {
+        ActivityManeger.startActivityDetailActivityNewTask(this, record.getMatch_id());
+        if (record.getStatus().equals("进行中")) {
+            UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.DISCOVER, "热门活动-进行中");
+        } else if (record.getStatus().equals("已结束")) {
+            UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.DISCOVER, "热门活动-已结束");
+        }
+    }
+
 
     @Override
     public int getContentView() {
@@ -48,68 +72,93 @@ public class ActivityListActivity extends TBaseActivity implements PullToRefresh
     @Override
     public void initView() {
         super.initView();
-        pullToRefreshListView = (PullToRefreshListView) findViewById(R.id.pulltorefresh);
 
-        pullToRefreshListView = (PullToRefreshListView) findViewById(R.id.pulltorefresh);
-        pullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
+        initRecyclerView();
 
-        listView = pullToRefreshListView.getRefreshableView();
+        initAdapter();
 
-        listView.addFooterView(newEmptyView(2));
+        addOnClickListener();
+    }
 
+    private void initRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
+    }
+
+    private void initAdapter() {
         data = new ArrayList<>();
-        adapter = new ActivityAdapter(this, data);
-        listView.setAdapter(adapter);
+        adapter = new GameMatchAdapter(this, data);
+        adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        adapter.setOnLoadMoreListener(this);
 
-        pullToRefreshListView.setOnRefreshListener(this);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void loadData() {
         super.loadData();
-        onPullDownToRefresh(pullToRefreshListView);
+        DataManager.getMatchList201(page);
+    }
+
+    private void addOnClickListener() {
+        //recyclerview item点击事件处理
+        recyclerView.addOnItemTouchListener(new OnItemClickListener() {
+
+            @Override
+            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
+                Match record = (Match) adapter.getItem(pos);
+                startActivityDetailActivity(record);
+            }
+        });
+    }
+
+    @Override
+    public void onRefresh() {
+        page = 1;
+        loadData();
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                if (page <= page_count) {
+                    loadData();
+                } else {
+                    // 数据全部加载完毕
+                    adapter.loadMoreEnd();
+                }
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        UmengAnalyticsHelper.onEvent(this,UmengAnalyticsHelper.DISCOVER,"热门活动");
-    }
-
-    @Override
-    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        page = 1;
-        DataManager.getMatchList201(page);
-    }
-
-    @Override
-    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        PullToRefreshHepler.setLastUpdatedLabel(refreshView);
-        PullToRefreshHepler.onRefreshCompleteDelayed(getHandler(), pullToRefreshListView,
-                PullToRefreshActivity.TIME_REFRESH_SHORT);
-        if (page <= page_count)
-            // 活动列表
-            DataManager.getMatchList201(page);
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.DISCOVER, "热门活动");
     }
 
     /**
      * 回调：赛事列表
      */
     public void onEventMainThread(GetMatchList201Entity event) {
-
-        if (event != null) {
-            if (event.isResult()) {
-                page_count = event.getData().getPage_count();
-                if (event.getData().getList().size() > 0) {
-                    if (page == 1) {
-                        data.clear();
-                    }
-                    data.addAll(event.getData().getList());
-                    adapter.notifyDataSetChanged();
-                    ++page;
+        if (event != null && event.isResult()) {
+            page_count = event.getData().getPage_count();
+            if (event.getData().getList().size() > 0) {
+                if (page == 1) {
+                    adapter.setNewData(event.getData().getList());
+                    swipeRefreshLayout.setRefreshing(false);
+                } else {
+                    // 如果有下一页则调用addData，不需要把下一页数据add到list里面，直接新的数据给adapter即可。
+                    adapter.addData(event.getData().getList());
                 }
+                ++page;
             }
-            pullToRefreshListView.onRefreshComplete();
         }
+        adapter.loadMoreComplete();
     }
 }

@@ -21,7 +21,6 @@ import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.response.DoVideoMarkEntity;
 import com.li.videoapplication.data.model.response.QiniuTokenPassEntity;
 import com.li.videoapplication.data.model.response.SrtUpload203Entity;
-import com.li.videoapplication.data.model.response.VideoUploadPicQiniuEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.data.qiniu.http.ResponseInfo;
 import com.li.videoapplication.data.qiniu.storage.KeyGenerator;
@@ -37,9 +36,7 @@ import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.BitmapHelper;
 import com.li.videoapplication.tools.ShareSDKShareHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
-import com.li.videoapplication.ui.toast.ToastHelper;
 import com.li.videoapplication.utils.BitmapUtil;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -203,7 +200,10 @@ public class VideoShareTask208 {
                 case Contants.STATUS_SUCCESS:
                     destroy();
                     break;
-
+                case Contants.STATUS_FAILURE:
+                    failure();
+                    destroy();
+                    break;
                 case Contants.STATUS_PAUSE:
                     destroy();
                     break;
@@ -235,9 +235,6 @@ public class VideoShareTask208 {
     public VideoShareTask208(VideoUploadRequestObject request, Callback callback) {
         super();
 
-        Log.d(tag, "########################################################################");
-        Log.d(tag, "########################################################################");
-        Log.d(tag, "########################################################################");
         Log.d(tag, "########################################################################");
 
         this.callback = callback;
@@ -413,8 +410,7 @@ public class VideoShareTask208 {
                         game_tags);
 
         Log.d(tag, "entity=" + entity);
-        if (entity != null && entity.isResult() &&
-                entity.getData() != null) {
+        if (entity != null && entity.isResult() && entity.getData() != null) {
             key = entity.getData().getVideokey();
             token = entity.getData().getVideouploadtoken();
             flag = entity.getData().getFlag();
@@ -457,6 +453,7 @@ public class VideoShareTask208 {
                         covertoken);
 
                 Log.d(tag, "preparing: key=" + key);
+                Log.d(tag, "preparing: key=" + key);
                 Log.d(tag, "preparing: token=" + token);
                 Log.d(tag, "preparing: flag=" + flag);
                 Log.d(tag, "preparing: covertoken=" + covertoken);
@@ -491,7 +488,7 @@ public class VideoShareTask208 {
                 subtitle();
             } else {
                 msg = "获取视频上传凭证失败";
-                status = Contants.STATUS_END;
+                status = Contants.STATUS_FAILURE;
                 h.sendEmptyMessage(0);
                 Log.d(tag, "preparing: 18");
             }
@@ -501,7 +498,7 @@ public class VideoShareTask208 {
                 msg = entity.getMsg();
             else
                 msg = "获取视频上传凭证失败";
-            status = Contants.STATUS_END;
+            status = Contants.STATUS_FAILURE;
             h.sendEmptyMessage(0);
             Log.d(tag, "preparing: 19");
         }
@@ -854,7 +851,7 @@ public class VideoShareTask208 {
             } else {
                 msg = "保存视频信息失败";
             }
-            status = Contants.STATUS_END;
+            status = Contants.STATUS_FAILURE;
             h.sendEmptyMessage(0);
         }
     }

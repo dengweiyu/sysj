@@ -1,7 +1,6 @@
 package com.li.videoapplication.ui.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -9,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
@@ -25,8 +22,7 @@ import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.dialog.VideoManagerRenameDialog;
-import com.li.videoapplication.ui.toast.ToastHelper;
-import com.li.videoapplication.utils.ScreenUtil;
+import com.li.videoapplication.tools.ToastHelper;
 
 import java.io.File;
 import java.io.FileInputStream;

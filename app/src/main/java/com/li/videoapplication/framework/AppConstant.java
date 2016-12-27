@@ -8,8 +8,11 @@ public class AppConstant {
 	public static boolean DOWNLOAD = true;
 
 	public static final String SYSJ = "sysj";
+	public static final String API_SERVER = "http://apps.ifeimo.com";//服务器域名
 	public static final String SYSJ_ANDROID = "a_sysj";
 	public static final String SYSJ_IOS = "i_sysj";
+
+	public static final boolean DEBUG = true;
 
 	public static final int USER_COVER_WIDTH = 720;
 	public static final int USER_COVER_HEIGHT = 480;

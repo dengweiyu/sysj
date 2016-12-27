@@ -1,23 +1,18 @@
 package com.li.videoapplication.ui.fragment;
 
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.response.DynamicDotEntity;
-import com.li.videoapplication.data.model.response.MessageMsgRedEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
-import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.mvp.billboard.view.BillboardActivity;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.views.CircleImageView;
 
 /**
@@ -51,7 +46,9 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
 
         view.findViewById(R.id.discover_recommend).setOnClickListener(this);
         view.findViewById(R.id.discover_square).setOnClickListener(this);
-        view.findViewById(R.id.discover_billboard).setOnClickListener(this);
+        view.findViewById(R.id.discover_rewardbillboard).setOnClickListener(this);
+        view.findViewById(R.id.discover_playerbillboard).setOnClickListener(this);
+        view.findViewById(R.id.discover_videobillboard).setOnClickListener(this);
         view.findViewById(R.id.discover_dynamic).setOnClickListener(this);
         view.findViewById(R.id.discover_activity).setOnClickListener(this);
         view.findViewById(R.id.discover_gift).setOnClickListener(this);
@@ -97,9 +94,19 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
                 ActivityManeger.startSquareActivity(getActivity());
                 break;
 
-            case R.id.discover_billboard:
-                ActivityManeger.startBillboardActivity(getActivity());
-                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "风云榜");
+            case R.id.discover_rewardbillboard:
+                ActivityManeger.startMatchReswardBillboardActivity(getActivity());
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "奖金榜");
+                break;
+
+            case R.id.discover_playerbillboard:
+                ActivityManeger.startBillboardActivity(getActivity(), BillboardActivity.TYPE_PLAYER);
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "玩家榜");
+                break;
+
+            case R.id.discover_videobillboard:
+                ActivityManeger.startBillboardActivity(getActivity(), BillboardActivity.TYPE_VIDEO);
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "视频榜");
                 break;
 
             case R.id.discover_dynamic:

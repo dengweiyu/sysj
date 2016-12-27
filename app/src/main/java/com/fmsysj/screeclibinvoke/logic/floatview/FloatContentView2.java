@@ -20,7 +20,7 @@ import com.ifeimo.screenrecordlib.Utils;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.fmsysj.screeclibinvoke.data.observe.ObserveManager;
 import com.fmsysj.screeclibinvoke.data.observe.listener.FrontCameraObservable;
 import com.fmsysj.screeclibinvoke.data.observe.listener.Recording2Observable;

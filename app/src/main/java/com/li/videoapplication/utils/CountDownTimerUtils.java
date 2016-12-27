@@ -9,6 +9,7 @@ import android.widget.TextView;
 public class CountDownTimerUtils extends CountDownTimer {
     private TextView countDownTextView;
     private int countingRes, normalRes;
+    private ICountDownFinish callback;
 
     /*
     * millisInFuture:总时间
@@ -22,6 +23,16 @@ public class CountDownTimerUtils extends CountDownTimer {
         this.countDownTextView = countDownTextView;
         this.countingRes = countingRes;
         this.normalRes = normalRes;
+    }
+
+    public CountDownTimerUtils(TextView countDownTextView, long millisInFuture, long countDownInterval,
+                               int countingRes, int normalRes, ICountDownFinish callback) {
+        super(millisInFuture, countDownInterval);
+
+        this.countDownTextView = countDownTextView;
+        this.countingRes = countingRes;
+        this.normalRes = normalRes;
+        this.callback = callback;
     }
 
     @Override
@@ -38,6 +49,11 @@ public class CountDownTimerUtils extends CountDownTimer {
         countDownTextView.setClickable(true);
         countDownTextView.setText("获取验证码");
         countDownTextView.setBackgroundResource(normalRes);
+        if (callback != null)
+            callback.onFinish();
     }
 
+    public interface ICountDownFinish {
+        void onFinish();
+    }
 }

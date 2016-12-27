@@ -13,7 +13,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Tag;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.ui.activity.VideoShareActivity210;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 
 import java.util.List;
 

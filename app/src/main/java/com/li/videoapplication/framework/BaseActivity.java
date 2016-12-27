@@ -61,7 +61,7 @@ public abstract class BaseActivity extends FragmentActivity implements IBaseActi
 
 	@Override
 	public void loadData() {
-		Log.d(tag, "loadData");
+		Log.d(tag, "loadHomeData");
 	}
 
 	@Override

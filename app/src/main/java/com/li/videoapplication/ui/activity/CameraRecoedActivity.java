@@ -2,7 +2,7 @@ package com.li.videoapplication.ui.activity;
 
 import android.graphics.Bitmap;
 import android.hardware.Camera;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -12,18 +12,14 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
-import com.li.videoapplication.data.image.VideoTimeLoader;
-import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.network.UITask;
-import com.li.videoapplication.data.qrcode.camera.CameraManager;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.data.record.CameraListener;
 import com.li.videoapplication.data.record.CameraView;
-import com.li.videoapplication.ui.toast.ToastHelper;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -58,7 +54,7 @@ public class CameraRecoedActivity extends TBaseActivity implements OnClickListen
 
     private void startVideoShareActivity() {
         if (entity != null) {
-            ActivityManeger.startVideoShareActivity(this, entity, game);
+            ActivityManeger.startVideoShareActivity210(this, entity, game);
             finish();
         }
     }
@@ -276,7 +272,7 @@ public class CameraRecoedActivity extends TBaseActivity implements OnClickListen
 
         @Override
         public void onRecorderFinish(Bitmap bitmap, String path) {
-
+            Log.i(TAG, "onRecorderFinish: path == "+path);
             File file = null;
             try {
                 file = new File(path);
@@ -284,6 +280,7 @@ public class CameraRecoedActivity extends TBaseActivity implements OnClickListen
                 e.printStackTrace();
             }
             if (file != null && file.isFile()) {
+                Log.i(TAG, "onRecorderFinish2: path == "+path);
                 CameraRecoedActivity.this.path = path;
                 showToastShort("录制成功");
                 saveDatabase(path);

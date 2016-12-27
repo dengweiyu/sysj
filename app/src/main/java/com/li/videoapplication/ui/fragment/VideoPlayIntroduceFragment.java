@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
@@ -14,11 +13,9 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.toast.ToastHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.RoundedImageView;
-
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
  * 碎片：视频播放/游戏简介

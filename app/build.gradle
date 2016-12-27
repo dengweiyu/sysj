@@ -37,8 +37,8 @@ android {
         minSdkVersion 18
         targetSdkVersion 22
         // 20160628 2.0.7  test:20151105,1.1.7
-        versionCode 20161116
-        versionName "2.1.2"
+        versionCode 20161227
+        versionName "2.1.4"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
         multiDexEnabled true
@@ -135,10 +135,7 @@ dependencies {
     compile project(':lib-emojix')
     // 极光推送
     compile project(':JPush')
-    // 播放器
-    compile files('libs/ijkmediaplayer.jar')
-    compile files('libs/pldroid-player-1.1.1.jar')
-    // 注解
+    // butterknife注解
     compile 'com.jakewharton:butterknife:8.1.0'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
     // 录屏
@@ -146,8 +143,20 @@ dependencies {
     // 视频剪辑
     compile 'com.googlecode.mp4parser:isoparser:1.1.21'
     //recyclerview框架帮助库
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v2.0.0'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v2.6.0'
     //乐播
     compile files('libs/hpplay_link_shouyou.jar')
     compile files('libs/android_for_sdk_1.7.jar')
+    // 播放器
+    compile 'com.qiniu.pili:pili-android-qos:0.8.+'
+    compile files('libs/pldroid-player-1.4.0.jar')
+    // 网络请求采用的是 RxJava + Retrofit2.0 + okhttp + RxCache
+    compile 'io.reactivex:rxjava:1.1.8'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    compile 'com.github.VictorAlbertos.RxCache:core:1.4.6'
+    // 图片加载框架 glide
+    compile 'com.github.bumptech.glide:glide:3.7.0'
 }

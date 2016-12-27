@@ -5,15 +5,20 @@ import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.event.LoginEvent;
+import com.li.videoapplication.data.model.response.GetDetailModeEntity;
 import com.li.videoapplication.data.model.response.GetMatchInfo208Entity;
+import com.li.videoapplication.data.model.response.MemberTaskEntity;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.ui.ActivityManeger;
@@ -33,26 +38,30 @@ import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdap
  * 活动：活动详情
  */
 @SuppressLint({"SetJavaScriptEnabled", "CutPasteId"})
-public class ActivityDetailActivity208 extends TBaseAppCompatActivity implements OnClickListener {
+public class ActivityDetailActivity208 extends TBaseAppCompatActivity implements OnClickListener, ViewPager.OnPageChangeListener {
 
     public Match match;
     private List<Fragment> fragments;
     public String match_id;
     private TextView tb_title;
-    private ActivityRulesFragment activityRulesFragment;
     private JoinActivityFragment joinActivityFragment;
+    private ViewPager mViewPager;
+    private TabLayout tabLayout;
+    private GetDetailModeEntity event;
+    private ImageView tb_share;
+    private String share_url;
 
     /**
      * 分享
      */
     public void startShareActivity() {
-        if (match != null) {
-            final String url = match.getUrl();
-            final String title = "精彩活动分享";
-            final String imageUrl = match.getFlag();
-            final String content = "快来看看" + match.getTitle();
+        if (event != null && !StringUtil.isNull(share_url)) {
 
-            ActivityManeger.startActivityShareActivity4VideoPlay(this, url, title, imageUrl, content);
+            final String title = event.getTitle();
+            final String imageUrl = event.getFlag();
+            final String content = event.getShare_description();
+
+            ActivityManeger.startActivityShareActivity4VideoPlay(this, share_url, title, imageUrl, content);
         }
     }
 
@@ -83,8 +92,11 @@ public class ActivityDetailActivity208 extends TBaseAppCompatActivity implements
     public void initView() {
         super.initView();
         findViewById(R.id.tb_back).setOnClickListener(this);
-        findViewById(R.id.tb_share).setOnClickListener(this);
+
+        tb_share = (ImageView) findViewById(R.id.tb_share);
         tb_title = (TextView) findViewById(R.id.tb_title);
+
+        tb_share.setOnClickListener(this);
         initViewPager();
     }
 
@@ -93,33 +105,59 @@ public class ActivityDetailActivity208 extends TBaseAppCompatActivity implements
         super.loadData();
         //活动详情
         DataManager.getMatchInfo208(match_id);
-
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                joinActivityFragment.onRefresh();
-            }
-        }, 200);
+        //tab
+        DataManager.getDetailMode(match_id, getMember_id());
     }
 
     private void initViewPager() {
+        joinActivityFragment = new JoinActivityFragment();
+
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        new HorizontalOverScrollBounceEffectDecorator(new ViewPagerOverScrollDecorAdapter(mViewPager));
+        mViewPager.addOnPageChangeListener(this);
+        mViewPager.setOffscreenPageLimit(2);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+    }
+
+    //tab内容读取接口，故对应的fragment顺序要跟着对应的tab
+    private void setTabAndFragment(GetDetailModeEntity event) {
+        Log.d(tag, "setTabAndFragment: ");
+        List<GetDetailModeEntity.Tab> tab = event.getTab();
+        String[] tabTitle = new String[tab.size()];
+        refreshShareBtn(0);
         if (fragments == null) {
             fragments = new ArrayList<>();
 
-            activityRulesFragment = new ActivityRulesFragment();
-            joinActivityFragment = new JoinActivityFragment();
-            fragments.add(activityRulesFragment);
-            fragments.add(joinActivityFragment);
+            for (int i = 0; i < tab.size(); i++) {
+                tabTitle[i] = tab.get(i).getName();
+                switch (tab.get(i).getType()) {//类型，1=>原生活动参与内容列表，2=>url外链
+                    case 1://参与内容列表
+                        fragments.add(joinActivityFragment);
+                        break;
+                    case 2://url外链
+                        ActivityRulesFragment web = new ActivityRulesFragment();
+                        fragments.add(web);
+                        web.setUrl(tab.get(i).getUrl());
+                        break;
+                }
+            }
         }
-
-        final String[] tabTitle = {"活动规则", "参加活动"};
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments, tabTitle);
-        ViewPager mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mViewPager.setAdapter(adapter);
-        new HorizontalOverScrollBounceEffectDecorator(new ViewPagerOverScrollDecorAdapter(mViewPager));
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+    }
+
+    private void refreshShareBtn(int tab) {
+        Log.d(tag, "refreshShareBtn: tab == " + tab);
+        if (event != null) {
+            share_url = event.getTab().get(tab).getShare_url();
+            if (StringUtil.isNull(share_url)) {
+                tb_share.setVisibility(View.INVISIBLE);
+            } else {
+                tb_share.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
@@ -137,8 +175,6 @@ public class ActivityDetailActivity208 extends TBaseAppCompatActivity implements
     private void refreshData() {
         if (match != null) {
             setTextViewText(tb_title, match.getTitle());
-            if (URLUtil.isURL(match.getUrl()) && !StringUtil.isNull(match.getUrl()))
-                activityRulesFragment.webView.loadUrl(match.getUrl());
         }
     }
 
@@ -151,5 +187,32 @@ public class ActivityDetailActivity208 extends TBaseAppCompatActivity implements
             match = event.getData();
             refreshData();
         }
+    }
+
+    /**
+     * 回调：活动 tab
+     */
+    public void onEventMainThread(GetDetailModeEntity event) {
+
+        if (event != null && event.isResult()) {
+            this.event = event;
+            setTabAndFragment(event);
+        }
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        Log.d(tag, "onPageSelected: position == " + position);
+        refreshShareBtn(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

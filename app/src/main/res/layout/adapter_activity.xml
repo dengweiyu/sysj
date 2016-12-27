@@ -14,7 +14,7 @@
         <!-- 292/94 -->
 
         <ImageView
-            android:id="@+id/activity_pic"
+            android:id="@+id/match_pic"
             android:layout_width="match_parent"
             android:layout_height="94dp"
             android:layout_alignParentTop="true"
@@ -29,12 +29,13 @@
             android:id="@+id/activity_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/activity_pic"
+            android:layout_below="@+id/match_pic"
             android:layout_marginLeft="9dp"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="采访时是个是个更合适采访时是个是个更合适采访时是个是个更合适采访时是个是个更合适"
+            android:text=""
+            android:hint="@string/loading_text"
             android:textColor="#888888"
             android:textSize="12sp"/>
 
@@ -71,7 +72,7 @@
             android:layout_marginRight="9dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="426好友已参加"
+            android:text=""
             android:textColor="#a9a9a9"
             android:textSize="11sp"/>
 
@@ -79,8 +80,8 @@
             android:id="@+id/activity_bg"
             android:layout_width="36dp"
             android:layout_height="21dp"
-            android:layout_alignRight="@+id/activity_pic"
-            android:layout_alignTop="@+id/activity_pic"
+            android:layout_alignRight="@+id/match_pic"
+            android:layout_alignTop="@+id/match_pic"
             android:layout_marginRight="-4dp"
             android:layout_marginTop="4dp"
             android:scaleType="fitXY"

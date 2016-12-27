@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * 适配器：日常奖励，荣誉奖励
  */
-public class DailyAdapter extends BaseQuickAdapter<Currency> {
+public class DailyAdapter extends BaseQuickAdapter<Currency, BaseViewHolder> {
     private static final String TAG = DailyAdapter.class.getSimpleName();
 
     private TextImageHelper helper;

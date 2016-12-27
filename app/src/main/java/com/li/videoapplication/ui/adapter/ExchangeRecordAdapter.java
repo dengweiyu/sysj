@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 适配器：兑换记录
  */
-public class ExchangeRecordAdapter extends BaseQuickAdapter<Currency> {
+public class ExchangeRecordAdapter extends BaseQuickAdapter<Currency, BaseViewHolder> {
 
     private TextImageHelper helper;
 

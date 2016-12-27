@@ -3,13 +3,12 @@ package com.li.videoapplication.ui.view;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.pili.pldroid.player.widget.VideoView;
-
+import com.pili.pldroid.player.widget.PLVideoView;
 
 /**
  * 视图：播放器
  */
-public class VideoPlayer extends VideoView implements IVideoPlayer {
+public class VideoPlayer extends PLVideoView implements IVideoPlayer {
 
     public VideoPlayer(Context context) {
         super(context);

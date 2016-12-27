@@ -67,6 +67,8 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
         name = (TextView) findViewById(R.id.mall_name);
         beanNum = (TextView) findViewById(R.id.mall_beannum);
         pic = (ImageView) findViewById(R.id.mall_pic);
+        abQuestion.setVisibility(View.VISIBLE);
+        abQuestion.setOnClickListener(this);
 
         mExpListView = (ExpandableListView) findViewById(R.id.mall_explistview);
         mExpListView.setGroupIndicator(null);//取消上下展开的图标
@@ -106,6 +108,9 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
         switch (v.getId()) {
             case R.id.mall_exchangerecord:
                 startExchangeRecordActivity();
+                break;
+            case R.id.ab_question:
+                WebActivityJS.startWebActivityJS(this,"http://m.17sysj.com/help/wallet","视界商城说明");
                 break;
         }
     }

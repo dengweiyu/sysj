@@ -2,6 +2,8 @@ package com.li.videoapplication.ui.activity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
@@ -24,295 +26,267 @@ import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.ShareSDKLoginHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
+import com.li.videoapplication.utils.CountDownTimerUtils;
 import com.li.videoapplication.utils.PatternUtil;
 import com.li.videoapplication.utils.StringUtil;
+
 /**
  * 活动：登录
  */
-public class LoginActivity extends TBaseActivity implements OnClickListener, OnCheckedChangeListener {
+public class LoginActivity extends TBaseActivity implements OnClickListener,
+        OnCheckedChangeListener, TextWatcher {
 
-	/**
-	 * 跳转：个人资料
-	 */
-	public void startMyPersonalInfoActivity() {
-		ActivityManeger.startMyPersonalInfoActivity(this);
-	}
+    private EditText phone;
+    private EditText code;
+    private TextView get;
+    private TextView submit;
 
-	private EditText phone;
-	private EditText code;
-	private TextView get;
-	private TextView submit;
-	private CheckBox deal;
-	private RelativeLayout qq;
-	private RelativeLayout wx;
-	private RelativeLayout wb;
+    private String mobilePhone;
 
-	private boolean isFromChat = false;
-	private String event_id;
+    private ShareSDKLoginHelper loginHelper = new ShareSDKLoginHelper();
 
-	private TimeCount mTimeCount;
+    private String getPhoneText() {
+        return phone.getText().toString().trim();
+    }
 
-	private String mobilePhone;
-	
-	private ShareSDKLoginHelper loginHelper = new ShareSDKLoginHelper();
+    private String getCodeText() {
+        return code.getText().toString().trim();
+    }
 
-	private String getPhoneText() {
-		return phone.getText().toString().trim();
-	}
+    @Override
+    public int getContentView() {
+        return R.layout.activity_login;
+    }
 
-	private String getCodeText() {
-		return code.getText().toString().trim();
-	}
+    public int inflateActionBar() {
+        return R.layout.actionbar_second;
+    }
 
-	@Override
-	public void refreshIntent() {
-		super.refreshIntent();
-		try {
-			isFromChat = getIntent().getBooleanExtra("isFromChat", false);
-			event_id = getIntent().getStringExtra("event_id");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    @Override
+    public void afterOnCreate() {
+        super.afterOnCreate();
+        loginHelper.initSDK(this);
 
-	@Override
-	public int getContentView() {
-		return R.layout.activity_login;
-	}
+        setSystemBarBackgroundWhite();
+        setAbTitle(R.string.login_title);
+    }
 
-	public int inflateActionBar() {
-		return R.layout.actionbar_second;
-	}
+    @Override
+    public void initView() {
+        super.initView();
 
-	@Override
-	public void afterOnCreate() {
-		super.afterOnCreate();
-		loginHelper.initSDK(this);
+        phone = (EditText) findViewById(R.id.login_phone);
+        code = (EditText) findViewById(R.id.login_code);
+        get = (TextView) findViewById(R.id.login_get);
+        submit = (TextView) findViewById(R.id.login_submit);
+        CheckBox deal = (CheckBox) findViewById(R.id.login_deal);
 
-		setSystemBarBackgroundWhite();
-		setAbTitle(R.string.login_title);
-	}
+        get.setOnClickListener(this);
+        submit.setOnClickListener(this);
 
-	@Override
-	public void initView() {
-		super.initView();
+        findViewById(R.id.login_qq).setOnClickListener(this);
+        findViewById(R.id.login_wx).setOnClickListener(this);
+        findViewById(R.id.login_wb).setOnClickListener(this);
 
-		phone = (EditText) findViewById(R.id.login_phone);
-		code = (EditText) findViewById(R.id.login_code);
-		get = (TextView) findViewById(R.id.login_get);
-		submit = (TextView) findViewById(R.id.login_submit);
-		deal = (CheckBox) findViewById(R.id.login_deal);
-		qq = (RelativeLayout) findViewById(R.id.login_qq);
-		wx = (RelativeLayout) findViewById(R.id.login_wx);
-		wb = (RelativeLayout) findViewById(R.id.login_wb);
+        deal.setOnCheckedChangeListener(this);
+        deal.setChecked(true);
 
-		get.setOnClickListener(this);
-		submit.setOnClickListener(this);
-		qq.setOnClickListener(this);
-		wx.setOnClickListener(this);
-		wb.setOnClickListener(this);
+        onCheckedChanged(deal, deal.isChecked());
 
-		deal.setOnCheckedChangeListener(this);
-		deal.setChecked(true);
+        phone.setText("");
+        phone.addTextChangedListener(this);
+        code.addTextChangedListener(this);
+        submit.setFocusable(false);
+        submit.setClickable(false);
+        get.setFocusable(false);
+        get.setClickable(false);
+    }
 
-		onCheckedChanged(deal, deal.isChecked());
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
 
-		phone.setText("");
-	}
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		loginHelper.stopSDK(this);
-	}
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (getPhoneText().length() == 11) {
+            get.setBackgroundResource(R.drawable.dialog_registermobile_red);
+            get.setFocusable(true);
+            get.setClickable(true);
+            if (getCodeText().length() == 4) {
+                submit.setBackgroundResource(R.drawable.dialog_registermobile_red);
+                submit.setFocusable(true);
+                submit.setClickable(true);
+            }else {
+                submit.setBackgroundResource(R.drawable.login_pink);
+                submit.setFocusable(false);
+                submit.setClickable(false);
+            }
+        } else {
+            get.setBackgroundResource(R.drawable.login_pink);
+            get.setFocusable(false);
+            get.setClickable(false);
+        }
+    }
 
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            submit.setFocusable(true);
+            submit.setClickable(true);
+            if (getPhoneText().length() == 11 && getCodeText().length() == 4) {
+                submit.setBackgroundResource(R.drawable.dialog_registermobile_red);
+            } else {
+                submit.setBackgroundResource(R.drawable.login_pink);
+            }
+        } else {
+            submit.setFocusable(false);
+            submit.setClickable(false);
+            submit.setBackgroundResource(R.drawable.login_submit_gray);
+        }
+    }
 
-		if (isChecked) {
-			submit.setFocusable(true);
-			submit.setClickable(true);
-			submit.setBackgroundResource(R.drawable.login_submit_btn);
-		} else {
-			submit.setFocusable(false);
-			submit.setClickable(false);
-			submit.setBackgroundResource(R.drawable.login_submit_gray);
-		}
-	}
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.login_get:
+                msgRequestNew();
+                break;
 
-	@Override
-	public void onClick(View v) {
+            case R.id.login_submit:
+                verifyCodeNew();
+                break;
 
-		switch (v.getId()) {
+            case R.id.login_qq:
+                animationHelper.startAnimationShake(v);
+                loginHelper.qq();
+                break;
 
-		case R.id.login_get:
-			msgRequestNew();
-			break;
+            case R.id.login_wx:
+                animationHelper.startAnimationShake(v);
+                loginHelper.wx();
+                break;
 
-		case R.id.login_submit:
-			verifyCodeNew();
-			break;
+            case R.id.login_wb:
+                animationHelper.startAnimationShake(v);
+                loginHelper.wb();
+                break;
 
-		case R.id.login_qq:
-			animationHelper.startAnimationShake(v);
-			loginHelper.qq();
-			break;
+            default:
+                break;
+        }
+    }
 
-		case R.id.login_wx:
-			animationHelper.startAnimationShake(v);
-			loginHelper.wx();
-			break;
+    /**
+     * 获取验证码
+     */
+    private void msgRequestNew() {
+        if (StringUtil.isNull(getPhoneText())) {
+            showToastShort("手机号码不能为空");
+            animationHelper.startAnimationShake(phone);
+            return;
+        }
+        if (!PatternUtil.isMatchMobile(getPhoneText())) {
+            showToastShort("请输入正确的手机号");
+            animationHelper.startAnimationShake(code);
+            return;
+        }
+        // 获取验证码
+        DataManager.msgRequestNew(getPhoneText());
+    }
 
-		case R.id.login_wb:
-			animationHelper.startAnimationShake(v);
-			loginHelper.wb();
-			break;
+    /**
+     * 提交手机和验证码
+     */
+    private void verifyCodeNew() {
+        if (StringUtil.isNull(getPhoneText())) {
+            showToastShort("手机号码不能为空");
+            animationHelper.startAnimationShake(phone);
+            return;
+        }
+        if (!PatternUtil.isMatchMobile(getPhoneText())) {
+            showToastShort("填入的不是手机号码");
+            animationHelper.startAnimationShake(phone);
+            return;
+        }
+        if (StringUtil.isNull(getCodeText())) {
+            showToastShort("验证码不能为空");
+            animationHelper.startAnimationShake(code);
+            return;
+        }
 
-		default:
-			break;
-		}
-	}
+        // 提交手机和验证码
+        DataManager.verifyCodeNew(getPhoneText(), getCodeText());
+        mobilePhone = getPhoneText();
+        showProgressDialog(LoadingDialog.LOHIN);
+    }
 
-	/**
-	 * 获取验证码倒计时
-	 */
-	private class TimeCount extends CountDownTimer {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        loginHelper.stopSDK(this);
+    }
 
-		public TimeCount(long millisInFuture, long countDownInterval) {
-			super(millisInFuture, countDownInterval);
-		}
+    /**
+     * 回调:取验证码
+     */
+    public void onEventMainThread(MsgRequestNewEntity event) {
+        if (event != null) {
+            showToastShort(event.getMsg());
+            if (event.isResult()) {
+                new CountDownTimerUtils(get, 60000, 1000,
+                        R.drawable.dialog_registermobile_gray, R.drawable.dialog_registermobile_red,
+                        new CountDownTimerUtils.ICountDownFinish() {
+                            @Override
+                            public void onFinish() {
+                                phone.addTextChangedListener(LoginActivity.this);
+                                code.addTextChangedListener(LoginActivity.this);
+                            }
+                        }).start();
+                phone.removeTextChangedListener(this);
+                code.removeTextChangedListener(this);
+            }
+        }
+    }
 
-		@Override
-		public void onFinish() {// 计时完毕
-			get.setFocusable(true);
-			get.setClickable(true);
-			get.setText("获取验证码");
-			get.setBackgroundResource(R.drawable.login_get_btn);
-		}
+    /**
+     * 回调:提交手机和验证码
+     */
+    public void onEventMainThread(VerifyCodeNewEntity event) {
+        if (event != null) {
+            if (event.isResult()) {
+                // 登录
+                DataManager.login(mobilePhone);
+            } else {
+                dismissProgressDialog();
+                showToastShort(event.getMsg());
+            }
+        }
+    }
 
-		@Override
-		public void onTick(long millisUntilFinished) {// 计时过程
-			get.setText("重新发送(" + millisUntilFinished / 1000 + ")");
-			get.setFocusable(false);
-			get.setClickable(false);
-			get.setBackgroundResource(R.drawable.login_get_pressed);
-		}
-	}
+    /**
+     * 回调:登录
+     */
+    public void onEventMainThread(LoginEntity event) {
+        if (event != null) {
+            if (event.isResult()) {
+                showToastShort("登录成功");
+                DataManager.userProfilePersonalInformation(getMember_id(), getMember_id());
+                UITask.postDelayed(new Runnable() {
 
-	/**
-	 * 获取验证码
-	 */
-	private void msgRequestNew() {
-		if (StringUtil.isNull(getPhoneText())) {
-			showToastShort("手机号码不能为空");
-			animationHelper.startAnimationShake(phone);
-			return;
-		}
-		if (!PatternUtil.isMatchMobile(getPhoneText())) {
-			showToastShort("请输入正确的手机号");
-			animationHelper.startAnimationShake(code);
-			return;
-		}
-		// 获取验证码
-		DataManager.msgRequestNew(getPhoneText());
-		mTimeCount = new TimeCount(60000, 1000);
-		mTimeCount.start();
-	}
-
-	/**
-	 * 提交手机和验证码
-	 */
-	private void verifyCodeNew() {
-		if (StringUtil.isNull(getPhoneText())) {
-			showToastShort("手机号码不能为空");
-			animationHelper.startAnimationShake(phone);
-			return;
-		}
-		if (!PatternUtil.isMatchMobile(getPhoneText())) {
-			showToastShort("填入的不是手机号码");
-			animationHelper.startAnimationShake(phone);
-			return;
-		}
-		if (StringUtil.isNull(getCodeText())) {
-			showToastShort("验证码不能为空");
-			animationHelper.startAnimationShake(code);
-			return;
-		}
-		
-		// 提交手机和验证码
-		DataManager.verifyCodeNew(getPhoneText(), getCodeText());
-		mobilePhone = getPhoneText();
-		showProgressDialog(LoadingDialog.LOHIN);
-	}
-
-	/**
-	 * 回调:取验证码
-	 */
-	public void onEventMainThread(MsgRequestNewEntity event) {
-
-		if (event != null) {
-			boolean result = event.isResult();
-			String msg = event.getMsg();
-			if (result) {// 成功
-				showToastShort(msg);
-			}
-		} else {
-			// showToastShort("验证码发送失败！请重新发送");
-		}
-	}
-
-	/**
-	 * 回调:提交手机和验证码
-	 */
-	public void onEventMainThread(VerifyCodeNewEntity event) {
-
-		if (event != null) {
-			boolean result = event.isResult();
-			String msg = event.getMsg();
-			if (result) {// 成功
-				// showToastShort(msg);
-				// 登录
-				DataManager.login(mobilePhone);
-				return;
-			}
-		}
-		if (mTimeCount != null) {
-			mTimeCount.onFinish();
-		}
-		dismissProgressDialog();
-		showToastShort("登录失败！");
-	}
-
-	/**
-	 * 回调:登录
-	 */
-	public void onEventMainThread(LoginEntity event) {
-
-		if (event != null) {
-			if (event.isResult()) {// 成功
-				showToastShort("登录成功");
-
-				DataManager.userProfilePersonalInformation(getMember_id(), getMember_id());
-				if (isFromChat) {
-					//赛事详情
-					AppManager.getInstance().removeActivity(GameMatchDetailActivity.class);
-					ActivityManeger.startGameMatchDetailActivityNewTask(this, event_id);
-				}/*else {
-					// 个人资料
-					startMyPersonalInfoActivity();
-				}*/
-				UITask.postDelayed(new Runnable() {
-
-					@Override
-					public void run() {
-						AppAccount.login();
-					}
-				}, 400);
-				finish();
-				return;
-			}
-		}
-		dismissProgressDialog();
-		showToastShort("登录失败！");
-	}
+                    @Override
+                    public void run() {
+                        AppAccount.login();
+                    }
+                }, 400);
+                finish();
+            } else {
+                showToastShort(event.getMsg());
+            }
+        }
+        dismissProgressDialog();
+    }
 }

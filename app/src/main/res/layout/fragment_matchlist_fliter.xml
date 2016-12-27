@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fafafa">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="9dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingEnd="9dp"
+            android:paddingStart="9dp">
+
+            <TextView
+                android:id="@+id/fliter_topbar_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="默认："
+                android:textColor="@color/textcolor_gray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/fliter_topbar_middle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="全部游戏 | 官方淘汰赛"
+                android:textColor="@color/textcolor_gray"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/fliter_topbar_right"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:padding="11dp"
+                android:src="@drawable/matchfliter_red" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_bg" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:drawableLeft="@drawable/signup_rec_red"
+            android:drawablePadding="6dp"
+            android:text="选择游戏"
+            android:textColor="@color/text_color"
+            android:textSize="14sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fliter_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="6dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginEnd="9dp"
+            android:layout_marginStart="9dp"
+            android:background="@color/divider_bg" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:drawableLeft="@drawable/signup_rec_red"
+            android:drawablePadding="6dp"
+            android:text="赛事类型"
+            android:textColor="@color/text_color"
+            android:textSize="14sp" />
+
+        <RadioGroup
+            android:id="@+id/fliter_type_radiogroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/fliter_type_official"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_weight="1"
+                android:background="@drawable/radiobtn_bg_red"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingEnd="14dp"
+                android:paddingStart="14dp"
+                android:paddingTop="8dp"
+                android:text="官方淘汰赛"
+                android:textColor="@drawable/radiobtn_textcolor"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/fliter_type_invite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_weight="1"
+                android:background="@drawable/radiobtn_bg_red"
+                android:button="@null"
+                android:checked="false"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingEnd="14dp"
+                android:paddingStart="14dp"
+                android:paddingTop="8dp"
+                android:text="邀请淘汰赛"
+                android:textColor="@drawable/radiobtn_textcolor"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/fliter_type_anchor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_weight="1"
+                android:background="@drawable/radiobtn_bg_red"
+                android:button="@null"
+                android:checked="false"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingEnd="14dp"
+                android:paddingStart="14dp"
+                android:paddingTop="8dp"
+                android:text="主播淘汰赛"
+                android:textColor="@drawable/radiobtn_textcolor"
+                android:textSize="14sp" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/fliter_default"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector_gray"
+            android:gravity="center"
+            android:text="恢复默认"
+            android:textColor="@color/textcolor_gray"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/fliter_confirm"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:background="@drawable/radiobtn_bg_red"
+            android:gravity="center"
+            android:text="确认"
+            android:textColor="@color/menu_main_red"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_above="@+id/bottomview"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:divider="@color/divider_bg"/>
+
+</RelativeLayout>

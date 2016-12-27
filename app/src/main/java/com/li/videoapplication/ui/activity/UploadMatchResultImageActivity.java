@@ -1,5 +1,6 @@
 package com.li.videoapplication.ui.activity;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -15,11 +16,13 @@ import com.li.videoapplication.data.upload.Contants;
 import com.li.videoapplication.data.upload.ImageShareResponseObject;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.BitmapHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.adapter.ResultImageUploadAdapter;
 import com.li.videoapplication.utils.TextUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +39,7 @@ public class UploadMatchResultImageActivity extends TBaseActivity implements Vie
     private String pk_id, team_id;
     private Match matchDetailMatch;
     private String is_last, customer_service, name, over_time;
+    private File tempImage;
 
     @Override
     public void refreshIntent() {
@@ -135,6 +139,7 @@ public class UploadMatchResultImageActivity extends TBaseActivity implements Vie
      * 上传图文到服务器
      */
     private void uploadImage() {
+        compressBitmap();//压缩图片（最大500k）
         List<ScreenShotEntity> list = new ArrayList<>();
         list.addAll(data);
         list.remove(list.size() - 1);
@@ -143,14 +148,25 @@ public class UploadMatchResultImageActivity extends TBaseActivity implements Vie
         DataManager.UPLOAD.uploadImage204(pk_id, getMember_id(), list, team_id);
     }
 
+    //压缩图片（最大500k）
+    private void compressBitmap() {
+        try {
+            for (int i = 0; i < data.size() - 1; i++) {
+                Log.d(tag, "uploadImage: origin ImagePath == " + data.get(i).getPath());
+                String tempImagePath = BitmapHelper.compressBitmap(data.get(i).getPath(), 500.00);
+                tempImage = new File(tempImagePath);
+                Log.d(tag, "uploadImage: temp ImagePath == " + tempImagePath);
+                data.get(i).setPath(tempImagePath);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static final int STATUS_START = Contants.STATUS_START;
-
     public static final int STATUS_PREPARING = Contants.STATUS_PREPARING;
-
     public static final int STATUS_UPLOADING = Contants.STATUS_UPLOADING;
-
     public static final int STATUS_COMPLETING = Contants.STATUS_COMPLETING;
-
     public static final int STATUS_END = Contants.STATUS_END;
 
     /**
@@ -170,6 +186,10 @@ public class UploadMatchResultImageActivity extends TBaseActivity implements Vie
             setProgressText("正在上传");
         } else if (status == STATUS_END) {
             dismissProgressDialog();
+            if (tempImage.exists()) {
+                boolean delete = tempImage.delete();
+                Log.d(tag, "uploadImage: tempImage.delete(): " + delete);
+            }
             if (result) {
                 dismissProgressDialog();
             } else
