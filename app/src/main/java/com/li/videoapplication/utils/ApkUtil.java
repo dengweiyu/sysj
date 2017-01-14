@@ -8,8 +8,10 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 
 
@@ -49,7 +51,7 @@ public class ApkUtil {
             return null;
         PackageManager packageManager = context.getPackageManager();
         PackageInfo info = packageManager.getPackageArchiveInfo(filePath, PackageManager.GET_ACTIVITIES);
-        if(info != null){
+        if (info != null) {
             ApplicationInfo applicationInfo = info.applicationInfo;
             // String lable = packageManager.getApplicationLabel(applicationInfo).toString();
             String packageName = applicationInfo.packageName;// 得到安装包名称
@@ -72,8 +74,8 @@ public class ApkUtil {
             return false;
         final PackageManager packageManager = context.getPackageManager();
         List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
-        for ( int i = 0; i < packageInfos.size(); i++ ) {
-            if(packageInfos.get(i).packageName.equalsIgnoreCase(packageName))
+        for (int i = 0; i < packageInfos.size(); i++) {
+            if (packageInfos.get(i).packageName.equalsIgnoreCase(packageName))
                 return true;
         }
         return false;
@@ -146,20 +148,47 @@ public class ApkUtil {
     /**
      * 安装应用
      */
-    public static void openFile(Intent intent,Context context){
+    public static void openFile(Intent intent, Context context) {
         //拿到下载的Id
-        long myDownLoadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID,-1);
-        SharedPreferences preferences = context.getSharedPreferences("downloadcomplete",0);
-        long refence = preferences.getLong("refernece",0);
+        long myDownLoadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+        SharedPreferences preferences = context.getSharedPreferences("downloadcomplete", 0);
+        long refence = preferences.getLong("refernece", 0);
 
         //如果是我们下载完成后发送的广播消息,那么启动并安装
-        if (refence == myDownLoadId){
+        if (refence == myDownLoadId) {
             DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
             Intent updateApk = new Intent(Intent.ACTION_VIEW);
             Uri downloadFileUri = downloadManager.getUriForDownloadedFile(myDownLoadId);
             updateApk.setDataAndType(downloadFileUri, "application/vnd.android.package-archive");
             updateApk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(updateApk);
+        }
+    }
+
+    /**
+     * 安装应用 20170106
+     */
+    public static void installAPK(Context context, Intent intent) {
+        Log.d(TAG, "installAPK: ");
+        File file;
+        DownloadManager manager = (DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager.Query query = new DownloadManager.Query();
+        //在广播中取出下载任务的id
+        long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+        query.setFilterById(id);
+        Cursor c = manager.query(query);
+        if(c.moveToFirst()) {
+            //获取文件下载路径
+            String filename = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME));
+            Log.d(TAG, "installAPK: filename = "+filename);
+            //如果文件名不为空，说明已经存在了，拿到文件名想干嘛都好
+            if(filename != null){
+                Intent updateApk = new Intent(Intent.ACTION_VIEW);
+                updateApk.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                file = new File(filename);
+                updateApk.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+                context.startActivity(updateApk);
+            }
         }
     }
 
@@ -221,7 +250,7 @@ public class ApkUtil {
         Log.d(TAG, "finishApp: context=" + context);
         runningTasks(context);
     }
-    
+
     public static List<ActivityManager.RunningTaskInfo> runningTasks(Context context) {
         Log.d(TAG, "runningTasks: // ----------------------------------------------------------");
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);

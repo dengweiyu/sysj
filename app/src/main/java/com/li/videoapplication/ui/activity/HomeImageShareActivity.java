@@ -24,6 +24,7 @@ import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.BitmapHelper;
 import com.li.videoapplication.tools.BitmapLoader;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.adapter.ResultImageUploadAdapter;
 import com.li.videoapplication.ui.popupwindows.MoreTypePopupWindow;
@@ -167,12 +168,8 @@ public class HomeImageShareActivity extends TBaseActivity implements
                     e.printStackTrace();
                 }
 
-                postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        showPopupWindow();
-                    }
-                }, 400);
+                ActivityManeger.startSearchGameActivity(this);
+                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MACROSCOPIC_DATA, "手机游戏");
                 break;
 
             case R.id.homeimageupload_share:// 立即分享
@@ -211,22 +208,6 @@ public class HomeImageShareActivity extends TBaseActivity implements
                 uploadImage();
                 break;
         }
-    }
-
-    /**
-     * 选择视频类型
-     */
-    private MoreTypePopupWindow popupWindow;
-
-    private void showPopupWindow() {
-        dismissPopupWindow();
-        popupWindow = new MoreTypePopupWindow(this, typeArrow, isHideLife);
-        popupWindow.showPopupWindow(type);
-    }
-
-    private void dismissPopupWindow() {
-        if (popupWindow != null && popupWindow.isShowing())
-            popupWindow.dismiss();
     }
 
     /***

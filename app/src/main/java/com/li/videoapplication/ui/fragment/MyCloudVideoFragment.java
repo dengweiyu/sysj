@@ -122,19 +122,13 @@ public class MyCloudVideoFragment extends TBaseFragment implements PullToRefresh
     public void onEventMainThread(AuthorVideoList2Entity event) {
         onRefreshComplete();
         if (event.isResult()) {
-            if (event.getData() != null
-                    && event.getData().getList() != null
-                    && event.getData().getList().size() > 0) {
+            if (event.getData() != null && event.getData().getList() != null) {
                 if (page == 1) {
                     data.clear();
                 }
                 data.addAll(event.getData().getList());
                 adapter.notifyDataSetChanged();
                 ++ page;
-            } else if (event.getData() != null
-                    && event.getData().getList() != null
-                    && event.getData().getList().size() == 0){
-                showToastShort("没有更多了");
             }
         }
         refreshContentView();

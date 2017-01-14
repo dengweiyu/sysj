@@ -9,8 +9,6 @@ import com.li.videoapplication.framework.BaseResponseEntity;
 public class IndexLaunchImageEntity extends BaseResponseEntity {
 	
 	private List<LaunchImage> data;
-	
-	private int changetime;
 
 	public List<LaunchImage> getData() {
 		return data;
@@ -18,13 +16,5 @@ public class IndexLaunchImageEntity extends BaseResponseEntity {
 
 	public void setData(List<LaunchImage> data) {
 		this.data = data;
-	}
-
-	public int getChangetime() {
-		return changetime;
-	}
-
-	public void setChangetime(int changetime) {
-		this.changetime = changetime;
 	}
 }

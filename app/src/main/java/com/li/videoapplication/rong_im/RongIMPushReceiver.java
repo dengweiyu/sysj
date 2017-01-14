@@ -33,7 +33,7 @@ public class RongIMPushReceiver extends PushMessageReceiver {
 
         String targetId = pushNotificationMessage.getTargetId();
         String targetUserName = pushNotificationMessage.getTargetUserName();
-        ActivityManeger.startConversationActivity(context,targetId,targetUserName,false);
+        ActivityManeger.startConversationActivity(context, targetId,targetUserName,false);
         return true;
     }
 }

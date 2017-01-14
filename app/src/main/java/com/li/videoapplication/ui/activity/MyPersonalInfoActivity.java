@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +46,7 @@ import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.CircleImageView;
 import com.li.videoapplication.views.HorizontalListView;
 
@@ -70,6 +72,13 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         ActivityManeger.startLoginActivity(this);
     }
 
+    /**
+     * 跳转：历史战绩
+     */
+    public void startMatchRecordActivity() {
+        ActivityManeger.startMatchRecordActivity(this);
+    }
+
     private PhotoHelper photoHelper = new PhotoHelper();
 
     /**
@@ -87,7 +96,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
     }
 
     private CircleImageView head;
-    private RelativeLayout headBtn, nameBtn, mobileBtn, beanBtn;
+    private RelativeLayout headBtn, nameBtn, mobileBtn, beanBtn,matchRecordBtn;
     private TextView name;
     private TextView gender;
     private RadioGroup genderRadio;
@@ -95,7 +104,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
     private RadioButton male;
     private TextView introduce;
     private EditText introduceEdit;
-    private TextView qq, mobile, beanNum;
+    private TextView qq, mobile, beanNum,matchRecord;
     private EditText qqEdit;
     private CheckBox publicCheck;
     private RelativeLayout logoutBtn;
@@ -184,7 +193,8 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         beanBtn = (RelativeLayout) findViewById(R.id.mypersonnalinfo_bean_btn);
         beanNum = (TextView) findViewById(R.id.mypersonnalinfo_bean_num);
         dividerBean = findViewById(R.id.divider_bean);
-
+        matchRecordBtn = (RelativeLayout) findViewById(R.id.mypersonnalinfo_matchrecord_btn);
+        matchRecord = (TextView) findViewById(R.id.mypersonnalinfo_matchrecord);
 
         genderRadio.setOnCheckedChangeListener(this);
         publicCheck.setOnCheckedChangeListener(this);
@@ -192,6 +202,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         introduceEdit.addTextChangedListener(getTextWatcher(introduceEdit));
         qqEdit.addTextChangedListener(getTextWatcher(qqEdit));
 
+        matchRecordBtn.setOnClickListener(this);
         mobileBtn.setOnClickListener(this);
         headBtn.setOnClickListener(this);
         nameBtn.setOnClickListener(this);
@@ -243,7 +254,9 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
     public void onClick(View v) {
 
         switch (v.getId()) {
-
+            case R.id.mypersonnalinfo_matchrecord_btn:
+                startMatchRecordActivity();
+                break;
             case R.id.mypersonnalinfo_mobile_btn:
                 if (adapter.getMode() == MyPersonalInfoAdapter.MODE_EDIT) {
                     DialogManager.showRegisterMobileDialog(this, getMobileText(), new RegisterMobileDialog.MobileCallback() {
@@ -301,7 +314,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
 
             case R.id.mypersonnalinfo_logout_btn:
                 AppAccount.logout();
-                startLoginActivity();
+                ToastHelper.s(R.string.logout_success);
                 finish();
                 break;
 
@@ -328,7 +341,6 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
         int display;
         if (isChecked)
             display = 1;
@@ -342,7 +354,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
 
         LogHelper.d(tag, "isChecked: " + isChecked);
         LogHelper.d(tag, "display: " + display);
-        // 编辑个人资料
+//         编辑个人资料
         DataManager.userProfileFinishMemberInfo(m);
         member.setDisplay(display);
     }
@@ -383,6 +395,10 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
             setTextViewText(qqEdit, item.getQq());
             setTextViewText(beanNum, StringUtil.formatNum(item.getCurrency()));
             setTextViewText(mobile, item.getMobile());
+            //红色：#ff3d2e，蓝色：#48c5ff
+            String record = TextUtil.toColor(item.getWin(), "#ff3d2e")
+                    + " / " + TextUtil.toColor(item.getFailure(), "#48c5ff");
+            matchRecord.setText(Html.fromHtml(record));
 
             if (item.getSex() == 1) {
                 male.setChecked(true);
@@ -652,7 +668,6 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
             if (event.isResult()) {
                 member = event.getData();
                 if (member != null) {
-                    Log.d(tag, "onEventMainThread: UserProfilePersonalInformationEntity refreshContentView");
                     refreshContentView(member);
                     refreshListView(member);
                     setContentNormal();

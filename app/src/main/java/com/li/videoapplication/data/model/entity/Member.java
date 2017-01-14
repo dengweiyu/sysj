@@ -64,6 +64,24 @@ public class Member extends BaseEntity {
 	private String token;
 	private boolean isV;
 	private String currency;
+	private String win;
+	private String failure;
+
+	public String getWin() {
+		return win;
+	}
+
+	public void setWin(String win) {
+		this.win = win;
+	}
+
+	public String getFailure() {
+		return failure;
+	}
+
+	public void setFailure(String failure) {
+		this.failure = failure;
+	}
 
 	public String getCurrency() {
 		return currency;

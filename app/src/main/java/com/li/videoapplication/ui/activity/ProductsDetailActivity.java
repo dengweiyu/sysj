@@ -5,6 +5,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.response.GoodsDetailEntity;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.tools.ToastHelper;
@@ -14,9 +15,17 @@ import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.RoundedImageView;
 
 import android.text.Html;
+import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.DownloadListener;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
  * 活动：商品详情
@@ -29,6 +38,8 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
     private TextView name, beam, illustration, ok;
     private String goods_id;
     private Currency data;
+    private WebView webView;
+    private int events;
 
     @Override
     public void refreshIntent() {
@@ -40,6 +51,11 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
         }
         if (StringUtil.isNull(goods_id)) {
             finish();
+        }
+        try {
+            events = getIntent().getIntExtra("events", 0);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -63,6 +79,7 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
     @Override
     public void initView() {
         super.initView();
+        webView = (WebView) findViewById(R.id.productsdetail_webview);
         pic = (RoundedImageView) findViewById(R.id.productsdetail_pic);
         contentPic = (ImageView) findViewById(R.id.productsdetail_contentpic);
         name = (TextView) findViewById(R.id.productsdetail_name);
@@ -76,6 +93,22 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
         double r = 750.00 / 520;
         int picH = (int) (screenWidth / r);
         contentPic.setMinimumHeight(picH);
+
+        if (events == 1) { //赛事冠名活动/主播推荐位
+            webView.setVisibility(View.VISIBLE);
+            ok.setVisibility(View.GONE);
+            initWebView();
+        }
+    }
+
+    private void initWebView() {
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setBuiltInZoomControls(false);//关闭缩放
+        webSettings.setDisplayZoomControls(false);//不显示缩放按钮
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setTextSize(WebSettings.TextSize.LARGER);
     }
 
     @Override
@@ -98,13 +131,18 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
                         case "2"://话费流量类
                         case "3"://Q币类
                         case "4"://京东卡类
+                        case "6"://战网兑换类
                             if (Integer.valueOf(data.getInventory()) > 0) {
-                                int myCurrency = Integer.valueOf(getUser().getCurrency());
+                                if (isLogin()) {
+                                    int myCurrency = Integer.valueOf(getUser().getCurrency());
 
-                                if (myCurrency >= Integer.valueOf(data.getCurrency_num())) {
-                                    DialogManager.showPaymentDialog(this, data);
+                                    if (myCurrency >= Integer.valueOf(data.getCurrency_num())) {
+                                        DialogManager.showPaymentDialog(this, data);
+                                    } else {
+                                        ToastHelper.s("飞磨豆不足");
+                                    }
                                 } else {
-                                    ToastHelper.s("飞磨豆不足");
+                                    DialogManager.showLogInDialog(this);
                                 }
                             } else {
                                 ToastHelper.s("商品已售罄");
@@ -122,12 +160,37 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
         setTextViewText(name, data.getName());
         setTextViewText(beam, StringUtil.formatNum(data.getCurrency_num()) + "飞磨豆");
 
-        String s = TextUtil.toColor("使用说明：","#575757") + data.getContent();
+        String s = TextUtil.toColor("使用说明：", "#575757") + data.getContent();
         illustration.setText(Html.fromHtml(s));
 
         if (!StringUtil.isNull(data.getExchange_way()) && data.getExchange_way().equals("1")) {
             setTextViewText(ok, "上传视频");
         }
+        if (events == 1) {
+            webView.loadData(data.getPage_html(), "text/html", "utf-8");
+            //加载、并显示HTML代码
+            webView.loadDataWithBaseURL(null, data.getPage_html(), "text/html", "utf-8", null);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        webView.onPause();
+        webView.pauseTimers();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        webView.onResume();
+        webView.resumeTimers();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        webView.destroy();
     }
 
     /**

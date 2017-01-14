@@ -8,10 +8,11 @@
     android:background="@drawable/button_main"
     android:clickable="true">
 
+    <!--12/7-->
     <ImageView
         android:id="@+id/match_pic"
-        android:layout_width="@dimen/kaka_133.7"
-        android:layout_height="78dp"
+        android:layout_width="@dimen/kaka_126"
+        android:layout_height="@dimen/kaka_73.5"
         android:layout_marginStart="9dp"
         android:layout_marginEnd="9dp"
         android:layout_marginTop="12dp"
@@ -23,7 +24,7 @@
         android:id="@+id/match_right"
         android:layout_width="match_parent"
         android:layout_toRightOf="@+id/match_pic"
-        android:layout_height="102dp"
+        android:layout_height="@dimen/kaka_97.5"
         android:orientation="vertical"
         android:paddingTop="12dp"
         android:paddingBottom="8dp"
@@ -126,6 +127,16 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="赛事结果"
+                android:paddingLeft="8dp"
+                android:textColor="@color/match_orange"
+                android:textSize="10sp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/activity_reward"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="获奖名单"
                 android:paddingLeft="8dp"
                 android:textColor="@color/match_orange"
                 android:textSize="10sp"

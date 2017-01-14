@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="@dimen/kaka_36"
+    android:layout_marginRight="@dimen/kaka_36"
+    android:background="@drawable/search_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="胜方"
+            android:textColor="@color/currency_red"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="必须上传胜利截图"
+            android:textColor="#565656"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/uploadpic_imgs_container"
+        android:layout_width="152dp"
+        android:layout_height="92dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="8dp" >
+
+        <ImageView
+            android:id="@+id/uploadpic_img1"
+            android:layout_width="140dp"
+            android:layout_height="80dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:visibility="gone"
+            android:scaleType="centerCrop"
+            android:src="#dedede"/>
+
+        <ImageView
+            android:id="@+id/uploadpic_img2"
+            android:layout_width="140dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:scaleType="centerCrop"
+            android:src="#8e8e8e"/>
+
+        <ImageView
+            android:id="@+id/uploadpic_img3"
+            android:layout_width="140dp"
+            android:layout_height="80dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:scaleType="centerCrop"
+            android:src="#262626"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/uploadpic_choose"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/uploadpic_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/currency_blue"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:text="上传截图"/>
+
+        <ImageView
+            android:layout_marginStart="8dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/camera_blue"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/uploadpic_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/button_gray"
+        android:gravity="center"
+        android:text="提交结果"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</LinearLayout>

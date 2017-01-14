@@ -27,11 +27,8 @@ public class OkHttp3Utils {
                     .writeTimeout(30, TimeUnit.SECONDS)
                     .readTimeout(30, TimeUnit.SECONDS)
                     .build();
-
         }
 
         return mOkHttpClient;
     }
-
-
 }

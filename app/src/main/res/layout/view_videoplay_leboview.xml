@@ -5,18 +5,13 @@
     android:layout_height="match_parent"
     android:background="#000000">
 
-
     <ImageView
         android:id="@+id/lebo_goback"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:paddingTop="9.1dp"
-        android:paddingBottom="9.1dp"
-        android:paddingLeft="12.5dp"
-        android:paddingRight="12.5dp"
         android:layout_marginLeft="4dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/videoplay_goback_gray"/>
+        android:padding="8dp"
+        android:src="@drawable/ab_goback_white"/>
 
     <TextView
         android:id="@+id/lebo_title"

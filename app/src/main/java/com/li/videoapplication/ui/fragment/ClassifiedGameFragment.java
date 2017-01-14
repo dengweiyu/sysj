@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +25,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.GroupType;
+import com.li.videoapplication.data.model.event.LogoutEvent;
 import com.li.videoapplication.data.model.response.GameListEntity;
 import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.model.response.GroupType2Entity;
@@ -260,6 +262,17 @@ public class ClassifiedGameFragment extends TBaseFragment implements OnRefreshLi
     }
 
     /**
+     * 事件：注销
+     */
+    public void onEventMainThread(LogoutEvent event) {
+        if (event != null) {
+            page = 1;
+            // 最热，最新游戏列表,请求只是为了刷新关注按钮状态
+            DataManager.gameList(page, getMember_id(), sort);
+        }
+    }
+
+    /**
      * 最热，最新游戏列表回调
      */
     public void onEventMainThread(GameListEntity event) {
@@ -285,10 +298,9 @@ public class ClassifiedGameFragment extends TBaseFragment implements OnRefreshLi
      */
     public void onEventMainThread(GroupAttentionGroupEntity event) {
 
-        if (event != null) {
-            if (event.isResult()) {
-                showToastShort(event.getMsg());
-            }
+        if (event != null && event.isResult()) {
+            Log.d(tag, event.getMsg());
+//                showToastShort(event.getMsg());
         }
     }
 }

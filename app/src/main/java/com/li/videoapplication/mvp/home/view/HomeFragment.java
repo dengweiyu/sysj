@@ -7,11 +7,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
+import com.li.videoapplication.data.model.entity.Download;
+import com.li.videoapplication.data.model.entity.LaunchImage;
 import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
@@ -28,6 +31,7 @@ import com.li.videoapplication.data.model.entity.VideoImageGroup;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ArrayHelper;
+import com.li.videoapplication.tools.DownloadHelper;
 import com.li.videoapplication.tools.RandomUtil;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
@@ -39,6 +43,7 @@ import com.li.videoapplication.ui.adapter.BannerAdapter;
 import com.li.videoapplication.ui.view.HomeTaskView;
 import com.li.videoapplication.utils.HareWareUtil;
 import com.li.videoapplication.utils.NetUtil;
+import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleFlowIndicator;
 import com.li.videoapplication.views.DynamicHeightImageView;
 import com.li.videoapplication.views.ViewFlow;
@@ -140,13 +145,18 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         addOnClickListener();
     }
 
+    private void loadCacheData() {
+        //初始化时使用缓存
+        presenter.loadHomeData(page, false);
+
+        // 任务初始化时使用缓存
+        presenter.unfinishedTask(getMember_id(), false);
+    }
+
     private void initRecyclerView() {
         presenter = HomePresenter.getInstance();
         presenter.setHomeView(this);
-        //初始化时使用缓存
-        presenter.loadHomeData(page, false);
-        // 任务初始化时使用缓存
-        presenter.unfinishedTask(getMember_id(), false);
+        loadCacheData();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -166,6 +176,9 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         homeAdapter.addHeaderView(getBannerView(bannerData));
 
         recyclerView.setAdapter(homeAdapter);
+        View emptyView = getActivity().getLayoutInflater().inflate(R.layout.emptyview_main,
+                (ViewGroup) recyclerView.getParent(), false);
+        homeAdapter.setEmptyView(emptyView);
     }
 
     private View getBannerView(List<Banner> bannerData) {
@@ -233,10 +246,29 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                         homeAdapter.remove(1);
                         break;
                     case R.id.banner_image://通栏广告
-                        startWebActivity(item.getAdvertisement().getData().get(0).getDownload_android());
+                        LaunchImage launchImage = item.getAdvertisement().getData().get(0);
+                        int ad_type = launchImage.getAd_type();
+                        String download_android = launchImage.getDownload_android();
+                        switch (ad_type) {
+                            case 1://页面展示
+                                String go_url = launchImage.getGo_url();
+                                if (!StringUtil.isNull(go_url))
+                                    startWebActivity(go_url);
+                                else
+                                    startWebActivity(download_android);
+                                break;
+                            case 2://文件下载
+                                String app_name = launchImage.getDownload_desc().get(0).getApp_name();
+
+                                Download download = new Download();
+                                download.setDownload_url(download_android);
+                                download.setTitle(app_name);
+
+                                DownloadHelper.downloadFile(getActivity(),download);
+                                break;
+                        }
                         // 广告点击统计+1
-                        presenter.adClick(item.getAdvertisement().getData().get(0).getAd_id(),
-                                AdvertisementDto.AD_CLICK_STATUS_11,
+                        presenter.adClick(launchImage.getAd_id(), AdvertisementDto.AD_CLICK_STATUS_11,
                                 HareWareUtil.getHardwareCode());
                         break;
                 }
@@ -270,12 +302,13 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             // 任务
             presenter.unfinishedTask(getMember_id(), true);
         } else {
-            ToastHelper.s("当前网络不可用，请检查后重试");
+            ToastHelper.s(R.string.net_disable);
         }
     }
 
     @Override
     public void onLoadMoreRequested() {
+        Log.d(tag, "onLoadMoreRequested: ");
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
@@ -317,7 +350,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             try {
                 long currentTime = TimeHelper.getCurrentTime();
                 //上次保存时间与当前时间不是同一天，则显示任务提示条
-                if (!TimeHelper.IsSameDay(lastTime4Task, currentTime)) {
+                if (!TimeHelper.isSameDay(lastTime4Task, currentTime)) {
                     taskView.appear();
                     //保存当前时间
                     PreferencesHepler.getInstance().saveTaskTime(currentTime);
@@ -345,6 +378,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     @Override
     public void refreshAdvertisementView(AdvertisementDto data) {
         Log.d(tag, "======== refreshAdvertisementView: ========");
+        Log.d(tag, "Advertisement data == " + data);
         if (data.isResult() && noAdvertisement) {
             homeAdapter.addData(1, new HomeDto(HomeDto.TYPE_AD, data));
             noAdvertisement = false;
@@ -355,7 +389,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     @Override
     public void refreshHomeData(HomeDto data) {
         Log.d(tag, "======== refreshHomeData: ========");
-        Log.d(tag, "refreshHomeData: data == " + data);
+        Log.d(tag, "Home Data: " + data);
         if (data != null) {
             page_count = data.getPage_count();
             if (page == 1) {
@@ -422,6 +456,10 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     public void onResume() {
         super.onResume();
         startAutoFlowTimer();
+        Log.d(tag, "onResume: homeData=="+homeData);
+        if (homeData == null) {
+            onRefresh();
+        }
     }
 
     @Override
@@ -459,8 +497,13 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     public void onEventMainThread(ConnectivityChangeEvent event) {
         Log.d(tag, "ConnectivityChangeEvent: 网络变化事件");
         if (isNetWordChange && event.getNetworkInfo() != null) {
-            isNetWordChange = false;
-            onRefresh();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    isNetWordChange = false;
+                    onRefresh();
+                }
+            }, 600);
         }
     }
 }

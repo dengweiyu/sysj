@@ -3,6 +3,7 @@ package com.li.videoapplication.ui.activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
+import android.text.Selection;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
@@ -205,11 +206,7 @@ public class SearchActivity extends TBaseActivity implements
         // 搜索联想词
         DataManager.associate(getAbSearchEdit());
 
-        if (getAbSearchEdit().length() > 0) {
-            isAssociateVisible = true;
-        } else {
-            isAssociateVisible = false;
-        }
+        isAssociateVisible = getAbSearchEdit().length() > 0;
         refreshContentView(isAssociateVisible);
     }
 
@@ -251,6 +248,7 @@ public class SearchActivity extends TBaseActivity implements
                 break;
 
             case R.id.ab_search_delete:
+                hideSearchResultFragment();
                 abSearchEdit.setText("");
                 InputUtil.showKeyboard(abSearchEdit);
                 break;
@@ -263,9 +261,7 @@ public class SearchActivity extends TBaseActivity implements
         if (parent.getAdapter() == historyAdapter) {
             String record = (String) parent.getAdapter().getItem(position);
             if (!StringUtil.isNull(record)) {
-                //abSearchEdit.setText(record);
-                //Editable e = abSearchEdit.getText();
-                //Selection.setSelection(e, e.length());
+                abSearchEdit.setText(record);
                 try {
                     InputUtil.closeKeyboard(this);
                 } catch (Exception ex) {
@@ -278,9 +274,7 @@ public class SearchActivity extends TBaseActivity implements
         if (parent.getAdapter() == hotAdapter) {
             Keyword record = (Keyword) parent.getAdapter().getItem(position);
             if (!StringUtil.isNull(record.getName())) {
-                //abSearchEdit.setText(record.getName());
-                //Editable e = abSearchEdit.getText();
-                //Selection.setSelection(e, e.length());
+                abSearchEdit.setText(record.getName());
                 try {
                     InputUtil.closeKeyboard(this);
                 } catch (Exception ex) {
@@ -293,15 +287,18 @@ public class SearchActivity extends TBaseActivity implements
         if (parent.getAdapter() == associateAdapter) {
             Associate record = (Associate) parent.getAdapter().getItem(position);
             if (!StringUtil.isNull(record.getName())) {
+                abSearchEdit.setText(record.getName());
                 try {
                     InputUtil.closeKeyboard(this);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                abSearchEdit.setText(record.getName());
                 startSearchResultFragment(record.getName());
             }
         }
+
+        Editable e = abSearchEdit.getText();
+        Selection.setSelection(e, e.length());
     }
 
     private boolean isAssociateVisible = false;

@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.ui.activity.ImageViewActivity;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.ScreenUtil;
@@ -86,7 +86,7 @@ public class ImageViewAdapter extends BaseAdapter {
 		holder.click.setImageResource(R.drawable.choose_gray);
 
         final String filePath = directory + "/" + fileName;
-        ImageLoaderHelper.displayImageWhite4Local(filePath, holder.pic);
+        GlideHelper.displayImageWhite(activity,filePath, holder.pic);
 
 		holder.pic.setOnClickListener(new OnClickListener() {
 			@Override

@@ -8,14 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Associate;
 import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.framework.BaseBaseAdapter;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
 
 /**
  * 适配器:图文分享-搜索礼包

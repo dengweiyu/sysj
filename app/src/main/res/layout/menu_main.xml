@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/menu_main_height"
-              android:layout_weight="0"
-              android:background="@color/menu_main_background"
-              android:orientation="horizontal"
-              android:visibility="visible">
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/menu_main_height"
+    android:layout_weight="0"
+    android:background="@color/menu_main_background"
+    android:orientation="horizontal"
+    android:visibility="visible">
 
     <LinearLayout
         android:id="@+id/bottom_first"
@@ -22,7 +22,7 @@
             android:layout_width="@dimen/menu_main_icon"
             android:layout_height="@dimen/menu_main_icon"
             android:scaleType="fitCenter"
-            android:src="@drawable/home_selected"/>
+            android:src="@drawable/home_selected" />
 
         <TextView
             android:id="@+id/bottom_first_text"
@@ -33,7 +33,7 @@
             android:maxLines="1"
             android:text="@string/menu_main_first"
             android:textColor="@color/menu_main_red"
-            android:textSize="9sp"/>
+            android:textSize="9sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -43,25 +43,26 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingBottom="1dp"
+        android:padding="2dp"
         android:visibility="visible">
 
         <ImageView
             android:id="@+id/bottom_second_icon"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="@dimen/menu_main_icon"
+            android:layout_height="@dimen/menu_main_icon"
             android:scaleType="fitCenter"
-            android:src="@drawable/game_normal"/>
+            android:src="@drawable/game_normal" />
 
         <TextView
             android:id="@+id/bottom_second_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/menu_main_padding"
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/menu_main_second"
             android:textColor="@color/menu_main_gray"
-            android:textSize="9sp"/>
+            android:textSize="9sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -79,7 +80,7 @@
             android:layout_width="@dimen/menu_main_icon"
             android:layout_height="@dimen/menu_main_icon"
             android:scaleType="fitCenter"
-            android:src="@drawable/discover_normal"/>
+            android:src="@drawable/discover_normal" />
 
         <TextView
             android:id="@+id/bottom_third_text"
@@ -90,7 +91,7 @@
             android:singleLine="true"
             android:text="@string/menu_main_third"
             android:textColor="@color/menu_main_gray"
-            android:textSize="9sp"/>
+            android:textSize="9sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -108,7 +109,7 @@
             android:layout_width="@dimen/menu_main_icon"
             android:layout_height="@dimen/menu_main_icon"
             android:scaleType="fitCenter"
-            android:src="@drawable/event_nomal"/>
+            android:src="@drawable/event_nomal" />
 
         <TextView
             android:id="@+id/bottom_fourth_text"
@@ -119,7 +120,7 @@
             android:singleLine="true"
             android:text="@string/menu_main_fourth"
             android:textColor="@color/menu_main_gray"
-            android:textSize="9sp"/>
+            android:textSize="9sp" />
     </LinearLayout>
 
 </LinearLayout>

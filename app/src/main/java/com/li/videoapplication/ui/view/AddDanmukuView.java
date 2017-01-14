@@ -25,7 +25,7 @@ public class AddDanmukuView extends FrameLayout implements
         View.OnFocusChangeListener,
         TextView.OnEditorActionListener,
         View.OnTouchListener,
-        IVideoPlay{
+        IVideoPlay {
 
     public final String action = this.getClass().getName();
     public final String tag = this.getClass().getSimpleName();
@@ -106,6 +106,9 @@ public class AddDanmukuView extends FrameLayout implements
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            hideView();
+        }
         return true;
     }
 
@@ -192,8 +195,10 @@ public class AddDanmukuView extends FrameLayout implements
     }
 
     @Override
-    public void minView() {}
+    public void minView() {
+    }
 
     @Override
-    public void maxView() {}
+    public void maxView() {
+    }
 }

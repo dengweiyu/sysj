@@ -33,7 +33,7 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center_vertical"
-                android:text="我的钱包"
+                android:text="钱包"
                 android:textColor="#dd333333"
                 android:textSize="16sp" />
 

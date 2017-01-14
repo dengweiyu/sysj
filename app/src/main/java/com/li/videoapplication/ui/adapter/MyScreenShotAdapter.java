@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.data.local.ScreenShotHelper;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -118,7 +118,7 @@ public class MyScreenShotAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ImageLoaderHelper.displayImageWhite4Local(record.getPath(), holder.cover);
+        GlideHelper.displayImageWhite(context,record.getPath(), holder.cover);
 
         holder.title.setText(record.getDisplayName());
 

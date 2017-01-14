@@ -3,6 +3,7 @@ package com.li.videoapplication.ui.fragment;
 import android.app.Activity;
 import android.text.Html;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,9 +39,6 @@ public class MyScreenShotFragment extends TBaseFragment implements View.OnClickL
     // 空间提示
 	public TextView storgeText;
 	private LinearLayout storgeRoot;
-
-	// 没有截屏
-	public View tipEmpty;
 
     private VideoMangerActivity activity;
 
@@ -84,9 +82,6 @@ public class MyScreenShotFragment extends TBaseFragment implements View.OnClickL
 
 	private void initListView(View view) {
 
-		tipEmpty = view.findViewById(R.id.mylocalvideo_empty);
-        tipEmpty.setVisibility(View.GONE);
-
         storgeText = (TextView) view.findViewById(R.id.videomanager_text);
         storgeRoot = (LinearLayout) view.findViewById(R.id.videomanager_root);
         storgeRoot.setVisibility(View.GONE);
@@ -94,13 +89,13 @@ public class MyScreenShotFragment extends TBaseFragment implements View.OnClickL
 
         listView = (ListView) view.findViewById(R.id.listview);
         new VerticalOverScrollBounceEffectDecorator(new AbsListViewOverScrollDecorAdapter(listView));
-        listView.setVisibility(View.GONE);
+
+        TextView emptyText = (TextView) view.findViewById(R.id.mylocalvideo_empty);
+        emptyText.setText("您还没有截图");
+        listView.setEmptyView(emptyText);
+
         adapter = new MyScreenShotAdapter(getActivity(), data);
         listView.setAdapter(adapter);
-
-
-        tipEmpty.setVisibility(View.GONE);
-        listView.setVisibility(View.GONE);
 	}
 
     public void refreshStorge() {
@@ -127,18 +122,6 @@ public class MyScreenShotFragment extends TBaseFragment implements View.OnClickL
         return TextUtil.toColor(text, "#fc3c2d");
     }
 
-    public void refreshContentView() {
-
-        adapter.notifyDataSetChanged();
-        if (data != null && data.size() > 0) {
-            listView.setVisibility(View.VISIBLE);
-            tipEmpty.setVisibility(View.GONE);
-        } else {
-            listView.setVisibility(View.GONE);
-            tipEmpty.setVisibility(View.VISIBLE);
-        }
-    }
-
     @Override
     public void onClick(View v) {
 
@@ -149,17 +132,11 @@ public class MyScreenShotFragment extends TBaseFragment implements View.OnClickL
      */
     public void onEventMainThread(ScreenShotResponseObject event) {
 
-        if (event.getData() != null && event.getData().size() > 0) {
+        if (event.getData() != null) {
             data.clear();
             data.addAll(event.getData());
             activity.setMyScreenShotSize(data.size());
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-
-                    refreshContentView();
-                }
-            });
+            adapter.notifyDataSetChanged();
         }
     }
 }

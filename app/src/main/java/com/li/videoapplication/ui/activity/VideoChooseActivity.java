@@ -17,6 +17,7 @@ import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.database.VideoCaptureResponseObject;
 import com.li.videoapplication.data.image.VideoDuration;
 import com.li.videoapplication.data.local.FileUtil;
+import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.preferences.VideoPreferences;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
@@ -38,9 +39,10 @@ import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
  */
 public class VideoChooseActivity extends TBaseAppCompatActivity implements OnClickListener {
 
-    /*
-    * 跳转：参加活动--视频上传
-    */
+
+    /**
+     * 跳转：参加活动--视频上传
+     */
     private void startVideoUploadActivity(VideoCaptureEntity entity) {
         ActivityManeger.startVideoUploadActivity(this, entity, match);
     }
@@ -49,7 +51,7 @@ public class VideoChooseActivity extends TBaseAppCompatActivity implements OnCli
      * 跳转：视频分享
      */
     private void startVideoShareActivity210(VideoCaptureEntity record) {
-        ActivityManeger.startVideoShareActivity210(this, record);
+        ActivityManeger.startVideoShareActivity210(this, record, game, to);
     }
 
     private RecyclerView recyclerView;
@@ -63,13 +65,24 @@ public class VideoChooseActivity extends TBaseAppCompatActivity implements OnCli
     private List<VideoCaptureEntity> myImportData = new ArrayList<>();
     private int pageIndex = 0;
     private Match match;
-
+    private Game game;
+    private int to;
 
     @Override
     public void refreshIntent() {
         super.refreshIntent();
         try {
             match = (Match) getIntent().getSerializableExtra("match");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            game = (Game) getIntent().getSerializableExtra("game");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            to = getIntent().getIntExtra("to", VideoShareActivity.TO_VIDEOMANAGER);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -143,8 +156,8 @@ public class VideoChooseActivity extends TBaseAppCompatActivity implements OnCli
                                     startVideoUploadActivity(entity);
                                 } else { //首页上传视频
                                     startVideoShareActivity210(entity);
-                                    finish();
                                 }
+                                finish();
                             }
                         }
                     }

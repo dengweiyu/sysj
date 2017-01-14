@@ -1,15 +1,15 @@
-<RelativeLayout android:id="@+id/rootview"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="#000000">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootview"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:visibility="visible">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:scaleType="fitXY"
-        android:src="@drawable/appstart_bg"/>
+        android:src="@drawable/appstart_bg" />
 
     <ImageView
         android:id="@+id/top"
@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="112dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/logo_appstart"/>
+        android:src="@drawable/logo_appstart" />
 
     <ImageView
         android:id="@+id/second"
@@ -29,16 +29,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="46dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/appstart_name"/>
-
-    <!--<ImageView-->
-        <!--android:layout_width="112dp"-->
-        <!--android:layout_height="18dp"-->
-        <!--android:layout_below="@+id/second"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_marginTop="20dp"-->
-        <!--android:scaleType="fitCenter"-->
-        <!--android:src="@drawable/appstart_content"/>-->
+        android:src="@drawable/appstart_name" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,10 +37,9 @@
         android:layout_below="@+id/second"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="玩手游  看视界"
+        android:text="@string/appstart_play"
         android:textColor="@color/white"
-        android:textSize="16sp"/>
-
+        android:textSize="16sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -59,7 +49,7 @@
         android:layout_marginBottom="14dp"
         android:text="@string/appstart_readme"
         android:textColor="#ffffff"
-        android:textSize="13sp"/>
+        android:textSize="13sp" />
 
     <View
         android:id="@+id/cover"
@@ -67,6 +57,6 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:background="#88000000"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

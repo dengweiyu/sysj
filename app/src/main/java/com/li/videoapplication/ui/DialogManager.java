@@ -11,7 +11,9 @@ import com.fmsysj.screeclibinvoke.ui.dialog.SettingQualityDialog;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Game;
+import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.response.GameCateEntity;
 import com.li.videoapplication.data.model.response.RecommendedLocationEntity;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -20,9 +22,11 @@ import com.li.videoapplication.ui.activity.SignUpActivity;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.dialog.DiscoverTipDialog;
 import com.li.videoapplication.ui.dialog.EditNameDialog;
+import com.li.videoapplication.ui.dialog.FileDownloaderDialog;
 import com.li.videoapplication.ui.dialog.GameDetailDialog;
 import com.li.videoapplication.ui.dialog.GameTipDialog;
 import com.li.videoapplication.ui.dialog.LogInDialog;
+import com.li.videoapplication.ui.dialog.MatchFliterDialog;
 import com.li.videoapplication.ui.dialog.MatchOpponentDialog;
 import com.li.videoapplication.ui.dialog.MyTaskGrowupDialog;
 import com.li.videoapplication.ui.dialog.MyTaskLevelDialog;
@@ -38,6 +42,8 @@ import com.li.videoapplication.ui.dialog.ShareDialog;
 import com.li.videoapplication.ui.dialog.SignInSuccessDialog;
 import com.li.videoapplication.ui.dialog.SignUpQuestionDialog;
 import com.li.videoapplication.ui.dialog.SignUpSuccessDialog;
+import com.li.videoapplication.ui.dialog.UpdateDialog;
+import com.li.videoapplication.ui.dialog.UploadPicDialog;
 import com.li.videoapplication.ui.dialog.UploadVideoDialog;
 import com.li.videoapplication.ui.dialog.VictoryDialog;
 import com.li.videoapplication.ui.dialog.VideoManagerCopyDialog;
@@ -53,6 +59,41 @@ import java.util.List;
  * 功能：弹框管理
  */
 public class DialogManager {
+
+    /**
+     * 文件下载
+     */
+    public static void showFileDownloaderDialog(Context context, View.OnClickListener continueListener,
+                                                View.OnClickListener wifiListener) {
+        Dialog dialog = new FileDownloaderDialog(context, continueListener, wifiListener);
+        dialog.show();
+    }
+
+    /**
+     * 版本更新
+     */
+    public static void showUpdateDialog(Context context, Update update) {
+        Dialog dialog =new UpdateDialog(context, update);
+        dialog.show();
+    }
+
+    /**
+     * 赛事筛选
+     */
+    public static MatchFliterDialog showMatchFliterDialog(Context context,GameCateEntity data) {
+        MatchFliterDialog dialog = new MatchFliterDialog(context,data);
+        dialog.show();
+        return dialog;
+    }
+
+    /**
+     * 赛事截图上传
+     */
+    public static void showUploadPicDialog(Context context) {
+        Dialog dialog = new UploadPicDialog(context);
+        dialog.show();
+    }
+
     /**
      * 赛事报名问号
      */

@@ -138,6 +138,18 @@
         android:textColor="#ffffff"
         android:textSize="16sp" />
 
+    <Spinner
+        android:id="@+id/fm_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="21dp"
+        android:layout_marginRight="21dp"
+        android:layout_marginTop="10dp"
+        android:popupBackground="#ffffff"
+        android:entries="@array/fm_login"
+        android:spinnerMode="dialog"
+        android:visibility="gone"/>
+
     <FrameLayout
         android:id="@+id/login_other"
         android:layout_width="match_parent"

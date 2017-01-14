@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.utils.URLUtil;
 
 /**
@@ -51,7 +51,7 @@ public class StartView extends RelativeLayout implements IVideoPlay{
 
     public void displayCoverImage(String url) {
         if (url != null && URLUtil.isURL(url))
-            ImageLoaderHelper.displayImageWhite(url, cover);
+            GlideHelper.displayImageWhite(getContext(),url, cover);
     }
 
     @Override

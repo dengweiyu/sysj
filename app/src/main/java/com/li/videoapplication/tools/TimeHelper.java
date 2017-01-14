@@ -5,6 +5,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.image.VideoDuration;
@@ -19,12 +21,31 @@ public class TimeHelper {
 
     public static final String TAG = TimeHelper.class.getSimpleName();
 
+    public interface RunAfter {
+        void runAfter();
+    }
+
+    /**
+     * time毫秒后执行
+     */
+    public static void runAfter(final RunAfter callback, long time) {
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                callback.runAfter();
+            }
+        };
+        timer.schedule(task, time);
+    }
+
+
     /**
      * 判断两个时间戳是否为同一天
      */
-    public static boolean IsSameDay(long time1 ,long time2) throws Exception {
+    public static boolean isSameDay(long time1, long time2) throws Exception {
         Calendar c1 = Calendar.getInstance();
-        Date date = new Date(time1* 1000L);
+        Date date = new Date(time1 * 1000L);
         c1.setTime(date);
 
         Calendar c2 = Calendar.getInstance();
@@ -57,9 +78,9 @@ public class TimeHelper {
         cd.setTime(date);
         mydate = cd.get(Calendar.DAY_OF_WEEK);
         // 获取指定日期转换成星期几
-        if (IsToday(Long.valueOf(time))){
+        if (IsToday(Long.valueOf(time))) {
             return "今天";
-        }else if (IsYesterday(Long.valueOf(time))){
+        } else if (IsYesterday(Long.valueOf(time))) {
             return "昨天";
         } else if (mydate == 1) {
             week = "周日";

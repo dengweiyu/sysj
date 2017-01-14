@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="全部游戏 | 官方淘汰赛"
+                android:text=""
                 android:textColor="@color/textcolor_gray"
                 android:textSize="14sp" />
 

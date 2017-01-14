@@ -11,7 +11,7 @@ import com.li.videoapplication.framework.CommonAdapter;
 import com.li.videoapplication.framework.ViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.local.ScreenShotEntity;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.tools.LayoutParamsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.utils.ScreenUtil;
@@ -46,7 +46,7 @@ public class ImageShareAdapter extends CommonAdapter<ScreenShotEntity> {
 		if (position == getCount() - 1) {// 最后一张显示加号图片
             pic.setImageResource(R.drawable.imageshare_add);
 		} else {
-            ImageLoaderHelper.displayImageWhite4Local(record.getPath(), pic);
+            GlideHelper.displayImageWhite(context,record.getPath(), pic);
 		}
 
         holder.getConvertView().setOnClickListener(new View.OnClickListener(){

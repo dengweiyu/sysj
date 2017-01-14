@@ -8,14 +8,12 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.IntentHelper;
-import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.activity.ActivityDetailActivity208;
+import com.li.videoapplication.ui.activity.ActivityDetailActivity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
 
@@ -24,7 +22,7 @@ import com.li.videoapplication.utils.URLUtil;
  */
 public class ActivityRulesFragment extends TBaseFragment {
 
-    private ActivityDetailActivity208 activity;
+    private ActivityDetailActivity activity;
     public WebView webView;
     private String url;
 
@@ -32,7 +30,7 @@ public class ActivityRulesFragment extends TBaseFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            this.activity = (ActivityDetailActivity208) activity;
+            this.activity = (ActivityDetailActivity) activity;
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -91,7 +91,7 @@ public class MyMatchProcessActivity extends TBaseAppCompatActivity implements Vi
 
         //上传按钮 全局坐标
         Rect uploadRect = new Rect();
-        ongoingFragment.uploadBtn.getGlobalVisibleRect(uploadRect);
+        ongoingFragment.uploadImage.getGlobalVisibleRect(uploadRect);
 
         uploadLeft = uploadRect.left;
         uploadTop = uploadRect.top - statusHeight;

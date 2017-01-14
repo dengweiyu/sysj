@@ -5,7 +5,7 @@ import com.li.videoapplication.data.network.Contants;
 /**
  *  基本实体:接口对应实体（与原来的BaseResponseEntity是一样的）
  */
-public class BaseHttpResult<T> {
+public class BaseHttpResult<T> extends BaseEntity{
 
     private boolean result;
     private String msg = Contants.DEFAULT_STRING;

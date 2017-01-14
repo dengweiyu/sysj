@@ -1,5 +1,6 @@
 package com.li.videoapplication.ui.activity;
 
+import android.view.View;
 import android.widget.ListView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -13,6 +14,7 @@ import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
+import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.adapter.GiftAdapter;
 
 import java.util.ArrayList;
@@ -21,14 +23,20 @@ import java.util.List;
 /**
  * 活动：礼包列表
  */
-public class GiftListActivity extends TBaseActivity implements OnRefreshListener2<ListView> {
+public class GiftListActivity extends TBaseActivity implements OnRefreshListener2<ListView>,View.OnClickListener {
 
     private PullToRefreshListView pullToRefreshListView;
-    private ListView listView;
     private GiftAdapter adapter;
     private List<Gift> data;
     private int page = 1;
     private int page_count;
+
+    /**
+     * 跳转：我的礼包
+     */
+    private void startMyGiftListActivity() {
+        ActivityManeger.startMyGiftListActivity(this);
+    }
 
     @Override
     public int getContentView() {
@@ -44,6 +52,8 @@ public class GiftListActivity extends TBaseActivity implements OnRefreshListener
         super.afterOnCreate();
         setSystemBarBackgroundWhite();
         setAbTitle("礼包");
+        abMyGift.setVisibility(View.VISIBLE);
+        abMyGift.setOnClickListener(this);
     }
 
     @Override
@@ -52,7 +62,7 @@ public class GiftListActivity extends TBaseActivity implements OnRefreshListener
         pullToRefreshListView = (PullToRefreshListView) findViewById(R.id.pulltorefresh);
         pullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
 
-        listView = pullToRefreshListView.getRefreshableView();
+        ListView listView = pullToRefreshListView.getRefreshableView();
 
         data = new ArrayList<>();
         adapter = new GiftAdapter(this, data);
@@ -107,5 +117,14 @@ public class GiftListActivity extends TBaseActivity implements OnRefreshListener
             }
         }
         pullToRefreshListView.onRefreshComplete();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ab_mygift:
+                startMyGiftListActivity();
+                break;
+        }
     }
 }

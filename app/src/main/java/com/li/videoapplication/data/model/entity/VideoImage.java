@@ -44,6 +44,15 @@ public class VideoImage extends BaseEntity {
 	4：审核中*/
 	public int state;
 	public List<Tag> game_tag;
+	private boolean isAD;
+
+	public boolean isAD() {
+		return isAD;
+	}
+
+	public void setAD(boolean AD) {
+		isAD = AD;
+	}
 
 	public String getUpload_time() {
 		return upload_time;

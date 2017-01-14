@@ -18,6 +18,7 @@ import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.GiftListActivity;
 import com.li.videoapplication.ui.activity.GroupGiftActivity;
 import com.li.videoapplication.utils.StringUtil;
@@ -150,7 +151,7 @@ public class GiftAdapter extends BaseArrayAdapter<Gift> {
             @Override
             public void onClick(View v) {
                 if (!isLogin()) {
-                    showToastLogin();
+                    DialogManager.showLogInDialog(getContext());
                     return;
                 }
                 if (StringUtil.isNull(record.getId())) {

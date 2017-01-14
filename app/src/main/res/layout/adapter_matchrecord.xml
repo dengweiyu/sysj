@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.li.videoapplication.views.CircleImageView
+            android:id="@+id/matchrecord_head"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_margin="12dp"
+            android:scaleType="centerCrop"
+            android:src="#afafaf" />
+
+        <LinearLayout
+            android:id="@+id/match_right"
+            android:layout_width="0dp"
+            android:layout_height="58dp"
+            android:layout_marginTop="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/matchrecord_name"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:hint="@string/loading_text"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="@color/textcolor_gray"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/matchrecord_title"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:hint="@string/loading_text"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="@color/textcolor_french_gray"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/matchrecord_time"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:hint="@string/loading_text"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="@color/textcolor_french_gray"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/matchrecord_resultimg"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/matchresult_win_signet" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider_bg" />
+</LinearLayout>

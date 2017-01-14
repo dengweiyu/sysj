@@ -472,6 +472,7 @@
                 android:textColor="#6d6d6d"
                 android:textCursorDrawable="@drawable/cursor_red"
                 android:textSize="14sp"
+                android:inputType="textCapCharacters"
                 android:visibility="gone"/>
 
             <TextView

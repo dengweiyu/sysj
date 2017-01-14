@@ -149,8 +149,7 @@ public class FileUtil {
         File file = new File(path);
         if (file != null && file.exists()) {
             try {
-                file.delete();
-                return true;
+                return file.delete();
             } catch (Exception e) {
                 e.printStackTrace();
             }

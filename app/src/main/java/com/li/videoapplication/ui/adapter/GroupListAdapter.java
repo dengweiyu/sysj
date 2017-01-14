@@ -18,6 +18,7 @@ import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.GroupListActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.views.RoundedImageView;
 
 /**
  * 适配器：圈子
@@ -47,7 +48,7 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
             holder.title = (TextView) view.findViewById(R.id.grouplist_title);
             holder.left = (TextView) view.findViewById(R.id.grouplist_left);
             holder.right = (TextView) view.findViewById(R.id.grouplist_right);
-            holder.pic = (ImageView) view.findViewById(R.id.grouplist_pic);
+            holder.pic = (RoundedImageView) view.findViewById(R.id.grouplist_pic);
             holder.focus = (TextView) view.findViewById(R.id.grouplist_focus);
             view.setTag(holder);
         } else {
@@ -143,6 +144,6 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
         TextView left;
         TextView right;
         TextView focus;
-        ImageView pic;
+        RoundedImageView pic;
     }
 }

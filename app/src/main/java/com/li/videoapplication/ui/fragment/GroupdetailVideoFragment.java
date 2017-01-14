@@ -17,7 +17,6 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.GroupDataListEntity;
@@ -27,8 +26,11 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
-import com.li.videoapplication.ui.adapter.GroupDetailVideoRecyclerAdapter;
+import com.li.videoapplication.mvp.adapter.GroupDetailVideoRecyclerAdapter;
+import com.li.videoapplication.utils.GDTUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.qq.e.ads.nativ.NativeAD;
+import com.qq.e.ads.nativ.NativeADDataRef;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,8 @@ public class GroupdetailVideoFragment extends TBaseFragment
     private GroupDetailActivity activity;
     private int page = 1;
     private int page_count;
+
+    public static NativeADDataRef adItem;
 
     /**
      * 跳转：视频播放
@@ -209,7 +213,11 @@ public class GroupdetailVideoFragment extends TBaseFragment
 
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
-
+                final VideoImage record = (VideoImage) adapter.getItem(pos);
+                if (record.isAD()){
+                    adItem.onExposured(recyclerView);
+                    adItem.onClicked(view);
+                }
             }
         });
 
@@ -261,6 +269,7 @@ public class GroupdetailVideoFragment extends TBaseFragment
 
         if (event != null && event.isResult() && getTab() == GROUPDETAILVIDEO_NEW) {
             refreshData(event);
+            initGDT(GDTUtil.POS_ID_GROUP_NEW);
             Log.d(tag, "~~~~~~~~~ 圈子视频列表（最新）: ~~~~~~~~~");
         }
         adapter.loadMoreComplete();//加载完成
@@ -273,6 +282,7 @@ public class GroupdetailVideoFragment extends TBaseFragment
 
         if (event != null && event.isResult() && getTab() == GROUPDETAILVIDEO_HOT) {
             refreshData(event);
+            initGDT(GDTUtil.POS_ID_GROUP_HOT);
             Log.d(tag, "~~~~~~~~~ 圈子视频列表（最热）: ~~~~~~~~~");
         }
         adapter.loadMoreComplete();//加载完成
@@ -291,5 +301,29 @@ public class GroupdetailVideoFragment extends TBaseFragment
             }
             ++page;
         }
+    }
+
+    private void initGDT(String pos_id) {
+        GDTUtil.nativeAD(getActivity(), pos_id, new GDTUtil.GDTonLoaded() {
+
+            @Override
+            public void onADLoaded(NativeADDataRef adItem) {
+                if (adItem != null) {
+                    GroupdetailVideoFragment.adItem = adItem;
+                    VideoImage ad = new VideoImage();
+                    ad.setAD(true);//自己定一个广告标识
+                    ad.setVideo_id("1");//自己定一个id给广告
+                    ad.setAvatar(adItem.getIconUrl());
+                    ad.setVideo_flag(adItem.getImgUrl());
+                    ad.setNickname(adItem.getTitle());
+                    ad.setTitle(adItem.getDesc());
+                    // 放在第三个位置
+                    if (adapter.getData().size() >= 2)
+                        adapter.addData(1, ad);
+                    else
+                        adapter.addData(ad);
+                }
+            }
+        });
     }
 }

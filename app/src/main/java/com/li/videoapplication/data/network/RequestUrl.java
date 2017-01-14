@@ -74,13 +74,6 @@ public class RequestUrl {
     }
 
     /**
-     * 图片广告（旧接口）
-     */
-    public final String launchImage() {
-        return BaseHome + "/index/launchImage.html";
-    }
-
-    /**
      * 图片广告
      */
     public final String indexLaunchImage() {
@@ -129,13 +122,6 @@ public class RequestUrl {
      */
     public final String packageList() {
         return BaseHome + "/member/packageList.html";
-    }
-
-    /**
-     * 我的礼包列表
-     */
-    public String getMyPackageList() {
-        return BaseHome + "/member/getMyPackageList.html";
     }
 
     /**
@@ -387,6 +373,13 @@ public class RequestUrl {
      */
     public final String login() {
         return BaseHome + "/member/login.html";
+    }
+
+    /**
+     * 飞磨登陆
+     */
+    public final String loginFm() {
+        return BaseHome + "/member/loginFm.html";
     }
 
 	/* ############## 忘记密码 ############## */
@@ -1284,6 +1277,13 @@ public class RequestUrl {
 	/* ############## 赛事 ############## */
 
     /**
+     * 功能：赛事上传视频成功后调用接口
+     */
+    public final String saveEventVideo() {
+        return BaseSYSJ + "/Sysj214/NewEvents/saveEventVideo";
+    }
+
+    /**
      * 获取赛事报名问号内容
      */
     public final String getEventMsg() {
@@ -1429,6 +1429,7 @@ public class RequestUrl {
     public final String joinEvents() {
         return BaseSYSJ + "/Sysj214/NewEvents/joinEvents";
     }
+
     /**
      * 赛程时间表204
      */
@@ -1558,7 +1559,7 @@ public class RequestUrl {
     /**
      * 活动详情208
      */
-    public final String getMatchInfo208() {
+    public final String getMatchInfo() {
         return BaseSYSJ + "/sysj204/events/getMatchInfo";
     }
 
@@ -1659,6 +1660,13 @@ public class RequestUrl {
     }
 
 	/* ############## 首页 ############## */
+
+    /**
+     * 统计被邀请用户打开app的次数
+     */
+    public final String statisticalOpenApp() {
+        return BaseSYSJ + "/Sysj214/OpenApp/statisticalOpenApp";
+    }
 
     /**
      * 首页专栏116

@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 
-import com.li.videoapplication.data.image.ImageLoaderHelper;
 import com.li.videoapplication.data.network.RequestManager;
 import com.li.videoapplication.utils.LogHelper;
 
@@ -81,7 +80,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
 		EventBus.getDefault().unregister(this);
 		AppManager.getInstance().removeActivity(this);
         super.onDestroy();
-		ImageLoaderHelper.clearMemoryCache();
+//		GlideHelper.clearMemoryCache();
     }
 
 	public void onEventAsync(Object event) {

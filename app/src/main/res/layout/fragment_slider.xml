@@ -219,42 +219,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/slider_mywelfare"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/slider_btn"
-        android:paddingLeft="28dp"
-        android:paddingRight="25dp">
-
-        <ImageView
-            android:id="@+id/left"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/slider_mywelfare" />
-
-        <TextView
-            android:id="@+id/mid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@+id/left"
-            android:text="@string/slider_mywelfare"
-            android:textColor="#ffffff"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:layout_width="8dp"
-            android:layout_height="14dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/slider_go" />
-    </RelativeLayout>
-
-    <RelativeLayout
         android:id="@+id/slider_mymessage"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -277,7 +241,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@+id/left"
-            android:text="我的消息"
+            android:text="消息"
             android:textColor="#ffffff"
             android:textSize="14sp" />
 
@@ -328,7 +292,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@+id/left"
-            android:text="我的钱包"
+            android:text="钱包"
             android:textColor="#ffffff"
             android:textSize="14sp" />
 
@@ -365,7 +329,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@+id/left"
-            android:text="视界商城"
+            android:text="商城"
             android:textColor="#ffffff"
             android:textSize="14sp" />
 
@@ -378,42 +342,6 @@
             android:scaleType="fitCenter"
             android:src="@drawable/slider_go" />
     </RelativeLayout>
-
-    <!--<RelativeLayout-->
-        <!--android:id="@+id/slider_mytask"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="45dp"-->
-        <!--android:background="@drawable/slider_btn"-->
-        <!--android:paddingLeft="28dp"-->
-        <!--android:paddingRight="25dp">-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/left"-->
-            <!--android:layout_width="20dp"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:scaleType="fitCenter"-->
-            <!--android:src="@drawable/slider_mytask" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/mid"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginLeft="16dp"-->
-            <!--android:layout_toRightOf="@+id/left"-->
-            <!--android:text="@string/slider_mytask"-->
-            <!--android:textColor="#ffffff"-->
-            <!--android:textSize="14sp" />-->
-
-        <!--<ImageView-->
-            <!--android:layout_width="8dp"-->
-            <!--android:layout_height="14dp"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:scaleType="fitCenter"-->
-            <!--android:src="@drawable/slider_go" />-->
-    <!--</RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/slider_myvideo"
@@ -475,7 +403,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@+id/left"
-            android:text="@string/slider_mycollection"
+            android:text="收藏"
             android:textColor="#ffffff"
             android:textSize="14sp" />
 
@@ -488,10 +416,16 @@
             android:src="@drawable/slider_go" />
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
     <RelativeLayout
         android:id="@+id/slider_setting"
         android:layout_width="match_parent"
         android:layout_height="36dp"
+        android:layout_marginBottom="28dp"
         android:background="@drawable/slider_btn"
         android:paddingLeft="28dp"
         android:paddingRight="25dp">
@@ -515,14 +449,6 @@
             android:text="@string/slider_setup"
             android:textColor="#ffffff"
             android:textSize="14sp" />
-
-        <ImageView
-            android:layout_width="8dp"
-            android:layout_height="14dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/slider_go" />
     </RelativeLayout>
 
 </com.li.videoapplication.views.MyLinearLayout>

@@ -7,10 +7,10 @@ public class MatchListFliterEvent extends BaseEntity {
 
     private String gameIds;
     private String gameNames;
-    private int match_type;
+    private String match_type;
     private String match_type_names;
 
-    public MatchListFliterEvent(String gameIds, String gameNames, int match_type, String match_type_names) {
+    public MatchListFliterEvent(String gameIds, String gameNames, String match_type, String match_type_names) {
         this.gameIds = gameIds;
         this.gameNames = gameNames;
         this.match_type = match_type;
@@ -33,11 +33,11 @@ public class MatchListFliterEvent extends BaseEntity {
         this.match_type_names = match_type_names;
     }
 
-    public int getMatch_type() {
+    public String getMatch_type() {
         return match_type;
     }
 
-    public void setMatch_type(int match_type) {
+    public void setMatch_type(String match_type) {
         this.match_type = match_type;
     }
 

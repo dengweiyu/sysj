@@ -31,25 +31,33 @@ public class RequestService extends BaseService {
     /**
      * 启动服务
      */
-    public synchronized final static void startRequestService() throws Exception {
+    public static void startRequestService() {
         Context context = AppManager.getInstance().getContext();
         Intent intent = new Intent(context, RequestService.class);
-        context.startService(intent);
+        try {
+            context.startService(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * 停止服务
      */
-    public synchronized final static void stopRequestService() throws Exception {
+    public static void stopRequestService(){
         Context context = AppManager.getInstance().getContext();
         Intent intent = new Intent(context, RequestService.class);
-        context.stopService(intent);
+        try {
+            context.stopService(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * 网络访问：传递请求参数
      */
-    public synchronized final static void postRequestEvent(RequestObject request) {
+    public static void postRequestEvent(RequestObject request) {
         EventBus.getDefault().post(request);
 
         try {
@@ -83,7 +91,7 @@ public class RequestService extends BaseService {
     /**
      * 上传图片：传递请求参数204
      */
-    public synchronized final static void postImageUploadEvent(ImageUploadRequstObject request) {
+    public synchronized static void postImageUploadEvent(ImageUploadRequstObject request) {
         EventBus.getDefault().post(request);
     }
 

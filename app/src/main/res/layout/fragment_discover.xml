@@ -184,6 +184,7 @@
             android:textSize="14sp" />
 
         <ImageView
+            android:id="@+id/discover_dynamic_go"
             android:layout_width="6dp"
             android:layout_height="10dp"
             android:layout_alignParentRight="true"

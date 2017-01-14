@@ -325,7 +325,7 @@
             android:layout_height="48dp"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
-            android:background="@drawable/button_round_write"
+            android:background="@drawable/button_white"
             android:gravity="center"
             android:text="关注"
             android:textColor="@color/menu_main_red"

@@ -4,13 +4,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
-import com.li.videoapplication.utils.URLUtil;
 
 /**
  * 视图：无wifi下播放视频提示

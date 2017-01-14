@@ -16,6 +16,7 @@ import com.li.videoapplication.data.network.RequestConstant;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.ui.fragment.ClassifiedGameFragment;
 import com.li.videoapplication.utils.StringUtil;
@@ -95,14 +96,14 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
      * 话题
      */
     private void setTopic(TextView view, final Game record) {
-        view.setText("话题\t" + StringUtil.formatNum(record.getVideo_num()));
+        view.setText("话题\t" + StringUtil.toUnitW(record.getVideo_num()));
     }
 
     /**
      * 关注
      */
     private void setRemark(TextView view, final Game record) {
-        view.setText("关注\t" + StringUtil.formatNum(record.getAttention_num()));
+        view.setText("关注\t" + StringUtil.toUnitW(record.getAttention_num()));
     }
 
     /**
@@ -128,7 +129,7 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
             @Override
             public void onClick(View v) {
                 if (!isLogin()) {
-                    showToastLogin();
+                    DialogManager.showLogInDialog(getContext());
                     return;
                 }
                 if (record.getTick() == 1) {
@@ -141,7 +142,7 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
                 // 关注圈子201
                 DataManager.groupAttentionGroup(record.getGroup_id(), getMember_id());
                 notifyDataSetChanged();
-                UmengAnalyticsHelper.onEvent(getContext(),UmengAnalyticsHelper.GAME,"找游戏-关注");
+                UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "找游戏-关注");
             }
         });
     }

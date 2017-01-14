@@ -253,8 +253,6 @@ public class UploadMatchResultImageActivity extends TBaseActivity implements Vie
 
         data.clear();
         data.addAll(list);
-
-        adapter = new ResultImageUploadAdapter(this, data, R.layout.adapter_imageupload);
-        gridView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }

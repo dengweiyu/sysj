@@ -46,15 +46,11 @@ public class CameraRecoedActivity extends TBaseActivity implements OnClickListen
 
     private void startVideoMangerActivity() {
         ActivityManeger.startVideoMangerActivity(this, game);
-        /*if (path != null) {
-			ActivityManeger.startVideoMangerActivity(this, game);
-			finish();
-		}*/
     }
 
     private void startVideoShareActivity() {
         if (entity != null) {
-            ActivityManeger.startVideoShareActivity210(this, entity, game);
+            ActivityManeger.startVideoShareActivity210(this, entity, game, VideoShareActivity.TO_VIDEOMANAGER);
             finish();
         }
     }

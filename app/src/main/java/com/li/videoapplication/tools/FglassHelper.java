@@ -327,7 +327,7 @@ public class FglassHelper {
      * Android原生API高斯模糊
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public static final Bitmap blur(Bitmap bitmap) {
+    public static Bitmap blur(Bitmap bitmap) {
         // 用需要创建高斯模糊bitmap创建一个空的bitmap
         Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
         // 初始化Renderscript，这个类提供了RenderScript

@@ -161,7 +161,7 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
             public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int pos) {
                 Member record = (Member) adapter.getItem(pos);
                 if (!isLogin()) {
-                    ToastHelper.s("请先登录！");
+                    showLoginDialog();
                     return;
                 }
                 if (record.getMember_tick() == 1) {// 已关注状态

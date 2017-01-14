@@ -14,7 +14,7 @@ import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.response.OrderListEntity;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.adapter.ExchangeRecordAdapter;
+import com.li.videoapplication.mvp.adapter.ExchangeRecordAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,6 +8,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
 
 public class Constant {
+    public static final Drawable APPSTART_WHITE = new ColorDrawable(Color.parseColor("#f7f7f7"));
 
     public static final Drawable PICTRUE_DEFAULT_TRANSPARENT = new ColorDrawable(Color.TRANSPARENT);
 

@@ -1,69 +1,86 @@
 package com.li.videoapplication.data.model.entity;
 
 import com.li.videoapplication.framework.BaseEntity;
+
+import java.util.List;
+
 /**
  * 实体类：启动图片广告
  */
 @SuppressWarnings("serial")
 public class LaunchImage extends BaseEntity {
 
-	private String launch_id;
-	private String title;
-	private String flag;
-	private int starttime;
-	private int endtime;
-	private String alone_id;
+	//2.1.4
+	private int ad_location_id;
+	private int ad_id;
+	private String server_pic_a;
+	private String download_android;
 	private String go_url;
+	private int ad_type;
+	private String ad_title;
+	private List<Download> download_desc;
 
-	public String getLaunch_id() {
-		return launch_id;
+	public List<Download> getDownload_desc() {
+		return download_desc;
 	}
 
-	public void setLaunch_id(String launch_id) {
-		this.launch_id = launch_id;
+	public void setDownload_desc(List<Download> download_desc) {
+		this.download_desc = download_desc;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getAd_title() {
+		return ad_title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setAd_title(String ad_title) {
+		this.ad_title = ad_title;
 	}
 
-	public String getFlag() {
-		return flag;
+	public int getAd_type() {
+		return ad_type;
 	}
 
-	public void setFlag(String flag) {
-		this.flag = flag;
-	}
-
-	public int getStarttime() {
-		return starttime;
-	}
-
-	public void setStarttime(int starttime) {
-		this.starttime = starttime;
-	}
-
-	public int getEndtime() {
-		return endtime;
-	}
-
-	public void setEndtime(int endtime) {
-		this.endtime = endtime;
-	}
-
-	public String getAlone_id() {
-		return alone_id;
-	}
-
-	public void setAlone_id(String alone_id) {
-		this.alone_id = alone_id;
+	public void setAd_type(int ad_type) {
+		this.ad_type = ad_type;
 	}
 
 	public String getGo_url() {
 		return go_url;
+	}
+
+	public void setGo_url(String go_url) {
+		this.go_url = go_url;
+	}
+
+	public int getAd_id() {
+		return ad_id;
+	}
+
+	public void setAd_id(int ad_id) {
+		this.ad_id = ad_id;
+	}
+
+	public int getAd_location_id() {
+		return ad_location_id;
+	}
+
+	public void setAd_location_id(int ad_location_id) {
+		this.ad_location_id = ad_location_id;
+	}
+
+	public String getDownload_android() {
+		return download_android;
+	}
+
+	public void setDownload_android(String download_android) {
+		this.download_android = download_android;
+	}
+
+	public String getServer_pic_a() {
+		return server_pic_a;
+	}
+
+	public void setServer_pic_a(String server_pic_a) {
+		this.server_pic_a = server_pic_a;
 	}
 }

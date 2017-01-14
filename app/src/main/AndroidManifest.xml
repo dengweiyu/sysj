@@ -57,18 +57,18 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" />
 
     <application
-        android:name=".ui.application.MainApplication"
+        android:name=".component.application.MainApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo_round"
         android:label="@string/app_name"
         android:launchMode="singleTask"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon">
+        tools:replace="android:icon,android:allowBackup">
+
         <activity
             android:name="com.li.videoapplication.ui.activity.AppstartActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -78,7 +78,7 @@
         <activity
             android:name="com.li.videoapplication.ui.activity.MainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <data
                 android:host="com.li.videoapplication"
                 android:pathPrefix="/push_message"
@@ -113,18 +113,24 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.li.videoapplication.ui.activity.MyWelfareActivity"
+            android:name=".mvp.activity_gift.view.MyActivityListActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar" />
+        <activity
+            android:name=".mvp.activity_gift.view.MyGiftListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar" />
         <activity
             android:name="com.li.videoapplication.ui.activity.GiftDetailActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.li.videoapplication.ui.activity.ActivityDetailActivity208"
+            android:name="com.li.videoapplication.ui.activity.ActivityDetailActivity"
             android:launchMode="singleTask"
-            android:theme="@style/MyTheme.NoActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar" />
         <activity
             android:name="com.li.videoapplication.ui.activity.SettingActivity"
             android:launchMode="singleTask"
@@ -136,7 +142,8 @@
         <activity
             android:name="com.li.videoapplication.ui.activity.LoginActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Light" />
         <activity
             android:name="com.li.videoapplication.ui.activity.PrivacyActivity"
             android:launchMode="singleTask"
@@ -149,21 +156,21 @@
             android:name=".mvp.billboard.view.BillboardActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme.NoActionBar"/>
+            android:theme="@style/MyTheme.NoActionBar" />
         <activity
             android:name=".mvp.billboard.view.MatchRewardBillboardActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme.NoActionBar"/>
+            android:theme="@style/MyTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.RecommendActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.li.videoapplication.ui.activity.GroupDetailActivity"
-            android:theme="@style/MyTheme.NoActionBar"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar" />
         <activity
             android:name="com.li.videoapplication.ui.activity.GroupGiftActivity"
             android:launchMode="singleTask"
@@ -251,13 +258,21 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!-- ################################# 2.1.4 广点通   ######################### -->
+        <service
+            android:name="com.qq.e.comm.DownloadService"
+            android:exported="false" />
+        <activity
+            android:name="com.qq.e.ads.ADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
+
         <!-- ################################# 2.1.1商城相关   ######################### -->
 
         <activity
             android:name=".ui.activity.MyWalletActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme.NoActionBar"/>
+            android:theme="@style/MyTheme.NoActionBar" />
 
         <activity
             android:name=".ui.activity.MyCurrencyRecordActivity"
@@ -288,16 +303,21 @@
             android:name=".mvp.match.view.GroupMatchListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme.NoActionBar"/>
+            android:theme="@style/MyTheme.NoActionBar" />
 
 
         <!-- #################################   赛事相关   ######################### -->
         <activity
+            android:name=".mvp.match.view.MatchRecordActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar"></activity>
+
+        <activity
             android:name=".mvp.match.view.MatchResultActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme.NoActionBar">
-        </activity>
+            android:theme="@style/MyTheme.NoActionBar"></activity>
         <!--单聊界面，包括客服-->
         <activity
             android:name=".ui.activity.ConversationActivity"
@@ -320,8 +340,7 @@
             android:name=".mvp.match.view.GameMatchDetailActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme.NoActionBar">
-        </activity>
+            android:theme="@style/MyTheme.NoActionBar"></activity>
         <!--我的消息-->
         <activity
             android:name="com.li.videoapplication.ui.activity.MyMessageActivity"
@@ -348,7 +367,7 @@
             android:name="com.li.videoapplication.mvp.match.view.MyMatchActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme.NoActionBar"/>
+            android:theme="@style/MyTheme.NoActionBar" />
         <activity
             android:name="com.li.videoapplication.ui.activity.MyMatchProcessActivity"
             android:launchMode="singleTask"
@@ -380,14 +399,19 @@
         <!--下载完成监听-->
         <receiver android:name=".data.receiver.DownloadCompleteReceiver">
             <intent-filter>
-                <action android:name="DownloadManager.ACTION_DOWNLOAD_COMPLETE" />
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
             </intent-filter>
         </receiver>
 
         <!--网络请求服务-->
         <service android:name="com.li.videoapplication.data.network.RequestService" />
         <!--初始化数据服务-->
-        <service android:name="com.li.videoapplication.ui.service.AppStartService" />
+        <service android:name="com.li.videoapplication.component.service.AppStartService" />
+        <!--更新下载apk服务-->
+        <service android:name="com.li.videoapplication.component.service.UpdateService" />
+        <!--下载服务-->
+        <service android:name="com.li.videoapplication.component.service.DownloadService" />
 
         <!-- ################################# 录屏部分   ######################### -->
 
@@ -397,7 +421,7 @@
             android:screenOrientation="portrait" />
 
         <!--录屏服务-->
-        <service android:name="com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService"/>
+        <service android:name="com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService" />
 
 
         <!-- ################################# 网页跳转和图片显示部分   ######################### -->
@@ -420,7 +444,7 @@
             android:name=".ui.activity.WebActivityJS"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme.NoActionBar"/>
+            android:theme="@style/MyTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.VideoEditorActivity"
             android:launchMode="singleTask"
@@ -430,7 +454,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.VideoShareActivity210"
+            android:name=".ui.activity.VideoShareActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -440,8 +464,9 @@
         <activity
             android:name=".ui.activity.SearchGameActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar"
-            android:screenOrientation="portrait" />
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.activity.HomeImageShareActivity"
             android:launchMode="singleTask"
@@ -469,13 +494,13 @@
 
         <!-- #################################  融云  ######################### -->
         <meta-data
-            tools:replace="android:value"
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="bmdehs6pd3txs" />
+            android:value="bmdehs6pd3txs"
+            tools:replace="android:value" />
 
         <receiver
-            android:exported="true"
-            android:name=".rong_im.RongIMPushReceiver">
+            android:name=".rong_im.RongIMPushReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="io.rong.push.intent.MESSAGE_ARRIVED" />
                 <action android:name="io.rong.push.intent.MI_MESSAGE_ARRIVED" />
@@ -509,17 +534,13 @@
         <!--UMENG_MESSAGE_SECRET: d75f6bf2b18d152f8c53c02f68963095-->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5450f180fd98c5a66902c674"/>
+            android:value="5450f180fd98c5a66902c674" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
-            android:value="d75f6bf2b18d152f8c53c02f68963095"/>
-
-        <!-- ################################# 友盟用户反馈   ######################### -->
-
-        <activity android:name="com.umeng.fb.ConversationActivity" />
+            android:value="d75f6bf2b18d152f8c53c02f68963095" />
 
         <!-- #################################   ShareSDK   ######################### -->
         <activity
@@ -561,12 +582,11 @@
         <!--####################################################################################-->
 
 
-
         <!-- JSInterface defined.  For test only  用户自定义的广播接收器-->
         <receiver
             android:name="com.li.videoapplication.tools.JPushHelper$MyReceiver"
-            android:exported="false"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->

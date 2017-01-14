@@ -37,14 +37,8 @@ public abstract class BaseEmptyDialog extends Dialog {
 		WindowManager manager = ((Activity) context).getWindowManager();
 		Display display = manager.getDefaultDisplay();
 		WindowManager.LayoutParams params = window.getAttributes();
-		params.width = (int) (display.getWidth()); // 设置宽度
+		params.width = (display.getWidth()); // 设置宽度
 
-		// 根据x，y坐标设置窗口需要显示的位置
-//		params.x = 0; // x小于0左移，大于0右移
-//		params.y = 0; // y小于0上移，大于0下移
-//		params.alpha = 0.0f; //设置透明度
-//		params.gravity = Gravity.BOTTOM; // 设置重力
-		
 		window.setAttributes(params);
 	
 	}

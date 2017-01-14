@@ -12,6 +12,7 @@ import com.li.videoapplication.framework.BaseDialog;
 import com.li.videoapplication.framework.BaseOverShootDialog;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.ShareSDKLoginHelper;
+import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.activity.LoginActivity;
 import com.li.videoapplication.utils.CountDownTimerUtils;
@@ -27,6 +28,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import io.rong.eventbus.EventBus;
 
@@ -178,6 +182,16 @@ public class LogInDialog extends BaseOverShootDialog implements View.OnClickList
         pd.setCancelable(true);
         pd.setCanceledOnTouchOutside(false);
         pd.show();
+
+        //10秒后还未登陆成功则取消对话框
+        TimeHelper.runAfter(new TimeHelper.RunAfter() {
+            @Override
+            public void runAfter() {
+                if (!PreferencesHepler.getInstance().isLogin()){
+                    dismissProgressDialog();
+                }
+            }
+        }, 1000 * 10);
     }
 
     private void dismissProgressDialog() {

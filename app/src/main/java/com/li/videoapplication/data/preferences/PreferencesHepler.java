@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Advertisement;
+import com.li.videoapplication.data.model.entity.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.Associate;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.Update;
@@ -281,7 +282,7 @@ public class PreferencesHepler {
     /**
      * 保存广告位置列表
      */
-    public void saveAdvertisements(AdvertisementAdLocation204Entity entity) {
+    public void  saveAdvertisements(AdvertisementAdLocation204Entity entity) {
         if (entity != null &&
                 entity.getData() != null &&
                 entity.getData().size() > 0) {
@@ -416,39 +417,30 @@ public class PreferencesHepler {
         }
     }
 
-	/* ##############  图片广告（旧接口）  ############### */
-
-    /**
-     * 保存图片广告（旧接口）
-     */
-    public void saveLaunchImage(LaunchImageEntity entity) {
-        NormalPreferences.getInstance().putString(Constants.LAUNCH_IMAHE, entity.toJSON());
-    }
-
-    /**
-     * 获取图片广告（旧接口）
-     */
-    public LaunchImageEntity getLaunchImage() {
-        String json = NormalPreferences.getInstance().getString(Constants.LAUNCH_IMAHE);
-        LaunchImageEntity entity = gson.fromJson(json, LaunchImageEntity.class);
-        return entity;
-    }
-
 	/* ##############  图片广告  ############### */
+    /**
+     * 删除图片广告缓存
+     */
+    public void removeIndexLaunchImage() {
+        Log.d(tag, "remove/IndexLaunchImage ");
+        NormalPreferences.getInstance().remove(Constants.INDEX_LAUNCH_IMAHE);
+    }
 
     /**
-     * 保存图片广告
+     * 保存图片广告214
      */
-    public void saveIndexLaunchImage(IndexLaunchImageEntity entity) {
+    public void saveIndexLaunchImage(AdvertisementDto entity) {
+        Log.d(tag, "save/IndexLaunchImage=" + entity.toJSON());
         NormalPreferences.getInstance().putString(Constants.INDEX_LAUNCH_IMAHE, entity.toJSON());
     }
 
     /**
-     * 获取图片广告
+     * 获取图片广告214
      */
-    public IndexLaunchImageEntity getIndexLaunchImage() {
+    public AdvertisementDto getIndexLaunchImage() {
         String json = NormalPreferences.getInstance().getString(Constants.INDEX_LAUNCH_IMAHE);
-        IndexLaunchImageEntity entity = gson.fromJson(json, IndexLaunchImageEntity.class);
+        AdvertisementDto entity = gson.fromJson(json, AdvertisementDto.class);
+        Log.d(tag, "get/IndexLaunchImage=" + entity);
         return entity;
     }
 

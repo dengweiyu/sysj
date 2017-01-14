@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.local.ImageDirectoryEntity;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
 import com.li.videoapplication.ui.activity.ImageViewActivity;
 import com.li.videoapplication.ui.popupwindows.ImageDirectoryPopupWindow;
 
@@ -56,7 +56,7 @@ public class ImageDirectoryAdapter extends ArrayAdapter<ImageDirectoryEntity> {
         // 重置
         holder.pic.setImageDrawable(new ColorDrawable(Color.parseColor("#ffffff")));
         final String filePath = record.getPath() + "/" + record.getFirstFileName();
-        ImageLoaderHelper.displayImageWhite4Local(filePath, holder.pic);
+        GlideHelper.displayImageWhite(activity,filePath, holder.pic);
 
         if (directory.equals(record.getPath())) {
             selectedPosition = position;

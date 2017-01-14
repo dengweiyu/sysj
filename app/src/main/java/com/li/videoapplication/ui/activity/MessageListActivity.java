@@ -3,7 +3,9 @@ package com.li.videoapplication.ui.activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
@@ -109,15 +111,23 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
         gameAdapter = new GameMessageAdapter(this, gameData);
         systemAdapter = new SystemMessageAdapter(this, systemData);
 
+        View emptyView = getLayoutInflater().inflate(R.layout.emptyview,
+                (ViewGroup) listView.getParent(), false);
+        TextView emptyText = (TextView) emptyView.findViewById(R.id.emptyview_text);
+        listView.setEmptyView(emptyView);
+
         if (message == MESSAGE_VIDEO) {
             abMessageClean.setVisibility(View.VISIBLE);
             abMessageClean.setOnClickListener(this);
             setAdapter(videoAdapter);
+            emptyText.setText("没有视频消息");
         } else if (message == MESSAGE_GAME) {
             setAdapter(gameAdapter);
+            emptyText.setText("没有圈子消息");
         } else if (message == MESSAGE_SYSTEM) {
             setListStyle(listView);
             setAdapter(systemAdapter);
+            emptyText.setText("没有系统消息");
         }
     }
 

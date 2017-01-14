@@ -98,7 +98,7 @@ public class VideoPlayCommentAdapter extends BaseArrayAdapter<Comment> {
             holder.isV.setVisibility(View.INVISIBLE);
         }
 
-        if (record.isCanBeDel()) {
+        if (record.isCanBeDel() && !StringUtil.isNull(getMember_id())) {
             holder.delete.setVisibility(View.VISIBLE);
         } else {
             holder.delete.setVisibility(View.GONE);
@@ -108,16 +108,10 @@ public class VideoPlayCommentAdapter extends BaseArrayAdapter<Comment> {
 
             @Override
             public void onClick(View v) {
-
                 if (getContext() instanceof VideoPlayActivity) {
-                    if (getContext() instanceof VideoPlayActivity) {
-                        VideoPlayActivity activity = (VideoPlayActivity) getContext();
-                        activity.commentView.replyComment(record);
-                        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放-回复");
-                    } else if (getContext() instanceof ImageDetailActivity) {
-                        ImageDetailActivity activity = (ImageDetailActivity) getContext();
-//							activity.replyComment(checkPosition, record);
-                    }
+                    VideoPlayActivity activity = (VideoPlayActivity) getContext();
+                    activity.commentView.replyComment(record);
+                    UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放-回复");
                 }
             }
         });

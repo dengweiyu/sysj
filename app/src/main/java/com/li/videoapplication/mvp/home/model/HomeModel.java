@@ -1,13 +1,18 @@
 package com.li.videoapplication.mvp.home.model;
 
+import android.util.Log;
+
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
 import com.li.videoapplication.data.model.entity.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
+import com.li.videoapplication.mvp.OnLoadDataListener;
 import com.li.videoapplication.mvp.home.HomeContract.onloadHomeDataListener;
 import com.li.videoapplication.mvp.home.HomeContract.IHomeModel;
 import com.li.videoapplication.data.HttpManager;
 import com.li.videoapplication.framework.BaseHttpResult;
+
+import java.util.List;
 
 import rx.Observer;
 
@@ -129,6 +134,7 @@ public class HomeModel implements IHomeModel {
 
             @Override
             public void onNext(AdvertisementDto data) {
+                Log.d(TAG, "onNext: AdvertisementDto == "+data);
                 if (data != null)
                     listener.onLoadAdvertisementSuccess(data);
             }
@@ -152,6 +158,27 @@ public class HomeModel implements IHomeModel {
             public void onNext(BaseHttpResult data) {
                 if (data != null && data.isResult())
                     listener.onLoadAdClickSuccess(data);
+            }
+        });
+    }
+
+    @Override
+    public void adImageDownload(List<String> downloadList,final OnLoadDataListener<Boolean> listener) {
+        HttpManager.getInstance().downloadFiles(downloadList,  new Observer<Boolean>() {
+
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                listener.onFailure(e);
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                listener.onSuccess(aBoolean);
             }
         });
     }

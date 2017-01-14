@@ -122,6 +122,7 @@ public class Match extends BaseEntity {
     private String pk_id;
     private String avatar;
     private String is_uppic;
+    private String is_upvideo;
     private String result_pic;
     private String over_time;
     private String qq;
@@ -139,8 +140,61 @@ public class Match extends BaseEntity {
     private String new_cover;
     private String event_award;//总奖金3000元
     private String event_format;//5v5淘汰赛
+    private String match_format;//5v5淘汰赛
     private int format_type; //1:普通淘汰赛, 2:邀请赛
     private int is_invite; //是否设置邀请码0为否，1为是
+    private String a_video_id; //0没传过，1传过视频
+    private String b_video_id; //
+    private String uptime;
+    private String nickname;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getUptime() {
+        return uptime;
+    }
+
+    public void setUptime(String uptime) {
+        this.uptime = uptime;
+    }
+
+    public String getMatch_format() {
+        return match_format;
+    }
+
+    public void setMatch_format(String match_format) {
+        this.match_format = match_format;
+    }
+
+    public String getA_video_id() {
+        return a_video_id;
+    }
+
+    public void setA_video_id(String a_video_id) {
+        this.a_video_id = a_video_id;
+    }
+
+    public String getB_video_id() {
+        return b_video_id;
+    }
+
+    public void setB_video_id(String b_video_id) {
+        this.b_video_id = b_video_id;
+    }
+
+    public String getIs_upvideo() {
+        return is_upvideo;
+    }
+
+    public void setIs_upvideo(String is_upvideo) {
+        this.is_upvideo = is_upvideo;
+    }
 
     public int getIs_invite() {
         return is_invite;
@@ -326,12 +380,12 @@ public class Match extends BaseEntity {
         this.result_pic = result_pic;
     }
 
-    public String getIsuppic() {
+    public String getIs_uppic() {
         return is_uppic;
     }
 
-    public void setIsuppic(String isuppic) {
-        this.is_uppic = isuppic;
+    public void setIs_uppic(String is_uppic) {
+        this.is_uppic = is_uppic;
     }
 
     public String[] getCustomer_service() {

@@ -7,24 +7,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
-import com.li.videoapplication.data.model.response.GroupEventsList211Entity;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.adapter.MatchListAdapter;
 import com.li.videoapplication.mvp.match.MatchContract.IGroupMatchListView;
 import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.adapter.GameMatchAdapter;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;

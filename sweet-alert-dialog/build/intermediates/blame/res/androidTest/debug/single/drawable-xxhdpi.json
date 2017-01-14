@@ -60,12 +60,12 @@
         "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable-xxhdpi\\abc_btn_radio_to_on_mtrl_015.png"
     },
     {
-        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi\\abc_textfield_default_mtrl_alpha.9.png",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable-xxhdpi\\abc_textfield_default_mtrl_alpha.9.png"
-    },
-    {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi\\abc_ic_search_api_mtrl_alpha.png",
         "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable-xxhdpi\\abc_ic_search_api_mtrl_alpha.png"
+    },
+    {
+        "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi\\abc_textfield_default_mtrl_alpha.9.png",
+        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\drawable-xxhdpi\\abc_textfield_default_mtrl_alpha.9.png"
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi\\abc_ic_clear_mtrl_alpha.png",

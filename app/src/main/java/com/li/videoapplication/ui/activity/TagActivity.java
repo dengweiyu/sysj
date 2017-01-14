@@ -52,7 +52,7 @@ public class TagActivity extends TBaseActivity implements View.OnClickListener {
     public void initView() {
         super.initView();
         GridView gridView = (GridView) findViewById(R.id.gridView);
-        adapter = new TagAdapter(this, VideoShareActivity210.TAGS);
+        adapter = new TagAdapter(this, VideoShareActivity.TAGS);
         gridView.setAdapter(adapter);
     }
 

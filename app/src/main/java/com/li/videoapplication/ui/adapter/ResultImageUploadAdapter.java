@@ -5,11 +5,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.view.View.MeasureSpec;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.framework.CommonAdapter;
 import com.li.videoapplication.framework.ViewHolder;
@@ -51,7 +50,7 @@ public class ResultImageUploadAdapter extends CommonAdapter<ScreenShotEntity> {
             pic.setScaleType(ImageView.ScaleType.FIT_XY);
             del.setVisibility(View.GONE);
 		} else {
-            ImageLoaderHelper.displayImageWhite4Local(record.getPath(), pic);
+            GlideHelper.displayImageWhite(context,record.getPath(), pic);
 		}
 
         holder.getConvertView().setOnClickListener(new View.OnClickListener(){

@@ -118,4 +118,13 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
+    <!--加载圈-->
+    <ProgressBar
+        android:id="@+id/videoplay_loading"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
 </RelativeLayout>

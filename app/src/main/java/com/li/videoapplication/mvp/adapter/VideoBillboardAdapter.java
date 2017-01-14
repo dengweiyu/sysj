@@ -21,6 +21,7 @@ import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.GroupDetailImageAdapter;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
@@ -184,7 +185,7 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
             public void onClick(View v) {
 
                 if (!PreferencesHepler.getInstance().isLogin()) {
-                    ToastHelper.s("请先登录！");
+                    DialogManager.showLogInDialog(mContext);
                     return;
                 }
                 if (StringUtil.isNull(record.getFlower_count())) {
@@ -241,7 +242,7 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
             public void onClick(View v) {
 
                 if (!PreferencesHepler.getInstance().isLogin()) {
-                    ToastHelper.s("请先登录！");
+                    DialogManager.showLogInDialog(mContext);
                     return;
                 }
                 if (StringUtil.isNull(record.getCollection_count())) {
@@ -285,12 +286,18 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
                 !StringUtil.isNull(record.getId())) { // 搜索视频
             return;
         }
-        ImageView comment = holder.getView(R.id.groupdetail_comment);
+        final ImageView comment = holder.getView(R.id.groupdetail_comment);
         comment.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 startVideoPlayActivity(record);
+            }
+        });
+        holder.getView(R.id.groupdetail_commentCount).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                comment.performClick();
             }
         });
     }

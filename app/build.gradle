@@ -24,7 +24,7 @@ android {
     }
 
     dexOptions {
-        //设置的值不要大于你机器可用的内存，如：Windwos10 4GB 此处设置为 1g
+//        设置的值不要大于你机器可用的内存，如：Windwos10 4GB 此处设置为 1g
         javaMaxHeapSize "4g"
     }
 
@@ -36,9 +36,9 @@ android {
         applicationId "com.li.videoapplication"
         minSdkVersion 18
         targetSdkVersion 22
-        // 20160628 2.0.7  test:20151105,1.1.7
-        versionCode 20161227
-        versionName "2.1.4"
+        // 20170104,2.1.4   test:20161122, 2.1.2
+        versionCode 20170113
+        versionName "2.1.5"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
         multiDexEnabled true
@@ -91,7 +91,14 @@ android {
     }
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
+
     // 内存泄漏
     // debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
     // releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3'
@@ -101,7 +108,6 @@ dependencies {
     compile files('libs/zxing.jar')
     // 编译依赖模块
     compile project(':SlidingMenu')
-    compile project(':Feedback')
     compile project(':PullToRefresh')
     compile project(':ShareSDK')
     compile project(':DanmakuFlameMaster')
@@ -114,7 +120,6 @@ dependencies {
     compile 'com.squareup.okio:okio:1.6.0'
     compile 'com.google.code.gson:gson:2.5'
     //    compile 'de.greenrobot:eventbus:2.4.0'
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     // HttpClient
     compile 'org.apache.httpcomponents:httpclient-android:4.3.3'
     compile 'org.apache.httpcomponents:httpmime:4.3.3'
@@ -159,4 +164,11 @@ dependencies {
     compile 'com.github.VictorAlbertos.RxCache:core:1.4.6'
     // 图片加载框架 glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    //阿里百川用户反馈
+    compile(name: 'alisdk-feedback-2.5.0.1', ext: 'aar')
+    compile(name: 'securityguardaar3-5.1.81', ext: 'aar')
+    compile files('libs/app-monitor-sdk-2.5.1.1_for_bc_proguard.jar')
+    compile files('libs/utdid4all-1.1.5.3_proguard.jar')
+    //广点通广告
+    compile files('libs/GDTUnionSDK.4.9.542.min.jar')
 }

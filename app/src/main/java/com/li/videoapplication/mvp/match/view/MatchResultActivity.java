@@ -126,7 +126,7 @@ public class MatchResultActivity extends TBaseAppCompatActivity implements View.
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         //添加与js的交互接口,起的名称与js代码中的接口名称要一致
-        webView.addJavascriptInterface(new JSInterface(this), "apply");
+        webView.addJavascriptInterface(new JSInterface(this), "ap");
         webView.setDownloadListener(new DownloadListener() {
 
             @Override

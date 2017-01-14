@@ -4,17 +4,19 @@ import java.util.List;
 
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.framework.BaseResponseEntity;
+import com.li.videoapplication.framework.BaseResponse2Entity;
 
 @SuppressWarnings("serial")
-public class MyMatchListEntity extends BaseResponseEntity {
-	
-	private List<Match> data;
+public class MyMatchListEntity extends BaseResponse2Entity {
 
-	public List<Match> getData() {
-		return data;
-	}
+    private List<Match> list;
 
-	public void setData(List<Match> data) {	
-		this.data = data;
-	}
+    public List<Match> getList() {
+        return list;
+    }
+
+    public void setList(List<Match> list) {
+        this.list = list;
+    }
+
 }

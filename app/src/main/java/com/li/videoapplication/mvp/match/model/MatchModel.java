@@ -6,6 +6,8 @@ import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.event.MatchListFliterEvent;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
+import com.li.videoapplication.data.model.response.GameCateEntity;
+import com.li.videoapplication.data.model.response.MatchRecordEntity;
 import com.li.videoapplication.data.model.response.MatchRewardBillboardEntity;
 import com.li.videoapplication.data.model.response.ServiceNameEntity;
 import com.li.videoapplication.data.model.response.SignScheduleEntity;
@@ -35,7 +37,7 @@ public class MatchModel implements IMatchModel {
     }
 
     @Override
-    public void getEventsList(int page, int format_type, String game_id, final OnLoadDataListener<EventsList214Entity> listener) {
+    public void getEventsList(int page, String format_type, String game_id, final OnLoadDataListener<EventsList214Entity> listener) {
         HttpManager.getInstance().getEventsList(page, format_type, game_id, new Observer<EventsList214Entity>() {
 
             @Override
@@ -56,8 +58,8 @@ public class MatchModel implements IMatchModel {
     }
 
     @Override
-    public void getGameCate(final OnLoadDataListener<List<Game>> listener) {
-        HttpManager.getInstance().getGameCate(new Observer<List<Game>>() {
+    public void getGameCate(final OnLoadDataListener<GameCateEntity> listener) {
+        HttpManager.getInstance().getGameCate(new Observer<GameCateEntity>() {
 
             @Override
             public void onCompleted() {
@@ -69,7 +71,7 @@ public class MatchModel implements IMatchModel {
             }
 
             @Override
-            public void onNext(List<Game> entity) {
+            public void onNext(GameCateEntity entity) {
                 if (entity != null)
                     listener.onSuccess(entity);
             }
@@ -161,8 +163,8 @@ public class MatchModel implements IMatchModel {
     }
 
     @Override
-    public void signSchedule(String member_id, String schedule_id, final OnLoadDataListener<SignScheduleEntity> listener) {
-        HttpManager.getInstance().signSchedule(member_id, schedule_id, new Observer<SignScheduleEntity>() {
+    public void signSchedule(String member_id, String schedule_id, String event_id, final OnLoadDataListener<SignScheduleEntity> listener) {
+        HttpManager.getInstance().signSchedule(member_id, schedule_id, event_id, new Observer<SignScheduleEntity>() {
 
             @Override
             public void onCompleted() {
@@ -259,6 +261,48 @@ public class MatchModel implements IMatchModel {
 
             @Override
             public void onNext(EventsPKListEntity entity) {
+                if (entity != null)
+                    listener.onSuccess(entity);
+            }
+        });
+    }
+
+    @Override
+    public void getHistoricalRecord(String memberId, int page,final OnLoadDataListener<MatchRecordEntity> listener) {
+        HttpManager.getInstance().getHistoricalRecord(memberId, page, new Observer<MatchRecordEntity>() {
+
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                listener.onFailure(e);
+            }
+
+            @Override
+            public void onNext(MatchRecordEntity entity) {
+                if (entity != null)
+                    listener.onSuccess(entity);
+            }
+        });
+    }
+
+    @Override
+    public void eventsRecordClick(String event_id, int e_record_status,final OnLoadDataListener<BaseHttpResult> listener) {
+        HttpManager.getInstance().eventsRecordClick(event_id, e_record_status, new Observer<BaseHttpResult>() {
+
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                listener.onFailure(e);
+            }
+
+            @Override
+            public void onNext(BaseHttpResult entity) {
                 if (entity != null)
                     listener.onSuccess(entity);
             }

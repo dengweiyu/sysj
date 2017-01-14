@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.tools.LayoutParamsHelper;
 import com.li.videoapplication.tools.TextImageHelper;
@@ -18,11 +19,9 @@ import java.util.List;
  */
 public class HomeHotGameAdapter extends BaseQuickAdapter<Game, BaseViewHolder> {
 
-    private TextImageHelper helper;
 
     public HomeHotGameAdapter(List<Game> data) {
         super(R.layout.adapter_home_hotgame, data);
-        helper = new TextImageHelper();
     }
 
     @Override
@@ -30,7 +29,7 @@ public class HomeHotGameAdapter extends BaseQuickAdapter<Game, BaseViewHolder> {
         setLayoutParams(holder.getView(R.id.root)); //72*72
 
         ImageView pic = holder.getView(R.id.hotgame_pic);
-        helper.setImageViewImageNet(pic, game.getFlag());
+        GlideHelper.displayImageWhite(mContext, game.getFlag(), pic);
 
         holder.setText(R.id.hotgame_name, game.getGroup_name());
     }

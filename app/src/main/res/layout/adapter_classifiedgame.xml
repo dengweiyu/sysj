@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="话题  20202"
+            android:text="话题  0"
             android:textColor="#646464"
             android:textSize="10sp"/>
 
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="关注 20021"
+            android:text="关注 0"
             android:textColor="#646464"
             android:textSize="10sp"/>
     </LinearLayout>

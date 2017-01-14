@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,8 +41,6 @@ import me.everything.android.ui.overscroll.adapters.AbsListViewOverScrollDecorAd
  */
 @SuppressLint("SdCardPath")
 public class MyLocalVideoFragment extends TBaseFragment {
-
-    private View tipEmpty;
 
     public TextView storgeText;
     private LinearLayout storgeRoot;
@@ -104,11 +103,11 @@ public class MyLocalVideoFragment extends TBaseFragment {
      * 初始化控件
      */
     private void initContentView(View view, Object o) {
-
         listView = (ListView) view.findViewById(R.id.listview);
         new VerticalOverScrollBounceEffectDecorator(new AbsListViewOverScrollDecorAdapter(listView));
 
-        tipEmpty = view.findViewById(R.id.mylocalvideo_empty);
+        TextView emptyText = (TextView) view.findViewById(R.id.mylocalvideo_empty);
+        listView.setEmptyView(emptyText);
 
         storgeText = (TextView) view.findViewById(R.id.videomanager_text);
         storgeRoot = (LinearLayout) view.findViewById(R.id.videomanager_root);
@@ -118,9 +117,6 @@ public class MyLocalVideoFragment extends TBaseFragment {
         adapter = new MyLocalVideoAdapter210(getActivity(), data, listView, (VideoMangerActivity) getActivity());
         VideoShareTask208.addCallbacks(adapter);
         listView.setAdapter(adapter);
-
-        tipEmpty.setVisibility(View.GONE);
-        listView.setVisibility(View.GONE);
     }
 
     public void refreshStorge() {
@@ -145,18 +141,6 @@ public class MyLocalVideoFragment extends TBaseFragment {
 
     private String toRedColor(String text) {
         return TextUtil.toColor(text, "#fc3c2d");
-    }
-
-    public void refreshContentView() {
-
-        adapter.notifyDataSetChanged();
-        if (data != null && data.size() > 0) {
-            tipEmpty.setVisibility(View.GONE);
-            listView.setVisibility(View.VISIBLE);
-        } else {
-            tipEmpty.setVisibility(View.VISIBLE);
-            listView.setVisibility(View.GONE);
-        }
     }
 
     /**
@@ -207,8 +191,6 @@ public class MyLocalVideoFragment extends TBaseFragment {
      * 回调:视频剪辑完成
      */
     public void onEventMainThread(VideoCutEvent event) {
-        //视频封面需要加载到缓存，然后才设置上去。
-        adapter.Need2Cache = true;
         // 验证并加载本地视频
         DataManager.LOCAL.checkVideoCaptures();
     }
@@ -221,12 +203,12 @@ public class MyLocalVideoFragment extends TBaseFragment {
         if (event.getResultCode() == VideoCaptureResponseObject.RESULT_CODE_LOADING
                 || event.getResultCode() == VideoCaptureResponseObject.RESULT_CODE_CHECKING) {
 
-            if (event.getData() != null && event.getData().size() > 0) {
+            if (event.getData() != null) {
                 data.clear();
                 data.addAll(event.getData());
                 Log.d(tag, "data: == "+data);
                 activity.setMyLocalVideoSize(data.size());
-                refreshContentView();
+                adapter.notifyDataSetChanged();
             }
         } else if (event.getResultCode() == VideoCaptureResponseObject.RESULT_CODE_IMPORTING) {
             if (event.getData() != null) {

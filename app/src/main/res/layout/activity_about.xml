@@ -32,7 +32,7 @@
             android:padding="2dp"
             android:layout_alignTop="@+id/center"
             android:layout_toRightOf="@+id/center"
-            android:background="#555555"
+            android:background="#ff422e"
             android:gravity="right|top"
             android:paddingRight="0.8dp"
             android:paddingTop="0.8dp"

@@ -13,6 +13,7 @@ public class AppConstant {
 	public static final String SYSJ_IOS = "i_sysj";
 
 	public static final boolean DEBUG = true;
+	public static final boolean isFeiMo = false;//飞磨快速登录版
 
 	public static final int USER_COVER_WIDTH = 720;
 	public static final int USER_COVER_HEIGHT = 480;

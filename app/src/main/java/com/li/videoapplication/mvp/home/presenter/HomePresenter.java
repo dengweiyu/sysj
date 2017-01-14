@@ -1,18 +1,28 @@
 package com.li.videoapplication.mvp.home.presenter;
 
+import android.text.method.NumberKeyListener;
 import android.util.Log;
 
+import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
 import com.li.videoapplication.data.model.entity.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
-import com.li.videoapplication.mvp.home.HomeContract.IAppStartView;
+import com.li.videoapplication.data.network.RequestExecutor;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
+import com.li.videoapplication.mvp.OnLoadDataListener;
 import com.li.videoapplication.mvp.home.HomeContract.IHomeModel;
 import com.li.videoapplication.mvp.home.HomeContract.IHomePresenter;
 import com.li.videoapplication.mvp.home.HomeContract.IHomeView;
 import com.li.videoapplication.mvp.home.HomeContract.onloadHomeDataListener;
 import com.li.videoapplication.mvp.home.model.HomeModel;
 import com.li.videoapplication.framework.BaseHttpResult;
+import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.utils.StringUtil;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Presenter实现类: 首页
@@ -21,7 +31,6 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
     private static final String TAG = HomePresenter.class.getSimpleName();
 
     private IHomeView homeView;
-    private IAppStartView appStartView;
     private IHomeModel homeModel;
     private static IHomePresenter homePresenter;
 
@@ -42,11 +51,6 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
     }
 
     @Override
-    public void setAppStartView(IAppStartView appStartView) {
-        this.appStartView = appStartView;
-    }
-
-    @Override
     public void loadHomeData(int page, boolean isLoad) {
         Log.d(TAG, "loadHomeData: " + isLoad);
         homeModel.loadHomeData(page, isLoad, this);
@@ -54,7 +58,8 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
 
     @Override
     public void unfinishedTask(String member_id, boolean update) {
-        homeModel.unfinishedTask(member_id,update, this);
+        Log.d(TAG, "unfinishedTask: " + update);
+        homeModel.unfinishedTask(member_id, update, this);
     }
 
     @Override
@@ -82,6 +87,11 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
     //加载首页成功，通知view更新界面
     @Override
     public void onLoadHomeSuccess(HomeDto data) {
+        try {
+            Log.d(TAG, "onLoadHomeSuccess: "+ TimeHelper.getCurrentTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         homeView.refreshHomeData(data);
         homeView.hideProgress();
     }
@@ -107,7 +117,32 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
                 homeView.refreshAdvertisementView(data);
                 break;
             case AdvertisementDto.ADVERTISEMENT_6://启动海报
-                appStartView.refreshAdvertisementView(data);
+                if (data.isResult()) {//有广告
+                    PreferencesHepler.getInstance().saveIndexLaunchImage(data);//保存json
+
+                    String imageName = StringUtil.getFileNameWithExt(data.getData().get(0).getServer_pic_a());
+                    String path = SYSJStorageUtil.getSysjDownload() + File.separator + imageName;
+                    File file = new File(path);
+                    Log.d(TAG, "Lunch Image AD file.exists() == " + file.exists());
+                    if (!file.exists()) { //启动图没下载到本地
+                        List<String> url = new ArrayList<>();
+                        url.add(data.getData().get(0).getServer_pic_a());
+                        homeModel.adImageDownload(url, new OnLoadDataListener<Boolean>() { //下载启动图
+                            @Override
+                            public void onSuccess(Boolean b) {
+                                Log.d(TAG, "adImageDownload: " + b);
+                            }
+
+                            @Override
+                            public void onFailure(Throwable e) {
+                                Log.d(TAG, "adImageDownload: onFailure");
+                            }
+                        });
+                    }
+                } else {
+                    if (PreferencesHepler.getInstance().getIndexLaunchImage() != null)
+                        PreferencesHepler.getInstance().removeIndexLaunchImage();
+                }
                 break;
         }
     }
@@ -118,8 +153,9 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
         Log.d(TAG, "AdClick: " + data.getMsg());
     }
 
+    // FIXME:loadHomeData onFailure: java.lang.ClassCastException: com.li.videoapplication.data.model.entity.HomeDto cannot be cast to io.rx_cache.Reply
     @Override
     public void onFailure(Throwable e) {
-
+        Log.d(TAG, "onFailure: " + e.toString());
     }
 }

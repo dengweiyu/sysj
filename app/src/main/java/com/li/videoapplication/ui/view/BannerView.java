@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Advertisement;
 import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
@@ -151,7 +151,7 @@ public class BannerView extends FrameLayout implements
                 NetUtil.isConnect() &&
                 appear) {
             Log.d(tag, "refreshContentView: 1");
-            ImageLoaderHelper.displayImageEmpty(advertisement.getFlag(), image);
+            GlideHelper.displayImageEmpty(context, advertisement.getFlag(), image);
             appear();
         } else {
             Log.d(tag, "refreshContentView: 2");

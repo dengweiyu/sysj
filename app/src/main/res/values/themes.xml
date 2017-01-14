@@ -30,14 +30,15 @@
         <item name="android:windowExitAnimation">@anim/slide_top_exit</item>
     </style>
 
+
     <style name="slideBottomAnim" mce_bogus="1" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/slide_bottom_enter</item>
         <item name="android:windowExitAnimation">@anim/slide_bottom_exit</item>
     </style>
 
     <style name="slideRightAnim">
-        <item name="android:windowEnterAnimation">@anim/slide_right_enter</item>
-        <item name="android:windowExitAnimation">@anim/slide_right_exit</item>
+        <item name="android:windowEnterAnimation">@anim/activity_slide_in_right</item>
+        <item name="android:windowExitAnimation">@anim/activity_slide_out_right</item>
     </style>
 
     <style name="scaleTopAnim">

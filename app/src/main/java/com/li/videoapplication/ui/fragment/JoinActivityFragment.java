@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.model.entity.Comment;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.GetCompVideoLists208Entity;
@@ -22,8 +23,8 @@ import com.li.videoapplication.data.model.response.SendComment208Entity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.activity.ActivityDetailActivity208;
-import com.li.videoapplication.ui.adapter.GroupDetailVideoRecyclerAdapter;
+import com.li.videoapplication.ui.activity.ActivityDetailActivity;
+import com.li.videoapplication.mvp.adapter.GroupDetailVideoRecyclerAdapter;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.view.ActivityCommentView;
 import com.li.videoapplication.utils.StringUtil;
@@ -50,7 +51,7 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
     private GroupDetailVideoRecyclerAdapter adapter;
     private int page = 1;
     private List<VideoImage> data;
-    private ActivityDetailActivity208 activity;
+    private ActivityDetailActivity activity;
     private int page_count;
 
     /**
@@ -72,7 +73,7 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            this.activity = (ActivityDetailActivity208) activity;
+            this.activity = (ActivityDetailActivity) activity;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,7 +106,7 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
     }
 
     private void initCommentView() {
-        commentView.init((ActivityDetailActivity208) getActivity());
+        commentView.init((ActivityDetailActivity) getActivity());
         commentView.setCommentListener(this);
         commentView.showView();
     }
@@ -150,13 +151,16 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
                 final VideoImage record = (VideoImage) adapter.getItem(position);
 
                 switch (view.getId()) {
-                    case R.id.groupdetail_comment://评论
-                        if (StringUtil.isNull(record.getPic_id())
-                                && StringUtil.isNull(record.getVideo_id())
-                                && !StringUtil.isNull(record.getId())) {
-                            return;
+                    case R.id.joinactivity_comment://评论
+                        if (isComment(record)){
+                            Comment comment = new Comment();
+                            comment.setNickname(record.getNickname());
+                            comment.setContent(record.getContent());
+                            commentView.replyComment(comment);
+                        }else {
+                            startVideoPlayActivity(record);
                         }
-                        startVideoPlayActivity(record);
+
                         break;
                     case R.id.groupdetail_head://头像
                         Member member = gson.fromJson(record.toJSON(), Member.class);
@@ -170,6 +174,13 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
                 }
             }
         });
+    }
+    /**
+     * 是否是文字评论
+     */
+    private boolean isComment(final VideoImage record) {
+        // 评论
+        return !StringUtil.isNull(record.getComment_id()) && !record.getComment_id().equals("0");
     }
 
     @Override
@@ -240,6 +251,7 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
         if (event != null) {
             if (event.isResult()) {
                 ToastHelper.s(event.getMsg());
+                onRefresh();
             }
         }
     }

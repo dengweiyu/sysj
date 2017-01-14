@@ -68,11 +68,8 @@ public class MatchListAdapter extends BaseQuickAdapter<Match, BaseViewHolder> {
     private void setStatus(BaseViewHolder holder, Match match) {
         holder.setText(R.id.match_status, match.getStatus());
         switch (match.getStatus()) {
-            case "火热":
-                setStatusBgColor(holder, R.color.activity_red);
-                break;
             case "进行中":
-                setStatusBgColor(holder, R.color.activity_yellow);
+                setStatusBgColor(holder, R.color.activity_red);
                 break;
             case "已结束":
                 setStatusBgColor(holder, R.color.activity_gray);

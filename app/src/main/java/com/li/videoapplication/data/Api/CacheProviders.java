@@ -24,14 +24,14 @@ import rx.Observable;
  */
 public interface CacheProviders {
 
-    //获取首页数据 缓存时间7天
-    @LifeCache(duration = 7, timeUnit = TimeUnit.DAYS)
+    //获取首页数据 缓存时间3天
+    @LifeCache(duration = 3, timeUnit = TimeUnit.DAYS)
     Observable<Reply<HomeDto>> getHomeInfo(Observable<HomeDto> oRepos,
                                            DynamicKey userName,
                                            EvictDynamicKey evictDynamicKey);
 
-    //获取广告数据 缓存时间3天
-    @LifeCache(duration = 3, timeUnit = TimeUnit.DAYS)
+    //获取广告数据 缓存时间1天
+    @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
     Observable<Reply<AdvertisementDto>> adImage208(Observable<AdvertisementDto> oRepos,
                                                    DynamicKey userName,
                                                    EvictDynamicKey evictDynamicKey);

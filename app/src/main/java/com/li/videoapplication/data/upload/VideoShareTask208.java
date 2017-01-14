@@ -10,6 +10,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.LocalManager;
 import com.li.videoapplication.data.SubTitleManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
@@ -843,6 +844,7 @@ public class VideoShareTask208 {
             result = true;
             h.sendEmptyMessage(0);
 
+            EventManager.postVideoUploadCompleteEvent(video_id);
             DataManager.TASK.videoShareVideo211(video_id, member_id);
             UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.MACROSCOPIC_DATA, "玩家上传视频数");
         } else {

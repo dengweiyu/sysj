@@ -2,6 +2,7 @@ package com.li.videoapplication.ui.fragment;
 
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
@@ -21,6 +22,7 @@ import com.li.videoapplication.views.CircleImageView;
 public class DiscoverFragment extends TBaseFragment implements OnClickListener {
 
     private CircleImageView count;
+    private ImageView go;
 
     /**
      * 跳转：动态
@@ -43,6 +45,7 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
     @Override
     protected void initContentView(View view) {
         count = (CircleImageView) view.findViewById(R.id.discover_dynamic_count);
+        go = (ImageView) view.findViewById(R.id.discover_dynamic_go);
 
         view.findViewById(R.id.discover_recommend).setOnClickListener(this);
         view.findViewById(R.id.discover_square).setOnClickListener(this);
@@ -123,8 +126,10 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
             //动态有更新
             if (event.getData().isHasNew()) {
                 count.setVisibility(View.VISIBLE);
+                go.setVisibility(View.GONE);
             } else {
                 count.setVisibility(View.GONE);
+                go.setVisibility(View.VISIBLE);
             }
         }
     }

@@ -23,6 +23,7 @@ import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.upload.Contants;
 import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 
 /**
@@ -31,12 +32,10 @@ import com.li.videoapplication.ui.ActivityManeger;
 @SuppressLint("HandlerLeak")
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class VideoUploadActivity extends TBaseActivity implements OnClickListener,
-        CompoundButton.OnCheckedChangeListener, VideoShareTask208.Callback {
+        CompoundButton.OnCheckedChangeListener {
 
     private VideoCaptureEntity entity;
     private Match match;
-    private String process;
-    private int pro;
 
     @Override
     public void refreshIntent() {
@@ -93,7 +92,6 @@ public class VideoUploadActivity extends TBaseActivity implements OnClickListene
     @Override
     public void initView() {
         super.initView();
-        VideoShareTask208.addCallbacks(this);
         initContentView();
         refreshVideoData();
         refreshContentView();
@@ -109,11 +107,9 @@ public class VideoUploadActivity extends TBaseActivity implements OnClickListene
         super.onDestroy();
         if (bitmap != null && !bitmap.isRecycled())
             bitmap.recycle();
-        VideoShareTask208.removeCallbacks(this);
     }
 
     private void initContentView() {
-
         size = (TextView) findViewById(R.id.videoupload_size);
         cover = (ImageView) findViewById(R.id.videoupload_cover);
         edit = (TextView) findViewById(R.id.videoupload_edit);
@@ -122,7 +118,6 @@ public class VideoUploadActivity extends TBaseActivity implements OnClickListene
 
         edit.setOnClickListener(this);
         share.setOnClickListener(this);
-
     }
 
     private boolean isChecked;
@@ -195,34 +190,7 @@ public class VideoUploadActivity extends TBaseActivity implements OnClickListene
         DataManager.UPLOAD.startVideo("SYSJ", getMember_id(), getVideoTitle(),
                 match.getGame_id(), match.getMatch_id(), "", 0, null, entity, null);
 
-        showLoadingDialog("上传中", "正在上传视频，请耐心等候...", false);
-    }
-
-    @Override
-    public void updateProgress(String filePath, boolean result, int status, String msg, double percent) {
-        Log.i(tag, "filePath=" + filePath);
-        Log.i(tag, "result=" + result);
-        Log.i(tag, "status=" + status);
-        Log.i(tag, "msg=" + msg);
-        Log.i(tag, "progress=" + percent);
-
-        if (status == Contants.STATUS_UPLOADING) {
-            if ((int) (percent * 100) > pro) {
-                pro = (int) (percent * 100);
-                process = "已上传 " + pro + "%";
-                getSweetDialog().setTitleText(process);
-            }
-        }
-
-        if (status == Contants.STATUS_SUCCESS) {
-            change2SuccessWithOKListener("上传完成", "视频已成功上传，请等候审核", "确定");
-        } else if (status == Contants.STATUS_FAILURE) {
-            changeType2ErrorDialog("上传失败", msg, "确定");
-        }
-    }
-
-    @Override
-    protected void confirmButtonEvent() {
-        ActivityManeger.startActivityDetailActivityNewTask(this, match.getMatch_id());
+        ToastHelper.s("正在上传...");
+        finish();
     }
 }

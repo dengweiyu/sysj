@@ -5,8 +5,12 @@ import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
+import com.li.videoapplication.data.model.response.GameCateEntity;
+import com.li.videoapplication.data.model.response.MatchRecordEntity;
 import com.li.videoapplication.data.model.response.MatchRewardBillboardEntity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
+import com.li.videoapplication.data.model.response.MyMatchListEntity;
+import com.li.videoapplication.data.model.response.MyPackageEntity;
 import com.li.videoapplication.data.model.response.PhotoCollectionEntity;
 import com.li.videoapplication.data.model.response.PhotoFlowerEntity;
 import com.li.videoapplication.data.model.response.PlayerRankingCurrencyEntity;
@@ -24,9 +28,15 @@ import com.li.videoapplication.framework.BaseHttpResult;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -55,13 +65,17 @@ public interface SYSJService {
 
     //获取广告
     @GET("/sysj208/ad/adImage")
-    Observable<AdvertisementDto> adImage208(@Query("localtion_id") int localtion_id);
+    Observable<AdvertisementDto> adImage208(@QueryMap Map<String, Object> options);
 
     //广告点击统计
     @GET("/Sysj204/Advertisement/adClick")
     Observable<BaseHttpResult> adClick(@Query("ad_id") long ad_id,
                                        @Query("ad_click_state") int ad_click_state,
                                        @Query("hardwarecode") String hardwarecode);
+
+    @Streaming
+    @GET
+    Observable<ResponseBody> downloadFile(@Url String fileUrl);
 
     // 玩家榜--粉丝榜, 视频榜
     @GET("/sysj201/ranking/memberRanking")
@@ -112,18 +126,18 @@ public interface SYSJService {
     Observable<MatchRewardBillboardEntity> loadMatchRewardBillboardData();
 
     //获取赛事列表
-//    @GET("/Sysj214/NewEvents/getEventsList")// FIXME: 2016/12/27 test!!!!
-    @GET("/Sysj214/NewEvents/getEventsListTest")
+//    @GET("/Sysj214/NewEvents/getEventsListTest")// FIXME: 2016/12/27 test!!!!
+    @GET("/Sysj214/NewEvents/getEventsList")
     Observable<BaseHttpResult<EventsList214Entity>> getEventsList(@Query("page") int page,
-                                                                  @Query("format_type") int format_type,
+                                                                  @Query("format_type") String format_type,
                                                                   @Query("game_id") String game_id);
 
-    //获取赛事列表 游戏类型筛选
-    @GET("/Sysj214/GameCategory/getGameCate")
-    Observable<BaseHttpResult<List<Game>>> getGameCate();
+    //获取赛事列表筛选
+    @GET("/Sysj214/ScreeningCategory/getCate")
+    Observable<GameCateEntity> getGameCate();
 
     //获取我的赛事列表
-    @GET("/Sysj214/NewEvents/getEventsList")
+    @GET("/Sysj214/NewEvents/myEventsList")
     Observable<BaseHttpResult<EventsList214Entity>> getMyEventsList(@Query("page") int page,
                                                                     @Query("member_id") String member_id);
 
@@ -161,4 +175,30 @@ public interface SYSJService {
     //赛事赛程pk列表
     @GET("/Sysj214/NewEvents/eventsPKList")
     Observable<BaseHttpResult<EventsPKListEntity>> getEventsPKList(@QueryMap Map<String, Object> options);
+
+    //赛事历史战绩
+    @GET("/Sysj214/NewEvents/getHistoricalRecord")
+    Observable<BaseHttpResult<MatchRecordEntity>> getHistoricalRecord(@QueryMap Map<String, Object> options);
+
+    //赛事流水点击接口
+    @FormUrlEncoded
+    @POST("/Sysj214/PromoteMsgRecord/eventsRecordClick")
+    Observable<BaseHttpResult> eventsRecordClick(@FieldMap Map<String, Object> options);
+
+    //我的活动
+    @GET("/sysj201/member/myMatchList")
+    Observable<BaseHttpResult<MyMatchListEntity>> getMyMatchList(@QueryMap Map<String, Object> options);
+
+    //活动详情
+    @GET("/sysj204/events/getMatchInfo")
+    Observable<BaseHttpResult<Match>> getMatchInfo(@QueryMap Map<String, Object> options);
+
+    //活动流水点击
+    @FormUrlEncoded
+    @POST("/Sysj214/PromoteMsgRecord/competitionRecordClick")
+    Observable<BaseHttpResult> competitionRecordClick(@FieldMap Map<String, Object> options);
+
+    //我的礼包
+    @GET("/sysj203/Gifts/myPackage")
+    Observable<BaseHttpResult<MyPackageEntity>> getMyGiftList(@QueryMap Map<String, Object> options);
 }

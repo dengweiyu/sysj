@@ -12,10 +12,7 @@ import com.li.videoapplication.framework.TBaseFragment;
 /**
  * 碎片：启动-logo
  */
-public class SplashFragment extends TBaseFragment implements AnimationListener {
-	
-	private View cover;
-	private AlphaAnimation alphaAnimation;
+public class SplashFragment extends TBaseFragment {
 
 	@Override
 	protected int getCreateView() {
@@ -30,30 +27,6 @@ public class SplashFragment extends TBaseFragment implements AnimationListener {
 
 	@Override
 	protected void initContentView(View view) {
-		
-		cover = view.findViewById(R.id.cover);
-		cover.setVisibility(View.VISIBLE);
-		
-		alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
-		alphaAnimation.setDuration(1200);
-		alphaAnimation.setInterpolator(new DecelerateInterpolator());
-		alphaAnimation.setAnimationListener(this);
-
-        cover.startAnimation(alphaAnimation);
-	}
-
-	@Override
-	public void onAnimationStart(Animation animation) {
-
-    }
-
-	@Override
-	public void onAnimationEnd(Animation animation) {
-        cover.setVisibility(View.GONE);
-    }
-
-	@Override
-	public void onAnimationRepeat(Animation animation) {
 
 	}
 }

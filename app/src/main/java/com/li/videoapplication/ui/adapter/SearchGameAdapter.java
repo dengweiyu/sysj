@@ -7,16 +7,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.EventManager;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Associate;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.BaseBaseAdapter;
-import com.li.videoapplication.utils.ScreenUtil;
 
 import java.util.ArrayList;
 
@@ -77,7 +75,7 @@ public class SearchGameAdapter extends BaseBaseAdapter {
         hodler.pic.setVisibility(View.VISIBLE);
 
         hodler.title.setText(data.get(position).getGame_name());
-        ImageLoaderHelper.displayImageWhite(record.getFlag(), hodler.pic);
+        GlideHelper.displayImageWhite(getContext(),record.getFlag(), hodler.pic);
 
         view.setOnClickListener(new OnClickListener() {
 

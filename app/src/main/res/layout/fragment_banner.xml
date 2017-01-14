@@ -1,19 +1,31 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-    <include
-        layout="@layout/fragment_splash"/>
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <ImageView
-        android:visibility="gone"
         android:id="@+id/banner_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"
+        android:src="#f7f7f7"
+        android:visibility="visible" />
+
+    <View
+        android:id="@+id/banner_go"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/kaka_140"
+        android:layout_above="@+id/banner_bottom"/>
+
+    <ImageView
+        android:id="@+id/banner_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/banner_bottom"
+        android:visibility="visible" />
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/banner_jump"
         android:layout_width="48dp"
         android:layout_height="32dp"
@@ -25,6 +37,7 @@
         android:gravity="center"
         android:text=""
         android:textColor="#ffffff"
-        android:textSize="11sp"/>
+        android:textSize="11sp"
+        android:visibility="gone" />
 
 </RelativeLayout>

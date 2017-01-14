@@ -15,6 +15,83 @@ public class SYSJStorageUtil {
     public final static String TAG = SYSJStorageUtil.class.getSimpleName();
 
 
+
+    /**
+     * 生成下载应用文件（V2.1.4版本）
+     *
+     * [存储卡]/SYSJ/apk/xxxxxxxxxx.apk
+     */
+    public static File createApkPath(String fileUrl) {
+        Log.d(TAG, "-----------------------------------[createApkPath]--------------------------------------");
+        if (StorageUtil.createFilePathName(fileUrl, ".apk") == null)
+            return null;
+        String path = getSYSJApk().getPath() + File.separator + StorageUtil.createFilePathName(fileUrl, ".apk");
+        File file = null;
+        try {
+            file = new File(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "createApkPath: " + file);
+        return file;
+    }
+
+    /**
+     * 生成临时下载应用文件（V2.1.4版本）
+     *
+     * [存储卡]/SYSJ/tmpApk/8652ea154dce1f42866384220fa5518b.apk
+     */
+    public static File createTmpApkPath(String fileUrl) {
+        Log.d(TAG, "-----------------------------------[createTmpApkPath]--------------------------------------");
+        if (StorageUtil.createFilePathName(fileUrl, ".apk") == null)
+            return null;
+        String path = getSYSJTmpApk().getPath() + File.separator + StorageUtil.createFilePathName(fileUrl, ".apk");
+        File file = null;
+        try {
+            file = new File(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "createTmpApkPath: " + file);
+        return file;
+    }
+
+    /**
+     * [存储卡]/LuPingDaShi/tmpApk（V2.1.0版本）
+     */
+    public static File getSYSJTmpApk() {
+        Log.d(TAG, "-----------------------------------[getSYSJTmpApk]--------------------------------------");
+        File file = getSysj();
+        File floder = null;
+        if (file != null) {
+            String path = file.getPath() + File.separator + Contants.TMP_APK;
+            floder = new File(path);
+            if (!floder.exists()) {
+                floder.mkdirs();
+            }
+        }
+        Log.d(TAG, "getSYSJTmpApk: " + floder);
+        return floder;
+    }
+
+    /**
+     * [存储卡]/SYSJ/apk（V2.1.4版本）
+     */
+    public static File getSYSJApk() {
+        Log.d(TAG, "-----------------------------------[getSYSJApk]--------------------------------------");
+        File file = getSysj();
+        File floder = null;
+        if (file != null) {
+            String path = file.getPath() + File.separator + Contants.APK;
+            floder = new File(path);
+            if (!floder.exists()) {
+                floder.mkdirs();
+            }
+        }
+        Log.d(TAG, "getSYSJApk: " + floder);
+        return floder;
+    }
+
     /************************  以下为手游视界 视频/图片/录音文件  **************************/
 
     /**
@@ -272,6 +349,23 @@ public class SYSJStorageUtil {
             }
         }
         Log.d(TAG, "getSysjTmp: " + floder);
+        return floder;
+    }
+
+    /**
+     * [存储卡]/sysj/download
+     */
+    public static File getSysjDownload() {
+        File file = getSysj();
+        File floder = null;
+        if (file != null) {
+            String path = file.getPath() + File.separator + Contants.DOWNLOAD;
+            floder = new File(path);
+            if (!floder.exists()) {
+                floder.mkdirs();
+            }
+        }
+        Log.d(TAG, "getSysjDownload: " + floder);
         return floder;
     }
 

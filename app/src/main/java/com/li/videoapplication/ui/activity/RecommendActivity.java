@@ -170,10 +170,9 @@ public class RecommendActivity extends PullToRefreshActivity<VideoImage> impleme
 	} 
 	
 	private void setBannerView(View view) {
-		// 320/180
-		// 16:9
+		//750:350 = 15:7
 		int w = windowManager.getDefaultDisplay().getWidth();;
-		int h = w * 9 / 16;
+		int h = w * 7 / 15;
 		setListViewLayoutParams(view, w, h);
 	}
 

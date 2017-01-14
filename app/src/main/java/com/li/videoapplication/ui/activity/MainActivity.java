@@ -2,12 +2,10 @@ package com.li.videoapplication.ui.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,7 +19,6 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService;
@@ -33,10 +30,9 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnCloseListener;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnClosedListener;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenListener;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenedListener;
-import com.li.videoapplication.mvp.home.view.HomeFragment;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
@@ -48,22 +44,21 @@ import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseSlidingActivity;
+import com.li.videoapplication.mvp.home.view.HomeFragment;
+import com.li.videoapplication.mvp.match.view.GameMatchFragment;
 import com.li.videoapplication.tools.RongIMHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.fragment.DiscoverFragment;
 import com.li.videoapplication.ui.fragment.GameFragment;
-import com.li.videoapplication.mvp.match.view.GameMatchFragment;
-
 import com.li.videoapplication.ui.fragment.SliderFragment;
 import com.li.videoapplication.ui.pageradapter.WelfarePagerAdapter;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.HareWareUtil;
 import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.utils.NetUtil;
-import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 import com.li.videoapplication.views.ViewPagerY4;
@@ -143,7 +138,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
      */
     private void startSearchActivity() {
         ActivityManeger.startSearchActivity(this);
-        UmengAnalyticsHelper.onEvent(this,UmengAnalyticsHelper.MAIN,"点击搜索框次数");
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "点击搜索框次数");
     }
 
     /**
@@ -151,7 +146,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
      */
     private void startScanQRCodeActivity() {
         ActivityManeger.startScanQRCodeActivity(this);
-        UmengAnalyticsHelper.onEvent(this,UmengAnalyticsHelper.MAIN,"点击扫码按钮次数");
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "点击扫码按钮次数");
     }
 
     /**
@@ -280,7 +275,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         RongIMHelper.getTotalUnreadCount(new RongIMHelper.totalUnreadCountCallback() {
             @Override
             public void totalUnreadCount(int count) {
-                Log.d(tag, "totalUnreadCount: count == "+count);
+                Log.d(tag, "totalUnreadCount: count == " + count);
                 if (count > 0) {
                     leftCount.setVisibility(View.VISIBLE);
                 } else {
@@ -521,7 +516,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         isLogin = PreferencesHepler.getInstance().isLogin();
         imageUrl = PreferencesHepler.getInstance().getUserProfilePersonalInformation().getAvatar();
         if (isLogin && !StringUtil.isNull(imageUrl)) {
-            ImageLoaderHelper.displayImageWhite(imageUrl, leftHead);
+            GlideHelper.displayImageWhite(this,imageUrl, leftHead);
             leftIcon.setVisibility(View.GONE);
             leftHead.setVisibility(View.VISIBLE);
         } else {
@@ -566,7 +561,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         fragments.add(game);
         fragments.add(discover);
         fragments.add(matchFragment);
-
         viewPager = (ViewPagerY4) findViewById(R.id.pager);
         viewPager.setScrollable(true);
         viewPager.setOffscreenPageLimit(3);
@@ -818,75 +812,24 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
      */
     public void onEventMainThread(UpdateVersionEntity event) {
 
-        if (event != null) {
-            if (event.isResult()) {
-                Update update = event.getData().get(0);
-                if (update != null) {
-                    updateVersion(update);
-                }
+        if (event != null && event.isResult()) {
+            Update update = event.getData().get(0);
+            if (update != null && !isShowedUpdate) {
+                updateVersion(update);
             }
         }
     }
 
     private void updateVersion(final Update update) {
         LogHelper.i(tag, "updateVersion  ");
-        if ("U".equals(update.getUpdate_flag())) {// 可用升级
-            updateNow(update);
-        } else if ("A".equals(update.getUpdate_flag())) {// 强制升级
-            updateNow(update);
-        } else if ("N".equals(update.getUpdate_flag())) {// 最新版本
+        if ("U".equals(update.getUpdate_flag()) || // 可用升级
+                "A".equals(update.getUpdate_flag())){// 强制升级
+            // 版本更新对话框
+            DialogManager.showUpdateDialog(this, update);
+            isShowedUpdate = true;
+        }else {// N:最新版本
             Log.d(tag, "updateVersion: New");
         }
-
-    }
-
-    private void updateNow(final Update update) {
-        LogHelper.i(tag, "updateNow  ");
-        String changelog = update.getChange_log();
-        String[] changeArray = changelog.split(";");
-        changelog = "";
-        for (int i = 0; i < changeArray.length; i++) {
-            if (i != changeArray.length) {
-                changelog += changeArray[i] + "\n";
-            } else {
-                changelog += changeArray[i];
-            }
-        }
-
-        final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
-        dialog.show();
-        dialog.getWindow().setContentView(R.layout.dialog_update);
-        TextView changeText = (TextView) dialog.getWindow().findViewById(R.id.dialog_update_text);
-        changeText.setText(changelog);
-
-        TextView version = (TextView) dialog.getWindow().findViewById(R.id.buildcode);
-        version.setText(update.getVersion_str());
-
-        ImageView logo = (ImageView) dialog.getWindow().findViewById(R.id.logo);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) logo.getLayoutParams();
-
-        int screenWidth = ScreenUtil.getScreenWidth();
-        int margin = ScreenUtil.dp2px(40);
-        int width = screenWidth - margin;
-        params.width = width;
-        params.height = width / 3;
-        logo.setLayoutParams(params);
-
-        dialog.getWindow().findViewById(R.id.dialog_update_ok).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse(update.getUpdate_url());
-                Intent it = new Intent(Intent.ACTION_VIEW, uri);
-                MainActivity.this.startActivity(it);
-            }
-        });
-        dialog.getWindow().findViewById(R.id.dialog_update_cancel).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isShowedUpdate = true;
-                dialog.dismiss();
-            }
-        });
     }
 
     public class OnTabClickListener implements OnClickListener {

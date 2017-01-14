@@ -48,6 +48,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.pili.pldroid.player.PLMediaPlayer.ERROR_CODE_READ_FRAME_TIMEOUT;
+
 /**
  * 视图：完成播放：重复播放
  */
@@ -545,10 +547,12 @@ public class VideoPlayView extends RelativeLayout implements
     }
 
     private void initPlayer() {
-
         videoPlayer = (VideoPlayer) findViewById(R.id.videoplayer);
         videoPlayer.setOnErrorListener(onErrorListener);
         videoPlayer.setOnInfoListener(onInfoListener);
+
+        View loadingView = findViewById(R.id.videoplay_loading);
+        videoPlayer.setBufferingIndicator(loadingView);
 
         danmukuPlayer = (DanmukuPlayer) findViewById(R.id.danmuku);
         danmukuPlayer.initDanmuku();
@@ -681,7 +685,6 @@ public class VideoPlayView extends RelativeLayout implements
         @Override
         public boolean onError(PLMediaPlayer plMediaPlayer, int errorCode) {
             if (DEBUG) Log.d(tag, "onError: code === " + errorCode);
-            switchPlay(STATE_ERROR);
             if (danmukuPlayer != null)
                 danmukuPlayer.hideDanmaku();
             try {
@@ -692,18 +695,29 @@ public class VideoPlayView extends RelativeLayout implements
             if (timedTextView != null)
                 timedTextView.hideView();
 
-            if (errorCode == 100) {
-                videoPlayer.stopPlayback();
-            } else if (errorCode == 1) {
-                videoPlayer.stopPlayback();
-            } else if (errorCode == 800) {
-                videoPlayer.stopPlayback();
-            } else if (errorCode == 701) {
-                videoPlayer.stopPlayback();
-            } else if (errorCode == 700) {
-                videoPlayer.stopPlayback();
-            } else if (errorCode == -38) {
-                videoPlayer.stopPlayback();
+            switch (errorCode){
+//                case MEDIA_ERROR_UNKNOWN://未知错误
+//                case ERROR_CODE_INVALID_URI://无效的 URL
+//                case ERROR_CODE_IO_ERROR://未知错误
+//                case ERROR_CODE_STREAM_DISCONNECTED://与服务器连接断开
+//                case ERROR_CODE_EMPTY_PLAYLIST://空的播放列表
+//                case ERROR_CODE_404_NOT_FOUND://播放资源不存在
+//                case ERROR_CODE_CONNECTION_REFUSED://服务器拒绝连接
+//                case ERROR_CODE_CONNECTION_TIMEOUT://连接超时
+//                case ERROR_CODE_UNAUTHORIZED://未授权，播放一个禁播的流
+//                case ERROR_CODE_PREPARE_TIMEOUT	://播放器准备超时
+//                case -2003://硬解码失败
+//                    videoPlayer.stopPlayback();
+//                    switchPlay(STATE_ERROR);
+//                    break;
+                case ERROR_CODE_READ_FRAME_TIMEOUT://读取数据超时
+                    Log.d(tag, "onError: 读取数据超时");
+//                    videoPlayer.pause();
+                    break;
+                default:
+                    videoPlayer.stopPlayback();
+                    switchPlay(STATE_ERROR);
+                    break;
             }
             return true;
         }
@@ -1028,6 +1042,7 @@ public class VideoPlayView extends RelativeLayout implements
             videoPlayer.setVideoPath(url);
             videoPlayer.setOnPreparedListener(onPreparedListener);
             videoPlayer.setOnCompletionListener(onCompletionListener);
+            videoPlayer.startVideo();
         }
 
         if (pos == 0) {

@@ -13,17 +13,10 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.model.entity.Associate;
-import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.Associate201Entity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
-import com.li.videoapplication.mvp.adapter.PlayerBillboardAdapter;
-import com.li.videoapplication.mvp.animation.RecyclerViewAnim;
-import com.li.videoapplication.mvp.billboard.presenter.BillboardPresenter;
-import com.li.videoapplication.mvp.billboard.view.PlayerBillboardFragment;
-import com.li.videoapplication.ui.activity.SearchGameActivity;
-import com.li.videoapplication.ui.adapter.ChooseGameAdapter;
-import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.mvp.adapter.ChooseGameAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

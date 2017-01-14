@@ -132,7 +132,7 @@
             android:id="@+id/imageshare_submit"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/imageshare_share_now"
+            android:background="@drawable/button_blue"
             android:gravity="center"
             android:text="@string/imageshare_share_now"
             android:textColor="#ffffff"

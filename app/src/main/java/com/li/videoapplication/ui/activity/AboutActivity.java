@@ -3,17 +3,15 @@ package com.li.videoapplication.ui.activity;
 import android.app.AlertDialog;
 import android.content.ClipboardManager;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.IPullToRefresh;
+import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Update;
@@ -23,7 +21,6 @@ import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.utils.AppUtil;
-import com.umeng.fb.FeedbackAgent;
 
 /**
  * 活动：关于
@@ -219,8 +216,7 @@ public class AboutActivity extends TBaseActivity implements OnClickListener {
 	 *
 	 * 发起添加群流程。群号：手游视界活动群(251575665) 的 key 为： uyxdSCiWyI0eHzS5bmbs95pP-LT3OrwQ
 	 * 调用 joinQQGroup(uyxdSCiWyI0eHzS5bmbs95pP-LT3OrwQ) 即可发起手Q客户端申请加群 手游视界活动群(251575665)
-	 *
-	 * @param key 由官网生成的key
+	 *  key 由官网生成的key
 	 * @return 返回true表示呼起手Q成功，返回fals表示呼起失败
 	 ******************/
 	private boolean qq() {
@@ -267,8 +263,9 @@ public class AboutActivity extends TBaseActivity implements OnClickListener {
 	 * 用户反馈
 	 */
 	private void feedback() {
-		FeedbackAgent agent = new FeedbackAgent(this);
-		agent.startFeedbackActivity();
+//		FeedbackAgent agent = new FeedbackAgent(this);
+//		agent.startFeedbackActivity();
+		FeedbackAPI.openFeedbackActivity();
 	}
 
 	/**

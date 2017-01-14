@@ -27,6 +27,7 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.MyPersonalInfoAdapter;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
@@ -43,7 +44,7 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
     private TextView name;
     private TextView gender;
     private TextView introduce;
-    private TextView qq, focus , mobile;
+    private TextView qq, focus, mobile;
     private RelativeLayout qqContainer, mobileContainer;
     private RelativeLayout likeContainer;
 
@@ -142,17 +143,12 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
 
     @Override
     public void onClick(View v) {
-
+        if (!isLogin()) {
+            DialogManager.showLogInDialog(this);
+            return;
+        }
         switch (v.getId()) {
-
-            case R.id.playerpersonalinfo_head:
-
-                break;
             case R.id.playerpersonalinfo_focus:
-                if (!isLogin()) {
-                    showToastShort("请先登录！");
-                    return;
-                }
                 if (member.getIsAttent() == 1) {
                     member.setIsAttent(0);
                 } else {
@@ -203,7 +199,7 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
                 introduce.setText(item.getSignature());
             }
             setTextViewText(qq, item.getQq());
-            setTextViewText(mobile,item.getMobile());
+            setTextViewText(mobile, item.getMobile());
         }
     }
 

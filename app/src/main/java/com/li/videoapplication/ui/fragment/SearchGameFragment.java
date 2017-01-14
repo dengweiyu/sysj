@@ -2,7 +2,9 @@ package com.li.videoapplication.ui.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -92,7 +94,11 @@ public class SearchGameFragment extends TBaseChildFragment implements OnRefreshL
 		pullToRefreshListView.setMode(Mode.BOTH);
 		pullToRefreshListView.setOnRefreshListener(this);
 		listView = pullToRefreshListView.getRefreshableView();
-		
+		View emptyView = getActivity().getLayoutInflater().inflate(R.layout.emptyview,
+				(ViewGroup) listView.getParent(), false);
+		TextView emptyText = (TextView) emptyView.findViewById(R.id.emptyview_text);
+		emptyText.setText("没有相关游戏");
+		listView.setEmptyView(emptyView);
 		data = new ArrayList<>();
 		adapter = new MyGameAdapter(getActivity(), MyGameAdapter.PAGE_SEARCHMEMBER, data);
 		listView.setAdapter(adapter);

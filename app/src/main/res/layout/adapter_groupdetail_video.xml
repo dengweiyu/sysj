@@ -167,7 +167,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="7dp"
                         android:layout_toRightOf="@+id/groupdetail_play"
-                        android:text=""
+                        android:text="0"
                         android:textColor="#ccffffff"
                         android:textSize="9sp" />
                 </RelativeLayout>
@@ -246,9 +246,19 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text=""
-            android:hint="2016-01-01"
+            android:hint="2017-01-01"
             android:textColor="#8c8c8c"
             android:textSize="10sp" />
+
+        <!--106/36-->
+        <ImageView
+            android:id="@+id/advertisement"
+            android:layout_width="@dimen/kaka_47.1"
+            android:layout_height="@dimen/kaka_16"
+            android:layout_below="@+id/middle"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/advertisement"
+            android:visibility="gone"/>
 
         <RelativeLayout
             android:id="@+id/goodstarcomment"

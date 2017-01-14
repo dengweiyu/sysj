@@ -19,6 +19,7 @@ import com.li.videoapplication.mvp.billboard.presenter.BillboardPresenter;
 import com.li.videoapplication.mvp.billboard.view.PlayerBillboardFragment;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.StringUtil;
 
 /**
@@ -114,7 +115,7 @@ public class PlayerBillboardAdapter extends BaseQuickAdapter<Member, BaseViewHol
                 public void onClick(View v) {
 
                     if (!PreferencesHepler.getInstance().isLogin()) {
-                        ToastHelper.s("请先登录！");
+                        DialogManager.showLogInDialog(mContext);
                         return;
                     }
                     if (record.getMember_tick() == 1) {// 已关注状态

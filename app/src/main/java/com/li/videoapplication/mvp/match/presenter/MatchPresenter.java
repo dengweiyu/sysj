@@ -1,22 +1,26 @@
 package com.li.videoapplication.mvp.match.presenter;
 
+import android.util.Log;
+
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.event.MatchListFliterEvent;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
+import com.li.videoapplication.data.model.response.GameCateEntity;
+import com.li.videoapplication.data.model.response.MatchRecordEntity;
 import com.li.videoapplication.data.model.response.MatchRewardBillboardEntity;
 import com.li.videoapplication.data.model.response.ServiceNameEntity;
 import com.li.videoapplication.data.model.response.SignScheduleEntity;
 import com.li.videoapplication.framework.BaseHttpResult;
 import com.li.videoapplication.mvp.OnLoadDataListener;
 import com.li.videoapplication.mvp.match.MatchContract;
+import com.li.videoapplication.mvp.match.MatchContract.IMatchRecordView;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchProcessView;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchDetailView;
 import com.li.videoapplication.mvp.match.MatchContract.IGroupMatchListView;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchResultView;
 import com.li.videoapplication.mvp.match.MatchContract.IMyMatchListView;
-import com.li.videoapplication.mvp.match.MatchContract.IMatchListFliterView;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchListView;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchPresenter;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchModel;
@@ -24,7 +28,6 @@ import com.li.videoapplication.mvp.match.model.MatchModel;
 
 import java.util.List;
 
-import rx.Subscription;
 
 /**
  * Presenter实现类: 赛事
@@ -34,12 +37,12 @@ public class MatchPresenter implements IMatchPresenter {
     private static final String TAG = MatchPresenter.class.getSimpleName();
 
     private IMatchListView matchListView;
-    private IMatchListFliterView matchListFliterView;
     private IMyMatchListView myMatchListView;
     private IMatchResultView matchResultView;
     private IGroupMatchListView groupMatchListView;
     private IMatchDetailView matchDetailView;
     private IMatchProcessView matchProcessView;
+    private IMatchRecordView matchRecordView;
 
     private IMatchModel matchModel;
     private static MatchPresenter matchPresenter;
@@ -62,11 +65,6 @@ public class MatchPresenter implements IMatchPresenter {
     }
 
     @Override
-    public void setMatchListFliterView(IMatchListFliterView matchListFliterView) {
-        this.matchListFliterView = matchListFliterView;
-    }
-
-    @Override
     public void setMyMatchListView(IMyMatchListView myMatchListView) {
         this.myMatchListView = myMatchListView;
     }
@@ -77,7 +75,7 @@ public class MatchPresenter implements IMatchPresenter {
     }
 
     @Override
-    public void setGroupMatchListView(MatchContract.IGroupMatchListView groupMatchListView) {
+    public void setGroupMatchListView(IGroupMatchListView groupMatchListView) {
         this.groupMatchListView = groupMatchListView;
     }
 
@@ -91,9 +89,14 @@ public class MatchPresenter implements IMatchPresenter {
         this.matchProcessView = matchProcessView;
     }
 
+    @Override
+    public void setMatchRecordView(IMatchRecordView matchRecordView) {
+        this.matchRecordView = matchRecordView;
+    }
+
 
     @Override
-    public void getEventsList(int page, int format_type, String game_id) {
+    public void getEventsList(int page, String format_type, String game_id) {
         matchModel.getEventsList(page, format_type, game_id, new OnLoadDataListener<EventsList214Entity>() {
             @Override
             public void onSuccess(EventsList214Entity data) {
@@ -110,10 +113,10 @@ public class MatchPresenter implements IMatchPresenter {
 
     @Override
     public void getGameCate() {
-        matchModel.getGameCate(new OnLoadDataListener<List<Game>>() {
+        matchModel.getGameCate(new OnLoadDataListener<GameCateEntity>() {
             @Override
-            public void onSuccess(List<Game> data) {
-                matchListFliterView.refreshGameCateData(data);
+            public void onSuccess(GameCateEntity data) {
+                matchListView.refreshGameCateData(data);
             }
 
             @Override
@@ -186,8 +189,8 @@ public class MatchPresenter implements IMatchPresenter {
     }
 
     @Override
-    public void signSchedule(String member_id, String schedule_id) {
-        matchModel.signSchedule(member_id, schedule_id, new OnLoadDataListener<SignScheduleEntity>() {
+    public void signSchedule(String member_id, String schedule_id,String event_id) {
+        matchModel.signSchedule(member_id, schedule_id,event_id, new OnLoadDataListener<SignScheduleEntity>() {
             @Override
             public void onSuccess(SignScheduleEntity data) {
                 matchDetailView.refreshSignScheduleData(data);
@@ -257,6 +260,37 @@ public class MatchPresenter implements IMatchPresenter {
             @Override
             public void onFailure(Throwable e) {
 
+            }
+        });
+    }
+
+    @Override
+    public void getHistoricalRecord(String memberId, int page) {
+        matchModel.getHistoricalRecord(memberId, page, new OnLoadDataListener<MatchRecordEntity>() {
+            @Override
+            public void onSuccess(MatchRecordEntity data) {
+                matchRecordView.hideProgress();
+                matchRecordView.refreshMatchRecordData(data);
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+
+            }
+        });
+    }
+
+    @Override
+    public void eventsRecordClick(String event_id, int e_record_status) {
+        matchModel.eventsRecordClick(event_id, e_record_status, new OnLoadDataListener<BaseHttpResult>() {
+            @Override
+            public void onSuccess(BaseHttpResult data) {
+                Log.d(TAG, "eventsRecordClick: "+data.getMsg());
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+                Log.d(TAG, "eventsRecordClick onFailure: ");
             }
         });
     }

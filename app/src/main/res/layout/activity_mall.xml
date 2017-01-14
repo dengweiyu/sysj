@@ -25,9 +25,25 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:scaleType="centerCrop"
-            android:src="#c1c1c1" />
+            android:src="@drawable/avatar_default" />
+
+        <TextView
+            android:id="@+id/mall_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/login_sumit"
+            android:paddingStart="13dp"
+            android:paddingEnd="13dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:background="@drawable/mywallet_currencyrecord_red"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:visibility="visible"/>
 
         <LinearLayout
+            android:id="@+id/mall_userinfo"
             android:layout_marginLeft="10dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"

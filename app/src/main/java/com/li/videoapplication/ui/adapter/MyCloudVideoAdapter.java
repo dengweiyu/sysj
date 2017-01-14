@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Tag;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.AppConstant;
@@ -152,7 +152,7 @@ public class MyCloudVideoAdapter extends BaseAdapter {
             }
         }
 
-        ImageLoaderHelper.displayImageWhite(record.getFlag(), holder.cover);
+        GlideHelper.displayImageWhite(context, record.getFlag(), holder.cover);
 
         setLikeTime(record, holder.likeTime);
         setCommentTime(record, holder.commentTime);

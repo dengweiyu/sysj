@@ -41,6 +41,33 @@ public class Currency extends BaseEntity {
     private int operation;
     private String ico;
     private String note;
+    private String page_html;
+    private int events;//events为1则为赛事冠名活动/主播推荐位
+    private String placeholder;
+
+    public String getPlaceholder() {
+        return placeholder;
+    }
+
+    public void setPlaceholder(String placeholder) {
+        this.placeholder = placeholder;
+    }
+
+    public int getEvents() {
+        return events;
+    }
+
+    public void setEvents(int events) {
+        this.events = events;
+    }
+
+    public String getPage_html() {
+        return page_html;
+    }
+
+    public void setPage_html(String page_html) {
+        this.page_html = page_html;
+    }
 
     public String getNote() {
         return note;

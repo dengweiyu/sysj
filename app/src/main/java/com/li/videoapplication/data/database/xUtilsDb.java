@@ -14,8 +14,12 @@ public class xUtilsDb {
     private static final String TAG = xUtilsDb.class.getSimpleName();
 
     private final static String DATABASE_NAME = "video_capture.db";
-    // 历史版本：1
+
+    /**
+     * 数据库版本：V4（2.1.4）
+     */
     private final static int DATABASE_VERSION = 4;
+
     private static final DbManager.DaoConfig CONFIG = new DbManager.DaoConfig()
             .setDbName(DATABASE_NAME)
             .setDbVersion(DATABASE_VERSION)
@@ -31,8 +35,6 @@ public class xUtilsDb {
                 public void onUpgrade(DbManager db, int oldVersion, int newVersion) {
                     // db.addColumn(...);
                     // db.dropTable(...);
-                    // ...
-                    // or
                     // db.dropDb();
                     addIsofficial(db);
                     addPk_id(db);

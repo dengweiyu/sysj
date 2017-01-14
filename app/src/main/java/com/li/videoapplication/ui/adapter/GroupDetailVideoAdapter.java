@@ -19,6 +19,7 @@ import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.MyDynamicActivity;
 import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.activity.SquareActivity;
@@ -30,7 +31,7 @@ import com.li.videoapplication.views.GridViewY1;
 import java.util.List;
 
 /**
- * 适配器：广场（最新，最热）; 动态视频 ; 视频搜索结果
+ * 适配器：广场（最新，最热）；首页更多（最新，最热）; 动态视频 ; 视频搜索结果
  *
  * 风云榜视频(已改成新的 VideoBillboardAdapter，剩下的这些全部要换，此适配器换完作废)
  */
@@ -247,7 +248,7 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
             public void onClick(View v) {
 
                 if (!isLogin()) {
-                    showToastShort("请先登录！");
+                    DialogManager.showLogInDialog(getContext());
                     return;
                 }
                 if (StringUtil.isNull(record.getFlower_count())) {
@@ -304,7 +305,7 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
             public void onClick(View v) {
 
                 if (!isLogin()) {
-                    showToastShort("请先登录！");
+                    DialogManager.showLogInDialog(getContext());
                     return;
                 }
                 if (StringUtil.isNull(record.getCollection_count())) {
@@ -323,7 +324,7 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
                 }
                 if (isImage(record)) { // 图文
                     int flag = record.getCollection_tick();
-                    ;
+
                     if (flag == 1) {// 已收藏状态
                         record.setCollection_count(Integer.valueOf(record.getCollection_count()) - 1 + "");
                         record.setCollection_tick(0);
@@ -344,7 +345,9 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
      */
     private void setComment(final VideoImage record, ImageView view) {
 
-        if (StringUtil.isNull(record.getPic_id()) && StringUtil.isNull(record.getVideo_id()) && !StringUtil.isNull(record.getId())) { // 搜索视频
+        if (StringUtil.isNull(record.getPic_id())
+                && StringUtil.isNull(record.getVideo_id())
+                && !StringUtil.isNull(record.getId())) { // 搜索视频
             return;
         }
 

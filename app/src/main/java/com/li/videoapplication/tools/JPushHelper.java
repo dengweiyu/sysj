@@ -12,7 +12,7 @@ import android.util.Log;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.entity.VideoImageGroup;
 import com.li.videoapplication.framework.AppManager;
-import com.li.videoapplication.ui.activity.ActivityDetailActivity208;
+import com.li.videoapplication.ui.activity.ActivityDetailActivity;
 import com.li.videoapplication.ui.activity.ActivityListActivity;
 import com.li.videoapplication.mvp.match.view.GameMatchDetailActivity;
 import com.li.videoapplication.ui.activity.GiftDetailActivity;
@@ -253,7 +253,7 @@ public class JPushHelper {
                     Intent intent = new Intent();
                     if (!isNothing()) {
                         intent.putExtra("match_id", push_msg_value);
-                        intent.setClass(context, ActivityDetailActivity208.class);
+                        intent.setClass(context, ActivityDetailActivity.class);
                     } else {
                         intent.setClass(context, ActivityListActivity.class);
                     }

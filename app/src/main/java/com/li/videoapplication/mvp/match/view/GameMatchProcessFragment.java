@@ -15,22 +15,20 @@ import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Match;
+import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchPresenter;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchProcessView;
 import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
-import com.li.videoapplication.mvp.match.view.GameMatchDetailActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.adapter.MatchProcessAdapter;
+import com.li.videoapplication.mvp.adapter.MatchProcessAdapter;
 import com.li.videoapplication.ui.adapter.MatchProcessHeaderAdapter;
 import com.li.videoapplication.utils.ClickUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.LoadMoreViewAccent;
-import com.li.videoapplication.views.LoadMoreViewWhite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +50,6 @@ public class GameMatchProcessFragment extends TBaseFragment implements IMatchPro
 
     private IMatchPresenter presenter;
     private GameMatchDetailActivity activity;
-    private List<Match> data;
     private List<Match> headerData;
     private MatchProcessHeaderAdapter headeradapter;
     private MatchProcessAdapter adapter;
@@ -61,6 +58,16 @@ public class GameMatchProcessFragment extends TBaseFragment implements IMatchPro
     public int currentHeaderPos = -1;
     private int page = 1;
     private int page_count = 1;
+
+    /**
+     * 跳转：视频播放
+     */
+    private void startVideoPlayActivity(String video_id) {
+        VideoImage videoImage = new VideoImage();
+        videoImage.setId(video_id);
+        videoImage.setVideo_id(video_id);
+        ActivityManeger.startVideoPlayActivity(getContext(), videoImage);
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -127,7 +134,7 @@ public class GameMatchProcessFragment extends TBaseFragment implements IMatchPro
         presenter = MatchPresenter.getInstance();
         presenter.setMatchProcessView(this);
 
-        data = new ArrayList<>();
+        List<Match> data = new ArrayList<>();
         adapter = new MatchProcessAdapter(this, data);
         adapter.openLoadAnimation();
         adapter.setOnLoadMoreListener(this);
@@ -213,6 +220,12 @@ public class GameMatchProcessFragment extends TBaseFragment implements IMatchPro
                             }
                             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "对战表-头像");
                         }
+                        break;
+                    case R.id.pk_video_red:
+                        startVideoPlayActivity(record.getA_video_id());
+                        break;
+                    case R.id.pk_video_blue:
+                        startVideoPlayActivity(record.getB_video_id());
                         break;
                 }
             }

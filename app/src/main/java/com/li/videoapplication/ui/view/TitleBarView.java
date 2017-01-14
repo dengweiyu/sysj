@@ -31,7 +31,6 @@ public class TitleBarView extends RelativeLayout implements
     private LayoutInflater inflater;
 
     private View view;
-    private LinearLayout root;
     private ImageView goback, share, setting;
     private TextView title;
     private ImageView tv;
@@ -53,17 +52,14 @@ public class TitleBarView extends RelativeLayout implements
     }
 
     private void initContentView() {
-
         inflater = LayoutInflater.from(getContext());
         view = inflater.inflate(R.layout.view_videoplay_titlebar, this);
-        root = (LinearLayout) view.findViewById(R.id.root);
 
         goback = (ImageView) view.findViewById(R.id.titlebar_goback);
         title = (TextView) view.findViewById(R.id.titlebar_title);
         share = (ImageView) view.findViewById(R.id.titlebar_share);
         setting = (ImageView) view.findViewById(R.id.titlebar_setting);
         tv = (ImageView) view.findViewById(R.id.titlebar_tv);
-
 
         goback.setOnClickListener(this);
         setting.setOnClickListener(this);
@@ -78,9 +74,7 @@ public class TitleBarView extends RelativeLayout implements
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
-
             case R.id.titlebar_share:
                 if (activity != null)
                     activity.startShareActivity();

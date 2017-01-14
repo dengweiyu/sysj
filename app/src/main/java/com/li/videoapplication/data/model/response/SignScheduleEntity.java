@@ -7,7 +7,7 @@ import com.li.videoapplication.framework.BaseResponseEntity;
 
 
 @SuppressWarnings("serial")
-public class SignScheduleEntity extends BaseHttpResult {
+public class SignScheduleEntity extends BaseResponseEntity {
     private Data data;
 
     public Data getData() {

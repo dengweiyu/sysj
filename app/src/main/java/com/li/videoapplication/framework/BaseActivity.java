@@ -6,7 +6,6 @@ import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
-import com.li.videoapplication.data.image.ImageLoaderHelper;
 import com.li.videoapplication.data.network.RequestManager;
 
 import io.rong.eventbus.EventBus;
@@ -110,7 +109,7 @@ public abstract class BaseActivity extends FragmentActivity implements IBaseActi
 		EventBus.getDefault().unregister(this);
 		AppManager.getInstance().removeActivity(this);
         super.onDestroy();
-		ImageLoaderHelper.clearMemoryCache();
+//		GlideHelper.clearMemoryCache();
     }
 
 	public void onEventAsync(Object event) {

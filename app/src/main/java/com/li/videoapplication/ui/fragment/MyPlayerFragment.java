@@ -19,7 +19,6 @@ import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseChildFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
-import com.li.videoapplication.ui.activity.ActivityDetailActivity208;
 import com.li.videoapplication.ui.activity.MyPlayerActivity;
 import com.li.videoapplication.ui.adapter.SearchMemberAdapter;
 import com.li.videoapplication.utils.StringUtil;

@@ -28,7 +28,7 @@ public class RequestExecutor {
 	/**
 	 * 功能：新线程执行
 	 */
-	public synchronized final static void start(Runnable runnable) {
+	public synchronized static void start(Runnable runnable) {
 		if (runnable != null) {
 			try {
 				Log.i(TAG, "start/runnable=" + runnable);

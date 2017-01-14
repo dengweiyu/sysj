@@ -15,9 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.model.entity.Comment;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.activity.ActivityDetailActivity208;
+import com.li.videoapplication.ui.activity.ActivityDetailActivity;
+import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.ui.adapter.FaceAdapter;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
@@ -46,7 +48,7 @@ public class ActivityCommentView extends FrameLayout implements
     * 跳转：上传视频
     */
     private void  startVideoChooseActivity() {
-        ActivityManeger.startVideoChooseActivity(context, activity.match);
+        ActivityManeger.startVideoChooseActivity(context, activity.match, VideoShareActivity.TO_FINISH);
     }
 
 
@@ -54,7 +56,7 @@ public class ActivityCommentView extends FrameLayout implements
     public final String tag = this.getClass().getSimpleName();
 
     private LayoutInflater inflater;
-    private ActivityDetailActivity208 activity;
+    private ActivityDetailActivity activity;
     private InputMethodManager manager;
     private Context context;
 
@@ -87,7 +89,7 @@ public class ActivityCommentView extends FrameLayout implements
         this.context = context;
     }
 
-    public void init(ActivityDetailActivity208 activity) {
+    public void init(ActivityDetailActivity activity) {
         this.activity = activity;
 
         if (activity != null)
@@ -270,6 +272,19 @@ public class ActivityCommentView extends FrameLayout implements
                 isComment = true;
             }
         }, 60 * 1000);
+    }
+
+    /**
+     * 二级评论
+     */
+    public void replyComment(Comment comment) {
+        if (comment == null)
+            return;
+        String s = "//@" + comment.getNickname() + ":" + comment.getContent();
+        edit.setText(s);
+        // 取得焦点
+        edit.requestFocus();
+        showInput();
     }
 
     /**

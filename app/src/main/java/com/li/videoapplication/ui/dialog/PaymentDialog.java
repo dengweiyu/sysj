@@ -16,6 +16,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
+import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -122,8 +123,13 @@ public class PaymentDialog extends BaseDialog implements View.OnClickListener {
             title.setText(Html.fromHtml(s));
             setTextViewText(confirm, "确认兑换");
 
-            if (childList.getExchange_way().equals("3")) {//3=>Q币类
+            if (childList.getExchange_way().equals("3") ||  //3=>Q币类
+                    childList.getExchange_way().equals("6")) { //6=>战网兑换类
                 qq.setVisibility(View.VISIBLE);
+                if (!StringUtil.isNull(childList.getPlaceholder()))
+                    qq.setHint(childList.getPlaceholder());
+                if (childList.getExchange_way().equals("6"))
+                    qq.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
             } else {
                 qq.setVisibility(View.GONE);
             }
@@ -146,11 +152,13 @@ public class PaymentDialog extends BaseDialog implements View.OnClickListener {
                     if (viewType == VERIFY_PHONE) {
                         verifyCodeNew();
                     } else if (viewType == EXCHANGE) {
-                        if (childList.getExchange_way().equals("3")) {//3=>Q币类
+                        if (childList.getExchange_way().equals("3") ||  //3=>Q币类
+                                childList.getExchange_way().equals("6")) { //6=>战网兑换类
                             DataManager.payment(PreferencesHepler.getInstance().getMember_id(),
                                     childList.getId(), getPhoneText(), getQQText());
                         } else {// 2=>话费流量类, 4=>京东卡类
-                            DataManager.payment(PreferencesHepler.getInstance().getMember_id(), childList.getId(), getPhoneText());
+                            DataManager.payment(PreferencesHepler.getInstance().getMember_id(),
+                                    childList.getId(), getPhoneText());
                         }
                     }
                 }

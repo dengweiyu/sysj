@@ -247,7 +247,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
             params.setTitleUrl(url);
             params.setShareType(Platform.SHARE_WEBPAGE);
 
-        } else if (page == PAGE_SYSJ) {// 录屏大师
+        } else if (page == PAGE_SYSJ) {// 手游视界
             // 新浪微博文字内容无法携带超链接， 所以将超链接直接放在分享内容中
             if (shareChannel.equals("SinaWeibo")) {
                 params.setText(text + url);

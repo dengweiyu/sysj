@@ -22,9 +22,9 @@ import com.li.videoapplication.framework.BaseEmptyDialog;
 /**
  * 弹框：发现遮罩
  */
-@SuppressLint("CutPasteId") 
+@SuppressLint("CutPasteId")
 public class DiscoverTipDialog extends BaseEmptyDialog implements View.OnClickListener {
-	
+
 	private ImageView known;
 
 	@Override

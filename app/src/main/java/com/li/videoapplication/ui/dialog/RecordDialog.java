@@ -13,6 +13,7 @@ import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.utils.AppUtil;
 
 /**
@@ -55,7 +56,7 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
      * 跳转：选择上传视频
      */
     private void startVideoChooseActivity() {
-        ActivityManeger.startVideoChooseActivity(getContext(), null);
+        ActivityManeger.startVideoChooseActivity(getContext(), null, VideoShareActivity.TO_VIDEOMANAGER);
     }
 
     public RecordDialog(Context context) {
@@ -117,8 +118,12 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
                 break;
 
             case R.id.record_local://视频
-                if (activity != null)
-                    startVideoChooseActivity();
+                if (isLogin){
+                    if (activity != null)
+                        startVideoChooseActivity();
+                }else {
+                    startLoginDialog();
+                }
                 break;
         }
         cancel();

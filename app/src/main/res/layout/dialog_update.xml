@@ -1,96 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp"
-    android:background="@color/white">
+    android:layout_gravity="center"
+    android:layout_marginLeft="@dimen/kaka_40"
+    android:layout_marginRight="@dimen/kaka_40"
+    android:background="#ffffff"
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/logo"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/dialog_update_header2" />
+        android:layout_gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/buildcode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/logo"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="18dp"
-        android:layout_marginRight="12dp"
-        android:text="v2.0.5"
-        android:textColor="@color/white"
-        android:textSize="13sp" />
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/logo"
-        android:layout_marginTop="8dp"
-        android:paddingLeft="12dp"
-        android:text="新版特性："
-        android:textColor="@color/text_color"
-        android:textSize="16sp" />
-
-    <ScrollView
-        android:id="@+id/dialog_update_text_root"
-        android:layout_width="wrap_content"
-        android:layout_height="130dp"
-        android:layout_below="@+id/title"
-        android:layout_marginTop="10dp"
-        android:paddingBottom="10dp">
+        <ImageView
+            android:id="@+id/update_header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/kaka_92"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/update_header" />
 
         <TextView
-            android:id="@+id/dialog_update_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:text="1.啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊"
-            android:textColor="@color/text_color"
-            android:textSize="13sp" />
-    </ScrollView>
+            android:id="@+id/update_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/update_header"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/kaka_10"
+            android:layout_marginRight="@dimen/kaka_18"
+            android:text="v 2.1.1"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/update_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/kaka_14"
+        android:layout_marginLeft="@dimen/kaka_16"
+        android:layout_marginRight="@dimen/kaka_16"
+        android:layout_marginTop="@dimen/kaka_14"
+        android:gravity="left|top"
+        android:hint="@string/loading_text"
+        android:lineSpacingExtra="3dp"
+        android:text=""
+        android:textColor="#565656"
+        android:textSize="14sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_below="@+id/dialog_update_text_root"
-        android:layout_marginBottom="14dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="4dp"
-        android:gravity="center_vertical"
+        android:layout_height="@dimen/kaka_32"
+        android:layout_marginBottom="@dimen/kaka_18"
+        android:layout_marginLeft="@dimen/kaka_16"
+        android:layout_marginRight="@dimen/kaka_16"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/dialog_update_cancel"
-            android:layout_width="0dp"
+            android:id="@+id/update_cancel"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:background="@drawable/button_selector_gray"
             android:gravity="center"
-            android:text="取消"
-            android:textColor="@color/text_color"
-            android:textSize="16sp" />
+            android:text="@string/update_cancel"
+            android:textColor="#787878"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="@dimen/kaka_16"
+            android:layout_height="match_parent" />
 
         <TextView
-            android:id="@+id/dialog_update_ok"
-            android:layout_width="0dp"
+            android:id="@+id/update_now"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
             android:layout_weight="1"
-            android:background="@color/menu_main_red"
+            android:background="@drawable/button_red"
             android:gravity="center"
-            android:text="立即更新"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:text="@string/update_now"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
     </LinearLayout>
-
-
-</RelativeLayout>
+</LinearLayout>

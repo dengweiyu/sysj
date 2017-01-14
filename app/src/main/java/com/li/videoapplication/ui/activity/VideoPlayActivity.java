@@ -351,8 +351,7 @@ public class VideoPlayActivity extends TBaseActivity implements
         bundle.putString("title", title);
         authorVideoListFragment.setArguments(bundle);
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        FragmentTransaction ft = manager.beginTransaction();
         ft.setCustomAnimations(R.anim.activity_slide_in_right, R.anim.activity_disappear);
         ft.add(R.id.authorVideoList, authorVideoListFragment).commit();
     }

@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
+import com.fmsysj.screeclibinvoke.utils.RootUtil;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Game;
@@ -28,6 +29,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
+import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.utils.AppUtil;
 
 /**
@@ -75,6 +77,15 @@ public class GameDetailDialog extends BaseTopDialog implements View.OnClickListe
         ActivityManeger.startVideoMangerActivity(getContext(), game);
     }
 
+    /**
+     * 跳转：选择上传视频
+     */
+    private void startVideoChooseActivity() {
+        if (game != null)
+            ActivityManeger.startVideoChooseActivity(getContext(), game);
+        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "游戏圈-本地上传");
+    }
+
     public GameDetailDialog(Context context, Game game) {
         super(context);
         this.game = game;
@@ -108,9 +119,11 @@ public class GameDetailDialog extends BaseTopDialog implements View.OnClickListe
         switch (v.getId()) {
 
             case R.id.gamedetail_local://视频
-                if (game != null)
-                    startVideoMangerActivity();
-                UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "游戏圈-本地上传");
+                if (isLogin) {
+                    startVideoChooseActivity();
+                } else {
+                    startLoginDialog();
+                }
                 break;
 
             case R.id.gamedetail_video://录屏
@@ -128,7 +141,9 @@ public class GameDetailDialog extends BaseTopDialog implements View.OnClickListe
                 if (isLogin) {
                     if (game != null) {
                         int SDKVesion = AppUtil.getAndroidSDKVersion();
-                        if (SDKVesion >= 21) {
+                        // FIXME: CameraGLView第565行，setPreviewSize（预览宽高有几个固定比例等级），
+                        // FIXME: 华为的垃圾机屏幕分辨率不是正常比例来的(因为有条垃圾返回键等底栏) 所以会抛异常。没空先不给华为进入先，看到的大神有空修一下
+                        if (SDKVesion >= 21 && !RootUtil.getManufacturer().equals("HUAWEI")) {
                             startCameraRecoed50Activity();
                         } else {
                             startCameraRecoedActivity();

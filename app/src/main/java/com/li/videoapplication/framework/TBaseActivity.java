@@ -299,7 +299,7 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
             }
         };
         timer = new Timer(true);
-        timer.schedule(task, 800, 800);
+        timer.schedule(task, 2600, 2600);
     }
 
     //带取消按钮的加载圈
@@ -498,7 +498,7 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
     protected ImageView abSearchDelete, abSearchSubmit;
     protected Button abImageViewDone;
     protected TextView abScanQRCodeCancel;
-    protected TextView abTagConfirm;
+    protected TextView abTagConfirm,abMyActivity,abMyGift;
     protected TextView abMessageClean;
 
     private void setActionBar(int layout) {
@@ -518,6 +518,8 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
 
         if (abBackground != null) {
             abTagConfirm = (TextView) findViewById(R.id.ab_tag_confirm);
+            abMyActivity = (TextView) findViewById(R.id.ab_myactivity);
+            abMyGift = (TextView) findViewById(R.id.ab_mygift);
 
             abTitle = (TextView) findViewById(R.id.ab_title);
             abVideoPlayTitle = (TextView) findViewById(R.id.ab_videoplay_title);
@@ -567,6 +569,8 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
             setAbStyleWhite();
 
             abTagConfirm.setVisibility(View.GONE);
+            abMyActivity.setVisibility(View.GONE);
+            abMyGift.setVisibility(View.GONE);
             abScanQRCodeCancel.setVisibility(View.GONE);
 
             abVideoManagerSelected.setVisibility(View.GONE);

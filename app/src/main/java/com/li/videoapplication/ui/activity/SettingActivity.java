@@ -1,8 +1,5 @@
 package com.li.videoapplication.ui.activity;
 
-import android.app.AlertDialog;
-import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,14 +21,14 @@ import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Update;
-import com.li.videoapplication.data.model.response.UpdateVersionSettingEntity;
+import com.li.videoapplication.data.model.response.UpdateVersionEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.LogHelper;
-import com.li.videoapplication.utils.ScreenUtil;
 
 /**
  * 活动：设置
@@ -316,63 +313,6 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
         }
     }
 
-    private void updateVersion(final Update update) {
-        if ("U".equals(update.getUpdate_flag())) {// 可用升级
-            updateNow(update);
-        } else if ("A".equals(update.getUpdate_flag())) {// 强制升级
-            updateNow(update);
-        } else if ("N".equals(update.getUpdate_flag())) {// 最新版本
-            showToastLong("当前已经是最新版本");
-        }
-
-    }
-
-    private void updateNow(final Update update) {
-        LogHelper.i(tag, "updateNow  ");
-        String changelog = update.getChange_log();
-        String[] changeArray = changelog.split(";");
-        changelog = "";
-        for (String aChangeArray : changeArray) {
-            changelog += aChangeArray + "\n\t\n";
-        }
-
-        final AlertDialog dialog = new AlertDialog.Builder(SettingActivity.this).create();
-        dialog.show();
-        dialog.getWindow().setContentView(R.layout.dialog_update);
-
-        TextView changeText = (TextView) dialog.getWindow().findViewById(R.id.dialog_update_text);
-        changeText.setText(changelog);
-
-        TextView version = (TextView) dialog.getWindow().findViewById(R.id.buildcode);
-        version.setText(update.getVersion_str());
-
-        ImageView logo = (ImageView) dialog.getWindow().findViewById(R.id.logo);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) logo.getLayoutParams();
-
-        int screenWidth = ScreenUtil.getScreenWidth();
-        int margin = dp2px(40);
-        int width = screenWidth - margin;
-        params.width = width;
-        params.height = width / 3;
-        logo.setLayoutParams(params);
-
-        dialog.getWindow().findViewById(R.id.dialog_update_ok).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse(update.getUpdate_url());
-                Intent it = new Intent(Intent.ACTION_VIEW, uri);
-                SettingActivity.this.startActivity(it);
-                UmengAnalyticsHelper.onEvent(SettingActivity.this, UmengAnalyticsHelper.SLIDER, "版本更新-有效");
-            }
-        });
-        dialog.getWindow().findViewById(R.id.dialog_update_cancel).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-    }
-
     /**
      * 邀请好友
      */
@@ -399,15 +339,25 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
     /**
      * 回调：版本更新
      */
-    public void onEventMainThread(UpdateVersionSettingEntity event) {
+    public void onEventMainThread(UpdateVersionEntity event) {
 
-        if (event != null) {
-            if (event.isResult()) {
-                Update update = event.getData().get(0);
-                if (update != null) {
-                    updateVersion(update);
-                }
+        if (event != null && event.isResult()) {
+            Update update = event.getData().get(0);
+            if (update != null) {
+                updateVersion(update);
             }
+        }
+    }
+
+    private void updateVersion(final Update update) {
+        LogHelper.i(tag, "updateVersion  ");
+        if ("U".equals(update.getUpdate_flag()) || // 可用升级
+                "A".equals(update.getUpdate_flag())){// 强制升级
+            // 版本更新对话框
+            DialogManager.showUpdateDialog(this, update);
+        }else {// N:最新版本
+            ToastHelper.s(R.string.update_new);
+            Log.d(tag, "updateVersion: New");
         }
     }
 

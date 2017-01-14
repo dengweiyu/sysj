@@ -2,49 +2,74 @@ package com.li.videoapplication.ui.fragment;
 
 import android.os.CountDownTimer;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
+import com.li.videoapplication.R;
+import com.li.videoapplication.data.image.Constant;
+import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.entity.AdvertisementDto;
+import com.li.videoapplication.data.model.entity.Download;
+import com.li.videoapplication.data.model.entity.LaunchImage;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
+import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.home.HomeContract;
 import com.li.videoapplication.mvp.home.presenter.HomePresenter;
-import com.li.videoapplication.R;
-import com.li.videoapplication.framework.TBaseFragment;
+import com.li.videoapplication.tools.DownloadHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.utils.HareWareUtil;
 import com.li.videoapplication.utils.NetUtil;
+import com.li.videoapplication.utils.StringUtil;
+
+import java.io.File;
 
 /**
  * 碎片：图片广告
  */
-public class BannerFragment extends TBaseFragment implements HomeContract.IAppStartView {
+public class BannerFragment extends TBaseFragment {
 
     private AdvertisementDto data;
     private HomeContract.IHomePresenter presenter;
+    private View go;
 
     /**
      * 跳转：主页
      */
     public void startMainActivity() {
         ActivityManeger.startMainActivity(getContext());
-        if (flag && data != null && data.getData().get(0).getGo_url() != null) {
-            WebActivity.startWebActivity(getContext(), data.getData().get(0).getGo_url());
+        if (flag && data != null) {
+            LaunchImage launchImage = data.getData().get(0);
+            int ad_type = launchImage.getAd_type();
+            String download_android = launchImage.getDownload_android();
+            switch (ad_type) {
+                case 1://页面展示
+                    String go_url = launchImage.getGo_url();
+                    if (!StringUtil.isNull(go_url))
+                        WebActivity.startWebActivity(getContext(), go_url);
+                    else
+                        WebActivity.startWebActivity(getContext(), download_android);
+                    break;
+                case 2://文件下载
+                    String app_name = launchImage.getDownload_desc().get(0).getApp_name();
+                    Download download = new Download();
+                    download.setDownload_url(download_android);
+                    download.setTitle(app_name);
+                    DownloadHelper.downloadFile(getActivity(), download);
+                    break;
+            }
+
             // 广告点击统计+1
-            presenter.adClick(data.getData().get(0).getAd_id(),
-                    AdvertisementDto.AD_CLICK_STATUS_23,
+            presenter.adClick(launchImage.getAd_id(), AdvertisementDto.AD_CLICK_STATUS_23,
                     HareWareUtil.getHardwareCode());
         }
     }
 
     private ImageView image;
     private TextView jump;
-    private AlphaAnimation alphaAnimation;
 
     private boolean flag = false;
 
@@ -66,18 +91,13 @@ public class BannerFragment extends TBaseFragment implements HomeContract.IAppSt
     @Override
     protected void initContentView(View view) {
         presenter = HomePresenter.getInstance();
-        presenter.setAppStartView(this);
 
         initView(view);
 
         addOnClickListener();
 
-        initAnimation();
-
-        if (NetUtil.isConnect())
-            presenter.adImage208(AdvertisementDto.ADVERTISEMENT_6, true);
-        else {
-            ToastHelper.s("当前网络不可用，请检查后重试。");
+        if (!NetUtil.isConnect()) {
+            ToastHelper.s(R.string.net_disable);
             handler.post(new Runnable() {
 
                 @Override
@@ -88,28 +108,8 @@ public class BannerFragment extends TBaseFragment implements HomeContract.IAppSt
         }
     }
 
-    private void initAnimation() {
-        alphaAnimation = new AlphaAnimation(0.4f, 1.0f);
-        alphaAnimation.setDuration(1000);
-        alphaAnimation.setInterpolator(new DecelerateInterpolator());
-        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-    }
-
     private void addOnClickListener() {
-        image.setOnClickListener(new View.OnClickListener() {
+        go.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -136,28 +136,21 @@ public class BannerFragment extends TBaseFragment implements HomeContract.IAppSt
 
     private void initView(View view) {
         image = (ImageView) view.findViewById(R.id.banner_image);
+        go = view.findViewById(R.id.banner_go);
         jump = (TextView) view.findViewById(R.id.banner_jump);
-        image.setVisibility(View.GONE);
         jump.setVisibility(View.GONE);
-    }
 
-    //广告
-    @Override
-    public void refreshAdvertisementView(AdvertisementDto data) {
-        this.data = data;
-        if (data.isResult()) {//有广告
-            image.setVisibility(View.VISIBLE);
-            setImageViewImageNet(image, data.getData().get(0).getServer_pic_a());
-            image.startAnimation(alphaAnimation);
+        if (PreferencesHepler.getInstance().getIndexLaunchImage() != null) {
+            data = PreferencesHepler.getInstance().getIndexLaunchImage();
+            String imageName = StringUtil.getFileNameWithExt(data.getData().get(0).getServer_pic_a());
+            String path = SYSJStorageUtil.getSysjDownload() + File.separator + imageName;
+
+            Glide.with(getContext())
+                    .load(path)
+                    .placeholder(Constant.APPSTART_WHITE)
+                    .error(Constant.APPSTART_WHITE)
+                    .into(image);
             startTimer();
-        } else {//无广告
-            handler.post(new Runnable() {
-
-                @Override
-                public void run() {
-                    startMainActivity();
-                }
-            });
         }
     }
 

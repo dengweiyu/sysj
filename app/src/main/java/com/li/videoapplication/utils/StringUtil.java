@@ -22,7 +22,7 @@ public class StringUtil {
         try {
             double number = Double.valueOf(num);
             if (number < 10000) {
-                return num;
+                return formatNum(num);
 
             } else if (number >= 10000 && number < 11000) {
                 return "1万";
@@ -147,7 +147,7 @@ public class StringUtil {
     }
 
     /**
-     * 校验手机格式  fixme 太严，缺少177
+     * 校验手机格式  fixme 缺少177
      */
     public static boolean isMobileNumber(String mobiles) {
 
@@ -205,6 +205,33 @@ public class StringUtil {
             }
         }
         return filename;
+    }
+
+    /**
+     * 获取路径中的文件名 aaa/bbb/xxx.eee --> xxx
+     */
+    public static String getFileName(String path) {
+
+        int start = path.lastIndexOf("/");
+        int end = path.lastIndexOf(".");
+        if (start != -1 && end != -1) {
+            return path.substring(start + 1, end);
+        } else {
+            return path;
+        }
+    }
+
+    /**
+     * 获取路径中的带拓展名的文件名 aaa/bbb/xxx.eee --> xxx.eee
+     */
+    public static String getFileNameWithExt(String path) {
+
+        int start = path.lastIndexOf("/");
+        if (start != -1) {
+            return path.substring(start + 1, path.length());
+        } else {
+            return path;
+        }
     }
 
     /**

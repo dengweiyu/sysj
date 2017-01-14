@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.li.videoapplication.data.image.ImageLoaderHelper;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.utils.BitmapUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -92,7 +92,8 @@ public class TextImageHelper {
      */
     public synchronized void setImageViewImageNet(ImageView view, String url) {
         if (view != null && !StringUtil.isNull(url)) {
-            ImageLoaderHelper.displayImageWhite(url, view);
+            Context context = AppManager.getInstance().getContext();// FIXME: 不应该使用全局上下文，不然没办法即时 GC
+            GlideHelper.displayImageWhite(context, url, view);
         } else {
             if (view != null) {
                 view.setImageBitmap(null);
@@ -103,9 +104,9 @@ public class TextImageHelper {
     /**
      * 功能：ImageView显示网络图像渐变展示
      */
-    public synchronized void setImageViewImageNetAlpha(ImageView view, String url) {
+    public synchronized void setImageViewNetAlpha(ImageView view, String url) {
         if (view != null && !StringUtil.isNull(url)) {
-            ImageLoaderHelper.displayImageWithAlpha(url, view);
+            GlideHelper.displayImageFade(url, view);
         } else {
             if (view != null) {
                 view.setImageBitmap(null);
@@ -118,8 +119,6 @@ public class TextImageHelper {
      */
     public synchronized void setImageViewImageRes(ImageView view, int res) {
         if (view != null && res != 0) {
-            // 内存溢出
-            // PicassoHelper.load(view, res);
             view.setImageResource(res);
         } else {
             if (view != null) {
@@ -133,10 +132,6 @@ public class TextImageHelper {
      */
     public synchronized void setImageViewImageLocal(ImageView view, String path) {
         if (view != null && !StringUtil.isNull(path)) {
-            // 内存溢出
-            // view.setImageBitmap(BitmapFactory.decodeFile(path));
-            // 显示不全
-            // PicassoHelper.load(view, path);
             try {
                 File file = new File(path);
                 Bitmap bitmap = BitmapUtil.readBitmap(AppManager.getInstance().getApplication(), file);

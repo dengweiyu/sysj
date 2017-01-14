@@ -1,6 +1,5 @@
 include ':app',
         ':SlidingMenu',
-        ':Feedback',
         ':PullToRefresh',
         ':ShareSDK',
         ':DanmakuFlameMaster',

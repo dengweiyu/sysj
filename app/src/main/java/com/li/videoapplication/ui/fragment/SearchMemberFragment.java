@@ -5,7 +5,9 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -88,9 +90,12 @@ public class SearchMemberFragment extends TBaseChildFragment implements OnRefres
 		
 		pullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pulltorefresh);
 		pullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
-		
 		listView = pullToRefreshListView.getRefreshableView();
-		
+		View emptyView = getActivity().getLayoutInflater().inflate(R.layout.emptyview,
+				(ViewGroup) listView.getParent(), false);
+		TextView emptyText = (TextView) emptyView.findViewById(R.id.emptyview_text);
+		emptyText.setText("没有相关主播");
+		listView.setEmptyView(emptyView);
 		data = new ArrayList<>();
 		adapter = new SearchMemberAdapter(getActivity(), SearchMemberAdapter.PAGE_SEARCHMEMBER, data);
 		listView.setAdapter(adapter);

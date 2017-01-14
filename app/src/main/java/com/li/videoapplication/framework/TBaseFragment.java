@@ -17,15 +17,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
+import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.LayoutParamsHelper;
 import com.li.videoapplication.tools.TextImageHelper;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.LoginActivity;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.utils.ScreenUtil;
+import com.li.videoapplication.utils.StringUtil;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import rx.functions.Action1;
 
 
@@ -129,6 +137,305 @@ public abstract class TBaseFragment extends BaseFragment {
         onRefreshCompleteDelayed(mIPullToRefresh, 0);
     }
 
+	/*##############  设置加载弹框   ##############*/
+    private LoadingDialog pd;
+    private SweetAlertDialog sad;
+    private Timer timer;
+    private int i = -1;
+
+    public final void showProgressDialog(final String message) {
+        showProgressDialog(message, true, true);
+    }
+
+    public final void showProgressDialog2(final String message) {
+        showProgressDialog(message, false, false);
+    }
+
+    public final void showProgressDialog(final String message, final boolean isCancelable, final boolean isCanceledOnTouchOutside) {
+        handler.post(new Runnable() {
+
+            @Override
+            public void run() {
+                if (pd != null) {
+                    if (pd.isShowing()) {
+                        pd.dismiss();
+                    }
+                    pd = null;
+                }
+                pd = new LoadingDialog(getActivity());
+                pd.setProgressText(message);
+                pd.setCancelable(isCancelable);
+                pd.setCanceledOnTouchOutside(isCanceledOnTouchOutside);
+                pd.show();
+            }
+        });
+    }
+
+    public final void dismissProgressDialog() {
+        handler.post(new Runnable() {
+
+            @Override
+            public void run() {
+
+                if (pd != null) {
+                    if (pd.isShowing()) {
+                        pd.dismiss();
+                    }
+                    pd = null;
+                }
+            }
+        });
+    }
+
+    public final void setProgressText(final int res) {
+        String message = null;
+        try {
+            message = AppManager.getInstance().getApplication().getResources().getString(res);
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        }
+        setProgressText(message);
+    }
+
+    public final void setProgressText(final String message) {
+
+        if (StringUtil.isNull(message)) {
+            return;
+        }
+        handler.post(new Runnable() {
+
+            @Override
+            public void run() {
+                if (pd != null) {
+                    pd.setProgressText(message);
+                }
+            }
+        });
+    }
+
+    public final void showLoadingDialog(final String title) {
+        showLoadingDialog(title, null, true);
+    }
+
+    public final void cancelProgressDialog() {
+
+        handler.post(new Runnable() {
+
+            @Override
+            public void run() {
+
+                if (sad != null) {
+                    if (timer != null) {
+                        timer.cancel();
+                        i = -1;
+                    }
+                    if (sad.isShowing()) {
+                        sad.cancel();
+                    }
+                    sad = null;
+                }
+            }
+        });
+    }
+
+    //加载圈转为成功提示dialog
+    public final void changeType2SuccessDialog(final String title, final CharSequence content, final String confirmText) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (sad != null) {
+                    if (timer != null) {
+                        timer.cancel();
+                        i = -1;
+                    }
+                    sad.setTitleText(title)
+                            .setContentText(content)
+                            .setConfirmText(confirmText)
+                            .setConfirmClickListener(null)
+                            .showCancelButton(false)
+                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                }
+            }
+        });
+    }
+
+    //加载圈转为错误提示dialog
+    public final void changeType2ErrorDialog(final String title, final String content, final String confirmText) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (sad != null) {
+                    if (timer != null) {
+                        timer.cancel();
+                        i = -1;
+                    }
+                    sad.setTitleText(title)
+                            .setContentText(content)
+                            .setConfirmText(confirmText)
+                            .setConfirmClickListener(null)
+                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                }
+            }
+        });
+    }
+
+    //加载圈dialog
+    public final void showLoadingDialog(final String title, final String content, final boolean isCancelable) {
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (sad != null) {
+                    if (sad.isShowing()) {
+                        sad.dismiss();
+                    }
+                    sad = null;
+                }
+                sad = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+                sad.setTitleText(title);
+                sad.setCancelable(isCancelable);
+                if (content != null)
+                    sad.setContentText(content);
+                sad.show();
+            }
+        });
+
+        changeColorTimerTask();
+    }
+
+    public final void showSuccessDialogWithListener(final String title, final CharSequence content, final String confirmText) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (sad != null) {
+                    if (sad.isShowing()) {
+                        sad.dismiss();
+                    }
+                    sad = null;
+                }
+                sad = new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE);
+                sad.setTitleText(title)
+                        .setContentText(content)
+                        .setConfirmText(confirmText)
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                confirmButtonEvent();
+                            }
+                        }).show();
+            }
+        });
+    }
+
+    //加载圈转为成功提示dialog
+    public final void change2SuccessWithOKListener(final String title, final CharSequence content, final String confirmText) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (sad != null) {
+                    if (timer != null) {
+                        timer.cancel();
+                        i = -1;
+                    }
+                    sad.setTitleText(title)
+                            .setContentText(content)
+                            .setConfirmText(confirmText)
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    confirmButtonEvent();
+                                }
+                            })
+                            .showCancelButton(false)
+                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                }
+            }
+        });
+    }
+
+    //确认按钮点击事件（复写使用,不取消则不使用super）
+    protected void confirmButtonEvent() {
+        sad.dismiss();
+    }
+
+    //带取消按钮的加载圈
+    public final void showLoadingDialogWithCancel(final String title, final String content, final String cancelBtnText,
+                                                  final String errorTitle,final String errorContent,
+                                                  final String errorConfirmText) {
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (sad != null) {
+                    if (sad.isShowing()) {
+                        sad.dismiss();
+                    }
+                    sad = null;
+                }
+                sad = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+                sad.setTitleText(title);
+                sad.setContentText(content);
+                sad.setCancelText(cancelBtnText).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        if (timer != null) {
+                            timer.cancel();
+                            i = -1;
+                        }
+                        sweetAlertDialog.setTitleText(errorTitle)
+                                .setContentText(errorContent)
+                                .setConfirmText(errorConfirmText)
+                                .showCancelButton(false)
+                                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    }
+                }).show();
+            }
+        });
+
+        changeColorTimerTask();
+    }
+
+    //加载圈每隔800毫秒变色时间任务
+    private void changeColorTimerTask() {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if (sad != null && sad.isShowing()) {
+                    changeColor();
+                }
+            }
+        };
+        timer = new Timer(true);
+        timer.schedule(task, 2200, 2200);
+    }
+
+    private void changeColor() {
+        i++;
+        switch (i % 7) {
+            case 0:
+                sad.getProgressHelper().setBarColor(getResources().getColor(R.color.blue_btn_bg_color));
+                break;
+            case 1:
+                sad.getProgressHelper().setBarColor(getResources().getColor(R.color.material_deep_teal_50));
+                break;
+            case 2:
+                sad.getProgressHelper().setBarColor(getResources().getColor(R.color.success_stroke_color));
+                break;
+            case 3:
+                sad.getProgressHelper().setBarColor(getResources().getColor(R.color.material_deep_teal_20));
+                break;
+            case 4:
+                sad.getProgressHelper().setBarColor(getResources().getColor(R.color.material_blue_grey_80));
+                break;
+            case 5:
+                sad.getProgressHelper().setBarColor(getResources().getColor(R.color.warning_stroke_color));
+                break;
+            case 6:
+                sad.getProgressHelper().setBarColor(getResources().getColor(R.color.success_stroke_color));
+                break;
+        }
+    }
+
 	/*##############  加载文本和图像   ##############*/
 
     protected void setTextViewText(TextView mTextView, String text) {
@@ -171,6 +478,10 @@ public abstract class TBaseFragment extends BaseFragment {
 
     protected void showToastLogin() {
         this.showToastShort("请先登录!");
+    }
+
+    protected void showLoginDialog() {
+        DialogManager.showLogInDialog(getActivity());
     }
 	
 	/*##############  页脚和页头   ##############*/

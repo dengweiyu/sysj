@@ -4,13 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.transition.Slide;
+import android.transition.TransitionManager;
+import android.transition.TransitionSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,24 +26,24 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.event.LoginEvent;
-import com.li.videoapplication.data.model.response.SignScheduleEntity;
-import com.li.videoapplication.data.model.response.SignSchedule210Entity;
 import com.li.videoapplication.data.model.response.ServiceNameEntity;
+import com.li.videoapplication.data.model.response.SignSchedule210Entity;
+import com.li.videoapplication.data.model.response.SignScheduleEntity;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.BaseHttpResult;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchDetailView;
 import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
+import com.li.videoapplication.tools.AnimationHelper;
 import com.li.videoapplication.tools.RongIMHelper;
-import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.ConversationActivity;
 import com.li.videoapplication.ui.fragment.GameMatchRulesFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.ViewPagerY4;
@@ -86,6 +91,8 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
     private PopupWindow popupWindow;
     private BubbleLayout bubbleLayout;
     private MatchPresenter presenter;
+    private LinearLayout btnBar;
+    private boolean isFirstIn = true;
 
     /**
      * 跳转：报名
@@ -127,6 +134,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
             final String content = "快来看看" + match.getTitle();
 
             ActivityManeger.startActivityShareActivity4VideoPlay(this, url, title, imageUrl, content);
+            presenter.eventsRecordClick(event_id, 15);//赛事流水点击:15为app分享
         }
     }
 
@@ -152,6 +160,15 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
     }
 
     @Override
+    public void beforeOnCreate() {
+        super.beforeOnCreate();
+        // 允许使用transitions
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        }
+    }
+
+    @Override
     public int getContentView() {
         return R.layout.activity_gamematchdetail;
     }
@@ -174,13 +191,16 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.eventsRecordClick(event_id, 10);//赛事流水点击:10为该页面点击次数
+    }
+
+    @Override
     public void initView() {
         super.initView();
         initToolbar();
-        cardViewText = (TextView) findViewById(R.id.gamematch_signup);
-        con = (LinearLayout) findViewById(R.id.gamematch_con);
-        refresh = (ImageView) findViewById(R.id.gamematch_refresh);
-        refreshLine = findViewById(R.id.gamematch_refreshline);
+        btnBar = (LinearLayout) findViewById(R.id.gamematch_btnbar);
 
         refresh.setOnClickListener(this);
         cardViewText.setOnClickListener(this);
@@ -219,7 +239,6 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
 
     private void refreshImageView(boolean isFirstIn) {
         if (isFirstIn) {
-            header = (ImageView) findViewById(R.id.header);
             LayoutParams params = header.getLayoutParams();
             WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
@@ -230,7 +249,24 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
             header.setLayoutParams(params);
         } else {
             //加载广告图片
-            new TextImageHelper().setImageViewImageNet(header, match.getFlag());
+            setImageViewImageNet(header, match.getFlag());
+            showAnim();
+        }
+    }
+
+    private void showAnim() {
+        if (isFirstIn) {
+            animationHelper.startCircularRevealAnim(header);
+            animationHelper.beginFadeSlideTransition(btnBar);
+            animationHelper.beginFadeSlideTransition(con);
+            showVISIBLE(btnBar, con);
+            isFirstIn = false;
+        }
+    }
+
+    private void showVISIBLE(View... views) {
+        for (View view : views) {
+            view.setVisibility(View.VISIBLE);
         }
     }
 
@@ -247,7 +283,6 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
 
         final String[] tabTitle = {"赛规", "赛程"};
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments, tabTitle);
-        mViewPager = (ViewPagerY4) findViewById(R.id.gamematch_viewpager);
         mViewPager.setAdapter(adapter);
         mViewPager.addOnPageChangeListener(this);
         new HorizontalOverScrollBounceEffectDecorator(new ViewPagerOverScrollDecorAdapter(mViewPager));
@@ -300,7 +335,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
                             ToastHelper.s("比赛正在火热进行中");
                             break;
                         case 3://立即签到
-                            presenter.signSchedule(getMember_id(), match.getEvent_id());
+                            presenter.signSchedule(getMember_id(), match.getSchedule_id(), match.getEvent_id());
                             showLoadingDialog("签到中", "正在签到，请稍等...", false);
                             break;
                         case 4:// 对战表生成中
@@ -378,7 +413,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
                     presenter.groupJoin(getMember_id(), match.getChatroom_group_id());
                     UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "群聊");
                 } else {
-                    ToastHelper.s("请先登录");
+                    DialogManager.showLogInDialog(this);
                 }
                 break;
             case R.id.gamematch_cs://客服教程弹窗
@@ -388,6 +423,10 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
                 popupWindow.showAtLocation(v, Gravity.NO_GRAVITY, location[0], v.getHeight() + location[1]);
                 break;
             case R.id.gamematch_popup_cs://客服
+                if (!isLogin()) {
+                    DialogManager.showLogInDialog(this);
+                    return;
+                }
                 if (RongIM.getInstance() != null && customerServiceID != null) {
                     ActivityManeger.startConversationActivity(this, customerServiceID, customerServiceName, false);
                     UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "客服");

@@ -7,8 +7,10 @@ import android.util.Log;
 
 import com.fmsysj.screeclibinvoke.data.model.event.ScreenShotEvent;
 import com.fmsysj.screeclibinvoke.data.model.event.VideoCaptureEvent;
+import com.li.videoapplication.data.database.FileDownloaderEntity;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureResponseObject;
+import com.li.videoapplication.data.download.FileDownloaderResponseObject;
 import com.li.videoapplication.data.local.ImageDirectoryEntity;
 import com.li.videoapplication.data.local.ImageDirectoryResponseObject;
 import com.li.videoapplication.data.local.ScreenShotEntity;
@@ -22,10 +24,11 @@ import com.li.videoapplication.data.model.event.MatchListFliterEvent;
 import com.li.videoapplication.data.model.event.SearchGame2VideoShareEvent;
 import com.li.videoapplication.data.model.event.Share2VideoShareEvent;
 import com.li.videoapplication.data.model.event.Tag2VideoShareEvent;
+import com.li.videoapplication.data.model.event.UploadMatchPicEvent;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.event.VideoCutEvent;
+import com.li.videoapplication.data.model.event.VideoUploadCompleteEvent;
 import com.li.videoapplication.data.model.event.postConnectedTVSuccessEvent;
-import com.li.videoapplication.framework.RxBus;
 
 import java.util.List;
 
@@ -40,10 +43,36 @@ public class EventManager {
     protected static final String TAG = EventManager.class.getSimpleName();
 
     /**
+     * 发布加载下载文件事件
+     */
+    public static void postFileDownloaderResponseObject(boolean result, String msg, List<FileDownloaderEntity> data, String fileType) {
+        FileDownloaderResponseObject event = new FileDownloaderResponseObject(result, msg, data, fileType);
+        EventBus.getDefault().post(event);
+    }
+
+    /**
+     * 发布赛事上传图片事件
+     */
+    public static void postUploadMatchPicEvent(List<ScreenShotEntity> data) {
+        UploadMatchPicEvent event = new UploadMatchPicEvent();
+        event.setData(data);
+        EventBus.getDefault().post(event);
+    }
+
+    /**
+     * 发布完成上传视频事件
+     */
+    public static void postVideoUploadCompleteEvent(String video_id) {
+        VideoUploadCompleteEvent event = new VideoUploadCompleteEvent();
+        event.setVideo_id(video_id);
+        EventBus.getDefault().post(event);
+    }
+
+    /**
      * 发布赛事列表筛选完成更新事件
      */
     public static void postMatchListFliterEvent(String gameIds, String gameNames,
-                                                int match_type, String match_type_names) {
+                                                String match_type, String match_type_names) {
 
         EventBus.getDefault().post(new MatchListFliterEvent(gameIds, gameNames,
                 match_type, match_type_names));

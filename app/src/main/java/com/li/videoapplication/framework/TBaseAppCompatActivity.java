@@ -317,7 +317,7 @@ public abstract class TBaseAppCompatActivity extends BaseAppCompatActivity {
             }
         };
         timer = new Timer(true);
-        timer.schedule(task, 800, 800);
+        timer.schedule(task, 2600, 2600);
     }
 
     private void changeColor() {

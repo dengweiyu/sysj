@@ -3,11 +3,9 @@ package com.li.videoapplication.ui.dialog;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
@@ -16,7 +14,7 @@ import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.response.RecommendedLocationEntity;
 import com.li.videoapplication.framework.BaseDialog;
 import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.activity.VideoShareActivity210;
+import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.utils.BitmapUtil;
 import com.li.videoapplication.utils.InputUtil;
 
@@ -26,7 +24,7 @@ import com.li.videoapplication.utils.InputUtil;
 @SuppressLint("CutPasteId")
 public class OfficialPaymentDialog extends BaseDialog implements View.OnClickListener {
 
-    private VideoShareActivity210 activity;
+    private VideoShareActivity activity;
     private VideoCaptureEntity entity;
     private ImageView pic;
     private TextView title, currency, price, confirm;
@@ -42,7 +40,7 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
         if (entity == null) dismiss();
 
         try {
-            activity = (VideoShareActivity210) context;
+            activity = (VideoShareActivity) context;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,7 +116,7 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
 
             case R.id.official_detail:
                 if (event != null)
-                    ActivityManeger.startProductsDetailActivity(getContext(), event.getGoods().getId());
+                    ActivityManeger.startProductsDetailActivity(getContext(), event.getGoods().getId(), 0);
                 break;
         }
     }

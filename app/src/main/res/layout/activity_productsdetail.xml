@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:clipToPadding="true"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
     <View
         android:layout_width="match_parent"
@@ -15,8 +14,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="88dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -107,6 +106,14 @@
         </LinearLayout>
     </ScrollView>
 
+    <WebView
+        android:id="@+id/productsdetail_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="63dp"
+        android:scrollbars="none"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/productsdetail_ok"
         android:layout_width="match_parent"
@@ -114,6 +121,8 @@
         android:layout_margin="24dp"
         android:background="@drawable/mywallet_currencyrecord_red"
         android:gravity="center"
+        android:layout_alignParentBottom="true"
         android:text="立即兑换"
-        android:textColor="@color/white" />
-</LinearLayout>
+        android:textColor="@color/white"
+        android:visibility="visible"/>
+</RelativeLayout>

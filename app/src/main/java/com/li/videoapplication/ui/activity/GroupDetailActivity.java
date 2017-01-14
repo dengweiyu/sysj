@@ -12,16 +12,21 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.model.response.GroupInfoEntity;
@@ -41,8 +46,6 @@ import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
 import com.li.videoapplication.views.RoundedImageView;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -161,7 +164,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
             fragments.add(playerFragment);
         }
 
-        final String[] tabTitle = {"游戏介绍", "最新视频", "精彩视频", "玩家"};
+        final String[] tabTitle = {"游戏介绍", "最新视频", "最热视频", "玩家"};
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments, tabTitle);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -237,29 +240,17 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 
     private void setHeaderData(final Game item) {
         if (item != null) {
-            ImageLoaderHelper.displayImageWhiteListener(item.getFlag(), head, new ImageLoadingListener() {
+            GlideHelper.displayImageWhiteTargets(this, item.getFlag(), new SimpleTarget<Bitmap>() {
                 @Override
-                public void onLoadingStarted(String imageUri, View view) {
-                }
-
-                @Override
-                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                }
-
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    head.setImageBitmap(resource);
                     try {
                         FglassHelper.blur(head, bg);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-
-                @Override
-                public void onLoadingCancelled(String imageUri, View view) {
-                }
             });
-
             setTextViewText(name, item.getGroup_name());
             setMark(mark, item);
             setFocus(item);
@@ -282,7 +273,6 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     }
 
     private void setMark(TextView view, final Game item) {
-
         StringBuilder sb = new StringBuilder();
         String attention_num = StringUtil.formatNum(item.getAttention_num());
         String video_num = StringUtil.formatNum(item.getVideo_num());
@@ -297,9 +287,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
-
             case R.id.tb_back:
                 finish();
                 break;
@@ -321,7 +309,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 
             case R.id.groupdetail_focusview:
                 if (!isLogin()) {
-                    showToastLogin();
+                    DialogManager.showLogInDialog(this);
                     return;
                 }
                 if (game.getTick() == 1) {
@@ -367,10 +355,9 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
      */
     public void onEventMainThread(GroupAttentionGroupEntity event) {
 
-        if (event != null) {
-            if (event.isResult()) {
-                showToastShort(event.getMsg());
-            }
+        if (event != null && event.isResult()) {
+            Log.d(tag, event.getMsg());
+//                showToastShort(event.getMsg());
         }
     }
 
@@ -409,7 +396,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 
         if (event != null) {
             if (event.isResult()) {
-                showToastShort(event.getMsg());
+                Log.d(tag, event.getMsg());
             } else {
                 showToastShort(event.getMsg());
             }

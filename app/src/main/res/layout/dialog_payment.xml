@@ -39,7 +39,7 @@
             android:textColorHint="#b9b9b9"
             android:textCursorDrawable="@drawable/cursor_red"
             android:textSize="14sp"
-            android:inputType="phone"
+            android:inputType="number"
             android:visibility="gone"/>
 
         <EditText

@@ -208,28 +208,6 @@ public class ResponseHandler {
         Log.d(tag, "savePreferences: ");
 
         /**
-         * 图片广告（旧接口）
-         */
-        if (url.equals(RequestUrl.getInstance().launchImage())) {
-            if (result) {
-                PreferencesHepler.getInstance().saveLaunchImage((LaunchImageEntity) this.entity);
-                int changeTime = ((LaunchImageEntity) this.entity).getChangetime();
-                NormalPreferences.getInstance().putInt(Constants.LAUNCH_IMAHE_CHANGETIME, changeTime);
-            }
-        }
-
-        /**
-         * 图片广告
-         */
-        if (url.equals(RequestUrl.getInstance().indexLaunchImage())) {
-            if (result) {
-                PreferencesHepler.getInstance().saveIndexLaunchImage((IndexLaunchImageEntity) this.entity);
-                int changeTime = ((IndexLaunchImageEntity) this.entity).getChangetime();
-                NormalPreferences.getInstance().putInt(Constants.INDEX_LAUNCH_IMAHE_CHANGETIME, changeTime);
-            }
-        }
-
-        /**
          * 广告位置列表
          */
         if (url.equals(RequestUrl.getInstance().advertisementAdLocation204())) {
@@ -249,9 +227,9 @@ public class ResponseHandler {
         }
 
         /**
-         * 登录
+         * 登录 (正常登录 || 飞磨快速登录)
          */
-        if (url.equals(RequestUrl.getInstance().login())) {
+        if (url.equals(RequestUrl.getInstance().login()) || url.equals(RequestUrl.getInstance().loginFm())) {
             if (result) {
                 Member member = ((LoginEntity) this.entity).getData();
                 // 保存
@@ -262,7 +240,6 @@ public class ResponseHandler {
 
                 if (NetUtil.isConnect()) {
                     String ipAddress = NetUtil.getLocalIpAddress();
-//                    LogHelper.i(tag,"ip ===================== " + ipAddress);
                     //ICP 统计相关接口--用户登录记录
                     DataManager.sign(member.getId(), member.getNickname(), "sign_in", "sysj_a", ipAddress,
                             HareWareUtil.getHardwareCode(), HareWareUtil.getIMEI(), "");

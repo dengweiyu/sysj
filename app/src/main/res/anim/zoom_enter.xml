@@ -22,12 +22,12 @@
     android:interpolator="@android:anim/decelerate_interpolator" >
 
     <alpha
-        android:duration="1000"
+        android:duration="600"
         android:fromAlpha="0"
         android:toAlpha="1.0" />
 
     <scale
-        android:duration="1000"
+        android:duration="600"
         android:fromXScale="2.0"
         android:fromYScale="2.0"
         android:pivotX="50%p"

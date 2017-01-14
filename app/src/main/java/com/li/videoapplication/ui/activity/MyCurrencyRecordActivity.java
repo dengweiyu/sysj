@@ -2,8 +2,6 @@ package com.li.videoapplication.ui.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
@@ -11,8 +9,7 @@ import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.CurrencySection;
 import com.li.videoapplication.data.model.response.CurrencyRecordEntity;
 import com.li.videoapplication.framework.TBaseActivity;
-import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.ui.adapter.CurrencyRecordAdapter;
+import com.li.videoapplication.mvp.adapter.CurrencyRecordAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

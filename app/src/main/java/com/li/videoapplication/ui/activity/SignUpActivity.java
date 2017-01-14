@@ -148,11 +148,10 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
             kindlyReminder.setVisibility(View.VISIBLE);
             kindlyReminderContent.setVisibility(View.VISIBLE);
         }
-
-        if (match.getIs_invite() == 1) { //邀请赛
+        if (match.getFormat_type() == 2) { //邀请赛
             inviteCodeHint.setVisibility(View.VISIBLE);
             inviteCode.setVisibility(View.VISIBLE);
-        } else {
+        } else { //普通
             inviteCodeHint.setVisibility(View.GONE);
             inviteCode.setVisibility(View.GONE);
         }
@@ -170,7 +169,8 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
     @Override
     public void loadData() {
         super.loadData();
-        DataManager.getTeamMemberNumber(event_id);
+        if (type_id.equals(TEAM_MATCH))
+            DataManager.getTeamMemberNumber(event_id);
 
         if (!StringUtil.isNull(getUser().getMobile())) {//已有手机号
             phone.setText(getUser().getMobile());
@@ -297,7 +297,10 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
             showToastShort("请输入正确的qq号");
             return;
         }
-
+        if (StringUtil.isNull(getInviteCodeText()) && match.getFormat_type() == 2) {//邀请赛
+            showToastShort("邀请码不能为空");
+            return;
+        }
         DataManager.joinEvents(getMember_id(), event_id, type_id,
                 getTeamName(), getGameRoleName(), getQQ(), getPhone(),
                 getInviteCodeText(), getTeamPhoneText());

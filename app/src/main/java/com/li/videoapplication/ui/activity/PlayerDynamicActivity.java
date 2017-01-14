@@ -22,6 +22,7 @@ import com.li.videoapplication.data.model.response.VideoFlower2Entity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.DynamicVideoAdapter;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
@@ -265,7 +266,7 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
 
             case R.id.dynamic_focus_layout:
                 if (!isLogin()) {
-                    showToastShort("请先登录！");
+                    DialogManager.showLogInDialog(this);
                     return;
                 }
                 if (item.getIsAttent() == 1) {
@@ -279,7 +280,7 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
                 break;
             case R.id.dynamic_fans:
                 if (!isLogin()) {
-                    showToastLogin();
+                    DialogManager.showLogInDialog(this);
                     return;
                 }
                 startMyPlayerActivityMyFans();
@@ -287,7 +288,7 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
 
             case R.id.dynamic_attention:
                 if (!isLogin()) {
-                    showToastLogin();
+                    DialogManager.showLogInDialog(this);
                     return;
                 }
                 startMyPlayerActivityMyFocus();

@@ -4,12 +4,14 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.li.videoapplication.framework.AppConstant;
+import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 
 /**
  * 功能：网络请求参数
  */
 public class RequestParams {
+    private static final int A_SYSJ = 2;
 
     public RequestParams() {
         super();
@@ -400,7 +402,7 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> getMatchInfo208(String match_id) {
+    public Map<String, Object> getMatchInfo(String match_id) {
         Map<String, Object> map = new HashMap<>();
         map.put("match_id", match_id);
         return map;
@@ -618,6 +620,7 @@ public class RequestParams {
         map.put("match_id", match_id);
         map.put("member_id", member_id);
         map.put("content", content);
+        map.put("target", A_SYSJ);
         return map;
     }
 
@@ -1148,11 +1151,12 @@ public class RequestParams {
     }
 
 	/* ############## 赛事 ############## */
-    public Map<String, Object> signSchedule214(String member_id, String schedule_id) {
+    public Map<String, Object> signSchedule214(String member_id, String schedule_id, String event_id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("schedule_id", schedule_id);
-        map.put("source", "a_sysj");
+        map.put("event_id", event_id);
+        map.put("source", A_SYSJ);//2=>a_sysj,3=>i_sysj
         return map;
     }
 
@@ -1177,6 +1181,18 @@ public class RequestParams {
         map.put("phone", phone);
         map.put("invite_code", invite_code);
         map.put("team_member_tel", team_member_tel);
+        map.put("ip", NetUtil.getLocalIpAddress());
+        return map;
+    }
+
+    public Map<String, Object> saveEventVideo(String team_id, String pk_id, String video_id,
+                                              String event_id, String member_id) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("team_id", team_id);
+        map.put("pk_id", pk_id);
+        map.put("video_id", video_id);
+        map.put("event_id", event_id);
+        map.put("member_id", member_id);
         return map;
     }
 
@@ -1212,6 +1228,21 @@ public class RequestParams {
         map.put("schedule_id", schedule_id);
         map.put("page", page);
         map.put("member_id", member_id);
+        return map;
+    }
+
+    public Map<String, Object> getHistoricalRecord(String memberId, int page) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("memberId", memberId);
+        map.put("page", page);
+        return map;
+    }
+
+    public Map<String, Object> eventsRecordClick(String event_id, int e_record_status) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("event_id", event_id);
+        map.put("e_record_status", e_record_status);
+        map.put("source", A_SYSJ);
         return map;
     }
 
@@ -1286,16 +1317,18 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> myMatchList(String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        return map;
-    }
-
-    public Map<String, Object> myMatchList201(String member_id, int page) {
+    public Map<String, Object> myMatchList(String member_id, int page) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("page", page);
+        return map;
+    }
+
+    public Map<String, Object> competitionRecordClick(String competition_id, int c_record_status) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("competition_id", competition_id);
+        map.put("c_record_status", c_record_status);
+        map.put("source", A_SYSJ);
         return map;
     }
 
@@ -1427,6 +1460,13 @@ public class RequestParams {
         return map;
     }
 
+    public Map<String, Object> statisticalOpenApp(String member_id) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        map.put("target", A_SYSJ);//2=>andor_sysj,3=>ios_sysj
+        return map;
+    }
+
     public Map<String, Object> indexIndex204(int page) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("page", page);
@@ -1494,6 +1534,13 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<>();
         map.put("location_id", location_id);
         map.put("time", time);
+        return map;
+    }
+
+    public Map<String, Object> adImage208(int localtion_id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("localtion_id", localtion_id);
+        map.put("platform", "android");
         return map;
     }
 
@@ -1773,6 +1820,7 @@ public class RequestParams {
         map.put("pk_id", pk_id);
         map.put("pic_keys", pic_keys);
         map.put("team_id", team_id);
+        map.put("target", A_SYSJ);//2=>an_sysj,3=>ios=>sysj
         return map;
     }
 
@@ -1787,6 +1835,7 @@ public class RequestParams {
         map.put("key", key);
         map.put("title", title);
         map.put("description", description);
+        map.put("target", A_SYSJ);//3=>i_sysj，2=>a_sysj
         return map;
     }
 

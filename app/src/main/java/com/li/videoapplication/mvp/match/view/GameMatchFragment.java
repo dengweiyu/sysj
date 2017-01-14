@@ -1,6 +1,5 @@
 package com.li.videoapplication.mvp.match.view;
 
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -20,6 +18,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.event.MatchListFliterEvent;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
+import com.li.videoapplication.data.model.response.GameCateEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.adapter.MatchListAdapter;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchListView;
@@ -27,7 +26,8 @@ import com.li.videoapplication.mvp.match.MatchContract.IMatchPresenter;
 import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.activity.WebActivity;
+import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.ui.dialog.MatchFliterDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +41,6 @@ import butterknife.OnClick;
 public class GameMatchFragment extends TBaseFragment implements IMatchListView,
         OnRefreshListener, RequestLoadMoreListener {
 
-    public static final int MATCH_ALL = 0; //全部赛事
-    public static final int MATCH_INVITATION = 2; //邀请赛
-    public static final int MATCH_ANCHOR = 3; //主播淘汰赛
-
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.swipeRefreshLayout)
@@ -53,18 +49,15 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
     TextView tv_topbar_left;
     @BindView(R.id.matchlist_topbar_mid)
     TextView tv_topbar_mid;
-    @BindView(R.id.matchlist_topbar_right)
-    ImageView tv_topbar_right;
-    @BindView(R.id.matchlist_fliterview)
-    View topbar;
 
     private int page = 1;
     private int page_count;
     private IMatchPresenter presenter;
     private MatchListAdapter adapter;
-    private MatchListFliterFragment fliterFragment;
-    private int match_type;
-    private String game_id = "0";
+    private String match_type = "1,2";//默认选中 1:官方赛,2:邀请赛
+    private String game_id = "0";//默认选中 0:全部游戏
+    private MatchFliterDialog matchFliterDialog;
+    private GameCateEntity gameCateData;
 
     /**
      * 跳转：游戏赛事详情
@@ -89,37 +82,6 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
         ActivityManeger.startMatchResultActivity(getContext(), event_id);
     }
 
-    /**
-     * 跳转：筛选
-     */
-    private void startMatchListFliterFragment() {
-        if (fliterFragment == null) {
-            fliterFragment = new MatchListFliterFragment();
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.activity_slide_in_right, R.anim.activity_disappear)
-                    .add(R.id.match_container, fliterFragment)
-                    .commit();
-        } else {
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.activity_slide_in_right, R.anim.activity_disappear)
-                    .show(fliterFragment)
-                    .commit();
-        }
-    }
-
-    /**
-     * 隐藏：筛选
-     */
-    private void hideMatchListFliterFragment() {
-        if (fliterFragment != null) {
-            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-            ft.hide(fliterFragment).commit();
-        }
-    }
-
     @Override
     protected int getCreateView() {
         return R.layout.fragment_matchlist;
@@ -137,7 +99,7 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
 
         initAdapter();
 
-        onRefresh();
+        loadData();
 
         addOnClickListener();
     }
@@ -197,9 +159,21 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
         });
     }
 
-    @OnClick(R.id.matchlist_topbar_right)
+    @OnClick(R.id.matchlist_fliterview)
     void onClick() {
-        startMatchListFliterFragment();
+        if (matchFliterDialog != null) {
+            matchFliterDialog.show();
+        } else {
+            if (gameCateData != null)
+                matchFliterDialog = DialogManager.showMatchFliterDialog(getContext(), gameCateData);
+        }
+    }
+
+    private void loadData() {
+        // 赛事列表
+        presenter.getEventsList(page, match_type, game_id);
+        //游戏类型
+        presenter.getGameCate();
     }
 
     //下拉刷新
@@ -261,10 +235,23 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
     }
 
     /**
-     * 回调：筛选
+     * 回调：赛事筛选
+     */
+    @Override
+    public void refreshGameCateData(GameCateEntity data) {
+        gameCateData = data;
+        // 全部游戏 | 官方赛,邀请赛
+        String topbar_mid_text = data.getGameData().get(0).getName()
+                + " | " + data.getEventsData().get(0).getName() + ", "
+                + data.getEventsData().get(1).getName();
+        tv_topbar_mid.setText(topbar_mid_text);
+    }
+
+    /**
+     * 事件回调：筛选
      */
     public void onEventMainThread(MatchListFliterEvent event) {
-        hideMatchListFliterFragment();
+        Log.d(tag, "筛选: " + event);
         refreshTopbar(event);
         match_type = event.getMatch_type();
         game_id = event.getGameIds();

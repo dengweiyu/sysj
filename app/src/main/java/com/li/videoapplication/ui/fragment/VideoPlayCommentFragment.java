@@ -230,7 +230,7 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
                     DataManager.memberAttention201(videoImage.getMember_id(), getMember_id());
                     UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放-关注");
                 } else {
-                    ToastHelper.s("请先登录");
+                    DialogManager.showLogInDialog(getActivity());
                 }
                 break;
 
@@ -240,7 +240,7 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
 
             case R.id.videoplay_star:// 收藏
                 if (!isLogin()) {
-                    ToastHelper.s("请先登录");
+                    DialogManager.showLogInDialog(getActivity());
                     return;
                 }
                 if (videoImage.getCollection_tick() == 0) {

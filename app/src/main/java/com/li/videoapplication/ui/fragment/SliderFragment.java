@@ -15,10 +15,12 @@ import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.response.MessageMsgRedEntity;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.ShareSDKLoginHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.MainActivity;
@@ -42,6 +44,10 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
      * 跳转：我的钱包
      */
     public void startMyWalletActivity() {
+        if (!isLogin()) {
+            startLoginActivity();
+            return;
+        }
         ActivityManeger.startMyWalletActivity(getActivity());
     }
 
@@ -64,6 +70,10 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
      * 跳转：我的关注
      */
     public void startMyPlayerActivityMyFocus() {
+        if (!isLogin()) {
+            startLoginActivity();
+            return;
+        }
         ActivityManeger.startMyPlayerActivity(getActivity(), MyPlayerActivity.PAGE_MYFOCUS, getMember_id());
     }
 
@@ -71,6 +81,10 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
      * 跳转：我的粉丝
      */
     public void startMyPlayerActivityMyFans() {
+        if (!isLogin()) {
+            startLoginActivity();
+            return;
+        }
         ActivityManeger.startMyPlayerActivity(getActivity(), MyPlayerActivity.PAGE_MYFANS, getMember_id());
     }
 
@@ -85,6 +99,10 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
      * 跳转：我的赛事
      */
     public void startMyMatchActivity() {
+        if (!isLogin()) {
+            startLoginActivity();
+            return;
+        }
         ActivityManeger.startMyMatchActivity(getActivity());
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "我的赛事");
     }
@@ -93,16 +111,12 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
      * 跳转：我的消息
      */
     public void startMyMessageActivity() {
+        if (!isLogin()) {
+            startLoginActivity();
+            return;
+        }
         ActivityManeger.startMyMessageActivity(getActivity());
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "我的消息");
-    }
-
-    /**
-     * 跳转：我的福利
-     */
-    public void startMyWelfareActivity() {
-        ActivityManeger.startMyWelfareActivity(getActivity());
-        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "我的福利");
     }
 
     /**
@@ -126,6 +140,10 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
      * 跳转：我的收藏
      */
     public void startCollectionActivity() {
+        if (!isLogin()) {
+            startLoginActivity();
+            return;
+        }
         ActivityManeger.startCollectionActivity(getActivity());
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "我的收藏");
     }
@@ -143,7 +161,6 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
     private TextView name, fans, focus,beanNum;
     private ImageView go, slider_message_go;
 
-    private MainActivity activity;
     private TextView count;
     private int total, a, b, c;
 
@@ -152,13 +169,6 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-        try {
-            this.activity = (MainActivity) activity;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         helper.initSDK(getActivity());
     }
 
@@ -201,9 +211,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
         view.findViewById(R.id.slider_mymessage).setOnClickListener(this);
         view.findViewById(R.id.slider_mywallet).setOnClickListener(this);
         view.findViewById(R.id.slider_sjmall).setOnClickListener(this);
-        view.findViewById(R.id.slider_mywelfare).setOnClickListener(this);
         view.findViewById(R.id.slider_myvideo).setOnClickListener(this);
-//        view.findViewById(R.id.slider_mytask).setOnClickListener(this);
         view.findViewById(R.id.slider_collection).setOnClickListener(this);
         view.findViewById(R.id.slider_setting).setOnClickListener(this);
 
@@ -296,23 +304,11 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
                 break;
 
             case R.id.slider_focus:
-                if (!isLogin()) {
-                    showToastLogin();
-                    return;
-                }
                 startMyPlayerActivityMyFocus();
                 break;
 
             case R.id.slider_fans:
-                if (!isLogin()) {
-                    showToastLogin();
-                    return;
-                }
                 startMyPlayerActivityMyFans();
-                break;
-
-            case R.id.slider_person:
-                //startMyPersonalCenterActivity();
                 break;
 
             case R.id.slider_login:
@@ -325,10 +321,6 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
 
             case R.id.slider_mymessage:
                 startMyMessageActivity();
-                break;
-
-            case R.id.slider_mywelfare:
-                startMyWelfareActivity();
                 break;
 
             case R.id.slider_myvideo:

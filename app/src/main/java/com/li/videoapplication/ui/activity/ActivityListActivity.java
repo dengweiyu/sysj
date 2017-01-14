@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
@@ -16,9 +17,7 @@ import com.li.videoapplication.data.model.response.GetMatchList201Entity;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.adapter.GameMatchAdapter;
-import com.li.videoapplication.utils.StringUtil;
-import com.li.videoapplication.utils.URLUtil;
+import com.li.videoapplication.mvp.adapter.ActivityListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +27,15 @@ import butterknife.BindView;
 /**
  * 活动：活动列表
  */
-public class ActivityListActivity extends TBaseActivity implements OnRefreshListener, RequestLoadMoreListener {
+public class ActivityListActivity extends TBaseActivity implements OnRefreshListener,
+        RequestLoadMoreListener ,View.OnClickListener{
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    private GameMatchAdapter adapter;
-    private List<Match> data;
+    private ActivityListAdapter adapter;
     private int page = 1;
     private int page_count;
 
@@ -52,6 +51,12 @@ public class ActivityListActivity extends TBaseActivity implements OnRefreshList
         }
     }
 
+    /**
+     * 跳转：我的活动
+     */
+    private void startMyActivityListActivity() {
+        ActivityManeger.startMyActivityListActivity(this);
+    }
 
     @Override
     public int getContentView() {
@@ -67,6 +72,8 @@ public class ActivityListActivity extends TBaseActivity implements OnRefreshList
         super.afterOnCreate();
         setSystemBarBackgroundWhite();
         setAbTitle("活动");
+        abMyActivity.setVisibility(View.VISIBLE);
+        abMyActivity.setOnClickListener(this);
     }
 
     @Override
@@ -89,8 +96,8 @@ public class ActivityListActivity extends TBaseActivity implements OnRefreshList
     }
 
     private void initAdapter() {
-        data = new ArrayList<>();
-        adapter = new GameMatchAdapter(this, data);
+        List<Match> data = new ArrayList<>();
+        adapter = new ActivityListAdapter(data);
         adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         adapter.setOnLoadMoreListener(this);
 
@@ -111,6 +118,18 @@ public class ActivityListActivity extends TBaseActivity implements OnRefreshList
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
                 Match record = (Match) adapter.getItem(pos);
                 startActivityDetailActivity(record);
+            }
+        });
+
+        recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int pos) {
+                Match record = (Match) adapter.getItem(pos);
+                switch (view.getId()) {
+                    case R.id.activity_reward:
+                        WebActivity.startWebActivity(ActivityListActivity.this, record.getReward_url());
+                        break;
+                }
             }
         });
     }
@@ -160,5 +179,14 @@ public class ActivityListActivity extends TBaseActivity implements OnRefreshList
             }
         }
         adapter.loadMoreComplete();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ab_myactivity:
+                startMyActivityListActivity();
+                break;
+        }
     }
 }

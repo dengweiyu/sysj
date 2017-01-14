@@ -1,9 +1,7 @@
 package com.li.videoapplication.ui.activity;
 
-import android.os.Build;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ImageView;
@@ -13,12 +11,13 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.response.GoodsListEntity;
 import com.li.videoapplication.framework.TBaseActivity;
-import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.adapter.MallExpListViewAdapter;
+import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.mvp.adapter.MallExpListViewAdapter;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
@@ -34,8 +33,9 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
     private ExpandableListView mExpListView;
     private MallExpListViewAdapter mAdapter;
     private List<Currency> mDatas;
-    private TextView name, beanNum;
+    private TextView login, name, beanNum;
     private ImageView pic;
+    private View userInfo;
 
     /**
      * 跳转：兑换记录
@@ -64,11 +64,15 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
     @Override
     public void initView() {
         super.initView();
+        userInfo = findViewById(R.id.mall_userinfo);
+        login = (TextView) findViewById(R.id.mall_login);
         name = (TextView) findViewById(R.id.mall_name);
         beanNum = (TextView) findViewById(R.id.mall_beannum);
         pic = (ImageView) findViewById(R.id.mall_pic);
         abQuestion.setVisibility(View.VISIBLE);
         abQuestion.setOnClickListener(this);
+        login.setOnClickListener(this);
+        pic.setOnClickListener(this);
 
         mExpListView = (ExpandableListView) findViewById(R.id.mall_explistview);
         mExpListView.setGroupIndicator(null);//取消上下展开的图标
@@ -80,6 +84,8 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
         mExpListView.setAdapter(mAdapter);
 
         findViewById(R.id.mall_exchangerecord).setOnClickListener(this);
+
+        refreshUserBar();
     }
 
     @Override
@@ -87,7 +93,6 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
         super.loadData();
         //商品列表
         DataManager.getGoodsList();
-        refreshHeaderView();
     }
 
     private void refreshHeaderView() {
@@ -107,10 +112,21 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mall_exchangerecord:
+                if (!isLogin()) {
+                    DialogManager.showLogInDialog(this);
+                    return;
+                }
                 startExchangeRecordActivity();
                 break;
             case R.id.ab_question:
-                WebActivityJS.startWebActivityJS(this,"http://m.17sysj.com/help/wallet","视界商城说明");
+                WebActivityJS.startWebActivityJS(this, "http://m.17sysj.com/help/wallet", "视界商城说明");
+                break;
+            case R.id.mall_login:
+                DialogManager.showLogInDialog(this);
+                break;
+            case R.id.mall_pic:
+                if (isLogin())
+                    ActivityManeger.startMyPersonalInfoActivity(this);
                 break;
         }
     }
@@ -140,6 +156,27 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
                     mExpListView.expandGroup(i);
                 }
             }
+        }
+    }
+
+    /**
+     * 事件：登录
+     */
+    public void onEventMainThread(LoginEvent event) {
+
+        if (event != null) {
+            refreshUserBar();
+        }
+    }
+
+    private void refreshUserBar() {
+        if (isLogin()) {
+            login.setVisibility(View.GONE);
+            userInfo.setVisibility(View.VISIBLE);
+            refreshHeaderView();
+        } else {
+            login.setVisibility(View.VISIBLE);
+            userInfo.setVisibility(View.INVISIBLE);
         }
     }
 }

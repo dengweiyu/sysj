@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 活动：我的赛事
@@ -123,6 +124,11 @@ public class MyMatchActivity extends TBaseAppCompatActivity implements IMyMatchL
     public void loadData() {
         super.loadData();
         presenter.getMyEventsList(page,getMember_id());
+    }
+
+    @OnClick(R.id.goback)
+    public void goback() {
+        finish();
     }
 
     @Override

@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,11 +13,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Gift;
 import com.li.videoapplication.data.model.entity.Banner;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.BaseBaseAdapter;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.RecommendActivity;
@@ -139,9 +138,9 @@ public class BannerAdapter extends BaseBaseAdapter {
 
         if (data.size() != 0) {
             if (!StringUtil.isNull(record.getFlagPath())) {
-                ImageLoaderHelper.displayImageVideo(record.getFlagPath(), holder.pic);
+                GlideHelper.displayImage(getContext(), record.getFlagPath(), holder.pic);
             } else if (!StringUtil.isNull(record.getFlag())) {
-                ImageLoaderHelper.displayImageVideo(record.getFlag(), holder.pic);
+                GlideHelper.displayImage(getContext(), record.getFlag(), holder.pic);
             }
         }
         view.setOnClickListener(new OnClickListener() {
@@ -149,7 +148,7 @@ public class BannerAdapter extends BaseBaseAdapter {
             @Override
             public void onClick(View v) {
                 if (!NetUtil.isConnect()) {
-                    ToastHelper.s("当前网络不可用，请检查后重试");
+                    ToastHelper.s(R.string.net_disable);
                     return;
                 }
                 if (page == PAGER_HOME) {

@@ -1,12 +1,20 @@
 package com.li.videoapplication.data;
 
+import android.os.Debug;
+import android.util.Log;
+
+import com.li.videoapplication.data.local.StorageUtil;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
+import com.li.videoapplication.data.model.response.GameCateEntity;
+import com.li.videoapplication.data.model.response.MatchRecordEntity;
 import com.li.videoapplication.data.model.response.MatchRewardBillboardEntity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
+import com.li.videoapplication.data.model.response.MyMatchListEntity;
+import com.li.videoapplication.data.model.response.MyPackageEntity;
 import com.li.videoapplication.data.model.response.PhotoCollectionEntity;
 import com.li.videoapplication.data.model.response.PhotoFlowerEntity;
 import com.li.videoapplication.data.model.response.PlayerRankingCurrencyEntity;
@@ -26,8 +34,12 @@ import com.li.videoapplication.data.model.response.VideoFlower2Entity;
 import com.li.videoapplication.data.model.response.VideoRankingEntity;
 import com.li.videoapplication.data.network.RequestParams;
 import com.li.videoapplication.framework.BaseHttpResult;
+import com.li.videoapplication.tools.DownloadHelper;
+import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.utils.StringUtil;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +48,10 @@ import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
 import io.rx_cache.internal.RxCache;
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -48,8 +62,9 @@ import rx.schedulers.Schedulers;
  * 根据 API接口：SYSJService的定义编写合适的方法
  */
 public class HttpManager extends RetrofitUtils {
-    private static final String TAG = "HttpManager";
-    private static final String A_SYSJ = "a_sysj";
+    private static final String TAG = HttpManager.class.getSimpleName();
+    private static final boolean DEBUG = true;
+
     //缓存目录
     private static File cacheDirectory = SYSJStorageUtil.getSysjCache();
     //缓存提供器
@@ -94,6 +109,7 @@ public class HttpManager extends RetrofitUtils {
             if (!baseHttpResult.isResult()) {
                 throw new ApiException(baseHttpResult);
             }
+            Log.d(TAG, "ResponseHandler: " + baseHttpResult.toString());
             return baseHttpResult.getData();
         }
     }
@@ -156,7 +172,8 @@ public class HttpManager extends RetrofitUtils {
      * @param localtion_id 不要怀疑自己的英语，后台做接口拼错的，就得这么写。
      */
     public void adImage208(int localtion_id, boolean isLoad, Observer<AdvertisementDto> observer) {
-        Observable<AdvertisementDto> observable = service.adImage208(localtion_id);
+        Map<String, Object> params = RequestParams.getInstance().adImage208(localtion_id);
+        Observable<AdvertisementDto> observable = service.adImage208(params);
         Observable<AdvertisementDto> observableCache = providers.adImage208(observable,
                 new DynamicKey("Ad&" + localtion_id),
                 new EvictDynamicKey(isLoad)).map(new HttpResultFuncCache<AdvertisementDto>());
@@ -167,6 +184,29 @@ public class HttpManager extends RetrofitUtils {
     public void adClick(long ad_id, int ad_click_state, String hardwarecode, Observer<BaseHttpResult> observer) {
         Observable<BaseHttpResult> observable = service.adClick(ad_id, ad_click_state, hardwarecode);
         setSubscribe(observable, observer);
+    }
+
+    // TODO: ############### 下载 ###############
+
+    public void downloadFiles(List<String> downloadList, Observer<Boolean> observer) {
+        List<Observable<Boolean>> observables = new ArrayList<>();
+        //将所有的Observable放到List中
+        for (int i = 0; i < downloadList.size(); i++) {
+            final String downloadUrl = downloadList.get(i);
+            observables.add(service.downloadFile(downloadUrl)
+                    .subscribeOn(Schedulers.io())
+                    .map(new Func1<ResponseBody, Boolean>() {
+                        @Override
+                        public Boolean call(ResponseBody responseBody) {
+                            return DownloadHelper.writeResponseBody2Disk(responseBody,
+                                    StringUtil.getFileNameWithExt(downloadUrl));
+                        }
+                    }).subscribeOn(Schedulers.io()));
+        }
+
+        //Observable的merge将所有的Observable合成一个Observable,所有的observable同时发射数据。
+        Observable.merge(observables).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
     }
 
     // TODO: ############### 榜单 ###############
@@ -236,15 +276,15 @@ public class HttpManager extends RetrofitUtils {
 
     // TODO: ############### 赛事 ###############
     // 赛事列表
-    public void getEventsList(int page, int format_type, String game_id, Observer<EventsList214Entity> observer) {
+    public void getEventsList(int page, String format_type, String game_id, Observer<EventsList214Entity> observer) {
         Observable<EventsList214Entity> observable = service.getEventsList(page, format_type, game_id)
                 .map(new HttpResultFunc<EventsList214Entity>());
         setSubscribe(observable, observer);
     }
 
     // 赛事列表 游戏类型筛选
-    public void getGameCate(Observer<List<Game>> observer) {
-        Observable<List<Game>> observable = service.getGameCate().map(new HttpResultFunc<List<Game>>());
+    public void getGameCate(Observer<GameCateEntity> observer) {
+        Observable<GameCateEntity> observable = service.getGameCate();
         setSubscribe(observable, observer);
     }
 
@@ -277,8 +317,8 @@ public class HttpManager extends RetrofitUtils {
     }
 
     // 赛事签到
-    public void signSchedule(String member_id, String schedule_id, Observer<SignScheduleEntity> observer) {
-        Map<String, Object> params = RequestParams.getInstance().signSchedule214(member_id, schedule_id);
+    public void signSchedule(String member_id, String schedule_id, String event_id, Observer<SignScheduleEntity> observer) {
+        Map<String, Object> params = RequestParams.getInstance().signSchedule214(member_id, schedule_id, event_id);
         Observable<SignScheduleEntity> observable = service.signSchedule(params);
         setSubscribe(observable, observer);
     }
@@ -311,4 +351,52 @@ public class HttpManager extends RetrofitUtils {
                 .map(new HttpResultFunc<EventsPKListEntity>());
         setSubscribe(observable, observer);
     }
+
+    // 历史战绩
+    public void getHistoricalRecord(String memberId, int page, Observer<MatchRecordEntity> observer) {
+        Map<String, Object> params = RequestParams.getInstance().getHistoricalRecord(memberId, page);
+        Observable<MatchRecordEntity> observable = service.getHistoricalRecord(params)
+                .map(new HttpResultFunc<MatchRecordEntity>());
+        setSubscribe(observable, observer);
+    }
+
+    // 赛事流水点击接口
+    public void eventsRecordClick(String event_id, int e_record_status, Observer<BaseHttpResult> observer) {
+        Map<String, Object> params = RequestParams.getInstance().eventsRecordClick(event_id, e_record_status);
+        Observable<BaseHttpResult> observable = service.eventsRecordClick(params);
+        setSubscribe(observable, observer);
+    }
+
+    // TODO: ############### 活动 礼包 ###############
+
+    // 我的活动
+    public void getMyMatchList(String member_id, int page, Observer<MyMatchListEntity> observer) {
+        Map<String, Object> params = RequestParams.getInstance().myMatchList(member_id, page);
+        Observable<MyMatchListEntity> observable = service.getMyMatchList(params)
+                .map(new HttpResultFunc<MyMatchListEntity>());
+        setSubscribe(observable, observer);
+    }
+
+    // 活动详情
+    public void getMatchInfo(String match_id, Observer<Match> observer) {
+        Map<String, Object> params = RequestParams.getInstance().getMatchInfo(match_id);
+        Observable<Match> observable = service.getMatchInfo(params).map(new HttpResultFunc<Match>());
+        setSubscribe(observable, observer);
+    }
+
+    // 活动流水点击
+    public void competitionRecordClick(String competition_id, int c_record_status, Observer<BaseHttpResult> observer) {
+        Map<String, Object> params = RequestParams.getInstance().competitionRecordClick(competition_id, c_record_status);
+        Observable<BaseHttpResult> observable = service.competitionRecordClick(params);
+        setSubscribe(observable, observer);
+    }
+
+    // 我的礼包
+    public void getMyGiftList(String member_id, int page, Observer<MyPackageEntity> observer) {
+        Map<String, Object> params = RequestParams.getInstance().myMatchList(member_id, page);
+        Observable<MyPackageEntity> observable = service.getMyGiftList(params)
+                .map(new HttpResultFunc<MyPackageEntity>());
+        setSubscribe(observable, observer);
+    }
+
 }

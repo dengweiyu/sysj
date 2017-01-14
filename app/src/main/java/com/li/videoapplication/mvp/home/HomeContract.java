@@ -5,6 +5,9 @@ import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
 import com.li.videoapplication.data.model.entity.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.framework.BaseHttpResult;
+import com.li.videoapplication.mvp.OnLoadDataListener;
+
+import java.util.List;
 
 /**
  * 接口存放类：首页
@@ -28,6 +31,8 @@ public class HomeContract {
         void adImage208(int localtion_id, boolean isLoad, final onloadHomeDataListener listener);
 
         void adClick(long ad_id, int ad_click_state, String hardwarecode, final onloadHomeDataListener listener);
+
+        void adImageDownload(List<String> downloadList, final OnLoadDataListener<Boolean> listener);
     }
 
     /**
@@ -51,19 +56,11 @@ public class HomeContract {
         void refreshAdvertisementView(AdvertisementDto data);
     }
 
-    //启动页
-    public interface IAppStartView {
-        //启动页图片广告加载成功
-        void refreshAdvertisementView(AdvertisementDto data);
-    }
-
     /**
      * Presenter接口: 首页
      */
     public interface IHomePresenter {
         void setHomeView(IHomeView homeView);
-
-        void setAppStartView(IAppStartView appStartView);
 
         //调用 M层相应方法加载数据
         void loadHomeData(int page, boolean isLoad);

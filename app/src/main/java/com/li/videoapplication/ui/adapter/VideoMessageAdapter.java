@@ -77,7 +77,7 @@ public class VideoMessageAdapter extends BaseArrayAdapter<MyMessage> {
         setTextViewText(holder.content, record.getContent());
         setCount(record, holder);
         try {
-            setTextViewText(holder.time, TimeHelper.getMyMessageTime(record.getTime()));
+            setTextViewText(holder.time, TimeHelper.getWholeTimeFormat(record.getTime()));
         } catch (Exception e) {
             e.printStackTrace();
             setTextViewText(holder.time, "");

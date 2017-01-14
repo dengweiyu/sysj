@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +16,7 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.LoginEvent;
@@ -58,14 +56,21 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
      * 跳转：我的粉丝
      */
     public void startMyPlayerActivityMyFans() {
-        ActivityManeger.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFANS,getMember_id());
+        ActivityManeger.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFANS, getMember_id());
     }
 
     /**
      * 跳转：我的关注
      */
     public void startMyPlayerActivityMyFocus() {
-        ActivityManeger.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFOCUS,getMember_id());
+        ActivityManeger.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFOCUS, getMember_id());
+    }
+
+    /**
+     * 弹窗：登陆
+     */
+    public void showLogInDialog() {
+        DialogManager.showLogInDialog(this);
     }
 
     private PhotoHelper photoHelper = new PhotoHelper();
@@ -87,9 +92,9 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
     private DynamicVideoAdapter adapter;
 
     private View headerView;
-    private View user, tourist, mypersoncenter,focusView;
+    private View user, tourist, mypersoncenter, focusView;
     private CircleImageView head;
-    private TextView loginText, name, introduce ,fans, attention;
+    private TextView loginText, name, introduce, fans, attention;
     private RelativeLayout touch;
     private ImageView loginIcon, textBg, go, text, textBtn;
 
@@ -212,9 +217,9 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
             if (item != null) {
                 setImageViewImageNet(head, item.getAvatar());
                 if (!StringUtil.isNull(item.getCover())) {
-                    ImageLoaderHelper.displayImageEmpty(item.getCover(), textBg);
+                    GlideHelper.displayImageEmpty(this, item.getCover(), textBg);
                     text.setVisibility(View.INVISIBLE);
-                }else {
+                } else {
                     text.setVisibility(View.VISIBLE);
                 }
 
@@ -224,7 +229,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
                 } else {
                     setTextViewText(introduce, item.getSignature());
                 }
-                setMark(fans,attention, item);
+                setMark(fans, attention, item);
             }
         } else {// 游客
             tourist.setVisibility(View.VISIBLE);
@@ -240,10 +245,10 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
      */
     private void setMark(TextView fans, TextView attention, Member item) {
         if (!StringUtil.isNull(item.getFans())) {
-            setTextViewText(fans,"粉丝 : "+item.getFans());
+            setTextViewText(fans, "粉丝 : " + item.getFans());
         }
-        if (!StringUtil.isNull(item.getAttention())){
-            setTextViewText(attention,"关注 : "+item.getAttention());
+        if (!StringUtil.isNull(item.getAttention())) {
+            setTextViewText(attention, "关注 : " + item.getAttention());
         }
     }
 
@@ -254,7 +259,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
 
             case R.id.dynamic_fans:
                 if (!isLogin()) {
-                    showToastLogin();
+                    showLogInDialog();
                     return;
                 }
                 startMyPlayerActivityMyFans();
@@ -262,7 +267,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
 
             case R.id.dynamic_attention:
                 if (!isLogin()) {
-                    showToastLogin();
+                    showLogInDialog();
                     return;
                 }
                 startMyPlayerActivityMyFocus();
@@ -270,7 +275,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
 
             case R.id.dynamic_mypersonalcenter:
                 if (!isLogin()) {
-                    showToastLogin();
+                    showLogInDialog();
                     return;
                 }
                 startMyPersonalInfoActivity();
@@ -281,7 +286,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
 
             case R.id.dynamic_textBtn:// 更换封面
                 if (!isLogin()) {
-                    showToastLogin();
+                    showLogInDialog();
                     return;
                 }
                 DialogManager.showPhotoDialog(this, this, this);

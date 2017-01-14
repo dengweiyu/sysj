@@ -1,7 +1,6 @@
 package com.li.videoapplication.ui.adapter;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.VideoImage;
-import com.li.videoapplication.data.model.entity.VideoImageGroup;
-import com.li.videoapplication.data.preferences.PreferencesHepler;
-import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseBaseAdapter;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
@@ -84,16 +80,18 @@ public class VideoRecommendationAdapter extends BaseBaseAdapter {
             holder.cover2 = (ImageView) view.findViewById(R.id.complete_cover2);
             holder.text1 = (TextView) view.findViewById(R.id.complete_text1);
             holder.text2 = (TextView) view.findViewById(R.id.complete_text2);
+            holder.video1 = view.findViewById(R.id.complete_video1);
+            holder.video2 = view.findViewById(R.id.complete_video2);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
 
         if (!StringUtil.isNull(record.get(0).getFlagPath())) {
-            ImageLoaderHelper.displayImageVideo(record.get(0).getFlagPath(), holder.cover1);
+            GlideHelper.displayImage(getContext(),record.get(0).getFlagPath(), holder.cover1);
         }
         if (!StringUtil.isNull(record.get(1).getFlagPath())) {
-            ImageLoaderHelper.displayImageVideo(record.get(1).getFlagPath(), holder.cover2);
+            GlideHelper.displayImage(getContext(),record.get(1).getFlagPath(), holder.cover2);
         }
 
         setTextViewText(holder.text1, record.get(0).getTitle());
@@ -101,7 +99,7 @@ public class VideoRecommendationAdapter extends BaseBaseAdapter {
 
         final boolean isLandscape = activity.isLandscape();
 
-        holder.cover1.setOnClickListener(new View.OnClickListener() {
+        holder.video1.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -110,7 +108,7 @@ public class VideoRecommendationAdapter extends BaseBaseAdapter {
             }
         });
 
-        holder.cover2.setOnClickListener(new View.OnClickListener() {
+        holder.video2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ActivityManeger.startVideoPlayActivity208(activity, record.get(1), isLandscape);
@@ -122,7 +120,8 @@ public class VideoRecommendationAdapter extends BaseBaseAdapter {
 
 
     private class ViewHolder {
-        public ImageView cover1, cover2;
-        public TextView text1, text2;
+        ImageView cover1, cover2;
+        TextView text1, text2;
+        View video1,video2;
     }
 }

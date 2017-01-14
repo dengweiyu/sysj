@@ -4,13 +4,17 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
@@ -21,6 +25,7 @@ import com.li.videoapplication.data.model.response.MsgRequestNewEntity;
 import com.li.videoapplication.data.model.response.VerifyCodeNewEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppAccount;
+import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.ShareSDKLoginHelper;
@@ -40,8 +45,9 @@ public class LoginActivity extends TBaseActivity implements OnClickListener,
     private EditText code;
     private TextView get;
     private TextView submit;
-
     private String mobilePhone;
+    private boolean isCountDowning;
+    private ArrayAdapter<String> fmLoginAdapter;
 
     private ShareSDKLoginHelper loginHelper = new ShareSDKLoginHelper();
 
@@ -74,7 +80,7 @@ public class LoginActivity extends TBaseActivity implements OnClickListener,
     @Override
     public void initView() {
         super.initView();
-
+        if (AppConstant.isFeiMo) initFMLogin();
         phone = (EditText) findViewById(R.id.login_phone);
         code = (EditText) findViewById(R.id.login_code);
         get = (TextView) findViewById(R.id.login_get);
@@ -102,6 +108,38 @@ public class LoginActivity extends TBaseActivity implements OnClickListener,
         get.setClickable(false);
     }
 
+    private void initFMLogin() {
+        Spinner fm_login = (Spinner) findViewById(R.id.fm_login);
+        fm_login.setVisibility(View.VISIBLE);
+        String[] fmLoginData = getResources().getStringArray(R.array.fm_login);
+
+        fmLoginAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, fmLoginData);
+        fmLoginAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fm_login.setAdapter(fmLoginAdapter);
+        fm_login.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //当item被选中时，会调用此方法
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String fmID = fmLoginAdapter.getItem(position);
+                Log.d(tag, "onItemSelected: pos = " + position + " : " + fmID);
+                if (position != 0) {
+                    showProgressDialog(LoadingDialog.LOHIN);
+                    // 飞磨快速登录
+                    DataManager.loginFm(fmID);
+                }
+            }
+
+            /**
+             * 当数据项的值设置为空时，就会调用此方法，通过调用adapter.clear()方法清空数据，并且刷新界面
+             * 时，会调用次方法
+             */
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Log.d(tag, "onNothingSelected: ");
+            }
+        });
+    }
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
@@ -113,14 +151,16 @@ public class LoginActivity extends TBaseActivity implements OnClickListener,
     @Override
     public void afterTextChanged(Editable s) {
         if (getPhoneText().length() == 11) {
-            get.setBackgroundResource(R.drawable.dialog_registermobile_red);
-            get.setFocusable(true);
-            get.setClickable(true);
+            if (!isCountDowning){
+                get.setBackgroundResource(R.drawable.dialog_registermobile_red);
+                get.setFocusable(true);
+                get.setClickable(true);
+            }
             if (getCodeText().length() == 4) {
                 submit.setBackgroundResource(R.drawable.dialog_registermobile_red);
                 submit.setFocusable(true);
                 submit.setClickable(true);
-            }else {
+            } else {
                 submit.setBackgroundResource(R.drawable.login_pink);
                 submit.setFocusable(false);
                 submit.setClickable(false);
@@ -243,11 +283,11 @@ public class LoginActivity extends TBaseActivity implements OnClickListener,
                             @Override
                             public void onFinish() {
                                 phone.addTextChangedListener(LoginActivity.this);
-                                code.addTextChangedListener(LoginActivity.this);
+                                isCountDowning = false;
                             }
                         }).start();
+                isCountDowning = true;
                 phone.removeTextChangedListener(this);
-                code.removeTextChangedListener(this);
             }
         }
     }
@@ -272,6 +312,7 @@ public class LoginActivity extends TBaseActivity implements OnClickListener,
      */
     public void onEventMainThread(LoginEntity event) {
         if (event != null) {
+            dismissProgressDialog();
             if (event.isResult()) {
                 showToastShort("登录成功");
                 DataManager.userProfilePersonalInformation(getMember_id(), getMember_id());
@@ -287,6 +328,5 @@ public class LoginActivity extends TBaseActivity implements OnClickListener,
                 showToastShort(event.getMsg());
             }
         }
-        dismissProgressDialog();
     }
 }

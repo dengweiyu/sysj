@@ -18,6 +18,16 @@ public class Contants {
     public static final String SYSJ = "sysj";
 
     /**
+     * 下载应用
+     */
+    public static final String APK = "apk";
+
+    /**
+     * 临时下载应用
+     */
+    public static final String TMP_APK = "tmpApk";
+
+    /**
      * 手游世界包名
      */
     public static final String PACKAGENAME_SYSJ = "com.li.videoapplication";
@@ -78,6 +88,11 @@ public class Contants {
      * 缓存
      */
     public static final String CACHE = "cache";
+
+    /**
+     * 下载
+     */
+    public static final String DOWNLOAD = "download";
 
     /**
      * 文件缓存

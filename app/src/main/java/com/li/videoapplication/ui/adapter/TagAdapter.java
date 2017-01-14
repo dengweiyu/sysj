@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Tag;
 import com.li.videoapplication.framework.BaseArrayAdapter;
-import com.li.videoapplication.ui.activity.VideoShareActivity210;
+import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.tools.ToastHelper;
 
 import java.util.List;
@@ -43,7 +43,7 @@ public class TagAdapter extends BaseArrayAdapter<Tag> {
 		}
 
 		hodler.text.setText("#" + record.getName() + "#");
-		if (VideoShareActivity210.IDS.contains(record.getGame_tag_id())) {
+		if (VideoShareActivity.IDS.contains(record.getGame_tag_id())) {
 			hodler.tick.setVisibility(View.VISIBLE);
 			hodler.text.setTextColor(Color.parseColor("#40a8fe"));
 		} else {
@@ -56,15 +56,15 @@ public class TagAdapter extends BaseArrayAdapter<Tag> {
 			@Override
 			public void onClick(View v) {
 				String id = record.getGame_tag_id();
-				if (VideoShareActivity210.IDS.contains(id)) {// 移除
+				if (VideoShareActivity.IDS.contains(id)) {// 移除
 					hodler.tick.setVisibility(View.GONE);
-					VideoShareActivity210.IDS.remove(id);
+					VideoShareActivity.IDS.remove(id);
 				} else {
-					if (VideoShareActivity210.IDS.size() > 1) {// 最多2个
+					if (VideoShareActivity.IDS.size() > 1) {// 最多2个
 						ToastHelper.s("最多只能选择2个标签");
 					} else {// 增加
 						hodler.tick.setVisibility(View.VISIBLE);
-						VideoShareActivity210.IDS.add(id);
+						VideoShareActivity.IDS.add(id);
 					}
 				}
 				notifyDataSetChanged();

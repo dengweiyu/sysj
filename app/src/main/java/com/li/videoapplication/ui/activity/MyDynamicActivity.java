@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +16,7 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.data.image.ImageLoaderHelper;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.LoginEvent;
@@ -244,7 +243,7 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
                     head_v.setVisibility(View.VISIBLE);
 
                 if (item.getCover() != null && !item.getCover().equals("")) {
-                    ImageLoaderHelper.displayImageEmpty(item.getCover(), textBg);
+                    GlideHelper.displayImageEmpty(this, item.getCover(), textBg);
                     text.setVisibility(View.INVISIBLE);
                 } else {
                     text.setVisibility(View.VISIBLE);
@@ -286,7 +285,7 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
         switch (v.getId()) {
             case R.id.dynamic_fans:
                 if (!isLogin()) {
-                    showToastLogin();
+                    DialogManager.showLogInDialog(this);
                     return;
                 }
                 startMyPlayerActivityMyFans();
@@ -294,7 +293,7 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
 
             case R.id.dynamic_attention:
                 if (!isLogin()) {
-                    showToastLogin();
+                    DialogManager.showLogInDialog(this);
                     return;
                 }
                 startMyPlayerActivityMyFocus();
@@ -302,21 +301,19 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
 
             case R.id.dynamic_loginIcon:// 登录
                 if (!isLogin()) {
-                    showToastLogin();
+                    DialogManager.showLogInDialog(this);
                 }
-                startLoginActivity();
                 break;
 
             case R.id.dynamic_loginText:// 登录
                 if (!isLogin()) {
-                    showToastLogin();
+                    DialogManager.showLogInDialog(this);
                 }
-                startLoginActivity();
                 break;
 
             case R.id.dynamic_personalcenter:// 我的个人中心
                 if (!isLogin()) {
-                    showToastLogin();
+                    DialogManager.showLogInDialog(this);
                     return;
                 }
                 startMyPersonalCenterActivity();
@@ -324,7 +321,7 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
 
             case R.id.dynamic_go:// 我的个人资料
                 if (!isLogin()) {
-                    showToastLogin();
+                    DialogManager.showLogInDialog(this);
                     return;
                 }
                 startMyPersonalInfoActivity();
@@ -335,7 +332,7 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
 
             case R.id.dynamic_textBtn:// 更换封面
                 if (!isLogin()) {
-                    showToastLogin();
+                    DialogManager.showLogInDialog(this);
                     return;
                 }
                 DialogManager.showPhotoDialog(this, this, this);

@@ -2,7 +2,9 @@ package com.li.videoapplication.ui.fragment;
 
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -85,6 +87,12 @@ public class MyCollectionFragment extends TBaseFragment implements
 		pullToRefreshGridView = (PullToRefreshGridView) view.findViewById(R.id.pulltorefresh);
 		pullToRefreshGridView.setMode(Mode.BOTH);
 		gridView = pullToRefreshGridView.getRefreshableView();
+
+		View emptyView = getActivity().getLayoutInflater().inflate(R.layout.emptyview,
+				(ViewGroup) gridView.getParent(), false);
+		TextView emptyText = (TextView) emptyView.findViewById(R.id.emptyview_text);
+		emptyText.setText("您还没收藏过视频喔~");
+		gridView.setEmptyView(emptyView);
 
 		adapter = new VideoAdapter(getActivity(), data, this);
         adapter.setDeleteMode(false);

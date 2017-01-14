@@ -26,6 +26,7 @@ public abstract class BaseDialog extends Dialog {
     protected final String tag = this.getClass().getSimpleName();
     
     private TextImageHelper textImageHelper = new TextImageHelper();
+	protected Context mContext;
 
 	public BaseDialog(Context context) {
 		this(context, 0);
@@ -33,7 +34,7 @@ public abstract class BaseDialog extends Dialog {
 	
 	public BaseDialog(Context context, int theme) {
 		super(context, theme);
-		
+		this.mContext = context;
 		initContentView(context);
 	}
 
