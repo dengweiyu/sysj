@@ -21,6 +21,8 @@
         <item name="android:windowBackground">@drawable/appstart_lanch_white</item>
     </style>
 
+    <style name="AppTheme.Fullscreen" parent="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"/>
+
     <style name="AppActionBar" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:background">@android:color/transparent</item>
     </style>

@@ -32,6 +32,7 @@ import com.li.videoapplication.data.model.response.VerifyCodeNewEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.BaseDialog;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.utils.AuthCodeUtil;
 import com.li.videoapplication.utils.CountDownTimerUtils;
 import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.PatternUtil;
@@ -143,8 +144,10 @@ public class PaymentDialog extends BaseDialog implements View.OnClickListener {
 
             case R.id.payment_getcode:
                 if (checkPhoneNumber()) break;
+                // 加密手机号
+                String encode = AuthCodeUtil.authcodeEncode(getPhoneText(), AuthCodeUtil.APP_KEY);
                 // 获取验证码
-                DataManager.phoneRequestMsg(getPhoneText());
+                DataManager.phoneRequestMsg(encode);
                 break;
 
             case R.id.payment_confirm:

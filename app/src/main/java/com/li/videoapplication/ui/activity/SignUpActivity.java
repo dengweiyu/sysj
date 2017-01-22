@@ -21,6 +21,7 @@ import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.utils.AuthCodeUtil;
 import com.li.videoapplication.utils.CountDownTimerUtils;
 import com.li.videoapplication.utils.PatternUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -275,8 +276,10 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
             animationHelper.startAnimationShake(phone);
             return;
         }
+        // 加密手机号
+        String encode = AuthCodeUtil.authcodeEncode(getPhone(), AuthCodeUtil.APP_KEY);
         // 获取验证码
-        DataManager.eventRequestMsg(getPhone(), match.getTitle());
+        DataManager.eventRequestMsg(encode, match.getTitle());
     }
 
     private void signupNow() {

@@ -40,6 +40,30 @@ public class DataManager {
 
     public static String TAG = DataManager.class.getSimpleName();
 
+    /** ############## 抽奖 ############## */
+    /**
+     * 抽奖状态获取接口
+     */
+    public static void getSweepstakeStatus() {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getSweepstakeStatus();
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, null, null);
+        request.setEntity(new SweepstakeStatusEntity());
+        helper.doService(request);
+    }
+
+    /** ############## 飞磨游戏 ############## */
+    /**
+     * 游戏详情
+     */
+    public static void gameDetail(String gameid) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().gameDetail();
+        Map<String, Object> params = RequestParams.getInstance().gameDetail(gameid);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new GameDetailEntity());
+        helper.doService(request);
+    }
 
     /** ############ 标签 ############# */
 
@@ -1562,6 +1586,20 @@ public class DataManager {
     }
 
     /**
+     * 功能：个人飞磨豆数量
+     */
+    public static void getMemberCurrency(String member_id) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getMemberCurrency();
+
+        Map<String, Object> params = RequestParams.getInstance().getCurrencyRecord(member_id);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new MemberCurrencyEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
      * 功能：账单
      */
     public static void getCurrencyRecord(String member_id) {
@@ -1634,13 +1672,13 @@ public class DataManager {
     }
 
     /**
-     * 功能：个人中心绑定手机号请求验证码, 视界商场兑换
+     * 功能：个人中心绑定手机号请求验证码, 视界商场兑换 （216 加密）
      */
     public static void phoneRequestMsg(String key) {
 
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().phoneRequestMsg();
-        String target = "sysj";
+        String target = "a_sysj";
         Map<String, Object> params = RequestParams.getInstance().msgRequestNew(key, target);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
@@ -1649,13 +1687,13 @@ public class DataManager {
     }
 
     /**
-     * 功能：报名时获取验证码210
+     * 功能：报名时获取验证码(216 加密）
      */
     public static void eventRequestMsg(String key, String title) {
 
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().eventRequestMsg();
-        String target = "sysj";
+        String target = "a_sysj";
         Map<String, Object> params = RequestParams.getInstance().eventRequestMsg(key, target, title);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
@@ -2003,13 +2041,13 @@ public class DataManager {
     /** ############ 注册登录 ############# */
 
     /**
-     * 功能：获取验证码
+     * 功能：获取验证码（216 加密）
      */
     public static void msgRequestNew(String key) {
 
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().msgRequestCode();
-        String target = "sysj";
+        String target = "a_sysj";
         Map<String, Object> params = RequestParams.getInstance().msgRequestNew(key, target);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);

@@ -87,13 +87,10 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
     //加载首页成功，通知view更新界面
     @Override
     public void onLoadHomeSuccess(HomeDto data) {
-        try {
-            Log.d(TAG, "onLoadHomeSuccess: "+ TimeHelper.getCurrentTime());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Log.d(TAG, "onLoadHomeSuccess: "+ data);
         homeView.refreshHomeData(data);
         homeView.hideProgress();
+        PreferencesHepler.getInstance().saveHomeData(data);//保存首页json
     }
 
     //加载每日任务成功

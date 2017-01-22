@@ -123,7 +123,7 @@
     <string name="ab_search_hint2">请输入玩家名、游戏名或视频关键字搜索</string>
 
     <string name="appstart_play">玩手游  看视界</string>
-    <string name="appstart_readme">手游视界 © 2016 17sysj.com</string>
+    <string name="appstart_readme">手游视界 © 2017 17sysj.com</string>
 
     <string name="search_history">搜索记录</string>
     <string name="search_clear">清空记录</string>
@@ -173,6 +173,7 @@
     <string name="square_left">最新</string>
     <string name="square_right">热门</string>
 
+    <string name="classifiedgame">分类选择</string>
     <string name="classifiedgame_new">最新游戏</string>
     <string name="classifiedgame_hot">最热游戏</string>
 

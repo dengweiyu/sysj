@@ -834,14 +834,15 @@ public class ActivityManeger {
     /**
      * 订单详情
      */
-    public synchronized static void startOrderDetailActivity(Context context, String order_id) {
+    public synchronized static void startOrderDetailActivity(Context context, String id,int tab) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
         }
         Intent intent = new Intent();
         intent.setClass(context, OrderDetailActivity.class);
-        intent.putExtra("order_id", order_id);
+        intent.putExtra("id", id);
+        intent.putExtra("tab", tab);
         context.startActivity(intent);
     }
 

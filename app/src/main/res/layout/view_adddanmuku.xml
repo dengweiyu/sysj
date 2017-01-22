@@ -1,41 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
-    <View
-        android:id="@+id/adddanmuku_touch"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"/>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:layout_gravity="bottom"
-        android:minHeight="35dp"
-        android:background="#f5f8f8"
-        android:gravity="center_vertical"
-        android:paddingLeft="18dp"
-        android:paddingRight="18dp">
+        android:layout_height="match_parent">
 
         <EditText
             android:id="@+id/adddanmuku_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
+            android:layout_alignParentBottom="true"
+            android:background="#f5f8f8"
             android:cursorVisible="true"
+            android:gravity="center_vertical"
             android:hint="@string/adddanmuku_hint"
-            android:inputType="text"
             android:imeOptions="flagNoExtractUi|actionSend"
+            android:inputType="text"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text=""
             android:textColor="#787878"
             android:textColorHint="#969696"
             android:textCursorDrawable="@drawable/cursor_red"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
-    </LinearLayout>
-</LinearLayout>
+        <ScrollView
+            android:id="@+id/adddanmuku_touch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/adddanmuku_text" />
+    </RelativeLayout>
+</FrameLayout>

@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <WebView
         android:id="@+id/swi_web_webview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
         android:fadeScrollbars="false"
-        android:scrollbars="none"/>
+        android:scrollbars="none" />
 
     <ImageView
         android:id="@+id/swi_goback"
@@ -21,6 +19,6 @@
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
         android:scaleType="fitXY"
-        android:src="@drawable/swi_goback"/>
+        android:src="@drawable/swi_goback" />
 
 </RelativeLayout>

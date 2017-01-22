@@ -72,14 +72,9 @@ public class GiftListActivity extends TBaseActivity implements OnRefreshListener
     }
 
     @Override
-    public void loadData() {
-        super.loadData();
-        onPullDownToRefresh(pullToRefreshListView);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
+        onPullDownToRefresh(pullToRefreshListView);
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.DISCOVER, "热门礼包");
     }
 

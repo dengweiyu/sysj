@@ -55,16 +55,13 @@
 
     <com.li.videoapplication.ui.view.AddDanmukuView
         android:id="@+id/adddanmuku"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/authorVideoList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/videoplay"/>
-
-
 </RelativeLayout>

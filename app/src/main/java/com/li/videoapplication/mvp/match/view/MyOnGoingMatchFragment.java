@@ -1,4 +1,4 @@
-package com.li.videoapplication.ui.fragment;
+package com.li.videoapplication.mvp.match.view;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -121,9 +121,11 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
         VideoShareTask208.addCallbacks(this);
         view.findViewById(R.id.upload_image).setOnClickListener(this);
         view.findViewById(R.id.ongoing_customerservice).setOnClickListener(this);
-        noData = view.findViewById(R.id.ongoing_nodata);
         haveData = (ScrollView) view.findViewById(R.id.havedata_root);
         OverScrollDecoratorHelper.setUpOverScroll(haveData);
+        noData = view.findViewById(R.id.ongoing_nodata);
+        TextView emptyText = (TextView) view.findViewById(R.id.emptyview_text);
+        emptyText.setText("暂无进行中的赛程");
 
         uploadVideoView = view.findViewById(R.id.ongoing_progress_container);
         progress = (ProgressBar) view.findViewById(R.id.ongoing_progress);

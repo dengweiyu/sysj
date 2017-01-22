@@ -57,20 +57,18 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
 
 
     private DynamicVideoAdapter adapter;
-    private View noData;
     private View headerView;
-    private View user, tourist,focusView;
+    private View user, tourist, focusView;
     private CircleImageView head;
     private TextView loginText, name, fans, attention, introduce, focus;
     private RelativeLayout touch;
     private ImageView loginIcon, textBg, go, text, textBtn, head_v;
 
-    private View emptyView;
-
     private int currentpage = 1;
     private int pagelength = 10;
 
     private Member item;
+    private TextView emptyText;
 
     @Override
     public void refreshIntent() {
@@ -134,7 +132,8 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
 
     private View getHeaderView() {
         if (headerView == null) {
-            noData = findViewById(R.id.nodata);
+            emptyText = (TextView) findViewById(R.id.dynamic_empty);
+            emptyText.setText("该玩家还没有动态喔~");
 
             headerView = inflater.inflate(R.layout.header_dynamic, null);
             head = (CircleImageView) headerView.findViewById(R.id.dynamic_head);
@@ -195,7 +194,8 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
     }
 
     @Override
-    public void onScrollStateChanged(AbsListView listview, int scrollState) {}
+    public void onScrollStateChanged(AbsListView listview, int scrollState) {
+    }
 
     /**
      * 页头数据
@@ -343,7 +343,7 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
                 ++currentpage;
             } else {
                 if (currentpage == 1) {
-                    noData.setVisibility(View.VISIBLE);
+                    emptyText.setVisibility(View.VISIBLE);
                     setModeDisabled();
                 }
             }

@@ -142,21 +142,28 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
         initAdapter();
 
+        loadCacheData();
+
         addOnClickListener();
     }
 
     private void loadCacheData() {
-        //初始化时使用缓存
-        presenter.loadHomeData(page, false);
-
-        // 任务初始化时使用缓存
-        presenter.unfinishedTask(getMember_id(), false);
+        Log.d(tag, "------------ loadCacheData: ------------");
+        HomeDto homeData = PreferencesHepler.getInstance().getHomeData();
+        if (homeData == null) {
+            //初始化时使用缓存（rxcache缓存）
+            presenter.loadHomeData(page, false);
+            // 任务初始化时使用缓存（rxcache缓存）
+            presenter.unfinishedTask(getMember_id(), false);
+        } else {
+            //直接调用本地缓存回调（sp缓存）
+            refreshHomeData(homeData);
+        }
     }
 
     private void initRecyclerView() {
         presenter = HomePresenter.getInstance();
         presenter.setHomeView(this);
-        loadCacheData();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -167,6 +174,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
     private void initAdapter() {
         homeData = new ArrayList<>();
+
         homeAdapter = new HomeMultipleAdapter(homeData);
         homeAdapter.setOnLoadMoreListener(this);
         //预加载：当列表滑动到倒数第1个Item的时候回调onLoadMoreRequested方法
@@ -187,7 +195,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             setBannerView(bannerView);
             bannerFlow = (ViewFlow) bannerView.findViewById(R.id.viewflow);
             CircleFlowIndicator bannerIndicator = (CircleFlowIndicator) bannerView.findViewById(R.id.circleflowindicator);
-            bannerFlow.setSideBuffer(4); // 实际图片张数
+            bannerFlow.setSideBuffer(4); // 初始化轮播图张数
             bannerFlow.setFlowIndicator(bannerIndicator);
             bannerFlow.setTimeSpan(4000);
             bannerFlow.setSelection(0); // 设置初始位置
@@ -264,7 +272,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                                 download.setDownload_url(download_android);
                                 download.setTitle(app_name);
 
-                                DownloadHelper.downloadFile(getActivity(),download);
+                                DownloadHelper.downloadFile(getActivity(), download);
                                 break;
                         }
                         // 广告点击统计+1
@@ -292,7 +300,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
     @Override
     public void onRefresh() {
-        Log.d(tag, "onRefresh: ");
+        Log.d(tag, "------------ onRefresh: ------------");
         homeAdapter.removeAllFooterView();
         noAdvertisement = true;
         page = 1;
@@ -438,6 +446,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         if (refreshBannerTime < 1) {
             bannerAdapter.setMaxValue(false);
             stopAutoFlowTimer();
+            bannerFlow.setSideBuffer(list.size()); // 实际轮播图张数
             bannerData.clear();
             bannerData.addAll(list);
             bannerAdapter.notifyDataSetChanged();
@@ -456,9 +465,9 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     public void onResume() {
         super.onResume();
         startAutoFlowTimer();
-        Log.d(tag, "onResume: homeData=="+homeData);
-        if (homeData == null) {
-            onRefresh();
+        Log.d(tag, "onResume: homeData==" + homeData);
+        if (homeData == null || homeData.size() == 0) {
+            loadCacheData();
         }
     }
 

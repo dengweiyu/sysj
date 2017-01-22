@@ -19,6 +19,7 @@ public class Constants {
 	public static final String INDEX_LAUNCH_IMAHE_CHANGETIME = "indexLaunchImageChangeTime";// 启动广告时间截
 	public static final String LAUNCH_IMAHE = "launchImage";// 图片广告（旧接口）
 	public static final String INDEX_LAUNCH_IMAHE = "indexLaunchImage";// 图片广告
+	public static final String HOME = "home";// 首页
 
 	public static final String ADVERTISEMENT_AD_LOCATION_204 = "advertisementAdLocation204";// 广告位置列表
 	public static final String ADVERTISEMENT_1 = "advertisement_1";

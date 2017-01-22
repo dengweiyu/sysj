@@ -4,6 +4,7 @@ import android.os.Debug;
 import android.util.Log;
 
 import com.li.videoapplication.data.local.StorageUtil;
+import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
@@ -399,4 +400,36 @@ public class HttpManager extends RetrofitUtils {
         setSubscribe(observable, observer);
     }
 
+    // TODO: ############### 商城 ###############
+    // 兑换记录
+    public void getOrderList(String member_id, Observer<List<Currency>> observer) {
+        Map<String, Object> params = RequestParams.getInstance().getOrderList(member_id);
+        Observable<List<Currency>> observable = service.getOrderList(params)
+                .map(new HttpResultFunc<List<Currency>>());
+        setSubscribe(observable, observer);
+    }
+
+    // 抽奖记录
+    public void getMemberAward(String member_id, Observer<List<Currency>> observer) {
+        Map<String, Object> params = RequestParams.getInstance().getOrderList(member_id);
+        Observable<List<Currency>> observable = service.getMemberAward(params)
+                .map(new HttpResultFunc<List<Currency>>());
+        setSubscribe(observable, observer);
+    }
+
+    // 兑换记录详情
+    public void orderDetail(String member_id, String order_id, Observer<Currency> observer) {
+        Map<String, Object> params = RequestParams.getInstance().orderDetail(member_id, order_id);
+        Observable<Currency> observable = service.orderDetail(params)
+                .map(new HttpResultFunc<Currency>());
+        setSubscribe(observable, observer);
+    }
+
+    // 抽奖记录详情
+    public void getMemberAwardDetail(String member_id, String id, Observer<Currency> observer) {
+        Map<String, Object> params = RequestParams.getInstance().getMemberAwardDetail(member_id, id);
+        Observable<Currency> observable = service.getMemberAwardDetail(params)
+                .map(new HttpResultFunc<Currency>());
+        setSubscribe(observable, observer);
+    }
 }

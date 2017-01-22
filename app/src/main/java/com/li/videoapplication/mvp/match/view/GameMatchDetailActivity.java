@@ -160,15 +160,6 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
     }
 
     @Override
-    public void beforeOnCreate() {
-        super.beforeOnCreate();
-        // 允许使用transitions
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-        }
-    }
-
-    @Override
     public int getContentView() {
         return R.layout.activity_gamematchdetail;
     }
@@ -393,7 +384,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
                             processFragment.onRefresh();
                         }
                     } else {
-                        ToastHelper.s("当前网络不可用，请检查后重试");
+                        ToastHelper.s(R.string.net_disable);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

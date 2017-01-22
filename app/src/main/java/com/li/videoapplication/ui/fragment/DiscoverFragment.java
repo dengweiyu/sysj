@@ -8,12 +8,15 @@ import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.response.DynamicDotEntity;
+import com.li.videoapplication.data.model.response.SweepstakeStatusEntity;
+import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
+import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.mvp.billboard.view.BillboardActivity;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.views.CircleImageView;
 
 /**
@@ -23,6 +26,7 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
 
     private CircleImageView count;
     private ImageView go;
+    private View draw;
 
     /**
      * 跳转：动态
@@ -46,6 +50,7 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
     protected void initContentView(View view) {
         count = (CircleImageView) view.findViewById(R.id.discover_dynamic_count);
         go = (ImageView) view.findViewById(R.id.discover_dynamic_go);
+        draw = view.findViewById(R.id.discover_draw);
 
         view.findViewById(R.id.discover_recommend).setOnClickListener(this);
         view.findViewById(R.id.discover_square).setOnClickListener(this);
@@ -55,6 +60,14 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
         view.findViewById(R.id.discover_dynamic).setOnClickListener(this);
         view.findViewById(R.id.discover_activity).setOnClickListener(this);
         view.findViewById(R.id.discover_gift).setOnClickListener(this);
+        draw.setOnClickListener(this);
+
+        loadData();
+    }
+
+    private void loadData() {
+        //抽奖状态获取接口
+        DataManager.getSweepstakeStatus();
     }
 
     @Override
@@ -70,6 +83,7 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        loadData();
         //该fragment处于最前台交互状态
         if (isVisibleToUser) {
             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MAIN, "进入发现页面次数");
@@ -81,6 +95,17 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
     public void onClick(View view) {
 
         switch (view.getId()) {
+            case R.id.discover_draw:
+                if (isLogin()) {
+                    WebActivity.startWebActivityWithJS(getActivity(),
+                            Constant.API_SWEEPSTAKE + "?mid=" + getMember_id(), Constant.JS_SWEEPSTAKE);
+                } else {
+                    WebActivity.startWebActivityWithJS(getActivity(),
+                            Constant.API_SWEEPSTAKE, Constant.JS_SWEEPSTAKE);
+                }
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "抽奖");
+                break;
+
             case R.id.discover_activity:
                 ActivityManeger.startActivityListActivity(getActivity());
                 break;
@@ -115,6 +140,17 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
             case R.id.discover_dynamic:
                 startDynamicActivity();
                 break;
+        }
+    }
+
+    /**
+     * 回调：抽奖状态
+     */
+    public void onEventMainThread(SweepstakeStatusEntity event) {
+        if (event!=null && event.isResult()){
+            if (event.getStatus().equals("1")) {//抽奖开启
+                draw.setVisibility(View.VISIBLE);
+            }
         }
     }
 

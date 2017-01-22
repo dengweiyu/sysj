@@ -9,6 +9,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Advertisement;
 import com.li.videoapplication.data.model.entity.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.Associate;
+import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.data.model.entity.VideoImage;
@@ -415,6 +416,33 @@ public class PreferencesHepler {
                 NormalPreferences.getInstance().putString(Constants.ADVERTISEMENT_10, string);
             }
         }
+    }
+
+    /* ##############  首页  ############### */
+    /**
+     * 删除首页缓存
+     */
+    public void removeHomeData() {
+        Log.d(tag, "remove/HomeData ");
+        NormalPreferences.getInstance().remove(Constants.HOME);
+    }
+
+    /**
+     * 保存首页
+     */
+    public void saveHomeData(HomeDto entity) {
+        Log.d(tag, "save/HomeData=" + entity.toJSON());
+        NormalPreferences.getInstance().putString(Constants.HOME, entity.toJSON());
+    }
+
+    /**
+     * 获取首页
+     */
+    public HomeDto getHomeData() {
+        String json = NormalPreferences.getInstance().getString(Constants.HOME);
+        HomeDto entity = gson.fromJson(json, HomeDto.class);
+        Log.d(tag, "get/HomeData=" + entity);
+        return entity;
     }
 
 	/* ##############  图片广告  ############### */

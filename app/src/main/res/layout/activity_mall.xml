@@ -133,6 +133,7 @@
             android:textColor="#8e8e8e"/>
 
         <TextView
+            android:id="@+id/mall_sysjqq"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="2768484684"

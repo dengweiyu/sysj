@@ -214,7 +214,7 @@ public class GroupdetailVideoFragment extends TBaseFragment
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
                 final VideoImage record = (VideoImage) adapter.getItem(pos);
-                if (record.isAD()){
+                if (record.isAD()) {
                     adItem.onExposured(recyclerView);
                     adItem.onClicked(view);
                 }
@@ -266,10 +266,8 @@ public class GroupdetailVideoFragment extends TBaseFragment
      * 回调：圈子视频列表（最新）
      */
     public void onEventMainThread(GroupNewDataListEntity event) {
-
         if (event != null && event.isResult() && getTab() == GROUPDETAILVIDEO_NEW) {
-            refreshData(event);
-            initGDT(GDTUtil.POS_ID_GROUP_NEW);
+            refreshData(event,GDTUtil.POS_ID_GROUP_NEW);
             Log.d(tag, "~~~~~~~~~ 圈子视频列表（最新）: ~~~~~~~~~");
         }
         adapter.loadMoreComplete();//加载完成
@@ -279,22 +277,21 @@ public class GroupdetailVideoFragment extends TBaseFragment
      * 回调：圈子视频列表（最热）
      */
     public void onEventMainThread(GroupHotDataListEntity event) {
-
         if (event != null && event.isResult() && getTab() == GROUPDETAILVIDEO_HOT) {
-            refreshData(event);
-            initGDT(GDTUtil.POS_ID_GROUP_HOT);
+            refreshData(event,GDTUtil.POS_ID_GROUP_HOT);
             Log.d(tag, "~~~~~~~~~ 圈子视频列表（最热）: ~~~~~~~~~");
         }
         adapter.loadMoreComplete();//加载完成
     }
 
-    private void refreshData(GroupDataListEntity event) {
+    private void refreshData(GroupDataListEntity event,String pos_id) {
         page_count = event.getData().getPage_count();
 
         if (event.getData().getList().size() > 0) {
             if (page == 1) {
                 adapter.setNewData(event.getData().getList());
                 swipeRefreshLayout.setRefreshing(false);
+                initGDT(pos_id);//插入一行广点通广告
             } else {
                 // 如果有下一页则调用addData，不需要把下一页数据add到list里面，直接新的数据给adapter即可。
                 adapter.addData(event.getData().getList());

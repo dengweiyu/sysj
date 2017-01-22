@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Currency;
+import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
+import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
@@ -27,6 +29,7 @@ import java.util.List;
 public class MallExpListViewAdapter extends BaseExpandableListAdapter {
 
     private static final String TAG = MallExpListViewAdapter.class.getSimpleName();
+
     private Context context;
     private List<Currency> mDatas;
     private TextImageHelper helper;
@@ -35,7 +38,7 @@ public class MallExpListViewAdapter extends BaseExpandableListAdapter {
      * 跳转：商品详情
      */
     private void startProductsDetailActivity(Currency childList) {
-            ActivityManeger.startProductsDetailActivity(context, childList.getId(),childList.getEvents());
+        ActivityManeger.startProductsDetailActivity(context, childList.getId(), childList.getEvents());
     }
 
     public MallExpListViewAdapter(Context context, List<Currency> mDatas) {
@@ -112,7 +115,8 @@ public class MallExpListViewAdapter extends BaseExpandableListAdapter {
         final ImageView pic = (ImageView) convertView.findViewById(R.id.mall_item_pic);
 
         if (childList.getExchange_way().equals("0") || //周边商品
-                childList.getExchange_way().equals("1")) {//首页推荐位
+                childList.getExchange_way().equals("1") ||//首页推荐位
+                childList.getExchange_way().equals("5")) {//抽奖
             description.setVisibility(View.VISIBLE);
             beanView.setVisibility(View.GONE);
             helper.setTextViewText(description, childList.getDescription());
@@ -137,15 +141,17 @@ public class MallExpListViewAdapter extends BaseExpandableListAdapter {
                             WebActivity.startWebActivity(context, childList.getUrl());
                             break;
                         case "1"://推荐位
-                        case "5"://冠名位
                             startProductsDetailActivity(childList);
+                            break;
+                        case "5"://抽奖
+                            goSweepstake();
                             break;
                         case "2"://话费流量类
                         case "3"://Q币类
                         case "4"://京东卡类
                         case "6"://战网兑换类
                             if (Integer.valueOf(childList.getInventory()) > 0) {
-                                if (PreferencesHepler.getInstance().isLogin()){
+                                if (PreferencesHepler.getInstance().isLogin()) {
                                     int myCurrency = Integer.valueOf(PreferencesHepler.getInstance()
                                             .getUserProfilePersonalInformation().getCurrency());
 
@@ -154,7 +160,7 @@ public class MallExpListViewAdapter extends BaseExpandableListAdapter {
                                     } else {
                                         ToastHelper.s("飞磨豆不足");
                                     }
-                                }else {
+                                } else {
                                     DialogManager.showLogInDialog(context);
                                 }
                             } else {
@@ -169,10 +175,16 @@ public class MallExpListViewAdapter extends BaseExpandableListAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (childList.getExchange_way().equals("0")) {
-                    WebActivity.startWebActivity(context, childList.getUrl());
-                } else {
-                    startProductsDetailActivity(childList);
+                switch (childList.getExchange_way()) {
+                    case "0"://0=>周边商品，外链
+                        WebActivity.startWebActivity(context, childList.getUrl());
+                        break;
+                    case "5": //抽奖
+                        goSweepstake();
+                        break;
+                    default:
+                        startProductsDetailActivity(childList);
+                        break;
                 }
             }
         });
@@ -186,4 +198,14 @@ public class MallExpListViewAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
+    private void goSweepstake(){
+        if (PreferencesHepler.getInstance().isLogin()) {
+            String member_id = PreferencesHepler.getInstance().getMember_id();
+            WebActivity.startWebActivityWithJS(context,
+                    Constant.API_SWEEPSTAKE + "?mid=" + member_id, Constant.JS_SWEEPSTAKE);
+        } else {
+            WebActivity.startWebActivityWithJS(context, Constant.API_SWEEPSTAKE,
+                    Constant.JS_SWEEPSTAKE);
+        }
+    }
 }

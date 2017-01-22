@@ -1,11 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
 
     <com.li.videoapplication.views.ViewPagerY4
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <RadioGroup
         android:id="@+id/radiogroup"
@@ -25,7 +26,7 @@
             android:layout_height="7dp"
             android:background="@drawable/welcome_point_btn"
             android:button="@null"
-            android:checked="true"/>
+            android:checked="true" />
 
         <RadioButton
             android:id="@+id/welcome_second"
@@ -34,7 +35,7 @@
             android:layout_marginLeft="8dp"
             android:background="@drawable/welcome_point_btn"
             android:button="@null"
-            android:checked="false"/>
+            android:checked="false" />
 
         <RadioButton
             android:id="@+id/welcome_third"
@@ -43,7 +44,7 @@
             android:layout_marginLeft="8dp"
             android:background="@drawable/welcome_point_btn"
             android:button="@null"
-            android:checked="false"/>
+            android:checked="false" />
 
         <RadioButton
             android:id="@+id/welcome_fouth"
@@ -52,7 +53,7 @@
             android:layout_marginLeft="8dp"
             android:background="@drawable/welcome_point_btn"
             android:button="@null"
-            android:checked="false"/>
+            android:checked="false" />
     </RadioGroup>
 
     <!-- 19 -->
@@ -67,6 +68,6 @@
         android:gravity="center"
         android:text="@string/welcome_gointo"
         android:textColor="@drawable/welcome_gointo_text"
-        android:textSize="13sp"/>
+        android:textSize="13sp" />
 
 </RelativeLayout>

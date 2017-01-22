@@ -34,11 +34,11 @@ android {
 
     defaultConfig {
         applicationId "com.li.videoapplication"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 22
         // 20170104,2.1.4   test:20161122, 2.1.2
-        versionCode 20170113
-        versionName "2.1.5"
+        versionCode 20170120
+        versionName "2.1.6"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
         multiDexEnabled true
@@ -84,6 +84,7 @@ android {
         WangDouJia {}
         XiaoMi {}
         YingYongBao {}
+        MeiZu {}
     }
 
     productFlavors.all { flavor ->
@@ -131,7 +132,7 @@ dependencies {
     compile 'com.android.support:design:22.2.1'
     compile 'com.android.support:recyclerview-v7:22.2.1'
     compile 'com.android.support:cardview-v7:22.2.1'
-    compile 'com.wuxiaolong.pullloadmorerecyclerview:library:1.0.2'
+    //弹性动画
     compile 'me.everything:overscroll-decor-android:1.0.3'
     //融云
     compile project(':IMKit_v2_7_0')

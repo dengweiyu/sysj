@@ -30,23 +30,33 @@ public class RequestUrl {
 
     public String SignSYSJ = "http://17sysj.com";
 
-	/* ############## 网络访问接口 ############## */
+    public String BaseFMYX = "http://game.17sysj.com";
+
+    public String BaseFMYX_V1 = BaseFMYX + "/api/public/index.php/v1";
+
+    /** ############## 飞磨游戏 ############## */
 
     /**
-     * 优酷Token
+     * 游戏详情
      */
-    public final String youkuToken() {
-        return "https://openapi.youku.com/v2/oauth2/token";
+    public final String gameDetail() {
+        return BaseFMYX_V1 + "/game/detail";
+    }
+
+    /** ############## 抽奖 ############## */
+    /**
+     * 抽奖状态获取接口
+     */
+    public final String getSweepstakeStatus() {
+        return BaseSYSJ + "/Sysj215/Sweepstake/getSweepstake";
     }
 
     /**
-     * 优酷视频详情
+     * 抽奖页
      */
-    public final String youkuVideosShowBasic(String video_id, String client_id) {
-        return "https://openapi.youku.com/v2/videos/show_basic.json?client_id="
-                + client_id + "&video_id=" + video_id;
+    public final String getSweepstake() {
+        return BaseSYSJ + "/Sysj215/Sweepstake";
     }
-
 
     /** ############## 标签 ############## */
 
@@ -326,10 +336,10 @@ public class RequestUrl {
     }
 
     /**
-     * 获取验证码 登陆注册
+     * 获取验证码 登陆注册（216 加密）
      */
     public final String msgRequestCode() {
-        return BaseSYSJ + "/Sysj211/message/msgRequestCode";
+        return BaseSYSJ + "/Sysj211/Message/getMsgCode";
     }
 
     /**
@@ -343,14 +353,14 @@ public class RequestUrl {
      * 个人中心绑定手机号请求验证码
      */
     public final String phoneRequestMsg() {
-        return BaseSYSJ + "/Sysj211/message/phoneRequestMsg";
+        return BaseSYSJ + "/Sysj211/Message/bindPhone";
     }
 
     /**
-     * 获取验证码211
+     * 获取验证码 216 加密
      */
     public final String eventRequestMsg() {
-        return BaseSYSJ + "/Sysj211/message/eventRequestMsg";
+        return BaseSYSJ + "/Sysj211/Message/getEventMsg";
     }
 
     /**
@@ -1264,7 +1274,14 @@ public class RequestUrl {
      * 商品列表
      */
     public final String goodsList() {
-        return BaseSYSJ + "/Sysj211/CurrencyMall/goodsList";
+        return BaseSYSJ + "/Sysj215/CurrencyMall/goodsList";
+    }
+
+    /**
+     * 个人飞磨豆数量
+     */
+    public final String getMemberCurrency() {
+        return BaseSYSJ + "/Sysj211/Currency/getMemberCurrency";
     }
 
     /**

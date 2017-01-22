@@ -32,6 +32,18 @@ public class RequestParams {
         return instance;
     }
 
+    /** ############## 飞磨游戏 ############## */
+    // appid=100&from=3&clientid=125&agent=
+    public Map<String, Object> gameDetail(String gameid) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("gameid", gameid);
+        map.put("appid", 100);
+        map.put("from", 3);
+        map.put("clientid", 125);
+        map.put("agent", "");
+        return map;
+    }
+
     /**
      * ############## 货币商城 ##############
      */
@@ -48,6 +60,13 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("order_id", order_id);
+        return map;
+    }
+
+    public Map<String, Object> getMemberAwardDetail(String member_id, String id) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        map.put("id", id);
         return map;
     }
 

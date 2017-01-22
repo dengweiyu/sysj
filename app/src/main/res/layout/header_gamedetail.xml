@@ -22,9 +22,7 @@
             android:scaleType="fitXY" />
 
         <!-- 56 -->
-
         <com.li.videoapplication.views.RoundedImageView
-            android:transitionName="shareGameIcon"
             android:id="@+id/groupdetail_head"
             android:layout_width="64dp"
             android:layout_height="64dp"

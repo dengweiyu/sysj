@@ -30,21 +30,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * 活动：网页浏览与js交互（去网页标题栏）
+ * 活动：网页浏览与js交互（去网页标题栏，js方法名）
  */
 @SuppressLint({"SetJavaScriptEnabled", "CutPasteId"})
 public class WebActivityJS extends TBaseAppCompatActivity {
 
     private static final String TAG = WebActivityJS.class.getSimpleName();
 
-    private String url, title;
+    private String url, title, js;
     private WebView webView;
 
     /**
      * 网页浏览
      */
-    public static void startWebActivityJS(Context context, String url, String title) {
-        Log.e(TAG, "url=" + url);
+    public static void startWebActivityJS(Context context, String url, String title, String js) {
         if (context == null) {
             return;
         }
@@ -57,6 +56,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         Intent intent = new Intent();
         intent.putExtra("url", url);
         intent.putExtra("title", title);
+        intent.putExtra("js", js);
         intent.setClass(context, WebActivityJS.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
@@ -78,6 +78,11 @@ public class WebActivityJS extends TBaseAppCompatActivity {
 
         try {
             title = getIntent().getStringExtra("title");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            js = getIntent().getStringExtra("js");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -138,7 +143,9 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
 
-        webView.addJavascriptInterface(new JSInterface(this), "user");
+        Log.d(TAG, "initWebView: js == "+js);
+        if (!StringUtil.isNull(js))
+            webView.addJavascriptInterface(new JSInterface(this), js);
 
         webView.setDownloadListener(new DownloadListener() {
 

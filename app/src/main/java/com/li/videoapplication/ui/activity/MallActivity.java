@@ -14,10 +14,13 @@ import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.response.GoodsListEntity;
+import com.li.videoapplication.data.model.response.MemberCurrencyEntity;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.mvp.adapter.MallExpListViewAdapter;
+import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
@@ -84,6 +87,7 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
         mExpListView.setAdapter(mAdapter);
 
         findViewById(R.id.mall_exchangerecord).setOnClickListener(this);
+        findViewById(R.id.mall_sysjqq).setOnClickListener(this);
 
         refreshUserBar();
     }
@@ -93,6 +97,13 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
         super.loadData();
         //商品列表
         DataManager.getGoodsList();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //个人飞磨豆数量
+        DataManager.getMemberCurrency(getMember_id());
     }
 
     private void refreshHeaderView() {
@@ -111,6 +122,9 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.mall_sysjqq:
+                AppUtil.startQQChat(this, Constant.SYSJQQID);
+                break;
             case R.id.mall_exchangerecord:
                 if (!isLogin()) {
                     DialogManager.showLogInDialog(this);
@@ -119,7 +133,7 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
                 startExchangeRecordActivity();
                 break;
             case R.id.ab_question:
-                WebActivityJS.startWebActivityJS(this, "http://m.17sysj.com/help/wallet", "视界商城说明");
+                WebActivityJS.startWebActivityJS(this, Constant.WEB_WALLET, "视界商城说明", null);
                 break;
             case R.id.mall_login:
                 DialogManager.showLogInDialog(this);
@@ -160,6 +174,13 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
     }
 
     /**
+     * 回调：个人飞磨豆数量
+     */
+    public void onEventMainThread(MemberCurrencyEntity event) {
+        setTextViewText(beanNum, StringUtil.formatNum(event.getCurrency()));
+    }
+
+    /**
      * 事件：登录
      */
     public void onEventMainThread(LoginEvent event) {
@@ -171,10 +192,12 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
 
     private void refreshUserBar() {
         if (isLogin()) {
+            pic.setVisibility(View.VISIBLE);
             login.setVisibility(View.GONE);
             userInfo.setVisibility(View.VISIBLE);
             refreshHeaderView();
         } else {
+            pic.setVisibility(View.GONE);
             login.setVisibility(View.VISIBLE);
             userInfo.setVisibility(View.INVISIBLE);
         }

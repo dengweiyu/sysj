@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -373,6 +374,32 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
             }
         });
 
+        holder.deleteState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // 该视频正在上传
+                VideoCaptureEntity entity = VideoCaptureManager.findByPath(record.getVideo_path());
+                if (entity != null &&
+                        entity.getVideo_station().equals(VideoCaptureEntity.VIDEO_STATION_UPLOADING) &&
+                        entity.getVideo_station().equals(VideoCaptureEntity.VIDEO_STATION_PAUSE)) {
+                    ToastHelper.s("该视频正在上传中，不能删除");
+                    buttonView.setChecked(false);
+                    return;
+                }
+                VideoMangerActivity.myLocalVideoDeleteData.set(position, isChecked);
+                if (isChecked){
+                    if (activity != null) {
+                        activity.myLocalData.add(record);
+                    }
+                }else {
+                    if (activity != null) {
+                        activity.myLocalData.remove(record);
+                    }
+                }
+                VideoMangerActivity.refreshAbTitle2();
+            }
+        });
+
         holder.deleteButton.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -387,16 +414,8 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                 }
                 if (VideoMangerActivity.myLocalVideoDeleteData.get(position)) {
                     VideoMangerActivity.myLocalVideoDeleteData.set(position, false);
-                    if (activity != null) {
-                        activity.myLocalData.remove(record);
-                    }
-                    VideoMangerActivity.refreshAbTitle2();
                 } else {
                     VideoMangerActivity.myLocalVideoDeleteData.set(position, true);
-                    if (activity != null) {
-                        activity.myLocalData.add(record);
-                    }
-                    VideoMangerActivity.refreshAbTitle2();
                 }
                 notifyDataSetChanged();
             }

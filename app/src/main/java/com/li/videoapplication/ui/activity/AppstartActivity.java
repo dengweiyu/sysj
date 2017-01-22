@@ -31,9 +31,7 @@ import java.io.File;
  */
 public class AppstartActivity extends TBaseActivity {
 
-    private MainActivity mainActivity;
     private boolean firstSetup;
-    private boolean isTestAD = true;
 
     /**
      * 跳转：主页
@@ -48,15 +46,6 @@ public class AppstartActivity extends TBaseActivity {
     }
 
     @Override
-    public void beforeOnCreate() {
-        super.beforeOnCreate();
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        setSystemBar(false);
-    }
-
-    @Override
     public void afterOnCreate() {
         super.afterOnCreate();
         MobclickAgent.setDebugMode(true);
@@ -65,7 +54,7 @@ public class AppstartActivity extends TBaseActivity {
     @Override
     public void initView() {
         super.initView();
-        mainActivity = AppManager.getInstance().getMainActivity();
+        MainActivity mainActivity = AppManager.getInstance().getMainActivity();
         firstSetup = NormalPreferences.getInstance().getBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, true);
 
         // 网络请求服务
@@ -91,12 +80,11 @@ public class AppstartActivity extends TBaseActivity {
             @Override
             public void run() {
                 if (!firstSetup) {
-                    if (isTestAD) { //测试广告 // FIXME: 正式发行版注意这个要注释
-//                    if (haveLaunchAd()) { //有广告
+                    if (haveLaunchAd()) { //有广告
                         UITask.post(new Runnable() {
                             @Override
                             public void run() {
-                                replaceFragment(new BannerFragment());
+                                replaceBanner();
                             }
                         });
                     } else { //无广告
@@ -134,6 +122,16 @@ public class AppstartActivity extends TBaseActivity {
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.setCustomAnimations(R.anim.zoom_enter, R.anim.dialog_out);
             transaction.replace(R.id.container, target).commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void replaceBanner() {
+        try {
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            transaction.replace(R.id.container, new BannerFragment()).commit();
         } catch (Exception e) {
             e.printStackTrace();
         }

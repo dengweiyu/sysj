@@ -31,6 +31,7 @@ import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.ShareSDKLoginHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
+import com.li.videoapplication.utils.AuthCodeUtil;
 import com.li.videoapplication.utils.CountDownTimerUtils;
 import com.li.videoapplication.utils.PatternUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -151,7 +152,7 @@ public class LoginActivity extends TBaseActivity implements OnClickListener,
     @Override
     public void afterTextChanged(Editable s) {
         if (getPhoneText().length() == 11) {
-            if (!isCountDowning){
+            if (!isCountDowning) {
                 get.setBackgroundResource(R.drawable.dialog_registermobile_red);
                 get.setFocusable(true);
                 get.setClickable(true);
@@ -234,8 +235,11 @@ public class LoginActivity extends TBaseActivity implements OnClickListener,
             animationHelper.startAnimationShake(code);
             return;
         }
+        // 加密手机号
+        String encode = AuthCodeUtil.authcodeEncode(getPhoneText(), AuthCodeUtil.APP_KEY);
+        Log.d(tag, "encode: " + encode);
         // 获取验证码
-        DataManager.msgRequestNew(getPhoneText());
+        DataManager.msgRequestNew(encode);
     }
 
     /**

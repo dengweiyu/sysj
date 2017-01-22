@@ -42,8 +42,7 @@ import java.io.File;
  * 活动：个人中心
  */
 public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> implements
-        AbsListView.OnScrollListener,
-        OnClickListener {
+        AbsListView.OnScrollListener, OnClickListener {
 
     /**
      * 跳转：我的个人资料
@@ -102,6 +101,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
     private int pagelength = 10;
 
     private Member item;
+    private TextView emptyText;
 
     @Override
     public int getContentView() {
@@ -148,6 +148,8 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
 
     private View getHeaderView() {
         if (headerView == null) {
+            emptyText = (TextView) findViewById(R.id.dynamic_empty);
+
             headerView = inflater.inflate(R.layout.header_dynamic, null);
             head = (CircleImageView) headerView.findViewById(R.id.dynamic_head);
 
@@ -254,9 +256,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
-
             case R.id.dynamic_fans:
                 if (!isLogin()) {
                     showLogInDialog();
@@ -381,6 +381,11 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
                 }
                 data.addAll(event.getData());
                 ++currentpage;
+            }else {
+                if (currentpage == 1) {
+                    emptyText.setVisibility(View.VISIBLE);
+                    setModeDisabled();
+                }
             }
         }
         refreshAdapter();

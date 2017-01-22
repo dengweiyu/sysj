@@ -274,7 +274,7 @@ public class JPushHelper {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    WebActivity.startWebActivityNewTask(context, push_msg_value);
+                    WebActivity.startWebActivity(context, push_msg_value);
                 }
             }, 1200);
 

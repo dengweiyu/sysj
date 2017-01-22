@@ -9,12 +9,20 @@ import com.li.videoapplication.data.network.Contants;
 public class BaseResponseEntity extends BaseEntity {
 	
 	private boolean result = false;
-	
+	private int code;
 	private String msg = Contants.DEFAULT_STRING;
 
 	private String status;
 
 	private int total_page;
+
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
+	}
 
 	public boolean isResult() {
 		return result;

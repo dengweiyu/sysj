@@ -1,5 +1,8 @@
 package com.li.videoapplication.ui.activity;
 
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,29 +16,27 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.response.OrderListEntity;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.framework.TBaseAppCompatActivity;
+import com.li.videoapplication.mvp.mall.view.ExchangeRecordFragment;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.mvp.adapter.ExchangeRecordAdapter;
+import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
 
 /**
  * 活动：兑换记录
  */
-public class ExchangeRecordActivity extends TBaseActivity {
+public class ExchangeRecordActivity extends TBaseAppCompatActivity implements View.OnClickListener {
 
-    private List<Currency> datas;
-    private ExchangeRecordAdapter adapter;
-
-    /**
-     * 跳转：订单详情
-     */
-    private void startOrderDetailActivity(int pos) {
-        ActivityManeger.startOrderDetailActivity(ExchangeRecordActivity.this, datas.get(pos).getId());
-
-    }
+    private List<Fragment> fragments;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
 
     @Override
     public int getContentView() {
@@ -43,61 +44,46 @@ public class ExchangeRecordActivity extends TBaseActivity {
     }
 
     @Override
-    public int inflateActionBar() {
-        return R.layout.actionbar_second;
-    }
-
-    @Override
     public void afterOnCreate() {
         super.afterOnCreate();
         setSystemBarBackgroundWhite();
-        setAbTitle("兑换记录");
     }
 
     @Override
     public void initView() {
         super.initView();
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.exchangerecord_recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
+        findView();
+        initViewPager();
+    }
 
-        datas = new ArrayList<>();
-        adapter = new ExchangeRecordAdapter(datas);
-        adapter.openLoadAnimation();
-        View emptyView = getLayoutInflater().inflate(R.layout.emptyview,
-                (ViewGroup) recyclerView.getParent(), false);
-        TextView emptyViewText = (TextView) emptyView.findViewById(R.id.emptyview_text);
-        emptyViewText.setText("您还没有兑换过商品喔~");
-        adapter.setEmptyView(emptyView);
+    private void findView() {
+        findViewById(R.id.tb_back).setOnClickListener(this);
+        TextView tb_title = (TextView) findViewById(R.id.tb_title);
+        tb_title.setText("兑换记录");
+        viewPager = (ViewPager) findViewById(R.id.exchangerecord_viewpager);
+        tabLayout = (TabLayout) findViewById(R.id.exchangerecord_tabs);
+    }
 
+    private void initViewPager() {
+        if (fragments == null) {
+            fragments = new ArrayList<>();
+            fragments.add(ExchangeRecordFragment.newInstance(ExchangeRecordFragment.EXC_MALL));
+            fragments.add(ExchangeRecordFragment.newInstance(ExchangeRecordFragment.EXC_SWEEPSTAKE));
+        }
 
-        recyclerView.setAdapter(adapter);
-        //recyclerview item点击事件处理
-        recyclerView.addOnItemTouchListener(new OnItemClickListener() {
-
-            @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startOrderDetailActivity(position);
-            }
-        });
+        final String[] tabTitle = {"商城兑换", "抽奖记录"};
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments, tabTitle);
+        viewPager.setAdapter(adapter);
+        new HorizontalOverScrollBounceEffectDecorator(new ViewPagerOverScrollDecorAdapter(viewPager));
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
-    public void loadData() {
-        super.loadData();
-        DataManager.getOrderList(getMember_id());
-    }
-
-    /**
-     * 回调：兑换记录
-     */
-    public void onEventMainThread(OrderListEntity event) {
-
-        if (event != null && event.isResult()) {
-            if (event.getData() != null && event.getData().size() > 0) {
-                datas.addAll(event.getData());
-                adapter.notifyDataSetChanged();
-            }
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tb_back:
+                finish();
+                break;
         }
     }
 }

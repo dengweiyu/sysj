@@ -73,17 +73,17 @@ public class SearchResultFragment extends TBaseFragment{
         if (fragments == null) {
             fragments = new ArrayList<>();
 
-            video = SearchVideoFragment.newInstance(content);
             game = SearchGameFragment.newInstance(content);
+            video = SearchVideoFragment.newInstance(content);
             member = SearchMemberFragment.newInstance(content);
             gift = SearchGiftFragment.newInstance(content);
 
-            fragments.add(video);
             fragments.add(game);
+            fragments.add(video);
             fragments.add(member);
             fragments.add(gift);
         }
-        String[] titles = {"相关视频", "相关游戏", "相关主播", "相关礼包"};
+        String[] titles = {"游戏圈", "相关视频", "相关主播", "相关礼包"};
 
         ViewPagerY4 viewPager = (ViewPagerY4) view.findViewById(R.id.viewpager);
         viewPager.setScrollable(true);

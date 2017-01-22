@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class StringUtil {
 
     /**
-     * 字符串数字格式（以万为单位）
+     * 字符串数字格式（上万x.xx万，其他千分位 x,xxx）
      */
     public static String toUnitW(String num) {
         try {

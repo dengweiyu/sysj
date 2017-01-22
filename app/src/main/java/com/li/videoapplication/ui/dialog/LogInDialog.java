@@ -15,6 +15,7 @@ import com.li.videoapplication.tools.ShareSDKLoginHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.activity.LoginActivity;
+import com.li.videoapplication.utils.AuthCodeUtil;
 import com.li.videoapplication.utils.CountDownTimerUtils;
 import com.li.videoapplication.utils.PatternUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -137,8 +138,10 @@ public class LogInDialog extends BaseOverShootDialog implements View.OnClickList
             code_inputll.setError("请输入正确的手机号");
             return;
         }
+        // 加密手机号
+        String encode = AuthCodeUtil.authcodeEncode(getPhoneText(), AuthCodeUtil.APP_KEY);
         // 获取验证码
-        DataManager.msgRequestNew(getPhoneText());
+        DataManager.msgRequestNew(encode);
     }
 
     /**

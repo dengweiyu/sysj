@@ -20,6 +20,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.mvp.match.view.GameMatchDetailActivity;
 import com.li.videoapplication.ui.activity.SignUpActivity;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
+import com.li.videoapplication.ui.dialog.ClassifiedGameDialog;
 import com.li.videoapplication.ui.dialog.DiscoverTipDialog;
 import com.li.videoapplication.ui.dialog.EditNameDialog;
 import com.li.videoapplication.ui.dialog.FileDownloaderDialog;
@@ -61,6 +62,16 @@ import java.util.List;
 public class DialogManager {
 
     /**
+     * 游戏分类
+     */
+    public static void showClassifiedGameDialog(Context context, String sort,
+                                                View.OnClickListener hotClickListener,
+                                                View.OnClickListener newClickListener) {
+        Dialog dialog = new ClassifiedGameDialog(context, sort, hotClickListener, newClickListener);
+        dialog.show();
+    }
+
+    /**
      * 文件下载
      */
     public static void showFileDownloaderDialog(Context context, View.OnClickListener continueListener,
@@ -73,15 +84,15 @@ public class DialogManager {
      * 版本更新
      */
     public static void showUpdateDialog(Context context, Update update) {
-        Dialog dialog =new UpdateDialog(context, update);
+        Dialog dialog = new UpdateDialog(context, update);
         dialog.show();
     }
 
     /**
      * 赛事筛选
      */
-    public static MatchFliterDialog showMatchFliterDialog(Context context,GameCateEntity data) {
-        MatchFliterDialog dialog = new MatchFliterDialog(context,data);
+    public static MatchFliterDialog showMatchFliterDialog(Context context, GameCateEntity data) {
+        MatchFliterDialog dialog = new MatchFliterDialog(context, data);
         dialog.show();
         return dialog;
     }

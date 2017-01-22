@@ -248,16 +248,18 @@
             android:text=""
             android:hint="2017-01-01"
             android:textColor="#8c8c8c"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:visibility="visible"/>
 
         <!--106/36-->
         <ImageView
             android:id="@+id/advertisement"
-            android:layout_width="@dimen/kaka_47.1"
-            android:layout_height="@dimen/kaka_16"
+            android:layout_width="@dimen/kaka_38.3"
+            android:layout_height="@dimen/kaka_13"
             android:layout_below="@+id/middle"
             android:layout_alignParentRight="true"
             android:src="@drawable/advertisement"
+            android:layout_marginTop="8dp"
             android:visibility="gone"/>
 
         <RelativeLayout

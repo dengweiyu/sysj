@@ -1197,7 +1197,6 @@ public class VideoPlayView extends RelativeLayout implements
         if (DEBUG) Log.i(tag, "state=" + state);
         setRelativeFullScreen(this);
         setRelativeFullScreen(videoPlayer);
-
         if (state == STATE_VIDEOPLAY || state == STATE_TV)
             touchView.showView();
         else

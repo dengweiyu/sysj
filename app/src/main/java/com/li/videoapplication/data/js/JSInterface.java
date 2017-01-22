@@ -1,22 +1,34 @@
 package com.li.videoapplication.data.js;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
+import android.widget.ProgressBar;
 
+import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.data.model.response.MatchRewardBillboardEntity;
+import com.li.videoapplication.data.model.entity.Download;
+import com.li.videoapplication.data.model.entity.FGame;
+import com.li.videoapplication.data.model.response.GameDetailEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.AppManager;
+import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.mvp.billboard.view.MatchRewardBillboardActivity;
 import com.li.videoapplication.mvp.match.view.MatchResultActivity;
+import com.li.videoapplication.tools.DownloadHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.MainActivity;
+import com.li.videoapplication.ui.activity.WebActivity;
+import com.li.videoapplication.ui.dialog.LoadingDialog;
+import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.StringUtil;
 
 /**
@@ -65,6 +77,47 @@ public class JSInterface {
     }
 
     @JavascriptInterface
+    public void downloadGame(String game_id) {
+        Log.d(TAG, "downloadGame: // ----------------------------------------");
+        Log.d(TAG, "downloadGame: game_id=" + game_id);
+        try {
+            TBaseActivity activity = (TBaseActivity) this.context;
+            activity.showProgressDialog("请稍后...");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!StringUtil.isNull(game_id)) {
+            // 游戏详情
+            DataManager.gameDetail(game_id);
+        }
+    }
+
+    /**
+     * 回调：游戏详情
+     */
+    public void onEventMainThread(GameDetailEntity event) {
+        Log.d(TAG, "onMessage: // ----------------------------------------");
+        Log.d(TAG, "onMessage: event=" + event);
+        try {
+            TBaseActivity activity = (TBaseActivity) this.context;
+            activity.dismissProgressDialog();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (event.getCode() == 200) {// 成功
+            FGame fGame = event.getData();
+            if (fGame != null && !StringUtil.isNull(fGame.getDownlink())) {
+
+                String app_name = fGame.getGamename();
+                Download download = new Download();
+                download.setDownload_url(fGame.getDownlink());
+                download.setTitle(app_name);
+                DownloadHelper.downloadFile(context, download);
+            }
+        }
+    }
+
+    @JavascriptInterface
     public void apply() {
         Log.d(TAG, "apply: // ----------------------------------------");
         try {
@@ -95,6 +148,53 @@ public class JSInterface {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    @JavascriptInterface
+    public void login() {
+        Log.d(TAG, "login: // ----------------------------------------");
+        try {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    DialogManager.showLogInDialog(context);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @JavascriptInterface
+    public void doTask() {
+        Log.d(TAG, "dotask: // ----------------------------------------");
+        try {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    if (!PreferencesHepler.getInstance().isLogin())
+                        DialogManager.showLogInDialog(context);
+                    else
+                        ActivityManeger.startMyWalletActivity(context);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @JavascriptInterface
+    public void pay() {
+        Log.d(TAG, "pay: // ----------------------------------------");
+        try {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    AppUtil.startQQChat(context, Constant.SYSJQQID);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

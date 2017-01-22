@@ -18,7 +18,6 @@ import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.VideoCaptureHelper;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.views.SmoothCheckBox;
-import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
 import java.util.HashMap;
 import java.util.List;

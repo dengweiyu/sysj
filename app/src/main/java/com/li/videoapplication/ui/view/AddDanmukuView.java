@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
@@ -35,7 +36,8 @@ public class AddDanmukuView extends FrameLayout implements
     private InputMethodManager manager;
     private Context context;
 
-    private View view, touch;
+    private View view;
+    private ScrollView touch;
     private EditText text;
 
     private String getText() {
@@ -69,7 +71,7 @@ public class AddDanmukuView extends FrameLayout implements
 
         view = inflater.inflate(R.layout.view_adddanmuku, this);
         text = (EditText) findViewById(R.id.adddanmuku_text);
-        touch = findViewById(R.id.adddanmuku_touch);
+        touch = (ScrollView)findViewById(R.id.adddanmuku_touch);
 
         text.setOnFocusChangeListener(this);
         text.setOnEditorActionListener(this);

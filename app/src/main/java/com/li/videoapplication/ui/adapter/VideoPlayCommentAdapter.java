@@ -104,6 +104,14 @@ public class VideoPlayCommentAdapter extends BaseArrayAdapter<Comment> {
             holder.delete.setVisibility(View.GONE);
         }
 
+        holder.head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Member member = gson.fromJson(record.toJSON(), Member.class);
+                startPlayerDynamicActivity(member);
+            }
+        });
+
         holder.comment.setOnClickListener(new View.OnClickListener() {
 
             @Override

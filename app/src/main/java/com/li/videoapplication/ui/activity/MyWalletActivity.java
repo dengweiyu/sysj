@@ -12,11 +12,13 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.response.MemberTaskEntity;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
+import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.fragment.DailyRewardFragment;
 import com.li.videoapplication.ui.fragment.HonorRewardFragment;
 import com.li.videoapplication.ui.fragment.MatchRewardFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
+import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
@@ -66,6 +68,7 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
         findViewById(R.id.goback).setOnClickListener(this);
         findViewById(R.id.mywallet_currencyrecord).setOnClickListener(this);
         findViewById(R.id.question).setOnClickListener(this);
+        findViewById(R.id.mywallet_sysjqq).setOnClickListener(this);
 
         initViewPager();
     }
@@ -96,10 +99,13 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
                 finish();
                 break;
             case R.id.question:
-                WebActivityJS.startWebActivityJS(this,"http://m.17sysj.com/help/wallet","我的钱包说明");
+                WebActivityJS.startWebActivityJS(this, Constant.WEB_WALLET, "我的钱包说明", null);
                 break;
             case R.id.mywallet_currencyrecord:
                 startMyCurrencyRecordActivity();
+                break;
+            case R.id.mywallet_sysjqq:
+                AppUtil.startQQChat(this, Constant.SYSJQQID);
                 break;
         }
     }

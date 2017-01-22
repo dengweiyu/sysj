@@ -1,5 +1,6 @@
 package com.li.videoapplication.ui.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseChildFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
+import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.adapter.MyGameAdapter;
 
 import java.util.ArrayList;
@@ -55,6 +57,17 @@ public class SearchGameFragment extends TBaseChildFragment implements OnRefreshL
 	private ListView listView;
 	private MyGameAdapter adapter;
 	private List<Game> data;
+	private SearchActivity activity;
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			this.activity = (SearchActivity) activity;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	private int page = 1;
 
@@ -148,6 +161,8 @@ public class SearchGameFragment extends TBaseChildFragment implements OnRefreshL
 			}
 		}
 		onRefreshComplete();
+		if (activity != null)
+			activity.setLoading(false);
 	}
 
 	/**

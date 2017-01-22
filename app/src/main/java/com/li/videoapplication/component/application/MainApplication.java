@@ -1,5 +1,6 @@
 package com.li.videoapplication.component.application;
 
+import android.content.Context;
 import android.os.Debug;
 import android.support.multidex.MultiDex;
 import android.util.Log;
@@ -31,10 +32,14 @@ public class MainApplication extends BaseApplication {
     private static final String FEEDBACK_KEY = "23590443";
 
     @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
-
-        MultiDex.install(MainApplication.this);
 
         //乐播debug
         LogCat.setNotDebug(true);

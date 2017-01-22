@@ -29,7 +29,7 @@
 
             <View
                 android:layout_marginStart="28dp"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/kaka_80"
                 android:layout_height="@dimen/kaka_20"
                 android:background="#f1f1f1"/>
 
@@ -54,7 +54,7 @@
 
             <View
                 android:layout_marginStart="28dp"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/kaka_80"
                 android:layout_height="@dimen/kaka_20"
                 android:background="#f1f1f1"/>
 
@@ -93,7 +93,7 @@
 
             <View
                 android:layout_marginStart="28dp"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/kaka_80"
                 android:layout_height="@dimen/kaka_20"
                 android:background="#f1f1f1"/>
 

@@ -10,8 +10,8 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.fragment.MyFinishedMatchFragment;
-import com.li.videoapplication.ui.fragment.MyOnGoingMatchFragment;
+import com.li.videoapplication.mvp.match.view.MyFinishedMatchFragment;
+import com.li.videoapplication.mvp.match.view.MyOnGoingMatchFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.utils.ScreenUtil;
 

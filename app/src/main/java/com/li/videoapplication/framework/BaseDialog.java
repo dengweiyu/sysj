@@ -18,7 +18,7 @@ import com.li.videoapplication.tools.ToastHelper;
 /**
  * 基本弹框
  */
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) 
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public abstract class BaseDialog extends Dialog {
 
     protected final String action = this.getClass().getName();

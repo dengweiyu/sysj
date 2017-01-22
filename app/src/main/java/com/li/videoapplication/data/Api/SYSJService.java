@@ -1,5 +1,6 @@
 package com.li.videoapplication.data.Api;
 
+import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
@@ -48,7 +49,7 @@ public interface SYSJService {
     //@GET("接口尾址")（域名 http://apps.ifeimo.com 在 RetrofitUtils 中已配置）
 
     //获取首页详情
-    @GET("/sysj204/index/index")
+    @GET("/Sysj215/Index/index")
     Observable<BaseHttpResult<HomeDto>> getHomeInfo(@Query("page") int page);
 
     //获取首页每日任务
@@ -201,4 +202,20 @@ public interface SYSJService {
     //我的礼包
     @GET("/sysj203/Gifts/myPackage")
     Observable<BaseHttpResult<MyPackageEntity>> getMyGiftList(@QueryMap Map<String, Object> options);
+
+    //兑换记录
+    @GET("/Sysj211/CurrencyMall/orderList")
+    Observable<BaseHttpResult<List<Currency>>> getOrderList(@QueryMap Map<String, Object> options);
+
+    //抽奖记录
+    @GET("/Sysj215/Sweepstake/getMemberAward")
+    Observable<BaseHttpResult<List<Currency>>> getMemberAward(@QueryMap Map<String, Object> options);
+
+    //兑换记录详情
+    @GET("/Sysj211/CurrencyMall/orderDetail")
+    Observable<BaseHttpResult<Currency>> orderDetail(@QueryMap Map<String, Object> options);
+
+    //抽奖记录详情
+    @GET("/Sysj215/Sweepstake/getMemberAwardDetail")
+    Observable<BaseHttpResult<Currency>> getMemberAwardDetail(@QueryMap Map<String, Object> options);
 }

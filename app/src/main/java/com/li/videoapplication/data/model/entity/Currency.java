@@ -21,7 +21,8 @@ public class Currency extends BaseEntity {
     private String url;
     private List<Currency> list;
     private String goods_name;
-    private String add_time; //下单时间
+    private String add_time; //下单时间 1484105919
+    private String addtime; //2017-01-11 11:38
     private String status; //订单状态码;任务状态：1=>进行中，2=>完成，0=>放弃，失败
     private String statusText; //订单状态
     private String content;
@@ -44,6 +45,41 @@ public class Currency extends BaseEntity {
     private String page_html;
     private int events;//events为1则为赛事冠名活动/主播推荐位
     private String placeholder;
+    private String accountType;
+    private String account;
+    private String reminder;
+
+    public String getReminder() {
+        return reminder;
+    }
+
+    public void setReminder(String reminder) {
+        this.reminder = reminder;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
+    public String getAddtime() {
+        return addtime;
+    }
+
+    public void setAddtime(String addtime) {
+        this.addtime = addtime;
+    }
 
     public String getPlaceholder() {
         return placeholder;

@@ -274,8 +274,8 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 
     private void setMark(TextView view, final Game item) {
         StringBuilder sb = new StringBuilder();
-        String attention_num = StringUtil.formatNum(item.getAttention_num());
-        String video_num = StringUtil.formatNum(item.getVideo_num());
+        String attention_num = StringUtil.toUnitW(item.getAttention_num());
+        String video_num = StringUtil.toUnitW(item.getVideo_num());
         if (!StringUtil.isNull(video_num)) {
             sb.append("话题\t").append(video_num);
         }

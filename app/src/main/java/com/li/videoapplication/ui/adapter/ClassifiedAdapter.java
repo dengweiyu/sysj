@@ -43,7 +43,7 @@ public class ClassifiedAdapter extends BaseArrayAdapter<GroupType> {
 
         final GroupType record = getItem(position);
 
-        ViewHolder holder = null;
+        ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.adapter_classified, null);
@@ -54,8 +54,6 @@ public class ClassifiedAdapter extends BaseArrayAdapter<GroupType> {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-
-        setLayoutParams(holder.root);
 
         setTextViewText(holder.text, record.getGroup_type_name());
         setImageViewImageNet(holder.icon, record.getFlag());
@@ -70,16 +68,6 @@ public class ClassifiedAdapter extends BaseArrayAdapter<GroupType> {
         });
 
         return view;
-    }
-
-    private void setLayoutParams(View view) {
-        // 76/86
-        if (view != null) {
-            int w = (srceenWidth - ScreenUtil.dp2px(10 * 2)) / 4;
-            int h = w * 76 / 68;
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(w, h);
-            view.setLayoutParams(params);
-        }
     }
 
     private class ViewHolder {

@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="42dp"
+        android:background="#fbfbfb">
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ab_goback_gray"/>
+
+        <TextView
+            android:id="@+id/photo_pick"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/classifiedgame"
+            android:textColor="@color/textcolor_gray"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider_bg" />
+
+    <TextView
+        android:id="@+id/classifiedgame_hot"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:gravity="center_vertical"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/classifiedgame_hot"
+        android:paddingLeft="26dp"
+        android:textColor="#2d9fe4"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider_bg" />
+
+    <TextView
+        android:id="@+id/classifiedgame_new"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:gravity="center_vertical"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/classifiedgame_new"
+        android:paddingLeft="26dp"
+        android:textColor="@color/textcolor_gray"
+        android:textSize="14sp" />
+
+</LinearLayout>

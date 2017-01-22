@@ -115,8 +115,6 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                 setLike(videoImage, holder);
                 // 收藏设置
                 setStar(videoImage, holder);
-            }else{
-
             }
         }
 

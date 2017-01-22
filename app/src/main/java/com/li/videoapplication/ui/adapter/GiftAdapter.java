@@ -130,16 +130,22 @@ public class GiftAdapter extends BaseArrayAdapter<Gift> {
         final String status = record.getStatus();
         final String count = record.getCount();
         //根据礼包码字段设置礼包界面领取按钮状态
-        if (status.equals(Gift.STATUS_GETTED)) {// 已领取
-            setImageViewImageRes(view, R.drawable.gift_gray);
-        } else if (status.equals(Gift.STATUS_GET)) {// 领取
-            setImageViewImageRes(view, R.drawable.gift_yellow);
-        } else if (status.equals(Gift.STATUS_BEGIN)) {// 即将开始
-            setImageViewImageRes(view, R.drawable.gift_blue);
-        } else if (status.equals(Gift.STATUS_FINISHED)) {// 已结束
-            setImageViewImageRes(view, R.drawable.gift_end);
-        } else {
-            setImageViewImageRes(view, R.drawable.gift_end);
+        switch (status) {
+            case Gift.STATUS_GETTED: // 已领取
+                setImageViewImageRes(view, R.drawable.gift_gray);
+                break;
+            case Gift.STATUS_GET: // 领取
+                setImageViewImageRes(view, R.drawable.gift_yellow);
+                break;
+            case Gift.STATUS_BEGIN: // 即将开始
+                setImageViewImageRes(view, R.drawable.gift_blue);
+                break;
+            case Gift.STATUS_FINISHED: // 已结束
+                setImageViewImageRes(view, R.drawable.gift_end);
+                break;
+            default:
+                setImageViewImageRes(view, R.drawable.gift_end);
+                break;
         }
 
         if (count != null && count.equals("0")) {//礼包数量为0

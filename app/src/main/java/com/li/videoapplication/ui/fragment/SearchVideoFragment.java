@@ -36,17 +36,6 @@ import com.li.videoapplication.ui.adapter.GroupDetailVideoAdapter;
 public class SearchVideoFragment extends TBaseChildFragment implements OnRefreshListener2<ListView> {
 
     private int page_count;
-    private SearchActivity activity;
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            this.activity = (SearchActivity) activity;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static SearchVideoFragment newInstance(String content) {
         SearchVideoFragment fragment = new SearchVideoFragment();
@@ -161,8 +150,6 @@ public class SearchVideoFragment extends TBaseChildFragment implements OnRefresh
             }
         }
         onRefreshComplete();
-        if (activity != null)
-            activity.setLoading(false);
     }
 
     /**

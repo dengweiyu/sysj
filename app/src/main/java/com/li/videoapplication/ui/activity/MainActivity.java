@@ -194,7 +194,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
         EventBus.getDefault().register(this);
         AppManager.getInstance().setMainActivity(this);
-
         AppManager.getInstance().removeActivity(AppstartActivity.class);
 
         setBehindContentView(R.layout.view_slider);

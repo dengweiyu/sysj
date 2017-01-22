@@ -4,7 +4,9 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.response.GoodsDetailEntity;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
@@ -127,7 +129,16 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
                         case "1"://推荐位
                             ActivityManeger.startVideoMangerActivity(this);
                             break;
-
+                        case "5"://抽奖
+                            if (isLogin()) {
+                                WebActivity.startWebActivityWithJS(this,
+                                        Constant.API_SWEEPSTAKE + "?mid=" + getMember_id(),
+                                        Constant.JS_SWEEPSTAKE);
+                            }else {
+                                WebActivity.startWebActivityWithJS(this, Constant.API_SWEEPSTAKE,
+                                        Constant.JS_SWEEPSTAKE);
+                            }
+                            break;
                         case "2"://话费流量类
                         case "3"://Q币类
                         case "4"://京东卡类

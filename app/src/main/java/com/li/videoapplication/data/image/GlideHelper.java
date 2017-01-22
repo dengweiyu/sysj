@@ -1,10 +1,14 @@
 package com.li.videoapplication.data.image;
 
+import android.animation.Animator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
+import android.view.ViewAnimationUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -68,18 +72,6 @@ public class GlideHelper {
      * 加载图片，空白占位符
      */
     public static void displayImageWhite(Context context, String uri, ImageView view) {
-        Log.d(TAG, "imageUrl=" + uri);
-        Glide.with(context)
-                .load(uri)
-                .placeholder(Color.TRANSPARENT)
-                .error(Color.TRANSPARENT)
-                .into(view);
-    }
-
-    /**
-     * 加载图片，空白占位符
-     */
-    public static void displayImageWhiteAnim(Context context, String uri, ImageView view) {
         Log.d(TAG, "imageUrl=" + uri);
         Glide.with(context)
                 .load(uri)

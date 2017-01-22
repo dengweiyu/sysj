@@ -1,53 +1,20 @@
 package com.li.videoapplication.ui.activity;
 
-import android.content.res.AssetManager;
-import android.content.res.ColorStateList;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.text.Html;
-import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
-import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnGroupCollapseListener;
-import android.widget.ExpandableListView.OnGroupExpandListener;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.li.videoapplication.data.model.entity.HelpQuestionEntity;
-import com.li.videoapplication.ui.adapter.HelpQuestionAdapter;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.ui.fragment.MatchCourseFragment;
-import com.li.videoapplication.ui.fragment.MyFinishedMatchFragment;
-import com.li.videoapplication.ui.fragment.MyOnGoingMatchFragment;
 import com.li.videoapplication.ui.fragment.QuestionFragment;
 import com.li.videoapplication.ui.fragment.RecordCourseFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
-
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;

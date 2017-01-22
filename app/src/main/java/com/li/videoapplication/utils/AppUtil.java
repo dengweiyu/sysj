@@ -4,12 +4,17 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
 import android.telephony.TelephonyManager;
 
+import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
+import com.li.videoapplication.mvp.Constant;
+import com.li.videoapplication.tools.ToastHelper;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -64,9 +69,9 @@ public class AppUtil {
     }
 
     //获取版本号(内部识别号)
-    public static int getVersionCode(Context context){
+    public static int getVersionCode(Context context) {
         try {
-            PackageInfo pi=context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return pi.versionCode;
         } catch (NameNotFoundException e) {
             e.printStackTrace();
@@ -96,10 +101,10 @@ public class AppUtil {
 
     //在进程中去寻找当前APP的信息，判断是否在前台运行
     public static boolean isAppOnForeground(Context context) {
-        ActivityManager activityManager =(ActivityManager) context.getApplicationContext().getSystemService(
+        ActivityManager activityManager = (ActivityManager) context.getApplicationContext().getSystemService(
                 Context.ACTIVITY_SERVICE);
-        String packageName =context.getPackageName();
-        List<RunningAppProcessInfo>appProcesses = activityManager.getRunningAppProcesses();
+        String packageName = context.getPackageName();
+        List<RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
         if (appProcesses == null)
             return false;
         for (RunningAppProcessInfo appProcess : appProcesses) {
@@ -161,5 +166,26 @@ public class AppUtil {
             e.printStackTrace();
         }
         return version;
+    }
+
+    public static void startQQChat(Context context,String qqID){
+        if (isQQAvailable(context)) {
+            String url = Constant.QQURL + qqID;
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        } else {
+            ToastHelper.s(R.string.share_qq_client_inavailable);
+        }
+    }
+
+    public static boolean isQQAvailable(Context context) {
+        final PackageManager mPackageManager = context.getPackageManager();
+        List<PackageInfo> installedPackages = mPackageManager.getInstalledPackages(0);
+        for (PackageInfo info : installedPackages) {
+            String packageName = info.packageName;
+            if (packageName.equals("com.tencent.mobileqq")) {
+                return true;
+            }
+        }
+        return false;
     }
 }

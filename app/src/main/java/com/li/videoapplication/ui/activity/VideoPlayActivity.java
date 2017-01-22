@@ -824,12 +824,13 @@ public class VideoPlayActivity extends TBaseActivity implements
     public void setMaxSize() {
         if (commentView != null)
             commentView.hideView();
-        if (Build.VERSION.SDK_INT >= 9) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        videoPlayView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        // setSystemUiVisibility，全屏状态下点击评论，videoview被挤压缩小了
+
         orientation = Configuration.ORIENTATION_LANDSCAPE;
 
         if (videoPlayView != null)

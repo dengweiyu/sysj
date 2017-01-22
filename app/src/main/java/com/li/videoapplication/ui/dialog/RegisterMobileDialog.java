@@ -14,6 +14,7 @@ import com.li.videoapplication.data.model.response.VerifyCodeNewEntity;
 import com.li.videoapplication.framework.BaseDialog;
 import com.li.videoapplication.tools.AnimationHelper;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.utils.AuthCodeUtil;
 import com.li.videoapplication.utils.CountDownTimerUtils;
 import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.PatternUtil;
@@ -113,8 +114,10 @@ public class RegisterMobileDialog extends BaseDialog implements View.OnClickList
             animationHelper.startAnimationShake(code);
             return;
         }
+        // 加密手机号
+        String encode = AuthCodeUtil.authcodeEncode(getMobileText(), AuthCodeUtil.APP_KEY);
         // 获取验证码
-        DataManager.phoneRequestMsg(getMobileText());
+        DataManager.phoneRequestMsg(encode);
     }
 
     /**
