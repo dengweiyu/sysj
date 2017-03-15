@@ -239,8 +239,7 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
             setAbGobackWhite();
             if (item != null) {
                 setImageViewImageNet(head, item.getAvatar());
-                if (item.isV())
-                    head_v.setVisibility(View.VISIBLE);
+                if (item.isV()) head_v.setVisibility(View.VISIBLE);
 
                 if (item.getCover() != null && !item.getCover().equals("")) {
                     GlideHelper.displayImageEmpty(this, item.getCover(), textBg);

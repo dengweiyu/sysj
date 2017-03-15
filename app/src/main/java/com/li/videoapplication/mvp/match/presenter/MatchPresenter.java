@@ -15,6 +15,7 @@ import com.li.videoapplication.data.model.response.SignScheduleEntity;
 import com.li.videoapplication.framework.BaseHttpResult;
 import com.li.videoapplication.mvp.OnLoadDataListener;
 import com.li.videoapplication.mvp.match.MatchContract;
+import com.li.videoapplication.mvp.match.MatchContract.IGroupDetailView;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchRecordView;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchProcessView;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchDetailView;
@@ -43,6 +44,7 @@ public class MatchPresenter implements IMatchPresenter {
     private IMatchDetailView matchDetailView;
     private IMatchProcessView matchProcessView;
     private IMatchRecordView matchRecordView;
+    private IGroupDetailView groupDetailView;
 
     private IMatchModel matchModel;
     private static MatchPresenter matchPresenter;
@@ -94,6 +96,10 @@ public class MatchPresenter implements IMatchPresenter {
         this.matchRecordView = matchRecordView;
     }
 
+    @Override
+    public void setGroupDetailView(IGroupDetailView groupDetailView) {
+        this.groupDetailView = groupDetailView;
+    }
 
     @Override
     public void getEventsList(int page, String format_type, String game_id) {
@@ -162,8 +168,12 @@ public class MatchPresenter implements IMatchPresenter {
         matchModel.getGroupEventsList(page, game_id, new OnLoadDataListener<EventsList214Entity>() {
             @Override
             public void onSuccess(EventsList214Entity data) {
-                groupMatchListView.hideProgress();
-                groupMatchListView.refreshGroupMatchListData(data);
+                if (groupMatchListView != null) {
+                    groupMatchListView.hideProgress();
+                    groupMatchListView.refreshGroupMatchListData(data);
+                }
+                if (groupDetailView != null)
+                    groupDetailView.refreshGroupMatchListData(data);
             }
 
             @Override
@@ -189,8 +199,8 @@ public class MatchPresenter implements IMatchPresenter {
     }
 
     @Override
-    public void signSchedule(String member_id, String schedule_id,String event_id) {
-        matchModel.signSchedule(member_id, schedule_id,event_id, new OnLoadDataListener<SignScheduleEntity>() {
+    public void signSchedule(String member_id, String schedule_id, String event_id) {
+        matchModel.signSchedule(member_id, schedule_id, event_id, new OnLoadDataListener<SignScheduleEntity>() {
             @Override
             public void onSuccess(SignScheduleEntity data) {
                 matchDetailView.refreshSignScheduleData(data);
@@ -208,7 +218,10 @@ public class MatchPresenter implements IMatchPresenter {
         matchModel.groupJoin(member_id, chatroom_group_id, new OnLoadDataListener<BaseHttpResult>() {
             @Override
             public void onSuccess(BaseHttpResult data) {
-                matchDetailView.refreshGroupJoin(data);
+                if (matchDetailView != null)
+                    matchDetailView.refreshGroupJoin(data);
+                if (groupDetailView != null)
+                    groupDetailView.refreshGroupJoin(data);
             }
 
             @Override
@@ -285,7 +298,7 @@ public class MatchPresenter implements IMatchPresenter {
         matchModel.eventsRecordClick(event_id, e_record_status, new OnLoadDataListener<BaseHttpResult>() {
             @Override
             public void onSuccess(BaseHttpResult data) {
-                Log.d(TAG, "eventsRecordClick: "+data.getMsg());
+                Log.d(TAG, "eventsRecordClick: " + data.getMsg());
             }
 
             @Override

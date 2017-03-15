@@ -12,7 +12,7 @@
 
     <style name="AppTheme.Launcher" parent="@android:style/Theme.NoTitleBar.Fullscreen">
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowBackground">@drawable/appstart_lanch_white</item>
+        <item name="android:windowBackground">@drawable/appstart_lunch</item>
     </style>
 
     <style name="AppTheme.Light" parent="@android:style/Theme.Holo.Light">

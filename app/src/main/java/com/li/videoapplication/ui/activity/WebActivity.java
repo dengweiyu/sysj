@@ -170,12 +170,16 @@ public class WebActivity extends TBaseActivity {
 
     private void initActionBar() {
         ImageView goback = (ImageView) findViewById(R.id.swi_goback);
-        goback.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        if (StringUtil.isNull(js)) {
+            goback.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+        } else {
+            goback.setVisibility(View.GONE);
+        }
     }
 
     @SuppressWarnings("deprecation")

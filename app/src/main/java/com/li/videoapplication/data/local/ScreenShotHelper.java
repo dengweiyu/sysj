@@ -109,9 +109,10 @@ public class ScreenShotHelper {
         File[] files = file.listFiles();
         String fileName;
         ScreenShotEntity entity;
-        for (int i = 0; i < files.length; i++) {
-            if (!files[i].isDirectory()) {
-                fileName = files[i].getName();
+        if (files == null) return;
+        for (File file1 : files) {
+            if (!file1.isDirectory()) {
+                fileName = file1.getName();
                 Log.i(tag, "fileName=" + fileName);
                 if (fileName.trim().toLowerCase().endsWith(".png")) {
                     entity = new ScreenShotEntity();

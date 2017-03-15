@@ -130,8 +130,8 @@ public class DownLoadManager {
 
         @Override
         public void onProgress(FileDownloaderEntity entity) {
-            Log.d(TAG, "onProgress: // ----------------------------------------------");
-            Log.d(TAG, "onProgress: entity=" + entity);
+            Log.d(TAG, "onDownloadProgress: // ----------------------------------------------");
+            Log.d(TAG, "onDownloadProgress: entity=" + entity);
             if (entity != null &&
                     entity.getFileType() != null &&
                     entity.getFileType().equals(FileDownloaderEntity.FILE_TYPE_ADVERTISEMENT)) {

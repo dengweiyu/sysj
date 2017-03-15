@@ -23,10 +23,14 @@ import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.dialog.ClassifiedGameDialog;
 import com.li.videoapplication.ui.dialog.DiscoverTipDialog;
 import com.li.videoapplication.ui.dialog.EditNameDialog;
+import com.li.videoapplication.ui.dialog.EditQQDialog;
+import com.li.videoapplication.ui.dialog.EditSexDialog;
 import com.li.videoapplication.ui.dialog.FileDownloaderDialog;
 import com.li.videoapplication.ui.dialog.GameDetailDialog;
 import com.li.videoapplication.ui.dialog.GameTipDialog;
+import com.li.videoapplication.ui.dialog.Jump2Dialog;
 import com.li.videoapplication.ui.dialog.LogInDialog;
+import com.li.videoapplication.ui.dialog.LogInTaskDoneDialog;
 import com.li.videoapplication.ui.dialog.MatchFliterDialog;
 import com.li.videoapplication.ui.dialog.MatchOpponentDialog;
 import com.li.videoapplication.ui.dialog.MyTaskGrowupDialog;
@@ -55,11 +59,36 @@ import com.li.videoapplication.ui.dialog.VideoTipDialog;
 import com.li.videoapplication.ui.fragment.MyLocalVideoFragment;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 功能：弹框管理
  */
 public class DialogManager {
+    /**
+     * 每日登陆（我的钱包跳转各页面提示框）
+     */
+    public static void showLogInTaskDoneDialog(Context context) {
+        Dialog dialog = new LogInTaskDoneDialog(context);
+        dialog.show();
+    }
+
+    /**
+     * 跳转（我的钱包跳转各页面提示框）
+     */
+    public static void showJump2Dialog(Context context, int toWhere) {
+        Dialog dialog = new Jump2Dialog(context, toWhere);
+        dialog.show();
+    }
+
+    /**
+     * 跳转主页（我的钱包跳转提示框）
+     */
+    public static void showJump2HomeDialog(Context context, String name) {
+        Dialog dialog = new Jump2Dialog(context, name);
+        dialog.show();
+    }
 
     /**
      * 游戏分类
@@ -124,8 +153,16 @@ public class DialogManager {
     /**
      * 申请官方推荐
      */
-    public static void showOfficialPaymentDialog(Context context, VideoCaptureEntity entity, RecommendedLocationEntity event) {
-        Dialog dialog = new OfficialPaymentDialog(context, entity, event);
+    public static void showOfficialPaymentDialog(Context context, RecommendedLocationEntity event) {
+        Dialog dialog = new OfficialPaymentDialog(context, event);
+        dialog.show();
+    }
+
+    /**
+     * 申请官方推荐
+     */
+    public static void showOfficialPaymentDialog(Context context, RecommendedLocationEntity event,String video_id) {
+        Dialog dialog = new OfficialPaymentDialog(context, event, video_id);
         dialog.show();
     }
 
@@ -212,8 +249,40 @@ public class DialogManager {
     /**
      * 编辑手机号码验证
      */
-    public static void showRegisterMobileDialog(Context context, String oldMobile, RegisterMobileDialog.MobileCallback listener) {
-        Dialog dialog = new RegisterMobileDialog(context, oldMobile, listener);
+    public static void showRegisterMobileDialog(Context context) {
+        final RegisterMobileDialog dialog = new RegisterMobileDialog(context);
+        dialog.show();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                dialog.showKeyboard();
+            }
+        }, 200);
+    }
+
+    /**
+     * 编辑qq
+     */
+    public static void showEditQQDialog(Context context) {
+        final EditQQDialog dialog = new EditQQDialog(context);
+        dialog.show();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                dialog.showKeyboard();
+            }
+        }, 200);
+    }
+
+    /**
+     * 编辑性别
+     */
+    public static void showEditSexDialog(Context context) {
+        Dialog dialog = new EditSexDialog(context);
         dialog.show();
     }
 
@@ -269,12 +338,23 @@ public class DialogManager {
     }
 
     /**
-     * 录屏
+     * 首页录制框
      */
     public static void showRecordDialog(Context context) {
         Dialog dialog = new RecordDialog(context);
         dialog.show();
         UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.MAIN, "首页-录制框打开次数");
+    }
+
+    /**
+     * 活动详情录制框
+     */
+    public static RecordDialog showActivityRecordDialog(Context context,
+                                                        RecordDialog.IDialogVisableListener visableListener,
+                                                        RecordDialog.IOnClickListener onClickListener) {
+        RecordDialog dialog = new RecordDialog(context, visableListener,onClickListener);
+        dialog.show();
+        return dialog;
     }
 
     /**

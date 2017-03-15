@@ -25,6 +25,24 @@ public class Game extends BaseEntity {
     private String time;
 	private int is_gift;
     private String url;
+	private boolean privateIM;
+	private String chatroom_group_id;
+
+	public String getChatroom_group_id() {
+		return chatroom_group_id;
+	}
+
+	public void setChatroom_group_id(String chatroom_group_id) {
+		this.chatroom_group_id = chatroom_group_id;
+	}
+
+	public boolean isPrivateIM() {
+		return privateIM;
+	}
+
+	public void setPrivateIM(boolean privateIM) {
+		this.privateIM = privateIM;
+	}
 
 	public String getUrl() {
 		return url;

@@ -478,6 +478,7 @@ public class VideoPlayActivity extends TBaseActivity implements
                 }
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.VIDEOPLAY, "视频播放-评论");
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.VIDEOPLAY, "总评论次数");
+                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MACROSCOPIC_DATA, "总评论次数");
             }
         }
     }
@@ -486,13 +487,15 @@ public class VideoPlayActivity extends TBaseActivity implements
      * 回调：视频详情
      */
     public void onEventMainThread(VideoDetail201Entity event) {
-
         if (event.isResult()) {
             setItem(event.getData());
             setFragmentData();
 
             refreshData(item);
             refreshTab(item);
+        } else {
+            ToastHelper.s(event.getMsg());
+            finish();
         }
     }
 
@@ -577,6 +580,7 @@ public class VideoPlayActivity extends TBaseActivity implements
             if (comment != null) {
                 comment.setVideoImage(item);
             }
+            UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MACROSCOPIC_DATA, "总评论次数");
         }
     }
 

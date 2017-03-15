@@ -11,7 +11,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
         android:scaleType="centerCrop"
-        android:src="#222222"/>
+        android:src="#d6d6d6"/>
 
     <TextView
         android:id="@+id/vedioMessage_title"
@@ -23,8 +23,9 @@
         android:layout_toLeftOf="@+id/vedioMessage_time"
         android:layout_toRightOf="@+id/vedioMessage_pic"
         android:ellipsize="end"
-        android:singleLine="true"
-        android:text="咪咕宅男"
+        android:maxLines="1"
+        android:text=""
+        android:hint="@string/loading_text"
         android:textColor="#ee414141"
         android:textSize="13sp"/>
 
@@ -33,12 +34,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/vedioMessage_pic"
-        android:layout_alignLeft="@+id/vedioMessage_title"
+        android:layout_alignStart="@+id/vedioMessage_title"
         android:layout_marginBottom="2dp"
-        android:layout_toLeftOf="@+id/vedioMessage_time"
+        android:layout_toStartOf="@+id/vedioMessage_time"
         android:ellipsize="end"
-        android:singleLine="true"
-        android:text="花开花落花漫天，情来情去情随缘，惯看花谢花又开，却怕缘起缘又灭！"
+        android:maxLines="1"
+        android:text=""
+        android:hint="@string/loading_text"
         android:textColor="#ee666666"
         android:textSize="12sp"/>
 
@@ -71,11 +73,11 @@
         android:id="@+id/vedioMessage_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/vedioMessage_title"
-        android:layout_marginRight="33dp"
+        android:layout_marginEnd="33dp"
         android:ellipsize="end"
-        android:singleLine="true"
+        android:maxLines="1"
         android:text="21:00"
         android:textColor="#e0333333"
         android:textSize="10sp"/>

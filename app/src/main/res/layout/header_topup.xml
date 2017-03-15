@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:paddingBottom="16dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#f3f3f3" />
+
+    <com.li.videoapplication.views.CircleImageView
+        android:id="@+id/topup_head"
+        android:layout_width="62dp"
+        android:layout_height="62dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:src="#e4e4e4" />
+
+    <TextView
+        android:id="@+id/topup_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:text="昵称"
+        android:textColor="@color/textcolor_gray"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="飞磨豆余额："
+            android:textColor="@color/currency_red"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/topup_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/currency_red"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#f3f3f3" />
+</LinearLayout>

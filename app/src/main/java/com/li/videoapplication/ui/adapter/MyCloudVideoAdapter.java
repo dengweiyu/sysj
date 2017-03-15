@@ -13,13 +13,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Tag;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.response.CloudRecommendLocEntity;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
+import com.li.videoapplication.mvp.mall.view.ExchangeRecordFragment;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.VideoActivity;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
@@ -28,6 +34,7 @@ import com.li.videoapplication.utils.SpanUtil;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.util.List;
+
 /**
  * 适配器：云端视频
  */
@@ -35,18 +42,18 @@ public class MyCloudVideoAdapter extends BaseAdapter {
 
     public static final String TAG = MyCloudVideoAdapter.class.getSimpleName();
 
-	/**
-	 * 跳转：分享
-	 */
-	public void startShareActivity(String url, String imageUrl, String videoTitle) {
+    /**
+     * 跳转：分享
+     */
+    public void startShareActivity(String url, String imageUrl, String videoTitle) {
         VideoMangerActivity activity = (VideoMangerActivity) AppManager.getInstance().getActivity(VideoMangerActivity.class);
-		ActivityManeger.startActivityShareActivity4MyCloudVideo(activity, url, imageUrl, videoTitle);
-	}
+        ActivityManeger.startActivityShareActivity4MyCloudVideo(activity, url, imageUrl, videoTitle);
+    }
 
-	/**
-	 * 跳转：视频播放
-	 */
-	private void startPlayerActivity(VideoImage item) {
+    /**
+     * 跳转：视频播放
+     */
+    private void startPlayerActivity(VideoImage item) {
         if (item == null)
             return;
         String yk_url = item.getYk_url();
@@ -81,38 +88,39 @@ public class MyCloudVideoAdapter extends BaseAdapter {
                 }
             }
         }
+        UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "云端视频-成功播放云端视频任意视频");
     }
 
-	private List<VideoImage> data;
-	private Context context;
-	private ViewHolder holder;
-	private LayoutInflater inflater;
+    private List<VideoImage> data;
+    private Context context;
+    private ViewHolder holder;
+    private LayoutInflater inflater;
 
-	public MyCloudVideoAdapter(List<VideoImage> data, Context context) {
+    public MyCloudVideoAdapter(List<VideoImage> data, Context context) {
         this.data = data;
-		this.context = context;
-		this.inflater = LayoutInflater.from(context);
+        this.context = context;
+        this.inflater = LayoutInflater.from(context);
 
-		VideoMangerActivity.myCloudVideoDeleteData.clear();
-		for (int i = 0; i < this.data.size(); i++) {
-			VideoMangerActivity.myCloudVideoDeleteData.add(false);
-		}
-	}
+        VideoMangerActivity.myCloudVideoDeleteData.clear();
+        for (int i = 0; i < this.data.size(); i++) {
+            VideoMangerActivity.myCloudVideoDeleteData.add(false);
+        }
+    }
 
-	@Override
-	public int getCount() {
-		return data.size();
-	}
+    @Override
+    public int getCount() {
+        return data.size();
+    }
 
-	@Override
-	public VideoImage getItem(int position) {
-		return data.get(position);
-	}
+    @Override
+    public VideoImage getItem(int position) {
+        return data.get(position);
+    }
 
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -123,6 +131,7 @@ public class MyCloudVideoAdapter extends BaseAdapter {
             holder.root = convertView.findViewById(R.id.root);
             holder.cover = (ImageView) convertView.findViewById(R.id.mycloudvideo_cover);
             holder.title = (EditText) convertView.findViewById(R.id.mycloudvideo_title);
+            holder.titleAndCountView = convertView.findViewById(R.id.mycloudvideo_titleandcountview);
             holder.playTime = (TextView) convertView.findViewById(R.id.mycloudvideo_playTime);
             holder.commentTime = (TextView) convertView.findViewById(R.id.mycloudvideo_commentTime);
             holder.likeTime = (TextView) convertView.findViewById(R.id.mycloudvideo_likeTime);
@@ -132,7 +141,6 @@ public class MyCloudVideoAdapter extends BaseAdapter {
             holder.play = (ImageView) convertView.findViewById(R.id.mycloudvideo_play);
             holder.share = (ImageView) convertView.findViewById(R.id.mycloudvideo_share);
             holder.state = (TextView) convertView.findViewById(R.id.mycloudvideo_state);
-            holder.delete = (ImageView) convertView.findViewById(R.id.mycloudvideo_delete);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -160,12 +168,19 @@ public class MyCloudVideoAdapter extends BaseAdapter {
         setShareTime(record, holder.shareTime);
         setState(record, holder.state);
 
-		// 如果处于批量删除状态
-		if (VideoMangerActivity.isDeleteMode) {
-			inDeleteState(convertView, position, record);
-		} else {
-			outDeleteState(convertView, position, record);
-		}
+        // 如果处于批量删除状态
+        if (VideoMangerActivity.isDeleteMode) {
+            inDeleteState(convertView, position, record);
+        } else {
+            outDeleteState(convertView, position, record);
+        }
+
+        holder.titleAndCountView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityManeger.startVideoPlayActivity(context,record);
+            }
+        });
 
         // 播放监听
         holder.cover.setOnClickListener(new OnClickListener() {
@@ -228,15 +243,12 @@ public class MyCloudVideoAdapter extends BaseAdapter {
                 return false;
             }
         });
-		return convertView;
-	}
+        return convertView;
+    }
 
     /**
-     * 状态
-     *
-     1：转码完成，可以播放
-     3：转码中
-     4：审核中
+     * state：1=>转码完成，可以播放,3=>转码中,4=>审核中
+     * jumpStatus：1=>申请手游视界推荐位,2=>申请推荐位失败，查看原因,3=>推荐位申请已提交，审核中,4=>视频已推荐，查看详情
      */
     private void setState(final VideoImage record, TextView view) {
         String s;
@@ -244,41 +256,30 @@ public class MyCloudVideoAdapter extends BaseAdapter {
             s = "视频转码中";
         } else if (record.getState() == 4) {
             s = "视频审核中";
+        } else if (record.getJumpStatus() != 0) {
+            s = record.getButtonText();
         } else {
             s = "";
         }
-        view.setText(s);
-    }
 
-    /**
-     * 上传时间
-     */
-    private void setUptime(final VideoImage record, TextView view) {
-        //上传于：\n\t\t2015-12-11 10:00
-        // 2015-12-11
-        String s;
-        try {
-            s = TimeHelper.getSysMessageTime(record.getUptime());
-        } catch (Exception e) {
-            e.printStackTrace();
-            s = "";
-        }
         view.setText(s);
-    }
+        view.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (record.getJumpStatus()) {
+                    case 1://申请手游视界推荐位
+                        // 推荐位信息
+                        EventManager.postCloudVideoRecommendEvent(record.getVideo_id());
+                        break;
+                    case 2://失败
+                    case 4://已推荐
+                        ActivityManeger.startOrderDetailActivity(context,
+                                record.getOrderId(), ExchangeRecordFragment.EXC_MALL);
+                        break;
 
-    /**
-     * 上传时间
-     */
-    private void setAllTime(final VideoImage record, TextView view) {
-        // 12:16
-        String s;
-        try {
-            s = TimeHelper.getVideoPlayTime(record.getTime_length());
-        } catch (Exception e) {
-            e.printStackTrace();
-            s = "";
-        }
-        view.setText(s);
+                }
+            }
+        });
     }
 
     /**
@@ -351,12 +352,12 @@ public class MyCloudVideoAdapter extends BaseAdapter {
         }
     }
 
-	/**
-	 * 处于批量删除状态
-	 */
-	private void inDeleteState(final View view, final int position, final VideoImage record) {
-		// 如果是通过长按召唤出的，将长按的控件设置为选中
-		if (view.getId() != -1) {
+    /**
+     * 处于批量删除状态
+     */
+    private void inDeleteState(final View view, final int position, final VideoImage record) {
+        // 如果是通过长按召唤出的，将长按的控件设置为选中
+        if (view.getId() != -1) {
             VideoMangerActivity.myCloudVideoDeleteData.set(position, true);
             VideoMangerActivity.addMyCloudData(record);
             VideoMangerActivity.refreshAbTitle2();
@@ -367,21 +368,21 @@ public class MyCloudVideoAdapter extends BaseAdapter {
         holder.deleteButton.setId(position);
         holder.deleteState.setVisibility(View.VISIBLE);
         holder.deleteState.setChecked(VideoMangerActivity.myCloudVideoDeleteData.get(position));
-	}
+    }
 
     /**
      * 处于正常状态
      */
-	private void outDeleteState(final View view, final int position, final VideoImage record) {
-		VideoMangerActivity.myCloudVideoDeleteData.clear();
-		for (int i = 0; i < data.size(); i++) {
-			VideoMangerActivity.myCloudVideoDeleteData.add(false);
-		}
-		holder.play.setVisibility(View.VISIBLE);
-		holder.deleteButton.setVisibility(View.GONE);
-		holder.deleteState.setVisibility(View.GONE);
+    private void outDeleteState(final View view, final int position, final VideoImage record) {
+        VideoMangerActivity.myCloudVideoDeleteData.clear();
+        for (int i = 0; i < data.size(); i++) {
+            VideoMangerActivity.myCloudVideoDeleteData.add(false);
+        }
+        holder.play.setVisibility(View.VISIBLE);
+        holder.deleteButton.setVisibility(View.GONE);
+        holder.deleteState.setVisibility(View.GONE);
         holder.deleteState.setChecked(VideoMangerActivity.myCloudVideoDeleteData.get(position));
-	}
+    }
 
     private static class ViewHolder {
         View root;
@@ -389,6 +390,8 @@ public class MyCloudVideoAdapter extends BaseAdapter {
         ImageView cover;
         // 标题
         EditText title;
+        // 标题+点赞播放评论分享View
+        View titleAndCountView;
         // 点赞，播放，评论，分享
         TextView likeTime, playTime, commentTime, shareTime;
         //播放
@@ -401,7 +404,5 @@ public class MyCloudVideoAdapter extends BaseAdapter {
         TextView state;
         // 分享
         ImageView share;
-        // 删除
-        ImageView delete;
     }
 }

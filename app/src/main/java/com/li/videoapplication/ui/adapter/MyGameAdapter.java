@@ -3,6 +3,7 @@ package com.li.videoapplication.ui.adapter;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
@@ -28,6 +30,7 @@ public class MyGameAdapter extends BaseArrayAdapter<Game> {
 
     public static final int PAGE_MYGAME = 1;
     public static final int PAGE_SEARCHMEMBER = 2;
+    private Activity activity;
 
     private int page;
 
@@ -36,12 +39,21 @@ public class MyGameAdapter extends BaseArrayAdapter<Game> {
      */
     private void startGameDetailActivity(Game item) {
         ActivityManeger.startGroupDetailActivity(getContext(), item.getGroup_id());
-        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "我的游戏-游戏");
+        if (activity instanceof SearchActivity) {
+            UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MAIN, "搜索-相关游戏-点击相关游戏内任意游戏圈次数");
+        } else {
+            UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "我的游戏-游戏");
+        }
     }
 
     public MyGameAdapter(Context context, int page, List<Game> data) {
         super(context, R.layout.adapter_mygame, data);
         this.page = page;
+        try {
+            activity = (Activity) context;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

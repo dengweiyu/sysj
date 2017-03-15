@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f7f7f7"
@@ -23,8 +24,8 @@
                 android:id="@+id/goback"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                android:padding="12dp"
                 android:background="@drawable/button_white"
+                android:padding="12dp"
                 android:src="@drawable/ab_goback_gray" />
 
             <TextView
@@ -33,7 +34,7 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center_vertical"
-                android:text="钱包"
+                android:text="@string/mywallet_title"
                 android:textColor="#dd333333"
                 android:textSize="16sp" />
 
@@ -41,11 +42,11 @@
                 android:id="@+id/question"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                android:padding="10dp"
-                android:background="@drawable/button_white"
-                android:src="@drawable/mywallet_question"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true" />
+                android:background="@drawable/button_white"
+                android:padding="10dp"
+                android:src="@drawable/mywallet_question" />
         </RelativeLayout>
 
         <View
@@ -62,79 +63,49 @@
             android:paddingEnd="12dp"
             android:paddingStart="12dp">
 
-            <LinearLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mywalley_mycurrency"
+                android:textColor="#5e5e5e"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/mywallet_beannum"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="0"
+                android:textColor="@color/currency_modou_gold"
+                android:textSize="14sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:paddingTop="6dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="飞磨豆余额："
-                        android:textColor="#5e5e5e"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/mywallet_beannum"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text=""
-                        android:textColor="@color/currency_modou_gold"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="充值QQ："
-                        android:textColor="#5e5e5e"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/mywallet_sysjqq"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="4dp"
-                        android:gravity="center_vertical"
-                        android:textIsSelectable="true"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="2768484684"
-                        android:textColor="@color/currency_blue"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/mywallet_currencytopup"
+                android:layout_width="44dp"
+                android:layout_height="22dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/mywallet_currencyrecord_red"
+                android:gravity="center"
+                android:text="@string/top_up"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:visibility="visible"
+                tools:ignore="SmallSp" />
 
             <TextView
                 android:id="@+id/mywallet_currencyrecord"
                 android:layout_width="44dp"
                 android:layout_height="22dp"
-                android:background="@drawable/mywallet_currencyrecord_red"
+                android:background="@drawable/stroke_red_btn"
                 android:gravity="center"
-                android:text="账单"
-                android:textColor="@color/white"
+                android:text="@string/currency_record"
+                android:textColor="@color/currency_red"
                 android:textSize="11sp"
-                android:visibility="visible"/>
+                android:visibility="visible"
+                tools:ignore="SmallSp" />
 
         </LinearLayout>
 

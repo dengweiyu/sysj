@@ -24,7 +24,6 @@
         android:maxLines="1"
         android:gravity="center"/>
 
-
     <ImageView
         android:id="@+id/tb_gift"
         android:layout_width="40dp"

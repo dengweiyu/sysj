@@ -36,6 +36,7 @@
                 android:layout_height="fill_parent"
                 android:childDivider="#ffffff"
                 android:childIndicator="@null"
+                android:groupIndicator="@null"
                 android:divider="#f2f2f2"
                 android:dividerHeight="1px"/>
 

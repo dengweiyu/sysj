@@ -9,6 +9,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Advertisement;
 import com.li.videoapplication.data.model.entity.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.Associate;
+import com.li.videoapplication.data.model.entity.CustomerService;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.Update;
@@ -21,8 +22,14 @@ import com.li.videoapplication.tools.ArrayHelper;
 import com.li.videoapplication.tools.JSONHelper;
 import com.li.videoapplication.utils.StringUtil;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +60,25 @@ public class PreferencesHepler {
     }
 
     private Gson gson = new Gson();
+
+     /* ##############  IM  ############### */
+    /**
+     * 获取IM是否掉线
+     */
+    public boolean getIsIMlogOut() {
+        boolean isIMLogout = UserPreferences.getInstance().getBoolean(Constants.IM_LOGOUT, false);
+        Log.d(tag, "get/getIsIMlogOut=" + isIMLogout);
+        return isIMLogout;
+    }
+
+    /**
+     * 保存IM是否掉线
+     */
+    public void saveIsIMlogOut(boolean isIMLogout) {
+        Log.d(tag, "save/saveIsIMlogOut=true");
+        UserPreferences.getInstance().putBoolean(Constants.IM_LOGOUT, isIMLogout);
+    }
+
 
     /* ##############  任务  ############### */
 
@@ -283,7 +309,7 @@ public class PreferencesHepler {
     /**
      * 保存广告位置列表
      */
-    public void  saveAdvertisements(AdvertisementAdLocation204Entity entity) {
+    public void saveAdvertisements(AdvertisementAdLocation204Entity entity) {
         if (entity != null &&
                 entity.getData() != null &&
                 entity.getData().size() > 0) {
@@ -419,6 +445,7 @@ public class PreferencesHepler {
     }
 
     /* ##############  首页  ############### */
+
     /**
      * 删除首页缓存
      */
@@ -446,6 +473,7 @@ public class PreferencesHepler {
     }
 
 	/* ##############  图片广告  ############### */
+
     /**
      * 删除图片广告缓存
      */
@@ -556,6 +584,38 @@ public class PreferencesHepler {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /* ##############  赛事客服  ############### */
+
+    /**
+     * 保存赛事客服id
+     */
+    public void saveCustomerServiceIDs(List<String> list) {
+        if (list != null && list.size() > 0) {
+            String json = gson.toJson(list);
+            NormalPreferences.getInstance().putString(Constants.MATCH_CS, json);
+            try {
+                Log.d(tag, "save/CustomerServiceIDs=" + json);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 获取赛事客服id
+     */
+    public List<String> getCustomerServiceIDs() {
+        String json = NormalPreferences.getInstance().getString(Constants.MATCH_CS);
+        List<String> list = gson.fromJson(json, new TypeToken<List<String>>() {
+        }.getType());
+        try {
+            Log.d(tag, "get/CustomerServiceIDs=" + json);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     /* ##############  推送状态  ############### */

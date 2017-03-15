@@ -7,6 +7,8 @@ import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
@@ -17,10 +19,8 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.GroupGamerListEntity;
-import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
-import com.li.videoapplication.mvp.animation.RecyclerViewAnim;
-import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.animation.RecyclerViewAnim;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
@@ -56,8 +56,8 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
         if (StringUtil.isNull(member.getId())) {
             member.setId(member.getMember_id());
         }
-        ActivityManeger.startPlayerDynamicActivity(getContext(), member);
-        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "游戏圈-玩家-头像");
+        ActivityManeger.startPlayerDynamicActivity(getActivity(), member);
+        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-玩家-头像");
     }
 
 
@@ -97,7 +97,7 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
     }
 
     private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_light,
@@ -109,6 +109,12 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
         adapter = new GroupDetailPlayerAdapter(playerData);
         adapter.openLoadAnimation(new RecyclerViewAnim());
         adapter.setOnLoadMoreListener(this);
+
+        View emptyView = getActivity().getLayoutInflater().inflate(R.layout.emptyview,
+                (ViewGroup) recyclerView.getParent(), false);
+        TextView emptyText = (TextView) emptyView.findViewById(R.id.emptyview_text);
+        emptyText.setText("暂无玩家关注");
+        adapter.setEmptyView(emptyView);
 
         recyclerView.setAdapter(adapter);
     }
@@ -153,6 +159,7 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
                 Member item = (Member) adapter.getItem(pos);
                 startPlayerDynamicActivity(item);
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-玩家-头像");
             }
         });
         //recyclerview item上子控件点击事件处理
@@ -174,7 +181,7 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
                 // 玩家关注
                 DataManager.memberAttention201(record.getMember_id(), getMember_id());
                 adapter.notifyItemChanged(pos);
-                UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "游戏圈-玩家-关注");
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-玩家-关注");
             }
         });
     }
@@ -197,7 +204,14 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
                 ++page;
             }
         }
-        adapter.loadMoreComplete();
+       hideProgress();
+    }
+
+    public void hideProgress() {
+        if (swipeRefreshLayout.isRefreshing())
+            swipeRefreshLayout.setRefreshing(false);
+
+        adapter.loadMoreComplete();//加载完成
     }
 
     @Override

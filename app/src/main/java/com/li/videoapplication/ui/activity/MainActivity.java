@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 import com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService;
 import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
+import com.ifeimo.im.framwork.IMSdk;
+import com.ifeimo.im.framwork.message.OnSimpleMessageListener;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.ifeimo.screenrecordlib.TaskUtil;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -46,6 +48,7 @@ import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseSlidingActivity;
 import com.li.videoapplication.mvp.home.view.HomeFragment;
 import com.li.videoapplication.mvp.match.view.GameMatchFragment;
+import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -79,7 +82,8 @@ import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdap
  * 活动：主页
  */
 public class MainActivity extends BaseSlidingActivity implements View.OnClickListener,
-        OnPageChangeListener, OnOpenListener, OnOpenedListener, OnCloseListener, OnClosedListener {
+        OnPageChangeListener, OnOpenListener, OnOpenedListener, OnCloseListener,
+        OnClosedListener {
 
     //上面这个static块是判断系统是否是MIUI6
     private static boolean sIsMiuiV6;
@@ -88,7 +92,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         try {
             Class<?> sysClass = Class.forName("android.os.SystemProperties");
             Method getStringMethod = sysClass.getDeclaredMethod("get", String.class);
-            sIsMiuiV6 = "V6".equals((String) getStringMethod.invoke(sysClass, "ro.miui.ui.version.name"));
+            sIsMiuiV6 = "V6".equals(getStringMethod.invoke(sysClass, "ro.miui.ui.version.name"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -130,7 +134,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
      * 双击退出应用
      */
     private boolean isExit = false;
-    private SlidingMenu slidingMenu;
+    public SlidingMenu slidingMenu;
     private SystemBarTintManager tintManager;
 
     /**
@@ -303,6 +307,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     @Override
     public void onBackPressed() {
         if (isExit) {
+            FeiMoIMHelper.LogOut(this, false);
             if (RecordingManager.getInstance().isRecording()) {
                 TaskUtil.clearTaskAndAffinity(this);
             } else {
@@ -419,7 +424,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 break;
 
             case R.id.ab_search:
-                //startSearchActivity();
+                startSearchActivity();
                 break;
 
             case R.id.ab_search_icon:
@@ -515,7 +520,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         isLogin = PreferencesHepler.getInstance().isLogin();
         imageUrl = PreferencesHepler.getInstance().getUserProfilePersonalInformation().getAvatar();
         if (isLogin && !StringUtil.isNull(imageUrl)) {
-            GlideHelper.displayImageWhite(this,imageUrl, leftHead);
+            GlideHelper.displayImageWhite(this, imageUrl, leftHead);
             leftIcon.setVisibility(View.GONE);
             leftHead.setVisibility(View.VISIBLE);
         } else {
@@ -822,11 +827,11 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private void updateVersion(final Update update) {
         LogHelper.i(tag, "updateVersion  ");
         if ("U".equals(update.getUpdate_flag()) || // 可用升级
-                "A".equals(update.getUpdate_flag())){// 强制升级
+                "A".equals(update.getUpdate_flag())) {// 强制升级
             // 版本更新对话框
             DialogManager.showUpdateDialog(this, update);
             isShowedUpdate = true;
-        }else {// N:最新版本
+        } else {// N:最新版本
             Log.d(tag, "updateVersion: New");
         }
     }

@@ -150,7 +150,6 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
         Log.d(TAG, "AdClick: " + data.getMsg());
     }
 
-    // FIXME:loadHomeData onFailure: java.lang.ClassCastException: com.li.videoapplication.data.model.entity.HomeDto cannot be cast to io.rx_cache.Reply
     @Override
     public void onFailure(Throwable e) {
         Log.d(TAG, "onFailure: " + e.toString());

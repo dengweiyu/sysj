@@ -22,7 +22,7 @@
             android:src="@drawable/home_hot" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_weight="1"
@@ -30,11 +30,18 @@
             android:textColor="#e0333333"
             android:textSize="12sp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更多"
+            android:textColor="#6e6e6e"
+            android:textSize="10sp"
+            android:layout_marginEnd="6dp"/>
+
         <ImageView
-            android:layout_width="7dp"
+            android:layout_width="11dp"
             android:layout_height="11dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/go_home" />
+            android:src="@drawable/go_home_217" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -42,7 +49,6 @@
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:layout_marginBottom="12dp"
-        android:layout_marginLeft="7dp"
         android:paddingLeft="7dp"
         android:paddingRight="7dp">
 

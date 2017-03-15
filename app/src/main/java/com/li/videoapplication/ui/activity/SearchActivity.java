@@ -21,6 +21,7 @@ import com.li.videoapplication.data.model.response.AssociateEntity;
 import com.li.videoapplication.data.model.response.KeyWordListNewEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.adapter.SearchAssociateAdapter;
 import com.li.videoapplication.ui.adapter.SearchHistoryAdapter;
 import com.li.videoapplication.ui.adapter.SearchHotAdapter;
@@ -259,6 +260,7 @@ public class SearchActivity extends TBaseActivity implements
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         if (parent.getAdapter() == historyAdapter) {
+            UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "搜索-搜索记录-点击搜索记录内任何记录");
             String record = (String) parent.getAdapter().getItem(position);
             if (!StringUtil.isNull(record)) {
                 abSearchEdit.setText(record);
@@ -272,6 +274,7 @@ public class SearchActivity extends TBaseActivity implements
         }
 
         if (parent.getAdapter() == hotAdapter) {
+            UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "搜索-热门搜索-点击搜索框下面的任何热门游戏");
             Keyword record = (Keyword) parent.getAdapter().getItem(position);
             if (!StringUtil.isNull(record.getName())) {
                 abSearchEdit.setText(record.getName());

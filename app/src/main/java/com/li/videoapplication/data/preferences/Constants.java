@@ -20,6 +20,7 @@ public class Constants {
 	public static final String LAUNCH_IMAHE = "launchImage";// 图片广告（旧接口）
 	public static final String INDEX_LAUNCH_IMAHE = "indexLaunchImage";// 图片广告
 	public static final String HOME = "home";// 首页
+	public static final String MATCH_CS = "match_cs";// 赛事客服
 
 	public static final String ADVERTISEMENT_AD_LOCATION_204 = "advertisementAdLocation204";// 广告位置列表
 	public static final String ADVERTISEMENT_1 = "advertisement_1";
@@ -57,4 +58,5 @@ public class Constants {
 
 	public static final String DYNAMICT_TIME = "dynamicTime";// 动态刷新时间
 	public static final String TASK_TIME = "taskTime";// 任务刷新时间
+	public static final String IM_LOGOUT = "im_logout";//im断线
 }

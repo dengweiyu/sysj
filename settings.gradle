@@ -7,4 +7,5 @@ include ':app',
         'IMKit_v2_7_0',
         ':lib-emojix',
         ':JPush',
-        ':ScreenRecordLib-2'
+        ':ScreenRecordLib-2', ':IMsdk'
+

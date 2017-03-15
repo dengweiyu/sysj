@@ -13,6 +13,7 @@ import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.IntentHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.activity.ActivityDetailActivity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
@@ -33,6 +34,15 @@ public class ActivityRulesFragment extends TBaseFragment {
             this.activity = (ActivityDetailActivity) activity;
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        //该fragment处于最前台交互状态
+        if (isVisibleToUser) {
+            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "活动-活动规则");
         }
     }
 

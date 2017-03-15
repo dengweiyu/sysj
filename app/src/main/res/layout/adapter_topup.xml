@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/topup_check"
+    android:layout_width="match_parent"
+    android:layout_height="66dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginEnd="8dp"
+    android:background="@drawable/stroke_gray_2px">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:paddingEnd="6dp"
+        android:paddingStart="6dp">
+
+        <ImageView
+            android:id="@+id/topup_bean"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/slider_bean" />
+
+        <TextView
+            android:id="@+id/topup_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@+id/topup_bean"
+            android:text="2000飞磨豆"
+            android:textColor="#a7a7a7"
+            android:textSize="10sp" />
+
+        <EditText
+            android:id="@+id/topup_custom"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@+id/topup_bean"
+            android:background="@null"
+            android:cursorVisible="true"
+            android:hint="其他数量"
+            android:inputType="number"
+            android:maxLines="1"
+            android:minWidth="50dp"
+            android:maxLength="9"
+            android:textColor="#a7a7a7"
+            android:textColorHint="#a7a7a7"
+            android:textCursorDrawable="@drawable/cursor_red"
+            android:textSize="10sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/topup_check_img"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:src="@drawable/topup_selected"
+        android:visibility="gone" />
+
+</RelativeLayout>

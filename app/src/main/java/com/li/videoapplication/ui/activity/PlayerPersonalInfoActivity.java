@@ -3,24 +3,18 @@ package com.li.videoapplication.ui.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.GroupType;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.GroupType210Entity;
-import com.li.videoapplication.data.model.response.GroupType2Entity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
 import com.li.videoapplication.data.model.response.UserProfilePersonalInformationEntity;
 import com.li.videoapplication.data.network.UITask;
@@ -41,15 +35,17 @@ import io.rong.imkit.RongIM;
 public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClickListener {
 
     private CircleImageView head;
+    private ImageView isV;
     private TextView name;
     private TextView gender;
     private TextView introduce;
-    private TextView qq, focus, mobile;
-    private RelativeLayout qqContainer, mobileContainer;
-    private RelativeLayout likeContainer;
+    private TextView qq, focus;
+    //    private RelativeLayout qqContainer;
+    private RelativeLayout qqContainer,likeContainer;
 
-    private List<View> views = new ArrayList<>();
+    //    private List<View> views = new ArrayList<>();
     private Member member;
+    private View qqDivider;
 
     @Override
     public void refreshIntent() {
@@ -107,7 +103,7 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
             public void run() {
 
                 // 圈子类型
-                DataManager.groupType210();
+                DataManager.groupType217();
             }
         }, 200);
     }
@@ -115,15 +111,17 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
     private void initContentView() {
 
         head = (CircleImageView) findViewById(R.id.playerpersonalinfo_head);
+        isV = (ImageView) findViewById(R.id.playerpersonalinfo_isv);
         name = (TextView) findViewById(R.id.playerpersonalinfo_name);
         gender = (TextView) findViewById(R.id.playerpersonalinfo_gender);
         introduce = (TextView) findViewById(R.id.playerpersonalinfo_introduce);
 
         qq = (TextView) findViewById(R.id.playerpersonalinfo_qq);
+        qqDivider = findViewById(R.id.divider_qq);
         qqContainer = (RelativeLayout) findViewById(R.id.playerpersonalinfo_qq_container);
 
-        mobile = (TextView) findViewById(R.id.playerpersonalinfo_mobile);
-        mobileContainer = (RelativeLayout) findViewById(R.id.playerpersonalinfo_mobile_container);
+//        mobile = (TextView) findViewById(R.id.playerpersonalinfo_mobile);
+//        mobileContainer = (RelativeLayout) findViewById(R.id.playerpersonalinfo_mobile_container);
 
         likeContainer = (RelativeLayout) findViewById(R.id.playerpersonalinfo_like_container);
         focus = (TextView) findViewById(R.id.playerpersonalinfo_focus);
@@ -132,8 +130,8 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
         focus.setOnClickListener(this);
         findViewById(R.id.playerpersonalinfo_sendmessage).setOnClickListener(this);
 
-        views.add(findViewById(R.id.divider_1));
-        views.add(findViewById(R.id.divider_2));
+//        views.add(findViewById(R.id.divider_1));
+//        views.add(findViewById(R.id.divider_2));
 
         mHorizontalListView = (HorizontalListView) findViewById(R.id.horizontallistvierw);
         data = new ArrayList<>();
@@ -193,13 +191,27 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
             setImageViewImageNet(head, item.getAvatar());
             setTextViewText(name, item.getNickname());
             setTextViewText(gender, getGender(item.getSex()));
+
+            if (item.isV()) {
+                isV.setVisibility(View.VISIBLE);
+            } else {
+                isV.setVisibility(View.INVISIBLE);
+            }
+
             if (StringUtil.isNull(item.getSignature())) {
                 introduce.setText("");
             } else {
                 introduce.setText(item.getSignature());
             }
-            setTextViewText(qq, item.getQq());
-            setTextViewText(mobile, item.getMobile());
+
+            if (StringUtil.isNull(item.getQq())) {
+                qqContainer.setVisibility(View.GONE);
+                qqDivider.setVisibility(View.GONE);
+            } else {
+                setTextViewText(qq, item.getQq());
+            }
+
+//            setTextViewText(mobile, item.getMobile());
         }
     }
 
@@ -207,26 +219,27 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
 
         if (getUser() != null) {
 
-            if (item.getDisplay() == 1) {// 公开私密资料
-                for (View diviver : views) {
-                    diviver.setVisibility(View.VISIBLE);
-                }
-                qqContainer.setVisibility(View.VISIBLE);
-                mobileContainer.setVisibility(View.VISIBLE);
-
-                if (item.getLikeGroupType().size() > 0) {
-                    likeContainer.setVisibility(View.VISIBLE);
-                } else {
-                    likeContainer.setVisibility(View.GONE);
-                }
-            } else {// 不公开私密资料
-                for (View diviver : views) {
-                    diviver.setVisibility(View.GONE);
-                }
-                qqContainer.setVisibility(View.GONE);
-                mobileContainer.setVisibility(View.GONE);
+//            if (item.getDisplay() == 1) {// 公开私密资料
+//                for (View diviver : views) {
+//                    diviver.setVisibility(View.VISIBLE);
+//                }
+//                qqContainer.setVisibility(View.VISIBLE);
+//                mobileContainer.setVisibility(View.VISIBLE);
+//
+            if (item.getLikeGroupType().size() > 0) {
+                likeContainer.setVisibility(View.VISIBLE);
+            } else {
                 likeContainer.setVisibility(View.GONE);
+                qqDivider.setVisibility(View.GONE);
             }
+//            } else {// 不公开私密资料
+//                for (View diviver : views) {
+//                    diviver.setVisibility(View.GONE);
+//                }
+//                qqContainer.setVisibility(View.GONE);
+//                mobileContainer.setVisibility(View.GONE);
+//                likeContainer.setVisibility(View.GONE);
+//            }
         }
     }
 
@@ -258,7 +271,6 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
                 }
             }
         }
-        adapter.setMode(MyPersonalInfoAdapter.MODE_NORMAL);
         adapter.notifyDataSetChanged();
     }
 

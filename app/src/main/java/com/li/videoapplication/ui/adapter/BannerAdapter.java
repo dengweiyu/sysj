@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -143,6 +144,7 @@ public class BannerAdapter extends BaseBaseAdapter {
                 GlideHelper.displayImage(getContext(), record.getFlag(), holder.pic);
             }
         }
+
         view.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -181,6 +183,8 @@ public class BannerAdapter extends BaseBaseAdapter {
                     UmengAnalyticsHelper.onEvent(mContext, UmengAnalyticsHelper.DISCOVER, "精彩推荐-轮播图");
                 } else {
                     UmengAnalyticsHelper.onEvent(mContext, UmengAnalyticsHelper.MAIN, "轮播图");
+                    UmengAnalyticsHelper.onEvent(mContext, UmengAnalyticsHelper.MAIN,
+                            "焦点图-焦点图" + position + 1 + "-点击焦点图" + position + 1 + "次数");
                 }
             }
         });
@@ -189,9 +193,9 @@ public class BannerAdapter extends BaseBaseAdapter {
     }
 
     private void setPicLayoutParams(ImageView view) {
-        // 320/180
+        //750:350 = 15:7
         int w = srceenWidth;
-        int h = w * 160 / 320;
+        int h = w * 7 / 15;
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) view.getLayoutParams();
         params.width = w;
         params.height = h;

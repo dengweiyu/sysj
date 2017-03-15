@@ -49,6 +49,7 @@ public class MyMatchActivity extends TBaseAppCompatActivity implements IMyMatchL
      */
     private void startActivityDetailGameMatch(String event_id) {
         ActivityManeger.startGameMatchDetailActivity(this, event_id);
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "侧栏我的赛事-我的赛事页面，点击任何一个赛事 ");
     }
 
     /**
@@ -57,6 +58,7 @@ public class MyMatchActivity extends TBaseAppCompatActivity implements IMyMatchL
     private void startActivityDetailActivity208(String match_id) {
         ActivityManeger.startActivityDetailActivity208(this, match_id);
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "侧栏我的赛事-进入活动");
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "侧栏我的赛事-我的赛事页面，点击任何一个赛事 ");
     }
 
     @Override

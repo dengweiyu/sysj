@@ -18,6 +18,7 @@ import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.local.ImageDirectoryEntity;
 import com.li.videoapplication.data.local.ImageDirectoryResponseObject;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.adapter.ImageViewAdapter;
 import com.li.videoapplication.ui.popupwindows.ImageDirectoryPopupWindow;
@@ -112,6 +113,7 @@ public class ImageViewActivity extends TBaseActivity implements OnClickListener 
             }
             lightOff();
         } else if (v == abImageViewDone) {
+            UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "发布-图文-选择图片后点击确认进入图片分享页的次数");
             finish();
         }
     }

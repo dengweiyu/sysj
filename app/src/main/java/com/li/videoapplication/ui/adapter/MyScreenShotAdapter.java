@@ -150,6 +150,7 @@ public class MyScreenShotAdapter extends BaseAdapter {
             public void onClick(View v) {
 
                 showRenameDialog(record, holder);
+                UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "截图-重命名");
             }
         });
 
@@ -160,6 +161,7 @@ public class MyScreenShotAdapter extends BaseAdapter {
             public void onClick(View v) {
 
                 startShareActivity(record);
+                UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "截图-分享");
             }
         });
 

@@ -165,15 +165,17 @@ public class ShareSDKLoginHelper implements PlatformActionListener, Callback {
             String location = res.get("province").toString() + res.get("city").toString();
             String figureurl = res.get("figureurl").toString();
             DataManager.login(openId, nickname, nickname, sex, location, figureurl);
+            UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "QQ登录成功");
         }
         if (openState == 2) {
             System.out.println("sina++++++++++");
             String openId = res.get("id").toString();
             String nickname = res.get("screen_name").toString();
-            String sex = ((res.get("gender").equals("m")) ? "男" : "女").toString();
+            String sex = ((res.get("gender").equals("m")) ? "男" : "女");
             String location = res.get("location").toString();
             String figureurl = res.get("avatar_large").toString();
             DataManager.login(openId, nickname, nickname, sex, location, figureurl);
+            UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "新浪微博登录成功");
         }
         if (openState == 3) {
             System.out.println("weixin++++++++++");
@@ -183,6 +185,7 @@ public class ShareSDKLoginHelper implements PlatformActionListener, Callback {
             String location = res.get("province").toString() + " " + res.get("city").toString();
             String figureurl = res.get("headimgurl").toString();
             DataManager.login(openId, nickname, nickname, sex, location, figureurl);
+            UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "微信登录成功");
         }
     }
 

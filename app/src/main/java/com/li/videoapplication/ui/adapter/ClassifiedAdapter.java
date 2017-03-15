@@ -17,6 +17,7 @@ import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.utils.ScreenUtil;
+import com.li.videoapplication.utils.StringUtil;
 
 /**
  * 适配器：游戏分类
@@ -63,7 +64,9 @@ public class ClassifiedAdapter extends BaseArrayAdapter<GroupType> {
             @Override
             public void onClick(View v) {
                 startGroupListActivity(record);
-                UmengAnalyticsHelper.onGameEvent(getContext(), record.getGroup_type_id());
+                if (!StringUtil.isNull(record.getGroup_type_id())){
+                    UmengAnalyticsHelper.onGameEvent(getContext(), record.getGroup_type_id());
+                }
             }
         });
 

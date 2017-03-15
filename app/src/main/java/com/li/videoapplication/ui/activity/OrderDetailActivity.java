@@ -7,9 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Currency;
-import com.li.videoapplication.data.model.response.OrderDetailEntity;
+import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.mvp.mall.MallContract.IMallPresenter;
 import com.li.videoapplication.mvp.mall.MallContract.IExchangeRecordDetailView;
@@ -17,6 +16,7 @@ import com.li.videoapplication.mvp.mall.presenter.MallPresenter;
 import com.li.videoapplication.mvp.mall.view.ExchangeRecordFragment;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.RoundedImageView;
@@ -28,10 +28,12 @@ public class OrderDetailActivity extends TBaseActivity implements IExchangeRecor
         View.OnClickListener {
 
     private RoundedImageView pic;
-    private TextView name, beam, time,rewardTime, key, value, status, code, recommend, hint;
+    private TextView name, beam, time, rewardTime, key, value, status, code, hint;
+    private TextView rejectiveReason, recommendLocation, recommendNote, recommendStatus, recommendTime;
     private String id;
     private int tab;
-    private View codeView, recommendView, hintView, keyView;
+    private View codeView, auditingStatusView, hintView, keyView;
+    private View recommendLocationView, recommendGo, recommendView;
     private Currency data;
     private IMallPresenter presenter;
 
@@ -82,6 +84,7 @@ public class OrderDetailActivity extends TBaseActivity implements IExchangeRecor
         time = (TextView) findViewById(R.id.orderdetail_time);
         key = (TextView) findViewById(R.id.orderdetail_key);
         value = (TextView) findViewById(R.id.orderdetail_value);
+        auditingStatusView = findViewById(R.id.orderdetail_auditingstatusview);//审核中
         status = (TextView) findViewById(R.id.orderdetail_status);
         code = (TextView) findViewById(R.id.orderdetail_code);
         codeView = findViewById(R.id.orderdetail_codeView);
@@ -92,9 +95,18 @@ public class OrderDetailActivity extends TBaseActivity implements IExchangeRecor
         keyView = findViewById(R.id.orderdetail_keyview);
         hintView = findViewById(R.id.orderdetail_hintview);
         hint = (TextView) findViewById(R.id.orderdetail_hint);
+
         recommendView = findViewById(R.id.orderdetail_recommendview);
-        recommend = (TextView) findViewById(R.id.orderdetail_recommend);
+        recommendLocationView = findViewById(R.id.orderdetail_recommendlocationview);
+        recommendGo = findViewById(R.id.orderdetail_recommendgo);//立即查看
+        rejectiveReason = (TextView) findViewById(R.id.orderdetail_rejectivereason);
+        recommendLocation = (TextView) findViewById(R.id.orderdetail_recommendLocation);
+        recommendNote = (TextView) findViewById(R.id.orderdetail_recommendnote);
+        recommendStatus = (TextView) findViewById(R.id.orderdetail_recommendstatus);//已推荐
+        recommendTime = (TextView) findViewById(R.id.orderdetail_recommendtime);//推荐时间...
+
         findViewById(R.id.orderdetail_copy).setOnClickListener(this);
+        recommendGo.setOnClickListener(this);
 
         if (tab == ExchangeRecordFragment.EXC_SWEEPSTAKE) {
             payView.setVisibility(View.GONE);
@@ -123,6 +135,11 @@ public class OrderDetailActivity extends TBaseActivity implements IExchangeRecor
                     ToastHelper.s("已复制到粘贴板");
                 }
                 break;
+            case R.id.orderdetail_recommendgo:
+                ActivityManeger.startMainActivity(this);
+                MainActivity mainActivity = AppManager.getInstance().getMainActivity();
+                mainActivity.slidingMenu.showContent();
+                break;
         }
     }
 
@@ -139,22 +156,7 @@ public class OrderDetailActivity extends TBaseActivity implements IExchangeRecor
             }
             setTextViewText(key, data.getPublicKey() + "：");
             setTextViewText(value, data.getPublicValue());
-            //订单状态：1=>R审核不通，拒绝，2=>B审核中，3=>Y待发放，4=>G已发放，6=>G已推荐
-            switch (data.getStatus()) {
-                case "1"://审核不通过
-                    setColor(R.color.currency_red);
-                    break;
-                case "2"://审核中
-                    setColor(R.color.currency_blue);
-                    break;
-                case "3"://待发放
-                    setColor(R.color.currency_modou_gold);
-                    break;
-                case "4"://已发放
-                case "6"://已推荐
-                    setColor(R.color.currency_green);
-                    break;
-            }
+            setStatus(status, data);
 
             if (data.getStatus().equals("4") && !StringUtil.isNull(data.getCode())) {//兑换码
                 codeView.setVisibility(View.VISIBLE);
@@ -198,29 +200,76 @@ public class OrderDetailActivity extends TBaseActivity implements IExchangeRecor
             //奖品发放状态，1=>R信息不完整，待完善、2=>Y待发放、3=>G已发放
             switch (data.getStatus()) {
                 case "1"://审核不通过
-                    setColor(R.color.currency_red);
+                    setColor(status, R.color.currency_red);
                     break;
                 case "2"://待发放
-                    setColor(R.color.currency_modou_gold);
+                    setColor(status, R.color.currency_modou_gold);
                     break;
                 case "3"://已发放
-                    setColor(R.color.currency_green);
+                    setColor(status, R.color.currency_green);
                     break;
             }
         }
 
-        setTextViewText(status, data.getStatusText());
-
-        if (data.getExchange_way().equals("1") && !StringUtil.isNull(data.getNote())) {//推荐位
+        if (!StringUtil.isNull(data.getExchange_way()) && data.getExchange_way().equals("1")) {//推荐位
+            recommendLocationView.setVisibility(View.VISIBLE);
             recommendView.setVisibility(View.VISIBLE);
-            setTextViewText(recommend, data.getNote());
+            auditingStatusView.setVisibility(View.GONE);
+            setTextViewText(recommendLocation, data.getShowLocation());
+            setStatus(recommendStatus, data);
+            setTextViewText(recommendStatus, data.getStatusText());
+            setTextViewText(recommendNote, data.getNote());
+            setTextViewText(recommendTime, data.getRecommendedTime());
+
+            switch (data.getStatus()){
+                case "1"://推荐位申请失败
+                    rejectiveReason.setVisibility(View.VISIBLE);
+                    String reason = TextUtil.toColor("拒绝理由：", "#575757") + data.getNote();
+                    rejectiveReason.setText(Html.fromHtml(reason));
+                    recommendNote.setVisibility(View.GONE);
+                    recommendTime.setVisibility(View.GONE);
+                    break;
+                case "2"://审核中
+                    setColor(recommendStatus,R.color.title_bg_color);
+                    recommendNote.setVisibility(View.GONE);
+                    recommendTime.setVisibility(View.GONE);
+                    break;
+                case "6"://已推荐
+                    recommendGo.setVisibility(View.VISIBLE);
+                    break;
+            }
+
         } else {
             recommendView.setVisibility(View.GONE);
+            auditingStatusView.setVisibility(View.VISIBLE);
+
+            setTextViewText(status, data.getStatusText());
         }
     }
 
-    private void setColor(int color) {
-        status.setTextColor(resources.getColor(color));
+    //商城兑换的状态
+    private void setStatus(TextView textView, Currency data) {
+        //订单状态：1=>R审核不通，拒绝，2=>B审核中，3=>Y待发放，4=>G已发放，6=>G已推荐，7=>R推荐已过期
+        switch (data.getStatus()) {
+            case "1"://审核不通过
+            case "7"://推荐已过期
+                setColor(textView, R.color.currency_red);
+                break;
+            case "2"://审核中
+                setColor(textView, R.color.currency_blue);
+                break;
+            case "3"://待发放
+                setColor(textView, R.color.currency_modou_gold);
+                break;
+            case "4"://已发放
+            case "6"://已推荐
+                setColor(textView, R.color.currency_green);
+                break;
+        }
+    }
+
+    private void setColor(TextView textView, int color) {
+        textView.setTextColor(resources.getColor(color));
     }
 
     /**

@@ -8,6 +8,7 @@ import android.widget.RadioGroup;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.fragment.MyPlayerFragment;
 
 import java.util.ArrayList;
@@ -110,10 +111,12 @@ public class MyPlayerActivity extends TBaseActivity implements RadioGroup.OnChec
 
 		case R.id.ab_billboard_left:
 			switchContent(context, fragments.get(0));
+			UmengAnalyticsHelper.onEvent(this,UmengAnalyticsHelper.SLIDER,"关注/粉丝数-粉丝切换关注");
 			break;
 
 		case R.id.ab_billboard_right:
 			switchContent(context, fragments.get(1));
+			UmengAnalyticsHelper.onEvent(this,UmengAnalyticsHelper.SLIDER,"关注/粉丝数-关注切换粉丝");
 			break;
 		}
 	}

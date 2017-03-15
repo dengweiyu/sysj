@@ -17,6 +17,7 @@ import com.li.videoapplication.data.model.response.GoodsListEntity;
 import com.li.videoapplication.data.model.response.MemberCurrencyEntity;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.mvp.Constant;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.mvp.adapter.MallExpListViewAdapter;
@@ -37,7 +38,7 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
     private MallExpListViewAdapter mAdapter;
     private List<Currency> mDatas;
     private TextView login, name, beanNum;
-    private ImageView pic;
+    private ImageView pic,isV;
     private View userInfo;
 
     /**
@@ -72,6 +73,7 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
         name = (TextView) findViewById(R.id.mall_name);
         beanNum = (TextView) findViewById(R.id.mall_beannum);
         pic = (ImageView) findViewById(R.id.mall_pic);
+        isV = (ImageView) findViewById(R.id.mall_isv);
         abQuestion.setVisibility(View.VISIBLE);
         abQuestion.setOnClickListener(this);
         login.setOnClickListener(this);
@@ -111,6 +113,7 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
         setTextViewText(name, member.getNickname());
         setTextViewText(beanNum, StringUtil.formatNum(member.getCurrency()));
         setImageViewImageNet(pic, member.getAvatar());
+        if (member.isV()) isV.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -126,6 +129,7 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
                 AppUtil.startQQChat(this, Constant.SYSJQQID);
                 break;
             case R.id.mall_exchangerecord:
+                UmengAnalyticsHelper.onEvent(this,UmengAnalyticsHelper.SLIDER,"视界商城-兑换记录");
                 if (!isLogin()) {
                     DialogManager.showLogInDialog(this);
                     return;
@@ -137,6 +141,7 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
                 break;
             case R.id.mall_login:
                 DialogManager.showLogInDialog(this);
+                UmengAnalyticsHelper.onEvent(this,UmengAnalyticsHelper.SLIDER,"视界商城-登陆");
                 break;
             case R.id.mall_pic:
                 if (isLogin())

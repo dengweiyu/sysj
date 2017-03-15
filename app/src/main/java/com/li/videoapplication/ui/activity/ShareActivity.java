@@ -35,7 +35,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
     public static final int PAGE_SYSJ = 22;
     public static final int PAGE_VIDEOPLAY = 33;
     public static final int PAGE_MYCLOUDVIDEO = 44;
-    public static final int PAGE_MYCLOCALVIDEO = 55;
+    public static final int PAGE_MYLOCALVIDEO = 55;
     public static final int PAGE_MYSCREENSHOT = 66;
 
     @Override
@@ -50,6 +50,9 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
         text = intent.getStringExtra("content");
 
         Log.d(tag, "VideoTitle: " + VideoTitle);
+        Log.d(tag, "videoUrl: " + videoUrl);
+        Log.d(tag, "text: " + text);
+        Log.d(tag, "imageUrl: " + imageUrl);
     }
 
     private View touch;
@@ -208,7 +211,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
     public void share(Context context, String title, String url, String text, String imageUrl, final String shareChannel) {
         Log.d(tag, "share: shareChannel=" + shareChannel);
         ShareParams params = new ShareParams();
-        if (page == PAGE_MYCLOCALVIDEO) {// 本地视频
+        if (page == PAGE_MYLOCALVIDEO) {// 本地视频
             UITask.postDelayed(new Runnable() {
                 @Override
                 public void run() {

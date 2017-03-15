@@ -10,14 +10,22 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.event.CloudVideoRecommendEvent;
 import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
 import com.li.videoapplication.data.model.response.AuthorVideoList2Entity;
 import com.li.videoapplication.data.model.response.CloudListEntity;
+import com.li.videoapplication.data.model.response.CloudRecommendLocEntity;
+import com.li.videoapplication.data.model.response.RecommendedLocationEntity;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseFragment;
+import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
+import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.MyCloudVideoAdapter;
+import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
 
@@ -28,13 +36,14 @@ public class MyCloudVideoFragment extends TBaseFragment implements PullToRefresh
 
     public PullToRefreshListView pullToRefreshListView;
     public ListView listView;
-	public MyCloudVideoAdapter adapter;
-	public ArrayList<VideoImage> data = new ArrayList<VideoImage>();
+    public MyCloudVideoAdapter adapter;
+    public ArrayList<VideoImage> data = new ArrayList<VideoImage>();
 
-	public TextView tipUnlogin;
-	public TextView tipEmpty;
+    public TextView tipUnlogin;
+    public TextView tipEmpty;
 
     public int page = 1;
+    private String video_id;//点击申请推荐位的视频id
 
     @Override
     protected IPullToRefresh getPullToRefresh() {
@@ -77,7 +86,7 @@ public class MyCloudVideoFragment extends TBaseFragment implements PullToRefresh
         tipUnlogin.setVisibility(View.GONE);
         listView.setVisibility(View.GONE);
         tipEmpty.setVisibility(View.GONE);
-	}
+    }
 
     private void refreshContentView() {
         if (isLogin()) {// 已经登陆
@@ -128,10 +137,32 @@ public class MyCloudVideoFragment extends TBaseFragment implements PullToRefresh
                 }
                 data.addAll(event.getData().getList());
                 adapter.notifyDataSetChanged();
-                ++ page;
+                ++page;
             }
         }
         refreshContentView();
+    }
+
+    /**
+     * 回调:云端视频申请推荐位事件
+     */
+    public void onEventMainThread(CloudVideoRecommendEvent event) {
+
+        if (event != null) {
+            video_id = event.getVideo_id();
+            //申请推荐位
+            DataManager.recommendedLocation(getMember_id(), new CloudRecommendLocEntity());
+        }
+    }
+
+    /**
+     * 回调:推荐位
+     */
+    public void onEventMainThread(CloudRecommendLocEntity event) {
+
+        if (event != null && event.isResult() && !StringUtil.isNull(video_id)) {//正常情况，商城有卖推荐位
+            DialogManager.showOfficialPaymentDialog(getActivity(), event, video_id);
+        }
     }
 
     /**

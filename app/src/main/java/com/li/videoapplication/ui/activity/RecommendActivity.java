@@ -205,7 +205,7 @@ public class RecommendActivity extends PullToRefreshActivity<VideoImage> impleme
 			hotNarrateTitle = (TextView) hotNarrateView.findViewById(R.id.home_hotnarrate_title);
 			hotNarrateView.findViewById(R.id.home_hotnarrate_more).setOnClickListener(this);
 
-			hotNarrateTitle.setText("金牌主播");
+			hotNarrateTitle.setText("推荐主播");
 			hotNarrateRecyerView = (RecyclerView) hotNarrateView.findViewById(R.id.homehotnarrate_recyclerview);
 			hotNarrateRecyerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 			hotNarrateAdapter = new HomeHotNarrateAdapter(hotNarrateData);

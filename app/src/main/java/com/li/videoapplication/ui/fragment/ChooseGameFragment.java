@@ -92,7 +92,7 @@ public class ChooseGameFragment extends TBaseFragment {
 
     private void initAdapter() {
         swipeRefreshLayout.setEnabled(false);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         List<Associate> data = new ArrayList<>();
 

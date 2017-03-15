@@ -7,6 +7,7 @@
     android:descendantFocusability="afterDescendants"
     android:orientation="vertical">
 
+    <!--猜你喜欢-->
     <LinearLayout
         android:id="@+id/hometype_guess"
         android:layout_width="match_parent"
@@ -62,6 +63,7 @@
         </LinearLayout>
     </LinearLayout>
 
+    <!--视界原创-->
     <LinearLayout
         android:id="@+id/hometype_sysj"
         android:layout_width="match_parent"
@@ -89,13 +91,21 @@
             android:textColor="#e0333333"
             android:textSize="12sp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更多"
+            android:textColor="#6e6e6e"
+            android:textSize="10sp"
+            android:layout_marginEnd="6dp"/>
+
         <ImageView
-            android:layout_width="7dp"
+            android:layout_width="11dp"
             android:layout_height="11dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/go_home" />
+            android:src="@drawable/go_home_217" />
     </LinearLayout>
 
+    <!--其他游戏视频-->
     <LinearLayout
         android:id="@+id/hometype_game"
         android:layout_width="match_parent"
@@ -119,11 +129,18 @@
             android:textColor="#e0333333"
             android:textSize="12sp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更多"
+            android:textColor="#6e6e6e"
+            android:textSize="10sp"
+            android:layout_marginEnd="6dp"/>
+
         <ImageView
-            android:layout_width="7dp"
+            android:layout_width="11dp"
             android:layout_height="11dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/go_home" />
+            android:src="@drawable/go_home_217" />
     </LinearLayout>
 
     <com.li.videoapplication.views.GridViewY1

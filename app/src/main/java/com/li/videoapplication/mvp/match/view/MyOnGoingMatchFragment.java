@@ -63,6 +63,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
     private View uploadVideoView;
     private ImageView a_avatar, b_avatar, b_contact_icon;
     private Match match;
+    private String currencyNum;
     private Match matchDetailMatch;
 
     private ScrollView haveData;
@@ -94,7 +95,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
      * 跳转：选择上传视频
      */
     private void startVideoChooseActivity() {
-        ActivityManeger.startVideoChooseActivity(getContext(), null, VideoShareActivity.TO_FINISH);
+        ActivityManeger.startVideoChooseActivity(getActivity(), null, VideoShareActivity.TO_FINISH);
     }
 
     @Override
@@ -119,8 +120,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
 
     private void initView(View view) {
         VideoShareTask208.addCallbacks(this);
-        view.findViewById(R.id.upload_image).setOnClickListener(this);
-        view.findViewById(R.id.ongoing_customerservice).setOnClickListener(this);
+
         haveData = (ScrollView) view.findViewById(R.id.havedata_root);
         OverScrollDecoratorHelper.setUpOverScroll(haveData);
         noData = view.findViewById(R.id.ongoing_nodata);
@@ -152,6 +152,8 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
         notice2 = (TextView) view.findViewById(R.id.ongoing_notice2);
         notice3 = (TextView) view.findViewById(R.id.ongoing_notice3);
 
+        view.findViewById(R.id.ongoing_customerservice).setOnClickListener(this);
+        uploadImage.setOnClickListener(this);
         uploadVideoView.setOnClickListener(this);
         contact.setOnClickListener(this);
         b_avatar.setOnClickListener(this);
@@ -258,7 +260,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
         notice2.setText(Html.fromHtml(s2));
 
         //引导句子3  红色：#ff3d2e，蓝色：#48c5ff
-        String s3 = "上传" + TextUtil.toColor("比赛视频", "#48c5ff") + "奖励" + TextUtil.toColor("500", "#ff3d2e") + "飞磨豆";
+        String s3 = "上传" + TextUtil.toColor("比赛视频", "#48c5ff") + "奖励" + TextUtil.toColor(currencyNum, "#ff3d2e") + "飞磨豆";
         notice3.setText(Html.fromHtml(s3));
     }
 
@@ -341,12 +343,13 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
                             }
                         }
                     }
-                }else {
+                } else {
                     ToastHelper.s("对手匹配中");
                 }
                 break;
             case R.id.ongoing_contact://约战
                 b_avatar.performClick();
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "我的赛程-约战TA");
                 break;
             case R.id.ongoing_enemyicon://敌方头像
                 if (RongIM.getInstance() != null && match != null && !StringUtil.isNull(match.getTeam_b().getLeader_id())) {
@@ -388,10 +391,10 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
      * 回调：进行中赛事
      */
     public void onEventMainThread(MemberMatchPKEntity204 event) {
-
         if (event != null) {
             if (event.isResult() && event.getData().size() > 0 && event.getData() != null) {
                 match = event.getData().get(0);
+                currencyNum = event.getCurrencyNum();
                 //是否需要签到
                 boolean isNeedSign = match.getSchedule().getIs_sign().equals("1");
                 //是否已签到
@@ -478,6 +481,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
     public void onEventMainThread(SaveEventVideoEntity event) {
         if (event != null) {
             Log.d(tag, "SaveEventVideoEntity: " + event.getMsg());
+            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "赛程-视频上传成功");
         }
     }
 
@@ -542,7 +546,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
             }
             if (result)
                 dismissProgressDialog();
-             else
+            else
                 showToastLong(msg);
         }
     }
@@ -567,6 +571,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
                 showSuccessDialogWithListener("截图上传成功", TextUtil.stringAtRed(content, 14, 18), "确认");
             }
             loadData();
+            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "赛程-截图上传成功");
         }
     }
 

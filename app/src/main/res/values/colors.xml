@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="fab_green">#0dd9d8</color>
+    <color name="fab_green_pressed">#0a9695</color>
+
     <color name="applicationdownload_black">#565656</color>
     <color name="applicationdownload_blue">#3fa9fe</color>
 

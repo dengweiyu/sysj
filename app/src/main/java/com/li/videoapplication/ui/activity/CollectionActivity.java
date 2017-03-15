@@ -183,6 +183,7 @@ public class CollectionActivity extends TBaseActivity implements OnClickListener
                     /**历史纪录*/
                 } else if (currIndex == 1) {
                     myHistoryFragment.adapter.notifyDataSetChanged();
+                    UmengAnalyticsHelper.onEvent(this,UmengAnalyticsHelper.SLIDER,"观看记录-删除");
                 }
                 break;
 

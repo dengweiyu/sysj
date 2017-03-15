@@ -16,6 +16,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Match;
+import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
 import com.li.videoapplication.data.model.event.MatchListFliterEvent;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.GameCateEntity;
@@ -24,6 +25,8 @@ import com.li.videoapplication.mvp.adapter.MatchListAdapter;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchListView;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchPresenter;
 import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
+import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
@@ -31,6 +34,7 @@ import com.li.videoapplication.ui.dialog.MatchFliterDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -58,28 +62,30 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
     private String game_id = "0";//默认选中 0:全部游戏
     private MatchFliterDialog matchFliterDialog;
     private GameCateEntity gameCateData;
+    private Timer refreshTimer;
 
     /**
      * 跳转：游戏赛事详情
      */
     private void startGameMatchDetailActivity(String event_id) {
-        ActivityManeger.startGameMatchDetailActivity(getContext(), event_id);
-        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MATCH, "进入赛事");
+        ActivityManeger.startGameMatchDetailActivity(getActivity(), event_id);
+        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "进入赛事");
     }
 
     /**
      * 跳转：活动详情
      */
     private void startActivityDetailActivity208(String match_id) {
-        ActivityManeger.startActivityDetailActivity208(getContext(), match_id);
-        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MATCH, "赛事列表-进入活动");
+        ActivityManeger.startActivityDetailActivity208(getActivity(), match_id);
+        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "赛事列表-进入活动");
     }
 
     /**
      * 跳转：赛事结果
      */
     private void startMatchResultActivity(String event_id) {
-        ActivityManeger.startMatchResultActivity(getContext(), event_id);
+        ActivityManeger.startMatchResultActivity(getActivity(), event_id);
+        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "赛事列表-赛事结果");
     }
 
     @Override
@@ -105,7 +111,7 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
     }
 
     private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_light,
@@ -165,7 +171,7 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
             matchFliterDialog.show();
         } else {
             if (gameCateData != null)
-                matchFliterDialog = DialogManager.showMatchFliterDialog(getContext(), gameCateData);
+                matchFliterDialog = DialogManager.showMatchFliterDialog(getActivity(), gameCateData);
         }
     }
 
@@ -182,6 +188,16 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
         page = 1;
         // 赛事列表
         presenter.getEventsList(page, match_type, game_id);
+        //刷新状态刷新超过十秒钟取消
+        refreshTimer = TimeHelper.runAfter(new TimeHelper.RunAfter() {
+            @Override
+            public void runAfter() {
+                if (swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    ToastHelper.s(R.string.net_unstable);
+                }
+            }
+        }, 1000 * 10);
     }
 
     //加载更多
@@ -232,6 +248,7 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
             adapter.addData(data.getList());
         }
         ++page;
+        if (refreshTimer != null) refreshTimer.cancel();
     }
 
     /**
@@ -262,5 +279,24 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
         tv_topbar_left.setText("已选择：");
         String topbar_mid_text = event.getGameNames() + event.getMatch_type_names();
         tv_topbar_mid.setText(topbar_mid_text);
+    }
+
+    private boolean isNetWordChange = true;
+
+    /**
+     * 回调：网络变化事件
+     */
+    public void onEventMainThread(ConnectivityChangeEvent event) {
+        Log.d(tag, "ConnectivityChangeEvent: 网络变化事件");
+        if (isNetWordChange && event.getNetworkInfo() != null) {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    isNetWordChange = false;
+                    page= 1;
+                    loadData();
+                }
+            }, 600);
+        }
     }
 }

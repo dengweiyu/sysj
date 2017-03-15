@@ -318,13 +318,16 @@ public class ScreenRecordActivity extends TBaseActivity implements
 
             case R.id.screenrecord_setting:
                 ActivityManeger.startSettingActivity(this);
+                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "发布-录制视频-点击设置跳转设置页面");
                 break;
 
             case R.id.screenrecord_video:
                 ActivityManeger.startVideoMangerActivity(this);
+                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "发布-录制视频-点击视频跳转视频页面");
                 break;
 
             case R.id.screenrecord_landscape_start:
+                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "发布-录制视频-点击横屏游戏录制");
                 if (RecordingManager.getInstance().isRecording()) { // 录屏中
                     stopRecording();
                     postDelayed(new Runnable() {
@@ -388,6 +391,7 @@ public class ScreenRecordActivity extends TBaseActivity implements
                 break;
 
             case R.id.screenrecord_portrait_start:
+                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "发布-录制视频-点击竖屏游戏录制");
                 if (RecordingManager.getInstance().isRecording()) { // 录屏中
                     stopRecording();
                     postDelayed(new Runnable() {

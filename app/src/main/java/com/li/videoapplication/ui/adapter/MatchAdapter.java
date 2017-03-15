@@ -30,17 +30,28 @@ public class MatchAdapter extends BaseQuickAdapter<Currency, BaseViewHolder> {
     }
 
     @Override
-    protected void convert(BaseViewHolder baseViewHolder, Currency currency) {
-        ViewGroup.LayoutParams params = baseViewHolder.getView(R.id.match_root).getLayoutParams();
+    protected void convert(BaseViewHolder holder, Currency currency) {
+        ViewGroup.LayoutParams params = holder.getView(R.id.match_root).getLayoutParams();
 
-        helper.setImageViewImageNet((ImageView) baseViewHolder.getView(R.id.match_pic), currency.getIcon());
+        helper.setImageViewImageNet((ImageView) holder.getView(R.id.match_pic), currency.getIcon());
 
-        baseViewHolder.setText(R.id.match_name, currency.getName());
+        holder.setText(R.id.match_name, currency.getName());
+
+        if (!StringUtil.isNull(currency.getCompleteRatio())) {
+            String ratio = "今日已完成：" + TextUtil.toColor(currency.getCompleteRatio(), "#fe5e5e");//red
+            holder.setVisible(R.id.match_ratio, true)
+                    .setText(R.id.match_ratio, Html.fromHtml(ratio));
+        } else if (!StringUtil.isNull(currency.getEventDesc())) {
+            holder.setVisible(R.id.match_ratio, true)
+                    .setText(R.id.match_ratio, currency.getEventDesc());
+        } else {
+            holder.setVisible(R.id.match_ratio, false);
+        }
 
         //##飞磨豆（每日限奖1次） --> 200飞磨豆（每日限奖1次）
         String reward = TextUtil.toColor(currency.getReward(), "#f7b500");
         String description = currency.getDescription().replace("##", reward);
-        baseViewHolder.setText(R.id.match_description, Html.fromHtml(description));
+        holder.setText(R.id.match_description, Html.fromHtml(description));
 
         long currentTime;
         try {
@@ -50,12 +61,12 @@ public class MatchAdapter extends BaseQuickAdapter<Currency, BaseViewHolder> {
             if (startTime <= currentTime && currentTime < endTime){
                 //任务状态：1=>进行中，2=>完成，0=>放弃，失败
                 if (!StringUtil.isNull(currency.getStatus()) && currency.getStatus().equals("2")) {
-                    baseViewHolder.setVisible(R.id.match_shadow, true);
-                    TextView shadow = baseViewHolder.getView(R.id.match_shadow);
+                    holder.setVisible(R.id.match_shadow, true);
+                    TextView shadow = holder.getView(R.id.match_shadow);
                     shadow.setLayoutParams(params);
                     shadow.setGravity(Gravity.CENTER);
                 } else {
-                    baseViewHolder.setVisible(R.id.match_shadow, false);
+                    holder.setVisible(R.id.match_shadow, false);
                 }
             }
         } catch (Exception e) {

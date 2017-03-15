@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="38dp"
+    android:layout_marginRight="38dp"
+    android:background="@drawable/button_main_round"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="14dp"
+        android:src="@drawable/signup_success" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="14dp"
+        android:text="已完成"
+        android:textColor="@color/text_color"
+        android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="每天登陆奖励10飞磨豆"
+            android:textColor="@color/textcolor_gray"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="18dp"
+        android:background="#e4e4e4" />
+
+    <TextView
+        android:id="@+id/logintask_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/dialog_signup_ok"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="@string/button_ok"
+        android:textColor="@color/text_color"
+        android:textSize="16sp" />
+
+</LinearLayout>

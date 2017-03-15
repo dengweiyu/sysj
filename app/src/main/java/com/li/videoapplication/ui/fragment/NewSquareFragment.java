@@ -58,7 +58,9 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             if (getSquare() == SQUARE_HOT) {
-                UmengAnalyticsHelper.onEvent(getActivity(),UmengAnalyticsHelper.DISCOVER,"广场-热门");
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "广场-热门");
+            } else if (getSquare() == HOMEMORE_HOT) {
+                UmengAnalyticsHelper.onMainMoreHotEvent(getActivity(), getGroup().getMore_mark());
             }
         }
     }
@@ -122,7 +124,6 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
         data = new ArrayList<>();
         adapter = new GroupDetailVideoAdapter(getActivity(), data);
         listView.setAdapter(adapter);
-
         pullToRefreshListView.setOnRefreshListener(this);
 
         if (getSquare() == SQUARE_NEW) {
@@ -176,12 +177,15 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
             DataManager.squareListHot(getMember_id(), page);
         } else if (getSquare() == HOMEMORE_NEW) {
             // 首页更多（最新）
-            DataManager.indexIndexMore204New(getGroup().getMore_mark(), getMember_id(), page);
+            DataManager.indexIndexMore217New(getGroup().getMore_mark(), getMember_id(), page);
         } else if (getSquare() == HOMEMORE_HOT) {
             // 首页更多（最热）
-            DataManager.indexIndexMore204Hot(getGroup().getMore_mark(), getMember_id(), page);
+            DataManager.indexIndexMore217Hot(getGroup().getMore_mark(), getMember_id(), page);
         }
         onRefreshCompleteDelayed(PullToRefreshActivity.TIME_REFRESH_SHORT);
+
+        if (getSquare() == HOMEMORE_HOT || getSquare() == HOMEMORE_NEW)
+            adapter.setHomeMoreLocation(getGroup().getMore_mark(), getSquare() == HOMEMORE_NEW);
     }
 
     /**

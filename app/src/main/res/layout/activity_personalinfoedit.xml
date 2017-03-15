@@ -1,0 +1,89 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white">
+
+        <include layout="@layout/toolbar_white" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e1e1e1"
+        tools:ignore="PxUsage" />
+
+    <RelativeLayout
+        android:id="@+id/editview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="14dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="18dp"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@null"
+                android:cursorVisible="true"
+                android:drawableBottom="@drawable/edittext_normal"
+                android:gravity="center_vertical"
+                android:hint="@string/mypersonalinfo_name_hint"
+                android:maxLines="1"
+                android:paddingEnd="18dp"
+                android:paddingStart="8dp"
+                android:text=""
+                android:textColor="@color/textcolor_gray"
+                android:textColorHint="#b9b9b9"
+                android:textCursorDrawable="@drawable/cursor_red"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/edit_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="6dp"
+                android:text="0"
+                android:textColor="@color/textcolor_french_gray"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/edit_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/top"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:text="好的昵称在手游视界里更容易让人记住哦"
+            android:textColor="@color/textcolor_french_gray"
+            android:textSize="11sp"
+            android:visibility="visible"
+            tools:ignore="SmallSp" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+</LinearLayout>

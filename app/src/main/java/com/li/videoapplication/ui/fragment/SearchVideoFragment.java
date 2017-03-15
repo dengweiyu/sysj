@@ -27,6 +27,7 @@ import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseChildFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.adapter.GroupDetailVideoAdapter;
 
@@ -72,6 +73,14 @@ public class SearchVideoFragment extends TBaseChildFragment implements OnRefresh
     @Override
     protected IPullToRefresh getPullToRefresh() {
         return pullToRefreshListView;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {//该fragment处于最前台交互状态
+            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MAIN, "搜索-相关视频-点击搜索进入相关视频次数");
+        }
     }
 
     @Override

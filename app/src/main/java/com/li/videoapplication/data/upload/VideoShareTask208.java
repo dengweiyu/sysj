@@ -38,6 +38,7 @@ import com.li.videoapplication.tools.BitmapHelper;
 import com.li.videoapplication.tools.ShareSDKShareHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
+import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.utils.BitmapUtil;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -422,7 +423,8 @@ public class VideoShareTask208 {
             Log.d(tag, "preparing: 1");
 
             if (isofficial == 1 && !StringUtil.isNull(video_id) &&
-                    !StringUtil.isNull(goods_id) && !StringUtil.isNull(member_id)) {
+                    !StringUtil.isNull(goods_id) && !StringUtil.isNull(member_id)
+                    && VideoShareActivity.isPayed) {
 
                 String mobile = "";
                 try {
@@ -483,7 +485,7 @@ public class VideoShareTask208 {
                 qiniuCover(covertoken, flag);
 
                 // 分享
-                share();
+//                share();
 
                 // 字幕
                 subtitle();
@@ -669,6 +671,9 @@ public class VideoShareTask208 {
                         msg = "视频封面上传成功";
                         h.sendEmptyMessage(0);
                         Log.d(tag, "qiniuCover: 6");
+
+                        // 分享
+                        share();
                     } else {
                         msg = "视频封面上传失败";
                         h.sendEmptyMessage(0);
@@ -765,7 +770,7 @@ public class VideoShareTask208 {
                             status = Contants.STATUS_PAUSE;
                             h.sendEmptyMessage(0);
                         } else {
-                            String errorCode = getErroeCode(respInfo.error.toString());
+                            String errorCode = getErroeCode(respInfo.error);
                             msg = errorCode;
                             status = Contants.STATUS_PAUSE;
                             h.sendEmptyMessage(0);

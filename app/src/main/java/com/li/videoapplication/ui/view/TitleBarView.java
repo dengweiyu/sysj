@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.happly.link.HpplayLinkWindow;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
@@ -87,8 +88,10 @@ public class TitleBarView extends RelativeLayout implements
                 break;
 
             case R.id.titlebar_setting:
-                if (activity != null)
+                if (activity != null) {
                     DialogManager.showSettingDialog(activity);
+                    UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.VIDEOPLAY, "视频-全屏-设置");
+                }
                 break;
 
             case R.id.titlebar_tv:
@@ -100,6 +103,8 @@ public class TitleBarView extends RelativeLayout implements
                     new HpplayLinkWindow(activity, activity.youku_url);
                     return;
                 }
+                if (activity != null)
+                    UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.VIDEOPLAY, "投屏-点击投屏次数");
                 break;
         }
     }

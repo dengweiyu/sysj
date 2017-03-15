@@ -24,8 +24,8 @@ import rx.Observable;
  */
 public interface CacheProviders {
 
-    //获取首页数据 缓存时间3天
-    @LifeCache(duration = 3, timeUnit = TimeUnit.DAYS)
+    //获取首页数据 缓存时间1天
+    @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
     Observable<Reply<HomeDto>> getHomeInfo(Observable<HomeDto> oRepos,
                                            DynamicKey userName,
                                            EvictDynamicKey evictDynamicKey);

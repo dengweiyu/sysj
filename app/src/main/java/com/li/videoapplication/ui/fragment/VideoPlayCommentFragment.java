@@ -2,6 +2,7 @@ package com.li.videoapplication.ui.fragment;
 
 import android.text.Layout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -28,6 +29,8 @@ import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.adapter.VideoPlayCommentAdapter;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.utils.PatternUtil;
+import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 import com.li.videoapplication.views.sparkbutton.SparkButton;
 
@@ -377,7 +380,7 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
             isFirstIn = true;
             refreshTextLength();
 
-            setPlayCount(playCount, videoImage);
+            setPlayCount(playCount, item);
             setFocus(item);
             setGood(good, item);
             setBad(bad, item);
@@ -464,9 +467,9 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
      * 播放次数
      */
     private void setPlayCount(TextView view, VideoImage item) {
-        if (item != null) {
+        if (item != null && !StringUtil.isNull(item.getClick_count())) {
             // 2.1万次播放
-            setTextViewText(view, item.getClick_count() + " 次播放");
+            setTextViewText(view, StringUtil.formatNum(item.getClick_count()) + " 次播放");
         }
     }
 
@@ -480,13 +483,7 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
                 if (page == 1) {
                     data.clear();
                 }
-
-                String recordOld = event.toJSON();
-                String recordNew = recordOld.replace("\\\\", "\\");// \\ud83d\\ude24 --> \ud83d\ude24
-
-                VideoCommentListEntity entity = gson.fromJson(recordNew, VideoCommentListEntity.class);
-
-                data.addAll(entity.getData().getList());
+                data.addAll(event.getData().getList());
                 adapter.notifyDataSetChanged();
                 ++page;
             }

@@ -9,9 +9,11 @@ import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseFragment;
+import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
@@ -32,6 +34,9 @@ public class VideoPlayIntroduceFragment extends TBaseFragment implements OnClick
             getActivity().startActivity(intent);
             getActivity().overridePendingTransition(R.anim.activity_hold, R.anim.activity_hold);
             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.VIDEOPLAY, "游戏简介-安装");
+            // 游戏下载数+1
+            DataManager.downloadClick217(item.getGame_id(), getMember_id(),
+                    Constant.DOWNLOAD_LOCATION_VIDEOPLAY, item.getVideo_id());
         } else {
             ToastHelper.s("该游戏暂无安卓版本");
         }

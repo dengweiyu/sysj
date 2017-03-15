@@ -10,6 +10,15 @@ import java.util.List;
 public class MemberMatchPKEntity204 extends BaseResponseEntity {
 
 	private List<Match> data;
+	private String currencyNum;
+
+	public String getCurrencyNum() {
+		return currencyNum;
+	}
+
+	public void setCurrencyNum(String currencyNum) {
+		this.currencyNum = currencyNum;
+	}
 
 	public List<Match> getData() {
 		return data;

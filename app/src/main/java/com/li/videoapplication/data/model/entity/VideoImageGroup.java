@@ -16,7 +16,33 @@ public class VideoImageGroup extends BaseResponse2Entity {
 	private String more_mark;
 	private List<VideoImage> list;
 	private String video_ids;
+	private int isGame;
+	private String game_id;
+	private String group_id;
 
+	public String getGroup_id() {
+		return group_id;
+	}
+
+	public void setGroup_id(String group_id) {
+		this.group_id = group_id;
+	}
+
+	public String getGame_id() {
+		return game_id;
+	}
+
+	public void setGame_id(String game_id) {
+		this.game_id = game_id;
+	}
+
+	public int getIsGame() {
+		return isGame;
+	}
+
+	public void setIsGame(int isGame) {
+		this.isGame = isGame;
+	}
 
 	public String getTitle() {
 		return title;

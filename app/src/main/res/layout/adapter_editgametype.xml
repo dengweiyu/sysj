@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="42dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true">
+
+        <com.li.videoapplication.views.SmoothCheckBox
+            android:id="@+id/editgame_check"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="18dp"
+            app:color_checked="#fe5e5e"
+            app:color_unchecked="#dcdcdc"
+            app:stroke_width="0dp" />
+
+        <TextView
+            android:id="@+id/editgame_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="休闲益智"
+            android:textColor="@color/textcolor_gray"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider_bg"/>
+</LinearLayout>

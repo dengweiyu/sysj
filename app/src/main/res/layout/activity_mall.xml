@@ -20,12 +20,26 @@
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <com.li.videoapplication.views.CircleImageView
-            android:id="@+id/mall_pic"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/avatar_default" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.li.videoapplication.views.CircleImageView
+                android:id="@+id/mall_pic"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/avatar_default" />
+
+            <ImageView
+                android:id="@+id/mall_isv"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignEnd="@+id/mall_pic"
+                android:layout_alignBottom="@+id/mall_pic"
+                android:src="@drawable/home_v_red"
+                android:visibility="invisible" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/mall_login"
@@ -122,7 +136,8 @@
         android:layout_width="match_parent"
         android:background="#f2f2f2"
         android:layout_height="36dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"

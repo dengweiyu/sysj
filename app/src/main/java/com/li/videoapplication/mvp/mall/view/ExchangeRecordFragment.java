@@ -48,7 +48,6 @@ public class ExchangeRecordFragment extends TBaseFragment implements IExchangeRe
      */
     private void startOrderDetailActivity(String order_id) {
         ActivityManeger.startOrderDetailActivity(getActivity(), order_id, getTab());
-
     }
 
     public static ExchangeRecordFragment newInstance(int tab) {
@@ -96,7 +95,7 @@ public class ExchangeRecordFragment extends TBaseFragment implements IExchangeRe
         presenter.setExchangeRecordView(this);
 
         swipeRefreshLayout.setEnabled(false);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     private void initAdapter() {

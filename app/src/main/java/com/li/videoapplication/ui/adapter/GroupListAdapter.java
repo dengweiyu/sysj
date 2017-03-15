@@ -133,7 +133,13 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
                 // 关注圈子201
                 DataManager.groupAttentionGroup(record.getGroup_id(), getMember_id());
                 notifyDataSetChanged();
-                UmengAnalyticsHelper.onEvent(getContext(),UmengAnalyticsHelper.GAME,"找游戏专区-关注");
+                UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "找游戏专区-关注");
+                try {
+                    GroupListActivity activity = (GroupListActivity) getContext();
+                    UmengAnalyticsHelper.onGameListFocusEvent(getContext(), activity.groupType.getGroup_type_id());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

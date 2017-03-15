@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 /**
- * 活动：5.0截屏
+ * 活动：5.0截屏（优化图片处理）b
  */
 @SuppressLint("NewApi")
 @TargetApi(21)
@@ -188,49 +188,34 @@ public class ScreenCaptureActivity extends Activity {
 
 		private Image image;
 		private FileOutputStream fos;
-		private Bitmap bitmap;
+		private Bitmap bitmap, targetbitmap;
 
 		@Override
 		public void onImageAvailable(ImageReader reader) {
+			long startMills = System.currentTimeMillis();
 			try {
 				image = imageReader.acquireLatestImage();
 				if (image != null) {
-					long startMills = System.currentTimeMillis();
 					Image.Plane[] planes = image.getPlanes();
 					ByteBuffer buffer = planes[0].getBuffer();
-					// 两个相邻像素之间距离字节单位 4
 					int pixelStride = planes[0].getPixelStride();
-					// 2944
 					int rowStride = planes[0].getRowStride();
-					// 64
 					int rowPadding = rowStride - pixelStride * width;
-					int offset = 0;
-					bitmap = Bitmap.createBitmap(width,
-							height,
-							Bitmap.Config.ARGB_8888);
-					int pixel;
-					for (int i = 0; i < height; ++i) {
-						for (int j = 0; j < width; ++j) {
-							pixel = 0;
-							pixel |= (buffer.get(offset) & 0xff) << 16; // R
-							pixel |= (buffer.get(offset + 1) & 0xff) << 8; // G
-							pixel |= (buffer.get(offset + 2) & 0xff); // B
-							pixel |= (buffer.get(offset + 3) & 0xff) << 24; // A
-							bitmap.setPixel(j, i, pixel);
-							offset += pixelStride;
-						}
-						offset += rowPadding;
-					}
+
+					bitmap = Bitmap.createBitmap(width + rowPadding / pixelStride, height, Bitmap.Config.ARGB_8888);
+					bitmap.copyPixelsFromBuffer(buffer);
+					targetbitmap = Bitmap.createBitmap(bitmap, 0, 0,width, height);
+
 					long middleMills = System.currentTimeMillis();
 					fos = new FileOutputStream(path);
-					bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+					targetbitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 					long endMills = System.currentTimeMillis();
 
-					Log.d(TAG, "onImageAvailable: startMills=" + startMills);
+					// Log.d(TAG, "onImageAvailable: startMills=" + startMills);
+					// Log.d(TAG, "onImageAvailable: middleMills=" + middleMills);
+					// Log.d(TAG, "onImageAvailable: endMills=" + endMills);
 					Log.d(TAG, "onImageAvailable: difTime=" + (middleMills - startMills));
-					Log.d(TAG, "onImageAvailable: middleMills=" + middleMills);
 					Log.d(TAG, "saveBitmpToStorage: difTime=" + (endMills - middleMills));
-					Log.d(TAG, "onImageAvailable: endMills=" + endMills);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -245,6 +230,13 @@ public class ScreenCaptureActivity extends Activity {
 				if (bitmap != null) {
 					try {
 						bitmap.recycle();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				if (targetbitmap != null) {
+					try {
+						targetbitmap.recycle();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

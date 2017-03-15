@@ -8,18 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
-import android.text.Editable;
 import android.text.Html;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
@@ -35,6 +28,7 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.BitmapLoader;
+import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.PhotoHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
@@ -43,8 +37,6 @@ import com.li.videoapplication.ui.dialog.EditNameDialog;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.ui.dialog.RegisterMobileDialog;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.utils.InputUtil;
-import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.CircleImageView;
@@ -60,9 +52,7 @@ import java.util.List;
 /**
  * 活动：个人资料
  */
-public class MyPersonalInfoActivity extends TBaseActivity implements OnClickListener,
-        CompoundButton.OnCheckedChangeListener,
-        RadioGroup.OnCheckedChangeListener {
+public class MyPersonalInfoActivity extends TBaseActivity implements OnClickListener {
 
 
     /**
@@ -96,23 +86,13 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
     }
 
     private CircleImageView head;
-    private RelativeLayout headBtn, nameBtn, mobileBtn, beanBtn,matchRecordBtn;
-    private TextView name;
+    private ImageView isV;
+    private TextView horizonId, name;
     private TextView gender;
-    private RadioGroup genderRadio;
-    private RadioButton female;
-    private RadioButton male;
     private TextView introduce;
-    private EditText introduceEdit;
-    private TextView qq, mobile, beanNum,matchRecord;
-    private EditText qqEdit;
-    private CheckBox publicCheck;
-    private RelativeLayout logoutBtn;
-    private View dividerBean;
+    private TextView qq, mobile, beanNum, matchRecord;
 
     private Member member = getUser();
-
-    private Member newMember = new Member();
 
     private List<GroupType> groupTypes = new ArrayList<>();
 
@@ -145,12 +125,9 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
     @Override
     public void initView() {
         super.initView();
-
         initContentView();
-        Log.d(tag, "initView: refreshContentView");
         refreshContentView(member);
         refreshListView(member);
-        setContentNormal();
     }
 
     @Override
@@ -166,7 +143,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 @Override
                 public void run() {
                     // 圈子类型
-                    DataManager.groupType210();
+                    DataManager.groupType217();
                 }
             }, 400);
         }
@@ -175,146 +152,73 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
     private void initContentView() {
 
         head = (CircleImageView) findViewById(R.id.mypersonnalinfo_head);
-        headBtn = (RelativeLayout) findViewById(R.id.mypersonnalinfo_head_btn);
+        isV = (ImageView) findViewById(R.id.mypersonnalinfo_isv);
+        horizonId = (TextView) findViewById(R.id.mypersonnalinfo_horizonid);
         name = (TextView) findViewById(R.id.mypersonnalinfo_name);
-        nameBtn = (RelativeLayout) findViewById(R.id.mypersonnalinfo_name_btn);
         gender = (TextView) findViewById(R.id.mypersonnalinfo_gender);
-        genderRadio = (RadioGroup) findViewById(R.id.mypersonnalinfo_gender_radio);
-        female = (RadioButton) findViewById(R.id.mypersonnalinfo_female);
-        male = (RadioButton) findViewById(R.id.mypersonnalinfo_male);
         introduce = (TextView) findViewById(R.id.mypersonnalinfo_introduce);
-        introduceEdit = (EditText) findViewById(R.id.mypersonnalinfo_introduce_edit);
-        qq = (TextView) findViewById(R.id.mypersonnalinfo_qq);
-        qqEdit = (EditText) findViewById(R.id.mypersonnalinfo_qq_edit);
-        mobile = (TextView) findViewById(R.id.mypersonnalinfo_mobile);
-        mobileBtn = (RelativeLayout) findViewById(R.id.mypersonnalinfo_mobile_btn);
-        publicCheck = (CheckBox) findViewById(R.id.mypersonnalinfo_public);
-        logoutBtn = (RelativeLayout) findViewById(R.id.mypersonnalinfo_logout_btn);
-        beanBtn = (RelativeLayout) findViewById(R.id.mypersonnalinfo_bean_btn);
         beanNum = (TextView) findViewById(R.id.mypersonnalinfo_bean_num);
-        dividerBean = findViewById(R.id.divider_bean);
-        matchRecordBtn = (RelativeLayout) findViewById(R.id.mypersonnalinfo_matchrecord_btn);
         matchRecord = (TextView) findViewById(R.id.mypersonnalinfo_matchrecord);
+        qq = (TextView) findViewById(R.id.mypersonnalinfo_qq);
+        mobile = (TextView) findViewById(R.id.mypersonnalinfo_mobile);
 
-        genderRadio.setOnCheckedChangeListener(this);
-        publicCheck.setOnCheckedChangeListener(this);
-
-        introduceEdit.addTextChangedListener(getTextWatcher(introduceEdit));
-        qqEdit.addTextChangedListener(getTextWatcher(qqEdit));
-
-        matchRecordBtn.setOnClickListener(this);
-        mobileBtn.setOnClickListener(this);
-        headBtn.setOnClickListener(this);
-        nameBtn.setOnClickListener(this);
-        logoutBtn.setOnClickListener(this);
-        publicCheck.setOnClickListener(this);
-
-        abMyPersonalInfoEdit.setOnClickListener(this);
-        abMyPersonalInfoCancel.setOnClickListener(this);
-        abMyPersonalInfoSave.setOnClickListener(this);
+        findViewById(R.id.mypersonnalinfo_head_btn).setOnClickListener(this);
+        findViewById(R.id.mypersonnalinfo_name_btn).setOnClickListener(this);
+        findViewById(R.id.mypersonnalinfo_sex_btn).setOnClickListener(this);
+        findViewById(R.id.mypersonnalinfo_introduce_btn).setOnClickListener(this);
+        findViewById(R.id.mypersonnalinfo_mobile_btn).setOnClickListener(this);
+        findViewById(R.id.mypersonnalinfo_logout_btn).setOnClickListener(this);
+        findViewById(R.id.mypersonnalinfo_matchrecord_btn).setOnClickListener(this);
+        findViewById(R.id.mypersonnalinfo_gameedit).setOnClickListener(this);
+        findViewById(R.id.mypersonnalinfo_qq_btn).setOnClickListener(this);
 
         mHorizontalListView = (HorizontalListView) findViewById(R.id.horizontallistvierw);
         adapter = new MyPersonalInfoAdapter(this, data);
         mHorizontalListView.setAdapter(adapter);
     }
 
-    private TextWatcher getTextWatcher(final EditText view) {
-
-        return new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String text = s.toString().trim();
-                if (view == introduceEdit) {
-                    newMember.setSignature(text);
-                    setTextViewText(introduce, text);
-                } else if (view == qqEdit) {
-                    newMember.setQq(text);
-                    setTextViewText(qq, text);
-                }
-            }
-        };
-    }
-
-    private String getMobileText() {
-        if (mobile.getText() != null)
-            return mobile.getText().toString();
-        return "";
-    }
-
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.mypersonnalinfo_matchrecord_btn:
+            case R.id.mypersonnalinfo_sex_btn://性别
+                DialogManager.showEditSexDialog(this);
+                break;
+            case R.id.mypersonnalinfo_name_btn://昵称
+                ActivityManeger.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.NAME);
+                break;
+            case R.id.mypersonnalinfo_introduce_btn://个性签名
+                ActivityManeger.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.SIGNATURE);
+                break;
+            case R.id.mypersonnalinfo_gameedit://游戏类型
+                ActivityManeger.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.GAME);
+                break;
+            case R.id.mypersonnalinfo_matchrecord_btn://赛事战绩
                 startMatchRecordActivity();
                 break;
-            case R.id.mypersonnalinfo_mobile_btn:
-                if (adapter.getMode() == MyPersonalInfoAdapter.MODE_EDIT) {
-                    DialogManager.showRegisterMobileDialog(this, getMobileText(), new RegisterMobileDialog.MobileCallback() {
-                        @Override
-                        public void onMobileCallback(DialogInterface dialog, String mobileNum) {
-                            dialog.dismiss();
-                            newMember.setMobile(mobileNum);
-                            setTextViewText(mobile, mobileNum);
-                        }
-                    });
-                }
+            case R.id.mypersonnalinfo_qq_btn://QQ
+                DialogManager.showEditQQDialog(this);
+                break;
+            case R.id.mypersonnalinfo_mobile_btn://手机
+                DialogManager.showRegisterMobileDialog(this);
                 break;
 
-            case R.id.mypersonnalinfo_head_btn:
+            case R.id.mypersonnalinfo_head_btn://头像
                 DialogManager.showPhotoDialog(this, this, this);
                 break;
 
-            case R.id.mypersonnalinfo_name_btn:
-                if (adapter.getMode() == MyPersonalInfoAdapter.MODE_EDIT) {
-                    DialogManager.showEditNameDialog(this, getName(), new EditNameDialog.NameCallback() {
-                        @Override
-                        public void onNameCallback(DialogInterface dialog, String newName) {
-                            dialog.dismiss();
-                            newMember.setNickname(newName);
-                            setTextViewText(name, newName);
-                        }
-                    });
-                }
-                break;
-
-            case R.id.photo_pick:
+            case R.id.photo_pick://选择图片
                 pickPhoto();
                 break;
 
-            case R.id.photo_take:
+            case R.id.photo_take://拍照
                 takePhoto();
                 break;
 
-            case R.id.ab_mypersonalinfo_edit:
-                newMember = (Member) member.clone();
-                setContentEdit();
-                setListEdit(member);
-                break;
-
-            case R.id.ab_mypersonalinfo_cancel:
-                newMember = new Member();
-                setContentNormal();
-                setListNormal(member);
-                break;
-
-            case R.id.ab_mypersonalinfo_save:
-                //昵称和个性签名 敏感词过滤
-                DataManager.baseInfo(getName() + " " + getIntroduce());
-                break;
-
-            case R.id.mypersonnalinfo_logout_btn:
+            case R.id.mypersonnalinfo_logout_btn://注销
                 AppAccount.logout();
                 ToastHelper.s(R.string.logout_success);
+                FeiMoIMHelper.LogOut(this, true);
                 finish();
                 break;
 
@@ -323,76 +227,25 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         }
     }
 
-    private String getName() {
-        if (StringUtil.isNull(name.getText().toString())) {
-            return "";
-        } else {
-            return name.getText().toString();
-        }
-    }
-
-    private String getIntroduce() {
-        if (StringUtil.isNull(introduceEdit.getText().toString())) {
-            return "";
-        } else {
-            return introduceEdit.getText().toString();
-        }
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        int display;
-        if (isChecked)
-            display = 1;
-        else
-            display = 0;
-        // 私密资料
-        Member m = new Member();
-        m.setId(member.getId());
-        m.setSex(111);
-        m.setDisplay(display);
-
-        LogHelper.d(tag, "isChecked: " + isChecked);
-        LogHelper.d(tag, "display: " + display);
-//         编辑个人资料
-        DataManager.userProfileFinishMemberInfo(m);
-        member.setDisplay(display);
-    }
-
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-        switch (checkedId) {
-
-            case R.id.mypersonnalinfo_female:
-                newMember.setSex(0);
-                break;
-
-            case R.id.mypersonnalinfo_male:
-                newMember.setSex(1);
-                break;
-
-            default:
-                break;
-        }
-    }
-
     private void refreshContentView(Member item) {
-
         if (item != null) {
             setImageViewImageNet(head, item.getAvatar());
+            setTextViewText(horizonId, item.getHorizonId());
             setTextViewText(name, item.getNickname());
+
+            if (item.isV()) {
+                isV.setVisibility(View.VISIBLE);
+            } else {
+                isV.setVisibility(View.INVISIBLE);
+            }
 
             if (StringUtil.isNull(item.getSignature())) {
                 setTextViewText(introduce, "");
-                setTextViewText(introduceEdit, "");
             } else {
                 setTextViewText(introduce, item.getSignature());
-                setTextViewText(introduceEdit, item.getSignature());
             }
 
             setTextViewText(qq, item.getQq());
-            setTextViewText(qqEdit, item.getQq());
             setTextViewText(beanNum, StringUtil.formatNum(item.getCurrency()));
             setTextViewText(mobile, item.getMobile());
             //红色：#ff3d2e，蓝色：#48c5ff
@@ -401,81 +254,11 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
             matchRecord.setText(Html.fromHtml(record));
 
             if (item.getSex() == 1) {
-                male.setChecked(true);
                 gender.setText("男");
             } else {
-                female.setChecked(true);
                 gender.setText("女");
             }
-            setDisplay(member);
         }
-    }
-
-
-    private void setContentNormal() {
-
-        try {
-            InputUtil.closeKeyboard(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        abTitle.setVisibility(View.VISIBLE);
-        abGoback.setVisibility(View.VISIBLE);
-        abMyPersonalInfoEdit.setVisibility(View.VISIBLE);
-        abMyPersonalInfoCancel.setVisibility(View.GONE);
-        abMyPersonalInfoSave.setVisibility(View.GONE);
-
-        name.setVisibility(View.VISIBLE);
-
-        gender.setVisibility(View.VISIBLE);
-        genderRadio.setVisibility(View.GONE);
-
-        introduce.setVisibility(View.VISIBLE);
-        introduceEdit.setVisibility(View.GONE);
-
-        qq.setVisibility(View.VISIBLE);
-        qqEdit.setVisibility(View.GONE);
-        beanBtn.setVisibility(View.VISIBLE);
-        dividerBean.setVisibility(View.VISIBLE);
-        mobile.setVisibility(View.VISIBLE);
-
-        headBtn.setOnClickListener(null);
-        nameBtn.setOnClickListener(null);
-        mobileBtn.setOnClickListener(null);
-
-        nameBtn.setClickable(false);
-        mobileBtn.setClickable(false);
-    }
-
-    private void setContentEdit() {
-
-        abTitle.setVisibility(View.GONE);
-        abGoback.setVisibility(View.GONE);
-        abMyPersonalInfoEdit.setVisibility(View.GONE);
-        abMyPersonalInfoCancel.setVisibility(View.VISIBLE);
-        abMyPersonalInfoSave.setVisibility(View.VISIBLE);
-
-        gender.setVisibility(View.GONE);
-        genderRadio.setVisibility(View.VISIBLE);
-
-        introduce.setVisibility(View.GONE);
-        introduceEdit.setVisibility(View.VISIBLE);
-
-        qq.setVisibility(View.GONE);
-        qqEdit.setVisibility(View.VISIBLE);
-
-        beanBtn.setVisibility(View.GONE);
-        dividerBean.setVisibility(View.GONE);
-
-        mobile.setVisibility(View.VISIBLE);
-
-        headBtn.setOnClickListener(this);
-        nameBtn.setOnClickListener(this);
-        mobileBtn.setOnClickListener(this);
-
-        nameBtn.setClickable(true);
-        mobileBtn.setClickable(true);
     }
 
     /**
@@ -483,7 +266,9 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
      */
     private void refreshListView(Member item) {
         data.clear();
-        if (groupTypes != null && groupTypes.size() > 0 && item.getLikeGroupType() != null && item.getLikeGroupType().size() > 0) {
+        if (groupTypes != null && groupTypes.size() > 0
+                && item.getLikeGroupType() != null && item.getLikeGroupType().size() > 0) {
+
             for (String id : item.getLikeGroupType()) {
                 for (GroupType groupType : groupTypes) {
                     if (id.equals(groupType.getGroup_type_id())) {
@@ -492,72 +277,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 }
             }
         }
-        adapter.setMode(MyPersonalInfoAdapter.MODE_NORMAL);
         adapter.notifyDataSetChanged();
-    }
-
-    /**
-     * 列表正常狀態
-     */
-    private void setListNormal(Member item) {
-
-        List<String> list = new ArrayList<String>();
-        for (int i = 0; i < groupTypes.size(); i++) {
-            GroupType groupType = groupTypes.get(i);
-            if (groupType.isSelected()) {
-                list.add(groupType.getGroup_type_id());
-            }
-        }
-        item.setLikeGroupType(list);
-        refreshListView(item);
-    }
-
-    /**
-     * 列表選着狀態
-     */
-    private void setListEdit(Member item) {
-
-        data.clear();
-        if (groupTypes != null && groupTypes.size() > 0 && item.getLikeGroupType() != null && item.getLikeGroupType().size() > 0) {
-            for (String id : item.getLikeGroupType()) {
-                for (GroupType groupType : groupTypes) {
-                    if (id.equals(groupType.getGroup_type_id())) {
-                        groupType.setSelected(true);
-                    }
-                }
-            }
-        }
-        data.addAll(groupTypes);
-        adapter.setMode(MyPersonalInfoAdapter.MODE_EDIT);
-        adapter.notifyDataSetChanged();
-    }
-
-    /**
-     * 性別
-     */
-    public String getGender(int gender) {
-
-        if (gender == 1) {
-            return "男";
-        } else if (gender == 0) {
-            return "女";
-        } else {
-            return "无";
-        }
-    }
-
-    /**
-     * 是否公開
-     */
-    public void setDisplay(Member item) {
-
-        if (item != null) {
-            if (item.getDisplay() == 1) {
-                publicCheck.setChecked(true);
-            } else {
-                publicCheck.setChecked(false);
-            }
-        }
     }
 
     /**
@@ -611,7 +331,6 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
     }
 
     public static final int w = 600;
-
     public static final int h = 600;
 
     // 压缩图片
@@ -663,15 +382,11 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
      * 回调：个人资料
      */
     public void onEventMainThread(UserProfilePersonalInformationEntity event) {
-
-        if (event != null) {
-            if (event.isResult()) {
-                member = event.getData();
-                if (member != null) {
-                    refreshContentView(member);
-                    refreshListView(member);
-                    setContentNormal();
-                }
+        if (event != null && event.isResult()) {
+            member = event.getData();
+            if (member != null) {
+                refreshContentView(member);
+                refreshListView(member);
             }
         }
     }
@@ -680,60 +395,29 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
      * 回调：圈子類型
      */
     public void onEventMainThread(GroupType210Entity event) {
-
-        if (event != null) {
-            if (event.isResult()) {
-                if (event.getData().size() > 0) {
-                    this.groupTypes.clear();
-                    this.groupTypes.addAll(event.getData());
-                    refreshListView(member);
+        if (event != null && event.isResult()) {
+            if (event.getData().size() > 0) {
+                groupTypes.clear();
+                groupTypes.addAll(event.getData());
+                refreshListView(member);
+                if (isChangeAvatar) {
+                    FeiMoIMHelper.upDateUser(member.getNickname(), member.getAvatar());
+                    isChangeAvatar = false;
                 }
             }
         }
     }
 
-    /**
-     * 回调：敏感词过滤
-     */
-    public void onEventMainThread(BaseInfoEntity event) {
-
-        if (event != null && event.isResult()) {
-            if (event.getData().isHasBad()) {
-                ToastHelper.s("请勿使用敏感词汇");
-                return;
-            }
-            member = (Member) newMember.clone();
-            setContentNormal();
-            setListNormal(member);
-            refreshContentView(member);
-            // 编辑个人资料
-            DataManager.userProfileFinishMemberInfo(member);
-        }
-    }
-
-    /**
-     * 回调：编辑个人资料
-     */
-    public void onEventMainThread(UserProfileFinishMemberInfoEntity event) {
-
-        if (event != null) {
-            if (event.isResult()) {
-                // 提交完善个人资料任务
-                DataManager.TASK.doTask_16(getMember_id());
-            }
-        }
-    }
+    private boolean isChangeAvatar;
 
     /**
      * 回调：上传头像
      */
     public void onEventMainThread(UserProfileUploadAvatarEntity event) {
-
         dismissProgressDialog();
-        if (event != null) {
-            if (event.isResult()) {
-                showToastShort("头像上传成功");
-            }
+        if (event != null && event.isResult()) {
+            showToastShort("头像上传成功");
+            isChangeAvatar = true;
         }
     }
 }

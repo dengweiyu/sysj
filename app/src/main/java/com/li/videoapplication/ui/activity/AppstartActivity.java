@@ -130,7 +130,7 @@ public class AppstartActivity extends TBaseActivity {
     public void replaceBanner() {
         try {
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             transaction.replace(R.id.container, new BannerFragment()).commit();
         } catch (Exception e) {
             e.printStackTrace();

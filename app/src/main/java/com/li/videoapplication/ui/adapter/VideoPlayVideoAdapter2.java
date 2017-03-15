@@ -15,6 +15,7 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.utils.StringUtil;
@@ -76,6 +77,7 @@ public class VideoPlayVideoAdapter2 extends BaseArrayAdapter<VideoImage> {
             @Override
             public void onClick(View v) {
                 activity.startAuthorVideoListFragment(activity.item.getMember_id(), record.getGame_id(), record.getName());
+                UmengAnalyticsHelper.onEvent(getContext(),UmengAnalyticsHelper.VIDEOPLAY, "TA的视频-视频合集");
             }
         });
 

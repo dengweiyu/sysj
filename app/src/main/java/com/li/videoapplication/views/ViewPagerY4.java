@@ -25,16 +25,12 @@ public class ViewPagerY4 extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (isScrollable == false) {
-            return false;
-        } else {
-            return super.onTouchEvent(ev);
-        }
+        return isScrollable && super.onTouchEvent(ev);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (isScrollable == false) {
+        if (!isScrollable) {
             return false;
         } else {
             if (isTouchable) {// 放行触摸事件， 父视图放行

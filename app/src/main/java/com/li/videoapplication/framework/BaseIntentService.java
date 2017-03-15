@@ -6,6 +6,7 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 /**
  * 基本服务
@@ -50,6 +51,7 @@ public abstract class BaseIntentService extends BaseService {
 
     @Override
     public void onStart(Intent intent, int startId) {
+        Log.d(tag, "onStart: ");
         Message msg = mServiceHandler.obtainMessage();
         msg.arg1 = startId;
         msg.obj = intent;
@@ -58,6 +60,7 @@ public abstract class BaseIntentService extends BaseService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(tag, "onStartCommand: ");
         onStart(intent, startId);
         return mRedelivery ? START_REDELIVER_INTENT : START_NOT_STICKY;
     }
@@ -69,6 +72,7 @@ public abstract class BaseIntentService extends BaseService {
 
     @Override
     public IBinder onBind(Intent intent) {
+        Log.d(tag, "onBind: ");
         return null;
     }
 

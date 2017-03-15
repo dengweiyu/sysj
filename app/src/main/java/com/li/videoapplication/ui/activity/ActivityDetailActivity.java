@@ -1,7 +1,10 @@
 package com.li.videoapplication.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.graphics.Color;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -20,6 +23,8 @@ import com.li.videoapplication.mvp.activity_gift.ActivityGiftContract.IActivityD
 import com.li.videoapplication.mvp.activity_gift.ActivityGiftContract.IActivityPresenter;
 import com.li.videoapplication.mvp.activity_gift.presenter.ActivityPresenter;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.ui.dialog.RecordDialog;
 import com.li.videoapplication.ui.fragment.ActivityRulesFragment;
 import com.li.videoapplication.ui.fragment.JoinActivityFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
@@ -36,7 +41,7 @@ import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdap
  */
 @SuppressLint({"SetJavaScriptEnabled", "CutPasteId"})
 public class ActivityDetailActivity extends TBaseAppCompatActivity implements IActivityDetailView,
-        OnClickListener, ViewPager.OnPageChangeListener {
+        OnClickListener, ViewPager.OnPageChangeListener, RecordDialog.IDialogVisableListener {
 
     public Match match;
     private List<Fragment> fragments;
@@ -49,6 +54,8 @@ public class ActivityDetailActivity extends TBaseAppCompatActivity implements IA
     private ImageView tb_share;
     private String share_url;
     private IActivityPresenter presenter;
+    private FloatingActionButton fab;
+    private RecordDialog recordDialog;
 
     /**
      * 分享
@@ -63,6 +70,21 @@ public class ActivityDetailActivity extends TBaseAppCompatActivity implements IA
             ActivityManeger.startActivityShareActivity4VideoPlay(this, share_url, title, imageUrl, content);
         }
     }
+
+    /*
+   * 跳转：上传图片
+   */
+    private void startActivityImageUploadActivity() {
+        ActivityManeger.startActivityImageUploadActivity(this, match.getMatch_id());
+    }
+
+    /*
+    * 跳转：上传视频
+    */
+    private void startVideoChooseActivity() {
+        ActivityManeger.startVideoChooseActivity(this, match, VideoShareActivity.TO_FINISH);
+    }
+
 
     @Override
     public void refreshIntent() {
@@ -100,6 +122,9 @@ public class ActivityDetailActivity extends TBaseAppCompatActivity implements IA
 
         tb_share.setOnClickListener(this);
         initViewPager();
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
     }
 
     @Override
@@ -150,7 +175,7 @@ public class ActivityDetailActivity extends TBaseAppCompatActivity implements IA
 
         if (tab.size() == 1) {
             tabLayout.setVisibility(View.GONE);
-        }else {
+        } else {
             tabLayout.setupWithViewPager(mViewPager);
         }
     }
@@ -176,7 +201,46 @@ public class ActivityDetailActivity extends TBaseAppCompatActivity implements IA
             case R.id.tb_share:
                 startShareActivity();
                 break;
+            case R.id.fab:
+                if (recordDialog == null) {
+                    recordDialog = DialogManager.showActivityRecordDialog(this, this, new RecordDialog.IOnClickListener() {
+                        @Override
+                        public void onUploadImageClick() {
+                            startActivityImageUploadActivity();
+                        }
+
+                        @Override
+                        public void onUploadVideoClick() {
+                            startVideoChooseActivity();
+                        }
+                    });
+                } else {
+                    recordDialog.show();
+                }
+                break;
         }
+    }
+
+    public void setFABVisable(boolean visable) {
+        if (visable && fab.getVisibility() != View.VISIBLE) {
+            fab.show();
+        } else {
+            fab.hide();
+        }
+    }
+
+    //录制对话框打开回调
+    @Override
+    public void dialogShowed() {
+        Log.d(tag, "dialogShowed: ");
+        animationHelper.add2CloseRotationAnim(fab);
+    }
+
+    //录制对话框关闭回调
+    @Override
+    public void dialogCanceled() {
+        Log.d(tag, "dialogCanceled: ");
+        animationHelper.close2AddRotationAnim(fab);
     }
 
     @Override
@@ -220,5 +284,4 @@ public class ActivityDetailActivity extends TBaseAppCompatActivity implements IA
     public void onPageScrollStateChanged(int state) {
 
     }
-
 }

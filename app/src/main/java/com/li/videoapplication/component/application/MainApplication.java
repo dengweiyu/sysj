@@ -1,16 +1,14 @@
 package com.li.videoapplication.component.application;
 
 import android.content.Context;
-import android.os.Debug;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.happly.link.util.LogCat;
+import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.cache.CacheManager;
-import com.li.videoapplication.data.local.StorageUtil;
 import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.network.RequestService;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
@@ -73,6 +71,9 @@ public class MainApplication extends BaseApplication {
 
                     //版本审核
                     DataManager.checkAndroidStatus(AppUtil.getVersionCode(getApplicationContext()));
+
+                    //feimo im sdk
+                    IMSdk.init(MainApplication.this);
                 }
             });
         }

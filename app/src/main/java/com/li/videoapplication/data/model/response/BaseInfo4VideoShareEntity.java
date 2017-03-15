@@ -1,0 +1,8 @@
+package com.li.videoapplication.data.model.response;
+
+
+
+@SuppressWarnings("serial")
+public class BaseInfo4VideoShareEntity extends BaseInfoEntity {
+
+}

@@ -13,6 +13,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.ToastHelper;
 /**
@@ -26,6 +28,11 @@ public abstract class BaseDialog extends Dialog {
     protected final String tag = this.getClass().getSimpleName();
     
     private TextImageHelper textImageHelper = new TextImageHelper();
+
+	protected Member getUser() {
+		return PreferencesHepler.getInstance().getUserProfilePersonalInformation();
+	}
+
 	protected Context mContext;
 
 	public BaseDialog(Context context) {

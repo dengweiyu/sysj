@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ifeimo.im.test" >
+
+    <uses-sdk
+        android:minSdkVersion="18"
+        android:targetSdkVersion="22" />
+
+    <instrumentation
+        android:name="android.support.test.runner.AndroidJUnitRunner"
+        android:functionalTest="false"
+        android:handleProfiling="false"
+        android:label="Tests for com.ifeimo.im.test"
+        android:targetPackage="com.ifeimo.im.test" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application>
+        <uses-library android:name="android.test.runner" />
+        <!-- <activity -->
+        <!-- android:name=".activity.ContactListActivity" /> -->
+        <!-- <activity -->
+        <!-- android:name=".activity.TestActivity" /> -->
+        <service android:name="com.ifeimo.im.service.LoginService" />
+        <service android:name="com.ifeimo.im.service.MsgService" />
+
+        <provider
+            android:name="com.ifeimo.im.provider.MuccProvider"
+            android:authorities="com.ifeimo.im.db.mucc"
+            android:exported="false" />
+        <provider
+            android:name="com.ifeimo.im.provider.ChatProvider"
+            android:authorities="com.ifeimo.im.db.chat"
+            android:exported="false" />
+        <provider
+            android:name="com.ifeimo.im.provider.InformationProvide"
+            android:authorities="com.ifeimo.im.db.cachemsglist"
+            android:exported="false" />
+
+        <receiver android:name="com.ifeimo.im.receiver.ConnectReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="com.ifeimo.im.receiver.ConnectReceiver" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.ifeimo.im.activity.TestInformationActivity"
+            android:theme="@style/Theme.AppCompat" />
+    </application>
+
+</manifest>

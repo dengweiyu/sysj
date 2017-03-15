@@ -1,6 +1,7 @@
 package com.li.videoapplication.mvp.adapter;
 
 import android.graphics.Color;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +13,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Match;
+import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 
@@ -25,6 +28,7 @@ import java.util.List;
 public class MyFinishedMatchProcessAdapter extends BaseQuickAdapter<Match, BaseViewHolder> {
 
     private TextImageHelper helper;
+    private String event_id;
 
     public MyFinishedMatchProcessAdapter(List<Match> data) {
         super(R.layout.adapter_myfinishedmatch, data);
@@ -35,6 +39,7 @@ public class MyFinishedMatchProcessAdapter extends BaseQuickAdapter<Match, BaseV
     protected void convert(BaseViewHolder holder, Match record) {
         holder.setText(R.id.process, TextUtil.numberAtRed(record.getName(), "#ff3d2e"))//ff3d2e--red
                 .setText(R.id.myname, record.getTeam_a().getLeader_game_role());
+//                .addOnClickListener(R.id.clickarea);
 
         View mybgline = holder.getView(R.id.mybgline);
         TextView myresult_text = holder.getView(R.id.myresult_text);
@@ -74,6 +79,28 @@ public class MyFinishedMatchProcessAdapter extends BaseQuickAdapter<Match, BaseV
         } else {
             helper.setImageViewImageRes(enemyicon, R.drawable.matchprocess_noenemy_large);
         }
+
+        addOnClickListener(holder, record);
+    }
+
+    private void addOnClickListener(BaseViewHolder holder, final Match record) {
+        View tranView = holder.getView(R.id.transition_area);
+        final View tranView2 = holder.getView(R.id.myresult_image);
+        tranView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!StringUtil.isNull(event_id)) {
+                    FragmentActivity activity = AppManager.getInstance().currentActivity();
+                    ActivityManeger.startMyMatchBettleActivity(activity,
+                            event_id, record.getSchedule_id(), v, "finishmatch",
+                            tranView2, "signet");
+                }
+            }
+        });
+    }
+
+    public void setEventID(String event_id) {
+        this.event_id = event_id;
     }
 
     /**

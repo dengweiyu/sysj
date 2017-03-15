@@ -7,6 +7,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -34,6 +35,16 @@ public class InputUtil {
         inputManager.showSoftInput(editText, 0);
     }
 
+    /**
+     * EditText获取焦点并显示软键盘
+     */
+    public static void showKeyboardFromWindow(Activity activity, EditText editText) {
+        editText.setFocusable(true);
+        editText.setFocusableInTouchMode(true);
+        editText.requestFocus();
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+    }
+
     public static void restartKeyboard(EditText editText) {
         InputMethodManager manager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.restartInput(editText);
@@ -56,13 +67,5 @@ public class InputUtil {
         return false;
     }
 
-    /**
-     * 功能：隐藏键盘
-     */
-    public static void hideSoftInput(IBinder token, Context context) {
-        if (token != null) {
-            InputMethodManager im = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-    }
+
 }

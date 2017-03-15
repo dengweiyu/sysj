@@ -58,15 +58,15 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
      * 跳转：视频播放
      */
     private void startVideoPlayActivity(VideoImage videoImage) {
-        ActivityManeger.startVideoPlayActivity(getContext(), videoImage);
-        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "活动-参加活动-视频播放");
+        ActivityManeger.startVideoPlayActivity(getActivity(), videoImage);
+        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "活动-参加活动-视频播放");
     }
 
     /**
      * 跳转：玩家动态
      */
     private void startPlayerDynamicActivity(Member member) {
-        ActivityManeger.startPlayerDynamicActivity(getContext(), member);
+        ActivityManeger.startPlayerDynamicActivity(getActivity(), member);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
     }
 
     private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_light,
@@ -121,7 +121,7 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
 
     private void initAdapter() {
         data = new ArrayList<>();
-        adapter = new GroupDetailVideoRecyclerAdapter(getContext(), data);
+        adapter = new GroupDetailVideoRecyclerAdapter(getActivity(), data);
         adapter.setLoadMoreView(new LoadMoreViewWhite());
         adapter.setOnLoadMoreListener(this);
 

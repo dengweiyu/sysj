@@ -18,30 +18,40 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
+import com.ifeimo.im.framwork.IMSdk;
+import com.ifeimo.im.framwork.Proxy;
+import com.ifeimo.im.framwork.message.OnGroupItemOnClickListener;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Game;
+import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.model.response.GroupInfoEntity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
 import com.li.videoapplication.data.model.response.VideoCollect2Entity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
 import com.li.videoapplication.framework.AppConstant;
+import com.li.videoapplication.framework.BaseHttpResult;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
+import com.li.videoapplication.mvp.Constant;
+import com.li.videoapplication.mvp.match.MatchContract;
+import com.li.videoapplication.mvp.match.MatchContract.IGroupDetailView;
+import com.li.videoapplication.mvp.match.MatchContract.IMatchPresenter;
+import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
+import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.FglassHelper;
+import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.fragment.GroupdetailIntroduceFragment;
-import com.li.videoapplication.ui.fragment.GroupdetailVideoFragment;
 import com.li.videoapplication.ui.fragment.GroupdetailPlayerFragment;
+import com.li.videoapplication.ui.fragment.GroupdetailVideoFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
@@ -50,6 +60,9 @@ import com.li.videoapplication.views.RoundedImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
 
@@ -59,7 +72,7 @@ import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdap
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 @SuppressLint("InflateParams")
 public class GroupDetailActivity extends TBaseAppCompatActivity implements
-        OnClickListener {
+        OnClickListener, IGroupDetailView {
 
     public static final String TAG = GroupDetailActivity.class.getSimpleName();
 
@@ -67,6 +80,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     private GroupdetailVideoFragment newVideoFragment;
     private GroupdetailVideoFragment hotVideoFragment;
     private GroupdetailPlayerFragment playerFragment;
+    private IMatchPresenter presenter;
 
     /**
      * 跳转：安装应用
@@ -79,7 +93,8 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 startActivity(intent);
 
                 // 游戏下载数+1
-                DataManager.TASK.downloadClick203(game.getGame_id());
+                DataManager.downloadClick217(game.getGame_id(), getMember_id(),
+                        Constant.DOWNLOAD_LOCATION_GROUP, group_id);
             }
         }
     }
@@ -101,7 +116,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     private TextView name;
     private TextView mark;
     private TextView focus;
-    private View focusView;
+    private View focusView, matchView;
     public AppBarLayout appBarLayout;
 
     public Game game;
@@ -195,7 +210,8 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
         tb_gift = (ImageView) findViewById(R.id.tb_gift);
         tb_gift.setOnClickListener(this);
         TextView tb_title = (TextView) findViewById(R.id.tb_title);
-        tb_title.setText("游戏圈");
+//        tb_title.setText("游戏圈");
+        tb_title.setVisibility(View.INVISIBLE);
 
         if (AppConstant.DOWNLOAD) {
             findViewById(R.id.tb_download).setVisibility(View.VISIBLE);
@@ -207,9 +223,11 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     @Override
     public void loadData() {
         super.loadData();
-
         // 圈子详情
         DataManager.groupInfo(group_id, getMember_id());
+
+        presenter = MatchPresenter.getInstance();
+        presenter.setGroupDetailView(this);
     }
 
     @Override
@@ -226,8 +244,10 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
         focus = (TextView) findViewById(R.id.groupdetail_focus);
         bg = (ImageView) findViewById(R.id.groupdetail_bg);
 
+        matchView = findViewById(R.id.groupdetail_matchview);
+
         findViewById(R.id.groupdetail_chatview).setOnClickListener(this);
-        findViewById(R.id.groupdetail_matchview).setOnClickListener(this);
+        matchView.setOnClickListener(this);
         focusView.setOnClickListener(this);
     }
 
@@ -307,7 +327,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈-发表");
                 break;
 
-            case R.id.groupdetail_focusview:
+            case R.id.groupdetail_focusview://关注
                 if (!isLogin()) {
                     DialogManager.showLogInDialog(this);
                     return;
@@ -325,12 +345,35 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈关注");
                 break;
 
-            case R.id.groupdetail_chatview:
-                // TODO: 2016/10/24 chat
+            case R.id.groupdetail_chatview://群聊
+                if (!isLogin()) {
+                    DialogManager.showLogInDialog(this);
+                    return;
+                }
+
+                if (game.isPrivateIM()) {
+                    if (Proxy.getMessageManager().getOnGroupItemOnClickListener() == null) {
+                        IMSdk.setOnGroupItemOnClick(new OnGroupItemOnClickListener() {
+                            @Override
+                            public void onGroupItemOnClick(String memberid, String name) {
+                                ActivityManeger.startConversationActivity(GroupDetailActivity.this,
+                                        memberid, name, ConversationActivity.PRIVATE);
+                            }
+                        });
+                    }
+                    if (!Proxy.getConnectManager().isConnect()) {
+                        Member user = getUser();
+                        FeiMoIMHelper.Login(user.getMember_id(), user.getNickname(), user.getAvatar());
+                    }
+                    FeiMoIMHelper.createMuccRoom(this, game.getGame_id(), game.getGroup_name(), game.getFlag());
+                }else {
+                    presenter.groupJoin(getMember_id(), game.getChatroom_group_id());
+                }
                 break;
 
-            case R.id.groupdetail_matchview:
+            case R.id.groupdetail_matchview://赛事
                 ActivityManeger.startGroupMatchListActivity(this, game.getGame_id());
+                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈-赛事-游戏圈点击赛事按钮");
                 break;
         }
     }
@@ -346,6 +389,8 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 setHeaderData(game);
                 introduceFragment.loadData();
                 viewPager.setCurrentItem(1);
+
+                presenter.getGroupEventsList(1, game.getGame_id());
             }
         }
     }
@@ -357,7 +402,6 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 
         if (event != null && event.isResult()) {
             Log.d(tag, event.getMsg());
-//                showToastShort(event.getMsg());
         }
     }
 
@@ -400,6 +444,36 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
             } else {
                 showToastShort(event.getMsg());
             }
+        }
+    }
+
+    /**
+     * 回调：圈子赛事列表
+     */
+    @Override
+    public void refreshGroupMatchListData(EventsList214Entity data) {
+        Log.d(TAG, "圈子赛事列表: " + data);
+        if (data.getList().size() > 0) {
+            matchView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * 回调：加入群聊
+     */
+    @Override
+    public void refreshGroupJoin(BaseHttpResult data) {
+        Log.d(TAG, "圈子加入群聊: " + data);
+        if (data.isResult() && RongIM.getInstance() != null &&
+                RongIM.getInstance().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED) {
+
+            RongIMHelper.setCoversationNotifMute(Conversation.ConversationType.GROUP,
+                    game.getChatroom_group_id(), true);
+
+            ActivityManeger.startConversationActivity(this,
+                    game.getChatroom_group_id(),
+                    game.getGroup_name(),
+                    ConversationActivity.GROUP);
         }
     }
 }

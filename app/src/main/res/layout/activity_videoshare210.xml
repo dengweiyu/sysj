@@ -25,7 +25,6 @@
             android:orientation="vertical">
 
             <!-- 视频封面 -->
-
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/kaka_139"
@@ -265,8 +264,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="22dp"
             android:gravity="center"
-            android:orientation="horizontal">
-
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <com.li.videoapplication.views.SmoothCheckBox
                 android:id="@+id/videoshare_apply"
@@ -287,6 +286,7 @@
                 android:textSize="13sp" />
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/videoshare_apply_question"
                 android:layout_width="14dp"
                 android:layout_height="14dp"

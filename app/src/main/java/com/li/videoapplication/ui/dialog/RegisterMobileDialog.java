@@ -3,13 +3,18 @@ package com.li.videoapplication.ui.dialog;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.Editable;
+import android.text.Selection;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.PhoneRequestMsgEntity;
+import com.li.videoapplication.data.model.response.UserProfileFinishMemberInfoEntity;
 import com.li.videoapplication.data.model.response.VerifyCodeNewEntity;
 import com.li.videoapplication.framework.BaseDialog;
 import com.li.videoapplication.tools.AnimationHelper;
@@ -29,37 +34,47 @@ public class RegisterMobileDialog extends BaseDialog implements View.OnClickList
 
     private AnimationHelper animationHelper;
     private Activity activity;
-    private MobileCallback mobileCallback;
     private TextView getCode;
     private EditText mobile, code;
+    private Member newMember;
 
-    public RegisterMobileDialog(Context context, String oldMobile, MobileCallback mobileCallback) {
+    public RegisterMobileDialog(Context context) {
         super(context);
 
-        this.mobileCallback = mobileCallback;
         animationHelper = new AnimationHelper();
         try {
             activity = (Activity) context;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        newMember = (Member) getUser().clone();
 
         mobile = (EditText) findViewById(R.id.dialog_registermobile_mobile);
         code = (EditText) findViewById(R.id.dialog_registermobile_code);
         getCode = (TextView) findViewById(R.id.dialog_registermobile_getcode);
+        TextView title = (TextView) findViewById(R.id.registermobile_title);
 
         getCode.setOnClickListener(this);
         findViewById(R.id.dialog_registermobile_verify).setOnClickListener(this);
 
-        if (!StringUtil.isNull(oldMobile))
-            mobile.setText(oldMobile);
-
-        mobile.requestFocus();
+        if (!StringUtil.isNull(newMember.getMobile())) {
+            mobile.setText(newMember.getMobile());
+            //设置新光标所在的位置
+            Editable e = mobile.getText();
+            Selection.setSelection(e, e.length());
+            title.setText("更改手机号码");
+        }
     }
 
     @Override
     protected int getContentView() {
         return R.layout.dialog_registermobile;
+    }
+
+    public void showKeyboard() {
+        if (mobile != null) {
+            InputUtil.showKeyboard(mobile);
+        }
     }
 
     @Override
@@ -144,20 +159,6 @@ public class RegisterMobileDialog extends BaseDialog implements View.OnClickList
         DataManager.verifyCodeNew(getMobileText(), getCodeText());
     }
 
-    @Override
-    public void dismiss() {
-        try {
-            InputUtil.closeKeyboard(activity);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        super.dismiss();
-    }
-
-    public interface MobileCallback {
-        void onMobileCallback(DialogInterface dialog, String mobileNum);
-    }
-
     /**
      * 回调:取验证码
      */
@@ -180,11 +181,32 @@ public class RegisterMobileDialog extends BaseDialog implements View.OnClickList
 
         if (event != null) {
             if (event.isResult()) {// 验证成功
-                if (mobileCallback != null)
-                    mobileCallback.onMobileCallback(this, getMobileText());
+                newMember.setMobile(getMobileText());
+                // 编辑个人资料
+                DataManager.userProfileFinishMemberInfo(newMember);
             } else {
                 ToastHelper.s("验证码错误");
             }
         }
+    }
+
+    /**
+     * 回调:编辑个人资料
+     */
+    public void onEventMainThread(UserProfileFinishMemberInfoEntity event) {
+        if (event != null) {
+            ToastHelper.s(event.getMsg());
+            if (event.isResult()) dismiss();
+        }
+    }
+
+    @Override
+    public void dismiss() {
+        try {
+            InputUtil.closeKeyboard(activity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.dismiss();
     }
 }

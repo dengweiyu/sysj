@@ -14,6 +14,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseArrayAdapter;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.MyPlayerActivity;
 import com.li.videoapplication.utils.StringUtil;
@@ -23,7 +24,7 @@ import com.li.videoapplication.views.CircleImageView;
 import java.util.List;
 
 /**
- * 适配器：搜索玩家
+ * 适配器：搜索玩家, 关注粉丝
  */
 @SuppressLint("InflateParams") 
 public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
@@ -40,6 +41,11 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 	private void startDynamicActivity(Member member) {
 		ActivityManeger.startPlayerDynamicActivity(getContext(), member);
 		AppManager.getInstance().currentActivity().finish();
+		if (page == PAGE_SEARCHMEMBER){
+			UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MAIN, "搜索-相关主播-点击相关主播内任意主播进入他人动态页次数");
+		}else{
+			UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.SLIDER, "关注/粉丝数-粉丝/关注进入他人动态");
+		}
 	}
 
 	public SearchMemberAdapter(Context context, int page, List<Member> data) {
@@ -104,13 +110,13 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 
 			@Override
 			public void onClick(View v) {
-
 				if (!isLogin()) {
 					showToastShort("请先登录！");
 					return;
 				}
 				boolean flag;
 				if (page == PAGE_SEARCHMEMBER) {
+					UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MAIN, "搜索-相关主播-点击任何主播关注次数");
 					if (record.getMember_tick() == 1) {// 已关注状态
 						flag = false;
 						record.setFans(Integer.valueOf(record.getFans()) - 1 + "");

@@ -4,10 +4,9 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.response.GoodsDetailEntity;
-import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.mvp.Constant;
-import com.li.videoapplication.tools.IntentHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.tools.ToastHelper;
@@ -17,23 +16,17 @@ import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.RoundedImageView;
 
 import android.text.Html;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
-import android.webkit.DownloadListener;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
  * 活动：商品详情
  */
 public class ProductsDetailActivity extends TBaseActivity implements View.OnClickListener {
-
 
     private RoundedImageView pic;
     private ImageView contentPic;
@@ -41,7 +34,7 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
     private String goods_id;
     private Currency data;
     private WebView webView;
-    private int events;
+    private int showPage;
 
     @Override
     public void refreshIntent() {
@@ -55,7 +48,7 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
             finish();
         }
         try {
-            events = getIntent().getIntExtra("events", 0);
+            showPage = getIntent().getIntExtra("showPage", Constant.PRODUCTSDETAIL_DEFAULT);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,9 +89,11 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
         int picH = (int) (screenWidth / r);
         contentPic.setMinimumHeight(picH);
 
-        if (events == 1) { //赛事冠名活动/主播推荐位
+//        showPage:0=>默认，1=>富文本页面底部无按钮，2=>富文本页面底部有按钮
+        if (showPage != Constant.PRODUCTSDETAIL_DEFAULT) {
             webView.setVisibility(View.VISIBLE);
-            ok.setVisibility(View.GONE);
+            if (showPage == Constant.PRODUCTSDETAIL_RICHTEXT_NOBTN)
+                ok.setVisibility(View.GONE);
             initWebView();
         }
     }
@@ -134,7 +129,7 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
                                 WebActivity.startWebActivityWithJS(this,
                                         Constant.API_SWEEPSTAKE + "?mid=" + getMember_id(),
                                         Constant.JS_SWEEPSTAKE);
-                            }else {
+                            } else {
                                 WebActivity.startWebActivityWithJS(this, Constant.API_SWEEPSTAKE,
                                         Constant.JS_SWEEPSTAKE);
                             }
@@ -158,6 +153,7 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
                             } else {
                                 ToastHelper.s("商品已售罄");
                             }
+                            UmengAnalyticsHelper.onEvent(this,UmengAnalyticsHelper.SLIDER,"视界商城-商品兑换");
                             break;
                     }
                 }
@@ -175,9 +171,9 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
         illustration.setText(Html.fromHtml(s));
 
         if (!StringUtil.isNull(data.getExchange_way()) && data.getExchange_way().equals("1")) {
-            setTextViewText(ok, "上传视频");
+            ok.setText("上传视频");
         }
-        if (events == 1) {
+        if (showPage != Constant.PRODUCTSDETAIL_DEFAULT) {
             webView.loadData(data.getPage_html(), "text/html", "utf-8");
             //加载、并显示HTML代码
             webView.loadDataWithBaseURL(null, data.getPage_html(), "text/html", "utf-8", null);

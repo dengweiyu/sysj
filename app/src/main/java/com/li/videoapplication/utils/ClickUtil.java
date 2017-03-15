@@ -1,14 +1,12 @@
 package com.li.videoapplication.utils;
 
-import android.util.Log;
-
 import java.util.Calendar;
 
 /**
  * 工具类：点击
  */
 public class ClickUtil {
-    private static final int MIN_CLICK_DELAY_TIME = 500;
+    private static int MIN_CLICK_DELAY_TIME = 600;
     private static long lastClickTime;
 
     /*
@@ -24,5 +22,13 @@ public class ClickUtil {
         } else {
             return false;
         }
+    }
+
+    /*
+   * 记录点击的时间，时间过短返回false
+   */
+    public static boolean canClick(int delayTime) {
+        MIN_CLICK_DELAY_TIME = delayTime;
+        return canClick();
     }
 }

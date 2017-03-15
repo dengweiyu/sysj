@@ -21,6 +21,7 @@ import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.GiftListActivity;
 import com.li.videoapplication.ui.activity.GroupGiftActivity;
+import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.RoundedImageView;
@@ -40,8 +41,10 @@ public class GiftAdapter extends BaseArrayAdapter<Gift> {
         ActivityManeger.startGiftDetailActivity(getContext(), item.getId());
         if (activity instanceof GiftListActivity)
             UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "热门礼包-有效");
-        if (activity instanceof GroupGiftActivity)
+        else if (activity instanceof GroupGiftActivity)
             UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "游戏圈-礼包-有效");
+        else if (activity instanceof SearchActivity)
+            UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MAIN, "搜索-相关礼包-点击相关礼包内任意礼包进入礼包详情页次数");
     }
 
     public GiftAdapter(Context context, List<Gift> data) {

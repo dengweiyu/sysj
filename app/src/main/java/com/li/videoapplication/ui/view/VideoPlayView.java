@@ -221,6 +221,7 @@ public class VideoPlayView extends RelativeLayout implements
                 switchPlay(STATE_VIDEOPLAY);
                 if (danmukuPlayer != null)
                     danmukuPlayer.resumeDanmaku();
+                UmengAnalyticsHelper.onEvent(context,UmengAnalyticsHelper.VIDEOPLAY,"推荐/重播-重新播放");
                 break;
 
             case R.id.rightbar_report:// 举报
@@ -233,7 +234,6 @@ public class VideoPlayView extends RelativeLayout implements
                 break;
 
             case R.id.rightbar_tv: //投屏
-
                 if (!StringUtil.isNull(activity.qn_key) && URLUtil.isURL(activity.qn_url)) {
                     //选择投屏设备窗口
                     new HpplayLinkWindow(activity, activity.qn_url);
@@ -242,6 +242,7 @@ public class VideoPlayView extends RelativeLayout implements
                     new HpplayLinkWindow(activity, activity.youku_url);
                     return;
                 }
+                UmengAnalyticsHelper.onEvent(context,UmengAnalyticsHelper.VIDEOPLAY,"投屏-点击投屏次数");
                 break;
         }
 
@@ -1001,7 +1002,7 @@ public class VideoPlayView extends RelativeLayout implements
 
             videoPlayer.setVisibility(VISIBLE);
             webPlayer.setVisibility(GONE);
-
+            UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.VIDEOPLAY, "投屏-进入投屏中状态");
             return;
         }
 

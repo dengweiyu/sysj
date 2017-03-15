@@ -45,6 +45,43 @@ public class VideoImage extends BaseEntity {
 	public int state;
 	public List<Tag> game_tag;
 	private boolean isAD;
+	private String orderId;
+	private String buttonText;
+	private int jumpStatus;
+
+	private String isRecommend;
+
+	public String getIsRecommend() {
+		return isRecommend;
+	}
+
+	public void setIsRecommend(String isRecommend) {
+		this.isRecommend = isRecommend;
+	}
+
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+
+	public String getButtonText() {
+		return buttonText;
+	}
+
+	public void setButtonText(String buttonText) {
+		this.buttonText = buttonText;
+	}
+
+	public int getJumpStatus() {
+		return jumpStatus;
+	}
+
+	public void setJumpStatus(int jumpStatus) {
+		this.jumpStatus = jumpStatus;
+	}
 
 	public boolean isAD() {
 		return isAD;

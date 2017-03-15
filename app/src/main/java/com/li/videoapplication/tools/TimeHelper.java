@@ -14,6 +14,8 @@ import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.model.entity.VideoImage;
 
 import android.annotation.SuppressLint;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 @SuppressLint("SimpleDateFormat")
@@ -28,15 +30,21 @@ public class TimeHelper {
     /**
      * time毫秒后执行
      */
-    public static void runAfter(final RunAfter callback, long time) {
+    public static Timer runAfter(final RunAfter callback, long time) {
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                callback.runAfter();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.runAfter();
+                    }
+                });
             }
         };
         timer.schedule(task, time);
+        return timer;
     }
 
 
@@ -244,7 +252,6 @@ public class TimeHelper {
         return s;
     }
 
-
     /**
      * 返回时间
      *
@@ -261,6 +268,21 @@ public class TimeHelper {
         return s;
     }
 
+    /**
+     * 返回时间
+     *
+     * @param time 时间戳：秒数
+     * @return yyyy年MM月dd日 HH:mm
+     */
+    public static final String getWholeTimeFormat_Str(String time) throws Exception {
+        String format = "yyyy年MM月dd日 HH:mm";
+        Long l = new Long(time);
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        Date date = new Date(l * 1000L);
+        String s = sdf.format(date);
+        System.out.println(s);
+        return s;
+    }
 
     /**
      * 返回时间

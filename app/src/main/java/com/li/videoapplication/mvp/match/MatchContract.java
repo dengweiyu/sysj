@@ -101,7 +101,7 @@ public class MatchContract {
     public interface IGroupMatchListView {
         void hideProgress();
 
-        //数据加载成功
+        //回调：圈子赛事列表
         void refreshGroupMatchListData(EventsList214Entity data);
     }
 
@@ -143,6 +143,16 @@ public class MatchContract {
     }
 
     /**
+     * View层接口: 圈子详情
+     */
+    public interface IGroupDetailView {
+        //回调：圈子赛事列表
+        void refreshGroupMatchListData(EventsList214Entity data);
+        //加入群聊
+        void refreshGroupJoin(BaseHttpResult data);
+    }
+
+    /**
      * Presenter接口: 赛事
      */
     public interface IMatchPresenter {
@@ -160,6 +170,7 @@ public class MatchContract {
 
         void setMatchRecordView(IMatchRecordView matchRecordView);
 
+        void setGroupDetailView(IGroupDetailView groupDetailView);
 
         void getEventsList(int page, String format_type, String game_id);
 

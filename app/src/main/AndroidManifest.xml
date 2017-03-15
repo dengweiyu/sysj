@@ -3,6 +3,7 @@
     package="com.li.videoapplication">
 
     <!-- 权限部分 -->
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"/>
     <uses-permission android:name="com.screeclibinvoke.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
@@ -138,6 +139,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.DownloadManagerActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar" />
+        <activity
             android:name="com.li.videoapplication.ui.activity.SquareActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -190,6 +196,12 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.li.videoapplication.ui.activity.PersonalInfoEditActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible"
+            android:theme="@style/MyTheme.NoActionBar" />
+        <activity
             android:name="com.li.videoapplication.ui.activity.PlayerPersonalInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -218,6 +230,7 @@
         <activity
             android:name="com.li.videoapplication.ui.activity.VideoPlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:hardwareAccelerated="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -260,6 +273,20 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!-- ################################# 2.1.7 支付宝  ######################### -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+
         <!-- ################################# 2.1.4 广点通   ######################### -->
         <service
             android:name="com.qq.e.comm.DownloadService"
@@ -269,6 +296,18 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
 
         <!-- ################################# 2.1.1商城相关   ######################### -->
+        <activity
+            android:name=".mvp.mall.view.TopUpActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar" />
+
+        <activity
+            android:name=".mvp.mall.view.TopUpRecordActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar" />
 
         <activity
             android:name=".ui.activity.MyWalletActivity"
@@ -314,13 +353,13 @@
             android:name=".mvp.match.view.MatchRecordActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme.NoActionBar"></activity>
+            android:theme="@style/MyTheme.NoActionBar" />
 
         <activity
             android:name=".mvp.match.view.MatchResultActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme.NoActionBar"></activity>
+            android:theme="@style/MyTheme.NoActionBar" />
         <!--单聊界面，包括客服-->
         <activity
             android:name=".ui.activity.ConversationActivity"
@@ -377,6 +416,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar" />
         <activity
+            android:name=".mvp.match.view.MyMatchBettleActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar" />
+        <activity
             android:name="com.li.videoapplication.ui.activity.SignUpActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -400,7 +444,7 @@
         </receiver>
 
         <!--下载完成监听-->
-        <receiver android:name=".data.receiver.DownloadCompleteReceiver">
+        <receiver android:name=".component.receiver.DownloadCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
                 <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
@@ -495,6 +539,19 @@
             android:name=".ui.activity.ShareActivity"
             android:screenOrientation="portrait"
             android:theme="@style/custom_dialog" />
+
+        <!-- #################################  飞磨IM   ######################### -->
+
+        <activity
+            android:name="com.ifeimo.im.activity.ChatRecyclerActivity"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleTask"
+            android:theme="@style/MyTheme.NoActionBar" />
+
+        <activity
+            android:name="com.ifeimo.im.activity.MucChatActivity"
+            android:alwaysRetainTaskState="true"
+            android:theme="@style/MyTheme.NoActionBar" />
 
         <!-- #################################  融云  ######################### -->
         <meta-data

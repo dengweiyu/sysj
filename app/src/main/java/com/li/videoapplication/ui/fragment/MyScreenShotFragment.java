@@ -32,13 +32,13 @@ import me.everything.android.ui.overscroll.adapters.AbsListViewOverScrollDecorAd
  */
 public class MyScreenShotFragment extends TBaseFragment implements View.OnClickListener {
 
-	public ListView listView;
+    public ListView listView;
     public MyScreenShotAdapter adapter;
     public List<ScreenShotEntity> data = new ArrayList<ScreenShotEntity>();
 
     // 空间提示
-	public TextView storgeText;
-	private LinearLayout storgeRoot;
+    public TextView storgeText;
+    private LinearLayout storgeRoot;
 
     private VideoMangerActivity activity;
 
@@ -80,7 +80,7 @@ public class MyScreenShotFragment extends TBaseFragment implements View.OnClickL
         DataManager.LOCAL.loadScreenShots();
     }
 
-	private void initListView(View view) {
+    private void initListView(View view) {
 
         storgeText = (TextView) view.findViewById(R.id.videomanager_text);
         storgeRoot = (LinearLayout) view.findViewById(R.id.videomanager_root);
@@ -96,7 +96,7 @@ public class MyScreenShotFragment extends TBaseFragment implements View.OnClickL
 
         adapter = new MyScreenShotAdapter(getActivity(), data);
         listView.setAdapter(adapter);
-	}
+    }
 
     public void refreshStorge() {
 
@@ -106,12 +106,14 @@ public class MyScreenShotFragment extends TBaseFragment implements View.OnClickL
         if (activity != null &&
                 !StringUtil.isNull(activity.inSDCardTotalSize) &&
                 !StringUtil.isNull(activity.inSDCardUsedSize) &&
-                !StringUtil.isNull(activity.inSDCardAppSize)) {// 显示
+                !StringUtil.isNull(activity.inSDCardAppSize) &&
+                !StringUtil.isNull(activity.inSDCardLeftSize)) {// 显示
             storgeRoot.setVisibility(View.VISIBLE);
             storgeText.setText(Html.fromHtml(
                     "共" + toRedColor(activity.myLocalVideoSize + "") + "个视频，" +
-                            toRedColor(activity.myScreenShotSize + "") + "张图片，" +
-                            "已使用内存" + toRedColor(activity.inSDCardUsedSize) + "/" + toRedColor(activity.inSDCardTotalSize)));
+                            toRedColor(activity.myScreenShotSize + "") + "张图片，"
+                            + "剩余" + toRedColor(activity.inSDCardLeftSize) + "/"
+                            + toRedColor(activity.inSDCardTotalSize)));
         } else {
             storgeRoot.setVisibility(View.GONE);
             storgeText.setText("");

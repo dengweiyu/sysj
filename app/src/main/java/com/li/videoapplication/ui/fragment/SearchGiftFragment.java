@@ -22,6 +22,7 @@ import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseChildFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.adapter.GiftAdapter;
 /**
  * 碎片：搜索视频
@@ -70,6 +71,14 @@ public class SearchGiftFragment extends TBaseChildFragment implements OnRefreshL
 	public void onResume() {
 		super.onResume();
 		adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		if (isVisibleToUser) {//该fragment处于最前台交互状态
+			UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MAIN, "搜索-相关礼包-点击相关礼包次数");
+		}
 	}
 
 	@Override

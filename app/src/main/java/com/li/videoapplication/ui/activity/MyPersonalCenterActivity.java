@@ -29,6 +29,7 @@ import com.li.videoapplication.data.model.response.VideoFlower2Entity;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.tools.BitmapLoader;
 import com.li.videoapplication.tools.PhotoHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.DynamicVideoAdapter;
@@ -49,6 +50,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
      */
     public void startMyPersonalInfoActivity() {
         ActivityManeger.startMyPersonalInfoActivity(this);
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "个人中心-头像-个人资料");
     }
 
     /**
@@ -95,7 +97,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
     private CircleImageView head;
     private TextView loginText, name, introduce, fans, attention;
     private RelativeLayout touch;
-    private ImageView loginIcon, textBg, go, text, textBtn;
+    private ImageView loginIcon, textBg, go, text, textBtn, isV;
 
     private int currentpage = 1;
     private int pagelength = 10;
@@ -152,7 +154,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
 
             headerView = inflater.inflate(R.layout.header_dynamic, null);
             head = (CircleImageView) headerView.findViewById(R.id.dynamic_head);
-
+            isV = (ImageView) headerView.findViewById(R.id.dynamic_v);
             user = headerView.findViewById(R.id.dynamic_user);
             tourist = headerView.findViewById(R.id.dynamic_tourist);
             mypersoncenter = headerView.findViewById(R.id.dynamic_mypersonalcenter);
@@ -218,6 +220,11 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
             setAbGobackWhite();
             if (item != null) {
                 setImageViewImageNet(head, item.getAvatar());
+                if (item.isV()) {
+                    isV.setVisibility(View.VISIBLE);
+                } else {
+                    isV.setVisibility(View.INVISIBLE);
+                }
                 if (!StringUtil.isNull(item.getCover())) {
                     GlideHelper.displayImageEmpty(this, item.getCover(), textBg);
                     text.setVisibility(View.INVISIBLE);
@@ -273,6 +280,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
                 startMyPlayerActivityMyFocus();
                 break;
 
+            case R.id.dynamic_head:
             case R.id.dynamic_mypersonalcenter:
                 if (!isLogin()) {
                     showLogInDialog();
@@ -290,6 +298,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
                     return;
                 }
                 DialogManager.showPhotoDialog(this, this, this);
+                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "个人中心-背景更换");
                 break;
 
             case R.id.photo_pick:
@@ -381,7 +390,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
                 }
                 data.addAll(event.getData());
                 ++currentpage;
-            }else {
+            } else {
                 if (currentpage == 1) {
                     emptyText.setVisibility(View.VISIBLE);
                     setModeDisabled();

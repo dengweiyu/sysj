@@ -31,14 +31,17 @@ import com.li.videoapplication.data.model.entity.Tag;
 import com.li.videoapplication.data.model.event.SearchGame2VideoShareEvent;
 import com.li.videoapplication.data.model.event.Share2VideoShareEvent;
 import com.li.videoapplication.data.model.event.Tag2VideoShareEvent;
+import com.li.videoapplication.data.model.response.BaseInfo4VideoShareEntity;
 import com.li.videoapplication.data.model.response.BaseInfoEntity;
 import com.li.videoapplication.data.model.response.GameTagListEntity;
 import com.li.videoapplication.data.model.response.RecommendedLocationEntity;
 import com.li.videoapplication.data.model.response.SelectMatchEntity;
+import com.li.videoapplication.data.model.response.ShareRecommendLocEntity;
 import com.li.videoapplication.data.model.response.VideoDisplayVideoEntity;
 import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
@@ -60,6 +63,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import cn.sharesdk.framework.ShareSDK;
 
@@ -69,7 +73,7 @@ import cn.sharesdk.framework.ShareSDK;
 @SuppressLint("HandlerLeak")
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class VideoShareActivity extends TBaseActivity implements OnClickListener,
-        TextWatcher {
+        TextWatcher, SmoothCheckBox.OnCheckedChangeListener {
 
     public static final int TO_VIDEOMANAGER = 0; //跳转视频管理
     public static final int TO_FINISH = 1;//不跳转，仅关闭
@@ -84,8 +88,11 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
     private Game game;
     private Match match;
     private RecommendedLocationEntity event;
+    private String id;//推荐位id
+    public static boolean isPayed;//推荐位弹窗中已经确认支付
     //默认跳转视频管理页面
     private int to;
+    private View recommendView;//申请官方推荐view
 
     public static String getMatch_id() {
         if (m == null)
@@ -122,7 +129,7 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
             e.printStackTrace();
         }
         try {
-            to = getIntent().getIntExtra("to",TO_VIDEOMANAGER);
+            to = getIntent().getIntExtra("to", TO_VIDEOMANAGER);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -238,7 +245,6 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
     }
 
     // ------------------------------------------------------------------------------
-
     @Override
     public void onClick(final View v) {
 
@@ -267,8 +273,9 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
                 }
             }, 400);
         } else if (v == share) {
-            //敏感词过滤
-            DataManager.baseInfo(getDescription());
+//            //敏感词过滤
+            DataManager.baseInfo(getDescription(), new BaseInfo4VideoShareEntity());
+//            ActivityManeger.startShareActivity4MyLocalVideo(this);
         } else if (v == applyQuestion) {
             showApplyPopupWindow();
         } else if (v == applyText) {
@@ -335,7 +342,7 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
     // ----------------------------------------------------------------------------------------
 
     private void initContentView() {
-
+        recommendView = findViewById(R.id.buttom);
         size = (TextView) findViewById(R.id.videoshare_size);
         cover = (ImageView) findViewById(R.id.videoshare_cover);
         edit = (TextView) findViewById(R.id.videoshare_edit);
@@ -361,6 +368,8 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
 
         description.addTextChangedListener(this);
         descriptionCount.setText("0/50");
+
+        apply.setOnCheckedChangeListener(this);
 
         join = findViewById(R.id.videoshare_join);
         join.setVisibility(View.GONE);
@@ -539,32 +548,56 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
      * 分享
      */
     private void shareNow() {
-        if (StringUtil.isNull(getDescription())) {
-            showToastShort("请输入游戏标题");
-            return;
-        }
-        if (StringUtil.isNull(getTypeText())) {
-            showToastShort("请选择视频类型");
-            return;
-        }
-        if (apply.isChecked() && getDescription().length() < 10) {
-            showToastShort("申请官方推荐游戏标题不少于10个字");
-            return;
-        }
-        if (apply.isChecked()) { //申请推荐位
+        if (isInfoUnfinished()) return;
+        if (apply.isChecked() && !isPayed) { //申请推荐位
             // 推荐位信息
-            DataManager.recommendedLocation(getMember_id());
+            DataManager.recommendedLocation(getMember_id(), new ShareRecommendLocEntity());
         } else {
             ActivityManeger.startShareActivity4MyLocalVideo(this);
         }
     }
 
-    public String getGoods_id() {
-        if (event != null && event.isResult() && event.getGoods() != null && event.getGoods().getId() != null) {
-            return event.getGoods().getId();
-        } else {
-            return null;
+    //检查视频信息填写是否完整
+    private boolean isInfoUnfinished() {
+        if (StringUtil.isNull(getDescription())) {
+            showToastShort("请输入游戏标题");
+            return true;
         }
+        if (StringUtil.isNull(getTypeText())) {
+            showToastShort("请选择视频类型");
+            return true;
+        }
+        if (apply.isChecked() && getDescription().length() < 10) {
+            showToastShort("申请官方推荐游戏标题不少于10个字");
+            return true;
+        }
+        return false;
+    }
+
+    //申请官方推荐勾选监听
+    @Override
+    public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
+        if (isChecked) {
+            if (isInfoUnfinished()) {
+                checkBox.setChecked(false);
+                return;
+            }
+            updateDatabase();
+            shareNow();
+        }
+    }
+
+    private String getGoods_id() {
+        if (!StringUtil.isNull(id)) {
+            return id;
+        } else {
+            return "";
+        }
+    }
+
+    public void setGoods_id(String id) {
+        Log.d(tag, "setGoods_id: " + id);
+        this.id = id;
     }
 
     // ----------------------------------------------------------------------------------------
@@ -572,14 +605,14 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
     /**
      * 回调:推荐位
      */
-    public void onEventMainThread(RecommendedLocationEntity event) {
+    public void onEventMainThread(ShareRecommendLocEntity event) {
 
         if (event != null && event.isResult()) {//正常情况，商城有卖推荐位
             this.event = event;
 
             entity.setVideo_name(getDescription());
 
-            DialogManager.showOfficialPaymentDialog(this, entity, event);
+            DialogManager.showOfficialPaymentDialog(this, event);
         } else {
             //非正常情况下，商城没卖推荐位，或者什么鬼原因推荐位接口返回false了，直接不管，开启分享。
             ActivityManeger.startShareActivity4MyLocalVideo(this);
@@ -589,15 +622,16 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
     /**
      * 回调：敏感词过滤
      */
-    public void onEventMainThread(BaseInfoEntity event) {
-
-        if (event != null) {
-            if (event.isResult()) {
-                if (!event.getData().isHasBad()) {
+    public void onEventMainThread(BaseInfo4VideoShareEntity event) {
+        if (event != null && event.isResult()) {
+            if (event.getData().isHasBad()) {
+                ToastHelper.s("请勿使用敏感词汇");
+            } else {
+                if (!isPayed) {//没申请推荐位
                     updateDatabase();
                     shareNow();
-                } else {
-                    ToastHelper.s("请勿使用敏感词汇");
+                } else {//申请推荐位的弹窗中确认支付了，但是没分享
+                    ActivityManeger.startShareActivity4MyLocalVideo(this);
                 }
             }
         }
@@ -609,6 +643,13 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
     public void onEventMainThread(SearchGame2VideoShareEvent event) {
         String game_name = event.getAssociate().getGame_name();
         String game_id = event.getAssociate().getGame_id();
+        boolean isLife = event.getAssociate().isLife();
+
+        if (isLife) {
+            recommendView.setVisibility(View.INVISIBLE);
+        } else {
+            recommendView.setVisibility(View.VISIBLE);
+        }
 
         game = new Game();
         game.setGameName(game_name);
@@ -739,6 +780,7 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
 
         if (to == TO_VIDEOMANAGER)
             ActivityManeger.startVideoMangerActivityNewTask(this);
+        ToastHelper.s("视频上传中...");
         finish();
     }
 

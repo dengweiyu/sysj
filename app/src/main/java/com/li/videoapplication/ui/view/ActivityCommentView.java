@@ -34,8 +34,7 @@ import java.util.List;
 public class ActivityCommentView extends FrameLayout implements
         View.OnClickListener,
         View.OnFocusChangeListener,
-        IVideoPlay,
-        TextWatcher {
+        IVideoPlay{
 
     /*
     * 跳转：上传图片
@@ -63,10 +62,7 @@ public class ActivityCommentView extends FrameLayout implements
     private View view;
     private View container;
     private TextView face;
-    private ImageView plus;
     private EditText edit;
-    private View uploadView, uploadPic, uploadVideo;
-    private boolean isShowUploadView;
     private Button send;
 
     private String getEdit() {
@@ -104,23 +100,15 @@ public class ActivityCommentView extends FrameLayout implements
         view = inflater.inflate(R.layout.view_activitycomment, this);
 
         container = findViewById(R.id.comment_conteiner);
-        plus = (ImageView) findViewById(R.id.comment_plus);
         send = (Button) findViewById(R.id.comment_send);
         face = (TextView) findViewById(R.id.comment_face);
         gridView = (GridView) findViewById(R.id.gridview);
         edit = (EditText) findViewById(R.id.comment_edit);
-        uploadView = findViewById(R.id.activitycomment_uploadview);
-        uploadPic = findViewById(R.id.activitycomment_uploadpic);
-        uploadVideo = findViewById(R.id.activitycomment_uploadvideo);
 
         face.setOnClickListener(this);
-        plus.setOnClickListener(this);
-        uploadPic.setOnClickListener(this);
-        uploadVideo.setOnClickListener(this);
         send.setOnClickListener(this);
         edit.setOnClickListener(this);
         edit.setOnFocusChangeListener(this);
-        edit.addTextChangedListener(this);
 
         int res = 0;
         Field field;
@@ -162,6 +150,7 @@ public class ActivityCommentView extends FrameLayout implements
                         @Override
                         public void run() {
                             gridView.setVisibility(View.VISIBLE);
+                            activity.setFABVisable(false);
                         }
                     }, 300);
                     hasFace = true;
@@ -170,26 +159,15 @@ public class ActivityCommentView extends FrameLayout implements
                     toggleInput();
                     face.setBackgroundResource(R.drawable.face_normal_205);
                     gridView.setVisibility(View.GONE);
+                    activity.setFABVisable(true);
                     hasFace = false;
                 }
                 break;
 
             case R.id.comment_edit:// 评论输入框
-                uploadView.setVisibility(GONE);
-                isShowUploadView = false;
                 hasFace = false;
                 gridView.setVisibility(View.GONE);
                 face.setBackgroundResource(R.drawable.face_normal_205);
-                break;
-
-            case R.id.comment_plus:// +号
-                if (isShowUploadView) {
-                    uploadView.setVisibility(GONE);
-                    isShowUploadView = false;
-                } else {
-                    uploadView.setVisibility(VISIBLE);
-                    isShowUploadView = true;
-                }
                 break;
 
             case R.id.comment_send: // 发表评论
@@ -216,16 +194,6 @@ public class ActivityCommentView extends FrameLayout implements
                     hasFace = false;
                 }
                 break;
-
-            case R.id.activitycomment_uploadpic:
-                if (activity != null && activity.match != null)
-                    startActivityImageUploadActivity();
-                break;
-
-            case R.id.activitycomment_uploadvideo:
-                if (activity != null && activity.match != null)
-                    startVideoChooseActivity();
-                break;
         }
     }
 
@@ -235,24 +203,6 @@ public class ActivityCommentView extends FrameLayout implements
         this.listener = comment;
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (StringUtil.isNull(getEdit())) {
-            send.setVisibility(View.GONE);
-        } else {
-            send.setVisibility(View.VISIBLE);
-        }
-    }
 
     public interface CommentListener {
         boolean comment(String text);

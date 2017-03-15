@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DanmakuFlameMaster/DanmakuFlameMaster.iml" filepath="$PROJECT_DIR$/DanmakuFlameMaster/DanmakuFlameMaster.iml" />
       <module fileurl="file://$PROJECT_DIR$/IMKit_v2_7_0/IMKit_v2_7_0.iml" filepath="$PROJECT_DIR$/IMKit_v2_7_0/IMKit_v2_7_0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IMsdk/IMsdk.iml" filepath="$PROJECT_DIR$/IMsdk/IMsdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/JPush/JPush.iml" filepath="$PROJECT_DIR$/JPush/JPush.iml" />
       <module fileurl="file://$PROJECT_DIR$/PullToRefresh/PullToRefresh.iml" filepath="$PROJECT_DIR$/PullToRefresh/PullToRefresh.iml" />
       <module fileurl="file://$PROJECT_DIR$/ScreenRecordLib-2/ScreenRecordLib-2.iml" filepath="$PROJECT_DIR$/ScreenRecordLib-2/ScreenRecordLib-2.iml" />

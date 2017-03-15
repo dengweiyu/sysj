@@ -22,6 +22,7 @@ import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseChildFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.adapter.SearchMemberAdapter;
 
 /**
@@ -66,7 +67,15 @@ public class SearchMemberFragment extends TBaseChildFragment implements OnRefres
 	protected IPullToRefresh getPullToRefresh() {
 		return pullToRefreshListView;
 	}
-	
+
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		if (isVisibleToUser) {//该fragment处于最前台交互状态
+			UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MAIN, "搜索-相关主播-点击相关主播次数");
+		}
+	}
+
 	@Override
 	public void onResume() {
 		super.onResume();

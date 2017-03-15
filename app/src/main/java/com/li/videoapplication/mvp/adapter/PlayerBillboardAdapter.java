@@ -19,6 +19,7 @@ import com.li.videoapplication.mvp.billboard.presenter.BillboardPresenter;
 import com.li.videoapplication.mvp.billboard.view.PlayerBillboardFragment;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.StringUtil;
 
@@ -130,6 +131,7 @@ public class PlayerBillboardAdapter extends BaseQuickAdapter<Member, BaseViewHol
                     // 玩家关注
                     IBillboardPresenter p = new BillboardPresenter();
                     p.memberAttention(record.getMember_id(), PreferencesHepler.getInstance().getMember_id());
+                    UmengAnalyticsHelper.onEvent(mContext, UmengAnalyticsHelper.DISCOVER, "玩家榜-关注");
                 }
             });
         }

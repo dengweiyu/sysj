@@ -106,14 +106,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <WebView
-        android:id="@+id/productsdetail_webview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="63dp"
-        android:scrollbars="none"
-        android:visibility="gone"/>
-
     <TextView
         android:id="@+id/productsdetail_ok"
         android:layout_width="match_parent"
@@ -125,4 +117,14 @@
         android:text="立即兑换"
         android:textColor="@color/white"
         android:visibility="visible"/>
+
+    <WebView
+        android:layout_above="@+id/productsdetail_ok"
+        android:id="@+id/productsdetail_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="63dp"
+        android:scrollbars="none"
+        android:visibility="gone"/>
+
 </RelativeLayout>

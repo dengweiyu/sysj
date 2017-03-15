@@ -46,6 +46,7 @@ public class CameraRecoedActivity extends TBaseActivity implements OnClickListen
 
     private void startVideoMangerActivity() {
         ActivityManeger.startVideoMangerActivity(this, game);
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "发布-拍摄-点击视频管理按钮次数");
     }
 
     private void startVideoShareActivity() {

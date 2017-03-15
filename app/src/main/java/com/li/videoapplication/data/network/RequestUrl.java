@@ -34,6 +34,15 @@ public class RequestUrl {
 
     public String BaseFMYX_V1 = BaseFMYX + "/api/public/index.php/v1";
 
+
+
+    /**
+     * 官方推荐位
+     */
+    public final String getRecommendCate() {
+        return BaseSYSJ + "/Sysj217/Recommend/recommendCate";
+    }
+
     /** ############## 飞磨游戏 ############## */
 
     /**
@@ -640,7 +649,7 @@ public class RequestUrl {
      * 系统消息
      */
     public final String messageSysMessage() {
-        return BaseSYSJ + "/sysj201/message/sysMessage";
+        return BaseSYSJ + "/Sysj217/Message/sysMessage";
     }
 
 	/* ############## 圈子/游戏 ############## */
@@ -708,6 +717,13 @@ public class RequestUrl {
      */
     public final String groupType210() {
         return BaseSYSJ + "/sysj210/group/groupType";
+    }
+
+    /**
+     * 圈子类型217
+     */
+    public final String gameCate() {
+        return BaseSYSJ + "/sysj210/group/GameCate";
     }
 
     /**
@@ -1232,7 +1248,7 @@ public class RequestUrl {
      * 兑换
      */
     public final String recommendedLocation() {
-        return BaseSYSJ + "/Sysj211/CurrencyMall/recommendedLocation";
+        return BaseSYSJ + "/Sysj217/Recommend/recommendedLocation";
     }
 
     /**
@@ -1253,7 +1269,7 @@ public class RequestUrl {
      * 商品详情
      */
     public final String goodsDetail() {
-        return BaseSYSJ + "/Sysj211/CurrencyMall/goodsDetail";
+        return BaseSYSJ + "/Sysj217/CurrencyMall/goodsDetail";
     }
 
     /**
@@ -1274,7 +1290,7 @@ public class RequestUrl {
      * 商品列表
      */
     public final String goodsList() {
-        return BaseSYSJ + "/Sysj215/CurrencyMall/goodsList";
+        return BaseSYSJ + "/Sysj217/CurrencyMall/goodsList";
     }
 
     /**
@@ -1476,17 +1492,24 @@ public class RequestUrl {
     }
 
     /**
-     * 我的赛程（进行中）208
-     */
-    public final String getMemberMatchPK208() {
-        return BaseSYSJ + "/sysj208/events/getMemberMatchPK";
-    }
-
-    /**
      * 我的赛程（已结束）204
      */
     public final String getMemberPKList204() {
         return BaseSYSJ + "/sysj204/events/getMemberPKList";
+    }
+
+    /**
+     * 我的赛事某个已结束的赛事
+     */
+    public final String getMemberEndPKWindow() {
+        return BaseSYSJ + "/Sysj214/NewEvents/getMemberEndPKWindow";
+    }
+
+    /**
+     * 客服名称
+     */
+    public final String getServiceName() {
+        return BaseSYSJ + "/sysj204/events/serviceName";
     }
 
     /**
@@ -1758,8 +1781,8 @@ public class RequestUrl {
     /**
      * 首页更多
      */
-    public final String indexIndexMore204() {
-        return BaseSYSJ + "/sysj204/index/indexMore";
+    public final String indexIndexMore217() {
+        return BaseSYSJ + "/sysj217/index/indexMore";
     }
 
     /**
@@ -2063,8 +2086,8 @@ public class RequestUrl {
     /**
      * 游戏下载数+1
      */
-    public final String downloadClick203() {
-        return BaseSYSJ + "/sysj203/download/click";
+    public final String downloadClick217() {
+        return BaseSYSJ + "/Sysj217/Download/click";
     }
 
     /**

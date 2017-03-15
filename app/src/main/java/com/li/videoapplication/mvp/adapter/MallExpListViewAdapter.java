@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Currency;
-import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.TextImageHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.WebActivity;
@@ -38,7 +38,8 @@ public class MallExpListViewAdapter extends BaseExpandableListAdapter {
      * 跳转：商品详情
      */
     private void startProductsDetailActivity(Currency childList) {
-        ActivityManeger.startProductsDetailActivity(context, childList.getId(), childList.getEvents());
+        ActivityManeger.startProductsDetailActivity(context, childList.getId(), childList.getShowPage());
+        UmengAnalyticsHelper.onEvent(context,UmengAnalyticsHelper.SLIDER,"视界商城-商品详情");
     }
 
     public MallExpListViewAdapter(Context context, List<Currency> mDatas) {
@@ -166,6 +167,7 @@ public class MallExpListViewAdapter extends BaseExpandableListAdapter {
                             } else {
                                 ToastHelper.s("商品已售罄");
                             }
+                            UmengAnalyticsHelper.onEvent(context,UmengAnalyticsHelper.SLIDER,"视界商城-商品兑换");
                             break;
                     }
                 }

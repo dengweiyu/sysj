@@ -18,6 +18,7 @@ import com.li.videoapplication.data.model.response.GroupName208Entity;
 import com.li.videoapplication.data.model.response.UserProfilePersonalInformationEntity;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.RongIMHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.utils.StringUtil;
@@ -83,7 +84,7 @@ public class ConversationActivity extends TBaseAppCompatActivity implements View
             e.printStackTrace();
         }
         try {
-            conversationType = getIntent().getIntExtra("conversationType", 0);
+            conversationType = getIntent().getIntExtra("conversationType", PRIVATE);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -214,6 +215,7 @@ public class ConversationActivity extends TBaseAppCompatActivity implements View
                             customerServiceName,
                             false);
                 }
+                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "群聊-群聊内客服");
                 break;
         }
     }

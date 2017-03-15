@@ -1,10 +1,15 @@
 package com.li.videoapplication.ui.activity;
 
 import android.graphics.Rect;
+import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.view.View;
+import android.view.Window;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Match;

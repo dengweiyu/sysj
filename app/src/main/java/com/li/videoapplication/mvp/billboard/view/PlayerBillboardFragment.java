@@ -22,11 +22,10 @@ import com.li.videoapplication.data.model.response.MemberAttention201Entity;
 import com.li.videoapplication.data.model.response.PlayerRankingCurrencyEntity;
 import com.li.videoapplication.data.model.response.PlayerRankingEntity;
 import com.li.videoapplication.framework.TBaseFragment;
-import com.li.videoapplication.mvp.animation.RecyclerViewAnim;
+import com.li.videoapplication.animation.RecyclerViewAnim;
 import com.li.videoapplication.mvp.billboard.BillboardContract.IBillboardPresenter;
 import com.li.videoapplication.mvp.billboard.BillboardContract.IPlayerBillboardView;
 import com.li.videoapplication.mvp.billboard.presenter.BillboardPresenter;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.mvp.adapter.PlayerBillboardAdapter;
@@ -92,7 +91,8 @@ public class PlayerBillboardFragment extends TBaseFragment implements IPlayerBil
      * 跳转：玩家动态
      */
     private void startDynamicActivity(Member member) {
-        ActivityManeger.startPlayerDynamicActivity(getContext(), member);
+        ActivityManeger.startPlayerDynamicActivity(getActivity(), member);
+        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "玩家榜-个人中心");
     }
 
     @Override
@@ -131,7 +131,7 @@ public class PlayerBillboardFragment extends TBaseFragment implements IPlayerBil
     }
 
     private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_light,

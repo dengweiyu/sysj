@@ -2,12 +2,15 @@ package com.li.videoapplication.tools;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.transition.Fade;
 import android.transition.Slide;
+import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.transition.TransitionSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -52,6 +55,43 @@ public class AnimationHelper {
         }
     }
 
+    public interface ITransition {
+        void onTransitionEnd();
+    }
+
+    public void addTransitionListener(Activity activity, final ITransition iTransition) {
+        //CircularReveal动画是api21之后才有
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Transition transition = activity.getWindow().getSharedElementEnterTransition();
+            transition.addListener(new Transition.TransitionListener() {
+                @Override
+                public void onTransitionStart(Transition transition) {
+
+                }
+
+                @Override//过渡结束
+                public void onTransitionEnd(Transition transition) {
+                    iTransition.onTransitionEnd();
+                }
+
+                @Override
+                public void onTransitionCancel(Transition transition) {
+
+                }
+
+                @Override
+                public void onTransitionPause(Transition transition) {
+
+                }
+
+                @Override
+                public void onTransitionResume(Transition transition) {
+
+                }
+            });
+        }
+    }
+
     public void startCircularRevealAnim(View view) {
         //CircularReveal动画是api21之后才有
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -62,7 +102,34 @@ public class AnimationHelper {
         }
     }
 
-    public void beginFadeSlideTransition(ViewGroup viewGroup) {
+    public void beginSlideTransition(ViewGroup viewGroup, int gravity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            TransitionManager.beginDelayedTransition(viewGroup,
+                    new Slide(gravity).setDuration(800).setInterpolator(new DecelerateInterpolator()));
+        }
+    }
+
+    public void beginFadeTransition(ViewGroup viewGroup) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            TransitionManager.beginDelayedTransition(viewGroup,
+                    new Fade().setDuration(800).setInterpolator(new DecelerateInterpolator()));
+        }
+    }
+
+    //渐变滑动
+    public void beginFadeSlideTransition(ViewGroup viewGroup, int gravity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            TransitionSet set = new TransitionSet()
+                    .addTransition(new Fade())
+                    .addTransition(new Slide(gravity))
+                    .setDuration(800)
+                    .setInterpolator(new DecelerateInterpolator());
+            TransitionManager.beginDelayedTransition(viewGroup, set);
+        }
+    }
+
+    //延迟从底部渐变滑出
+    public void beginFadeSlideDelayTransition(ViewGroup viewGroup) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             TransitionSet set = new TransitionSet()
                     .addTransition(new Fade())
@@ -72,5 +139,23 @@ public class AnimationHelper {
                     .setInterpolator(new DecelerateInterpolator());
             TransitionManager.beginDelayedTransition(viewGroup, set);
         }
+    }
+
+    /**
+     * 加号FAB旋转成叉号动画
+     */
+    public void add2CloseRotationAnim(View view) {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "rotation", 0, -155, -135);
+        animator.setDuration(600);
+        animator.start();
+    }
+
+    /**
+     * 加号FAB叉号旋转恢复成加号动画
+     */
+    public void close2AddRotationAnim(View view) {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "rotation", -135, 20, 0);
+        animator.setDuration(600);
+        animator.start();
     }
 }

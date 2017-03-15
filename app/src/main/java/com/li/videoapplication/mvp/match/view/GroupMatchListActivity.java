@@ -51,6 +51,7 @@ public class GroupMatchListActivity extends TBaseAppCompatActivity implements IG
      */
     private void startActivityDetailGameMatch(String event_id) {
         ActivityManeger.startGameMatchDetailActivity(this, event_id);
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈-赛事-赛事详情");
     }
 
     /**

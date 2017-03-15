@@ -2,6 +2,8 @@ package com.li.videoapplication.mvp.mall.model;
 
 import com.li.videoapplication.data.HttpManager;
 import com.li.videoapplication.data.model.entity.Currency;
+import com.li.videoapplication.data.model.entity.TopUp;
+import com.li.videoapplication.data.model.response.TopUpOptionEntity;
 import com.li.videoapplication.mvp.OnLoadDataListener;
 import com.li.videoapplication.mvp.mall.MallContract.IMallModel;
 
@@ -100,6 +102,69 @@ public class MallModel implements IMallModel {
 
             @Override
             public void onNext(Currency entity) {
+                if (entity != null)
+                    listener.onSuccess(entity);
+            }
+        });
+    }
+
+    @Override
+    public void getRechargeRule(final OnLoadDataListener<TopUpOptionEntity> listener) {
+        HttpManager.getInstance().getRechargeRule(new Observer<TopUpOptionEntity>() {
+
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                listener.onFailure(e);
+            }
+
+            @Override
+            public void onNext(TopUpOptionEntity entity) {
+                if (entity != null && entity.isResult())
+                    listener.onSuccess(entity);
+            }
+        });
+    }
+
+    @Override
+    public void payment(String member_id, String currency_num, int pay_type, int ingress, final OnLoadDataListener<String> listener) {
+        HttpManager.getInstance().payment(member_id, currency_num, pay_type, ingress, new Observer<String>() {
+
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                listener.onFailure(e);
+            }
+
+            @Override
+            public void onNext(String entity) {
+                if (entity != null)
+                    listener.onSuccess(entity);
+            }
+        });
+    }
+
+    @Override
+    public void getTopUpRecordList(String member_id,final OnLoadDataListener<List<TopUp>> listener) {
+        HttpManager.getInstance().getTopUpRecordList(member_id, new Observer<List<TopUp>>() {
+
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                listener.onFailure(e);
+            }
+
+            @Override
+            public void onNext(List<TopUp> entity) {
                 if (entity != null)
                     listener.onSuccess(entity);
             }

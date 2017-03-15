@@ -6,7 +6,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -19,7 +18,7 @@ import com.li.videoapplication.data.model.response.VideoFlower2Entity;
 import com.li.videoapplication.data.model.response.VideoRankingEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.adapter.VideoBillboardAdapter;
-import com.li.videoapplication.mvp.animation.RecyclerViewAnim;
+import com.li.videoapplication.animation.RecyclerViewAnim;
 import com.li.videoapplication.mvp.billboard.BillboardContract.IBillboardPresenter;
 import com.li.videoapplication.mvp.billboard.BillboardContract.IVideoBillboardView;
 import com.li.videoapplication.mvp.billboard.presenter.BillboardPresenter;
@@ -122,7 +121,7 @@ public class VideoBillboardFragment extends TBaseFragment implements IVideoBillb
     }
 
     private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_light,

@@ -43,11 +43,56 @@ public class Currency extends BaseEntity {
     private String ico;
     private String note;
     private String page_html;
-    private int events;//events为1则为赛事冠名活动/主播推荐位
+    private int showPage;//showPage 为1则为赛事冠名活动/主播推荐位
     private String placeholder;
     private String accountType;
     private String account;
     private String reminder;
+    private String recommendedTime;
+    private String showLocation;
+    private int jumpStatus;
+    private String completeRatio;
+    private String eventDesc;
+
+    public String getCompleteRatio() {
+        return completeRatio;
+    }
+
+    public void setCompleteRatio(String completeRatio) {
+        this.completeRatio = completeRatio;
+    }
+
+    public String getEventDesc() {
+        return eventDesc;
+    }
+
+    public void setEventDesc(String eventDesc) {
+        this.eventDesc = eventDesc;
+    }
+
+    public int getJumpStatus() {
+        return jumpStatus;
+    }
+
+    public void setJumpStatus(int jumpStatus) {
+        this.jumpStatus = jumpStatus;
+    }
+
+    public String getShowLocation() {
+        return showLocation;
+    }
+
+    public void setShowLocation(String showLocation) {
+        this.showLocation = showLocation;
+    }
+
+    public String getRecommendedTime() {
+        return recommendedTime;
+    }
+
+    public void setRecommendedTime(String recommendedTime) {
+        this.recommendedTime = recommendedTime;
+    }
 
     public String getReminder() {
         return reminder;
@@ -89,12 +134,12 @@ public class Currency extends BaseEntity {
         this.placeholder = placeholder;
     }
 
-    public int getEvents() {
-        return events;
+    public int getShowPage() {
+        return showPage;
     }
 
-    public void setEvents(int events) {
-        this.events = events;
+    public void setShowPage(int showPage) {
+        this.showPage = showPage;
     }
 
     public String getPage_html() {

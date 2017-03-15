@@ -11,6 +11,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.BaseBaseAdapter;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.utils.LogHelper;
@@ -34,31 +35,27 @@ public class VideoRecommendationAdapter extends BaseBaseAdapter {
         inflater = LayoutInflater.from(activity);
     }
 
+    /**
+     * 跳转：视频播放
+     */
+    private void startVideoPlayActivity208(VideoImage item, boolean isLandscape) {
+        ActivityManeger.startVideoPlayActivity208(activity, item, isLandscape);
+        UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MACROSCOPIC_DATA, "视频播放完推荐视频点击数");
+    }
+
     @Override
     protected Context getContext() {
         return activity;
     }
 
-    public void setMaxValue(boolean maxValue) {
-        this.maxValue = maxValue;
-    }
-
     @Override
     public int getCount() {
-//        if (maxValue) {
-//            // 返回很大的值使得getView中的position不断增大来实现循环
-//            return Integer.MAX_VALUE;
-//        } else {
-//            LogHelper.d(tag, "getCount : " + data.size());
         return data.size();
-//        }
     }
 
     @Override
     public List<VideoImage> getItem(int position) {
         LogHelper.d(tag, "getItem position : " + position);
-
-//        return data.get(position % data.size());
         return data.get(position);
     }
 
@@ -88,10 +85,10 @@ public class VideoRecommendationAdapter extends BaseBaseAdapter {
         }
 
         if (!StringUtil.isNull(record.get(0).getFlagPath())) {
-            GlideHelper.displayImage(getContext(),record.get(0).getFlagPath(), holder.cover1);
+            GlideHelper.displayImage(getContext(), record.get(0).getFlagPath(), holder.cover1);
         }
         if (!StringUtil.isNull(record.get(1).getFlagPath())) {
-            GlideHelper.displayImage(getContext(),record.get(1).getFlagPath(), holder.cover2);
+            GlideHelper.displayImage(getContext(), record.get(1).getFlagPath(), holder.cover2);
         }
 
         setTextViewText(holder.text1, record.get(0).getTitle());
@@ -103,15 +100,14 @@ public class VideoRecommendationAdapter extends BaseBaseAdapter {
 
             @Override
             public void onClick(View v) {
-
-                ActivityManeger.startVideoPlayActivity208(activity, record.get(0), isLandscape);
+                startVideoPlayActivity208(record.get(0), isLandscape);
             }
         });
 
         holder.video2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManeger.startVideoPlayActivity208(activity, record.get(1), isLandscape);
+                startVideoPlayActivity208(record.get(1), isLandscape);
             }
         });
 
@@ -122,6 +118,6 @@ public class VideoRecommendationAdapter extends BaseBaseAdapter {
     private class ViewHolder {
         ImageView cover1, cover2;
         TextView text1, text2;
-        View video1,video2;
+        View video1, video2;
     }
 }

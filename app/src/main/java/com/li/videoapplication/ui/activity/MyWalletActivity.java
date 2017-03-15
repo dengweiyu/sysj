@@ -13,6 +13,7 @@ import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.response.MemberTaskEntity;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.Constant;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.fragment.DailyRewardFragment;
 import com.li.videoapplication.ui.fragment.HonorRewardFragment;
@@ -30,7 +31,6 @@ import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdap
 /**
  * 活动：我的钱包
  */
-
 public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnClickListener {
 
     public ViewPager mViewPager;
@@ -46,8 +46,15 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
      */
     private void startMyCurrencyRecordActivity() {
         ActivityManeger.startMyCurrencyRecordActivity(this);
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "我的钱包-账单");
     }
 
+    /**
+     * 跳转：充值
+     */
+    private void startTopUpActivity() {
+        ActivityManeger.startTopUpActivity(this, Constant.TOPUP_ENTRY_MYWALLEY);
+    }
 
     @Override
     protected int getContentView() {
@@ -67,8 +74,8 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
 
         findViewById(R.id.goback).setOnClickListener(this);
         findViewById(R.id.mywallet_currencyrecord).setOnClickListener(this);
+        findViewById(R.id.mywallet_currencytopup).setOnClickListener(this);
         findViewById(R.id.question).setOnClickListener(this);
-        findViewById(R.id.mywallet_sysjqq).setOnClickListener(this);
 
         initViewPager();
     }
@@ -100,12 +107,13 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
                 break;
             case R.id.question:
                 WebActivityJS.startWebActivityJS(this, Constant.WEB_WALLET, "我的钱包说明", null);
+                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "我的钱包-钱包说明");
                 break;
             case R.id.mywallet_currencyrecord:
                 startMyCurrencyRecordActivity();
                 break;
-            case R.id.mywallet_sysjqq:
-                AppUtil.startQQChat(this, Constant.SYSJQQID);
+            case R.id.mywallet_currencytopup://暂时用来测试支付宝支付
+                startTopUpActivity();
                 break;
         }
     }

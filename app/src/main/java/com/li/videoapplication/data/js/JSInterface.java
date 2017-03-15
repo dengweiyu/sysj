@@ -23,6 +23,7 @@ import com.li.videoapplication.mvp.billboard.view.MatchRewardBillboardActivity;
 import com.li.videoapplication.mvp.match.view.MatchResultActivity;
 import com.li.videoapplication.tools.DownloadHelper;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.MainActivity;
@@ -117,6 +118,7 @@ public class JSInterface {
         }
     }
 
+    //赛事奖金榜-我要参赛
     @JavascriptInterface
     public void apply() {
         Log.d(TAG, "apply: // ----------------------------------------");
@@ -132,7 +134,7 @@ public class JSInterface {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.DISCOVER, "赛事奖金榜-我要参赛");
     }
 
     @JavascriptInterface
@@ -150,6 +152,7 @@ public class JSInterface {
         }
     }
 
+    //抽奖页 登陆
     @JavascriptInterface
     public void login() {
         Log.d(TAG, "login: // ----------------------------------------");
@@ -165,6 +168,7 @@ public class JSInterface {
         }
     }
 
+    //抽奖页 做任务
     @JavascriptInterface
     public void doTask() {
         Log.d(TAG, "dotask: // ----------------------------------------");
@@ -183,6 +187,7 @@ public class JSInterface {
         }
     }
 
+    //抽奖页 立即充值
     @JavascriptInterface
     public void pay() {
         Log.d(TAG, "pay: // ----------------------------------------");
@@ -190,9 +195,24 @@ public class JSInterface {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    AppUtil.startQQChat(context, Constant.SYSJQQID);
+                    if (PreferencesHepler.getInstance().isLogin()) {
+                        ActivityManeger.startTopUpActivity(context, Constant.TOPUP_ENTRY_SWEEP);
+                    } else {
+                        DialogManager.showLogInDialog(context);
+                    }
                 }
             });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //抽奖页后退
+    @JavascriptInterface
+    public void back() {
+        Log.d(TAG, "back: // ----------------------------------------");
+        try {
+            AppManager.getInstance().removeActivity(WebActivity.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

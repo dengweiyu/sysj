@@ -18,6 +18,15 @@ public class MyMessage extends Message {
 	 *           0已读
 	 */
 	private String mark;
+	private boolean videoIsDel;
+
+	public boolean isVideoIsDel() {
+		return videoIsDel;
+	}
+
+	public void setVideoIsDel(boolean videoIsDel) {
+		this.videoIsDel = videoIsDel;
+	}
 
 	public String getMember_id() {
 		return member_id;

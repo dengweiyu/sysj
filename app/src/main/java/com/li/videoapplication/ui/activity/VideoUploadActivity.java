@@ -184,7 +184,7 @@ public class VideoUploadActivity extends TBaseActivity implements OnClickListene
     private void uploadNow() {
 
         if (isChecked && getVideoTitle().length() < 1) {
-            showToastShort("请输入视频标题");
+            showToastShort("请填写标题后再提交");
             return;
         }
         DataManager.UPLOAD.startVideo("SYSJ", getMember_id(), getVideoTitle(),

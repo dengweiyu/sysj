@@ -8,9 +8,9 @@ import com.li.videoapplication.framework.BaseEntity;
 @SuppressWarnings("serial")
 public class Download extends BaseEntity {
 
-	private String title;
-	private String app_name;
-	private String download_url;
+	private String title;//下载标题
+	private String download_url;//下载地址 xxx.apk
+	private String app_name; //广告下载APP名
 	private String build;
 	private String size_num;
 

@@ -75,6 +75,7 @@ public class SearchLiftAdapter extends BaseBaseAdapter {
 			public void onClick(View v) {
 
                 activity.finish();
+				record.setLife(true);
                 EventManager.postSearchGame2VideoShareEvent(record);
 			}
 		});

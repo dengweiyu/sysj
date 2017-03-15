@@ -1,5 +1,6 @@
 package com.li.videoapplication.data.local;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
@@ -129,7 +130,7 @@ public class StorageUtil {
 
 
     /**
-     * 获得LuPingDaShi目录下总内存 ----> /LuPingDaShi
+     * 获得Sysj目录下总内存 ----> /Sysj
      */
     public static String getSysjTotalSize() {
         return getTotalSize(SYSJStorageUtil.getSysj());
@@ -187,6 +188,22 @@ public class StorageUtil {
         }
         String s = Formatter.formatFileSize(context, blockSize * totalBlocks);
         Log.d(TAG, "getTotalSize: s=" + s);
+        return s;
+    }
+
+    // 获取android当前可用内存大小
+    public static String getAvailMemory() {
+        Log.d(TAG, "getAvailMemory: // -----------------------------------------------");
+        Context context = AppManager.getInstance().getContext();
+        if (context == null) {
+            return null;
+        }
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+        am.getMemoryInfo(mi);
+        //mi.availMem; 当前系统的可用内存
+        String s = Formatter.formatFileSize(context, mi.availMem);// 将获取的内存大小规格化
+        Log.d(TAG, "getAvailMemory: s=" + s);
         return s;
     }
 
@@ -257,14 +274,14 @@ public class StorageUtil {
     }
 
     /**
-     * 获得LuPingDaShi目录下可用内存 ----> /LuPingDaShi
+     * 获得Sysj目录下可用内存 ----> /Sysj
      */
     public static String getSysjAvailableSize() {
         return getAvailableSize(SYSJStorageUtil.getSysj());
     }
 
     /**
-     * 获得LuPingDaShi目录下文件大小
+     * 获得Sysj目录下文件大小
      */
     public static String getSysjSize() {
         File recFile = SYSJStorageUtil.getSysjRec();

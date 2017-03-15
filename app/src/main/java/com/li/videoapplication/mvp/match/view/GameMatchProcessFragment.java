@@ -66,7 +66,8 @@ public class GameMatchProcessFragment extends TBaseFragment implements IMatchPro
         VideoImage videoImage = new VideoImage();
         videoImage.setId(video_id);
         videoImage.setVideo_id(video_id);
-        ActivityManeger.startVideoPlayActivity(getContext(), videoImage);
+        ActivityManeger.startVideoPlayActivity(getActivity(), videoImage);
+        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "赛程-对战表-视频");
     }
 
     @Override
@@ -123,7 +124,7 @@ public class GameMatchProcessFragment extends TBaseFragment implements IMatchPro
     }
 
     private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_light,

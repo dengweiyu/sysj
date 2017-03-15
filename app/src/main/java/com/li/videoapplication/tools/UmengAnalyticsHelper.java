@@ -71,6 +71,102 @@ public class UmengAnalyticsHelper {
         }
     }
 
+    public static void onMainMoreHotEvent(Context context, String more_mark) {
+        switch (more_mark) {
+            case "sysj_video":
+                onEvent(context, MAIN, "视界原创-最热-点击视界原创最热次数");
+                break;
+            case "new_game_flag":
+                onEvent(context, MAIN, "新游推荐-最热-点击新游推荐最热次数");
+                break;
+            case "gameid_5057":
+                onEvent(context, MAIN, "王者荣耀-最热-点击王者荣耀最热次数");
+                break;
+            case "gameid_5062":
+                onEvent(context, MAIN, "全民超神-最热-点击全民超神最热次数");
+                break;
+            case "gameid_93":
+                onEvent(context, MAIN, "我的世界-最热-点击我的世界最热次数");
+                break;
+            case "gameid_8128":
+                onEvent(context, MAIN, "穿越火线-最热-点击穿越火线最热次数");
+                break;
+            case "gameid_9042":
+                onEvent(context, MAIN, "皇室战争-最热-点击皇室战争最热次数");
+                break;
+            case "gameid_39":
+                onEvent(context, MAIN, "海岛奇兵-最热-点击海岛奇兵最热次数");
+                break;
+            case "typeid_66":
+                onEvent(context, MAIN, "赛车跑酷-最热-点击赛车跑酷最热次数");
+                break;
+            case "typeid_64":
+                onEvent(context, MAIN, "策略塔防-最热-点击策略塔防最热次数");
+                break;
+            case "typeid_62":
+                onEvent(context, MAIN, "卡牌游戏-最热-点击卡牌游戏最热次数");
+                break;
+            case "typeid_57":
+                onEvent(context, MAIN, "飞行射击-最热-点击飞行射击最热次数");
+                break;
+            case "typeid_51":
+                onEvent(context, MAIN, "角色扮演-最热-点击角色扮演最热次数");
+                break;
+        }
+    }
+
+    public static void onMainMoreEvent(Context context, String more_mark, boolean isHomeMoreNew) {
+        switch (more_mark) {
+            case "sysj_video":
+                mainMoreAnalytics(context, isHomeMoreNew, "视界原创");
+                break;
+            case "new_game_flag":
+                mainMoreAnalytics(context, isHomeMoreNew, "新游推荐");
+                break;
+            case "gameid_5057":
+                mainMoreAnalytics(context, isHomeMoreNew, "王者荣耀");
+                break;
+            case "gameid_5062":
+                mainMoreAnalytics(context, isHomeMoreNew, "全民超神");
+                break;
+            case "gameid_93":
+                mainMoreAnalytics(context, isHomeMoreNew, "我的世界");
+                break;
+            case "gameid_8128":
+                mainMoreAnalytics(context, isHomeMoreNew, "穿越火线");
+                break;
+            case "gameid_9042":
+                mainMoreAnalytics(context, isHomeMoreNew, "皇室战争");
+                break;
+            case "gameid_39":
+                mainMoreAnalytics(context, isHomeMoreNew, "海岛奇兵");
+                break;
+            case "typeid_66":
+                mainMoreAnalytics(context, isHomeMoreNew, "赛车跑酷");
+                break;
+            case "typeid_64":
+                mainMoreAnalytics(context, isHomeMoreNew, "策略塔防");
+                break;
+            case "typeid_62":
+                mainMoreAnalytics(context, isHomeMoreNew, "卡牌游戏");
+                break;
+            case "typeid_57":
+                mainMoreAnalytics(context, isHomeMoreNew, "飞行射击");
+                break;
+            case "typeid_51":
+                mainMoreAnalytics(context, isHomeMoreNew, "角色扮演");
+                break;
+        }
+    }
+
+    private static void mainMoreAnalytics(Context context, boolean isHomeMoreNew, String name) {
+        if (isHomeMoreNew) {
+            onEvent(context, MAIN, name + "-最新-点击" + name + "内任意视频次数");
+        } else {
+            onEvent(context, MAIN,  name + "-最热-点击" + name + "最热任意视频次数");
+        }
+    }
+
     public static void onMainGameEvent(Context context, String more_mark) {
         switch (more_mark) {
             case "sysj_video":
@@ -213,6 +309,35 @@ public class UmengAnalyticsHelper {
                 break;
             case "8":
                 onEvent(context, GAME, "音乐游戏");
+                break;
+        }
+    }
+
+    public static void onGameListFocusEvent(Context context, String group_type_id) {
+        switch (group_type_id) {
+            case "1":
+                onEvent(context, GAME, "角色扮演-关注-角色扮演页面，点击任何一个游戏关注");
+                break;
+            case "2":
+                onEvent(context, GAME, "竞技Moba-关注-竞技Moba页面，点击任何一个游戏关注");
+                break;
+            case "3":
+                onEvent(context, GAME, "动作街机-关注-动作街机页面，点击任何一个游戏关注");
+                break;
+            case "4":
+                onEvent(context, GAME, "休闲益智-关注-休闲益智页面，点击任何一个游戏关注");
+                break;
+            case "5":
+                onEvent(context, GAME, "策略塔防-关注-策略塔防页面，点击任何一个游戏关注");
+                break;
+            case "6":
+                onEvent(context, GAME, "赛车跑酷-关注-赛车跑酷页面，点击任何一个游戏关注");
+                break;
+            case "7":
+                onEvent(context, GAME, "枪战射击-关注-枪战射击页面，点击任何一个游戏关注");
+                break;
+            case "8":
+                onEvent(context, GAME, "音乐游戏-关注-音乐游戏页面，点击任何一个游戏关注");
                 break;
         }
     }

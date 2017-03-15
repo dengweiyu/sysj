@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp">
+
+    <ImageView
+        android:id="@+id/op_choose"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/radiobtn_blue_off"/>
+
+    <TextView
+        android:id="@+id/op_name"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="首页普通游戏展示"
+        android:textSize="11sp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/title_bg_color" />
+
+    <TextView
+        android:id="@+id/op_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1000飞磨豆"
+        android:textSize="11sp"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/title_bg_color" />
+
+</LinearLayout>

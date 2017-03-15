@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ifeimo.im">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
+
+    <application>
+
+        <!-- <activity -->
+        <!-- android:name=".activity.ContactListActivity" /> -->
+        <!-- <activity -->
+        <!-- android:name=".activity.TestActivity" /> -->
+
+        <service android:name=".service.LoginService" />
+        <service android:name=".service.MsgService" />
+
+        <provider
+            android:name=".provider.MuccProvider"
+            android:authorities="com.ifeimo.im.db.mucc"
+            android:exported="false" />
+        <provider
+            android:name=".provider.ChatProvider"
+            android:authorities="com.ifeimo.im.db.chat"
+            android:exported="false" />
+        <provider
+            android:name=".provider.InformationProvide"
+            android:authorities="com.ifeimo.im.db.cachemsglist"
+            android:exported="false" />
+
+        <receiver android:name=".receiver.ConnectReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="com.ifeimo.im.receiver.ConnectReceiver" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name="com.ifeimo.im.activity.TestInformationActivity"
+            android:theme="@style/Theme.AppCompat"></activity>
+    </application>
+
+</manifest>

@@ -23,6 +23,8 @@ import com.li.videoapplication.utils.StringUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.View;

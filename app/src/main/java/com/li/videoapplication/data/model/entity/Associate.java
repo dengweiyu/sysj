@@ -13,6 +13,15 @@ public class Associate extends BaseEntity {
 	private String game_name;
 	private String flag;
 	private String name;
+	private boolean isLife;
+
+	public boolean isLife() {
+		return isLife;
+	}
+
+	public void setLife(boolean life) {
+		isLife = life;
+	}
 
 	public String getName() {
 		return name;

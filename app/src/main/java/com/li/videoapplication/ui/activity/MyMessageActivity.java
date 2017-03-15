@@ -1,28 +1,29 @@
 package com.li.videoapplication.ui.activity;
 
-import android.app.Activity;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.ifeimo.im.common.adapter.OnAdapterItemOnClickListener;
+import com.ifeimo.im.common.bean.InformationBean;
+import com.ifeimo.im.view.InformationView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.MessageMsgRedEntity;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.adapter.MessageAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.imkit.fragment.ConversationListFragment;
-import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.Message;
 
 /**
  * 活动：我的消息
@@ -81,6 +82,19 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
         adapter = new MessageAdapter(this, data);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+        //飞磨IM消息列表
+//        InformationView feiMoIMList = (InformationView) findViewById(R.id.feimo_im_list);
+        //初始化
+//        feiMoIMList.init();
+        //消息列表点击时重连（避免账号在异端登陆时挤掉线）
+//        feiMoIMList.setOnAdapterItemOnClickListener(new OnAdapterItemOnClickListener() {
+//            @Override
+//            public boolean onItemOnClick(InformationBean informationBean) {
+//                Member member = getUser();
+//                FeiMoIMHelper.Login(getMember_id(), member.getNickname(), member.getAvatar());
+//                return true;
+//            }
+//        });
     }
 
     @Override

@@ -66,6 +66,15 @@ public class Member extends BaseEntity {
 	private String currency;
 	private String win;
 	private String failure;
+	private String horizonId;
+
+	public String getHorizonId() {
+		return horizonId;
+	}
+
+	public void setHorizonId(String horizonId) {
+		this.horizonId = horizonId;
+	}
 
 	public String getWin() {
 		return win;

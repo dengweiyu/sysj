@@ -37,6 +37,7 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.data.upload.Contants;
 import com.li.videoapplication.data.upload.VideoShareTask208;
+import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -282,10 +283,6 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                     return;
                 }
 
-                if (record.getVideo_station().equals(VideoCaptureEntity.VIDEO_STATION_SHOW)) {
-
-                }
-
                 if (record.getVideo_station().equals(VideoCaptureEntity.VIDEO_STATION_HIDE)) {
 
                 }
@@ -298,6 +295,15 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                 if (!share(record.getVideo_path())) {
                     return;
                 }
+
+                if (record.getVideo_station().equals(VideoCaptureEntity.VIDEO_STATION_SHOW)) {
+                    final String url = AppConstant.getMUrl(record.getUpvideo_qnkey());
+                    final String imageUrl = AppConstant.getCoverUrl(record.getUpvideo_flag());
+                    ActivityManeger.startActivityShareActivity4MyCloudVideo(activity, url, imageUrl, fileName);
+                    UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "本地视频-分享");
+                    return;
+                }
+
                 // 获取当前网络环境
                 int netType = NetUtil.getNetworkType(context);
                 if (netType == 0) {
@@ -348,13 +354,9 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
 
             @Override
             public void onClick(View v) {
-
-                if (!PreferencesHepler.getInstance().isLogin()) {// 检查用户是否已登陆
-                    ToastHelper.s("请先登录");
-                }
-
                 // 复制文件对话框
                 showCopyDialog(record);
+                UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "本地视频-复制");
             }
         });
 

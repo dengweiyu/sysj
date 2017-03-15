@@ -147,6 +147,24 @@ public class Match extends BaseEntity {
     private String b_video_id; //
     private String uptime;
     private String nickname;
+    private String share_icon;
+    private String share_description;
+
+    public String getShare_icon() {
+        return share_icon;
+    }
+
+    public void setShare_icon(String share_icon) {
+        this.share_icon = share_icon;
+    }
+
+    public String getShare_description() {
+        return share_description;
+    }
+
+    public void setShare_description(String share_description) {
+        this.share_description = share_description;
+    }
 
     public String getNickname() {
         return nickname;

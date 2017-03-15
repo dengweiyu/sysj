@@ -3,6 +3,7 @@ package com.li.videoapplication.data.Api;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Match;
+import com.li.videoapplication.data.model.entity.TopUp;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
@@ -18,6 +19,7 @@ import com.li.videoapplication.data.model.response.PlayerRankingCurrencyEntity;
 import com.li.videoapplication.data.model.response.PlayerRankingEntity;
 import com.li.videoapplication.data.model.response.ServiceNameEntity;
 import com.li.videoapplication.data.model.response.SignScheduleEntity;
+import com.li.videoapplication.data.model.response.TopUpOptionEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
 import com.li.videoapplication.data.model.entity.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
@@ -49,7 +51,7 @@ public interface SYSJService {
     //@GET("接口尾址")（域名 http://apps.ifeimo.com 在 RetrofitUtils 中已配置）
 
     //获取首页详情
-    @GET("/Sysj215/Index/index")
+    @GET("/Sysj217/Index/index")
     Observable<BaseHttpResult<HomeDto>> getHomeInfo(@Query("page") int page);
 
     //获取首页每日任务
@@ -57,11 +59,11 @@ public interface SYSJService {
     Observable<UnfinishedTaskEntity> unfinishedTask(@Query("member_id") String member_id);
 
     //获取首页猜你喜欢（换一换）
-    @GET("/sysj201/index/changeGuess")
+    @GET("/sysj217/index/changeGuess")
     Observable<ChangeGuessEntity> changeGuess(@Query("group_ids") String group_ids);
 
     //获取首页猜你喜欢（换一换）详情
-    @GET("/sysj201/index/changeGuessSecond")
+    @GET("/sysj217/index/changeGuessSecond")
     Observable<ChangeGuessEntity> changeGuessSecond(@Query("video_ids") String video_ids);
 
     //获取广告
@@ -212,10 +214,23 @@ public interface SYSJService {
     Observable<BaseHttpResult<List<Currency>>> getMemberAward(@QueryMap Map<String, Object> options);
 
     //兑换记录详情
-    @GET("/Sysj211/CurrencyMall/orderDetail")
+    @GET("/Sysj217/CurrencyMall/orderDetail")
     Observable<BaseHttpResult<Currency>> orderDetail(@QueryMap Map<String, Object> options);
 
     //抽奖记录详情
     @GET("/Sysj215/Sweepstake/getMemberAwardDetail")
     Observable<BaseHttpResult<Currency>> getMemberAwardDetail(@QueryMap Map<String, Object> options);
+
+    //充值
+    @GET("/Sysj217/Recharge/getRechargeRule")
+    Observable<TopUpOptionEntity> getRechargeRule();
+
+    //支付
+    @FormUrlEncoded
+    @POST("/Sysj217/Recharge/payment")
+    Observable<BaseHttpResult<String>> payment(@FieldMap Map<String, Object> options);
+
+    //充值记录
+    @GET("/Sysj217/Recharge/getOrderList")
+    Observable<BaseHttpResult<List<TopUp>>> getTopUpRecordList(@QueryMap Map<String, Object> options);
 }

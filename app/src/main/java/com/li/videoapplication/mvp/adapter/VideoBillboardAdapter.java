@@ -20,6 +20,7 @@ import com.li.videoapplication.mvp.billboard.presenter.BillboardPresenter;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.GroupDetailImageAdapter;
@@ -43,6 +44,7 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
      */
     private void startVideoPlayActivity(VideoImage videoImage) {
         ActivityManeger.startVideoPlayActivity(mContext, videoImage);
+        UmengAnalyticsHelper.onEvent(mContext, UmengAnalyticsHelper.DISCOVER, "视频榜-播放");
     }
 
     /**
@@ -50,6 +52,7 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
      */
     private void startPlayerDynamicActivity(Member member) {
         ActivityManeger.startPlayerDynamicActivity(mContext, member);
+        UmengAnalyticsHelper.onEvent(mContext, UmengAnalyticsHelper.DISCOVER, "视频榜-动态");
     }
 
     public VideoBillboardAdapter(List<VideoImage> data) {
@@ -134,18 +137,18 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
             setTimeLength(holder, videoImage);
             ImageView cover = holder.getView(R.id.groupdetail_cover);
             helper.setImageViewImageNet(cover, videoImage.getFlagPath());
-            holder.setText(R.id.groupdetail_name,videoImage.getUserName())
-                    .setText(R.id.groupdetail_content,videoImage.getName());
+            holder.setText(R.id.groupdetail_name, videoImage.getUserName())
+                    .setText(R.id.groupdetail_content, videoImage.getName());
         }
 
         // 点赞设置
-        setLike(holder,videoImage);
+        setLike(holder, videoImage);
 
         // 收藏设置
-        setStar(holder, videoImage );
+        setStar(holder, videoImage);
 
         // 评论
-        setComment(holder,videoImage);
+        setComment(holder, videoImage);
 
         RelativeLayout video = holder.getView(R.id.groupdetail_video);
         video.setOnClickListener(new View.OnClickListener() {
@@ -200,7 +203,7 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
                         record.setFlower_tick(1);
                     }
                     // 视频点赞
-                    presenter.videoFlower(record.getVideo_id(),member_id);
+                    presenter.videoFlower(record.getVideo_id(), member_id);
                 }
                 if (isImage(record)) { // 图文
                     int flag = record.getFlower_tick();
@@ -230,9 +233,9 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
             return;
         }
         if (record.getCollection_tick() == 1) {// 已收藏状态
-            holder.setImageResource(R.id.groupdetail_star,R.drawable.videoplay_star_red_205);
+            holder.setImageResource(R.id.groupdetail_star, R.drawable.videoplay_star_red_205);
         } else {// 未收藏状态
-            holder.setImageResource(R.id.groupdetail_star,R.drawable.videoplay_star_gray_205);
+            holder.setImageResource(R.id.groupdetail_star, R.drawable.videoplay_star_gray_205);
         }
         ImageView star = holder.getView(R.id.groupdetail_star);
         star.setVisibility(View.VISIBLE);

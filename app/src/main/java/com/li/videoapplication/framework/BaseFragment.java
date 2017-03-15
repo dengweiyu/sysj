@@ -2,6 +2,7 @@ package com.li.videoapplication.framework;
 
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,9 +34,9 @@ public abstract class BaseFragment extends Fragment {
 	protected Gson gson = new Gson();
 
 	@Override
-	public void onAttach(Context context) {
+	public void onAttach(Activity activity) {
 		Log.d(tag, "onAttach: ");
-		super.onAttach(context);
+		super.onAttach(activity);
 	}
 
 	@Override

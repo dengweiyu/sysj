@@ -341,10 +341,8 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
             helper.setTextViewText(view, TimeHelper.getVideoPlayTime(record.getTime_length()));
         } catch (Exception e) {
             e.printStackTrace();
-            helper.setTextViewText(view, "");
         }
     }
-
 
     /**
      * 评论内容，如果是表情串码则替换显示相应表情

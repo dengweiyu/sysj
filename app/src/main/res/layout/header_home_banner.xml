@@ -3,12 +3,11 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent">
 
-    <!-- 320/180 -->
-
     <com.li.videoapplication.views.ViewFlow
         android:id="@+id/viewflow"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
 
     <com.li.videoapplication.views.CircleFlowIndicator
         android:id="@+id/circleflowindicator"

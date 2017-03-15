@@ -23,6 +23,7 @@ import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.billboard.BillboardContract.IMatchRewardBillboardView;
 import com.li.videoapplication.mvp.billboard.presenter.BillboardPresenter;
 import com.li.videoapplication.tools.IntentHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 
 import java.lang.reflect.Field;
@@ -49,6 +50,7 @@ public class MatchRewardBillboardActivity extends TBaseAppCompatActivity impleme
             String content = data.getShare_description();
 
             ActivityManeger.startActivityShareActivity4VideoPlay(this, url, title, imageUrl, content);
+            UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.DISCOVER, "赛事奖金榜-分享");
         }
     }
 

@@ -58,11 +58,13 @@ public class GroupDetailPlayerAdapter extends BaseQuickAdapter<Member, BaseViewH
         go.setVisibility(View.GONE);
         if (record != null) {
             if (record.getMember_tick() == 1) { // 已关注状态
-                focus.setBackgroundResource(R.drawable.player_focus_gray);
-                focus.setTextColor(mContext.getResources().getColorStateList(R.color.groupdetail_player_white));
+                focus.setBackground(null);
+                focus.setTextColor(mContext.getResources().getColorStateList(R.color.darkgray));
+                focus.setText(R.string.dynamic_focused);
             } else { // 未关注状态
                 focus.setBackgroundResource(R.drawable.player_focus_red);
                 focus.setTextColor(mContext.getResources().getColorStateList(R.color.groupdetail_player_red));
+                focus.setText(R.string.dynamic_focus);
             }
         }
     }

@@ -9,6 +9,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseTopDialog;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.MainActivity;
@@ -21,6 +22,8 @@ import com.li.videoapplication.utils.AppUtil;
  */
 public class RecordDialog extends BaseTopDialog implements View.OnClickListener {
 
+    private IOnClickListener onClickListener;
+    private IDialogVisableListener visableListener;
     private MainActivity activity;
     private boolean isLogin;
 
@@ -36,6 +39,7 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
      */
     private void startCameraRecoed50Activity() {
         ActivityManeger.startCameraRecoed50Activity(activity);
+        UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MAIN, "发布-拍摄-点击右上角发布按钮后点击拍摄视频按钮");
     }
 
     /**
@@ -43,6 +47,7 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
      */
     private void startCameraRecoedActivity() {
         ActivityManeger.startCameraRecoedActivity(activity);
+        UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MAIN, "发布-拍摄-点击右上角发布按钮后点击拍摄视频按钮");
     }
 
     /**
@@ -50,6 +55,7 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
      */
     private void startHomeImageShareActivity() {
         ActivityManeger.startHomeImageShareActivity(activity, null, false);
+        UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MAIN, "发布-图文-点击右上角发布按钮后点击图文按钮");
     }
 
     /**
@@ -57,10 +63,24 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
      */
     private void startVideoChooseActivity() {
         ActivityManeger.startVideoChooseActivity(getContext(), null, VideoShareActivity.TO_VIDEOMANAGER);
+        UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MAIN, "发布-视频-点击右上角发布按钮后点击视频按钮");
     }
 
     public RecordDialog(Context context) {
         super(context);
+        activity = AppManager.getInstance().getMainActivity();
+    }
+
+    public RecordDialog(Context context, IDialogVisableListener visableListener) {
+        super(context);
+        this.visableListener = visableListener;
+        activity = AppManager.getInstance().getMainActivity();
+    }
+
+    public RecordDialog(Context context, IDialogVisableListener visableListener, IOnClickListener onClickListener) {
+        super(context);
+        this.visableListener = visableListener;
+        this.onClickListener = onClickListener;
         activity = AppManager.getInstance().getMainActivity();
     }
 
@@ -110,22 +130,56 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
 
             case R.id.record_image://图文
                 if (isLogin) {
-                    if (activity != null)
-                        startHomeImageShareActivity();
+                    if (onClickListener != null) {
+                        onClickListener.onUploadImageClick();
+                    } else {
+                        if (activity != null)
+                            startHomeImageShareActivity();
+                    }
                 } else {
                     startLoginDialog();
                 }
                 break;
 
             case R.id.record_local://视频
-                if (isLogin){
-                    if (activity != null)
-                        startVideoChooseActivity();
-                }else {
+                if (isLogin) {
+                    if (onClickListener !=null){
+                        onClickListener.onUploadVideoClick();
+                    }else {
+                        if (activity != null)
+                            startVideoChooseActivity();
+                    }
+                } else {
                     startLoginDialog();
                 }
                 break;
         }
         cancel();
+    }
+
+    @Override
+    public void cancel() {
+        super.cancel();
+        if (visableListener != null)
+            visableListener.dialogCanceled();
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        if (visableListener != null)
+            visableListener.dialogShowed();
+    }
+
+    public interface IDialogVisableListener {
+        void dialogShowed();
+
+        void dialogCanceled();
+    }
+
+    public interface IOnClickListener {
+        void onUploadImageClick();
+
+        void onUploadVideoClick();
     }
 }

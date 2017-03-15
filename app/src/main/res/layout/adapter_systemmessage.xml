@@ -44,7 +44,7 @@
             android:layout_marginTop="12dp"
             android:ellipsize="end"
             android:lines="2"
-            android:text="有時候，不是對方不在乎你，而是你把對方看的太重。"
+            android:text=""
             android:textColor="#cc333333"
             android:textSize="12sp"/>
 

@@ -14,7 +14,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.data.model.entity.Download;
+import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.LaunchImage;
+import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
@@ -40,7 +42,10 @@ import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.ui.adapter.BannerAdapter;
+import com.li.videoapplication.ui.fragment.GroupdetailVideoFragment;
 import com.li.videoapplication.ui.view.HomeTaskView;
+import com.li.videoapplication.utils.ClickUtil;
+import com.li.videoapplication.utils.GDTUtil;
 import com.li.videoapplication.utils.HareWareUtil;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -48,9 +53,12 @@ import com.li.videoapplication.views.CircleFlowIndicator;
 import com.li.videoapplication.views.DynamicHeightImageView;
 import com.li.videoapplication.views.ViewFlow;
 import com.li.videoapplication.views.ViewFlow.ViewSwitchListener;
+import com.qq.e.ads.nativ.NativeADDataRef;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
 
 import butterknife.BindView;
 
@@ -69,7 +77,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     @BindView(R.id.home_task)
     HomeTaskView taskView;
 
-    private int page = 1;
+    private int page;
     private int page_count;
 
     private IHomePresenter presenter;
@@ -86,19 +94,31 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     //首页加载了2次数据（缓存一次），所以会insert2次，控制只插入1条广告
     private boolean noAdvertisement = true;
 
+    public static NativeADDataRef adItem;
+    private static final int GUESSVIDEO_HOME = 0;
+    private static final int GUESSVIDEO_CHANGE = 1;
+    private Timer refreshTimer;
+
     /**
      * 跳转：首页更多
      */
     private void startHomeMoreActivity(VideoImageGroup group) {
-        ActivityManeger.startHomeMoreActivity(getContext(), group);
+        ActivityManeger.startHomeMoreActivity(getActivity(), group);
+    }
+
+    /**
+     * 跳转：圈子详情
+     */
+    private void startGameDetailActivity(String group_id) {
+        ActivityManeger.startGroupDetailActivity(getActivity(), group_id);
     }
 
     /**
      * 跳转：风云榜
      */
     private void startBillboardActivity() {
-        ActivityManeger.startBillboardActivity(getContext(), BillboardActivity.TYPE_PLAYER);
-        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MAIN, "热门主播更多");
+        ActivityManeger.startBillboardActivity(getActivity(), BillboardActivity.TYPE_PLAYER);
+        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MAIN, "热门主播更多");
     }
 
     /**
@@ -106,7 +126,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
      */
     private void startWebActivity(String url) {
 
-        WebActivity.startWebActivity(getContext(), url);
+        WebActivity.startWebActivity(getActivity(), url);
     }
 
     @Override
@@ -149,23 +169,27 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
     private void loadCacheData() {
         Log.d(tag, "------------ loadCacheData: ------------");
+        page = 1;
         HomeDto homeData = PreferencesHepler.getInstance().getHomeData();
-        if (homeData == null) {
+        if (homeData == null || homeData.getVideoList() != null) { //可能缓存了第二页覆盖了第一页
+            Log.d(tag, "----loadCacheData: rxcache----");
             //初始化时使用缓存（rxcache缓存）
             presenter.loadHomeData(page, false);
-            // 任务初始化时使用缓存（rxcache缓存）
-            presenter.unfinishedTask(getMember_id(), false);
         } else {
+            Log.d(tag, "----loadCacheData: sharepreferences----");
+            Log.d(tag, "sp: homeData == " + homeData);
             //直接调用本地缓存回调（sp缓存）
             refreshHomeData(homeData);
         }
+        // 任务初始化时使用缓存（rxcache缓存）
+        presenter.unfinishedTask(getMember_id(), false);
     }
 
     private void initRecyclerView() {
         presenter = HomePresenter.getInstance();
         presenter.setHomeView(this);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_light,
@@ -221,20 +245,22 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                 HomeDto item = (HomeDto) adapter.getItem(position);
                 switch (view.getId()) {
                     case R.id.hometype_youlike_change://换一换
-                        List<String> videoIds = PreferencesHepler.getInstance().getVideoIds();
-                        if (PreferencesHepler.getInstance().canVideoIdsTime()) {// id已过期
-                            // 首页猜你喜歡 换一换（问卷id）带50个猜你喜欢视频id
-                            presenter.changeGuess(PreferencesHepler.getInstance().getGroupIds2());
-                        } else {// id未过期
-                            if (videoIds != null && videoIds.size() > 0) {
-                                // 首页猜你喜歡详情
-                                presenter.changeGuessSecond(getVideoIdsRandom(videoIds));
-                            } else {
-                                // 首页猜你喜歡
+                        if (ClickUtil.canClick(1000)) {//防止连续点击
+                            List<String> videoIds = PreferencesHepler.getInstance().getVideoIds();
+                            if (PreferencesHepler.getInstance().canVideoIdsTime()) {// id已过期
+                                // 首页猜你喜歡 换一换（问卷id）带50个猜你喜欢视频id
                                 presenter.changeGuess(PreferencesHepler.getInstance().getGroupIds2());
+                            } else {// id未过期
+                                if (videoIds != null && videoIds.size() > 0) {
+                                    // 首页猜你喜歡详情
+                                    presenter.changeGuessSecond(getVideoIdsRandom(videoIds));
+                                } else {
+                                    // 首页猜你喜歡
+                                    presenter.changeGuess(PreferencesHepler.getInstance().getGroupIds2());
+                                }
                             }
                         }
-                        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MAIN, "换一换");
+                        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MAIN, "换一换");
                         break;
                     case R.id.homehotgame_more://热门游戏更多
                         if (activity != null) {
@@ -245,7 +271,17 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                         startHomeMoreActivity(item.getSysjVideo());
                         break;
                     case R.id.hometype_game://游戏视频更多
-                        startHomeMoreActivity(item.getVideoGroupItem());
+                        if (item.getVideoGroupItem().getIsGame() == 1 &&
+                                !StringUtil.isNull(item.getVideoGroupItem().getGroup_id())) {
+                            startGameDetailActivity(item.getVideoGroupItem().getGroup_id());
+                            UmengAnalyticsHelper.onMainGameMoreEvent(getActivity(), item.getVideoGroupItem().getMore_mark());
+                        } else {
+                            if (item.getVideoGroupItem().getMore_mark().equals("player_square")) { //玩家广场
+                                ActivityManeger.startSquareActivity(getActivity());
+                            } else {
+                                startHomeMoreActivity(item.getVideoGroupItem());
+                            }
+                        }
                         break;
                     case R.id.home_hotnarrate_more://热门解说更多
                         startBillboardActivity();
@@ -286,7 +322,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
     private String getVideoIdsRandom(List<String> videoIds) {
         List<String> list = new ArrayList<String>();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             int index = RandomUtil.getRandom(0, videoIds.size() - 1);
             list.add(videoIds.get(index));
         }
@@ -312,11 +348,22 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         } else {
             ToastHelper.s(R.string.net_disable);
         }
+
+        //刷新状态刷新超过十秒钟取消
+        refreshTimer = TimeHelper.runAfter(new TimeHelper.RunAfter() {
+            @Override
+            public void runAfter() {
+                if (swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    ToastHelper.s(R.string.net_unstable);
+                }
+            }
+        }, 1000 * 10);
     }
 
     @Override
     public void onLoadMoreRequested() {
-        Log.d(tag, "onLoadMoreRequested: ");
+        Log.d(tag, "onLoadMore: page == " + page + ", pagecount == " + page_count);
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
@@ -379,7 +426,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             // 保存猜你喜歡视频保存的时间
             PreferencesHepler.getInstance().saveVideoIdsTime();
         }
-        homeAdapter.changeGuessVideo(data);
+        replaseGDT(data.getData().getList(), GUESSVIDEO_CHANGE);
     }
 
     //广告
@@ -401,6 +448,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         if (data != null) {
             page_count = data.getPage_count();
             if (page == 1) {
+                Log.d(tag, "refreshHomeData: page = 1");
                 homeData.clear();
                 if (data.getBanner() != null && data.getBanner().size() > 0) {
                     refreshBanner(data.getBanner());
@@ -418,7 +466,9 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                     homeData.add(new HomeDto(HomeDto.TYPE_HOTNARRATE, data.getHotMemberVideo()));
                 }
                 homeAdapter.setNewData(homeData);
+                replaseGDT(data.getGuessVideo().getList(), GUESSVIDEO_HOME);//替换猜你喜欢最后一个为广告
             } else {
+                Log.d(tag, "refreshHomeData: page = 0 || page > 1");
                 if (data.getVideoList() != null && data.getVideoList().size() > 0) {
                     for (int i = 0; i < data.getVideoList().size(); i++) {
                         homeAdapter.addData(new HomeDto(HomeDto.TYPE_VIDEOGROUP, data.getVideoList().get(i)));
@@ -432,6 +482,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                 presenter.adImage208(AdvertisementDto.ADVERTISEMENT_8, false);
 
             isNetWordChange = true;
+            if (refreshTimer != null) refreshTimer.cancel();
         } else {
             onRefresh();
         }
@@ -455,6 +506,56 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         }
     }
 
+    //替换广告的猜你喜欢 List
+    private List<VideoImage> newGuessList = new ArrayList<>();
+
+    /**
+     * 替换猜你喜欢最后一条数据为广点通广告
+     *
+     * @param guessList 猜你喜欢数据
+     * @param location  操作猜你喜欢广告的位置。主页的猜你喜欢数据如加载不到广告则不动，
+     *                  点击换一换后的猜你喜欢数据如加载不到广告则将新数据更新上
+     */
+    private void replaseGDT(List<VideoImage> guessList, final int location) {
+        newGuessList.clear();
+        newGuessList.addAll(guessList);
+        GDTUtil.nativeAD(getActivity(), GDTUtil.POS_ID_GUESSYOURLIKE, new GDTUtil.GDTonLoaded() {
+
+            @Override
+            public void onADLoaded(NativeADDataRef adItem) {
+                Log.d(tag, "onADLoaded: ");
+                if (adItem != null) {
+                    HomeFragment.adItem = adItem;
+                    VideoImage ad = new VideoImage();
+                    ad.setAD(true);//自己定一个广告标识
+                    ad.setVideo_id("1");//自己定一个id给广告
+                    ad.setAvatar(adItem.getIconUrl());
+                    ad.setFlagPath(adItem.getImgUrl());
+                    ad.setVideo_flag(adItem.getImgUrl());
+                    ad.setNickname(adItem.getTitle());
+                    ad.setTitle(adItem.getDesc());
+                    //替换广告
+                    replaceGuessVideo2AD(newGuessList, ad);
+                }
+            }
+
+            @Override
+            public void onADError() {//没广告或广告加载出错
+                Log.d(tag, "onADError: ");
+                if (location == GUESSVIDEO_CHANGE)
+                    homeAdapter.changeGuessVideo(newGuessList);
+            }
+        });
+    }
+
+    private void replaceGuessVideo2AD(List<VideoImage> newGuessList, VideoImage adItem) {
+        if (newGuessList.size() == 4) {//防止连续点击造成个数问题
+            newGuessList.remove(newGuessList.size() - 1);//移除第4条item
+            newGuessList.add(adItem);//替换广告
+            homeAdapter.changeGuessVideo(newGuessList);
+        }
+    }
+
     @Override
     public void onSwitched(View view, int position) {
         bannerAdapter.setMaxValue(true);
@@ -466,9 +567,9 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         super.onResume();
         startAutoFlowTimer();
         Log.d(tag, "onResume: homeData==" + homeData);
-        if (homeData == null || homeData.size() == 0) {
-            loadCacheData();
-        }
+//        if (homeData == null || homeData.size() == 0) {
+//            loadCacheData();
+//        }
     }
 
     @Override

@@ -6,6 +6,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.ifeimo.im.common.callback.LoginCallBack;
+import com.ifeimo.im.common.callback.OnLoginSYSJCallBack;
+import com.ifeimo.im.framwork.IMSdk;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.cache.DanmukuCache;
@@ -27,14 +30,17 @@ import com.li.videoapplication.data.model.response.LoginEntity;
 import com.li.videoapplication.data.model.response.PhotoSavePhotoEntity;
 import com.li.videoapplication.data.model.response.SaveEventVideo204Entity;
 import com.li.videoapplication.data.model.response.UpdateVersionEntity;
+import com.li.videoapplication.data.model.response.UserProfileFinishMemberInfoEntity;
 import com.li.videoapplication.data.model.response.UserProfilePersonalInformationEntity;
 import com.li.videoapplication.data.model.response.VideoQiniuTokenPass203Entity;
 import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
+import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseEntity;
 import com.li.videoapplication.framework.BaseResponseEntity;
+import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.JPushHelper;
 import com.li.videoapplication.utils.HareWareUtil;
 import com.li.videoapplication.utils.NetUtil;
@@ -43,6 +49,7 @@ import com.li.videoapplication.utils.StringUtil;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.measite.minidns.record.A;
 import io.rong.eventbus.EventBus;
 
 
@@ -289,6 +296,8 @@ public class ResponseHandler {
                     // 获取融云token
                     DataManager.getRongCloudToken204(member_id, member.getNickname());
 
+                    //feimo im
+                    FeiMoIMHelper.Login(member_id, member.getNickname(), member.getAvatar());
                 } else {// 玩家资料
                     // 保存
                     RequestCache.save(url, params, resultString);
@@ -313,11 +322,11 @@ public class ResponseHandler {
         if (url.equals(RequestUrl.getInstance().checkAndroidStatus())) {
             if (result) {
                 String status = ((CheckAndroidStatusEntity) this.entity).getData().getStatus();
-                Log.d(tag, "checkAndroidStatus: status == "+status);
+                Log.d(tag, "checkAndroidStatus: status == " + status);
                 if (!StringUtil.isNull(status)) {
                     AppConstant.DOWNLOAD = status.equals("1"); // 1为显示, 0为隐藏
                 }
-                Log.d(tag, "checkAndroidStatus AppConstant.DOWNLOAD == "+AppConstant.DOWNLOAD);
+                Log.d(tag, "checkAndroidStatus AppConstant.DOWNLOAD == " + AppConstant.DOWNLOAD);
             }
         }
 
@@ -337,9 +346,15 @@ public class ResponseHandler {
          */
         if (url.equals(RequestUrl.getInstance().userProfileFinishMemberInfo())) {
             if (result) {
+                Member member = ((UserProfileFinishMemberInfoEntity) this.entity).getData();
+
                 String a = PreferencesHepler.getInstance().getMember_id();
                 // 刷新个人资料
                 DataManager.userProfilePersonalInformation(a, a);
+
+                String avatar = PreferencesHepler.getInstance().getUserProfilePersonalInformation().getAvatar();
+
+                FeiMoIMHelper.upDateUser(member.getNickname(), avatar);
             }
         }
 

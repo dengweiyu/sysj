@@ -6,7 +6,7 @@
     android:paddingLeft="12dp"
     android:paddingRight="12dp"
     android:layout_marginTop="8dp"
-    android:background="@drawable/button_main"
+    android:background="@color/white"
     android:clickable="true"
     android:orientation="vertical">
 
@@ -34,10 +34,12 @@
         android:background="#c1ded1d0" />
 
     <RelativeLayout
+        android:id="@+id/clickarea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/transition_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"

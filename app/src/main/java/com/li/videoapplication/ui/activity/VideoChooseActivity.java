@@ -21,6 +21,7 @@ import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.preferences.VideoPreferences;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.adapter.ChooseLocalVideoAdapter;
 import com.li.videoapplication.ui.adapter.MyImportVideoAdapter;
@@ -143,6 +144,7 @@ public class VideoChooseActivity extends TBaseAppCompatActivity implements OnCli
                 DataManager.LOCAL.importVideoCaptures();
                 break;
             case R.id.videoupload_ok:
+                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "发布-视频-选择视频后点击确认按钮进入分享页面次数");
                 Map<Integer, Boolean> map = adapter.getSelecteMap();
                 if (map.containsValue(true)) {
                     for (Map.Entry<Integer, Boolean> m : map.entrySet()) {

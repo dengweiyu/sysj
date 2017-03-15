@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
@@ -16,6 +19,8 @@ import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.response.MemberMatchPKEntity204;
 import com.li.videoapplication.data.model.response.MemberPKListEntity204;
 import com.li.videoapplication.framework.TBaseFragment;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
+import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.MyMatchProcessActivity;
 import com.li.videoapplication.mvp.adapter.MyFinishedMatchProcessAdapter;
 
@@ -49,6 +54,14 @@ public class MyFinishedMatchFragment extends TBaseFragment implements OnRefreshL
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {//该fragment处于最前台交互状态
+            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MAIN, "我的赛程-已结束");
+        }
+    }
+
+    @Override
     protected IPullToRefresh getPullToRefresh() {
         return null;
     }
@@ -66,7 +79,7 @@ public class MyFinishedMatchFragment extends TBaseFragment implements OnRefreshL
     }
 
     private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_light,
@@ -77,6 +90,9 @@ public class MyFinishedMatchFragment extends TBaseFragment implements OnRefreshL
         List<Match> data = new ArrayList<>();
         adapter = new MyFinishedMatchProcessAdapter(data);
         adapter.openLoadAnimation();
+        if (activity != null && activity.event_id != null) {
+            adapter.setEventID(activity.event_id);
+        }
         recyclerView.setAdapter(adapter);
         View emptyView = getActivity().getLayoutInflater().inflate(R.layout.emptyview,
                 (ViewGroup) recyclerView.getParent(), false);

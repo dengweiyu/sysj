@@ -19,7 +19,7 @@ public class BaseInfoEntity extends BaseResponseEntity {
 
     public class Data extends BaseResponse2Entity {
 
-        public boolean hasBad;
+        private boolean hasBad;
 
         public boolean isHasBad() {
             return hasBad;

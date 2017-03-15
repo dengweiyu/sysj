@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/hometask_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/button_white_bg"
-    android:orientation="horizontal"
-    android:paddingEnd="12dp"
-    android:paddingStart="12dp">
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider_bg"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -57,4 +68,6 @@
             android:padding="8dp"
             android:src="@drawable/videoplay_video_close" />
 
+    </LinearLayout>
 </LinearLayout>
+

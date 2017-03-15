@@ -1,6 +1,7 @@
 package com.li.videoapplication.ui.fragment;
 
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,7 +41,11 @@ public class BannerFragment extends TBaseFragment {
      * 跳转：主页
      */
     public void startMainActivity() {
-        ActivityManeger.startMainActivity(getContext());
+        try {
+            ActivityManeger.startMainActivity(getActivity());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (flag && data != null) {
             LaunchImage launchImage = data.getData().get(0);
             int ad_type = launchImage.getAd_type();
@@ -49,9 +54,9 @@ public class BannerFragment extends TBaseFragment {
                 case 1://页面展示
                     String go_url = launchImage.getGo_url();
                     if (!StringUtil.isNull(go_url))
-                        WebActivity.startWebActivity(getContext(), go_url);
+                        WebActivity.startWebActivity(getActivity(), go_url);
                     else
-                        WebActivity.startWebActivity(getContext(), download_android);
+                        WebActivity.startWebActivity(getActivity(), download_android);
                     break;
                 case 2://文件下载
                     String app_name = launchImage.getDownload_desc().get(0).getApp_name();
@@ -102,6 +107,7 @@ public class BannerFragment extends TBaseFragment {
 
                 @Override
                 public void run() {
+                    cancelTimer();
                     startMainActivity();
                 }
             });
@@ -145,7 +151,7 @@ public class BannerFragment extends TBaseFragment {
             String imageName = StringUtil.getFileNameWithExt(data.getData().get(0).getServer_pic_a());
             String path = SYSJStorageUtil.getSysjDownload() + File.separator + imageName;
 
-            Glide.with(getContext())
+            Glide.with(getActivity())
                     .load(path)
                     .placeholder(Constant.APPSTART_WHITE)
                     .error(Constant.APPSTART_WHITE)
@@ -178,10 +184,6 @@ public class BannerFragment extends TBaseFragment {
 
         @Override
         public void onFinish() {
-            if (jump != null) {
-                jump.setVisibility(View.VISIBLE);
-                jump.setText("跳过 " + index);
-            }
             startMainActivity();
         }
 

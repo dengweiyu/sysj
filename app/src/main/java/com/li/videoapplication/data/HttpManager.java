@@ -7,6 +7,7 @@ import com.li.videoapplication.data.local.StorageUtil;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Match;
+import com.li.videoapplication.data.model.entity.TopUp;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
@@ -22,6 +23,7 @@ import com.li.videoapplication.data.model.response.PlayerRankingCurrencyEntity;
 import com.li.videoapplication.data.model.response.PlayerRankingEntity;
 import com.li.videoapplication.data.model.response.ServiceNameEntity;
 import com.li.videoapplication.data.model.response.SignScheduleEntity;
+import com.li.videoapplication.data.model.response.TopUpOptionEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
 import com.li.videoapplication.data.model.entity.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
@@ -430,6 +432,27 @@ public class HttpManager extends RetrofitUtils {
         Map<String, Object> params = RequestParams.getInstance().getMemberAwardDetail(member_id, id);
         Observable<Currency> observable = service.getMemberAwardDetail(params)
                 .map(new HttpResultFunc<Currency>());
+        setSubscribe(observable, observer);
+    }
+
+    // 充值
+    public void getRechargeRule(Observer<TopUpOptionEntity> observer) {
+        Observable<TopUpOptionEntity> observable = service.getRechargeRule();
+        setSubscribe(observable, observer);
+    }
+
+    // 支付
+    public void payment(String member_id, String currency_num, int pay_type, int ingress, Observer<String> observer) {
+        Map<String, Object> params = RequestParams.getInstance().payment(member_id, currency_num, pay_type, ingress);
+        Observable<String> observable = service.payment(params).map(new HttpResultFunc<String>());
+        setSubscribe(observable, observer);
+    }
+
+    // 充值记录
+    public void getTopUpRecordList(String member_id, Observer<List<TopUp>> observer) {
+        Map<String, Object> params = RequestParams.getInstance().getOrderList(member_id);
+        Observable<List<TopUp>> observable = service.getTopUpRecordList(params)
+                .map(new HttpResultFunc<List<TopUp>>());
         setSubscribe(observable, observer);
     }
 }

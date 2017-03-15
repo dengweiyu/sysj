@@ -120,6 +120,7 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
         inviteFriends = (RelativeLayout) findViewById(R.id.setting_inviteFriends);
         about = (RelativeLayout) findViewById(R.id.setting_about);
 
+        findViewById(R.id.setting_downloadmanager).setOnClickListener(this);
         help.setOnClickListener(this);
         soundRecording.setOnClickListener(this);
         shakeRecording.setOnClickListener(this);
@@ -192,7 +193,9 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
     public void onClick(View v) {
 
         switch (v.getId()) {
-
+            case R.id.setting_downloadmanager:
+                ActivityManeger.startDownloadManagerActivity(this);
+                break;
             case R.id.setting_anchorModel_toggle:// 主播
                 ViewUtil.enabled(v, 1200);
                 if (!FrontCameraManager.getInstance().isOpen()) {

@@ -361,9 +361,7 @@ public class FileDownloaderManager {
         Log.d(TAG, "deleteAllAdvertisement: list=" + list);
         Log.d(TAG, "deleteAllAdvertisement: game_id=" + game_id);
         if (list != null && list.size() > 0) {
-            Iterator<FileDownloaderEntity> iterator = list.iterator();
-            while (iterator.hasNext()) {
-                FileDownloaderEntity entity = iterator.next();
+            for (FileDownloaderEntity entity : list) {
                 String id = entity.getGame_id();
                 if (game_id == null || !game_id.equals(id)) {
                     deleteByFileUrl(entity.getFileUrl());

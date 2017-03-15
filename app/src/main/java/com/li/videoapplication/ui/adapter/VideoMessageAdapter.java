@@ -17,6 +17,7 @@ import com.li.videoapplication.data.model.entity.MyMessage;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.utils.StringUtil;
@@ -89,8 +90,13 @@ public class VideoMessageAdapter extends BaseArrayAdapter<MyMessage> {
             public void onClick(View v) {
 
                 if (isVideo(record)) {// 视频
-                    Log.d(tag, "onClick: getVideoImage(record) == " + getVideoImage(record));
-                    startVideoPlayActivity(getVideoImage(record));
+                    if (!StringUtil.isNull(record.getVideo_id()) &&
+                            !record.getVideo_id().equals("0") &&
+                            !record.isVideoIsDel()){
+                        startVideoPlayActivity(getVideoImage(record));
+                    } else {
+                        ToastHelper.s("该视频已被删除");
+                    }
                 } else if (isImage(record)) { // 图文
                     startImageDetailActivity(getVideoImage(record));
                 } else {// 个人中心

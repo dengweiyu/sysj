@@ -25,6 +25,7 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
+import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.ui.adapter.MyLocalVideoAdapter210;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
@@ -126,13 +127,14 @@ public class MyLocalVideoFragment extends TBaseFragment {
         if (activity != null &&
                 !StringUtil.isNull(activity.inSDCardTotalSize) &&
                 !StringUtil.isNull(activity.inSDCardUsedSize) &&
-                !StringUtil.isNull(activity.inSDCardAppSize)) {// 显示
+                !StringUtil.isNull(activity.inSDCardAppSize) &&
+                !StringUtil.isNull(activity.inSDCardLeftSize)) {// 显示
             storgeRoot.setVisibility(View.VISIBLE);
             storgeText.setText(Html.fromHtml(
                     "共" + toRedColor(activity.myLocalVideoSize + "") + "个视频，" +
                             toRedColor(activity.myScreenShotSize + "") + "张图片，" +
-
-                            "已使用内存" + toRedColor(activity.inSDCardUsedSize) + "/" + toRedColor(activity.inSDCardTotalSize)));
+                            "剩余" + toRedColor(activity.inSDCardLeftSize) + "/"
+                            + toRedColor(activity.inSDCardTotalSize)));
         } else {
             storgeRoot.setVisibility(View.GONE);
             storgeText.setText("");
@@ -179,8 +181,7 @@ public class MyLocalVideoFragment extends TBaseFragment {
         if (event != null) {
             if (event.isResult()) {// 支付视频推荐位成功
                 ToastHelper.s("申请视频推荐成功，请到兑换记录里查看详情");
-
-                DataManager.userProfilePersonalInformation(getMember_id(),getMember_id());
+                DataManager.userProfilePersonalInformation(getMember_id(), getMember_id());
             } else {
                 ToastHelper.s(event.getMsg());
             }
@@ -206,7 +207,7 @@ public class MyLocalVideoFragment extends TBaseFragment {
             if (event.getData() != null) {
                 data.clear();
                 data.addAll(event.getData());
-                Log.d(tag, "data: == "+data);
+                Log.d(tag, "data: == " + data);
                 activity.setMyLocalVideoSize(data.size());
                 adapter.notifyDataSetChanged();
             }

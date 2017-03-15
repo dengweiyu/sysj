@@ -38,6 +38,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
      */
     public void startMallActivity() {
         ActivityManeger.startMallActivity(getActivity());
+        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "视界商城-点击视界商城次数");
     }
 
     /**
@@ -49,6 +50,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             return;
         }
         ActivityManeger.startMyWalletActivity(getActivity());
+        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "我的钱包-点击我的钱包次数");
     }
 
     /**
@@ -75,6 +77,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             return;
         }
         ActivityManeger.startMyPlayerActivity(getActivity(), MyPlayerActivity.PAGE_MYFOCUS, getMember_id());
+        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "关注/粉丝数-关注数");
     }
 
     /**
@@ -86,6 +89,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             return;
         }
         ActivityManeger.startMyPlayerActivity(getActivity(), MyPlayerActivity.PAGE_MYFANS, getMember_id());
+        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "关注/粉丝数-粉丝数");
     }
 
     /**
@@ -158,8 +162,8 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
 
     private View login, person;
     private CircleImageView head;
-    private TextView name, fans, focus,beanNum;
-    private ImageView go, slider_message_go;
+    private TextView name, fans, focus, beanNum;
+    private ImageView isV,go, slider_message_go;
 
     private TextView count;
     private int total, a, b, c;
@@ -193,6 +197,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
     protected void initContentView(View view) {
 
         head = (CircleImageView) view.findViewById(R.id.slider_head);
+        isV = (ImageView) view.findViewById(R.id.slider_isv);
         name = (TextView) view.findViewById(R.id.slider_name);
         fans = (TextView) view.findViewById(R.id.slider_fans);
         focus = (TextView) view.findViewById(R.id.slider_focus);
@@ -267,7 +272,8 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             setTextViewText(name, item.getNickname());
             setTextViewText(fans, getFans(item));
             setTextViewText(focus, getFocus(item));
-            setTextViewText(beanNum,  StringUtil.formatNum(item.getCurrency()));
+            setTextViewText(beanNum, StringUtil.formatNum(item.getCurrency()));
+            if (item.isV()) isV.setVisibility(View.VISIBLE);
         } else {
             login.setVisibility(View.VISIBLE);
             person.setVisibility(View.GONE);

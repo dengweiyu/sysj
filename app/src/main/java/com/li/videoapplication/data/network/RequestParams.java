@@ -47,6 +47,15 @@ public class RequestParams {
     /**
      * ############## 货币商城 ##############
      */
+    public Map<String, Object> payment(String member_id, String currency_num, int pay_type, int ingress) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        map.put("currency_num", currency_num);
+        map.put("pay_type", pay_type);
+        map.put("ingress", ingress);
+        return map;
+    }
+
     public Map<String, Object> payment(String member_id, String goods_id, String mobile, String account) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
@@ -1228,6 +1237,14 @@ public class RequestParams {
         return map;
     }
 
+    public Map<String, Object> getMemberEndPKWindow(String member_id, String event_id, String schedule_id) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        map.put("event_id", event_id);
+        map.put("schedule_id", schedule_id);
+        return map;
+    }
+
     public Map<String, Object> getMemberPKList204(String member_id, String event_id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
@@ -1296,7 +1313,7 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> getServiceName204(String member_id) {
+    public Map<String, Object> getServiceName(String member_id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         return map;
@@ -1761,6 +1778,7 @@ public class RequestParams {
         map.put("match_id", match_id);
         map.put("isofficial", isofficial);
         map.put("game_tags", game_tags);
+        map.put("target", "a_sysj");
         return map;
     }
 
@@ -1878,10 +1896,14 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> downloadClick203(String game_id, String target) {
+    public Map<String, Object> downloadClick217(String game_id, String target,
+                                                String member_id, int location, String involve_id) {
         Map<String, Object> map = new HashMap<>();
         map.put("game_id", game_id);
         map.put("target", target);// target分不同的平台传入（i_lpds,a_lpds,i_sysj,a_sysj,pc_sysj）
+        map.put("member_id", member_id);
+        map.put("location", location);
+        map.put("involve_id", involve_id);
         return map;
     }
 

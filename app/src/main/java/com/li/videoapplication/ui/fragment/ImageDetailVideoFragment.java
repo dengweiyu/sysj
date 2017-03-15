@@ -59,7 +59,7 @@ public class ImageDetailVideoFragment extends TBaseFragment implements OnRefresh
 		
 		mListView = (ListViewY1) view.findViewById(R.id.listview);
 
-		data = new ArrayList<VideoImage>();
+		data = new ArrayList<>();
 		adapter = new VideoPlayVideoAdapter(getActivity(), data);
 		mListView.setAdapter(adapter);
 	}

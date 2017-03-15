@@ -1,11 +1,30 @@
 package com.li.videoapplication.utils;
 
+import android.util.Log;
+
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * 功能：匹配工具
  */
 public class PatternUtil {
+
+    private static final String TAG = PatternUtil.class.getSimpleName();
+
+    /**
+     * 功能：匹配是否包含后台返回的表情Unicode：\\ud83d\\ude24
+     */
+    public static boolean isContainUnicode(String s) {
+        Log.d(TAG, "isContainUnicode: s == " + s);
+        String pattern = "\\\\\\\\[u].{4}\\\\\\\\[u].{4}";//正则表达式中要匹配一个反斜杠时，需要四个反斜杠。
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(s);
+        boolean isContain = m.find();
+        Log.d(TAG, "isContainUnicode: " + isContain);
+        if (isContain) Log.d(TAG, "m.group(): " + m.group());
+        return isContain;
+    }
 
     /**
      * 功能：判断用户名 不能为中文,并且是是手机号码或者是邮箱

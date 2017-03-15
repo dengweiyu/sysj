@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="@dimen/kaka_40"
+    android:layout_marginRight="@dimen/kaka_40"
+    android:background="@drawable/search_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/jump_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/kaka_26"
+        android:layout_marginBottom="@dimen/kaka_22"
+        android:layout_marginLeft="@dimen/kaka_28"
+        android:layout_marginRight="@dimen/kaka_28"
+        android:text="上传视频即有机会获得荣誉奖励，是否立即上传视频？"
+        android:hint="@string/loading_text"
+        android:lineSpacingExtra="6dp"
+        android:textColor="#565656"
+        android:textSize="14sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e2e2e2"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/kaka_46">
+
+        <TextView
+            android:id="@+id/jump_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/aboutwechat_left_btn"
+            android:text="再看看"
+            android:textSize="14sp"
+            android:textColor="#88787878"/>
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#e2e2e2"/>
+
+        <TextView
+            android:id="@+id/jump_go"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/aboutwechat_right_btn"
+            android:text="进入上传"
+            android:textSize="14sp"
+            android:textColor="@color/currency_red"/>
+    </LinearLayout>
+
+</LinearLayout>

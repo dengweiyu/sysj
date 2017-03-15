@@ -1,11 +1,11 @@
 [
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_out.xml",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\anim\\abc_fade_out.xml"
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\00113a5dade04dc236a99107b337734ccaaa334e\\output\\res\\anim\\abc_fade_out.xml"
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_in.xml",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\anim\\abc_fade_in.xml"
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\00113a5dade04dc236a99107b337734ccaaa334e\\output\\res\\anim\\abc_fade_in.xml"
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\debug\\anim\\modal_out.xml",
@@ -17,7 +17,7 @@
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_top.xml",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\anim\\abc_slide_out_top.xml"
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\00113a5dade04dc236a99107b337734ccaaa334e\\output\\res\\anim\\abc_slide_out_top.xml"
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\debug\\anim\\success_mask_layout.xml",
@@ -25,11 +25,11 @@
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_bottom.xml",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\anim\\abc_slide_out_bottom.xml"
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\00113a5dade04dc236a99107b337734ccaaa334e\\output\\res\\anim\\abc_slide_out_bottom.xml"
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_top.xml",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\anim\\abc_slide_in_top.xml"
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\00113a5dade04dc236a99107b337734ccaaa334e\\output\\res\\anim\\abc_slide_in_top.xml"
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\debug\\anim\\error_frame_in.xml",
@@ -41,7 +41,7 @@
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_bottom.xml",
-        "source": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\anim\\abc_slide_in_bottom.xml"
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\00113a5dade04dc236a99107b337734ccaaa334e\\output\\res\\anim\\abc_slide_in_bottom.xml"
     },
     {
         "merged": "H:\\MyProject\\VideoApplication\\sweet-alert-dialog\\build\\intermediates\\res\\merged\\debug\\anim\\error_x_in.xml",

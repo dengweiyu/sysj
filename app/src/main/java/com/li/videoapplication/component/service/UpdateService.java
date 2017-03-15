@@ -28,6 +28,8 @@ public class UpdateService extends BaseIntentService {
     /**
      * 系统下载器分配的唯一下载任务id，可以通过这个id查询或者处理下载任务
      */
+
+
     private Update update;
 
     /**

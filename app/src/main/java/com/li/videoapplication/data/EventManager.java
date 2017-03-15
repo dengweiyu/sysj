@@ -1,6 +1,7 @@
 package com.li.videoapplication.data;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -16,7 +17,9 @@ import com.li.videoapplication.data.local.ImageDirectoryResponseObject;
 import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.data.local.ScreenShotResponseObject;
 import com.li.videoapplication.data.model.entity.Associate;
+import com.li.videoapplication.data.model.event.CloudVideoRecommendEvent;
 import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
+import com.li.videoapplication.data.model.event.DownloadCompleteEvent;
 import com.li.videoapplication.data.model.event.ImageView2ImageShareEvent;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
@@ -41,6 +44,24 @@ import io.rong.eventbus.EventBus;
 public class EventManager {
 
     protected static final String TAG = EventManager.class.getSimpleName();
+
+    /**
+     * 发布下载完成事件
+     */
+    public static void postDownloadCompleteEvent(Intent intent) {
+        DownloadCompleteEvent event = new DownloadCompleteEvent();
+        event.setIntent(intent);
+        EventBus.getDefault().post(event);
+    }
+
+    /**
+     * 发布云端视频申请推荐位
+     */
+    public static void postCloudVideoRecommendEvent(String video_id) {
+        CloudVideoRecommendEvent event = new CloudVideoRecommendEvent();
+        event.setVideo_id(video_id);
+        EventBus.getDefault().post(event);
+    }
 
     /**
      * 发布加载下载文件事件

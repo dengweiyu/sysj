@@ -125,7 +125,6 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
             setAdapter(gameAdapter);
             emptyText.setText("没有圈子消息");
         } else if (message == MESSAGE_SYSTEM) {
-            setListStyle(listView);
             setAdapter(systemAdapter);
             emptyText.setText("没有系统消息");
         }
@@ -137,12 +136,6 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
 
         onPullDownToRefresh(pullToRefreshListView);
     }
-
-    private void setListStyle(ListView listView) {
-        listView.setBackgroundColor(Color.TRANSPARENT);
-        listView.setDividerHeight(0);
-    }
-
 
     @Override
     public void onClick(View v) {

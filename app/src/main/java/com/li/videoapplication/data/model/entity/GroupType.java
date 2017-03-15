@@ -13,6 +13,14 @@ public class GroupType extends BaseEntity {
 	private String flag;
 	private String hotrank;
 	private String sort;
+	private String group_type_id;
+	private String group_type_name;
+	private String parent_id;
+	private String path;
+	private String level;
+	private String label_style;
+	private String flagPath;
+	private boolean selected;
 
 	public String getId() {
 		return id;
@@ -54,10 +62,6 @@ public class GroupType extends BaseEntity {
 		this.sort = sort;
 	}
 
-	private String group_type_id;
-
-	private String group_type_name;
-
 	public String getGroup_type_id() {
 		return group_type_id;
 	}
@@ -73,12 +77,6 @@ public class GroupType extends BaseEntity {
 	public void setGroup_type_name(String group_type_name) {
 		this.group_type_name = group_type_name;
 	}
-
-	private String parent_id;
-	private String path;
-	private String level;
-	private String label_style;
-	private String flagPath;
 
 	public String getParent_id() {
 		return parent_id;
@@ -119,8 +117,6 @@ public class GroupType extends BaseEntity {
 	public void setFlagPath(String flagPath) {
 		this.flagPath = flagPath;
 	}
-
-	private boolean selected = false;
 
 	public boolean isSelected() {
 		return selected;

@@ -3,6 +3,7 @@ package com.li.videoapplication.ui.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,10 +17,12 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.BaseArrayAdapter;
+import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.ui.activity.HomeMoreActivity;
 import com.li.videoapplication.ui.activity.MyDynamicActivity;
 import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.activity.SquareActivity;
@@ -32,20 +35,31 @@ import java.util.List;
 
 /**
  * 适配器：广场（最新，最热）；首页更多（最新，最热）; 动态视频 ; 视频搜索结果
- *
- * 风云榜视频(已改成新的 VideoBillboardAdapter，剩下的这些全部要换，此适配器换完作废)
+ * <p>
+ * 风云榜视频(已改成新的 VideoBillboardAdapter)
  */
 @SuppressLint("InflateParams")
 public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
 
     private Activity activity;
     private int tab = 0;
+    private String more_mark;
+    private boolean isHomeMoreNew;
 
     /**
      * 跳转：视频播放
      */
     private void startVideoPlayActivity(VideoImage videoImage) {
         ActivityManeger.startVideoPlayActivity(getContext(), videoImage);
+        if (activity instanceof SquareActivity) {
+            UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "广场-视频");
+        } else if (activity instanceof MyDynamicActivity) {
+            UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "动态-视频");
+        } else if (activity instanceof SearchActivity) {
+            UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MAIN, "搜索-相关视频-点击相关视频内任意视频次数");
+        } else if (activity instanceof HomeMoreActivity) {
+            UmengAnalyticsHelper.onMainMoreEvent(getContext(), more_mark, isHomeMoreNew);
+        }
     }
 
     /**
@@ -53,6 +67,11 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
      */
     private void startPlayerDynamicActivity(Member member) {
         ActivityManeger.startPlayerDynamicActivity(getContext(), member);
+        if (activity instanceof MyDynamicActivity) {
+            UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "动态-他人");
+        } else if (activity instanceof SquareActivity) {
+            UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "广场-头像");
+        }
     }
 
     public GroupDetailVideoAdapter(Context context, List<VideoImage> data) {
@@ -62,6 +81,11 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void setHomeMoreLocation(String more_mark, boolean isHomeMoreNew) {
+        this.more_mark = more_mark;
+        this.isHomeMoreNew = isHomeMoreNew;
     }
 
     public void setTab(int tab) {
@@ -79,6 +103,7 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
             holder.head = (CircleImageView) view.findViewById(R.id.groupdetail_head);
             holder.head_v = (ImageView) view.findViewById(R.id.groupdetail_v);
             holder.name = (TextView) view.findViewById(R.id.groupdetail_name);
+            holder.isRecommend = (TextView) view.findViewById(R.id.groupdetail_recommed);
             holder.time = (TextView) view.findViewById(R.id.groupdetail_time);
             holder.content = (TextView) view.findViewById(R.id.groupdetail_content);
             holder.cover = (ImageView) view.findViewById(R.id.groupdetail_cover);
@@ -100,11 +125,11 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
             holder = (ViewHolder) view.getTag();
         }
 
-        if (record.isV()) {
-            holder.head_v.setVisibility(View.VISIBLE);
-        } else {
-            holder.head_v.setVisibility(View.INVISIBLE);
-        }
+        holder.head_v.setVisibility(record.isV() ? View.VISIBLE : View.INVISIBLE);
+
+        boolean isRecommed = !StringUtil.isNull(record.getIsRecommend()) &&
+                !record.getIsRecommend().equals("0");// 0：普通视频；>0：推荐视频，值为推荐位id
+        holder.isRecommend.setVisibility(isRecommed ? View.VISIBLE : View.INVISIBLE);
 
         setImageViewImageNet(holder.head, record.getAvatar());
         setTextViewText(holder.name, record.getNickname());
@@ -179,9 +204,6 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
             public void onClick(View v) {
                 Member member = gson.fromJson(record.toJSON(), Member.class);
                 startPlayerDynamicActivity(member);
-                if (activity instanceof MyDynamicActivity){
-                    UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "动态-他人");
-                }
             }
         });
 
@@ -192,12 +214,15 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
 
                 if (record.getVideo_id() != null && !record.getVideo_id().equals("0")) {// 视频
                     startVideoPlayActivity(record);
-                    if (activity instanceof SquareActivity) {
-                        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "广场-视频");
-                    }else if (activity instanceof MyDynamicActivity){
-                        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "动态-视频");
-                    }
                 }
+            }
+        });
+
+        holder.isRecommend.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityManeger.startProductsDetailActivity(getContext(), record.getIsRecommend(),
+                        Constant.PRODUCTSDETAIL_RICHTEXT_WITHBTN);
             }
         });
 
@@ -211,13 +236,13 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
         // 1小时前
         if (view != null && record != null) {
 
-            if (activity instanceof SearchActivity){
+            if (activity instanceof SearchActivity) {
                 try {
                     setTextViewText(view, TimeHelper.getVideoImageUpTime(record.getUpload_time()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }else {
+            } else {
                 try {
                     setTextViewText(view, TimeHelper.getVideoImageUpTime(record.getUptime()));
                 } catch (Exception e) {
@@ -394,6 +419,7 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
         CircleImageView head;
         ImageView head_v;
         TextView name;
+        TextView isRecommend;
         TextView time;
 
         TextView content;

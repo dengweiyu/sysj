@@ -15,6 +15,7 @@ import com.li.videoapplication.data.upload.ImageShareResponseObject;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.adapter.ImageShareAdapter;
+import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,12 +47,6 @@ public class ActivityImageUploadActivity extends TBaseActivity implements
     private List<ScreenShotEntity> data = new ArrayList<>();
 
     private EditText title;
-
-    public String getDescription() {
-        if (title.getText() == null)
-            return "";
-        return title.getText().toString().trim();
-    }
 
     @Override
     public int getContentView() {
@@ -117,9 +112,19 @@ public class ActivityImageUploadActivity extends TBaseActivity implements
                     showToastShort("请选择要上传的图片");
                     return;
                 }
+                if (StringUtil.isNull(getDescription())){
+                    showToastShort("请填写标题后再提交");
+                    return;
+                }
                 uploadImage();
                 break;
         }
+    }
+
+    public String getDescription() {
+        if (title.getText() == null)
+            return "";
+        return title.getText().toString().trim();
     }
 
     /***

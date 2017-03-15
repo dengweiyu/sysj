@@ -34,24 +34,35 @@ public class DailyAdapter extends BaseQuickAdapter<Currency, BaseViewHolder> {
         helper = new TextImageHelper();
     }
 
-    public void coverShalow(boolean shouldCoverShalow){
+    public void coverShalow(boolean shouldCoverShalow) {
         this.shouldCoverShalow = shouldCoverShalow;
     }
 
     @Override
-    protected void convert(BaseViewHolder baseViewHolder, Currency currency) {
+    protected void convert(BaseViewHolder holder, Currency currency) {
 
-        ImageView pic = baseViewHolder.getView(R.id.daily_pic);
+        ImageView pic = holder.getView(R.id.daily_pic);
         helper.setImageViewImageNet(pic, currency.getIcon());
 
-        baseViewHolder.setText(R.id.daily_name, currency.getName());
+        holder.setText(R.id.daily_name, currency.getName());
+
+        if (!StringUtil.isNull(currency.getCompleteRatio())) {
+            String ratio = "今日已完成：" + TextUtil.toColor(currency.getCompleteRatio(), "#fe5e5e");//red
+            holder.setVisible(R.id.daily_ratio, true)
+                    .setText(R.id.daily_ratio, Html.fromHtml(ratio));
+        } else if (!StringUtil.isNull(currency.getEventDesc())) {
+            holder.setVisible(R.id.daily_ratio, true)
+                    .setText(R.id.daily_ratio, currency.getEventDesc());
+        } else {
+            holder.setVisible(R.id.daily_ratio, false);
+        }
 
         //##飞磨豆（每日限奖1次） --> 200飞磨豆（每日限奖1次）
         String reward = TextUtil.toColor(currency.getReward(), "#f7b500");
         String description = currency.getDescription().replace("##", reward);
-        baseViewHolder.setText(R.id.daily_description, Html.fromHtml(description));
+        holder.setText(R.id.daily_description, Html.fromHtml(description));
 
-        if (shouldCoverShalow){
+        if (shouldCoverShalow) {
             long currentTime;
             try {
                 currentTime = TimeHelper.getCurrentTime();
@@ -60,19 +71,19 @@ public class DailyAdapter extends BaseQuickAdapter<Currency, BaseViewHolder> {
                 if (startTime <= currentTime && currentTime < endTime) {
                     //任务状态：1=>进行中，2=>完成，0=>放弃，失败
                     if (!StringUtil.isNull(currency.getStatus()) && currency.getStatus().equals("2")) {
-                        baseViewHolder.setVisible(R.id.daily_shadow, true);
+                        holder.setVisible(R.id.daily_shadow, true);
 
-                        TextView shadow = baseViewHolder.getView(R.id.daily_shadow);
+                        TextView shadow = holder.getView(R.id.daily_shadow);
                         ViewGroup.LayoutParams params = shadow.getLayoutParams();
 
-                        View root = baseViewHolder.getView(R.id.daily_root);
-                        root.measure(0,0);
+                        View root = holder.getView(R.id.daily_root);
+                        root.measure(0, 0);
                         params.height = root.getMeasuredHeightAndState();
 
                         shadow.setLayoutParams(params);
 
                     } else {
-                        baseViewHolder.setVisible(R.id.daily_shadow, false);
+                        holder.setVisible(R.id.daily_shadow, false);
                     }
                 }
             } catch (Exception e) {

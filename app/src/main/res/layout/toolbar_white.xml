@@ -10,17 +10,46 @@
         android:layout_height="38dp"
         android:src="@drawable/ab_goback_gray"
         android:padding="12dp"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentStart="true"/>
 
     <TextView
         android:id="@+id/tb_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="16sp"
         android:textColor="@color/text_color"
         android:text="标题"
+        android:paddingStart="38dp"
+        android:paddingEnd="38dp"
         android:maxLines="1"
+        android:ellipsize="end"
         android:layout_centerInParent="true"
-        android:gravity="center_vertical"/>
+        android:gravity="center"/>
 
+    <TextView
+        android:id="@+id/tb_topup_record"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:text="充值记录"
+        android:textColor="@color/currency_modou_gold"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_marginEnd="8dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tb_save"
+        android:layout_width="44dp"
+        android:layout_height="22dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/mywallet_currencyrecord_red"
+        android:gravity="center"
+        android:text="@string/mypersonalinfo_save"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
 </RelativeLayout>

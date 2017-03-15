@@ -36,6 +36,7 @@ import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.AsyncTask;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.ui.fragment.MyCloudVideoFragment;
 import com.li.videoapplication.ui.fragment.MyLocalVideoFragment;
@@ -99,6 +100,7 @@ public class VideoMangerActivity extends TBaseActivity implements
      */
     public String inSDCardUsedSize;
     public String inSDCardTotalSize;
+    public String inSDCardLeftSize;
     /**
      * 录屏大师占用空间
      */
@@ -365,6 +367,7 @@ public class VideoMangerActivity extends TBaseActivity implements
 
         /**标题栏导入*/
         if (view == abVideoManagerImport) {
+            UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "发布-视频-点击视频页面的导入次数");
             setImporting(true);
             // 导入外部视频
             DataManager.LOCAL.importVideoCaptures();
@@ -816,7 +819,7 @@ public class VideoMangerActivity extends TBaseActivity implements
                 inSDCardAppSize = StorageUtil.getSysjSize();
                 inSDCardUsedSize = StorageUtil.getSysjAvailableSize();
                 inSDCardTotalSize = StorageUtil.getSysjTotalSize();
-
+                inSDCardLeftSize = StorageUtil.getAvailMemory();
                 post(new Runnable() {
                     @Override
                     public void run() {

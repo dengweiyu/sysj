@@ -25,13 +25,15 @@ public class GDTUtil {
     private static final String APP_ID = "1105863419";
     public static final String POS_ID_GROUP_HOT = "7040915834619050";
     public static final String POS_ID_GROUP_NEW = "1010616894519061";
+    public static final String POS_ID_GUESSYOURLIKE = "2030615931999361";
 
     public interface GDTonLoaded{
         void onADLoaded(NativeADDataRef adItem);
+        void onADError();
     }
 
     /**
-     * Banner广告
+     * 原生广告
      */
     public static void nativeAD(Activity activity, String pos_id, final GDTonLoaded callback) {
         NativeAD nativeAD = new NativeAD(activity, APP_ID, pos_id, new NativeAD.NativeAdListener() {
@@ -47,6 +49,7 @@ public class GDTUtil {
             @Override
             public void onNoAD(int i) {
                 Log.d(TAG, "onNoAD: ");
+                callback.onADError();
             }
 
             @Override
@@ -57,6 +60,7 @@ public class GDTUtil {
             @Override
             public void onADError(NativeADDataRef nativeADDataRef, int i) {
                 Log.d(TAG, "onADError: ");
+                callback.onADError();
             }
         });
         nativeAD.loadAD(1);// 一次拉取的广告条数：范围1-10

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.AnimationHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.TextUtil;
@@ -79,6 +80,7 @@ public class HomeTaskView extends LinearLayout implements
                 disappear();
                 break;
             case R.id.hometask_go2task:
+                UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MAIN, "底部操作-任务提示-点击任务提示上的去完成");
                 if (!PreferencesHepler.getInstance().isLogin()) {
                     DialogManager.showLogInDialog(getContext());
                     return;

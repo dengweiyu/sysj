@@ -1,32 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rong_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:clipToPadding="true"
     android:background="#ffffff"
-    android:fitsSystemWindows="true">
-
-    <ListView
-        android:id="@+id/listview"
-        style="@style/BaseListViewWhite"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:divider="#e5e5e5"
-        android:dividerHeight="1px"/>
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#f8ebea"/>
+        android:background="#dcdcdc" />
 
-    <fragment
-        android:id="@+id/conversationlistFragment"
-        android:name="io.rong.imkit.fragment.ConversationListFragment"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:id="@+id/rong_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.li.videoapplication.views.ListViewY1
+                android:id="@+id/listview"
+                style="@style/BaseListViewWhite"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:divider="#e5e5e5"
+                android:dividerHeight="1px" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#f8ebea" />
+
+            <!--<com.ifeimo.im.view.InformationView-->
+                <!--android:id="@+id/feimo_im_list"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+
+            <fragment
+                android:id="@+id/conversationlistFragment"
+                android:name="io.rong.imkit.fragment.ConversationListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

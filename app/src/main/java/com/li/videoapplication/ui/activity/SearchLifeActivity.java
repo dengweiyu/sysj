@@ -30,8 +30,8 @@ public class SearchLifeActivity extends TBaseActivity {
 
 		try {
 			type = getIntent().getStringExtra("type");
-		} finally {
-
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

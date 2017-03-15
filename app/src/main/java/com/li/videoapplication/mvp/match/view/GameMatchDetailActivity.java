@@ -4,18 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.transition.Slide;
-import android.transition.TransitionManager;
-import android.transition.TransitionSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,12 +24,13 @@ import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.response.ServiceNameEntity;
 import com.li.videoapplication.data.model.response.SignSchedule210Entity;
 import com.li.videoapplication.data.model.response.SignScheduleEntity;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.BaseHttpResult;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
+import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchDetailView;
 import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
-import com.li.videoapplication.tools.AnimationHelper;
 import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
@@ -51,6 +47,7 @@ import com.li.videoapplication.views.bubblelayout.BubbleLayout;
 import com.li.videoapplication.views.bubblelayout.BubblePopupHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -119,8 +116,10 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
             startActivity(intent);
             overridePendingTransition(R.anim.activity_hold, R.anim.activity_hold);
             // 游戏下载数+1
-            DataManager.TASK.downloadClick203(match.getGame_id());
+            DataManager.downloadClick217(match.getGame_id(), getMember_id(),
+                    Constant.DOWNLOAD_LOCATION_MATCH, event_id);
         }
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "赛事导航-游戏下载");
     }
 
     /**
@@ -130,12 +129,13 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
         if (match != null) {
             final String url = match.getShare_url();
             final String title = "精彩赛事分享";
-            final String imageUrl = match.getFlag();
-            final String content = "快来看看" + match.getTitle();
+            final String imageUrl = match.getShare_icon();
+            final String content = match.getShare_description();
 
             ActivityManeger.startActivityShareActivity4VideoPlay(this, url, title, imageUrl, content);
             presenter.eventsRecordClick(event_id, 15);//赛事流水点击:15为app分享
         }
+        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "赛事导航-赛事分享");
     }
 
     @Override
@@ -248,8 +248,8 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
     private void showAnim() {
         if (isFirstIn) {
             animationHelper.startCircularRevealAnim(header);
-            animationHelper.beginFadeSlideTransition(btnBar);
-            animationHelper.beginFadeSlideTransition(con);
+            animationHelper.beginFadeSlideDelayTransition(btnBar);
+            animationHelper.beginFadeSlideDelayTransition(con);
             showVISIBLE(btnBar, con);
             isFirstIn = false;
         }
@@ -483,11 +483,10 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
         showVictoryDialog();
     }
 
-
-    //随机获取一个客服ID
     private void getCustomerServiceID() {
         String[] cs = match.getCustomer_service();
-        int num = new Random().nextInt(cs.length);
+        PreferencesHepler.getInstance().saveCustomerServiceIDs(Arrays.asList(cs));//保存客服id集合
+        int num = new Random().nextInt(cs.length);//随机获取一个客服ID
         customerServiceID = cs[num];
         //根据id获取客服名称
         presenter.getServiceName(customerServiceID);

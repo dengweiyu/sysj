@@ -30,6 +30,7 @@ public class RecommendAdapter extends BaseArrayAdapter<VideoImage> {
      */
     private void startVideoPlayActivity(VideoImage videoImage) {
         ActivityManeger.startVideoPlayActivity(getContext(), videoImage);
+        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "精彩推荐-推荐视频");
     }
 
     /**
@@ -91,7 +92,6 @@ public class RecommendAdapter extends BaseArrayAdapter<VideoImage> {
             @Override
             public void onClick(View v) {
                 startVideoPlayActivity(record);
-                UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "精彩推荐-推荐视频");
             }
         });
 

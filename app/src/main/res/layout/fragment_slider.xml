@@ -95,6 +95,15 @@
             android:scaleType="centerCrop"
             android:src="#00ffffff" />
 
+        <ImageView
+            android:id="@+id/slider_isv"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignEnd="@+id/slider_head"
+            android:layout_alignBottom="@+id/slider_head"
+            android:src="@drawable/home_v_red"
+            android:visibility="invisible" />
+
         <TextView
             android:id="@+id/slider_name"
             android:layout_width="wrap_content"

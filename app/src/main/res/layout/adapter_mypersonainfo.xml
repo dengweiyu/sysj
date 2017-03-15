@@ -1,44 +1,29 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="48dp"
-    android:layout_height="64dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/button_main_tranceparent"
-    android:clickable="true"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="horizontal">
 
-    <com.li.videoapplication.views.RoundedImageView
+    <ImageView
         android:id="@+id/mypersonalinfo_pic"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
-        android:src="#555555"
-        app:riv_border_color="#ffffff"
-        app:riv_border_width="0dp"
-        app:riv_corner_radius="5dp"
-        app:riv_oval="false"/>
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:src="#555555" />
 
     <TextView
         android:id="@+id/mypersonalinfo_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/mypersonalinfo_pic"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="7dp"
-        android:singleLine="true"
-        android:text=""
-        android:hint="@string/p2refresh_doing_end_refresh"
+        android:layout_width="64dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="6dp"
+        android:gravity="center_vertical"
+        android:hint="@string/loading"
+        android:maxLines="1"
+        android:text="竞技Moba"
         android:textColor="#525252"
-        android:textSize="8sp"/>
-
-    <ImageView
-        android:id="@+id/mypersonalinfo_selected"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
-        android:layout_marginLeft="29dp"
-        android:layout_marginTop="22dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/selected_mypersonalinfo_btn"/>
-
-</RelativeLayout>
+        android:textSize="12sp" />
+</LinearLayout>

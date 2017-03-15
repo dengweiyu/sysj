@@ -2,10 +2,13 @@ package com.li.videoapplication.ui.adapter;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
@@ -21,12 +24,15 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Comment;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.response.VideoCommentListEntity;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.ImageDetailActivity;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
+import com.li.videoapplication.utils.EmojiUtils;
+import com.li.videoapplication.utils.PatternUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 
@@ -215,6 +221,14 @@ public class VideoPlayCommentAdapter extends BaseArrayAdapter<Comment> {
         if (StringUtil.isNull(content)) {
             setTextViewText(view, "");
             return;
+        }
+
+        String json = record.toJSON();
+        if (PatternUtil.isContainUnicode(json)) {
+            String jsonNew = json.replace("\\\\", "\\");// \\ud83d\\ude24 --> \ud83d\ude24
+            Log.d(tag, "jsonNew == "+jsonNew);
+            Comment recordNew = gson.fromJson(jsonNew, Comment.class);
+            content = recordNew.getContent();
         }
 
         //处理显示表情
