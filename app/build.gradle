@@ -18,7 +18,7 @@ android {
         feimo {
             keyAlias 'ifeimo'
             keyPassword 'fm123456'
-            storeFile file('D:/sysj.keystore')
+            storeFile file('../keystore/sysj.keystore')
             storePassword 'fm123456'
         }
     }
