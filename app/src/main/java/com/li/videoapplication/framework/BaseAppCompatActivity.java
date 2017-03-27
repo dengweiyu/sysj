@@ -61,7 +61,25 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
 
 	@Override
 	public void loadData() {
-		LogHelper.d(tag, "loadHomeData");
+		LogHelper.d(tag, "loadData");
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		LogHelper.d(tag, "onStart");
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		LogHelper.d(tag, "onResume");
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		LogHelper.d(tag, "onStop");
 	}
 
 	@Override

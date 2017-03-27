@@ -15,6 +15,7 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.BaseApplication;
 import com.li.videoapplication.tools.JPushHelper;
 import com.li.videoapplication.utils.AppUtil;
+import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
@@ -70,7 +71,8 @@ public class MainApplication extends BaseApplication {
                     FeedbackAPI.init(MainApplication.this, FEEDBACK_KEY);
 
                     //版本审核
-                    DataManager.checkAndroidStatus(AppUtil.getVersionCode(getApplicationContext()));
+                    DataManager.checkAndroidStatus(AppUtil.getVersionCode(getApplicationContext()),
+                            AnalyticsConfig.getChannel(getApplicationContext()));
 
                     //feimo im sdk
                     IMSdk.init(MainApplication.this);

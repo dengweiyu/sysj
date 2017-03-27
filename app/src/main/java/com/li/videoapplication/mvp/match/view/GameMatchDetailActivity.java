@@ -221,7 +221,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
         findViewById(R.id.tb_download).setOnClickListener(this);
         findViewById(R.id.tb_share).setOnClickListener(this);
 
-        if (AppConstant.DOWNLOAD) {
+        if (AppConstant.SHOW_DOWNLOAD_AD) {
             findViewById(R.id.tb_download).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.tb_download).setVisibility(View.GONE);

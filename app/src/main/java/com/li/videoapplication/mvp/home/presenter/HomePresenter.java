@@ -1,28 +1,18 @@
 package com.li.videoapplication.mvp.home.presenter;
 
-import android.text.method.NumberKeyListener;
 import android.util.Log;
 
-import com.li.videoapplication.data.local.SYSJStorageUtil;
+import com.li.videoapplication.data.model.response.AdvertisementDto;
+import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
-import com.li.videoapplication.data.model.entity.AdvertisementDto;
-import com.li.videoapplication.data.model.entity.HomeDto;
-import com.li.videoapplication.data.network.RequestExecutor;
-import com.li.videoapplication.data.preferences.PreferencesHepler;
+import com.li.videoapplication.framework.BaseHttpResult;
 import com.li.videoapplication.mvp.OnLoadDataListener;
 import com.li.videoapplication.mvp.home.HomeContract.IHomeModel;
 import com.li.videoapplication.mvp.home.HomeContract.IHomePresenter;
 import com.li.videoapplication.mvp.home.HomeContract.IHomeView;
 import com.li.videoapplication.mvp.home.HomeContract.onloadHomeDataListener;
 import com.li.videoapplication.mvp.home.model.HomeModel;
-import com.li.videoapplication.framework.BaseHttpResult;
-import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.utils.StringUtil;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Presenter实现类: 首页
@@ -73,6 +63,22 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
     }
 
     @Override
+    public void adverImage(int localtion_id) {
+        Log.d(TAG, "adverImage: id == " + localtion_id);
+        homeModel.adverImage(localtion_id, new OnLoadDataListener<AdvertisementDto>() {
+            @Override
+            public void onSuccess(AdvertisementDto data) {
+                Log.d(TAG, "adverImage: data == " + data);
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+                Log.d(TAG, "adverImage: onFailure " + e);
+            }
+        });
+    }
+
+    @Override
     public void adImage208(int localtion_id, boolean isLoad) {
         Log.d(TAG, "adImage208: id == " + localtion_id + " ," + isLoad);
         homeModel.adImage208(localtion_id, isLoad, this);
@@ -87,10 +93,9 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
     //加载首页成功，通知view更新界面
     @Override
     public void onLoadHomeSuccess(HomeDto data) {
-        Log.d(TAG, "onLoadHomeSuccess: "+ data);
+        Log.d(TAG, "onLoadHomeSuccess: " + data);
         homeView.refreshHomeData(data);
         homeView.hideProgress();
-        PreferencesHepler.getInstance().saveHomeData(data);//保存首页json
     }
 
     //加载每日任务成功
@@ -114,32 +119,7 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
                 homeView.refreshAdvertisementView(data);
                 break;
             case AdvertisementDto.ADVERTISEMENT_6://启动海报
-                if (data.isResult()) {//有广告
-                    PreferencesHepler.getInstance().saveIndexLaunchImage(data);//保存json
 
-                    String imageName = StringUtil.getFileNameWithExt(data.getData().get(0).getServer_pic_a());
-                    String path = SYSJStorageUtil.getSysjDownload() + File.separator + imageName;
-                    File file = new File(path);
-                    Log.d(TAG, "Lunch Image AD file.exists() == " + file.exists());
-                    if (!file.exists()) { //启动图没下载到本地
-                        List<String> url = new ArrayList<>();
-                        url.add(data.getData().get(0).getServer_pic_a());
-                        homeModel.adImageDownload(url, new OnLoadDataListener<Boolean>() { //下载启动图
-                            @Override
-                            public void onSuccess(Boolean b) {
-                                Log.d(TAG, "adImageDownload: " + b);
-                            }
-
-                            @Override
-                            public void onFailure(Throwable e) {
-                                Log.d(TAG, "adImageDownload: onFailure");
-                            }
-                        });
-                    }
-                } else {
-                    if (PreferencesHepler.getInstance().getIndexLaunchImage() != null)
-                        PreferencesHepler.getInstance().removeIndexLaunchImage();
-                }
                 break;
         }
     }

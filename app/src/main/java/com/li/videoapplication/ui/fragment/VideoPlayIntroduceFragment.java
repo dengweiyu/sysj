@@ -84,7 +84,7 @@ public class VideoPlayIntroduceFragment extends TBaseFragment implements OnClick
 
         install.setOnClickListener(this);
 
-        if (AppConstant.DOWNLOAD) {
+        if (AppConstant.SHOW_DOWNLOAD_AD) {
             install.setVisibility(View.VISIBLE);
         } else {
             install.setVisibility(View.GONE);

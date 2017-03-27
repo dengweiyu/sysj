@@ -2,23 +2,33 @@ package com.li.videoapplication.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.EventManager;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Game;
+import com.li.videoapplication.data.model.entity.ShareSquare;
+import com.li.videoapplication.data.model.response.ShareSquareEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseActivity;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.utils.LogHelper;
+import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.utils.TextUtil;
 
 import java.util.HashMap;
 
@@ -55,9 +65,12 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
         Log.d(tag, "imageUrl: " + imageUrl);
     }
 
-    private View touch;
+    private View touch, sysj;
     private Button cancel;
-    private LinearLayout qq, qzone, wx, wb, wxfriends, sysj;
+    private LinearLayout qq, qzone, wx, wb, wxfriends;
+    private TextView squareReward, squareTitle, squareName;
+    private ImageView squareIcon;
+
 
     private String videoUrl, imageUrl, VideoTitle, text;
     private int page;
@@ -66,6 +79,8 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
 
         @Override
         public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+            Log.d(tag, "onComplete: platform = " + platform + ", i = " + i + ", hashMap = " + hashMap);
+            ToastHelper.s("分享成功");
             UmengAnalyticsHelper.onEvent(ShareActivity.this, UmengAnalyticsHelper.SLIDER, "邀请好友-有效");
         }
 
@@ -102,6 +117,12 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
 
         initContentView();
         startEnterAnimation();
+    }
+
+    @Override
+    public void loadData() {
+        super.loadData();
+        DataManager.sharePlayerSquare();
     }
 
     @Override
@@ -142,8 +163,12 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
     }
 
     private void initContentView() {
+        sysj = findViewById(R.id.share_sysj);
+        squareReward = (TextView) findViewById(R.id.share_square_reward);
+        squareTitle = (TextView) findViewById(R.id.share_square_title);
+        squareName = (TextView) findViewById(R.id.share_square_name);
+        squareIcon = (ImageView) findViewById(R.id.share_square_icon);
 
-        sysj = (LinearLayout) findViewById(R.id.share_sysj);
         wx = (LinearLayout) findViewById(R.id.share_wx);
         qq = (LinearLayout) findViewById(R.id.share_qq);
         wxfriends = (LinearLayout) findViewById(R.id.share_wxfriends);
@@ -152,7 +177,6 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
 
         touch = findViewById(R.id.share_touch);
         cancel = (Button) findViewById(R.id.videoplay_cancel);
-
 
         sysj.setOnClickListener(this);
         wx.setOnClickListener(this);
@@ -239,36 +263,40 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
                 }
             }
         } else if (page == PAGE_MYCLOUDVIDEO) {// 云端视频
+            params.setImageUrl(imageUrl);
+            params.setTitle(title);
             // 新浪微博文字内容无法携带超链接， 所以将超链接直接放在分享内容中
             if (shareChannel.equals("SinaWeibo")) {
                 params.setText(text + url);
+            } else {
+                params.setText(text);
             }
-            params.setImageUrl(imageUrl);
-            params.setTitle(title);
-            params.setText(text);
             params.setUrl(url);
             params.setTitleUrl(url);
             params.setShareType(Platform.SHARE_WEBPAGE);
 
         } else if (page == PAGE_SYSJ) {// 手游视界
+            params.setImageUrl(imageUrl);
+            params.setTitle(title);
             // 新浪微博文字内容无法携带超链接， 所以将超链接直接放在分享内容中
             if (shareChannel.equals("SinaWeibo")) {
                 params.setText(text + url);
+            } else {
+                params.setText(text);
             }
-            params.setImageUrl(imageUrl);
-            params.setTitle(title);
-            params.setText(text);
             params.setUrl(url);
             params.setTitleUrl(url);
             params.setShareType(Platform.SHARE_WEBPAGE);
         } else if (page == PAGE_VIDEOPLAY) {// 视频播放
+            params.setImageUrl(imageUrl);
+            params.setTitle(title);
+
             // 新浪微博文字内容无法携带超链接， 所以将超链接直接放在分享内容中
             if (shareChannel.equals("SinaWeibo")) {
                 params.setText(text + url);
+            } else {
+                params.setText(text);
             }
-            params.setImageUrl(imageUrl);
-            params.setTitle(title);
-            params.setText(text);
             params.setUrl(url);
             params.setTitleUrl(url);
             params.setShareType(Platform.SHARE_WEBPAGE);
@@ -291,5 +319,25 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
             game = activity.game;
         }
         ActivityManeger.startImageShareActivity(this, this.imageUrl, game);
+    }
+
+
+    /**
+     * 回调：分享页面广场信息
+     */
+    public void onEventMainThread(ShareSquareEntity event) {
+        if (event != null && event.isResult()) {
+            ShareSquare square = event.getData();
+            if (!StringUtil.isNull(square.getDescription())) {
+                //奖励##飞磨豆 --> 奖励20飞磨豆
+                String reward = TextUtil.toColor(square.getReward(), "#fe5e5e");
+                String description = square.getDescription().replace("##", reward);
+                squareReward.setVisibility(View.VISIBLE);
+                squareReward.setText(Html.fromHtml(description));
+            }
+            squareTitle.setText(square.getTitle());
+            squareName.setText(square.getName());
+            GlideHelper.displayImageWhite(this, square.getIcon(), squareIcon);
+        }
     }
 }

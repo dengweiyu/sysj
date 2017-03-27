@@ -126,6 +126,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/reports" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
@@ -146,10 +147,10 @@
     <orderEntry type="library" exported="" name="adapter-rxjava-2.0.0-beta4" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.2.1" level="project" />
     <orderEntry type="library" exported="" name="alisdk-feedback-2.5.0.1-" level="project" />
+    <orderEntry type="library" exported="" name="umeng-analytics-v6.0.9" level="project" />
     <orderEntry type="library" exported="" name="app-monitor-sdk-2.5.1.1_for_bc_proguard" level="project" />
     <orderEntry type="library" exported="" name="materialish-progress-1.0" level="project" />
     <orderEntry type="library" exported="" name="overscroll-decor-android-1.0.3" level="project" />
-    <orderEntry type="library" exported="" name="umeng-analytics-v5.6.4" level="project" />
     <orderEntry type="library" exported="" name="dagger-2.4" level="project" />
     <orderEntry type="library" exported="" name="design-22.2.1" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-22.2.1" level="project" />
@@ -165,6 +166,7 @@
     <orderEntry type="library" exported="" name="support-v4-23.3.0" level="project" />
     <orderEntry type="library" exported="" name="systembartint-1.0.4" level="project" />
     <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
+    <orderEntry type="library" exported="" name="pili-android-qos-0.8.20" level="project" />
     <orderEntry type="library" exported="" name="httpmime-4.3.3" level="project" />
     <orderEntry type="library" exported="" name="BaseRecyclerViewAdapterHelper-v2.6.0" level="project" />
     <orderEntry type="library" exported="" name="rxjava-1.1.8" level="project" />
@@ -175,7 +177,6 @@
     <orderEntry type="library" exported="" name="pldroid-player-1.4.0" level="project" />
     <orderEntry type="library" exported="" name="multidex-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="butterknife-8.1.0" level="project" />
-    <orderEntry type="library" exported="" name="pili-android-qos-0.8.18" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.6" level="project" />
     <orderEntry type="library" exported="" name="butterknife-annotations-8.1.0" level="project" />
     <orderEntry type="library" exported="" name="securityguardaar3-5.1.81-" level="project" />

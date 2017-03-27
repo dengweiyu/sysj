@@ -13,15 +13,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
-import com.li.videoapplication.data.model.entity.Download;
-import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.LaunchImage;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
+import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.mvp.adapter.HomeMultipleAdapter;
-import com.li.videoapplication.data.model.entity.AdvertisementDto;
+import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.mvp.billboard.view.BillboardActivity;
 import com.li.videoapplication.mvp.home.HomeContract.IHomePresenter;
@@ -33,7 +32,6 @@ import com.li.videoapplication.data.model.entity.VideoImageGroup;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ArrayHelper;
-import com.li.videoapplication.tools.DownloadHelper;
 import com.li.videoapplication.tools.RandomUtil;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
@@ -42,7 +40,6 @@ import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.ui.adapter.BannerAdapter;
-import com.li.videoapplication.ui.fragment.GroupdetailVideoFragment;
 import com.li.videoapplication.ui.view.HomeTaskView;
 import com.li.videoapplication.utils.ClickUtil;
 import com.li.videoapplication.utils.GDTUtil;
@@ -56,7 +53,6 @@ import com.li.videoapplication.views.ViewFlow.ViewSwitchListener;
 import com.qq.e.ads.nativ.NativeADDataRef;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 
@@ -129,6 +125,14 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         WebActivity.startWebActivity(getActivity(), url);
     }
 
+    /**
+     * 跳转：下载管理
+     */
+    public void startDownloadManagerActivity(LaunchImage launchImage) {
+        Log.d(tag, "startDownloadManagerActivity: ");
+        ActivityManeger.startDownloadManagerActivity(getActivity(), launchImage);
+    }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -171,7 +175,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         Log.d(tag, "------------ loadCacheData: ------------");
         page = 1;
         HomeDto homeData = PreferencesHepler.getInstance().getHomeData();
-        if (homeData == null || homeData.getVideoList() != null) { //可能缓存了第二页覆盖了第一页
+        if (homeData == null || homeData.getVideoList() != null) { //可能sp缓存了第二页覆盖了第一页
             Log.d(tag, "----loadCacheData: rxcache----");
             //初始化时使用缓存（rxcache缓存）
             presenter.loadHomeData(page, false);
@@ -302,13 +306,14 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                                     startWebActivity(download_android);
                                 break;
                             case 2://文件下载
-                                String app_name = launchImage.getDownload_desc().get(0).getApp_name();
-
-                                Download download = new Download();
-                                download.setDownload_url(download_android);
-                                download.setTitle(app_name);
-
-                                DownloadHelper.downloadFile(getActivity(), download);
+//                                String app_name = launchImage.getDownload_desc().get(0).getApp_name();
+//
+//                                Download download = new Download();
+//                                download.setDownload_url(download_android);
+//                                download.setTitle(app_name);
+//
+//                                DownloadHelper.downloadFile(getActivity(), download);
+                                startDownloadManagerActivity(launchImage);
                                 break;
                         }
                         // 广告点击统计+1
@@ -426,7 +431,11 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             // 保存猜你喜歡视频保存的时间
             PreferencesHepler.getInstance().saveVideoIdsTime();
         }
-        replaseGDT(data.getData().getList(), GUESSVIDEO_CHANGE);
+        if (AppConstant.SHOW_DOWNLOAD_AD) {//普通渠道，替换广告
+            replaseGDT(data.getData().getList(), GUESSVIDEO_CHANGE);
+        } else {//特殊渠道，不加广告
+            homeAdapter.changeGuessVideo(data.getData().getList());
+        }
     }
 
     //广告
@@ -466,19 +475,28 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                     homeData.add(new HomeDto(HomeDto.TYPE_HOTNARRATE, data.getHotMemberVideo()));
                 }
                 homeAdapter.setNewData(homeData);
-                replaseGDT(data.getGuessVideo().getList(), GUESSVIDEO_HOME);//替换猜你喜欢最后一个为广告
+                if (AppConstant.SHOW_DOWNLOAD_AD) //普通渠道，替换广告
+                    replaseGDT(data.getGuessVideo().getList(), GUESSVIDEO_HOME);//替换猜你喜欢最后一个为广告
             } else {
-                Log.d(tag, "refreshHomeData: page = 0 || page > 1");
+                Log.d(tag, "refreshHomeData: page = " + page);
                 if (data.getVideoList() != null && data.getVideoList().size() > 0) {
                     for (int i = 0; i < data.getVideoList().size(); i++) {
                         homeAdapter.addData(new HomeDto(HomeDto.TYPE_VIDEOGROUP, data.getVideoList().get(i)));
                     }
                 }
             }
-            ++page;
+            //由于此回调会执行多次，page++导致页数问题，暂时做以下处理
+            //如果加载到的数据还是第一页，那么page=2，其余的++
+            if (data.getBanner() != null) {
+                page = 2;
+                Log.d(tag, "refreshHomeData: getBanner != null, page = " + page);
+            } else {
+                ++page;
+                Log.d(tag, "refreshHomeData: getBanner == null, page = " + page);
+            }
 
-            if (noAdvertisement)
-                //主页数据加载成功后再加载通栏广告（因为我insert一行广告进recyclerview）
+            if (AppConstant.SHOW_DOWNLOAD_AD && noAdvertisement)//普通渠道&&还未显示通栏广告
+                //主页数据加载成功后再加载通栏广告（因为insert一行广告进recyclerview）
                 presenter.adImage208(AdvertisementDto.ADVERTISEMENT_8, false);
 
             isNetWordChange = true;

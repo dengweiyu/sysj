@@ -36,10 +36,13 @@ public class xUtilsDb {
                     // db.addColumn(...);
                     // db.dropTable(...);
                     // db.dropDb();
-                    addIsofficial(db);
-                    addPk_id(db);
-                    // V4增加字段
-                    addColumnV4(db);
+                    if (oldVersion < 3){
+                        addIsofficial(db);
+                        addPk_id(db);
+                    } else if (oldVersion == 3){
+                        // V4增加字段
+                        addColumnV4(db);
+                    }
                 }
             });
 

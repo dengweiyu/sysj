@@ -1,5 +1,6 @@
-package com.li.videoapplication.data.model.entity;
+package com.li.videoapplication.data.model.response;
 
+import com.li.videoapplication.data.model.entity.LaunchImage;
 import com.li.videoapplication.framework.BaseResponse2Entity;
 import com.li.videoapplication.framework.BaseResponseEntity;
 

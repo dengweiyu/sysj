@@ -7,6 +7,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.network.RequestService;
@@ -14,6 +15,7 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
+import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.ui.ActivityManeger;
@@ -74,20 +76,27 @@ public class AppstartActivity extends TBaseActivity {
     }
 
     @Override
+    public void loadData() {
+        super.loadData();
+        // 初始化下载器
+        DownLoadManager.getInstance();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         RequestExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 if (!firstSetup) {
-                    if (haveLaunchAd()) { //有广告
+                    if (AppConstant.SHOW_DOWNLOAD_AD && haveLaunchAd()) { //正常渠道 && 有广告
                         UITask.post(new Runnable() {
                             @Override
                             public void run() {
                                 replaceBanner();
                             }
                         });
-                    } else { //无广告
+                    } else { //无广告 或 特殊渠道
                         // 启动商标
                         replaceFragment(new SplashFragment());
                         UITask.postDelayed(new Runnable() {
@@ -130,7 +139,6 @@ public class AppstartActivity extends TBaseActivity {
     public void replaceBanner() {
         try {
             FragmentTransaction transaction = manager.beginTransaction();
-//            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             transaction.replace(R.id.container, new BannerFragment()).commit();
         } catch (Exception e) {
             e.printStackTrace();

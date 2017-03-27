@@ -8,6 +8,7 @@ import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.data.local.ScreenShotHelper;
 import com.li.videoapplication.data.local.VideoCaptureHelper;
 import com.li.videoapplication.data.model.entity.Advertisement;
+import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.*;
 import com.li.videoapplication.data.network.Contants;
@@ -40,6 +41,49 @@ public class DataManager {
 
     public static String TAG = DataManager.class.getSimpleName();
 
+
+
+
+
+    /**
+     * 分享页面广场信息
+     */
+    public static void sharePlayerSquare() {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().sharePlayerSquare();
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, null, null);
+        request.setEntity(new ShareSquareEntity());
+        helper.doService(request);
+    }
+
+    /* ############## 下载 ############## */
+
+    /**
+     * 更多精彩（内部）（同步）
+     */
+    public static GetDownloadAppEntity getDownloadAppSync() {
+
+        RequestHelper helper = new RequestHelper<>();
+        String url = RequestUrl.getInstance().getDownloadApp();
+        Map<String, Object> params = RequestParams.getInstance().advertisementAdLocation204("a_sysj");
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new GetDownloadAppEntity());
+        return (GetDownloadAppEntity) helper.postEntity(request);
+    }
+
+    /**
+     * 更多精彩（广告）（同步）
+     */
+    public static GetDownloadOtherEntity getDownloadOtherSync(String game_id) {
+
+        RequestHelper helper = new RequestHelper<>();
+        String url = RequestUrl.getInstance().getDownloadOther();
+        Map<String, Object> params = RequestParams.getInstance().gameTagList(game_id);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new GetDownloadOtherEntity());
+        return (GetDownloadOtherEntity) helper.postEntity(request);
+    }
 
     /**
      * 官方推荐位
@@ -1154,6 +1198,19 @@ public class DataManager {
     }
 
     /**
+     * 功能：启动图广告
+     */
+    public static AdvertisementDto adverImageSync(int location_id) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().adverImage();
+        Map<String, Object> params = RequestParams.getInstance().adverImage(location_id);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new AdvertisementDto());
+        return (AdvertisementDto) helper.postEntity(request);
+    }
+
+    /**
      * 广告位置列表
      */
     public static final void advertisementAdLocation204() {
@@ -1471,11 +1528,11 @@ public class DataManager {
      * ############ 版本审核 #############
      */
 
-    public static void checkAndroidStatus(int version) {
+    public static void checkAndroidStatus(int version, String channel) {
 
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().checkAndroidStatus();
-        Map<String, Object> params = RequestParams.getInstance().checkAndroidStatus(version);
+        Map<String, Object> params = RequestParams.getInstance().checkAndroidStatus(version, channel);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new CheckAndroidStatusEntity());

@@ -49,6 +49,7 @@ import retrofit2.http.POST;
  */
 public class TopUpActivity extends TBaseAppCompatActivity implements MallContract.ITopUpView,
         View.OnClickListener {
+    private static final int DEFAULT_SELECTED_POS = 1;//初始选中位置(从0开始)
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -63,7 +64,7 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
     private TopUpAdapter adapter;
     private String rateStr;
     private static String orderInfo;
-    private int selectedPos;
+    private int selectedPos = DEFAULT_SELECTED_POS;
     private int entry;//充值页面入口
 
     @SuppressLint("HandlerLeak")
@@ -136,8 +137,8 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
         setSupportActionBar(toolbar);
         TextView tb_title = (TextView) findViewById(R.id.tb_title);
         tb_title.setText("充值");
-        findViewById(R.id.tb_topup_record).setVisibility(View.VISIBLE);
-        findViewById(R.id.tb_topup_record).setOnClickListener(this);
+//        findViewById(R.id.tb_topup_record).setVisibility(View.VISIBLE);
+//        findViewById(R.id.tb_topup_record).setOnClickListener(this);
         findViewById(R.id.tb_back).setOnClickListener(this);
 
         findViewById(R.id.topup_pay).setOnClickListener(this);
@@ -213,15 +214,15 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
             case R.id.tb_back:
                 finish();
                 break;
-            case R.id.tb_topup_record:
-                startTopUpRecordActivity();
-                break;
+//            case R.id.tb_topup_record:
+//                startTopUpRecordActivity();
+//                break;
             case R.id.topup_pay:
                 Log.d(tag, "onClick: adapter.getSelectedPos() = " + selectedPos);
                 Log.d(tag, "onClick: adapter.getData().size() = " + adapter.getData().size());
                 Log.d(tag, "onClick: adapter.getCustomInt() = " + adapter.getCustomInt());
                 if (selectedPos == adapter.getData().size() - 1) {
-                    if (adapter.getCustomInt() < 100){
+                    if (adapter.getCustomInt() < 100) {
                         ToastHelper.s("充值数量最低为100");
                         return;
                     }
@@ -236,11 +237,11 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
         }
     }
 
-    //重置转换数据，默认选择第一个
+    //重置转换数据，默认选择第2个
     private void transformData(List<String> list) {
         for (int i = 0; i < list.size(); i++) {
             TopUp item = new TopUp();
-            if (i == 0) {
+            if (i == DEFAULT_SELECTED_POS) {
                 item.setSelected(true);
             } else {
                 item.setSelected(false);
@@ -266,7 +267,7 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
             transformData(Arrays.asList(option));
             adapter.setNewData(this.data);
         }
-        setPrice(0);
+        setPrice(DEFAULT_SELECTED_POS);
         setTextViewText(rate, "(1人民币=" + StringUtil.formatNum(rateStr) + "飞磨豆)");
     }
 
@@ -277,7 +278,7 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
     public void refreshOrderInfoData(String orderInfo) {
         TopUpActivity.orderInfo = orderInfo;
         Log.d(tag, "orderInfo: " + TopUpActivity.orderInfo);
-        /**
+        /*
          * 切换沙箱环境与生产环境；
          * 如果不使用此方法，默认使用生产环境；
          * 在钱包不存在的情况下，会唤起h5支付；

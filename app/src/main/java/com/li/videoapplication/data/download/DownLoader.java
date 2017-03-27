@@ -74,6 +74,7 @@ public class DownLoader {
      * 保存下载信息至数据库
      */
     private void saveEntity(){
+        Log.i(TAG, "saveEntity::downFileSize" + downFileSize);
         entity.setDownloadSize(downFileSize);
         entity.setDownloading(isDownLoading());
         FileDownloaderManager.saveOrUdateByFileUrl(entity);
@@ -88,6 +89,7 @@ public class DownLoader {
         Log.d(TAG, "getEntity: downFileSize=" + downFileSize);
         Log.d(TAG, "getEntity: fileSize=" + fileSize);
         Log.d(TAG, "getEntity: progress=" + entity.getProgress());
+
         entity.setDownloadSize(downFileSize);
         entity.setDownloading(isDownLoading());
         return entity;
@@ -184,11 +186,11 @@ public class DownLoader {
         private InputStream inputStream;
         private RandomAccessFile randomAccessFile;
         private int progress = -1;
-        
+
         public DownLoadTask(){
             super();
         }
-        
+
         @Override
         public void run() {
             Log.d(TAG, "run: //--------------------------------------------------");
@@ -202,7 +204,7 @@ public class DownLoader {
             downloadTimes = 0;
             while(downloadTimes < MAX_DOWNLOAD_TIMES){ // 做3次请求的尝试
                 try {
-                    if(downFileSize == fileSize 
+                    if(downFileSize == fileSize
                             && fileSize > 0){
                         Log.d(TAG, "run: 1");
                         file();
@@ -257,7 +259,7 @@ public class DownLoader {
                             while((length = inputStream.read(buffer)) != -1 && isDownLoading()){
                                 randomAccessFile.write(buffer, 0, length);
                                 downFileSize += length;
-                                Log.d(TAG, "run: length=" + length);
+//                                Log.d(TAG, "run: length=" + length);
                                 int nowProgress = (int)((100 * downFileSize) / fileSize);
                                 if(nowProgress > progress){
                                     progress = nowProgress;

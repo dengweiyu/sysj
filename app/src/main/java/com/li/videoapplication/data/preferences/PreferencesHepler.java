@@ -7,29 +7,20 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Advertisement;
-import com.li.videoapplication.data.model.entity.AdvertisementDto;
+import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.Associate;
-import com.li.videoapplication.data.model.entity.CustomerService;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.AdvertisementAdImage204Entity;
 import com.li.videoapplication.data.model.response.AdvertisementAdLocation204Entity;
-import com.li.videoapplication.data.model.response.IndexLaunchImageEntity;
-import com.li.videoapplication.data.model.response.LaunchImageEntity;
 import com.li.videoapplication.tools.ArrayHelper;
 import com.li.videoapplication.tools.JSONHelper;
 import com.li.videoapplication.utils.StringUtil;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 

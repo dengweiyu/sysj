@@ -23,6 +23,7 @@ import com.ifeimo.screenrecordlib.RecordingManager;
 import com.ifeimo.screenrecordlib.Utils;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.EventManager;
+import com.li.videoapplication.data.Utils_Data;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.local.FileUtil;
@@ -873,7 +874,7 @@ public class RecordingService extends BaseService implements
         if (!AppUtil.isAppOnForeground(AppManager.getInstance().getContext())) {// 应用处于后台
 
             // 销毁所有资源（服务，调度器，下载器）
-//			Utils_Framework.destroyAllResouce();
+            Utils_Data.destroyAllResouce();
 
             System.gc();
         }

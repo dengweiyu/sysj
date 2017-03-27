@@ -32,7 +32,7 @@ public class HttpClient41 implements AbsRequestClient {
 
 	public static HttpClient41 getInstance() {
 		if (instance == null) {
-			synchronized (LightTask.class) {
+			synchronized (HttpClient41.class) {
 				if (instance == null) {
 					instance = new  HttpClient41();
 				}

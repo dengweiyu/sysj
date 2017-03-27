@@ -51,7 +51,7 @@
         android:background="@drawable/ab_edit_videomanager"
         android:clickable="true"
         android:gravity="center"
-        android:text="清除未读"
+        android:text="全部已读"
         android:textColor="#5e5e5e"
         android:textSize="12sp"
         android:visibility="gone"/>

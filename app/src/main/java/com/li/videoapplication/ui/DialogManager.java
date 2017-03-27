@@ -21,6 +21,7 @@ import com.li.videoapplication.mvp.match.view.GameMatchDetailActivity;
 import com.li.videoapplication.ui.activity.SignUpActivity;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.dialog.ClassifiedGameDialog;
+import com.li.videoapplication.ui.dialog.DeleteApkDialog;
 import com.li.videoapplication.ui.dialog.DiscoverTipDialog;
 import com.li.videoapplication.ui.dialog.EditNameDialog;
 import com.li.videoapplication.ui.dialog.EditQQDialog;
@@ -66,6 +67,15 @@ import java.util.TimerTask;
  * 功能：弹框管理
  */
 public class DialogManager {
+
+    /**
+     * 是否删除apk
+     */
+    public static void showDeleteApkDialog(Context context, View.OnClickListener deleteListener, View.OnClickListener cancelListener){
+        Dialog dialog = new DeleteApkDialog(context, deleteListener, cancelListener);
+        dialog.show();
+    }
+
     /**
      * 每日登陆（我的钱包跳转各页面提示框）
      */

@@ -76,31 +76,33 @@ public class LightTask {
         }
     }
 
-    public synchronized final static void post(Runnable r) {
+    // -----------------------------------------------------------------------------------
+
+    public static void post(Runnable r) {
         getInstance()._post(r);
     }
 
-    public synchronized final static void postAtFrontOfQueue(Runnable r) {
+    public static void postAtFrontOfQueue(Runnable r) {
         getInstance()._postAtFrontOfQueue(r);
     }
 
-    public synchronized final static void postAtTime(Runnable r, long uptimeMillis) {
+    public static void postAtTime(Runnable r, long uptimeMillis) {
         getInstance()._postAtTime(r, uptimeMillis);
     }
 
-    public synchronized final static void postAtTime(Runnable r, Object token, long uptimeMillis) {
+    public static void postAtTime(Runnable r, Object token, long uptimeMillis) {
         getInstance()._postAtTime(r, token, uptimeMillis);
     }
 
-    public synchronized final static void postDelayed(Runnable r, long delayMillis) {
+    public static void postDelayed(Runnable r, long delayMillis) {
         getInstance()._postDelayed(r, delayMillis);
     }
 
-    public synchronized final static void quit() {
+    public static void quit() {
         getInstance()._quit();
     }
 
-    public final void quitSafely() {
+    public static void quitSafely() {
         getInstance()._quitSafely();
     }
 }

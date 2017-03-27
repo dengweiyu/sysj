@@ -1,11 +1,9 @@
 package com.li.videoapplication.data;
 
-import android.os.Debug;
 import android.util.Log;
 
-import com.li.videoapplication.data.local.StorageUtil;
 import com.li.videoapplication.data.model.entity.Currency;
-import com.li.videoapplication.data.model.entity.Game;
+import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.entity.TopUp;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
@@ -25,7 +23,7 @@ import com.li.videoapplication.data.model.response.ServiceNameEntity;
 import com.li.videoapplication.data.model.response.SignScheduleEntity;
 import com.li.videoapplication.data.model.response.TopUpOptionEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
-import com.li.videoapplication.data.model.entity.AdvertisementDto;
+import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.Api.CacheProviders;
 import com.li.videoapplication.data.Api.SYSJService;
@@ -38,12 +36,10 @@ import com.li.videoapplication.data.model.response.VideoRankingEntity;
 import com.li.videoapplication.data.network.RequestParams;
 import com.li.videoapplication.framework.BaseHttpResult;
 import com.li.videoapplication.tools.DownloadHelper;
-import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +50,6 @@ import io.rx_cache.internal.RxCache;
 import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Observer;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -170,6 +165,18 @@ public class HttpManager extends RetrofitUtils {
     }
 
     // TODO: ############### 广告 ###############
+    public void adverImage(int location_id, Observer<AdvertisementDto> observer) {
+        Map<String, Object> params = RequestParams.getInstance().adverImage(location_id);
+        Observable<AdvertisementDto> observable = service.adverImage(params);
+        setSubscribe(observable, observer);
+    }
+
+    public void getDownloadOther(String game_id, Observer<List<Download>> observer) {
+        Map<String, Object> params = RequestParams.getInstance().gameTagList(game_id);
+        Observable<List<Download>> observable = service.getDownloadOther(params)
+                .map(new HttpResultFunc<List<Download>>());
+        setSubscribe(observable, observer);
+    }
 
     /**
      * @param localtion_id 不要怀疑自己的英语，后台做接口拼错的，就得这么写。

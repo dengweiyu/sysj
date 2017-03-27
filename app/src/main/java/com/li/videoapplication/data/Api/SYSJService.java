@@ -1,7 +1,7 @@
 package com.li.videoapplication.data.Api;
 
 import com.li.videoapplication.data.model.entity.Currency;
-import com.li.videoapplication.data.model.entity.Game;
+import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.entity.TopUp;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
@@ -21,7 +21,7 @@ import com.li.videoapplication.data.model.response.ServiceNameEntity;
 import com.li.videoapplication.data.model.response.SignScheduleEntity;
 import com.li.videoapplication.data.model.response.TopUpOptionEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
-import com.li.videoapplication.data.model.entity.AdvertisementDto;
+import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.response.VideoCollect2Entity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
@@ -65,6 +65,14 @@ public interface SYSJService {
     //获取首页猜你喜欢（换一换）详情
     @GET("/sysj217/index/changeGuessSecond")
     Observable<ChangeGuessEntity> changeGuessSecond(@Query("video_ids") String video_ids);
+
+    //获取启动图广告
+    @GET("/sysj208/ad/adverImage")
+    Observable<AdvertisementDto> adverImage(@QueryMap Map<String, Object> options);
+
+    //获取启动图中游戏下载详情
+    @GET("/sysj204/DownloadApp/getDownloadOther")
+    Observable<BaseHttpResult<List<Download>>> getDownloadOther(@QueryMap Map<String, Object> options);
 
     //获取广告
     @GET("/sysj208/ad/adImage")

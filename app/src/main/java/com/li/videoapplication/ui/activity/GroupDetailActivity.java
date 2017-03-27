@@ -39,7 +39,6 @@ import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.BaseHttpResult;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.Constant;
-import com.li.videoapplication.mvp.match.MatchContract;
 import com.li.videoapplication.mvp.match.MatchContract.IGroupDetailView;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchPresenter;
 import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
@@ -213,7 +212,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 //        tb_title.setText("游戏圈");
         tb_title.setVisibility(View.INVISIBLE);
 
-        if (AppConstant.DOWNLOAD) {
+        if (AppConstant.SHOW_DOWNLOAD_AD) {
             findViewById(R.id.tb_download).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.tb_download).setVisibility(View.GONE);
@@ -223,17 +222,16 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     @Override
     public void loadData() {
         super.loadData();
-        // 圈子详情
-        DataManager.groupInfo(group_id, getMember_id());
-
         presenter = MatchPresenter.getInstance();
-        presenter.setGroupDetailView(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈");
+        // 圈子详情
+        DataManager.groupInfo(group_id, getMember_id());
+        presenter.setGroupDetailView(this);
     }
 
     private void initHeaderView() {
@@ -475,5 +473,17 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                     game.getGroup_name(),
                     ConversationActivity.GROUP);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.setGroupDetailView(null);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.setGroupDetailView(null);
     }
 }

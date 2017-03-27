@@ -11,14 +11,12 @@ import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.Constant;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
-import com.li.videoapplication.data.model.entity.AdvertisementDto;
-import com.li.videoapplication.data.model.entity.Download;
+import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.LaunchImage;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.home.HomeContract;
 import com.li.videoapplication.mvp.home.presenter.HomePresenter;
-import com.li.videoapplication.tools.DownloadHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.WebActivity;
@@ -59,11 +57,27 @@ public class BannerFragment extends TBaseFragment {
                         WebActivity.startWebActivity(getActivity(), download_android);
                     break;
                 case 2://文件下载
-                    String app_name = launchImage.getDownload_desc().get(0).getApp_name();
-                    Download download = new Download();
-                    download.setDownload_url(download_android);
-                    download.setTitle(app_name);
-                    DownloadHelper.downloadFile(getActivity(), download);
+//                    String app_name = launchImage.getDownload_desc().get(0).getApp_name();
+//                    Download download = new Download();
+//                    download.setDownload_url(download_android);
+//                    download.setTitle(app_name);
+//                    DownloadHelper.downloadFile(getActivity(), download);
+                    startDownloadManagerActivity(launchImage);
+                    break;
+                case 3://内部跳转
+                    if (!StringUtil.isNull(launchImage.getModule()) &&
+                            !StringUtil.isNull(launchImage.getAssociated_id())) {
+                        switch (launchImage.getModule()) {
+                            case "event"://跳转赛事
+                                ActivityManeger.startGameMatchDetailActivity(getActivity(),
+                                        launchImage.getAssociated_id());
+                                break;
+                            case "active"://跳转活动
+                                ActivityManeger.startActivityDetailActivity(getActivity(),
+                                        launchImage.getAssociated_id());
+                                break;
+                        }
+                    }
                     break;
             }
 
@@ -71,6 +85,14 @@ public class BannerFragment extends TBaseFragment {
             presenter.adClick(launchImage.getAd_id(), AdvertisementDto.AD_CLICK_STATUS_23,
                     HareWareUtil.getHardwareCode());
         }
+    }
+
+    /**
+     * 跳转：下载管理
+     */
+    public void startDownloadManagerActivity(LaunchImage launchImage) {
+        Log.d(tag, "startDownloadManagerActivity: ");
+        ActivityManeger.startDownloadManagerActivity(getActivity(), launchImage);
     }
 
     private ImageView image;

@@ -1,8 +1,9 @@
 package com.li.videoapplication.mvp.home;
 
+import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
-import com.li.videoapplication.data.model.entity.AdvertisementDto;
+import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.framework.BaseHttpResult;
 import com.li.videoapplication.mvp.OnLoadDataListener;
@@ -28,6 +29,13 @@ public class HomeContract {
 
         void changeGuessSecond(String video_ids, final onloadHomeDataListener listener);
 
+        //启动图广告218
+        void adverImage(int localtion_id, final OnLoadDataListener<AdvertisementDto> listener);
+
+        //获取启动图中游戏下载详情
+        void getDownloadOther(String game_id, final OnLoadDataListener<Download> listener);
+
+        //通栏广告
         void adImage208(int localtion_id, boolean isLoad, final onloadHomeDataListener listener);
 
         void adClick(long ad_id, int ad_click_state, String hardwarecode, final onloadHomeDataListener listener);
@@ -43,16 +51,16 @@ public class HomeContract {
         //关闭加载页
         void hideProgress();
 
-        //首页数据加载成功
+        //回调：首页数据
         void refreshHomeData(HomeDto data);
 
-        //首页每日任务加载成功
+        //回调：首页每日任务
         void refreshUnFinishTaskView(UnfinishedTaskEntity data);
 
-        //首页猜你喜欢加载成功
+        //回调：首页猜你喜欢
         void refreshChangeGuessView(ChangeGuessEntity data);
 
-        //首页广告加载成功
+        //回调：首页广告
         void refreshAdvertisementView(AdvertisementDto data);
     }
 
@@ -62,7 +70,6 @@ public class HomeContract {
     public interface IHomePresenter {
         void setHomeView(IHomeView homeView);
 
-        //调用 M层相应方法加载数据
         void loadHomeData(int page, boolean isLoad);
 
         void unfinishedTask(String member_id, boolean update);
@@ -71,6 +78,10 @@ public class HomeContract {
 
         void changeGuessSecond(String video_ids);
 
+        //启动图广告218
+        void adverImage(int localtion_id);
+
+        //通栏广告
         void adImage208(int localtion_id, boolean isLoad);
 
         void adClick(long ad_id, int ad_click_state, String hardwarecode);

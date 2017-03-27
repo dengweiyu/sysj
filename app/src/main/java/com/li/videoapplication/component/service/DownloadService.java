@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 通知栏更新下载apk
- *
+ * <p>
  * 参数：download_url(xxxxx.apk), title
  */
 public class DownloadService extends BaseIntentService {
@@ -68,7 +68,7 @@ public class DownloadService extends BaseIntentService {
                 //被除数可以为0，除数必须大于0
                 if (msg.arg1 >= 0 && msg.arg2 > 0) {
                     for (DownloadService.OnProgressListener listener : listeners) {
-                        listener.onDownloadProgress(msg.arg1 / (float) msg.arg2);
+                        listener.onDownloadProgress(downloadId, msg.arg1, msg.arg2, msg.arg1 / (float) msg.arg2);
                     }
                     //下载完成:已下载大小=总大小
                     if (msg.arg1 == msg.arg2) {
@@ -85,9 +85,12 @@ public class DownloadService extends BaseIntentService {
         /**
          * 下载进度
          *
-         * @param fraction 已下载/总大小
+         * @param id              下载id
+         * @param downlaodedBytes 已下载
+         * @param totalBytes      总大小
+         * @param fraction        已下载/总大小
          */
-        void onDownloadProgress(float fraction);
+        void onDownloadProgress(long id, int downlaodedBytes, int totalBytes, float fraction);
     }
 
     /**
@@ -197,7 +200,7 @@ public class DownloadService extends BaseIntentService {
      * 通过query查询下载状态，包括已下载数据大小，总大小，下载状态
      *
      * @param downloadId id
-     * @return int[已经下载文件大小,总大小,下载状态]
+     * @return int[已经下载文件大小, 总大小, 下载状态]
      */
     private int[] getBytesAndStatus(long downloadId) {
         int[] bytesAndStatus = new int[]{

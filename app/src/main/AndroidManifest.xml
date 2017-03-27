@@ -574,23 +574,6 @@
 
 
         <!-- ################################# 友盟统计分析/消息推送/用户反馈   ######################### -->
-
-        <!--
-        _91
-        _360
-        Lenovo
-        oppo
-        AndroidMarket
-        Baidu
-        feimo1
-        feimo2
-        HuaWei
-        JiFeng
-        WangDouJia
-        XiaoMi
-        YingYongBao
-        -->
-
         <!--UMENG_APPKEY: 5450f180fd98c5a66902c674-->
         <!--UMENG_MESSAGE_SECRET: d75f6bf2b18d152f8c53c02f68963095-->
         <meta-data

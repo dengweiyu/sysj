@@ -12,6 +12,7 @@ import com.li.videoapplication.utils.StringUtil;
  */
 public class RequestParams {
     private static final int A_SYSJ = 2;
+    private static final String SYSJ = "a_sysj";
 
     public RequestParams() {
         super();
@@ -32,7 +33,9 @@ public class RequestParams {
         return instance;
     }
 
-    /** ############## 飞磨游戏 ############## */
+    /**
+     * ############## 飞磨游戏 ##############
+     */
     // appid=100&from=3&clientid=125&agent=
     public Map<String, Object> gameDetail(String gameid) {
         Map<String, Object> map = new HashMap<>();
@@ -53,6 +56,7 @@ public class RequestParams {
         map.put("currency_num", currency_num);
         map.put("pay_type", pay_type);
         map.put("ingress", ingress);
+        map.put("target", SYSJ);
         return map;
     }
 
@@ -62,6 +66,7 @@ public class RequestParams {
         map.put("goods_id", goods_id);
         map.put("mobile", mobile);
         map.put("account", account);
+        map.put("target", SYSJ);
         return map;
     }
 
@@ -436,7 +441,7 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> getDetailMode(String match_id,String member_id) {
+    public Map<String, Object> getDetailMode(String match_id, String member_id) {
         Map<String, Object> map = new HashMap<>();
         map.put("match_id", match_id);
         map.put("member_id", member_id);
@@ -905,10 +910,11 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> checkAndroidStatus(int version) {
+    public Map<String, Object> checkAndroidStatus(int version, String channel) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("target", AppConstant.SYSJ_ANDROID);
         map.put("version", version);
+        map.put("channel", channel);
         return map;
     }
 
@@ -1178,7 +1184,7 @@ public class RequestParams {
         return map;
     }
 
-	/* ############## 赛事 ############## */
+    /* ############## 赛事 ############## */
     public Map<String, Object> signSchedule214(String member_id, String schedule_id, String event_id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
@@ -1201,7 +1207,7 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("event_id", event_id);
-        map.put("target", "a_sysj");
+        map.put("target", SYSJ);
         map.put("type_id", type_id);
         map.put("team_name", team_name);
         map.put("game_role", game_role);
@@ -1282,7 +1288,7 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> getGroupEventsList211(String game_id,int page) {
+    public Map<String, Object> getGroupEventsList211(String game_id, int page) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("game_id", game_id);
         map.put("page", page);
@@ -1573,6 +1579,13 @@ public class RequestParams {
         return map;
     }
 
+    public Map<String, Object> adverImage(int location_id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("location_id", location_id);
+        map.put("platform", "android");
+        return map;
+    }
+
     public Map<String, Object> adImage208(int localtion_id) {
         Map<String, Object> map = new HashMap<>();
         map.put("localtion_id", localtion_id);
@@ -1778,7 +1791,7 @@ public class RequestParams {
         map.put("match_id", match_id);
         map.put("isofficial", isofficial);
         map.put("game_tags", game_tags);
-        map.put("target", "a_sysj");
+        map.put("target", SYSJ);
         return map;
     }
 

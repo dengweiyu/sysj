@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -199,70 +200,16 @@ public class WebActivity extends TBaseActivity {
         webView.addJavascriptInterface(user, "user");
         EventBus.getDefault().register(user);
 
-//        webView.setDownloadListener(new DownloadListener() {
-//
+        webView.loadUrl(url);
+//        webView.setWebViewClient(new WebViewClient() {
 //            @Override
-//            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-//
-//                try {
-//                    IntentHelper.startActivityActionView(WebActivity.this, url);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                view.loadUrl(url);
+//                return true;
 //            }
 //        });
 
-        webView.loadUrl(url);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-            }
-
-            @Override
-            public void onLoadResource(WebView view, String url) {
-                super.onLoadResource(view, url);
-            }
-
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                super.onReceivedError(view, errorCode, description, failingUrl);
-            }
-
-        });
-
         webView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
-                return super.onJsAlert(view, url, message, result);
-            }
-
-            @Override
-            public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
-                return super.onJsConfirm(view, url, message, result);
-            }
-
-            @Override
-            public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, final JsPromptResult result) {
-                return super.onJsPrompt(view, url, message, defaultValue, result);
-            }
-
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                super.onProgressChanged(view, newProgress);
-            }
-
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 setTitle(title);

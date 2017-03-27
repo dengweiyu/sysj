@@ -34,13 +34,34 @@ public class RequestUrl {
 
     public String BaseFMYX_V1 = BaseFMYX + "/api/public/index.php/v1";
 
-
+    /**
+     * 分享页面广场信息
+     */
+    public final String sharePlayerSquare() {
+        return BaseSYSJ + "/Sysj218/share/sharePlayerSquare";
+    }
 
     /**
      * 官方推荐位
      */
     public final String getRecommendCate() {
         return BaseSYSJ + "/Sysj217/Recommend/recommendCate";
+    }
+
+    /* ############## 下载 ############## */
+
+    /**
+     * 更多精彩（内部）
+     */
+    public final String getDownloadApp() {
+        return BaseSYSJ + "/sysj204/DownloadApp/getDownloadApp";
+    }
+
+    /**
+     * 更多精彩（广告）
+     */
+    public final String getDownloadOther() {
+        return BaseSYSJ + "/sysj204/DownloadApp/getDownloadOther";
     }
 
     /** ############## 飞磨游戏 ############## */
@@ -77,6 +98,13 @@ public class RequestUrl {
     }
 
 	/* ############## 广告 ############## */
+
+    /**
+     * 启动图广告
+     */
+    public final String adverImage() {
+        return BaseSYSJ + "/sysj208/ad/adverImage";
+    }
 
     /**
      * 广告位置列表

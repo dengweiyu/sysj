@@ -1,6 +1,6 @@
 package com.li.videoapplication.data.Api;
 
-import com.li.videoapplication.data.model.entity.AdvertisementDto;
+import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
 

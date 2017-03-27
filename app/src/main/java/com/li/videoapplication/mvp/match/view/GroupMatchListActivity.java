@@ -58,7 +58,7 @@ public class GroupMatchListActivity extends TBaseAppCompatActivity implements IG
      * 跳转：活动详情
      */
     private void startActivityDetailActivity208(String match_id) {
-        ActivityManeger.startActivityDetailActivity208(this, match_id);
+        ActivityManeger.startActivityDetailActivity(this, match_id);
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "游戏圈赛事列表-进入活动");
     }
 

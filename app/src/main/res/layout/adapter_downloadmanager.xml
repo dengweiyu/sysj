@@ -1,0 +1,135 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:paddingTop="@dimen/kaka_10"
+    android:descendantFocusability="blocksDescendants">
+
+    <RelativeLayout
+        android:id="@+id/content"
+        android:paddingStart="@dimen/kaka_10"
+        android:paddingEnd="@dimen/kaka_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.li.videoapplication.views.RoundedImageView
+            android:id="@+id/applicationdownload_icon"
+            android:layout_width="@dimen/kaka_45"
+            android:layout_height="@dimen/kaka_45"
+            android:src="#dedede"
+            app:riv_border_color="#ffffff"
+            app:riv_border_width="0dp"
+            app:riv_corner_radius="6dp"
+            app:riv_oval="false" />
+
+        <!--44/18-->
+        <RelativeLayout
+            android:id="@+id/applicationdownload_relativelayout"
+            android:layout_width="@dimen/kaka_45"
+            android:layout_height="@dimen/kaka_45"
+            android:layout_alignBottom="@id/applicationdownload_icon"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="5dp"
+            >
+
+            <ImageView
+                android:id="@+id/applicationdownload_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/kaka_15"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/kaka_10"
+                android:paddingRight="2dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                android:paddingLeft="25dp"
+                android:src="@drawable/downloadmanager_delete"
+                />
+
+            <FrameLayout
+                android:layout_width="@dimen/kaka_44"
+                android:layout_height="@dimen/kaka_18"
+                android:layout_centerVertical="true"
+                android:layout_above="@id/applicationdownload_delete"
+                >
+
+                <ProgressBar
+                    android:visibility="visible"
+                    android:id="@+id/applicationdownload_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="@dimen/kaka_44"
+                    android:layout_height="@dimen/kaka_18"
+                    android:background="@drawable/applicationdownload_progress_rect"
+                    android:max="100"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/applicationdownload_progress_progress" />
+
+                <TextView
+                    android:visibility="visible"
+                    android:id="@+id/applicationdownload_text"
+                    android:layout_width="@dimen/kaka_44"
+                    android:layout_height="@dimen/kaka_18"
+                    android:gravity="center"
+                    android:text="@string/applicationdownload_open"
+                    android:textColor="@color/applicationdownload_black"
+                    android:textSize="9sp" />
+            </FrameLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/applicationdownload_framelayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/kaka_45"
+            android:layout_toRightOf="@id/applicationdownload_icon"
+            android:layout_toLeftOf="@id/applicationdownload_relativelayout"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/kaka_10"
+            >
+
+            <TextView
+                android:id="@+id/applicationdownload_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:maxLines="1"
+                android:text="全名超神"
+                android:textColor="#565656"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/applicationdownload_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="激情国战，每时每刻"
+                android:textColor="#88565656"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/applicationdownload_mark"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/applicationdownload_title"
+                android:layout_above="@id/applicationdownload_content"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="158万人在玩 368M"
+                android:textColor="#88565656"
+                android:textSize="10sp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_marginTop="@dimen/kaka_10"
+        android:layout_below="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider_bg"/>
+
+</RelativeLayout>

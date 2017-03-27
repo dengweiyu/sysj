@@ -76,7 +76,7 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
      * 跳转：活动详情
      */
     private void startActivityDetailActivity208(String match_id) {
-        ActivityManeger.startActivityDetailActivity208(getActivity(), match_id);
+        ActivityManeger.startActivityDetailActivity(getActivity(), match_id);
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "赛事列表-进入活动");
     }
 

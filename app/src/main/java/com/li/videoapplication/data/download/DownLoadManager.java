@@ -60,11 +60,6 @@ public class DownLoadManager {
     private DownLoadManager() {
         super();
 
-        Log.d(TAG, "###################################################################");
-        Log.d(TAG, "###################################################################");
-        Log.d(TAG, "###################################################################");
-        Log.d(TAG, "###################################################################");
-
         // 从数据库恢复下载任务
         List<FileDownloaderEntity> list = FileDownloaderManager.findAll();
         Log.d(TAG, "DownLoadManager: list=" + list);
@@ -130,8 +125,8 @@ public class DownLoadManager {
 
         @Override
         public void onProgress(FileDownloaderEntity entity) {
-            Log.d(TAG, "onDownloadProgress: // ----------------------------------------------");
-            Log.d(TAG, "onDownloadProgress: entity=" + entity);
+            Log.d(TAG, "onProgress: // ----------------------------------------------");
+            Log.d(TAG, "onProgress: entity=" + entity);
             if (entity != null &&
                     entity.getFileType() != null &&
                     entity.getFileType().equals(FileDownloaderEntity.FILE_TYPE_ADVERTISEMENT)) {
@@ -156,9 +151,8 @@ public class DownLoadManager {
         public void onSuccess(FileDownloaderEntity entity) {
             Log.d(TAG, "onSuccess: // ----------------------------------------------");
             Log.d(TAG, "onSuccess: entity=" + entity);
-            if (entity != null &&
-                    entity.getFileType() != null &&
-                    entity.getFileType().equals(FileDownloaderEntity.FILE_TYPE_ADVERTISEMENT)) {
+            if (entity != null && entity.getFileType() != null
+                    && entity.getFileType().equals(FileDownloaderEntity.FILE_TYPE_ADVERTISEMENT)) {
                 // 更新通知栏
                 DownloadingNotificationManager.getInstance().updateNotification(entity.getFileUrl(), entity);
 
@@ -179,6 +173,20 @@ public class DownLoadManager {
                         Log.d(TAG, "onSuccess: context=" + context);
                         // 广告点击统计（15——启动安装）
 //                        DataManager.advertisementAdClick204_15(entity.getAd_id());
+                    }
+                }
+            } else if (entity != null) { // 下载lpds
+                Activity activity = AppManager.getInstance().getActivity(MainActivity.class);
+                Context context = AppManager.getInstance().getContext();
+                File apkFile = SYSJStorageUtil.createApkPath(entity.getFileUrl());
+                if (apkFile != null) {
+                    if (activity != null) {
+                        // 安装应用
+                        ApkUtil.installApp(activity, apkFile.getPath());
+                    }
+                    if (context != null) {
+                        // 安装应用
+                        ApkUtil.installApp(context, apkFile.getPath());
                     }
                 }
             }
@@ -222,6 +230,7 @@ public class DownLoadManager {
                     oldEntity.setFileType(dbEntity.getFileType());
 
                     oldEntity.setA_download_url(dbEntity.getA_download_url());
+//                    oldEntity.setAd_id(dbEntity.set);
                     oldEntity.setApp_id(dbEntity.getApp_id());
                     oldEntity.setApp_intro(dbEntity.getApp_intro());
                     oldEntity.setApp_name(dbEntity.getApp_name());
@@ -231,7 +240,7 @@ public class DownLoadManager {
                     oldEntity.setFlag(dbEntity.getFlag());
                     oldEntity.setPlay_num(dbEntity.getPlay_num());
                     oldEntity.setPlay_text(dbEntity.getPlay_text());
-                    oldEntity.setSize_num(dbEntity. getSize_num());
+                    oldEntity.setSize_num(dbEntity.getSize_num());
                     oldEntity.setSize_text(dbEntity.getSize_text());
                     oldEntity.setType_id(dbEntity.getType_id());
                 }
@@ -251,7 +260,7 @@ public class DownLoadManager {
     /**
      * 更新所有任务（从下载器更新到适配器）
      */
-    public void updateTaskToView(List<FileDownloaderEntity> viewList, List<FileDownloaderEntity> downloadList) {
+    public void updateToView(List<FileDownloaderEntity> viewList, List<FileDownloaderEntity> downloadList) {
         Log.d(TAG, "updateTaskToView: // -----------------------------------------------------------");
         Log.d(TAG, "updateTaskToView: oldList" + viewList);
         Log.d(TAG, "updateTaskToView: downloadList" + downloadList);
@@ -295,7 +304,7 @@ public class DownLoadManager {
 
     /**
      * 增加任务
-     * 
+     *
      * @param fileUrl 请求下载的路径
      * @return -1 : 已存在任务列表 ， 1 ： 添加进任务列表
      */
@@ -370,6 +379,7 @@ public class DownLoadManager {
                 entities.add(entity);
             }
         }
+        Log.d(TAG, "getAllAdvertisement: "+entities);
         return entities;
     }
 
@@ -381,12 +391,12 @@ public class DownLoadManager {
         List<FileDownloaderEntity> entities = new ArrayList<>();
         for (int i = 0; i < downLoaders.size(); i++) {
             FileDownloaderEntity entity = downLoaders.get(i).getEntity();
-            if (entity != null &&
-                    entity.getFileType() != null &&
+            if (entity != null && entity.getFileType() != null &&
                     entity.getFileType().equals(FileDownloaderEntity.FILE_TYPE_FEIMO)) {
                 entities.add(entity);
             }
         }
+        Log.d(TAG, "getAllFeimo: "+entities);
         return entities;
     }
 
@@ -399,10 +409,36 @@ public class DownLoadManager {
             DownLoader downLoader = downLoaders.get(i);
             Log.d(TAG, "startDownLoader: entity" + downLoader.getEntity());
             if (downLoader.getFileUrl().equals(fileUrl)) {
-                if (downLoader.getEntity() != null && downLoader.getEntity().getDownloadSize() < 512) {
+                if (downLoader != null &&
+                        downLoader.getEntity() != null &&
+                        downLoader.getEntity().getDownloadSize() < 512) {
                     Log.d(TAG, "startDownLoader: downloadSize" + downLoader.getEntity().getDownloadSize());
                     // 广告点击统计（12——开始下载）
 //                    DataManager.advertisementAdClick204_12(downLoader.getEntity().getAd_id());
+                    Log.i(TAG, "ad_id=" + downLoader.getEntity().getAd_id());
+                    Log.d(TAG, "startDownLoader: 12");
+                }
+                downLoader.start();
+                break;
+            }
+        }
+    }
+
+    /**
+     * 开始任务
+     */
+    public void startDownLoader(String fileUrl, String ad_id) {
+        Log.d(TAG, "startDownLoader: // --------------------------------------------------");
+        for (int i = 0; i < downLoaders.size(); i++) {
+            DownLoader downLoader = downLoaders.get(i);
+            Log.d(TAG, "startDownLoader: entity" + downLoader.getEntity());
+            if (downLoader.getFileUrl().equals(fileUrl)) {
+                if (downLoader != null &&
+                        downLoader.getEntity() != null &&
+                        downLoader.getEntity().getDownloadSize() < 512) {
+                    Log.d(TAG, "startDownLoader: downloadSize" + downLoader.getEntity().getDownloadSize());
+                    // 广告点击统计（12——开始下载）
+//                    DataManager.advertisementAdClick204_12(ad_id);
                     Log.d(TAG, "startDownLoader: 12");
                 }
                 downLoader.start();
@@ -543,10 +579,7 @@ public class DownLoadManager {
     public boolean isDownLoading(String fileUrl) {
         Log.d(TAG, "isDownLoading: // --------------------------------------------------");
         DownLoader downLoader = getDownloader(fileUrl);
-        if (downLoader != null) {
-            return downLoader.isDownLoading();
-        }
-        return false;
+        return downLoader != null && downLoader.isDownLoading();
     }
 
     /**

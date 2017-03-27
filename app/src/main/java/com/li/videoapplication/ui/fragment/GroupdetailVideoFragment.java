@@ -22,6 +22,7 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.GroupDataListEntity;
 import com.li.videoapplication.data.model.response.GroupHotDataListEntity;
 import com.li.videoapplication.data.model.response.GroupNewDataListEntity;
+import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
@@ -297,7 +298,8 @@ public class GroupdetailVideoFragment extends TBaseFragment
             videoData.clear();
             videoData = event.getData().getList();
             adapter.setNewData(videoData);
-            initGDT(pos_id);//插入一行广点通广告
+            if (AppConstant.SHOW_DOWNLOAD_AD)
+                initGDT(pos_id);//插入一行广点通广告
         } else {
             // 如果有下一页则调用addData，不需要把下一页数据add到list里面，直接新的数据给adapter即可。
             adapter.addData(event.getData().getList());

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="36dp"
+    android:paddingRight="36dp"
+    android:gravity="center"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="40dp"
+        android:paddingBottom="40dp"
+        android:text="删除已下载的本地文件，确定删除？"
+        android:textColor="#3a3a3a"
+        android:textSize="14sp"
+        android:background="#f9f9f9"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e9e9e9"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f9f9f9"
+        >
+
+        <TextView
+            android:id="@+id/delete_apk_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:gravity="center"
+            android:text="取消"
+            android:textSize="15sp"
+            android:textColor="#787878"
+            />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#e9e9e9"
+            />
+
+        <TextView
+            android:id="@+id/delete_apk_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:gravity="center"
+            android:text="删除"
+            android:textSize="15sp"
+            android:textColor="@color/currency_red"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

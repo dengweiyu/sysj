@@ -5,18 +5,22 @@ package com.li.videoapplication.framework;
  */
 public class AppConstant {
 
-	public static boolean DOWNLOAD = true;
+	public static boolean SHOW_DOWNLOAD_AD = true;
 
 	public static final String SYSJ = "sysj";
-	public static final String API_SERVER = "http://apps.ifeimo.com";//服务器域名
 	public static final String SYSJ_ANDROID = "a_sysj";
-	public static final String SYSJ_IOS = "i_sysj";
+	public static final String API_SERVER = "http://apps.ifeimo.com";//服务器域名
 
 	public static final boolean DEBUG = true;
 	public static final boolean isFeiMo = false;//飞磨快速登录版
 
 	public static final int USER_COVER_WIDTH = 720;
 	public static final int USER_COVER_HEIGHT = 480;
+
+	// json process report structure
+	public final static String TOKEN = "token";
+	public final static String DOWNLOAD_LENGHT = "downloadLength";
+	public final static String PERCENT = "PERCENT";
     
     /**
      * 七牛视频播放地址

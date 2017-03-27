@@ -20,6 +20,7 @@ import com.li.videoapplication.data.model.entity.Associate;
 import com.li.videoapplication.data.model.event.CloudVideoRecommendEvent;
 import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
 import com.li.videoapplication.data.model.event.DownloadCompleteEvent;
+import com.li.videoapplication.data.model.event.FileDownloaderEvent;
 import com.li.videoapplication.data.model.event.ImageView2ImageShareEvent;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
@@ -44,6 +45,14 @@ import io.rong.eventbus.EventBus;
 public class EventManager {
 
     protected static final String TAG = EventManager.class.getSimpleName();
+    /**
+     * 更新下载应用信息
+     */
+    public static void postFileDownloaderEvent() {
+        Log.d(TAG, "postFileDownloaderEvent: ");
+        FileDownloaderEvent event = new FileDownloaderEvent();
+        EventBus.getDefault().post(event);
+    }
 
     /**
      * 发布下载完成事件

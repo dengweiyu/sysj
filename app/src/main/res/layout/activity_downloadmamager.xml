@@ -23,33 +23,75 @@
         android:background="#eaeaea"
         tools:ignore="PxUsage" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/white"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        android:scrollbars="none"
-        android:visibility="gone"/>
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:max="100"
-        android:progress="0"
-        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/kaka_9">
 
+            <!--广告游戏-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/firstRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/kaka_9"
+                android:layout_marginRight="@dimen/kaka_9"
+                android:layout_marginTop="@dimen/kaka_9"
+                android:background="@drawable/stroke_gray_2px"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/progresstext"
-        android:layout_marginTop="8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="0%"/>
+            <!--飞磨应用-->
+            <LinearLayout
+                android:id="@+id/secondContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/kaka_9"
+                android:layout_marginRight="@dimen/kaka_9"
+                android:layout_marginTop="@dimen/kaka_9"
+                android:background="@drawable/stroke_gray_2px"
+                android:orientation="vertical"
+                android:padding="1px"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/kaka_12"
+                    android:layout_marginLeft="@dimen/kaka_12"
+                    android:layout_marginRight="@dimen/kaka_12"
+                    android:layout_marginTop="@dimen/kaka_12"
+                    android:text="@string/applicationdownload_morefun"
+                    android:textColor="#aa565656"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#dbdbdb" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/secondRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/kaka_9"
+                    android:layout_marginRight="@dimen/kaka_9"
+                    android:layout_marginTop="@dimen/kaka_9"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
 </LinearLayout>

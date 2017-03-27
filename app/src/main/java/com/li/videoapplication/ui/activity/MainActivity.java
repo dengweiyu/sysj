@@ -34,6 +34,8 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenListener;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenedListener;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.Utils_Data;
+import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.data.model.event.LoginEvent;
@@ -232,6 +234,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
         getIntentValue();
         getIntentResult();
+        // 初始化下载器
+        DownLoadManager.getInstance();
     }
 
     @Override
@@ -293,6 +297,15 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         EventBus.getDefault().unregister(this);
         AppManager.getInstance().removeMainActivity();
         super.onDestroy();
+        if (RecordingManager.getInstance().isRecording()) {// 录屏中
+
+            // 销毁所有资源（服务，调度器，下载器）
+            Utils_Data.destroyAllResouce();
+            // 移除任务栈
+            // Utils_Data.finishApp();
+
+            System.gc();
+        }
     }
 
     public void setCurrentItem(int pager) {

@@ -1,5 +1,6 @@
 package com.li.videoapplication.mvp.match.presenter;
 
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.li.videoapplication.data.model.entity.Game;
@@ -26,6 +27,7 @@ import com.li.videoapplication.mvp.match.MatchContract.IMatchListView;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchPresenter;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchModel;
 import com.li.videoapplication.mvp.match.model.MatchModel;
+import com.li.videoapplication.ui.activity.GroupDetailActivity;
 
 import java.util.List;
 

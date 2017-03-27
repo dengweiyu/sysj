@@ -1,7 +1,6 @@
 package com.li.videoapplication.ui;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
@@ -15,6 +14,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.GroupType;
+import com.li.videoapplication.data.model.entity.LaunchImage;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
@@ -111,6 +111,17 @@ public class ActivityManeger {
     public synchronized static void startDownloadManagerActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, DownloadManagerActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 下载管理
+     */
+    public synchronized static void startDownloadManagerActivity(Context context, LaunchImage entity) {
+        Intent intent = new Intent();
+        intent.setClass(context, DownloadManagerActivity.class);
+        if (entity != null)
+            intent.putExtra("entity", entity);
         context.startActivity(intent);
     }
 
@@ -482,7 +493,7 @@ public class ActivityManeger {
     /**
      * 活动详情208
      */
-    public synchronized static void startActivityDetailActivity208(Context context, String match_id) {
+    public synchronized static void startActivityDetailActivity(Context context, String match_id) {
         if (context == null) {
             return;
         }

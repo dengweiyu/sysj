@@ -222,8 +222,12 @@ public class AppManager {
 			Log.i(tag, "[finishAllActivity]" + size);
 			for (int i = 0; i < size; i++) {
 				if (null != activities.get(i)) {
-					activities.get(i).finish();
-				}
+                    try {
+                        activities.get(i).finish();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 			}
 			activities.clear();
 			printAllActivity();

@@ -417,4 +417,38 @@ public class FileDownloaderManager {
             }
         return false;
     }
+
+    /**
+     * 删除（FileType）
+     */
+    public static boolean deleteByFileTypeFeiMo(){
+        List<FileDownloaderEntity> entities = findAllFileTypeFeiMo();
+        if (entities != null){
+            try {
+                for (FileDownloaderEntity entity : entities){
+                    xUtilsDb.DB.delete(entity);
+                }
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 查找
+     */
+    public static List<FileDownloaderEntity> findAllFileTypeFeiMo(){
+        try {
+            return xUtilsDb.DB
+                    .selector(FileDownloaderEntity.class)
+                    .where(FileDownloaderEntity.FILE_TYPE, "=", FileDownloaderEntity.FILE_TYPE_FEIMO)
+                    .findAll();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
