@@ -48,6 +48,7 @@ import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.ui.dialog.ConfirmDialog;
 import com.li.videoapplication.ui.fragment.GroupdetailIntroduceFragment;
 import com.li.videoapplication.ui.fragment.GroupdetailPlayerFragment;
 import com.li.videoapplication.ui.fragment.GroupdetailVideoFragment;
@@ -336,7 +337,9 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 } else {
                     game.setAttention_num(Integer.valueOf(game.getAttention_num()) + 1 + "");
                     game.setTick(1);
+
                 }
+
                 // 关注圈子201
                 DataManager.groupAttentionGroup(game.getGroup_id(), getMember_id());
                 refreshHeaderView(game);

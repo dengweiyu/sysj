@@ -86,7 +86,7 @@ public class MainApplication extends BaseApplication {
                         }
                     });
                 }
-            },2000);
+            },1000);
             //只能同步启动
             x.Ext.init(MainApplication.this);
             x.Ext.setDebug(DEBUG);

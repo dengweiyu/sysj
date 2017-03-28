@@ -891,5 +891,6 @@
     <string name="jump_playerbillboard_go">进入玩家推荐榜</string>
     <string name="jump_mall_go">进入商城</string>
 
-
+    <string name="confirm_dialog_yes">确定</string>
+    <string name="confirm_dialog_no">再想想</string>
 </resources>
