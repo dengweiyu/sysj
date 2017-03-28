@@ -227,6 +227,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             bannerFlow.setFlowIndicator(bannerIndicator);
             bannerFlow.setTimeSpan(4000);
             bannerFlow.setSelection(0); // 设置初始位置
+
             bannerAdapter = new BannerAdapter(getActivity(), bannerData, BannerAdapter.PAGER_HOME);
             bannerFlow.setAdapter(bannerAdapter);
 

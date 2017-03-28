@@ -630,7 +630,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 			return;
 
 		if (direction > 0) { // to the right
-			mCurrentAdapterIndex++;
+
 			mCurrentBufferIndex++;
 
 			// if(direction > 1) {
@@ -649,7 +649,8 @@ public class ViewFlow extends AdapterView<Adapter> {
 			}
 
 			// Add new view to buffer
-			int newBufferIndex = mCurrentAdapterIndex + mSideBuffer;
+			int newBufferIndex = mCurrentAdapterIndex ;
+			mCurrentAdapterIndex++;
 			if (newBufferIndex < mAdapter.getCount())
 				mLoadedViews.addLast(makeAndAddView(newBufferIndex, true, recycleView));
 

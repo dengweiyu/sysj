@@ -1,7 +1,10 @@
 package com.li.videoapplication.component.application;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.happly.link.util.LogCat;
@@ -15,6 +18,7 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.BaseApplication;
 import com.li.videoapplication.tools.JPushHelper;
 import com.li.videoapplication.utils.AppUtil;
+import com.stericson.RootTools.internal.Runner;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
@@ -42,50 +46,52 @@ public class MainApplication extends BaseApplication {
 
         //乐播debug
         LogCat.setNotDebug(true);
-
+        Long start = System.currentTimeMillis();
         // 初始化主进程
         if (getApplicationInfo().packageName.equals(AppUtil.getCurrentProcessName(getApplicationContext()))) {
-
-            RequestExecutor.start(new Runnable() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
-                    x.Ext.init(MainApplication.this);
-                    x.Ext.setDebug(DEBUG);
-
-                    CacheManager.getInstance().initCache();
-
-                    RecordingManager.getInstance().initialize(MainApplication.this);
-
-                    // 极光推送
-                    JPushHelper.initUPush(MainApplication.this, DEBUG);
-
-                    if (PreferencesHepler.getInstance().isLogin()) {
-                        JPushHelper.setAlias(PreferencesHepler.getInstance().getMember_id());
+                    // 初始化融云
+                    if (getApplicationInfo().packageName.equals(AppUtil.getCurrentProcessName(getApplicationContext())) ||
+                            "io.rong.push".equals(AppUtil.getCurrentProcessName(getApplicationContext()))) {
+                        RongIM.init(MainApplication.this);
                     }
+                    RequestExecutor.start(new Runnable() {
+                        @Override
+                        public void run() {
+                            CacheManager.getInstance().initCache();
 
-                    //友盟统计
-                    MobclickAgent.setDebugMode(DEBUG);
+                            RecordingManager.getInstance().initialize(MainApplication.this);
 
-                    //阿里百川反馈
-                    FeedbackAPI.init(MainApplication.this, FEEDBACK_KEY);
+                            // 极光推送
+                            JPushHelper.initUPush(MainApplication.this, DEBUG);
 
-                    //版本审核
-                    DataManager.checkAndroidStatus(AppUtil.getVersionCode(getApplicationContext()),
-                            AnalyticsConfig.getChannel(getApplicationContext()));
+                            if (PreferencesHepler.getInstance().isLogin()) {
+                                JPushHelper.setAlias(PreferencesHepler.getInstance().getMember_id());
+                            }
 
-                    //feimo im sdk
-                    IMSdk.init(MainApplication.this);
+                            //友盟统计
+                            MobclickAgent.setDebugMode(DEBUG);
+
+                            //阿里百川反馈
+                            FeedbackAPI.init(MainApplication.this, FEEDBACK_KEY);
+
+                            //版本审核
+                            DataManager.checkAndroidStatus(AppUtil.getVersionCode(getApplicationContext()),
+                                    AnalyticsConfig.getChannel(getApplicationContext()));
+
+                            //feimo im sdk
+                            IMSdk.init(MainApplication.this);
+                        }
+                    });
                 }
-            });
+            },2000);
+            //只能同步启动
+            x.Ext.init(MainApplication.this);
+            x.Ext.setDebug(DEBUG);
         }
-
-        // 初始化融云
-        if (getApplicationInfo().packageName.equals(AppUtil.getCurrentProcessName(getApplicationContext())) ||
-                "io.rong.push".equals(AppUtil.getCurrentProcessName(getApplicationContext()))) {
-
-            RongIM.init(MainApplication.this);
-        }
+        Log.e("Time",(System.currentTimeMillis()-start)+"");
     }
 
     @Override
@@ -102,4 +108,5 @@ public class MainApplication extends BaseApplication {
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
     }
+
 }

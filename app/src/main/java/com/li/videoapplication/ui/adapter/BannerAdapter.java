@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -114,7 +115,8 @@ public class BannerAdapter extends BaseBaseAdapter {
 
     @Override
     public Banner getItem(int position) {
-        return data.get(position % data.size());
+        int p = position % data.size();
+        return data.get(p);
     }
 
     @Override
