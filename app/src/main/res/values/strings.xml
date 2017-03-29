@@ -893,4 +893,6 @@
 
     <string name="confirm_dialog_yes">确定</string>
     <string name="confirm_dialog_no">再想想</string>
+
+    <string name="app_exception_tip">程序出现异常</string>
 </resources>

@@ -16,6 +16,7 @@ import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.network.RequestService;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.BaseApplication;
+import com.li.videoapplication.tools.AppExceptionHandler;
 import com.li.videoapplication.tools.JPushHelper;
 import com.li.videoapplication.utils.AppUtil;
 import com.stericson.RootTools.internal.Runner;
@@ -44,9 +45,11 @@ public class MainApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
 
+        //异常处理
+        AppExceptionHandler.getInstance().init();
+
         //乐播debug
         LogCat.setNotDebug(true);
-        Long start = System.currentTimeMillis();
         // 初始化主进程
         if (getApplicationInfo().packageName.equals(AppUtil.getCurrentProcessName(getApplicationContext()))) {
             new Handler().postDelayed(new Runnable() {
@@ -91,7 +94,6 @@ public class MainApplication extends BaseApplication {
             x.Ext.init(MainApplication.this);
             x.Ext.setDebug(DEBUG);
         }
-        Log.e("Time",(System.currentTimeMillis()-start)+"");
     }
 
     @Override
