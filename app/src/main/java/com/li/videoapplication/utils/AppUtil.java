@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.telephony.TelephonyManager;
 
@@ -184,6 +186,27 @@ public class AppUtil {
             String packageName = info.packageName;
             if (packageName.equals("com.tencent.mobileqq")) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     *判断当前网络是否正常
+     */
+    public static boolean isNetworkAvailale(Context context){
+        ConnectivityManager connectivity = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo info = connectivity.getActiveNetworkInfo();
+            if (info != null && info.isConnected())
+            {
+                // 当前网络是连接的
+                if (info.getState() == NetworkInfo.State.CONNECTED)
+                {
+                    // 当前所连接的网络可用
+                    return true;
+                }
             }
         }
         return false;

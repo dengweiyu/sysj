@@ -89,6 +89,7 @@ public class IMSdk {
      * @param loginCallBack 回调
      */
     public static void Login(Context context, String myMemberID, String myNickName, String myAvatarUrl, LoginCallBack loginCallBack) {
+
         UserBean.setLoginUser(myMemberID, myNickName, myAvatarUrl, null, null, null, null, null, null);
         PManager.saveUser(context);
         addLoginCallBack(loginCallBack);

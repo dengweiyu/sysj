@@ -94,6 +94,16 @@ public class StorageUtil {
     }
 
     /**
+     * 生成错误日志路径
+     */
+    public static String createLogName(){
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmsss");
+        String fileName = format.format(new Date());
+        Log.d(TAG, "fileName: " + fileName);
+        return getInner()+"/sysj/tmp/"+fileName;
+    }
+
+    /**
      * 生成缓存文件名
      *
      * @return xxxxxxxxxx

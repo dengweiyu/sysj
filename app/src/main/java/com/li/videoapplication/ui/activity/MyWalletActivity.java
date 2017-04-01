@@ -75,7 +75,7 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
         findViewById(R.id.goback).setOnClickListener(this);
         findViewById(R.id.mywallet_currencyrecord).setOnClickListener(this);
         findViewById(R.id.mywallet_currencytopup).setOnClickListener(this);
-        findViewById(R.id.question).setOnClickListener(this);
+        findViewById(R.id.tv_about_currency).setOnClickListener(this);
 
         initViewPager();
     }
@@ -105,7 +105,7 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
             case R.id.goback:
                 finish();
                 break;
-            case R.id.question:
+            case R.id.tv_about_currency:
                 WebActivityJS.startWebActivityJS(this, Constant.WEB_WALLET, "我的钱包说明", null);
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "我的钱包-钱包说明");
                 break;

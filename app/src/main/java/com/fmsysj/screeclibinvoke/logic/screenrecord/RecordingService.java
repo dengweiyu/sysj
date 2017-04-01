@@ -874,7 +874,7 @@ public class RecordingService extends BaseService implements
         if (!AppUtil.isAppOnForeground(AppManager.getInstance().getContext())) {// 应用处于后台
 
             // 销毁所有资源（服务，调度器，下载器）
-            Utils_Data.destroyAllResouce();
+            //Utils_Data.destroyAllResouce();
 
             System.gc();
         }

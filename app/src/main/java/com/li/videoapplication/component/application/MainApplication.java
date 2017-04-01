@@ -1,8 +1,11 @@
 package com.li.videoapplication.component.application;
 
 import android.content.Context;
+import android.os.Debug;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
+import android.os.Process;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
@@ -44,7 +47,7 @@ public class MainApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        // Debug.startMethodTracing("app_start");
         //异常处理
         AppExceptionHandler.getInstance().init();
 
@@ -52,17 +55,20 @@ public class MainApplication extends BaseApplication {
         LogCat.setNotDebug(true);
         // 初始化主进程
         if (getApplicationInfo().packageName.equals(AppUtil.getCurrentProcessName(getApplicationContext()))) {
+            // 初始化融云
+            if (getApplicationInfo().packageName.equals(AppUtil.getCurrentProcessName(getApplicationContext())) ||
+                    "io.rong.push".equals(AppUtil.getCurrentProcessName(getApplicationContext()))) {
+                RongIM.init(MainApplication.this);
+            }
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    // 初始化融云
-                    if (getApplicationInfo().packageName.equals(AppUtil.getCurrentProcessName(getApplicationContext())) ||
-                            "io.rong.push".equals(AppUtil.getCurrentProcessName(getApplicationContext()))) {
-                        RongIM.init(MainApplication.this);
-                    }
+
                     RequestExecutor.start(new Runnable() {
                         @Override
                         public void run() {
+                            //降低优先级
+                            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
                             CacheManager.getInstance().initCache();
 
                             RecordingManager.getInstance().initialize(MainApplication.this);
@@ -89,12 +95,15 @@ public class MainApplication extends BaseApplication {
                         }
                     });
                 }
-            },1000);
-            //只能同步启动
-            x.Ext.init(MainApplication.this);
-            x.Ext.setDebug(DEBUG);
+            }, 4000);
         }
+        //只能同步启动
+        x.Ext.init(MainApplication.this);
+        x.Ext.setDebug(DEBUG);
     }
+    //     Debug.stopMethodTracing();
+
+
 
     @Override
     public void onLowMemory() {
@@ -110,5 +119,6 @@ public class MainApplication extends BaseApplication {
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
     }
+
 
 }

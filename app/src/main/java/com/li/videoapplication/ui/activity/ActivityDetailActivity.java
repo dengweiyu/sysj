@@ -178,6 +178,13 @@ public class ActivityDetailActivity extends TBaseAppCompatActivity implements IA
         } else {
             tabLayout.setupWithViewPager(mViewPager);
         }
+
+        //hide add icon,
+        if (event.getDisplay_mode() == 5){
+             fab.setVisibility(View.GONE);
+        }else {
+            fab.setVisibility(View.VISIBLE);
+        }
     }
 
     private void refreshShareBtn(int tab) {

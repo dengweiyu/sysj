@@ -50,11 +50,13 @@ public class HomeModel implements IHomeModel {
 
             @Override
             public void onCompleted() {
+
             }
 
             @Override
             public void onError(Throwable e) {
                 listener.onFailure(e);
+                listener.onLoadHomeFail();
             }
 
             @Override

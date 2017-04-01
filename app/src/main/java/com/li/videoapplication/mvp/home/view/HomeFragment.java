@@ -41,6 +41,7 @@ import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.ui.adapter.BannerAdapter;
 import com.li.videoapplication.ui.view.HomeTaskView;
+import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.ClickUtil;
 import com.li.videoapplication.utils.GDTUtil;
 import com.li.videoapplication.utils.HareWareUtil;
@@ -73,7 +74,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     @BindView(R.id.home_task)
     HomeTaskView taskView;
 
-    private int page;
+    private int page = 1;
     private int page_count;
 
     private IHomePresenter presenter;
@@ -165,13 +166,15 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         initRecyclerView();
 
         initAdapter();
-
-        loadCacheData();
-
+        if (AppUtil.isNetworkAvailale(getActivity())){
+            presenter.loadHomeData(page, true);
+        }else {
+            loadCacheData();
+        }
         addOnClickListener();
     }
 
-    private void loadCacheData() {
+    public void loadCacheData() {
         Log.d(tag, "------------ loadCacheData: ------------");
         page = 1;
         HomeDto homeData = PreferencesHepler.getInstance().getHomeData();
@@ -457,7 +460,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         Log.d(tag, "Home Data: " + data);
         if (data != null) {
             page_count = data.getPage_count();
-            if (page == 1) {
+            if (page < 2) {
                 Log.d(tag, "refreshHomeData: page = 1");
                 homeData.clear();
                 if (data.getBanner() != null && data.getBanner().size() > 0) {
@@ -507,22 +510,20 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         }
     }
 
-    private int refreshBannerTime = 0;
 
     /**
      * 刷新广告
      */
     private void refreshBanner(List<Banner> list) {
-        if (refreshBannerTime < 1) {
+
             bannerAdapter.setMaxValue(false);
             stopAutoFlowTimer();
             bannerFlow.setSideBuffer(list.size()); // 实际轮播图张数
             bannerData.clear();
             bannerData.addAll(list);
             bannerAdapter.notifyDataSetChanged();
+            bannerFlow.setSelection(0);
             startAutoFlowTimer();
-            ++refreshBannerTime;
-        }
     }
 
     //替换广告的猜你喜欢 List

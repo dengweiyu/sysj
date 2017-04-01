@@ -22,7 +22,11 @@ public class LoginService extends Service{
     public void onCreate() {
         super.onCreate();
         Log.i(TGA," ---- 登陆服务开启 ---- ");
-        Proxy.getConnectManager().init();
+        try {
+            Proxy.getConnectManager().init();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         startService(new Intent(this,MsgService.class));
     }
     @Nullable
@@ -33,10 +37,12 @@ public class LoginService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent != null && intent.getIntExtra(RELOGIN_KEY,-1) == RELOGIN){
-            Proxy.getConnectManager().updateLogin();
-        }else{
-            Proxy.getConnectManager().runConnectThread();
+        if(intent != null && intent.hasExtra(RELOGIN_KEY)){
+            if (intent.getIntExtra(RELOGIN_KEY, -1) == RELOGIN) {
+                Proxy.getConnectManager().updateLogin();
+            } else {
+                Proxy.getConnectManager().runConnectThread();
+            }
         }
         return Service.START_STICKY;
     }

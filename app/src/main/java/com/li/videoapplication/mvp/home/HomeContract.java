@@ -71,7 +71,6 @@ public class HomeContract {
         void setHomeView(IHomeView homeView);
 
         void loadHomeData(int page, boolean isLoad);
-
         void unfinishedTask(String member_id, boolean update);
 
         void changeGuess(String group_ids);
@@ -92,6 +91,8 @@ public class HomeContract {
      */
     public interface onloadHomeDataListener {
         void onLoadHomeSuccess(HomeDto data);
+
+        void onLoadHomeFail();
 
         void onLoadUnFinishTaskSuccess(UnfinishedTaskEntity data);
 

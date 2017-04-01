@@ -1,6 +1,7 @@
 package com.li.videoapplication.ui.dialog;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,23 +14,24 @@ import com.li.videoapplication.framework.BaseOverShootDialog;
 
 public class ConfirmDialog extends BaseOverShootDialog implements View.OnClickListener {
 
-    private String mContent;
-    public ConfirmDialog(Context context,String content) {
+    private TextView mContent;
+    private View.OnClickListener mListener;
+    public ConfirmDialog(Context context,String content,@NonNull View.OnClickListener listener) {
         super(context);
-        mContent = content;
+        init(content,listener);
     }
 
-    public ConfirmDialog(Context context, int theme,String content) {
+    public ConfirmDialog(Context context, int theme,String content,@NonNull View.OnClickListener listener) {
         super(context, theme);
-        mContent = content;
+        init(content,listener);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-
-        }
         cancel();
+        if (mListener != null){
+            mListener.onClick(view);
+        }
     }
 
     @Override
@@ -44,7 +46,14 @@ public class ConfirmDialog extends BaseOverShootDialog implements View.OnClickLi
         findViewById(R.id.tv_confirm_dialog_no).setOnClickListener(this);
         findViewById(R.id.tv_confirm_dialog_yes).setOnClickListener(this);
 
-        TextView content = (TextView) findViewById(R.id.tv_confirm_dialog_content);
-        content.setText(mContent);
+        mContent = (TextView) findViewById(R.id.tv_confirm_dialog_content);
+
+    }
+
+    private void init(String content,View.OnClickListener listener){
+        if (mContext != null){
+            mContent.setText(content);
+        }
+        mListener = listener;
     }
 }

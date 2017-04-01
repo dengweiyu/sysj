@@ -3,7 +3,11 @@ package com.li.videoapplication.data.local;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -283,5 +287,25 @@ public class FileOperateUtil {
         return flag;
     }
 
+
+    public static  void save2File(byte[] data,String path) throws Exception {
+        if (path == null){
+            return;
+        }
+        File file = new File(path);
+        if (!file.exists()){
+            file.createNewFile();
+        }
+        try {
+            OutputStream os = new FileOutputStream(file);
+            os.write(data);
+            os.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
 
 }

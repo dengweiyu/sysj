@@ -241,7 +241,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
                 public void run() {
                     EventManager.postShare2VideoShareEvent(shareChannel);
                 }
-            }, 200);
+            }, 0);
             finish();
         } else if (page == PAGE_MYSCREENSHOT) {// 本地图片
             params.setImagePath(imageUrl);
@@ -252,7 +252,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
                     public void run() {
                         startImageShareActivity();
                     }
-                }, 200);
+                }, 0);
                 finish();
             } else {
                 if (shareChannel.equals("QZone")) {

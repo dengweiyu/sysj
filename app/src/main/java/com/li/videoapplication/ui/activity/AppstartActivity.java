@@ -1,5 +1,9 @@
 package com.li.videoapplication.ui.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Debug;
+import android.os.Process;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -7,6 +11,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.component.application.MainApplication;
+import com.li.videoapplication.component.service.AppSdkInitIntentService;
 import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.network.RequestExecutor;
@@ -26,6 +32,8 @@ import com.li.videoapplication.component.service.AppStartService;
 import com.li.videoapplication.utils.StringUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import org.jivesoftware.smack.util.dns.minidns.MiniDnsResolver;
+
 import java.io.File;
 
 /**
@@ -34,6 +42,12 @@ import java.io.File;
 public class AppstartActivity extends TBaseActivity {
 
     private boolean firstSetup;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+      //  Debug.startMethodTracing("startTrace");
+    }
 
     /**
      * 跳转：主页
@@ -55,14 +69,12 @@ public class AppstartActivity extends TBaseActivity {
 
     @Override
     public void initView() {
+        setTheme(R.style.AppTheme_Light);
         super.initView();
+
         MainActivity mainActivity = AppManager.getInstance().getMainActivity();
         firstSetup = NormalPreferences.getInstance().getBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, true);
 
-        // 网络请求服务
-        RequestService.startRequestService();
-        // 启动服务
-        AppStartService.startAppStartService();
 
         if (mainActivity != null) {
             ActivityManeger.startMainActivityBottom(this);
@@ -73,22 +85,30 @@ public class AppstartActivity extends TBaseActivity {
                 NormalPreferences.getInstance().putBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, false);
             }
         }
+
+/*        // 初始化下载器
+        DownLoadManager.getInstance();
+        // 网络请求服务
+        RequestService.startRequestService();
+        // 启动服务
+        AppStartService.startAppStartService();*/
     }
 
     @Override
     public void loadData() {
         super.loadData();
-        // 初始化下载器
-        DownLoadManager.getInstance();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        RequestExecutor.execute(new Runnable() {
+
+
+       /* RequestExecutor.execute(new Runnable() {
             @Override
-            public void run() {
-                if (!firstSetup) {
+            public void run() {*/
+               if (!firstSetup) {
                     if (AppConstant.SHOW_DOWNLOAD_AD && haveLaunchAd()) { //正常渠道 && 有广告
                         UITask.post(new Runnable() {
                             @Override
@@ -105,11 +125,17 @@ public class AppstartActivity extends TBaseActivity {
                             public void run() {
                                 startMainActivity();
                             }
-                        }, 2000);
+                        }, 1500);
                     }
                 }
+      //  Debug.stopMethodTracing();
+        /*UITask.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startService(new Intent(AppstartActivity.this, AppSdkInitIntentService.class));
             }
-        });
+        },4000);*/
+
     }
 
     private boolean haveLaunchAd() {
@@ -144,4 +170,5 @@ public class AppstartActivity extends TBaseActivity {
             e.printStackTrace();
         }
     }
+
 }

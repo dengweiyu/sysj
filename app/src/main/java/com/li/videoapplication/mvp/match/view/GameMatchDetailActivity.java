@@ -233,10 +233,10 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
             LayoutParams params = header.getLayoutParams();
             WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
-            //设置广告图片宽高比=600*338
+            //改为750:350
             int srceenWidth = windowManager.getDefaultDisplay().getWidth();
             params.width = srceenWidth;
-            params.height = srceenWidth * 338 / 600;
+            params.height = srceenWidth * 7 / 15;
             header.setLayoutParams(params);
         } else {
             //加载广告图片

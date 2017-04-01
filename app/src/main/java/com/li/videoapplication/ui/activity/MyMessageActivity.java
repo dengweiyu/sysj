@@ -83,18 +83,18 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         //飞磨IM消息列表
-//        InformationView feiMoIMList = (InformationView) findViewById(R.id.feimo_im_list);
+     /*   InformationView feiMoIMList = (InformationView) findViewById(R.id.feimo_im_list);
         //初始化
-//        feiMoIMList.init();
+        feiMoIMList.init();
         //消息列表点击时重连（避免账号在异端登陆时挤掉线）
-//        feiMoIMList.setOnAdapterItemOnClickListener(new OnAdapterItemOnClickListener() {
-//            @Override
-//            public boolean onItemOnClick(InformationBean informationBean) {
-//                Member member = getUser();
-//                FeiMoIMHelper.Login(getMember_id(), member.getNickname(), member.getAvatar());
-//                return true;
-//            }
-//        });
+        feiMoIMList.setOnAdapterItemOnClickListener(new OnAdapterItemOnClickListener() {
+            @Override
+            public boolean onItemOnClick(InformationBean informationBean) {
+                Member member = getUser();
+                FeiMoIMHelper.Login(getMember_id(), member.getNickname(), member.getAvatar());
+                return true;
+            }
+        });*/
     }
 
     @Override

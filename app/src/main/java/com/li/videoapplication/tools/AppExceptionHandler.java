@@ -4,8 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Looper;
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.local.FileOperateUtil;
+import com.li.videoapplication.data.local.StorageUtil;
+
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.ui.activity.MainActivity;
+
+import java.io.File;
 
 /**
  * Created by liuwei on 2017/3/28 0028.
@@ -44,23 +49,23 @@ public class AppExceptionHandler implements Thread.UncaughtExceptionHandler {
      * @return
      *
      */
-    private boolean handleException( Throwable throwable){
+    private boolean handleException(final Throwable throwable){
         mCrashTime = System.currentTimeMillis();
         //kill all activity
         AppManager.getInstance().removeAllActivity();
-        //kill current process
-        android.os.Process.killProcess(android.os.Process.myPid());
         if (throwable != null){
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     Looper.prepare();
                     ToastHelper.l(R.string.app_exception_tip);
+                    saveLog(throwable.getMessage());
                     //can record exception message in here
                     if (isRestartApp()){
                         restartApp();
                     }
-
+                    //kill current process
+                    android.os.Process.killProcess(android.os.Process.myPid());
                     Looper.loop();
                 }
             }).start();
@@ -87,5 +92,13 @@ public class AppExceptionHandler implements Thread.UncaughtExceptionHandler {
         Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+    }
+
+    public void saveLog(String message){
+        try {
+            FileOperateUtil.save2File(message.getBytes(),StorageUtil.createLogName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

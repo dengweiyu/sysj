@@ -21,6 +21,7 @@ import com.li.videoapplication.mvp.match.view.GameMatchDetailActivity;
 import com.li.videoapplication.ui.activity.SignUpActivity;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.dialog.ClassifiedGameDialog;
+import com.li.videoapplication.ui.dialog.ConfirmDialog;
 import com.li.videoapplication.ui.dialog.DeleteApkDialog;
 import com.li.videoapplication.ui.dialog.DiscoverTipDialog;
 import com.li.videoapplication.ui.dialog.EditNameDialog;
@@ -436,6 +437,14 @@ public class DialogManager {
      */
     public static void showOnGoingUploadImageTipDialog(Context context/*,int btnLeft,int btnTop*/) {
         Dialog dialog = new OnGoingUploadImageTipDialog(context);
+        dialog.show();
+    }
+
+    /**
+     * 确认、取消对话框
+     */
+    public static void showConfirmDialog(Context context, String content,View.OnClickListener listener){
+        Dialog dialog = new ConfirmDialog(context,content,listener);
         dialog.show();
     }
 }

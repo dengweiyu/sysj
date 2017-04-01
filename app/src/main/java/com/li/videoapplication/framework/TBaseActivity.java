@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.AnimationHelper;
 import com.li.videoapplication.tools.LayoutParamsHelper;
@@ -115,7 +116,13 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
 
     public void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
+        UITask.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                MobclickAgent.onResume(TBaseActivity.this);
+            }
+        },500);
+
     }
 
     public void onPause() {

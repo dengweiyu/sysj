@@ -71,7 +71,7 @@ public class AppStartService extends BaseIntentService{
             }
         });
         homePresenter = HomePresenter.getInstance();
-        indexIndex();
+    //    indexIndex();
         userProfilePersonalInformation();
         indexChangeGuess();
 //        advertisementAdLocation204();

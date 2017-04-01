@@ -266,7 +266,6 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
 //                }
 //            }
 //        });
-
         // 分享监听
         holder.share.setOnClickListener(new OnClickListener() {
 
@@ -334,6 +333,11 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                     ToastHelper.s("请先登录");
                 }
 
+                if (VideoShareTask208.isUploading()) {
+                    ToastHelper.s("当前有视频在上传");
+                    return;
+                }
+
                 if (record.getVideo_station().equals(VideoCaptureEntity.VIDEO_STATION_UPLOADING) ||
                         record.getVideo_station().equals(VideoCaptureEntity.VIDEO_STATION_PAUSE)) {
                     ToastHelper.s("该视频正在上传");
@@ -354,6 +358,11 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
 
             @Override
             public void onClick(View v) {
+                if (VideoShareTask208.isUploading()) {
+                    ToastHelper.s("当前有视频在上传");
+                    return;
+                }
+
                 // 复制文件对话框
                 showCopyDialog(record);
                 UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "本地视频-复制");
@@ -638,6 +647,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                         Log.d(tag, "refreshProgressState: 11");
                         // 暂停上传视频服务
                         DataManager.UPLOAD.pauseVideo210();
+
                     } else {
                         Log.d(tag, "refreshProgressState: 12");
                     }

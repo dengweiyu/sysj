@@ -305,7 +305,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.tb_back:
                 finish();
@@ -331,19 +331,33 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                     DialogManager.showLogInDialog(this);
                     return;
                 }
+
                 if (game.getTick() == 1) {
-                    game.setAttention_num(Integer.valueOf(game.getAttention_num()) - 1 + "");
-                    game.setTick(0);
+                    DialogManager.showConfirmDialog(this,"取消关注该游戏圈?",new View.OnClickListener(){
+                        @Override
+                        public void onClick(View view) {
+                            switch (view.getId()){
+                                case R.id.tv_confirm_dialog_yes:
+                                    game.setAttention_num(Integer.valueOf(game.getAttention_num()) - 1 + "");
+                                    game.setTick(0);
+                                    // 关注圈子201
+                                    DataManager.groupAttentionGroup(game.getGroup_id(), getMember_id());
+                                    refreshHeaderView(game);
+                                    UmengAnalyticsHelper.onEvent(GroupDetailActivity.this, UmengAnalyticsHelper.GAME, "游戏圈关注");
+                                    break;
+                            }
+                        }
+                    });
                 } else {
                     game.setAttention_num(Integer.valueOf(game.getAttention_num()) + 1 + "");
                     game.setTick(1);
-
+                    // 关注圈子201
+                    DataManager.groupAttentionGroup(game.getGroup_id(), getMember_id());
+                    refreshHeaderView(game);
+                    UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈关注");
                 }
 
-                // 关注圈子201
-                DataManager.groupAttentionGroup(game.getGroup_id(), getMember_id());
-                refreshHeaderView(game);
-                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈关注");
+
                 break;
 
             case R.id.groupdetail_chatview://群聊
@@ -364,7 +378,11 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                     }
                     if (!Proxy.getConnectManager().isConnect()) {
                         Member user = getUser();
-                        FeiMoIMHelper.Login(user.getMember_id(), user.getNickname(), user.getAvatar());
+                        String memberId = user.getMember_id();
+                        if(null == memberId  || memberId.equals("")){
+                            memberId = getMember_id();
+                        }
+                        FeiMoIMHelper.Login(memberId, user.getNickname(), user.getAvatar());
                     }
                     FeiMoIMHelper.createMuccRoom(this, game.getGame_id(), game.getGroup_name(), game.getFlag());
                 }else {

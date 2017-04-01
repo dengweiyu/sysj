@@ -143,4 +143,14 @@ public class GlideHelper {
                 .error(R.drawable.default_video_211)
                 .into(view);
     }
+
+    /**
+     *显示drawable目录下图，无渐变效果
+     */
+    public static void displayImage(Context context,int resId,ImageView view){
+        Glide.with(context)
+                .load(resId)
+                .dontAnimate()
+                .into(view);
+    }
 }

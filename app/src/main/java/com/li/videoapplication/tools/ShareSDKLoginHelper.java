@@ -31,6 +31,10 @@ public class ShareSDKLoginHelper implements PlatformActionListener, Callback {
 
     protected final String action = simpleName;
 
+    private int mTime = 0;              //尝试次数     QQ授权登录第一次某些机型会失败  目前失败后再重试一次
+
+    private Platform mPlatform;
+
     private Context context;
 
     public void initSDK(Context context) {
@@ -77,7 +81,11 @@ public class ShareSDKLoginHelper implements PlatformActionListener, Callback {
     private void authorize(Platform platform) {
         if (platform == null) {
             return;
+        }else if (mPlatform == null){
+            mPlatform = platform;
         }
+
+        mTime++;
         // 判断指定平台是否已经完成授权
         if (platform.isAuthValid()) {
             String userId = platform.getDb().getUserId();
@@ -120,11 +128,15 @@ public class ShareSDKLoginHelper implements PlatformActionListener, Callback {
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
             case MSG_USERID_FOUND:
-                ToastHelper.l("用户信息已存在，正在跳转登录操作…");
+                if (mTime < 2){
+                    ToastHelper.l("用户信息已存在，正在跳转登录操作…");
+                }
                 break;
 
             case MSG_LOGIN:
-                ToastHelper.l("正在登录中…");
+                if (mTime < 2){
+                    ToastHelper.l("正在登录中…");
+                }
                 break;
 
             case MSG_AUTH_CANCEL:
@@ -132,7 +144,12 @@ public class ShareSDKLoginHelper implements PlatformActionListener, Callback {
                 break;
 
             case MSG_AUTH_ERROR:
-                ToastHelper.s("授权操作遇到错误");
+               //try again
+                if (mTime < 2){
+                    authorize(mPlatform);
+                }else {
+                    ToastHelper.s("授权操作遇到错误");
+                }
                 break;
 
             case MSG_AUTH_COMPLETE:

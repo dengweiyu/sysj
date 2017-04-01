@@ -3,6 +3,8 @@ package com.li.videoapplication.data.upload;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -45,13 +47,16 @@ import com.li.videoapplication.utils.StringUtil;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
+import id.zelory.compressor.Compressor;
 import io.rong.eventbus.EventBus;
 
 /**
@@ -226,6 +231,15 @@ public class VideoShareTask208 {
             if (callback != null) {
                 callback.updateProgress(path, result, status, msg, per);
             }
+
+            if (message.what == 11){        //封面上传成功 开始传输视频
+                // 七牛视频上传
+                qiniuRec(token, key, path);
+
+                // 字幕
+                subtitle();
+            }
+
             super.handleMessage(message);
         }
     };
@@ -478,17 +492,14 @@ public class VideoShareTask208 {
                 status = Contants.STATUS_UPLOADING;
                 h.sendEmptyMessage(0);
 
-                // 七牛视频上传
-                qiniuRec(token, key, path);
-
                 // 七牛封面上传
                 qiniuCover(covertoken, flag);
 
-                // 分享
-//                share();
+                // 七牛视频上传
+                //qiniuRec(token, key, path);
 
                 // 字幕
-                subtitle();
+               // subtitle();
             } else {
                 msg = "获取视频上传凭证失败";
                 status = Contants.STATUS_FAILURE;
@@ -591,62 +602,13 @@ public class VideoShareTask208 {
         }
     }
 
+
     /**
      * 七牛封面上传
      */
     private void qiniuCover(final String token, final String key) {
-        File coverFile = SYSJStorageUtil.createCoverPath(this.entity.getVideo_path());
-        if (coverFile == null ||
-                !coverFile.exists()) {
-            try {
-                Bitmap bitmap = VideoCover.generateBitmap(this.entity.getVideo_path());
-                coverFile = SYSJStorageUtil.createCoverPath(this.entity.getVideo_path());
-                BitmapUtil.saveBitmap(bitmap, coverFile.getPath());
-                VideoCaptureManager.updateCoverByPath(path, coverFile.getPath());
-                Log.d(tag, "qiniuCover: 1");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (coverFile == null) {
-            msg = "本地视频封面不存在";
-            h.sendEmptyMessage(0);
-            Log.d(tag, "qiniuCover: 2");
-        }
-
-        File tmpFile = SYSJStorageUtil.createCoverPath(coverFile.getPath());
-        Bitmap srcBitmap = null;
-        Bitmap targetBitmap = null;
-        try {
-            srcBitmap = BitmapUtil.readLocalBitmap(coverFile.getPath());
-            targetBitmap = BitmapHelper.getCover(srcBitmap);
-            Log.d(tag, "qiniuCover: 3");
-            if (targetBitmap != null && tmpFile != null) {
-                BitmapUtil.saveBitmap(targetBitmap, tmpFile.getPath());
-                Log.d(tag, "qiniuCover: 4");
-            }
-            Log.d(tag, "qiniuCover: width=" + srcBitmap.getWidth());
-            Log.d(tag, "qiniuCover: height=" + srcBitmap.getHeight());
-            Log.d(tag, "qiniuCover: byteCount=" + srcBitmap.getByteCount());
-            Log.d(tag, "qiniuCover: width=" + targetBitmap.getWidth());
-            Log.d(tag, "qiniuCover: height=" + targetBitmap.getHeight());
-            Log.d(tag, "qiniuCover: byteCount=" + targetBitmap.getByteCount());
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            BitmapUtil.recycleBitmap(srcBitmap);
-            BitmapUtil.recycleBitmap(targetBitmap);
-        }
-
-        tmpFile = SYSJStorageUtil.createCoverPath(coverFile.getPath());
-        if (tmpFile == null || !tmpFile.exists()) {
-            tmpFile = coverFile;
-            Log.d(tag, "qiniuCover: 5");
-        }
-
-        Log.d(tag, "qiniuCover: // ------------------------------------------------------");
-        Log.d(tag, "qiniuCover: token=" + token);
-        Log.d(tag, "qiniuCover: key=" + key);
+        Bitmap thumbnail = null;
+        Log.e("time_start",System.currentTimeMillis()+"");
         UploadManager uploadManager = null;
         try {
             uploadManager = new UploadManager(new FileRecorder(SYSJStorageUtil.getSysjUploadimage().getPath()),
@@ -661,31 +623,112 @@ public class VideoShareTask208 {
             ex.printStackTrace();
         }
 
-        if (uploadManager != null) {
-            uploadManager.put(tmpFile, key, token, new UpCompletionHandler() {
+        File coverFile = SYSJStorageUtil.createCoverPath(this.entity.getVideo_path());
+        if (coverFile != null ) {
+            try {
+                thumbnail = VideoCover.generateBitmap(this.entity.getVideo_path());
+                coverFile = SYSJStorageUtil.createCoverPath(this.entity.getVideo_path());
+                thumbnail = imageCompressor(thumbnail);
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                thumbnail.compress(Bitmap.CompressFormat.JPEG,80,os);
+                if (uploadManager != null) {
+                    uploadManager.put(os.toByteArray(), key, token, new UpCompletionHandler() {
 
-                @Override
-                public void complete(String key, ResponseInfo respInfo, JSONObject jsonData) {
-                    Log.d(tag, "respInfo=" + respInfo);
-                    if (respInfo.isOK()) {
-                        msg = "视频封面上传成功";
-                        h.sendEmptyMessage(0);
-                        Log.d(tag, "qiniuCover: 6");
+                        @Override
+                        public void complete(String key, ResponseInfo respInfo, JSONObject jsonData) {
+                            Log.d(tag, "respInfo=" + respInfo);
+                            if (respInfo.isOK()) {
+                                //分享
+                                share();
 
-                        // 分享
-                        share();
-                    } else {
-                        msg = "视频封面上传失败";
-                        h.sendEmptyMessage(0);
-                        Log.d(tag, "qiniuCover: 7");
-                    }
+                                msg = "视频封面上传成功";
+
+                                h.sendEmptyMessageDelayed(11,2500);     //2S后开始传输视频，
+                                Log.d(tag, "qiniuCover: 6");
+
+                                Log.e("time_end",System.currentTimeMillis()+"");
+
+                            } else {
+                                msg = "视频封面上传失败";
+                                h.sendEmptyMessage(0);
+                                Log.d(tag, "qiniuCover: 7");
+                            }
+                        }
+                    }, null);
+                } else {
+                    msg = "视频封面上传失败";
+                    h.sendEmptyMessage(0);
+                    Log.d(tag, "qiniuCover: 8");
                 }
-            }, null);
-        } else {
-            msg = "视频封面上传失败";
-            h.sendEmptyMessage(0);
-            Log.d(tag, "qiniuCover: 8");
+
+                BitmapUtil.saveBitmap(thumbnail, coverFile.getPath());
+                Log.e("size",coverFile.length()+"");
+
+              /*  Log.e("size",coverFile.length()+"");
+                int maxHeight = 640;
+                int maxWidth = 320;
+                if (bitmap.getWidth() >  bitmap.getHeight()){   //横屏
+                    maxHeight = 320;
+                    maxWidth = 640;
+                }
+                coverFile = new Compressor.Builder(AppManager.getInstance().getApplication())
+                        .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                        .setMaxHeight(maxHeight)
+                        .setMaxWidth(maxWidth)
+                        .setQuality(50)
+                        .build()
+                        .compressToFile(coverFile);*/
+
+
+
+                VideoCaptureManager.updateCoverByPath(path, coverFile.getPath());
+                Log.d(tag, "qiniuCover: 1");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        if (thumbnail == null) {
+            msg = "本地视频封面不存在";
+            h.sendEmptyMessage(0);
+            Log.d(tag, "qiniuCover: 2");
+            return;
+        }
+
+        File tmpFile = SYSJStorageUtil.createCoverPath(coverFile.getPath());
+      //  Bitmap srcBitmap = null;
+        Bitmap targetBitmap = null;
+        try {
+        //    srcBitmap = BitmapUtil.readLocalBitmap(coverFile.getPath());
+            targetBitmap = BitmapHelper.getCover(thumbnail);
+            Log.d(tag, "qiniuCover: 3");
+            if (targetBitmap != null && tmpFile != null) {
+                BitmapUtil.saveBitmap(targetBitmap, tmpFile.getPath());
+                Log.d(tag, "qiniuCover: 4");
+            }
+            Log.d(tag, "qiniuCover: width=" + thumbnail.getWidth());
+            Log.d(tag, "qiniuCover: height=" + thumbnail.getHeight());
+            Log.d(tag, "qiniuCover: byteCount=" + thumbnail.getByteCount());
+            Log.d(tag, "qiniuCover: width=" + targetBitmap.getWidth());
+            Log.d(tag, "qiniuCover: height=" + targetBitmap.getHeight());
+            Log.d(tag, "qiniuCover: byteCount=" + targetBitmap.getByteCount());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            BitmapUtil.recycleBitmap(thumbnail);
+            BitmapUtil.recycleBitmap(targetBitmap);
+        }
+
+        tmpFile = SYSJStorageUtil.createCoverPath(coverFile.getPath());
+        if (tmpFile == null || !tmpFile.exists()) {
+            tmpFile = coverFile;
+            Log.d(tag, "qiniuCover: 5");
+        }
+
+        Log.d(tag, "qiniuCover: // ------------------------------------------------------");
+        Log.d(tag, "qiniuCover: token=" + token);
+        Log.d(tag, "qiniuCover: key=" + key);
+
+
     }
 
     /**
@@ -947,5 +990,22 @@ public class VideoShareTask208 {
             msg = "上传的文件无效";
             return false;
         }
+    }
+
+
+    private Bitmap imageCompressor(Bitmap bitmap) {
+        double targetwidth = Math.sqrt(64.00 * 1000);
+        if (bitmap.getWidth() > targetwidth || bitmap.getHeight() > targetwidth) {
+            // 创建操作图片用的matrix对象
+            Matrix matrix = new Matrix();
+            // 计算宽高缩放率
+            double x = Math.max(targetwidth / bitmap.getWidth(), targetwidth
+                    / bitmap.getHeight());
+            // 缩放图片动作
+            matrix.postScale((float) x, (float) x);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                    bitmap.getHeight(), matrix, true);
+        }
+        return bitmap;
     }
 }

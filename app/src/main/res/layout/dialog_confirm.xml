@@ -4,12 +4,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="50dp">
+    android:layout_margin="40dp">
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="2dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,8 +19,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="取消关注该游戏圈?"
+                android:textColor="@color/tip_bg"
+                android:background="@color/white"
                 android:gravity="center"
-                android:padding="15dp"/>
+                android:textSize="@dimen/activity_title_size_16sp"
+                android:padding="20dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activity_horizontal_margin_0.5dp"
+                android:background="@color/keyword_text_gray"></View>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,17 +37,25 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/confirm_dialog_yes"
+                    android:textSize="@dimen/activity_title_size_14sp"
+                    android:background="@drawable/button_white"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:padding="15dp"/>
+                    android:padding="10dp"/>
+                <View
+                    android:layout_width="@dimen/activity_horizontal_margin_0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/keyword_text_gray"></View>
                 <TextView
                     android:id="@+id/tv_confirm_dialog_no"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/confirm_dialog_no"
+                    android:background="@drawable/button_white"
+                    android:textSize="@dimen/activity_title_size_14sp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:padding="15dp"/>
+                    android:padding="10dp"/>
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

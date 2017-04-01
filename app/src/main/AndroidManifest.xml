@@ -460,6 +460,9 @@
         <!--下载服务-->
         <service android:name="com.li.videoapplication.component.service.DownloadService" />
 
+        <!--sdk 初始化服务-->
+        <service android:name=".component.service.AppSdkInitIntentService"/>
+
         <!-- ################################# 录屏部分   ######################### -->
 
         <activity
