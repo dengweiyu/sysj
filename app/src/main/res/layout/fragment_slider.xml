@@ -191,11 +191,11 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/slider_mymatch"
+        android:id="@+id/slider_myvideo"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginTop="22dp"
         android:background="@drawable/slider_btn"
+        android:layout_marginTop="22dp"
         android:paddingLeft="28dp"
         android:paddingRight="25dp">
 
@@ -205,7 +205,8 @@
             android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/slider_mymatch" />
+            android:src="@drawable/slider_myvideo"
+            tools:ignore="DuplicateIds" />
 
         <TextView
             android:id="@+id/mid"
@@ -214,7 +215,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@+id/left"
-            android:text="我的赛事"
+            android:text="@string/slider_myvideo"
             android:textColor="#ffffff"
             android:textSize="14sp" />
 
@@ -352,10 +353,13 @@
             android:src="@drawable/slider_go" />
     </RelativeLayout>
 
+
+
     <RelativeLayout
-        android:id="@+id/slider_myvideo"
+        android:id="@+id/slider_mymatch"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+
         android:background="@drawable/slider_btn"
         android:paddingLeft="28dp"
         android:paddingRight="25dp">
@@ -366,8 +370,7 @@
             android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/slider_myvideo"
-            tools:ignore="DuplicateIds" />
+            android:src="@drawable/slider_mymatch" />
 
         <TextView
             android:id="@+id/mid"
@@ -376,7 +379,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@+id/left"
-            android:text="@string/slider_myvideo"
+            android:text="我的赛事"
             android:textColor="#ffffff"
             android:textSize="14sp" />
 

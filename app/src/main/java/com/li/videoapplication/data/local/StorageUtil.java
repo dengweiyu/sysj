@@ -100,7 +100,7 @@ public class StorageUtil {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmsss");
         String fileName = format.format(new Date());
         Log.d(TAG, "fileName: " + fileName);
-        return getInner()+"/sysj/tmp/"+fileName;
+        return getInner()+"/sysj/log/"+fileName+".txt";
     }
 
     /**

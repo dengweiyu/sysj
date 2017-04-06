@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
 import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
@@ -33,7 +34,7 @@ import io.rong.imkit.RongIM;
 /**
  * 应用:主应用程序
  */
-public class MainApplication extends BaseApplication {
+public class MainApplication extends MultiDexApplication {
 
     private static final boolean DEBUG = false;
     private static final String FEEDBACK_KEY = "23590443";

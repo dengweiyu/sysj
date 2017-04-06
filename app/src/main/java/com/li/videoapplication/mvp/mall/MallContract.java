@@ -1,7 +1,9 @@
 package com.li.videoapplication.mvp.mall;
 
 import com.li.videoapplication.data.model.entity.Currency;
+import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.entity.TopUp;
+import com.li.videoapplication.data.model.response.PaymentEntity;
 import com.li.videoapplication.data.model.response.TopUpOptionEntity;
 import com.li.videoapplication.mvp.OnLoadDataListener;
 
@@ -33,10 +35,12 @@ public class MallContract {
         void getRechargeRule(final OnLoadDataListener<TopUpOptionEntity> listener);
 
         //支付
-        void payment(String member_id, String currency_num, int pay_type, int ingress, final OnLoadDataListener<String> listener);
+        void payment(String member_id, String currency_num, int pay_type, int ingress, final OnLoadDataListener<PaymentEntity> listener);
 
         //充值记录
         void getTopUpRecordList(String member_id, final OnLoadDataListener<List<TopUp>> listener);
+        //获取支付分类选择
+        void getPaymentList(String  target,final OnLoadDataListener<PaymentList> listener);
     }
 
     /**
@@ -67,8 +71,6 @@ public class MallContract {
     public interface ITopUpView {
         //回调：商城兑换详情
         void refreshTopUpOptionData(TopUpOptionEntity data);
-        //回调：获取支付订单信息
-        void refreshOrderInfoData(String orderInfo);
     }
 
     /**
@@ -77,6 +79,17 @@ public class MallContract {
     public interface ITopUpRecordView {
         //回调：商城兑换详情
         void refreshTopUpRecordData(List<TopUp> data);
+    }
+
+    /**
+     * View层接口：支付类型列表
+     */
+    public interface IPaymentListView{
+
+        void refreshPaymentList(PaymentList list);
+
+        //回调：获取支付订单信息
+        void refreshOrderInfoData(PaymentEntity entity);
     }
 
     /**
@@ -103,5 +116,9 @@ public class MallContract {
         void payment(String member_id, String currency_num, int pay_type, int ingress);
 
         void getTopUpRecordList(String member_id);
+
+        void getPaymentList(String target);
+
+        void setPaymentLisView(IPaymentListView paymentLisView);
     }
 }

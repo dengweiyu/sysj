@@ -24,6 +24,7 @@ import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseIntentService;
+import com.li.videoapplication.tools.JSONHelper;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
@@ -364,6 +365,8 @@ public class AppStartService extends BaseIntentService{
         FileDownloaderManager.deleteByFileTypeFeiMo();
         // 查找全部
         List<FileDownloaderEntity> list = FileDownloaderManager.findAll();
+
+        Log.e("entity size:", JSONHelper.to(entity)+"");
         if (entity != null && entity.isResult() &&
                 entity.getData() != null && entity.getData().size() > 0) {
             List<Download> netDownloads = entity.getData();

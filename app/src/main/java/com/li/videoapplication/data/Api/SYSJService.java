@@ -3,6 +3,7 @@ package com.li.videoapplication.data.Api;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.Match;
+import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.entity.TopUp;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
@@ -13,6 +14,7 @@ import com.li.videoapplication.data.model.response.MatchRewardBillboardEntity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
 import com.li.videoapplication.data.model.response.MyMatchListEntity;
 import com.li.videoapplication.data.model.response.MyPackageEntity;
+import com.li.videoapplication.data.model.response.PaymentEntity;
 import com.li.videoapplication.data.model.response.PhotoCollectionEntity;
 import com.li.videoapplication.data.model.response.PhotoFlowerEntity;
 import com.li.videoapplication.data.model.response.PlayerRankingCurrencyEntity;
@@ -233,12 +235,16 @@ public interface SYSJService {
     @GET("/Sysj217/Recharge/getRechargeRule")
     Observable<TopUpOptionEntity> getRechargeRule();
 
-    //支付
+    //支付 2.1.8 之前的版本接口 /Sysj217/Recharge/payment
     @FormUrlEncoded
-    @POST("/Sysj217/Recharge/payment")
-    Observable<BaseHttpResult<String>> payment(@FieldMap Map<String, Object> options);
+    @POST("/Sysj218/Recharge/payment")
+    Observable<PaymentEntity> payment(@FieldMap Map<String, Object> options);
 
     //充值记录
     @GET("/Sysj217/Recharge/getOrderList")
     Observable<BaseHttpResult<List<TopUp>>> getTopUpRecordList(@QueryMap Map<String, Object> options);
+
+    //充值记录
+    @GET("/Sysj217/Recharge/payRechargeWay")
+    Observable<PaymentList> getPaymentList(@Query("target") String target);
 }

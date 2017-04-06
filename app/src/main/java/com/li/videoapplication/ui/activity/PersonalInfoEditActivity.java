@@ -222,6 +222,12 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
                     ToastHelper.s("昵称不能为空");
                     return;
                 }
+
+                if(getEditTextContent().indexOf("小小舞") >= 0){
+                    ToastHelper.s("该昵称官方已经采用，请更换哦");
+                    return;
+                }
+
                 String content = getEditTextContent();
                 switch (type) {
                     case NAME:

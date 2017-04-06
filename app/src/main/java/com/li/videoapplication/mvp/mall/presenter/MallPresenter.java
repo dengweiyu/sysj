@@ -1,7 +1,11 @@
 package com.li.videoapplication.mvp.mall.presenter;
 
+import android.util.Log;
+
 import com.li.videoapplication.data.model.entity.Currency;
+import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.entity.TopUp;
+import com.li.videoapplication.data.model.response.PaymentEntity;
 import com.li.videoapplication.data.model.response.TopUpOptionEntity;
 import com.li.videoapplication.mvp.OnLoadDataListener;
 import com.li.videoapplication.mvp.mall.MallContract;
@@ -26,7 +30,7 @@ public class MallPresenter implements IMallPresenter {
     private IExchangeRecordDetailView exchangeRecordDetailView;
     private ITopUpView topUpView;
     private ITopUpRecordView topUpRecordView;
-
+    private MallContract.IPaymentListView paymentListView;
     public MallPresenter() {
         mallModel = MallModel.getInstance();
     }
@@ -50,6 +54,12 @@ public class MallPresenter implements IMallPresenter {
     @Override
     public void setTopUpRecordView(ITopUpRecordView topUpRecordView) {
         this.topUpRecordView = topUpRecordView;
+    }
+
+
+    @Override
+    public void setPaymentLisView(MallContract.IPaymentListView paymentLisView) {
+        this.paymentListView = paymentLisView;
     }
 
     @Override
@@ -129,15 +139,15 @@ public class MallPresenter implements IMallPresenter {
 
     @Override
     public void payment(String member_id, String currency_num, int pay_type, int ingress) {
-        mallModel.payment(member_id, currency_num,pay_type,ingress, new OnLoadDataListener<String>() {
+        mallModel.payment(member_id, currency_num,pay_type,ingress, new OnLoadDataListener<PaymentEntity>() {
             @Override
-            public void onSuccess(String data) {
-                topUpView.refreshOrderInfoData(data);
+            public void onSuccess(PaymentEntity data) {
+                paymentListView.refreshOrderInfoData(data);
             }
 
             @Override
             public void onFailure(Throwable e) {
-
+                Log.e("payment",e.getMessage());
             }
         });
     }
@@ -153,6 +163,20 @@ public class MallPresenter implements IMallPresenter {
             @Override
             public void onFailure(Throwable e) {
 
+            }
+        });
+    }
+
+    @Override
+    public void getPaymentList(String target) {
+        mallModel.getPaymentList(target, new OnLoadDataListener<PaymentList>() {
+            @Override
+            public void onSuccess(PaymentList data) {
+                   paymentListView.refreshPaymentList(data);
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
             }
         });
     }

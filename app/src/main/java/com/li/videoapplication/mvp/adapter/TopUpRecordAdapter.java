@@ -39,4 +39,6 @@ public class TopUpRecordAdapter extends BaseQuickAdapter<TopUp, BaseViewHolder> 
                 + "飞磨豆 (" + item.getPrice() + "元)";
         holder.setText(R.id.topuprecord_cost, Html.fromHtml(cost));
     }
+
+
 }

@@ -8,14 +8,24 @@
 
 package com.li.videoapplication.wxapi;
 
+
 import android.content.Intent;
 import android.widget.Toast;
+
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import cn.sharesdk.wechat.utils.WXAppExtendObject;
 import cn.sharesdk.wechat.utils.WXMediaMessage;
 import cn.sharesdk.wechat.utils.WechatHandlerActivity;
 
 /** 微信客户端回调activity示例 */
-public class WXEntryActivity extends WechatHandlerActivity {
+public class WXEntryActivity extends WechatHandlerActivity implements IWXAPIEventHandler {
 
 	/**
 	 * 处理微信发出的向第三方应用请求app message
@@ -47,4 +57,37 @@ public class WXEntryActivity extends WechatHandlerActivity {
 		}
 	}
 
+	//微信发消息到第三方会回调
+    @Override
+    public void onReq(BaseReq req) {
+        switch (req.getType()) {
+            case ConstantsAPI.COMMAND_GETMESSAGE_FROM_WX:
+
+                break;
+            case ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX:
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    //第三方发消息到微信会回调
+    @Override
+    public void onResp(BaseResp baseResp) {
+        try {
+            //由于使用多Module的方式 所以使用反射调用
+            Class paymentActivity = Class.forName("com.li.videoapplication.payment.WechatPayment");
+            Method handler = paymentActivity.getMethod("onResponse");
+            handler.invoke(baseResp);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }catch (NoSuchMethodException e){
+            e.printStackTrace();
+        }catch (IllegalAccessException e){
+            e.printStackTrace();
+        }catch (InvocationTargetException e){
+            e.printStackTrace();
+        }
+    }
 }

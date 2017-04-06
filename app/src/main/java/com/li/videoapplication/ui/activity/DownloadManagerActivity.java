@@ -96,7 +96,6 @@ public class DownloadManagerActivity extends TBaseAppCompatActivity implements V
         adapter2nd = new DownloadManagerAdapter(data2nd);
         recyclerView2nd.setAdapter(adapter2nd);
 
-        ToastHelper.l(data1st.size()+"  "+data2nd.size());
     }
 
     @Override

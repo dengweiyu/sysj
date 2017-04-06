@@ -1,8 +1,12 @@
 package com.li.videoapplication.mvp.mall.model;
 
+import android.util.Log;
+
 import com.li.videoapplication.data.HttpManager;
 import com.li.videoapplication.data.model.entity.Currency;
+import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.entity.TopUp;
+import com.li.videoapplication.data.model.response.PaymentEntity;
 import com.li.videoapplication.data.model.response.TopUpOptionEntity;
 import com.li.videoapplication.mvp.OnLoadDataListener;
 import com.li.videoapplication.mvp.mall.MallContract.IMallModel;
@@ -130,8 +134,8 @@ public class MallModel implements IMallModel {
     }
 
     @Override
-    public void payment(String member_id, String currency_num, int pay_type, int ingress, final OnLoadDataListener<String> listener) {
-        HttpManager.getInstance().payment(member_id, currency_num, pay_type, ingress, new Observer<String>() {
+    public void payment(String member_id, String currency_num, int pay_type, int ingress, final OnLoadDataListener<PaymentEntity> listener) {
+        HttpManager.getInstance().payment(member_id, currency_num, pay_type, ingress, new Observer<PaymentEntity>() {
 
             @Override
             public void onCompleted() {
@@ -143,7 +147,7 @@ public class MallModel implements IMallModel {
             }
 
             @Override
-            public void onNext(String entity) {
+            public void onNext(PaymentEntity entity) {
                 if (entity != null)
                     listener.onSuccess(entity);
             }
@@ -167,6 +171,29 @@ public class MallModel implements IMallModel {
             public void onNext(List<TopUp> entity) {
                 if (entity != null)
                     listener.onSuccess(entity);
+            }
+        });
+    }
+
+    @Override
+    public void getPaymentList(String target,final OnLoadDataListener<PaymentList> listener) {
+        HttpManager.getInstance().getPaymentList(target, new Observer<PaymentList>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                    listener.onFailure(e);
+                Log.e("getPaymentList error",e.toString());
+            }
+
+            @Override
+            public void onNext(PaymentList paymentList) {
+                if (paymentList != null){
+                    listener.onSuccess(paymentList);
+                }
             }
         });
     }

@@ -51,7 +51,6 @@ android {
             minifyEnabled false
             // 混淆文件的位置
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
             // 输出apk名称为VideoApplication V1.1.7 build 20151105.apk
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
@@ -63,7 +62,6 @@ android {
                 }
             }
         }
-
         debug {
             signingConfig signingConfigs.feimo
         }
@@ -109,7 +107,9 @@ repositories {
 dependencies {
 
     // 内存泄漏
+
     // debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
+
     // releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3'
     compile 'com.android.support:multidex:1.0.0'
     // 数据库
@@ -189,4 +189,7 @@ dependencies {
     compile files('libs/umeng-analytics-v6.0.9.jar')
     //图片压缩
     compile 'id.zelory:compressor:1.0.4'
+    //QQ支付
+    compile files('libs/mqqopenpay.jar')
+    //微信支付在Shared SDk中进行了依赖  因为支付结果的回调需要在WxEntryActivity中处理
 }

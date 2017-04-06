@@ -5,6 +5,7 @@ import android.util.Log;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.Match;
+import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.entity.TopUp;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
@@ -15,6 +16,7 @@ import com.li.videoapplication.data.model.response.MatchRewardBillboardEntity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
 import com.li.videoapplication.data.model.response.MyMatchListEntity;
 import com.li.videoapplication.data.model.response.MyPackageEntity;
+import com.li.videoapplication.data.model.response.PaymentEntity;
 import com.li.videoapplication.data.model.response.PhotoCollectionEntity;
 import com.li.videoapplication.data.model.response.PhotoFlowerEntity;
 import com.li.videoapplication.data.model.response.PlayerRankingCurrencyEntity;
@@ -104,10 +106,12 @@ public class HttpManager extends RetrofitUtils {
 
         @Override
         public T call(BaseHttpResult<T> baseHttpResult) {
+            Log.d(TAG, "ResponseHandler: " + baseHttpResult.getData().toString());
             if (!baseHttpResult.isResult()) {
                 throw new ApiException(baseHttpResult);
             }
             Log.d(TAG, "ResponseHandler: " + baseHttpResult.toString());
+
             return baseHttpResult.getData();
         }
     }
@@ -449,9 +453,9 @@ public class HttpManager extends RetrofitUtils {
     }
 
     // 支付
-    public void payment(String member_id, String currency_num, int pay_type, int ingress, Observer<String> observer) {
+    public void payment(String member_id, String currency_num, int pay_type, int ingress, Observer<PaymentEntity> observer) {
         Map<String, Object> params = RequestParams.getInstance().payment(member_id, currency_num, pay_type, ingress);
-        Observable<String> observable = service.payment(params).map(new HttpResultFunc<String>());
+        Observable<PaymentEntity> observable = service.payment(params);
         setSubscribe(observable, observer);
     }
 
@@ -460,6 +464,12 @@ public class HttpManager extends RetrofitUtils {
         Map<String, Object> params = RequestParams.getInstance().getOrderList(member_id);
         Observable<List<TopUp>> observable = service.getTopUpRecordList(params)
                 .map(new HttpResultFunc<List<TopUp>>());
+        setSubscribe(observable, observer);
+    }
+
+    public void getPaymentList(String target,Observer<PaymentList> observer){
+        Observable<PaymentList> observable = service.getPaymentList(target);
+              //  .map(new HttpResultFunc<PaymentList>());
         setSubscribe(observable, observer);
     }
 }

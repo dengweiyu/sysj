@@ -346,7 +346,19 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar" />
-
+        <activity
+            android:name=".mvp.mall.view.PaymentWayActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar" >
+            <!--接收 QQ支付后的回调结果     <data android:scheme="qwallet1103189341"/> 会在TenPayment类中使用到-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="qwallet1103189341"/>
+            </intent-filter>
+        </activity>
 
         <!-- #################################   赛事相关   ######################### -->
         <activity

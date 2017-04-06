@@ -28,6 +28,8 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
     private ImageView go;
     private View draw;
 
+    private int mNum = 0;	//进入页面的次数
+    private long mLastLoadTime;
     /**
      * 跳转：动态
      */
@@ -62,7 +64,6 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
         view.findViewById(R.id.discover_gift).setOnClickListener(this);
         draw.setOnClickListener(this);
 
-        loadData();
     }
 
     private void loadData() {
@@ -83,12 +84,29 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        loadData();
+        if (shouldLoadData()){
+            loadData();
+            mLastLoadTime = System.currentTimeMillis();
+        }
+        mNum++;
         //该fragment处于最前台交互状态
         if (isVisibleToUser) {
             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MAIN, "进入发现页面次数");
             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "进入发现页面次数");
         }
+    }
+
+    private boolean shouldLoadData(){
+        if (mNum == 0 ){
+            return false;
+        }else {
+            if (mLastLoadTime > 0){
+                if (System.currentTimeMillis()-mLastLoadTime < 30000){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override

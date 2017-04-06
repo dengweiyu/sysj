@@ -1,6 +1,9 @@
 package com.li.videoapplication.ui.activity;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -172,10 +175,28 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         findViewById(R.id.mypersonnalinfo_gameedit).setOnClickListener(this);
         findViewById(R.id.mypersonnalinfo_qq_btn).setOnClickListener(this);
 
+        findViewById(R.id.ll_mypersonnalinfo_horizonid).setOnLongClickListener(mLongClickListener);
+
         mHorizontalListView = (HorizontalListView) findViewById(R.id.horizontallistvierw);
         adapter = new MyPersonalInfoAdapter(this, data);
         mHorizontalListView.setAdapter(adapter);
     }
+
+    /**
+     * long click to copy member id
+     */
+    final View.OnLongClickListener mLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            if (v.getId() == R.id.ll_mypersonnalinfo_horizonid){
+                ClipboardManager manager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData data = ClipData.newPlainText("Label",member.getHorizonId());
+                manager.setPrimaryClip(data);
+                ToastHelper.l("视界ID已复制");
+            }
+            return true;
+        }
+    };
 
     @Override
     public void onClick(View v) {

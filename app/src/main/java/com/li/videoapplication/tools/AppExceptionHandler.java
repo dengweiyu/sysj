@@ -96,6 +96,10 @@ public class AppExceptionHandler implements Thread.UncaughtExceptionHandler {
 
     public void saveLog(String message){
         try {
+            File logDir = new File(StorageUtil.getInner()+"/sysj/logs");
+            if (!logDir.exists()){
+                logDir.mkdir();
+            }
             FileOperateUtil.save2File(message.getBytes(),StorageUtil.createLogName());
         } catch (Exception e) {
             e.printStackTrace();

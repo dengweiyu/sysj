@@ -25,6 +25,7 @@ import com.li.videoapplication.mvp.activity_gift.view.MyActivityListActivity;
 import com.li.videoapplication.mvp.activity_gift.view.MyGiftListActivity;
 import com.li.videoapplication.mvp.billboard.view.BillboardActivity;
 import com.li.videoapplication.mvp.billboard.view.MatchRewardBillboardActivity;
+import com.li.videoapplication.mvp.mall.view.PaymentWayActivity;
 import com.li.videoapplication.mvp.mall.view.TopUpActivity;
 import com.li.videoapplication.mvp.mall.view.TopUpRecordActivity;
 import com.li.videoapplication.mvp.match.view.MatchRecordActivity;
@@ -872,6 +873,23 @@ public class ActivityManeger {
         }
         Intent intent = new Intent();
         intent.setClass(context, TopUpRecordActivity.class);
+        context.startActivity(intent);
+    }
+
+
+    /**
+     * 充值记录
+     * @param number 支付金额
+     */
+    public static void startPaymentWayActivity(Context context,float number,int entry) {
+        if (!PreferencesHepler.getInstance().isLogin()) {
+            ToastHelper.s("请先登录");
+            return;
+        }
+        Intent intent = new Intent();
+        intent.putExtra(PaymentWayActivity.MONEY,number);
+        intent.putExtra(PaymentWayActivity.ENTRY,entry);
+        intent.setClass(context, PaymentWayActivity.class);
         context.startActivity(intent);
     }
 

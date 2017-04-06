@@ -35,4 +35,7 @@ dependencies {
     compile files('libs/ShareSDK-Core-2.8.2.jar')
     compile files('libs/MobTools-2017.0322.0931.jar')
     compile files('libs/MobCommons-2017.0322.0931.jar')
+
+    //微信支付
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 }

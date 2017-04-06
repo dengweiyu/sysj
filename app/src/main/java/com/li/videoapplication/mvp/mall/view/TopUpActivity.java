@@ -106,6 +106,13 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
         ActivityManeger.startTopUpRecordActivity(this);
     }
 
+    /**
+     * 跳转：支付方式选择
+     */
+    private void startPaymentWayActivity(float number,int entry) {
+        ActivityManeger.startPaymentWayActivity(this,number,entry);
+    }
+
     @Override
     public void refreshIntent() {
         super.refreshIntent();
@@ -226,12 +233,14 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
                         ToastHelper.s("充值数量最低为100");
                         return;
                     }
-                    presenter.payment(getMember_id(), adapter.getCustomInt() + "",
-                            Constant.ALIPAY, entry);
+                 /*   presenter.payment(getMember_id(), adapter.getCustomInt() + "",
+                            Constant.ALIPAY, entry);*/
+                    startPaymentWayActivity((float) (adapter.getCustomInt()/Double.valueOf(rateStr)),this.entry);
                 } else {
                     Log.d(tag, "onClick: final seleccted = " + option[selectedPos]);
-                    presenter.payment(getMember_id(), option[selectedPos],
-                            Constant.ALIPAY, entry);
+           /*         presenter.payment(getMember_id(), option[selectedPos],
+                            Constant.ALIPAY, entry);*/
+                    startPaymentWayActivity((float) (Integer.valueOf(option[selectedPos])/Double.valueOf(rateStr)),this.entry);
                 }
                 break;
         }
@@ -271,19 +280,19 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
         setTextViewText(rate, "(1人民币=" + StringUtil.formatNum(rateStr) + "飞磨豆)");
     }
 
-    /**
+/*    *//**
      * 回调：获取支付订单信息
-     */
+     *//*
     @Override
     public void refreshOrderInfoData(String orderInfo) {
         TopUpActivity.orderInfo = orderInfo;
         Log.d(tag, "orderInfo: " + TopUpActivity.orderInfo);
-        /*
+        *//*
          * 切换沙箱环境与生产环境；
          * 如果不使用此方法，默认使用生产环境；
          * 在钱包不存在的情况下，会唤起h5支付；
          * // FIXME: 在生产环境，必须将此代码注释！
-         */
+         *//*
 //        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
 
         Runnable payRunnable = new Runnable() {
@@ -302,7 +311,7 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
         // 必须异步调用
         Thread payThread = new Thread(payRunnable);
         payThread.start();
-    }
+    }*/
 
     /**
      * 回调：个人飞磨豆数量

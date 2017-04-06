@@ -67,10 +67,11 @@
         android:background="#e2e2e2" />
 
     <LinearLayout
+        android:id="@+id/ll_mypersonnalinfo_horizonid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
         android:background="@color/white"
+        android:clickable="true"
         android:paddingBottom="9dp"
         android:paddingLeft="19dp"
         android:paddingRight="19dp"
@@ -78,11 +79,11 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/mypersonalinfo_memberid"
             android:textColor="#6d6d6d"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/mypersonnalinfo_horizonid"

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/ll_payment_list_item"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/iv_payment_icon"
+        android:layout_width="62dp"
+        android:layout_height="60dp"
+        android:scaleType="fitXY"
+        android:padding="@dimen/kaka_20"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/tv_payment_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微信支付"
+            android:textSize="@dimen/sp_16"/>
+        <TextView
+            android:id="@+id/tv_payment_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="微信支付"
+            android:textSize="@dimen/sp_12"/>
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/iv_click_choice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|right"
+        android:paddingRight="20dp" />
+</LinearLayout>

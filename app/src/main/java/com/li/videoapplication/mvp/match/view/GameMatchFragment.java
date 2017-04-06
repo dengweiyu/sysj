@@ -64,6 +64,9 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
     private GameCateEntity gameCateData;
     private Timer refreshTimer;
 
+
+    private int mNum = 0;	//进入页面的次数
+    private long mLastLoadTime;
     /**
      * 跳转：游戏赛事详情
      */
@@ -104,8 +107,6 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
         initRecyclerView();
 
         initAdapter();
-
-        loadData();
 
         addOnClickListener();
     }
@@ -220,11 +221,31 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        if (shouldLoadData()){
+            loadData();
+            mLastLoadTime = System.currentTimeMillis();
+            swipeRefreshLayout.setRefreshing(true);
+        }
+        mNum++;
         //该fragment处于最前台交互状态
         if (isVisibleToUser) {
             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MAIN, "进入赛事列表页面次数");
             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "进入赛事列表页面次数");
         }
+    }
+
+
+    private boolean shouldLoadData(){
+        if (mNum == 0 ){
+            return false;
+        }else {
+            if (mLastLoadTime > 0){
+                if (System.currentTimeMillis()-mLastLoadTime < 30000){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override

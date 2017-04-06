@@ -82,16 +82,16 @@ public class AppstartActivity extends TBaseActivity {
             if (firstSetup) {
                 // 启动-欢迎
                 replaceFragment(new WelcomeFragment());
-                NormalPreferences.getInstance().putBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, false);
+               // NormalPreferences.getInstance().putBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, false);
             }
         }
 
-/*        // 初始化下载器
+        // 初始化下载器
         DownLoadManager.getInstance();
         // 网络请求服务
         RequestService.startRequestService();
         // 启动服务
-        AppStartService.startAppStartService();*/
+        AppStartService.startAppStartService();
     }
 
     @Override

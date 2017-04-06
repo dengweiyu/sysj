@@ -130,6 +130,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 
         try {
             group_id = getIntent().getStringExtra("group_id");
+            Log.e("group_id",group_id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -172,7 +173,6 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
             newVideoFragment = GroupdetailVideoFragment.newInstance(GroupdetailVideoFragment.GROUPDETAILVIDEO_NEW);
             hotVideoFragment = GroupdetailVideoFragment.newInstance(GroupdetailVideoFragment.GROUPDETAILVIDEO_HOT);
             playerFragment = new GroupdetailPlayerFragment();
-
             fragments.add(introduceFragment);
             fragments.add(newVideoFragment);
             fragments.add(hotVideoFragment);

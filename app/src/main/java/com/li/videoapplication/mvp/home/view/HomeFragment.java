@@ -1,6 +1,7 @@
 package com.li.videoapplication.mvp.home.view;
 
 import android.app.Activity;
+import android.os.Debug;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
@@ -18,6 +20,8 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
+import com.li.videoapplication.data.preferences.Constants;
+import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.mvp.adapter.HomeMultipleAdapter;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
@@ -77,7 +81,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     private int page = 1;
     private int page_count;
 
-    private IHomePresenter presenter;
+    private IHomePresenter presenter = HomePresenter.getInstance();
     public HomeMultipleAdapter homeAdapter;
     private List<HomeDto> homeData;
 
@@ -96,6 +100,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     private static final int GUESSVIDEO_CHANGE = 1;
     private Timer refreshTimer;
 
+    private int mNum = 0;
     /**
      * 跳转：首页更多
      */
@@ -148,7 +153,6 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
         try {
             this.activity = (MainActivity) activity;
         } catch (Exception e) {
@@ -166,12 +170,29 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         initRecyclerView();
 
         initAdapter();
+
+        addOnClickListener();
+
+        loadData();
+    }
+
+    private void loadData(){
+        boolean isFirstRun = NormalPreferences.getInstance().getBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, true);
+        if (isFirstRun){
+            presenter.loadHomeData(page, true);
+            NormalPreferences.getInstance().putBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, false);
+        }else {
+            try {
+                loadCacheData();            //首先加载缓存    网络正常会再次加载数据 因为有些机子在加载首页json的时候特别慢
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_LONG).show();
+                presenter.loadHomeData(page, true);
+            }
+        }
         if (AppUtil.isNetworkAvailale(getActivity())){
             presenter.loadHomeData(page, true);
-        }else {
-            loadCacheData();
         }
-        addOnClickListener();
     }
 
     public void loadCacheData() {
@@ -193,7 +214,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     }
 
     private void initRecyclerView() {
-        presenter = HomePresenter.getInstance();
+
         presenter.setHomeView(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
