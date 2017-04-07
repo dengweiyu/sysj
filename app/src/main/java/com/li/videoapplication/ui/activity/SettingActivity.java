@@ -105,8 +105,6 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
     }
 
     private void initContentView() {
-        TextView view = null;
-        view.setText("");
         help = (RelativeLayout) findViewById(R.id.setting_help);
         soundRecording = (RelativeLayout) findViewById(R.id.setting_soundRecording);
         shakeRecording = (RelativeLayout) findViewById(R.id.setting_shakeRecording);

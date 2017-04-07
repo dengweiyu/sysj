@@ -48,7 +48,7 @@ public class OkHttp3Utils {
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .writeTimeout(30, TimeUnit.SECONDS)
                     .readTimeout(30, TimeUnit.SECONDS)
-//                    .addNetworkInterceptor(interceptor)           这里只要加入 首页的加载就出问题
+             //       .addNetworkInterceptor(interceptor)          // 这里只要加入 首页的加载就出问题
                     .addInterceptor(new Interceptor() {
                         @Override
                         public Response intercept(Chain chain) throws IOException {
@@ -96,7 +96,6 @@ public class OkHttp3Utils {
                 okhttp3.ResponseBody responseBody = response.body();
                 okhttp3.ResponseBody copyBody = response.peekBody(responseBody.contentLength());
                 String responseStr = copyBody.string();
-
                 Log.e(TAG_RESP,new String(responseStr.getBytes("UTF-8")));
             }
             return response;
