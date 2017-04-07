@@ -90,6 +90,8 @@ public class MallContract {
 
         //回调：获取支付订单信息
         void refreshOrderInfoData(PaymentEntity entity);
+        //订单获取失败
+        void refreshFault();
     }
 
     /**

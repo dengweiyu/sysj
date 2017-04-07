@@ -879,16 +879,17 @@ public class ActivityManeger {
 
     /**
      * 充值记录
-     * @param number 支付金额
+     * @param money 支付金额
      */
-    public static void startPaymentWayActivity(Context context,float number,int entry) {
+    public static void startPaymentWayActivity(Context context,float money,int number,int entry) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
         }
         Intent intent = new Intent();
-        intent.putExtra(PaymentWayActivity.MONEY,number);
+        intent.putExtra(PaymentWayActivity.MONEY,money);
         intent.putExtra(PaymentWayActivity.ENTRY,entry);
+        intent.putExtra(PaymentWayActivity.NUMBER,number);
         intent.setClass(context, PaymentWayActivity.class);
         context.startActivity(intent);
     }

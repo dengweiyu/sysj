@@ -44,7 +44,7 @@ public class HomeModel implements IHomeModel {
     }
 
     @Override
-    public void loadHomeData(int page, boolean isLoad, final onloadHomeDataListener listener) {
+    public void loadHomeData(final int page, boolean isLoad, final onloadHomeDataListener listener) {
 
         HttpManager.getInstance().getHomeInfo(page, isLoad, new Observer<HomeDto>() {
 
@@ -55,13 +55,15 @@ public class HomeModel implements IHomeModel {
 
             @Override
             public void onError(Throwable e) {
-                listener.onFailure(e);
-                listener.onLoadHomeFail();
+                listener.onLoadHomeFault(e);
+
             }
 
             @Override
             public void onNext(HomeDto homeDto) {
-                PreferencesHepler.getInstance().saveHomeData(homeDto);//保存首页json
+                if (page == 1){
+                    PreferencesHepler.getInstance().saveHomeData(homeDto);//保存首页json 只要第一页数据
+                }
                 listener.onLoadHomeSuccess(homeDto);
             }
         });

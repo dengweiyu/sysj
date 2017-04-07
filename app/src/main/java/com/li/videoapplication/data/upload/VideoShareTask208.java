@@ -56,7 +56,6 @@ import java.util.List;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
-import id.zelory.compressor.Compressor;
 import io.rong.eventbus.EventBus;
 
 /**

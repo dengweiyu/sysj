@@ -82,7 +82,7 @@ public class AppstartActivity extends TBaseActivity {
             if (firstSetup) {
                 // 启动-欢迎
                 replaceFragment(new WelcomeFragment());
-               // NormalPreferences.getInstance().putBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, false);
+                 NormalPreferences.getInstance().putBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, false);
             }
         }
 

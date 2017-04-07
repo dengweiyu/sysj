@@ -7,8 +7,11 @@ android {
         exclude 'META-INF/NOTICE'
     }
 
-    compileSdkVersion 22
+
+    compileSdkVersion 23
     buildToolsVersion '25.0.0'
+
+    useLibrary 'org.apache.http.legacy'         //使用HttpClient
 
     compileOptions {
         encoding "UTF-8"
@@ -187,9 +190,9 @@ dependencies {
     compile project(':IMsdk')
     //友盟分析
     compile files('libs/umeng-analytics-v6.0.9.jar')
-    //图片压缩
-    compile 'id.zelory:compressor:1.0.4'
+
     //QQ支付
     compile files('libs/mqqopenpay.jar')
     //微信支付在Shared SDk中进行了依赖  因为支付结果的回调需要在WxEntryActivity中处理
+
 }

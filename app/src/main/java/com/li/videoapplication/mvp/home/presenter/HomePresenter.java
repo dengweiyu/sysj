@@ -98,10 +98,10 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
         homeView.hideProgress();
     }
 
-    //加载首页成功，通知view更新界面
+    //加载首页失败
     @Override
-    public void onLoadHomeFail() {
-        homeView.hideProgress();
+    public void onLoadHomeFault(Throwable t) {
+        homeView.refreshHomeDataFault(t);
     }
 
     //加载每日任务成功
@@ -137,8 +137,7 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
     }
 
     @Override
-    public void onFailure(Throwable e) {
-        Log.d(TAG, "onFailure: " + e.toString());
+    public void onFailure(Throwable t) {
 
     }
 }

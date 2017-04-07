@@ -1,7 +1,9 @@
 package com.li.videoapplication.mvp.home.view;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.os.Debug;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
+import com.li.videoapplication.data.download.DownLoadExecutor;
 import com.li.videoapplication.data.model.entity.LaunchImage;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
@@ -35,6 +38,7 @@ import com.li.videoapplication.data.model.entity.Banner;
 import com.li.videoapplication.data.model.entity.VideoImageGroup;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
+import com.li.videoapplication.tools.AppExceptionHandler;
 import com.li.videoapplication.tools.ArrayHelper;
 import com.li.videoapplication.tools.RandomUtil;
 import com.li.videoapplication.tools.TimeHelper;
@@ -100,7 +104,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     private static final int GUESSVIDEO_CHANGE = 1;
     private Timer refreshTimer;
 
-    private int mNum = 0;
+
     /**
      * 跳转：首页更多
      */
@@ -153,6 +157,8 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
+
         try {
             this.activity = (MainActivity) activity;
         } catch (Exception e) {
@@ -173,44 +179,34 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
         addOnClickListener();
 
-        loadData();
-    }
-
-    private void loadData(){
-        boolean isFirstRun = NormalPreferences.getInstance().getBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, true);
-        if (isFirstRun){
-            presenter.loadHomeData(page, true);
-            NormalPreferences.getInstance().putBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, false);
-        }else {
-            try {
-                loadCacheData();            //首先加载缓存    网络正常会再次加载数据 因为有些机子在加载首页json的时候特别慢
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_LONG).show();
-                presenter.loadHomeData(page, true);
-            }
-        }
-        if (AppUtil.isNetworkAvailale(getActivity())){
+        try {
+            initData();
+        } catch (Exception e) {
+            e.printStackTrace();
             presenter.loadHomeData(page, true);
         }
     }
 
-    public void loadCacheData() {
+
+    public void initData() {
         Log.d(tag, "------------ loadCacheData: ------------");
         page = 1;
         HomeDto homeData = PreferencesHepler.getInstance().getHomeData();
-        if (homeData == null || homeData.getVideoList() != null) { //可能sp缓存了第二页覆盖了第一页
+        if (homeData == null) {
             Log.d(tag, "----loadCacheData: rxcache----");
-            //初始化时使用缓存（rxcache缓存）
-            presenter.loadHomeData(page, false);
+            //没有缓存 加载新数据
+            presenter.loadHomeData(page, true);
         } else {
             Log.d(tag, "----loadCacheData: sharepreferences----");
             Log.d(tag, "sp: homeData == " + homeData);
             //直接调用本地缓存回调（sp缓存）
             refreshHomeData(homeData);
+            //异步加载新数据
+            if (AppUtil.isNetworkAvailable(getActivity())){
+                presenter.loadHomeData(page, true);
+            }
         }
-        // 任务初始化时使用缓存（rxcache缓存）
-        presenter.unfinishedTask(getMember_id(), false);
+        presenter.unfinishedTask(getMember_id(),false);
     }
 
     private void initRecyclerView() {
@@ -529,6 +525,22 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         } else {
             onRefresh();
         }
+    }
+
+    /**
+     * 加载首页数据失败
+     */
+    @Override
+    public void refreshHomeDataFault(final Throwable t) {
+
+        DownLoadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (t != null){
+                    AppExceptionHandler.getInstance().saveLog(t.getMessage());
+                }
+            }
+        });
     }
 
 

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.fmsysj.screeclibinvoke.data.model.configuration.RecordingSetting;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Advertisement;
@@ -458,7 +459,14 @@ public class PreferencesHepler {
      */
     public HomeDto getHomeData() {
         String json = NormalPreferences.getInstance().getString(Constants.HOME);
-        HomeDto entity = gson.fromJson(json, HomeDto.class);
+        HomeDto entity = null;
+        try {
+            if (!StringUtil.isNull(json)){
+                entity = gson.fromJson(json, HomeDto.class);
+            }
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
         Log.d(tag, "get/HomeData=" + entity);
         return entity;
     }

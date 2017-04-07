@@ -128,7 +128,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="okhttp-apache-2.7.2" level="project" />
     <orderEntry type="library" exported="" name="commons-io-2.4" level="project" />
@@ -148,7 +148,6 @@
     <orderEntry type="library" exported="" name="support-v4-22.2.1" level="project" />
     <orderEntry type="library" exported="" name="alisdk-feedback-2.5.0.1-" level="project" />
     <orderEntry type="library" exported="" name="umeng-analytics-v6.0.9" level="project" />
-    <orderEntry type="library" exported="" name="compressor-1.0.4" level="project" />
     <orderEntry type="library" exported="" name="app-monitor-sdk-2.5.1.1_for_bc_proguard" level="project" />
     <orderEntry type="library" exported="" name="materialish-progress-1.0" level="project" />
     <orderEntry type="library" exported="" name="overscroll-decor-android-1.0.3" level="project" />
@@ -191,6 +190,7 @@
     <orderEntry type="module" module-name="PullToRefresh" exported="" />
     <orderEntry type="module" module-name="IMKit_v2_7_0" exported="" />
     <orderEntry type="module" module-name="IMsdk" exported="" />
+    <orderEntry type="library" exported="" name="org.apache.http.legacy-android-23" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Favorite-2.8.2" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-2.8.2" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-SinaWeibo-2.8.2" level="project" />

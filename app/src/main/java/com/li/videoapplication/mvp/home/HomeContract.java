@@ -54,6 +54,9 @@ public class HomeContract {
         //回调：首页数据
         void refreshHomeData(HomeDto data);
 
+        //回调：首页数据加载失败
+        void refreshHomeDataFault(Throwable t);
+
         //回调：首页每日任务
         void refreshUnFinishTaskView(UnfinishedTaskEntity data);
 
@@ -92,7 +95,7 @@ public class HomeContract {
     public interface onloadHomeDataListener {
         void onLoadHomeSuccess(HomeDto data);
 
-        void onLoadHomeFail();
+        void onLoadHomeFault(Throwable t);
 
         void onLoadUnFinishTaskSuccess(UnfinishedTaskEntity data);
 
@@ -102,6 +105,6 @@ public class HomeContract {
 
         void onLoadAdClickSuccess(BaseHttpResult data);
 
-        void onFailure(Throwable e);
+        void  onFailure(Throwable t);
     }
 }

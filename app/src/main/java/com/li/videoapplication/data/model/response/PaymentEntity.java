@@ -9,8 +9,9 @@ import com.li.videoapplication.framework.BaseResponseEntity;
 
 public class PaymentEntity extends BaseResponseEntity {
 
+
     /**
-     * data : {"appId":"1103189341","bargainorId":"1452072601","tokenId":"6V4b5bbd6373f6a68f2fbc421b5caf9c","nonce":"d96fdba6309fcd6f7506fc49e75d30e4","pubAcc":"","sign":"E1F28ECF595A81432EB18EE16C180E5E","timestamp":1491445369,"alipay":"","package":""}
+     * data : {"appId":"1103189341","bargainorId":"1452072601","tokenId":"6V97c92d72e5ad035bc29b0dc2f2f241","nonce":"228d063b071a19a97e0ef2f01e6cad6a","pubAcc":"","sign":"scNEl7zijoKFBRVh3wWpbhSFFFI=","timestamp":1491481223,"alipay":"","package":""}
      */
 
     private DataBean data;
@@ -27,11 +28,11 @@ public class PaymentEntity extends BaseResponseEntity {
         /**
          * appId : 1103189341
          * bargainorId : 1452072601
-         * tokenId : 6V4b5bbd6373f6a68f2fbc421b5caf9c
-         * nonce : d96fdba6309fcd6f7506fc49e75d30e4
+         * tokenId : 6V97c92d72e5ad035bc29b0dc2f2f241
+         * nonce : 228d063b071a19a97e0ef2f01e6cad6a
          * pubAcc :
-         * sign : E1F28ECF595A81432EB18EE16C180E5E
-         * timestamp : 1491445369
+         * sign : scNEl7zijoKFBRVh3wWpbhSFFFI=
+         * timestamp : 1491481223
          * alipay :
          * package :
          */
@@ -99,7 +100,7 @@ public class PaymentEntity extends BaseResponseEntity {
             return timestamp;
         }
 
-        public void setTimestamp(long timestamp) {
+        public void setTimestamp(int timestamp) {
             this.timestamp = timestamp;
         }
 

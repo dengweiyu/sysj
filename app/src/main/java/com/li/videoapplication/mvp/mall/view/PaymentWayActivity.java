@@ -25,8 +25,9 @@ import com.li.videoapplication.tools.ToastHelper;
  */
 
 public class PaymentWayActivity extends TBaseAppCompatActivity implements MallContract.IPaymentListView ,View.OnClickListener{
-    public final static  String MONEY = "money";
-    public final static  String ENTRY = "entryt";       //支付页面入口
+    public final static String MONEY = "money";
+    public final static String ENTRY = "entryt";       //支付页面入口
+    public final static String NUMBER = "number";       //飞磨豆数量
 
     private MallContract.IMallPresenter presenter;
 
@@ -39,7 +40,7 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
     private View mPayNow;
     private float mMoney = 0;
     private int entry;
-
+    private int mNumber = 0;
 
     private IPayment mPayment;
     @Override
@@ -82,6 +83,7 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
         Intent intent = getIntent();
         mMoney = intent.getFloatExtra(MONEY,0f);
         entry =intent.getIntExtra("entry", Constant.TOPUP_ENTRY_MYWALLEY);
+        mNumber = intent.getIntExtra(NUMBER,0);
     }
 
     private void initToolbar() {
@@ -122,12 +124,21 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
     }
 
     /**
+     * 回调：获取支付订单信息失败
+     */
+    @Override
+    public void refreshFault() {
+        ToastHelper.l("订单生成失败");
+    }
+
+    /**
      * 回调：支付结果
      */
     final IPayment.Callback mCallback = new IPayment.Callback() {
         @Override
         public void success() {
             ToastHelper.l("支付成功");
+
             finish();
         }
 
@@ -144,11 +155,10 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
                 finish();
                 break;
             case R.id.rl_payment_now:
-                if (mMoney > 0){
-                    System.out.println("member_id:"+getMember_id()+" money:"+mMoney+"id:"+mAdapter.getSelectedPayId()+" entry:"+entry);
-                    presenter.payment(getMember_id(),mMoney+"",Integer.valueOf(mAdapter.getSelectedPayId()),entry);
+                if (mNumber >= 100){
+                    presenter.payment(getMember_id(),mNumber+"",Integer.valueOf(mAdapter.getSelectedPayId()),entry);
                 }else {
-                    ToastHelper.l("支付金额不能小于0");
+                    ToastHelper.l("值数量最低为100");
                 }
                 break;
         }

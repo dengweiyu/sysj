@@ -8,8 +8,6 @@ import java.util.Map;
 
 import com.li.videoapplication.framework.BaseResponseEntity;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 
 /**
  * 功能：网络请求对象

@@ -26,6 +26,7 @@ public abstract class RetrofitUtils {
 
             if (null == mOkHttpClient) {
                 mOkHttpClient = OkHttp3Utils.getOkHttpClient();
+
             }
 
             //Retrofit2后使用build设计模式
@@ -39,6 +40,7 @@ public abstract class RetrofitUtils {
                     //设置使用okhttp网络请求
                     .client(mOkHttpClient)
                     .build();
+
         }
 
         return mRetrofit;

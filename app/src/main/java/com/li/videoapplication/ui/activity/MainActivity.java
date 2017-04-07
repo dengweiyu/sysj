@@ -50,8 +50,10 @@ import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseSlidingActivity;
 import com.li.videoapplication.mvp.home.view.HomeFragment;
 import com.li.videoapplication.mvp.match.view.GameMatchFragment;
+import com.li.videoapplication.tools.AppExceptionHandler;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.RongIMHelper;
+import com.li.videoapplication.tools.StatusBarBlackTextHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
@@ -290,6 +292,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 }
             }
         });
+
+
     }
 
     @Override
@@ -305,6 +309,17 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             // Utils_Data.finishApp();
 
             System.gc();
+        }
+    }
+
+    /**
+     * 重启后保存异常日志
+     */
+    private void saveExceptionLog(){
+        Intent intent = getIntent();
+        String msg = intent.getStringExtra(AppExceptionHandler.ERROR_MSG);
+        if (!StringUtil.isNull(msg)){
+            AppExceptionHandler.saveLog(msg);
         }
     }
 
@@ -729,19 +744,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
      * @param activity
      */
     public void setStatusBarDarkMode(boolean darkmode, Activity activity) {
-        if (true) {
-            Class<? extends Window> clazz = activity.getWindow().getClass();
-            try {
-                int darkModeFlag = 0;
-                Class<?> layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
-                Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
-                darkModeFlag = field.getInt(layoutParams);
-                Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
-                extraFlagField.invoke(activity.getWindow(), darkmode ? darkModeFlag : 0, darkModeFlag);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        StatusBarBlackTextHelper.initStatusBarTextColor(activity.getWindow(),darkmode);
     }
 
     /**

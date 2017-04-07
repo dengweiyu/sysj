@@ -7,7 +7,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
 import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
@@ -34,7 +33,7 @@ import io.rong.imkit.RongIM;
 /**
  * 应用:主应用程序
  */
-public class MainApplication extends MultiDexApplication {
+public class MainApplication extends BaseApplication {
 
     private static final boolean DEBUG = false;
     private static final String FEEDBACK_KEY = "23590443";
@@ -48,7 +47,6 @@ public class MainApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        // Debug.startMethodTracing("app_start");
         //异常处理
         AppExceptionHandler.getInstance().init();
 
@@ -96,13 +94,12 @@ public class MainApplication extends MultiDexApplication {
                         }
                     });
                 }
-            }, 4000);
+            }, 1500);
         }
         //只能同步启动
         x.Ext.init(MainApplication.this);
         x.Ext.setDebug(DEBUG);
     }
-    //     Debug.stopMethodTracing();
 
 
 

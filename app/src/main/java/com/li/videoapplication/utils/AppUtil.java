@@ -194,7 +194,7 @@ public class AppUtil {
     /**
      *判断当前网络是否正常
      */
-    public static boolean isNetworkAvailale(Context context){
+    public static boolean isNetworkAvailable(Context context){
         ConnectivityManager connectivity = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null) {

@@ -139,6 +139,7 @@ public class MallPresenter implements IMallPresenter {
 
     @Override
     public void payment(String member_id, String currency_num, int pay_type, int ingress) {
+        System.out.println("member_id:"+member_id+" money:"+currency_num+"id:"+pay_type+" ingress:"+ingress);
         mallModel.payment(member_id, currency_num,pay_type,ingress, new OnLoadDataListener<PaymentEntity>() {
             @Override
             public void onSuccess(PaymentEntity data) {

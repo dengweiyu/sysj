@@ -116,6 +116,7 @@ public class BannerAdapter extends BaseBaseAdapter {
     @Override
     public Banner getItem(int position) {
         int p = position % data.size();
+
         return data.get(p);
     }
 

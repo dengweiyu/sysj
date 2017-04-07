@@ -673,7 +673,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 			// Add new view to buffer
 			int newBufferIndex = mCurrentAdapterIndex - mSideBuffer;
-			if (newBufferIndex > -1) {
+			if (newBufferIndex > 0) {
 				mLoadedViews.addFirst(makeAndAddView(newBufferIndex, false, recycleView));
 				mCurrentBufferIndex++;
 			}
