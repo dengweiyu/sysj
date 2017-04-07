@@ -25,7 +25,7 @@ import rx.Observable;
 public interface CacheProviders {
 
     //获取首页数据 不设置过期  在数据更新后更新缓存
-      @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
+    //  @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)
     Observable<Reply<HomeDto>> getHomeInfo(Observable<HomeDto> oRepos,
                                            DynamicKey userName,
                                            EvictDynamicKey evictDynamicKey);
