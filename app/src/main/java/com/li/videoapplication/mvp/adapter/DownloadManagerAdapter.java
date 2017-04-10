@@ -110,7 +110,7 @@ public class DownloadManagerAdapter extends BaseQuickAdapter<FileDownloaderEntit
                 text.setText(R.string.applicationdownload_download);
             }
             text.setBackgroundResource(R.drawable.downloadmanager_install_bg);
-            text.setTextColor(Color.parseColor("#f9f9f9"));
+          //  text.setTextColor(Color.parseColor("#f9f9f9"));
             delete.setVisibility(View.GONE);
         }
 

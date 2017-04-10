@@ -62,7 +62,7 @@
                     android:layout_height="@dimen/kaka_18"
                     android:background="@drawable/applicationdownload_progress_rect"
                     android:max="100"
-                    android:progress="50"
+                    android:progress="0"
                     android:progressDrawable="@drawable/applicationdownload_progress_progress" />
 
                 <TextView
@@ -72,7 +72,7 @@
                     android:layout_height="@dimen/kaka_18"
                     android:gravity="center"
                     android:text="@string/applicationdownload_open"
-                    android:textColor="@color/applicationdownload_black"
+                    android:textColor="@color/currency_red"
                     android:textSize="9sp" />
             </FrameLayout>
 

@@ -124,6 +124,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     public String group_id;
     private ImageView tb_gift;
 
+    public boolean isSingleEvent = false;//是否需要将埋点独立
     @Override
     public void refreshIntent() {
         super.refreshIntent();
@@ -229,7 +230,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     @Override
     public void onResume() {
         super.onResume();
-        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈");
+
         // 圈子详情
         DataManager.groupInfo(group_id, getMember_id());
         presenter.setGroupDetailView(this);
@@ -313,17 +314,32 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 
             case R.id.tb_gift:
                 ActivityManeger.startGroupGiftActivity(this, game);
-                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈-礼包");
+                if (isSingleEvent){
+                    UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, game.getGroup_name()+"-"+ "游戏圈-礼包");
+                }else {
+                    UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈-礼包");
+                }
+
                 break;
 
             case R.id.tb_download:
                 install();
-                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈-下载游戏");
+                if (isSingleEvent){
+                    UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, game.getGroup_name()+"-"+"游戏圈-下载游戏");
+                }else {
+                    UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈-下载游戏");
+                }
+
                 break;
 
             case R.id.tb_plus:
                 DialogManager.showGameDetailDialog(this, game);
-                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈-发表");
+                if (isSingleEvent){
+                    UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, game.getGroup_name()+"-"+"游戏圈-发表");
+                }else {
+                    UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈-发表");
+                }
+
                 break;
 
             case R.id.groupdetail_focusview://关注
@@ -343,7 +359,11 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                                     // 关注圈子201
                                     DataManager.groupAttentionGroup(game.getGroup_id(), getMember_id());
                                     refreshHeaderView(game);
-                                    UmengAnalyticsHelper.onEvent(GroupDetailActivity.this, UmengAnalyticsHelper.GAME, "游戏圈关注");
+                                    if (isSingleEvent){
+                                        UmengAnalyticsHelper.onEvent(GroupDetailActivity.this, UmengAnalyticsHelper.GAME, game.getGroup_name()+"-"+"游戏圈关注");
+                                    }else {
+                                        UmengAnalyticsHelper.onEvent(GroupDetailActivity.this, UmengAnalyticsHelper.GAME, "游戏圈关注");
+                                    }
                                     break;
                             }
                         }
@@ -354,7 +374,12 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                     // 关注圈子201
                     DataManager.groupAttentionGroup(game.getGroup_id(), getMember_id());
                     refreshHeaderView(game);
-                    UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈关注");
+                    if (isSingleEvent){
+                        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, game.getGroup_name()+"-"+"游戏圈关注");
+                    }else {
+                        UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈关注");
+                    }
+
                 }
 
 
@@ -392,7 +417,12 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 
             case R.id.groupdetail_matchview://赛事
                 ActivityManeger.startGroupMatchListActivity(this, game.getGame_id());
-                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈-赛事-游戏圈点击赛事按钮");
+                if (isSingleEvent){
+                    UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, game.getGroup_name()+"-"+"游戏圈-赛事-游戏圈点击赛事按钮");
+                }else {
+                    UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈-赛事-游戏圈点击赛事按钮");
+                }
+
                 break;
         }
     }
@@ -410,6 +440,14 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 viewPager.setCurrentItem(1);
 
                 presenter.getGroupEventsList(1, game.getGame_id());
+
+                isSingleEvent = UmengAnalyticsHelper.isSingleEvent(game.getGroup_name());
+                if (isSingleEvent){
+                    UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, game.getGroup_name()+"-"+"游戏圈");
+                }else {
+                    UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈");
+                }
+
             }
         }
     }

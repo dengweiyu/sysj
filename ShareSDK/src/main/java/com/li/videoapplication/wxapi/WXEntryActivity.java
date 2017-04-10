@@ -79,7 +79,7 @@ public class WXEntryActivity extends WechatHandlerActivity implements IWXAPIEven
             //由于使用多Module的方式 所以使用反射调用
             Class paymentActivity = Class.forName("com.li.videoapplication.payment.WechatPayment");
             Method handler = paymentActivity.getMethod("onResponse");
-            handler.invoke(baseResp);
+            handler.invoke(baseResp,this);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }catch (NoSuchMethodException e){

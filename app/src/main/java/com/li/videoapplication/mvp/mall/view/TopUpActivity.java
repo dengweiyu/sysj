@@ -34,6 +34,7 @@ import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.CircleImageView;
+import com.ypy.eventbus.EventBus;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -68,37 +69,6 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
     private int selectedPos = DEFAULT_SELECTED_POS;
     private int entry;//充值页面入口
 
-    @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
-        @SuppressWarnings("unused")
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case Constant.ALIPAY: {
-                    @SuppressWarnings("unchecked")
-                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
-                    //对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
-                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
-                    Log.d(tag, "resultInfo: " + resultInfo);
-                    String resultStatus = payResult.getResultStatus();
-                    Log.d(tag, "resultStatus: " + resultStatus);
-                    // 判断resultStatus 为9000则代表支付成功
-                    if (TextUtils.equals(resultStatus, "9000")) {
-                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-                        ToastHelper.s("支付成功");
-                        //  刷新个人飞磨豆数量
-//                        DataManager.getMemberCurrency(getMember_id());
-                        finish();
-                    } else {
-                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-                        ToastHelper.s("支付失败");
-                    }
-                    break;
-                }
-                default:
-                    break;
-            }
-        }
-    };
 
     /**
      * 跳转：充值记录
@@ -129,6 +99,7 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
     public void afterOnCreate() {
         super.afterOnCreate();
         setSystemBarBackgroundWhite();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -284,8 +255,9 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
         setTextViewText(rate, "(1人民币=" + StringUtil.formatNum(rateStr) + "飞磨豆)");
     }
     /**
-     * 回调：个人飞磨豆数量
+     * 回调：更新个人飞磨豆数量
      */
+
     public void onEventMainThread(MemberCurrencyEntity event) {
         setTextViewText(currency, StringUtil.formatNum(event.getCurrency()));
     }

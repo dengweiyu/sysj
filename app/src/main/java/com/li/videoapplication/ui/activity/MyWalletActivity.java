@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Currency;
+import com.li.videoapplication.data.model.response.MemberCurrencyEntity;
 import com.li.videoapplication.data.model.response.MemberTaskEntity;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.Constant;
@@ -21,6 +22,7 @@ import com.li.videoapplication.ui.fragment.MatchRewardFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.ypy.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +67,7 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
     public void afterOnCreate() {
         super.afterOnCreate();
         setSystemBarBackgroundColor(Color.WHITE);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -163,5 +166,12 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
             setTextViewText(beanNum, StringUtil.formatNum(event.getMember_currency()));
             setFragmentData(event);
         }
+    }
+
+    /**
+     * 回调：更新个人飞磨豆数量
+     */
+    public void onEventMainThread(MemberCurrencyEntity event) {
+        setTextViewText(beanNum, StringUtil.formatNum(event.getCurrency()));
     }
 }

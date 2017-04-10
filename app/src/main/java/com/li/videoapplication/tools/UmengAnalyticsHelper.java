@@ -6,7 +6,9 @@ import android.util.Log;
 import com.li.videoapplication.utils.StringUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -394,5 +396,36 @@ public class UmengAnalyticsHelper {
                 onEvent(context, MACROSCOPIC_DATA, "精彩生活-其他-上传视频数");
                 break;
         }
+    }
+
+    /**
+     * 需要将游戏圈的埋点独立出来的游戏
+     * @param gameName
+     *                  游戏名
+     * @return
+     */
+    public static boolean isSingleEvent(String gameName){
+        boolean isSingle = false;
+        if (!StringUtil.isNull(gameName)){
+            List<String> gameList = Arrays.asList(
+                    "王者荣耀",
+                    "我的世界",
+                    "穿越火线",
+                    "球球大作战",
+                    "龙之谷",
+                    "皇室战争",
+                    "火影忍者",
+                    "炉石传说",
+                    "阴阳师",
+                    "海岛奇兵"
+            );
+            for (String name:
+                    gameList) {
+                if (name.equals(gameName)){
+                    isSingle = true;
+                }
+            }
+        }
+        return isSingle;
     }
 }

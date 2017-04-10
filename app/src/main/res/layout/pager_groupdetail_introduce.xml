@@ -8,46 +8,58 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
     <RelativeLayout
+        android:id="@+id/rl_introduce_subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:padding="10dp">
         <ImageView
             android:id="@+id/iv_group_detail_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:scaleType="fitXY"
            />
         <TextView
-            android:id="@+id/tv_group_detati_name"
+            android:id="@+id/tv_group_detail_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_group_detail_icon"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:textColor="#565656"
-            android:text="王者荣耀"/>
+            android:text=""/>
         <TextView
-            android:id="@+id/tv_group_detati_type"
+            android:id="@+id/tv_group_detail_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tv_group_detati_name"
+            android:layout_alignLeft="@+id/tv_group_detail_name"
             android:layout_alignParentBottom="true"
             android:paddingBottom="5dp"
             android:textSize="10sp"
-            android:text="类型：体育竞技"/>
+            android:text=""/>
         <TextView
-            android:id="@+id/tv_group_detati_num"
+            android:id="@+id/tv_group_detail_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/tv_group_detati_type"
+            android:layout_toRightOf="@+id/tv_group_detail_type"
             android:paddingBottom="5dp"
             android:layout_marginLeft="20dp"
             android:textSize="10sp"
-            android:text="下载：35000"/>
-        <ImageView
-            android:id="@+id/iv_group_detail_open"
+            android:text=""/>
+        <TextView
+            android:id="@+id/tv_group_detail_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="打开"
+            android:textSize="10sp"
+            android:background="@drawable/fragment_group_detail_introduce_open"
+            android:textColor="@color/currency_red"
             android:layout_alignParentRight="true"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:paddingLeft="@dimen/layout_title_height_15dp"
+            android:paddingRight="@dimen/layout_title_height_15dp"
+            android:layout_marginRight="@dimen/layout_title_height_10dp"
             android:layout_centerInParent="true"/>
     </RelativeLayout>
     <TextView

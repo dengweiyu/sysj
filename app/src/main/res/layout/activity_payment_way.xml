@@ -16,6 +16,11 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#f3f3f3" />
+
     <ListView
         android:id="@+id/lv_payment_list"
         android:layout_width="match_parent"

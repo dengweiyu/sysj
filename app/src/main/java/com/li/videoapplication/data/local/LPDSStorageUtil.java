@@ -34,10 +34,10 @@ public class LPDSStorageUtil {
             File lpdsDir = new File(lpdsPath);
             if (lpdsDir.exists() == false) {
                 lpdsDir = new File(inSdcardDir + File.separator + Contants.LUPINGDASHI);
-                lpdsDir.mkdirs();
-            }
-            if (lpdsDir.exists()) {
-                return lpdsDir;
+                boolean isSuccess = lpdsDir.mkdirs();
+                if (isSuccess){
+                    return lpdsDir;
+                }
             }
         }
         return null;

@@ -68,6 +68,7 @@ public class VideoRecommendationAdapter extends BaseBaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LogHelper.d(tag, "getView position: " + position);
+
         final List<VideoImage> record = getItem(position);
         final ViewHolder holder;
         if (view == null) {

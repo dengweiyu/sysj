@@ -29,10 +29,12 @@ public class Utils {
         File outer = LPDSStorageUtil.getOuterLpdsRec();
         // 内置SD卡
         File inner = LPDSStorageUtil.getInnerLpdsRec();
-        if (outer != null) {
-            scanFloder(new File(inner.getPath() + File.separator), new File(outer.getPath() + File.separator));
-        } else {
-            scanFloder(new File(inner.getPath() + File.separator), null);
+        if (inner != null){
+            if (outer != null) {
+                scanFloder(new File(inner.getPath() + File.separator), new File(outer.getPath() + File.separator));
+            } else {
+                scanFloder(new File(inner.getPath() + File.separator), null);
+            }
         }
     }
 
@@ -44,11 +46,14 @@ public class Utils {
         File outer = LPDSStorageUtil.getOuterLpdsPicture();
         // 内置SD卡
         File inner = LPDSStorageUtil.getInnerLpdsPicture();
-        if (outer != null) {
-            scanFloder(new File(inner.getPath() + File.separator), new File(outer.getPath() + File.separator));
-        } else {
-            scanFloder(new File(inner.getPath() + File.separator), null);
+        if (inner != null){
+            if (outer != null) {
+                scanFloder(new File(inner.getPath() + File.separator), new File(outer.getPath() + File.separator));
+            } else {
+                scanFloder(new File(inner.getPath() + File.separator), null);
+            }
         }
+
     }
 
     /**

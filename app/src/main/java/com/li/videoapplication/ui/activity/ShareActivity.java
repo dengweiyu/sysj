@@ -67,7 +67,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
 
     private View touch, sysj;
     private Button cancel;
-    private LinearLayout qq, qzone, wx, wb, wxfriends;
+    private LinearLayout qq, qzone, wx, wb, wxfriends,mSysj;
     private TextView squareReward, squareTitle, squareName;
     private ImageView squareIcon;
 
@@ -122,7 +122,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
     @Override
     public void loadData() {
         super.loadData();
-        DataManager.sharePlayerSquare();
+   //     DataManager.sharePlayerSquare();
     }
 
     @Override
@@ -164,11 +164,13 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
 
     private void initContentView() {
         sysj = findViewById(R.id.share_sysj);
+
         squareReward = (TextView) findViewById(R.id.share_square_reward);
         squareTitle = (TextView) findViewById(R.id.share_square_title);
         squareName = (TextView) findViewById(R.id.share_square_name);
         squareIcon = (ImageView) findViewById(R.id.share_square_icon);
 
+        mSysj = (LinearLayout) findViewById(R.id.ll_shared_sysj);
         wx = (LinearLayout) findViewById(R.id.share_wx);
         qq = (LinearLayout) findViewById(R.id.share_qq);
         wxfriends = (LinearLayout) findViewById(R.id.share_wxfriends);
@@ -184,6 +186,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
         wxfriends.setOnClickListener(this);
         qzone.setOnClickListener(this);
         wb.setOnClickListener(this);
+        mSysj.setOnClickListener(this);
 
         touch.setOnClickListener(this);
         cancel.setOnClickListener(this);
@@ -210,7 +213,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
         } else if (v == qzone) {
             share(this, VideoTitle, videoUrl, text, imageUrl, "QZone");
             UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SHARE, "分享渠道-QQ空间");
-        } else if (v == sysj) {
+        } else if (v == sysj || v == mSysj) {
             share(this, VideoTitle, videoUrl, text, imageUrl, "SYSJ");
             UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SHARE, "分享渠道-手游视界");
         }

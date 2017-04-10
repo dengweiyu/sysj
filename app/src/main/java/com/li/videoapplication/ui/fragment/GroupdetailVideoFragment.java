@@ -66,9 +66,17 @@ public class GroupdetailVideoFragment extends TBaseFragment
     private void startVideoPlayActivity(VideoImage videoImage) {
         ActivityManeger.startVideoPlayActivity(getActivity(), videoImage);
         if (getTab() == GROUPDETAILVIDEO_NEW) {
-            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "游戏圈-最新视频-有效");
+            if (activity.isSingleEvent){
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name()+"-"+ "游戏圈-最新视频-有效");
+            }else {
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "游戏圈-最新视频-有效");
+            }
         } else if (getTab() == GROUPDETAILVIDEO_HOT) {
-            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "游戏圈-最热视频-有效");
+            if (activity.isSingleEvent){
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name()+"-"+ "游戏圈-最热视频-有效");
+            }else {
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "游戏圈-最热视频-有效");
+            }
         }
     }
 
@@ -119,9 +127,19 @@ public class GroupdetailVideoFragment extends TBaseFragment
         //该fragment处于最前台交互状态
         if (isVisibleToUser) {
             if (getTab() == GROUPDETAILVIDEO_NEW) {
-                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-最新视频");
+                if (activity.isSingleEvent){
+                    UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name()+"-"+"游戏圈-最新视频");
+                }else {
+                    UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-最新视频");
+                }
+
             } else if (getTab() == GROUPDETAILVIDEO_HOT) {
-                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-精彩视频");
+                if (activity.isSingleEvent){
+                    UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name()+"-"+"游戏圈-精彩视频");
+                }else {
+                    UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-精彩视频");
+                }
+
             }
         }
     }

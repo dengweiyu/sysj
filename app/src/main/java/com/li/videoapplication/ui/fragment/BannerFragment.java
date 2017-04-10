@@ -137,18 +137,8 @@ public class BannerFragment extends TBaseFragment {
     }
 
     private void addOnClickListener() {
-        go.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (data != null && data.isResult() && data.getData().get(0).getAd_id() != 0) {
-                    flag = true;
-                    removeHandler();
-                    cancelTimer();
-                    startMainActivity();
-                }
-            }
-        });
+        go.setOnClickListener(mGoToListener);
+        image.setOnClickListener(mGoToListener);
 
         jump.setOnClickListener(new View.OnClickListener() {
 
@@ -161,6 +151,7 @@ public class BannerFragment extends TBaseFragment {
             }
         });
     }
+
 
     private void initView(View view) {
         image = (ImageView) view.findViewById(R.id.banner_image);
@@ -199,6 +190,19 @@ public class BannerFragment extends TBaseFragment {
                 e.printStackTrace();
             }
     }
+
+
+    final View.OnClickListener mGoToListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (data != null && data.isResult() && data.getData().get(0).getAd_id() != 0) {
+                flag = true;
+                removeHandler();
+                cancelTimer();
+                startMainActivity();
+            }
+        }
+    };
 
     private CountDownTimer timer = new CountDownTimer(5000, 1600) {
 

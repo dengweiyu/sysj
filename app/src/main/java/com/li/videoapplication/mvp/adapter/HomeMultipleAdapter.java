@@ -158,8 +158,10 @@ public class HomeMultipleAdapter extends BaseMultiItemQuickAdapter<HomeDto, Base
     }
 
     public void changeGuessVideo(List<VideoImage> guessVideoList) {
-        youLikeAdapter.clear();
-        youLikeAdapter.addAll(guessVideoList);
-        youLikeAdapter.notifyDataSetChanged();
+        if (youLikeAdapter != null){
+            youLikeAdapter.clear();
+            youLikeAdapter.addAll(guessVideoList);
+            youLikeAdapter.notifyDataSetChanged();
+        }
     }
 }

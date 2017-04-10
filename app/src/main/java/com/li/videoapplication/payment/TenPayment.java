@@ -29,7 +29,6 @@ public class TenPayment implements IPayment {
 
     private final static String TAG = "TenPayment";
 
-    private int PAY_SERIAL = 1;
     private IPayment.Callback mCallback;
     public TenPayment(Context context) {
             init(context);
@@ -70,7 +69,7 @@ public class TenPayment implements IPayment {
             api.callbackScheme ="qwallet1103189341";
             api.serialNumber = System.currentTimeMillis()/100+"";
             api.pubAcc = data.getPubAcc();
-            api.pubAccHint = "支付完成页面提示语(Alpha)";
+            api.pubAccHint = "支付完成";
             api.nonce = data.getNonce();
             api.timeStamp = data.getTimestamp()/1000;
             api.bargainorId = data.getBargainorId();
@@ -108,7 +107,7 @@ public class TenPayment implements IPayment {
                         }
 
                     }else {
-                        message = "支付失败";
+                        message = "取消支付";
                         Log.e(TAG,"支付失败 response isSuccess is false.");
                     }
                 } else {

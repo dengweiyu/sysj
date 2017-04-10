@@ -202,9 +202,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             //直接调用本地缓存回调（sp缓存）
             refreshHomeData(homeData);
             //异步加载新数据
-            if (AppUtil.isNetworkAvailable(getActivity())){
-                presenter.loadHomeData(page, true);
-            }
+            presenter.loadHomeData(page, true);
         }
         presenter.unfinishedTask(getMember_id(),false);
     }

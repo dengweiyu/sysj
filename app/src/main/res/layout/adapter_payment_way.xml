@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/iv_payment_icon"
-        android:layout_width="62dp"
-        android:layout_height="60dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:scaleType="fitXY"
         android:padding="@dimen/kaka_20"/>
     <LinearLayout

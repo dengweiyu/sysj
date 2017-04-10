@@ -102,7 +102,7 @@ import io.rong.imkit.RongIM;
 /**
  * 功能：活动管理
  */
-public class ActivityManeger {
+public class  ActivityManeger {
 
     private static String TAG = ActivityManeger.class.getSimpleName();
 

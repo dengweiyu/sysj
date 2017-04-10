@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.PaymentList;
+import com.li.videoapplication.data.model.response.MemberCurrencyEntity;
 import com.li.videoapplication.data.model.response.PaymentEntity;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
@@ -19,9 +20,12 @@ import com.li.videoapplication.mvp.mall.presenter.MallPresenter;
 import com.li.videoapplication.payment.IPayment;
 import com.li.videoapplication.payment.PaymentFactory;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.utils.StringUtil;
+import com.ypy.eventbus.EventBus;
 
 /**
  * Created by liuwei on 2017/4/1.
+ * 支付方式选择
  */
 
 public class PaymentWayActivity extends TBaseAppCompatActivity implements MallContract.IPaymentListView ,View.OnClickListener{
@@ -60,8 +64,9 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        setIntent(intent);
         if (mPayment != null){
-            mPayment.handleIntent(getIntent());
+            mPayment.handleIntent(intent);
         }
     }
 
@@ -72,6 +77,7 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
         initData();
         initAdapter();
         presenter.getPaymentList(AppConstant.SYSJ_ANDROID);
+
     }
 
     @Override
@@ -138,7 +144,15 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
         @Override
         public void success() {
             ToastHelper.l("支付成功");
-
+            long num;
+            try {
+                num = Long.parseLong(getUser().getCurrency())+mNumber;
+                MemberCurrencyEntity entity = new MemberCurrencyEntity();
+                entity.setCurrency(num+"");
+                EventBus.getDefault().post(entity);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
             finish();
         }
 

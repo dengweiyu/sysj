@@ -57,7 +57,13 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
             member.setId(member.getMember_id());
         }
         ActivityManeger.startPlayerDynamicActivity(getActivity(), member);
-        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-玩家-头像");
+
+        if (activity.isSingleEvent){
+            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name()+"-"+"游戏圈-玩家-头像");
+        }else {
+            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-玩家-头像");
+        }
+
     }
 
 
@@ -76,7 +82,12 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
         super.setUserVisibleHint(isVisibleToUser);
         //该fragment处于最前台交互状态
         if (isVisibleToUser) {
-            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-玩家");
+            if (activity.isSingleEvent){
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name()+"-"+"游戏圈-玩家");
+            }else {
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-玩家");
+            }
+
         }
     }
 
@@ -159,7 +170,12 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
                 Member item = (Member) adapter.getItem(pos);
                 startPlayerDynamicActivity(item);
-                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-玩家-头像");
+                if (activity.isSingleEvent){
+                    UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME,activity.game.getGroup_name()+"-"+"游戏圈-玩家-头像");
+                }else {
+                    UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-玩家-头像");
+                }
+
             }
         });
         //recyclerview item上子控件点击事件处理
@@ -181,7 +197,12 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
                 // 玩家关注
                 DataManager.memberAttention201(record.getMember_id(), getMember_id());
                 adapter.notifyItemChanged(pos);
-                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-玩家-关注");
+                if (activity.isSingleEvent){
+                    UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name()+"-"+"游戏圈-玩家-关注");
+                }else {
+                    UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-玩家-关注");
+                }
+
             }
         });
     }
