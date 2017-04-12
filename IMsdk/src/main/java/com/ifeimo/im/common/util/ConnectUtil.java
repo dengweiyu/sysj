@@ -13,16 +13,14 @@ public class ConnectUtil {
      * 功能：检查网络链接的状态
      */
     public static boolean isConnect(Context context) {
-        if (context != null){
-            // 获取手机所有连接管理对象
-            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (connectivityManager != null) {
-                NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-                // 判断当前网络是否已经连接
-                if (info != null && info.isConnected()) {
-                    if (info.getState() == NetworkInfo.State.CONNECTED) {
-                        return true;
-                    }
+        // 获取手机所有连接管理对象
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+            // 判断当前网络是否已经连接
+            if (info != null && info.isConnected()) {
+                if (info.getState() == NetworkInfo.State.CONNECTED) {
+                    return true;
                 }
             }
         }

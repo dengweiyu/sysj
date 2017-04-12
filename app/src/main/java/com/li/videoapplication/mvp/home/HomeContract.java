@@ -87,6 +87,7 @@ public class HomeContract {
         void adImage208(int localtion_id, boolean isLoad);
 
         void adClick(long ad_id, int ad_click_state, String hardwarecode);
+
     }
 
     /**

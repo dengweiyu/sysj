@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -64,6 +65,9 @@ public class RecommendAdapter extends BaseArrayAdapter<VideoImage> {
         } else {
             holder = (ViewHolder) view.getTag();
         }
+
+
+
 
         setImageViewImageNet(holder.head, record.getAvatar());
         setTextViewText(holder.name, record.getNickname());
@@ -179,6 +183,7 @@ public class RecommendAdapter extends BaseArrayAdapter<VideoImage> {
             }
         });
     }
+
 
     private static class ViewHolder {
 

@@ -27,6 +27,15 @@ public class Game extends BaseEntity {
     private String url;
 	private boolean privateIM;
 	private String chatroom_group_id;
+	private String download_num;
+
+	public String getDownload_num() {
+		return download_num;
+	}
+
+	public void setDownload_num(String download_num) {
+		this.download_num = download_num;
+	}
 
 	public String getChatroom_group_id() {
 		return chatroom_group_id;

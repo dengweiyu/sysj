@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Set;
 
 /**
+ * im窗口管理接口
  * Created by lpds on 2017/1/19.
  */
 public interface IHierarchy extends IEmployee{

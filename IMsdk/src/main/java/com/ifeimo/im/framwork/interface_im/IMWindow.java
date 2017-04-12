@@ -12,11 +12,11 @@ import com.ifeimo.im.framwork.notification.INotification;
  */
 public interface IMWindow extends IMMain,INotification,IInformation{
 
-    //单聊
+    /**单聊*/
     int CHAT_TYPE = 2;
-    //群聊
+    /**群聊*/
     int MUCCHAT_TYPE = 4;
-    //无
+    /**无*/
     int NULL_TYPE = -1;
 
     /**
@@ -50,6 +50,10 @@ public interface IMWindow extends IMMain,INotification,IInformation{
     @Deprecated
     BaseChatBean getBean();
 
+    /**
+     * 获取窗口唯一key
+     * @return
+     */
     String getKey();
 
     /**
@@ -70,12 +74,27 @@ public interface IMWindow extends IMMain,INotification,IInformation{
      */
     void showTipToast(String s);
 
+    /**
+     * 获取缓存的当前登录人
+     */
     void loadCaheUser();
 
+    /**
+     * 加载数据
+     * @param id
+     */
     void loadChatData(int id);
 
+    /**
+     * 发送
+     * @param content
+     */
     void send(String content);
 
+    /**
+     * 获取列表
+     * @return
+     */
     RecyclerView getMsgListView();
 
 

@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/left"
         android:layout_width="94dp"
-        android:layout_height="64dp"
+        android:layout_height="58dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="12dp">
 

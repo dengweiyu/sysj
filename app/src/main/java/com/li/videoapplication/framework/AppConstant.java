@@ -91,9 +91,18 @@ public class AppConstant {
 	 * 赛事分享地址
 	 * @return
 	 */
-	public static final String getEventUrl(String event_id) {
-		return "http://www.17sysj.com/event/detail/id/" + event_id;
+	public static final String getEventUrl() {
+		return "/event/detail/event_id/" ;
 	}
+
+	/**
+	 * 活动分享地址
+	 * @return
+	 */
+	public static final String getActivityUrl() {
+		return "activity/detail/id/" ;
+	}
+
 
     /*网站链接*/
     public static final String webURL = "http://www.17sysj.com/";

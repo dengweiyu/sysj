@@ -1,6 +1,8 @@
 package com.ifeimo.im.framwork.interface_im;
 
 /**
+ *
+ * 生命周期管理接口
  * Created by lpds on 2017/1/19.
  */
 public interface ILife {

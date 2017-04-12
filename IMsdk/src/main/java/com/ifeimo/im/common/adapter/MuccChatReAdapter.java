@@ -1,8 +1,12 @@
 package com.ifeimo.im.common.adapter;
 
 import android.database.Cursor;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -14,6 +18,8 @@ import com.ifeimo.im.common.bean.MsgBean;
 import com.ifeimo.im.common.bean.MuccMsgBean;
 import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.chat.MuccBean;
+import com.ifeimo.im.common.util.MatchUtil;
+import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
@@ -42,11 +48,12 @@ public class MuccChatReAdapter extends BaseChatReCursorAdapter<Holder> {
         final MuccMsgBean muccMsgBean = MuccMsgBean.createLineByCursor(cursor);
         holder.memberID = muccMsgBean.getMemberId();
         holder.id_msgTime_layout.setVisibility(View.GONE);
+        Spanned spanned = getSpanna(muccMsgBean.getContent());
         if (!UserBean.getMemberID().equals(muccMsgBean.getMemberId())) {
             /// 如果是收到的消息，则显示左边的消息布局，将右边的消息布局隐藏
             holder.leftLayout.setVisibility(View.VISIBLE);
             holder.rightLayout.setVisibility(View.GONE);
-            holder.leftMsg.setText(muccMsgBean.getContent());
+            holder.leftMsg.setText(spanned);
             holder.leftName.setText(muccMsgBean.getMemberNickName());
             String url = muccMsgBean.getMemberAvatarUrl();
             holder.leftFace.setTag(R.id.image_url, url);
@@ -64,9 +71,9 @@ public class MuccChatReAdapter extends BaseChatReCursorAdapter<Holder> {
             holder.leftFace.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    switch (IMSdk.versionCode){
+                    switch (IMSdk.versionCode) {
                         case 1:
-                            if(Proxy.getMessageManager().getOnGroupItemOnClickListener()!=null) {
+                            if (Proxy.getMessageManager().getOnGroupItemOnClickListener() != null) {
                                 Proxy.getMessageManager().getOnGroupItemOnClickListener().onGroupItemOnClick(muccMsgBean.getMemberId(), muccMsgBean.getMemberNickName());
                             }
                             break;
@@ -77,11 +84,21 @@ public class MuccChatReAdapter extends BaseChatReCursorAdapter<Holder> {
                     }
                 }
             });
+
+            holder.leftMsg.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Toast.makeText(view.getContext(),"复制成功",Toast.LENGTH_SHORT).show();
+                    StringUtil.copy(muccMsgBean.getContent());
+                    return true;
+                }
+            });
+
         } else {
             // 如果是收到发出的消息，则显示右边的消息布局，将左边的消息布局隐藏
             holder.rightLayout.setVisibility(View.VISIBLE);
             holder.leftLayout.setVisibility(View.GONE);
-            holder.rightMsg.setText(muccMsgBean.getContent());
+            holder.rightMsg.setText(spanned);
             String url = muccMsgBean.getMemberAvatarUrl();
             holder.leftFace.setTag(R.id.image_url, url);
             Glide.with(activity.getContext())
@@ -98,12 +115,22 @@ public class MuccChatReAdapter extends BaseChatReCursorAdapter<Holder> {
                 holder.reConnectIv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Proxy.getMessageManager().reSendMuccMsg(activity.getKey(), (MuccBean) activity.getBean(),muccMsgBean);
+                        Proxy.getMessageManager().reSendMuccMsg(activity.getKey(), (MuccBean) activity.getBean(), muccMsgBean);
                     }
                 });
             } else if (muccMsgBean.getSendType() == Fields.GroupChatFields.SEND_WAITING) {
                 holder.id_process.setVisibility(View.VISIBLE);
             }
+
+            holder.rightMsg.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Toast.makeText(view.getContext(),"复制成功",Toast.LENGTH_SHORT).show();
+                    StringUtil.copy(muccMsgBean.getContent());
+                    return true;
+                }
+            });
+
         }
 
         String formatTime = time.get(muccMsgBean.getCreateTime());
@@ -111,6 +138,7 @@ public class MuccChatReAdapter extends BaseChatReCursorAdapter<Holder> {
             holder.id_msgTime_layout.setVisibility(View.VISIBLE);
             holder.timeTv.setText(formatTime);
         }
+        textViewCheck(holder, muccMsgBean.getContent());
         return muccMsgBean;
     }
 

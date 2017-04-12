@@ -8,7 +8,7 @@ android {
     }
 
 
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion '25.0.0'
 
     useLibrary 'org.apache.http.legacy'         //使用HttpClient

@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.ifeimo.im.R;
 import com.ifeimo.im.view.InformationView;
-
+@Deprecated
 public class TestInformationActivity extends AppCompatActivity {
 
     @Override

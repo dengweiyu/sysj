@@ -140,11 +140,11 @@ public class ChatProvider extends BaseProvider {
         if (!StringUtil.isNull(msgid)) {
             //查询此用户 在 AccounFields 表
             final Cursor cursor = sqLiteDatabase.query(Fields.AccounFields.TB_NAME,
-                    new String[]{Fields.AccounFields.ID},Fields.AccounFields.MEMBER_ID+" = ?",new String[]{msgid},null,null,null);
+                    new String[]{Fields.AccounFields.ID},Fields.AccounFields.MEMBER_ID+" = ?",new String[]{memberid},null,null,null);
             if(cursor.getCount() < 1){
                 //此用户不存在，新增
                 final ContentValues accountValues = new ContentValues();
-                accountValues.put(Fields.AccounFields.MEMBER_ID,msgid);
+                accountValues.put(Fields.AccounFields.MEMBER_ID,memberid);
                 sqLiteDatabase.insert(Fields.AccounFields.TB_NAME,null,accountValues);
             }
             cursor.close();

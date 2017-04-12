@@ -351,6 +351,33 @@ final class IMConnectManager implements IConnect {
         login();
     }
 
+    /**
+     * Code XMPP Error Type
+     500 interna-server-error WAIT
+     403 forbidden AUTH
+     400bad-request MODIFY
+     404 item-not-found CANCEL
+     409 conflict CANCEL
+     501 feature-not-implemented CANCEL
+     302 gone MODIFY
+     400 jid-malformed MODIFY
+     406 no-acceptable MODIFY
+     405 not-allowed CANCEL
+     401 not-authorized AUTH
+     402 payment-required AUTH
+     404 recipient-unavailable WAIT
+     302 redirect MODIFY
+     407 registration-required AUTH
+     404 remote-server-not-found CANCEL
+     504 remote-server-timeout WAIT
+     502 remote-server-error CANCEL
+     500 resource-constraint WAIT
+     503 service-unavailable CANCEL
+     407 subscription-required AUTH
+     500 undefined-condition WAIT
+     400 unexpected-condition WAIT
+     408 request-timeout CANCEL
+     */
     private void login(){
         try {
 //                AbstractXMPPConnection connection = (AbstractXMPPConnection) connection;
@@ -360,16 +387,17 @@ final class IMConnectManager implements IConnect {
                 presence.setMode(Presence.Mode.available);
                 connection.sendStanza(presence);
                 connection.addAsyncStanzaListener(MessageManager.getInstances(), deflaterStanzaFilter);
-//                log("------ 登陆IM成功 ------");
                 loginSucceed();
             } else {
 
             }
             throw new SmackException.AlreadyLoggedInException();
         } catch (SmackException.AlreadyLoggedInException e) {
+            log("------ 返回码 "+e.getMessage()+" ------");
             log("------ Msg: This account login IM of the server successfully ------");
             loginSucceed();
         } catch (Exception e) {
+            log("------ 返回码 "+e.getMessage()+" ------");
             e.printStackTrace();
             log("------ Error: This account login IM of the server failure ------");
             if (loginCallBack != null) {

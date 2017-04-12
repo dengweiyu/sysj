@@ -26,12 +26,15 @@ public final class PManager {
 
     public static ConnectBean getConnectConfig(Context context) {
 
-//        SharedPreferences sharedPreferences = context.getSharedPreferences(CONNECT_CONFIG, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(CONNECT_CONFIG, Context.MODE_PRIVATE);
 //        ConnectBean connectBean = new ConnectBean(
 //                sharedPreferences.getString("HOST", "op.17sysj.com"),
 //                sharedPreferences.getInt("PROT", 5222),
 //                sharedPreferences.getString("SERVICE_NAME", "op.17sysj.com"));
-        ConnectBean connectBean = new ConnectBean("op.17sysj.com",5222,"op.17sysj.com");
+//                sharedPreferences.getString("HOST", "192.168.48.185"),
+//                sharedPreferences.getInt("PROT", 5222),
+//                sharedPreferences.getString("SERVICE_NAME", "192.168.48.185"));
+        ConnectBean connectBean = new ConnectBean("op.17sysj.com", 5222,"op.17sysj.com");
         return connectBean;
     }
 

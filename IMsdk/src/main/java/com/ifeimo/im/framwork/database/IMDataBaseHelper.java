@@ -3,7 +3,10 @@ package com.ifeimo.im.framwork.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import com.ifeimo.im.BuildConfig;
+import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.provider.BaseProvider;
 import com.ifeimo.im.provider.InformationProvide;
 import com.ifeimo.im.provider.ChatProvider;
@@ -16,9 +19,9 @@ import java.util.concurrent.Semaphore;
  * Created by lpds on 2017/1/11.
  */
 public class IMDataBaseHelper extends SQLiteOpenHelper {
-
+    public static final String TAG ="XMPP_DataBaseHelper";
     public IMDataBaseHelper(Context context) {
-        super(context, "IM_chat.db", null, 2);
+        super(context, "IM_chat.db", null, BuildConfig.VERSION_CODE);
     }
 
     @Override
@@ -32,12 +35,23 @@ public class IMDataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//        if(oldVersion < 2) {
-//            db.execSQL(
-//                    String.format(
-//                            "ALTER TABLE %s \n" +
-//                                    " ADD  %s  TEXT;", Fields.InformationFields.TB_NAME, "address"));
-//        }
+
+        switch (oldVersion) {
+
+            case 1:{
+                Log.i(TAG," oldVersion = 1.0 , clear all data");
+                db.execSQL(String.format("DELETE * FROM %s", Fields.ChatFields.TB_NAME));
+                db.execSQL(String.format("DELETE * FROM %s", Fields.GroupChatFields.TB_NAME));
+                db.execSQL(String.format("DELETE * FROM %s", Fields.InformationFields.TB_NAME));
+                db.execSQL(String.format("DELETE * FROM %s", Fields.SubscriptionFields.TB_NAME));
+                db.execSQL(String.format("DELETE * FROM %s", Fields.AccounFields.TB_NAME));
+
+            }
+            break;
+            case 2:
+                break;
+
+        }
     }
 
 

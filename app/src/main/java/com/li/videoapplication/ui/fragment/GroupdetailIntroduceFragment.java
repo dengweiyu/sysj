@@ -15,6 +15,7 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
+import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
 
 /**
@@ -69,8 +70,12 @@ public class GroupdetailIntroduceFragment extends TBaseFragment{
             mSubTitle.setVisibility(View.VISIBLE);
             setTextViewText(introduce, activity.game.getGame_description());
             setTextViewText(mName, activity.game.getGroup_name());
-            setTextViewText(mType, "类型：体育竞技");
-            setTextViewText(mDownloadNum, "下载：35000");
+            setTextViewText(mType, "类型："+activity.game.getType_name());
+            String downloadNum = activity.game.getDownload_num();
+            if (StringUtil.isNull(downloadNum)){
+                downloadNum = "0";
+            }
+            setTextViewText(mDownloadNum, "下载："+ StringUtil.formatNum(downloadNum));
             GlideHelper.displayImage(getActivity(),activity.game.getFlag(),mIcon);
         }
 
@@ -81,7 +86,7 @@ public class GroupdetailIntroduceFragment extends TBaseFragment{
         super.setUserVisibleHint(isVisibleToUser);
         //该fragment处于最前台交互状态
         if (isVisibleToUser) {
-            if (activity.isSingleEvent){
+            if (null != activity &&activity.isSingleEvent){
                 UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name()+"-"+ "游戏圈-游戏介绍");
             }else {
                 UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-游戏介绍");

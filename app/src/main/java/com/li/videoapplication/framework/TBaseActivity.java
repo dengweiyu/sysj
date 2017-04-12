@@ -5,11 +5,14 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +35,7 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.AnimationHelper;
 import com.li.videoapplication.tools.LayoutParamsHelper;
+import com.li.videoapplication.tools.StatusBarBlackTextHelper;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.ui.activity.LoginActivity;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
@@ -65,6 +69,8 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
     protected Member getUser() {
         return PreferencesHepler.getInstance().getUserProfilePersonalInformation();
     }
+
+    public final static int  mRequestCode = 0x11;           //申请权限
 
     protected LayoutInflater inflater;
     protected FragmentManager manager;
@@ -872,21 +878,24 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
      * @param activity
      */
     public void setStatusBarDarkMode(boolean darkmode, Activity activity) {
-        if (true) {
-            Class<? extends Window> clazz = activity.getWindow().getClass();
-            try {
-                int darkModeFlag = 0;
-                Class<?> layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
-                Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
-                darkModeFlag = field.getInt(layoutParams);
-                Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
-                extraFlagField.invoke(activity.getWindow(), darkmode ? darkModeFlag : 0, darkModeFlag);
-            } catch (Exception e) {
-                e.printStackTrace();
+        StatusBarBlackTextHelper.initStatusBarTextColor(activity.getWindow(),darkmode);
+    }
+
+
+    //request permission
+    protected void checkPermission(String[] permissions){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            boolean isGrant = true;
+            for (String p:
+                    permissions) {
+                isGrant &= ContextCompat.checkSelfPermission(this,p) == PackageManager.PERMISSION_GRANTED;
+            }
+            if (!isGrant){
+                ActivityCompat.requestPermissions(this,
+                        permissions,mRequestCode);
             }
         }
     }
-
 	
 	/*##############  定义页面跳转动画和返回按健   ##############*/
 

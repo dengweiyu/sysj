@@ -7,6 +7,7 @@ import android.widget.Toast;
 /**
  * Created by lpds on 2017/1/17.
  */
+@Deprecated
 abstract class BaseFragmentActivity extends FragmentActivity{
 
 

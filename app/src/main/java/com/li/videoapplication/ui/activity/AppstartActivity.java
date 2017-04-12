@@ -1,5 +1,6 @@
 package com.li.videoapplication.ui.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.li.videoapplication.BuildConfig;
 import com.li.videoapplication.R;
 import com.li.videoapplication.component.application.MainApplication;
 import com.li.videoapplication.component.service.AppSdkInitIntentService;
@@ -86,6 +88,8 @@ public class AppstartActivity extends TBaseActivity {
             }
         }
 
+        //申请读写权限
+        requestPermission();
         // 初始化下载器
         DownLoadManager.getInstance();
         // 网络请求服务
@@ -169,6 +173,10 @@ public class AppstartActivity extends TBaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void requestPermission(){
+        super.checkPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE});
     }
 
 }

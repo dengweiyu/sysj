@@ -25,6 +25,7 @@ import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.AnimationHelper;
 import com.li.videoapplication.tools.LayoutParamsHelper;
+import com.li.videoapplication.tools.StatusBarBlackTextHelper;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.ui.activity.LoginActivity;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
@@ -76,6 +77,8 @@ public abstract class TBaseAppCompatActivity extends BaseAppCompatActivity {
     @Override
     public void afterOnCreate() {
         super.afterOnCreate();
+
+        StatusBarBlackTextHelper.initStatusBarTextColor(this.getWindow(),true);
 
         manager = getSupportFragmentManager();
         resources = getResources();
@@ -514,19 +517,7 @@ public abstract class TBaseAppCompatActivity extends BaseAppCompatActivity {
      * @param activity
      */
     public void setStatusBarDarkMode(boolean darkmode, Activity activity) {
-        if (true) {
-            Class<? extends Window> clazz = activity.getWindow().getClass();
-            try {
-                int darkModeFlag = 0;
-                Class<?> layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
-                Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
-                darkModeFlag = field.getInt(layoutParams);
-                Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
-                extraFlagField.invoke(activity.getWindow(), darkmode ? darkModeFlag : 0, darkModeFlag);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        StatusBarBlackTextHelper.initStatusBarTextColor(activity.getWindow(),darkmode);
     }
 
     /**

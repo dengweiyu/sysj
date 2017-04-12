@@ -24,6 +24,8 @@ import android.widget.TextView;
 import com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService;
 import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
 import com.ifeimo.im.framwork.IMSdk;
+import com.ifeimo.im.framwork.Proxy;
+import com.ifeimo.im.framwork.message.OnHtmlItemClickListener;
 import com.ifeimo.im.framwork.message.OnSimpleMessageListener;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.ifeimo.screenrecordlib.TaskUtil;
@@ -46,12 +48,14 @@ import com.li.videoapplication.data.model.response.UpdateVersionEntity;
 import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
+import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseSlidingActivity;
 import com.li.videoapplication.mvp.home.view.HomeFragment;
 import com.li.videoapplication.mvp.match.view.GameMatchFragment;
 import com.li.videoapplication.tools.AppExceptionHandler;
 import com.li.videoapplication.tools.FeiMoIMHelper;
+import com.li.videoapplication.tools.ParseMessageHelper;
 import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.StatusBarBlackTextHelper;
 import com.li.videoapplication.tools.ToastHelper;
@@ -238,6 +242,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         getIntentResult();
         // 初始化下载器
         DownLoadManager.getInstance();
+
+        //注册IM 消息点击监听器
+        registerIMClickListener();
     }
 
     @Override
@@ -313,15 +320,33 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     }
 
     /**
-     * 重启后保存异常日志
+     * 回调：IM点击事件
      */
-    private void saveExceptionLog(){
-        Intent intent = getIntent();
-        String msg = intent.getStringExtra(AppExceptionHandler.ERROR_MSG);
-        if (!StringUtil.isNull(msg)){
-            AppExceptionHandler.saveLog(msg);
-        }
+    private void registerIMClickListener(){
+        Proxy.getMessageManager().setOnHtmlItemClickListener(new OnHtmlItemClickListener() {
+            @Override
+            public void onClick(String memberid, String defaultStr, String[] html, boolean isMe) {
+                if (html != null && !StringUtil.isNull(html[0])){
+                    ParseMessageHelper helper = ParseMessageHelper.getInstance();
+                    switch (helper.parseMessage(html[0])){
+                        case ParseMessageHelper.CLICK_TYPE_MATCH:
+                            String eventId = helper.getEventId();
+                            if(!StringUtil.isNull(eventId)){
+                                ActivityManeger.startGameMatchDetailActivity(MainActivity.this,eventId);
+                            }
+                            break;
+                        case ParseMessageHelper.CLICK_TYPE_ACTIVITY:
+                            String activityId = helper.getActivityId();
+                            if(!StringUtil.isNull(activityId)){
+                                ActivityManeger.startActivityDetailActivity(MainActivity.this,activityId);
+                            }
+                            break;
+                    }
+                }
+            }
+        });
     }
+
 
     public void setCurrentItem(int pager) {
         if (pager == 0 || pager == 1 || pager == 2 || pager == 3) {
@@ -702,6 +727,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             }
         }
     }
+
 
     /**
      * 初始化系统状态栏

@@ -11,6 +11,7 @@ import com.ifeimo.im.common.bean.chat.ChatBean;
 import com.ifeimo.im.common.bean.chat.MuccBean;
 import com.ifeimo.im.common.callback.OnSendCallBack;
 import com.ifeimo.im.framwork.message.OnGroupItemOnClickListener;
+import com.ifeimo.im.framwork.message.OnHtmlItemClickListener;
 import com.ifeimo.im.framwork.message.OnMessageReceiver;
 import com.ifeimo.im.framwork.message.OnSimpleMessageListener;
 import com.ifeimo.im.framwork.message.OnUnReadChange;
@@ -19,6 +20,7 @@ import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.StanzaListener;
 
 /**
+ * 消息管理接口
  * Created by lpds on 2017/1/17.
  */
 public interface IMessage extends StanzaListener, MessageListener, IEmployee, OnUpdate {
@@ -133,4 +135,8 @@ public interface IMessage extends StanzaListener, MessageListener, IEmployee, On
     void setOnGroupItemOnClickListener(OnGroupItemOnClickListener onGroupItemOnClickListener);
 
     OnGroupItemOnClickListener getOnGroupItemOnClickListener();
+
+    void setOnHtmlItemClickListener(OnHtmlItemClickListener onHtmlItemClickListener);
+
+    OnHtmlItemClickListener getOnHtmlItemClickListener();
 }

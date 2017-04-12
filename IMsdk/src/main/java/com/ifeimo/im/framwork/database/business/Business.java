@@ -264,7 +264,10 @@ public class Business{
     }
 
 
-
+    /**
+     * 获取最大未读行数
+     * @return
+     */
     public int getMaxUnReadCount(){
         return (Integer) Access.getInstances().open(new Access.OnExecSQL<Integer>() {
             @Override
@@ -280,6 +283,22 @@ public class Business{
         });
 
     }
+
+//    public int updateWaite(){
+//
+//        Access.getInstances().open(new Access.OnExecSQL() {
+//            @Override
+//            public Object onExecSQL(SQLiteDatabase sqLiteDatabase) {
+//
+//                sqLiteDatabase.execSQL("update %s set");
+//
+//
+//                return null;
+//            }
+//        });
+//
+//
+//    }
 
 
     private void log(String str){

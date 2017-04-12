@@ -12,6 +12,7 @@ import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 
 /**
+ * 连接管理接口
  * Created by lpds on 2017/1/17.
  */
 public interface IConnect extends ConnectionListener,IEmployee{

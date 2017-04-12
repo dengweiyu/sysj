@@ -193,6 +193,9 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
 
         if (page == PAGE_MYCLOUDVIDEO || page == PAGE_SYSJ || page == PAGE_VIDEOPLAY) {
             sysj.setVisibility(View.GONE);
+            mSysj.setVisibility(View.GONE);
+        }else {
+            mSysj.setVisibility(View.VISIBLE);
         }
     }
 

@@ -83,15 +83,16 @@ public class Access {
         try {
             if(ThreadUtil.isMainThread()){
                 Log.e(TAG," ----- com.ifeimo.im.framwork.database.Server ：不能再主线程操作数据库 ------");
-                if(onExecSQL != null) {
-                    final OnExecSQL finalOnExecSQL = onExecSQL;
-                    ThreadUtil.getInstances().createThreadStartToCachedThreadPool(new Runnable() {
-                        @Override
-                        public void run() {
-                            open(finalOnExecSQL);
-                        }
-                    });
-                }
+//                if(onExecSQL != null) {
+//                    final OnExecSQL finalOnExecSQL = onExecSQL;
+//                    ThreadUtil.getInstances().createThreadStartToCachedThreadPool(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            open(finalOnExecSQL);
+//                        }
+//                    });
+//                }
+                return null;
             }
             if(onExecSQL == null){
                 Log.e(TAG," ----- 数据库无操作  ------");

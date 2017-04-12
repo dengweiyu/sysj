@@ -66,6 +66,9 @@ public class AppManager {
 	}
 	
 	public Context getContext() {
+        if (context == null){
+            context = application.getApplicationContext();
+        }
 		return context;
 	}
 

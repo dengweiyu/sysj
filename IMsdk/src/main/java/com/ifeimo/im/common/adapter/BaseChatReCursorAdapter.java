@@ -1,6 +1,9 @@
 package com.ifeimo.im.common.adapter;
 
 import android.database.Cursor;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +14,17 @@ import com.ifeimo.im.R;
 import com.ifeimo.im.common.adapter.holder.Holder;
 import com.ifeimo.im.common.adapter.base.RecyclerViewCursorAdapter;
 import com.ifeimo.im.common.bean.MsgBean;
+import com.ifeimo.im.common.postentity.IMTextHtmlEntity;
 import com.ifeimo.im.common.util.DateFormatUtil;
+import com.ifeimo.im.common.util.MatchUtil;
 import com.ifeimo.im.common.util.StringUtil;
+import com.ifeimo.im.framwork.IMSdk;
+import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.framwork.interface_im.IMWindow;
 import com.ifeimo.im.provider.ChatProvider;
 import com.ifeimo.im.view.RoundedImageView;
+import com.ypy.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -250,4 +258,63 @@ public abstract class BaseChatReCursorAdapter<T extends Holder> extends Recycler
     public void setRefreshNow(boolean refreshNow) {
         isRefreshNow = refreshNow;
     }
+
+    protected void textViewCheck(Holder holder,String content){
+
+        final String memberid = new String(holder.memberID);
+        final String contentText = new String(content);
+
+        View.OnClickListener textOnclick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean flag = true;
+                if(view.getId() == R.id.muc_left_msg){
+                    flag = false;
+                }
+                sendToClient(contentText,memberid,flag);
+            }
+        };
+        holder.leftMsg.setOnClickListener(textOnclick);
+        holder.rightMsg.setOnClickListener(textOnclick);
+    }
+
+    /**
+     * 获得html匹配的字符串
+     * @param content
+     * @return
+     */
+    protected Spanned getSpanna(String content){
+        if (MatchUtil.isHtml(content)) {
+            String[] contents = MatchUtil.returnHtmlStr(content);
+            if (content != null) {
+                for (String text : contents) {
+                    if(StringUtil.isNull(text)){
+                        continue;
+                    }
+                    content = content.replace(text, "<font color=#3f54dc>" + text + "</font>");
+                }
+            }
+        }
+
+        return Html.fromHtml(content);
+
+    }
+
+    private void sendToClient(String defaultStr,String memberid,boolean isme){
+        if(MatchUtil.isHtml(defaultStr)) {
+            if (Proxy.getMessageManager().getOnHtmlItemClickListener() != null) {
+                Proxy.getMessageManager().getOnHtmlItemClickListener().onClick(memberid,defaultStr, MatchUtil.returnHtmlStr(defaultStr), isme);
+            }
+//            IMTextHtmlEntity imTextHtmlEntity = new IMTextHtmlEntity();
+//            imTextHtmlEntity.setDefaultStr(defaultStr);
+//            imTextHtmlEntity.setMatchStr(MatchUtil.returnHtmlStr(defaultStr));
+//            imTextHtmlEntity.setMe(isme);
+//            imTextHtmlEntity.setSendMemberId(memberid);
+//            EventBus.getDefault().post(imTextHtmlEntity);
+        }else{
+
+        }
+
+    }
+
 }

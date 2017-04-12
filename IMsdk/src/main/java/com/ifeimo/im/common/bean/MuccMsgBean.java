@@ -2,6 +2,7 @@ package com.ifeimo.im.common.bean;
 
 import android.database.Cursor;
 
+import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.provider.BaseProvider;
 import com.ifeimo.im.provider.MuccProvider;
@@ -79,12 +80,13 @@ public class MuccMsgBean extends MsgBean {
     public String toString() {
         return "MuccMsgBean{" +
                 "rooomID='" + rooomID + '\'' +
+                ", formatTime='" + formatTime + '\'' +
                 '}';
     }
 
     public static MuccMsgBean buildMuccBean(org.jivesoftware.smack.packet.Message message) {
 
-        if (message.getBody() != null && !message.getBody().equals("")) {
+        if (!StringUtil.isNull(message.getBody())) {
             MuccMsgBean muccMsgBean = new MuccMsgBean();
             String msgid = message.getStanzaId();
             String content = message.getBody();

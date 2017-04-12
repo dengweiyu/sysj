@@ -2,7 +2,9 @@ package com.ifeimo.im.common.adapter;
 
 import android.database.Cursor;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ifeimo.im.R;
@@ -10,6 +12,7 @@ import com.ifeimo.im.common.adapter.holder.Holder;
 import com.ifeimo.im.common.bean.AccountBean;
 import com.ifeimo.im.common.bean.MsgBean;
 import com.ifeimo.im.common.bean.UserBean;
+import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.framwork.interface_im.IMWindow;
@@ -39,11 +42,14 @@ public class ChatReAdapter extends BaseChatReCursorAdapter<Holder> {
     public MsgBean bindHolder(Holder holder, Cursor cursor) {
         final MsgBean msgBean = MsgBean.createByCursor(cursor);
         holder.id_msgTime_layout.setVisibility(View.GONE);
+
+        Spanned spanned = getSpanna(msgBean.getContent());
+
         if (!UserBean.getMemberID().equals(msgBean.getMemberId())) {
             /// 如果是收到的消息，则显示左边的消息布局，将右边的消息布局隐藏
             holder.leftLayout.setVisibility(View.VISIBLE);
             holder.rightLayout.setVisibility(View.GONE);
-            holder.leftMsg.setText(msgBean.getContent());
+            holder.leftMsg.setText(spanned);
             holder.leftName.setText(receiverBean.getNickName());
             String url = receiverBean.getAvatarUrl();
             holder.leftFace.setTag(R.id.image_url, url);
@@ -52,11 +58,21 @@ public class ChatReAdapter extends BaseChatReCursorAdapter<Holder> {
                     .dontAnimate()
                     .placeholder(R.drawable.actor)
                     .into(holder.leftFace);
+
+            holder.leftMsg.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Toast.makeText(view.getContext(),"复制成功",Toast.LENGTH_SHORT).show();
+                    StringUtil.copy(msgBean.getContent());
+                    return true;
+                }
+            });
+
         } else {
             // 如果是收到发出的消息，则显示右边的消息布局，将左边的消息布局隐藏
             holder.rightLayout.setVisibility(View.VISIBLE);
             holder.leftLayout.setVisibility(View.GONE);
-            holder.rightMsg.setText(Html.fromHtml(msgBean.getContent()));
+            holder.rightMsg.setText(spanned);
             String url = UserBean.getAvatarUrl();
             holder.leftFace.setTag(R.id.image_url, url);
             Glide.with(activity.getContext())
@@ -77,6 +93,15 @@ public class ChatReAdapter extends BaseChatReCursorAdapter<Holder> {
             } else if (msgBean.getSendType() == Fields.ChatFields.SEND_WAITING) {
                 holder.id_process.setVisibility(View.VISIBLE);
             }
+
+            holder.rightMsg.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Toast.makeText(view.getContext(),"复制成功",Toast.LENGTH_SHORT).show();
+                    StringUtil.copy(msgBean.getContent());
+                    return true;
+                }
+            });
         }
 
         return msgBean;

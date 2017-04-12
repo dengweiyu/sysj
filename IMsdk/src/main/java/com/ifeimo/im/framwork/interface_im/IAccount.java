@@ -10,6 +10,7 @@ import org.jivesoftware.smack.roster.RosterLoadedListener;
 import java.util.Set;
 
 /**
+ * 用户管理接口
  * Created by lpds on 2017/1/17.
  */
 public interface IAccount extends OnUpdate,

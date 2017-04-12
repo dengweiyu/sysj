@@ -21,6 +21,7 @@ import com.ifeimo.im.framwork.database.business.Business;
 import com.ifeimo.im.framwork.interface_im.IMWindow;
 import com.ifeimo.im.framwork.interface_im.IMessage;
 import com.ifeimo.im.framwork.message.OnGroupItemOnClickListener;
+import com.ifeimo.im.framwork.message.OnHtmlItemClickListener;
 import com.ifeimo.im.framwork.message.OnMessageReceiver;
 import com.ifeimo.im.framwork.message.OnSimpleMessageListener;
 import com.ifeimo.im.framwork.message.OnUnReadChange;
@@ -138,6 +139,7 @@ final class MessageManager implements IMessage {
             }
         };
         IMSdk.CONTEXT.getContentResolver().registerContentObserver(InformationProvide.UnreadCount_URI,true,unReadCountObserver);
+
     }
 
     public static IMessage getInstances() {
@@ -150,12 +152,14 @@ final class MessageManager implements IMessage {
     /**
      * 无响应队列
      */
+    @Deprecated
     private Map<String, Map<String, MsgBean>> unMessageList = new HashMap<>();
 
     private OnMessageReceiver onMessageReceiver;
     private OnSimpleMessageListener onSimpleMessageListener;
     private OnUnReadChange onUnRead;
     private OnGroupItemOnClickListener onGroupItemOnClickListener;
+    private OnHtmlItemClickListener onHtmlItemClickListener;
 
     public void createMucc(IMWindow imWindow, String roomid) {
         if (!muccSet.containsKey(roomid)) {
@@ -169,6 +173,13 @@ final class MessageManager implements IMessage {
         }
     }
 
+    /**
+     * 创建单聊
+     * @param context
+     * @param receiverID 对方用户
+     * @param memberid   自己
+     * @return
+     */
     public ChatBean createChat(IMWindow context, String receiverID, String memberid) {
         final String key = memberid + receiverID;
         if (chatSet.containsKey(key)) {
@@ -335,6 +346,12 @@ final class MessageManager implements IMessage {
         });
     }
 
+    /**
+     * 重发群聊
+     * @param key
+     * @param muccBean
+     * @param msg
+     */
     public void reSendMuccMsg(String key, final MuccBean muccBean,final MsgBean msg) {
         final String finalKey = key;
         ThreadUtil.getInstances().createThreadStartToFixedThreadPool(new Runnable() {
@@ -372,6 +389,12 @@ final class MessageManager implements IMessage {
         });
     }
 
+    /**
+     * 过期
+     * @param key
+     * @param msg
+     */
+    @Deprecated
     private void waitCheck(String key, MsgBean msg) {
         if (unMessageList.containsKey(key)) {
             Map<String, MsgBean> map = unMessageList.get(key);
@@ -687,6 +710,10 @@ final class MessageManager implements IMessage {
         return unReadCountObserver;
     }
 
+    /**
+     * 设置群聊图像点击回调
+     * @param onGroupItemOnClickListener
+     */
     @Override
     public void setOnGroupItemOnClickListener(OnGroupItemOnClickListener onGroupItemOnClickListener) {
         this.onGroupItemOnClickListener = onGroupItemOnClickListener;
@@ -695,5 +722,15 @@ final class MessageManager implements IMessage {
     @Override
     public OnGroupItemOnClickListener getOnGroupItemOnClickListener() {
         return onGroupItemOnClickListener;
+    }
+
+    @Override
+    public OnHtmlItemClickListener getOnHtmlItemClickListener() {
+        return onHtmlItemClickListener;
+    }
+
+    @Override
+    public void setOnHtmlItemClickListener(OnHtmlItemClickListener onHtmlItemClickListener) {
+        this.onHtmlItemClickListener = onHtmlItemClickListener;
     }
 }

@@ -170,8 +170,7 @@ public class MucChatActivity extends BaseCompatActivity<MuccChatReAdapter> {
 //                        MultiUserChatManager.getInstanceFor(Proxy.getConnectManager().getConnection()).getMultiUserChat(roomJID + "@conference.op.17sysj.com"));
                 muccBean = new MuccBean(UserBean.getMemberID(), roomJID,
                         null,
-                        MultiUserChatManager.getInstanceFor(Proxy.getConnectManager().getConnection())
-                                .getMultiUserChat(Jid.getRoomJ(this,roomJID)));
+                        MultiUserChatManager.getInstanceFor(Proxy.getConnectManager().getConnection()).getMultiUserChat(Jid.getRoomJ(this,roomJID)));
                 muccBean.getMultiUserChat().addMessageListener(Proxy.getMessageManager());
                 join();
             }

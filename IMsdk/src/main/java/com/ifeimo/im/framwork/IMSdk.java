@@ -31,7 +31,7 @@ import java.util.Map;
 public class IMSdk {
 
     public static Application CONTEXT;
-    public static final int versionCode = 1;
+    public static final int versionCode = 2;
 
     /**
      * 初始化 application
@@ -89,7 +89,6 @@ public class IMSdk {
      * @param loginCallBack 回调
      */
     public static void Login(Context context, String myMemberID, String myNickName, String myAvatarUrl, LoginCallBack loginCallBack) {
-
         UserBean.setLoginUser(myMemberID, myNickName, myAvatarUrl, null, null, null, null, null, null);
         PManager.saveUser(context);
         addLoginCallBack(loginCallBack);

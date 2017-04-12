@@ -14,6 +14,7 @@ import com.ifeimo.im.framwork.interface_im.IMWindow;
 /**
  * Created by lpds on 2017/2/6.
  */
+@Deprecated
 public abstract class BaseActivity extends AppCompatActivity implements IMMain{
 
     @Override

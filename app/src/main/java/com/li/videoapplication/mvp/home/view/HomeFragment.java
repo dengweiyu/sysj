@@ -17,6 +17,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
+import com.ifeimo.im.framwork.Proxy;
+import com.ifeimo.im.framwork.message.OnHtmlItemClickListener;
 import com.li.videoapplication.data.download.DownLoadExecutor;
 import com.li.videoapplication.data.model.entity.LaunchImage;
 import com.li.videoapplication.data.model.entity.VideoImage;
@@ -185,6 +187,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             e.printStackTrace();
             presenter.loadHomeData(page, true);
         }
+
     }
 
 

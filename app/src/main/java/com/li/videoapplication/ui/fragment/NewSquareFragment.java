@@ -157,6 +157,8 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
                 }
             }, AppConstant.TIME.SQUARE_HOT);
         }
+
+
     }
 
     @Override

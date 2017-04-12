@@ -88,9 +88,6 @@ public class MainApplication extends BaseApplication {
                             //版本审核
                             DataManager.checkAndroidStatus(AppUtil.getVersionCode(getApplicationContext()),
                                     AnalyticsConfig.getChannel(getApplicationContext()));
-
-                            //feimo im sdk
-                            IMSdk.init(MainApplication.this);
                         }
                     });
                 }
@@ -99,6 +96,9 @@ public class MainApplication extends BaseApplication {
         //只能同步启动
         x.Ext.init(MainApplication.this);
         x.Ext.setDebug(DEBUG);
+        //
+        //feimo im sdk
+        IMSdk.init(MainApplication.this);
     }
 
 

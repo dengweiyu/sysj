@@ -1,36 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/parentLayout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <FrameLayout
         android:id="@+id/muc_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    <include layout="@layout/top_layout"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/top_layout" />
 
     </FrameLayout>
 
     <LinearLayout
-        android:layout_below="@id/muc_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/muc_title"
         android:background="#ECEDF1"
         android:orientation="vertical">
 
-        <com.ifeimo.im.view.IMListView
-            android:id="@+id/lchat_content_1"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:cacheColorHint="#00000000"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:listSelector="#00000000"
-            android:scrollbars="none"
-            android:transcriptMode="normal"/>
+            android:background="@null">
+
+            <com.ifeimo.im.view.IMRecycleView
+                android:id="@+id/id_RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
+
+            <com.ifeimo.im.view.RecyclerViewHeader
+                android:id="@+id/id_RecyclerViewHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/id_more_ProgressBar"
+                    android:layout_height="25dp"
+                    android:layout_width="25dp"
+                    android:layout_centerInParent="true"
+                     />
+
+                </com.ifeimo.im.view.RecyclerViewHeader>
+
+        </FrameLayout>
 
         <RelativeLayout
             android:id="@+id/chatboard"
@@ -86,11 +103,12 @@
                     android:layout_toLeftOf="@+id/ll_chat_send_toolbox"
                     android:background="#ffffff"
                     android:hint=" 请输入消息内容"
+                    android:imeOptions="actionSend"
                     android:inputType="textMultiLine"
                     android:maxHeight="60dp"
                     android:minHeight="30dp"
                     android:paddingLeft="5dp"
-                    android:imeOptions="actionSend"
+                    android:textColor="#000"
                     android:textColorHint="#d2d2d2"
 
                     android:textSize="15sp" />

@@ -144,8 +144,8 @@ public class ShareSDKLoginHelper implements PlatformActionListener, Callback {
                 break;
 
             case MSG_AUTH_ERROR:
-               //try again
-                if (mTime < 2){
+               //qq login try again
+                if (openState == 1){
                     authorize(mPlatform);
                 }else {
                     ToastHelper.s("授权操作遇到错误");
@@ -154,6 +154,7 @@ public class ShareSDKLoginHelper implements PlatformActionListener, Callback {
 
             case MSG_AUTH_COMPLETE:
                 ToastHelper.l("授权成功，正在跳转登录操作…");
+
                 break;
         }
         return false;
@@ -183,6 +184,8 @@ public class ShareSDKLoginHelper implements PlatformActionListener, Callback {
             String figureurl = res.get("figureurl").toString();
             DataManager.login(openId, nickname, nickname, sex, location, figureurl);
             UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "QQ登录成功");
+
+            mTime = 0;
         }
         if (openState == 2) {
             System.out.println("sina++++++++++");

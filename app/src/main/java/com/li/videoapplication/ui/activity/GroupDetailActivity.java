@@ -10,6 +10,7 @@ import android.os.Build;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -45,6 +46,7 @@ import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.FglassHelper;
 import com.li.videoapplication.tools.RongIMHelper;
+import com.li.videoapplication.tools.StatusBarBlackTextHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
@@ -82,6 +84,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     private GroupdetailPlayerFragment playerFragment;
     private IMatchPresenter presenter;
 
+    public boolean isSingleEvent = false;//是否需要将埋点独立
     /**
      * 跳转：安装应用
      */
@@ -124,7 +127,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     public String group_id;
     private ImageView tb_gift;
 
-    public boolean isSingleEvent = false;//是否需要将埋点独立
+
     @Override
     public void refreshIntent() {
         super.refreshIntent();
@@ -198,6 +201,8 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
         appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         ImageView tb_download = (ImageView) findViewById(R.id.tb_download);
         ImageView tb_plus = (ImageView) findViewById(R.id.tb_plus);
@@ -440,8 +445,10 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 viewPager.setCurrentItem(1);
 
                 presenter.getGroupEventsList(1, game.getGame_id());
+                if (game != null){
+                    isSingleEvent = UmengAnalyticsHelper.isSingleEvent(game.getGroup_name());
+                }
 
-                isSingleEvent = UmengAnalyticsHelper.isSingleEvent(game.getGroup_name());
                 if (isSingleEvent){
                     UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, game.getGroup_name()+"-"+"游戏圈");
                 }else {

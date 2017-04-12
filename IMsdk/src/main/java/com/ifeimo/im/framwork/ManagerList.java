@@ -22,23 +22,23 @@ final class ManagerList implements IManagerList {
         managerList = new ManagerList();
     }
 
-    private ManagerList(){
+    private ManagerList() {
         managers = new HashSet<>();
     }
 
-    public static IManagerList getInstances(){
+    public static IManagerList getInstances() {
         return managerList;
     }
 
     @Override
-    public  void addManager(IEmployee o){
-        if(!managers.contains(o.getClass().getSimpleName())){
+    public void addManager(IEmployee o) {
+        if (!managers.contains(o.getClass().getSimpleName())) {
             managers.add(o);
         }
     }
 
     @Override
-    public Set<IEmployee> getAllManager(){
+    public Set<IEmployee> getAllManager() {
 
         Set<IEmployee> iEmployees = new HashSet<>();
         iEmployees.addAll(managers);
@@ -49,50 +49,60 @@ final class ManagerList implements IManagerList {
 
     @Override
     public void onCreate(IMMain imWindow) {
-        Set<IEmployee> managers = new HashSet<>(this.managers);
-        for(IEmployee iEmployee : managers){
-            if(iEmployee instanceof ILife){
-                ((ILife)iEmployee).onCreate(imWindow);
+        synchronized (this) {
+            Set<IEmployee> managers = new HashSet<>(this.managers);
+            for (IEmployee iEmployee : managers) {
+                if (iEmployee instanceof ILife) {
+                    ((ILife) iEmployee).onCreate(imWindow);
+                }
             }
         }
     }
 
     @Override
     public void onResume(IMMain imWindow) {
-        Set<IEmployee> managers = new HashSet<>(this.managers);
-        for(IEmployee iEmployee : managers){
-            if(iEmployee instanceof ILife){
-                ((ILife)iEmployee).onResume(imWindow);
+        synchronized (this) {
+            Set<IEmployee> managers = new HashSet<>(this.managers);
+            for (IEmployee iEmployee : managers) {
+                if (iEmployee instanceof ILife) {
+                    ((ILife) iEmployee).onResume(imWindow);
+                }
             }
         }
     }
 
     @Override
     public void onDestroy(IMMain imWindow) {
-        Set<IEmployee> managers = new HashSet<>(this.managers);
-        for(IEmployee iEmployee : managers){
-            if(iEmployee instanceof ILife){
-                ((ILife)iEmployee).onDestroy(imWindow);
+        synchronized (this) {
+            Set<IEmployee> managers = new HashSet<>(this.managers);
+            for (IEmployee iEmployee : managers) {
+                if (iEmployee instanceof ILife) {
+                    ((ILife) iEmployee).onDestroy(imWindow);
+                }
             }
         }
     }
 
     @Override
     public void onPause(IMMain imWindow) {
-        Set<IEmployee> managers = new HashSet<>(this.managers);
-        for(IEmployee iEmployee : managers){
-            if(iEmployee instanceof ILife){
-                ((ILife)iEmployee).onPause(imWindow);
+        synchronized (this) {
+            Set<IEmployee> managers = new HashSet<>(this.managers);
+            for (IEmployee iEmployee : managers) {
+                if (iEmployee instanceof ILife) {
+                    ((ILife) iEmployee).onPause(imWindow);
+                }
             }
         }
     }
 
     @Override
     public void onStop(IMMain imWindow) {
-        Set<IEmployee> managers = new HashSet<>(this.managers);
-        for(IEmployee iEmployee : managers){
-            if(iEmployee instanceof ILife){
-                ((ILife)iEmployee).onStop(imWindow);
+        synchronized (this) {
+            Set<IEmployee> managers = new HashSet<>(this.managers);
+            for (IEmployee iEmployee : managers) {
+                if (iEmployee instanceof ILife) {
+                    ((ILife) iEmployee).onStop(imWindow);
+                }
             }
         }
     }

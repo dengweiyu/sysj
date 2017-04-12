@@ -88,6 +88,7 @@ abstract class BaseCompatActivity<T extends BaseChatReCursorAdapter<Holder>> ext
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadCaheUser();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         setContentView(R.layout.activity_chat_recycler);
