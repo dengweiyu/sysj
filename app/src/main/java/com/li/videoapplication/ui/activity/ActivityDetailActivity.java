@@ -9,6 +9,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -32,6 +33,7 @@ import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
@@ -56,6 +58,7 @@ public class ActivityDetailActivity extends TBaseAppCompatActivity implements IA
     private IActivityPresenter presenter;
     private FloatingActionButton fab;
     private RecordDialog recordDialog;
+    private List<TabLayout.Tab> mTabs;
 
     /**
      * 分享
@@ -145,6 +148,7 @@ public class ActivityDetailActivity extends TBaseAppCompatActivity implements IA
         mViewPager.setOffscreenPageLimit(2);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
+
     }
 
     //tab内容读取接口，故对应的fragment顺序要跟着对应的tab

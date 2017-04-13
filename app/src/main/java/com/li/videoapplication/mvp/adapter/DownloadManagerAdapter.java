@@ -92,14 +92,14 @@ public class DownloadManagerAdapter extends BaseQuickAdapter<FileDownloaderEntit
             progress.setProgress(0);
             text.setText(R.string.applicationdownload_open);
             text.setBackgroundResource(R.drawable.downloadmanager_install_bg);
-            text.setTextColor(Color.parseColor("#f9f9f9"));
+            text.setTextColor(Color.parseColor("#fe5e5e"));
             delete.setVisibility(View.GONE);
         } else if (entity.isDownloaded()) {// 已下载-->安装
             Log.d(TAG, "setRight: isDownloaded");
             progress.setProgress(0);
             text.setText(R.string.applicationdownload_install);
             text.setBackgroundResource(R.drawable.downloadmanager_install_bg);
-            text.setTextColor(Color.parseColor("#f9f9f9"));
+            text.setTextColor(Color.parseColor("#fe5e5e"));
             delete.setVisibility(View.GONE);
         } else {// -->下载
             Log.d(TAG, "setRight: download");

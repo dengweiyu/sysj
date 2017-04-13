@@ -32,6 +32,7 @@ import com.li.videoapplication.data.image.VideoDurationHelper;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.local.VideoCaptureHelper;
+import com.li.videoapplication.data.model.event.CloudVideoEvent;
 import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
@@ -50,6 +51,7 @@ import com.li.videoapplication.ui.dialog.VideoManagerCopyDialog;
 import com.li.videoapplication.ui.dialog.VideoManagerRenameDialog;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.NetUtil;
+import com.ypy.eventbus.EventBus;
 
 import java.io.File;
 import java.util.HashMap;
@@ -128,6 +130,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
         if (status == Contants.STATUS_SUCCESS) {
             updataRecordAndView(filePath);
             ToastHelper.s("视频上传成功");
+            EventBus.getDefault().post(new CloudVideoEvent());
         } else if (status == Contants.STATUS_END ||
                 status == Contants.STATUS_PAUSE ||
                 status == Contants.STATUS_START) {

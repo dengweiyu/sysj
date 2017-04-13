@@ -253,6 +253,14 @@ public class MyCloudVideoAdapter extends BaseAdapter {
         view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (record.getState() == 3){
+                    ToastHelper.s("视频转码中...");
+                    return;
+                }
+                if (record.getState() == 4){
+                    ToastHelper.s("视频审核中...");
+                    return;
+                }
                 switch (record.getJumpStatus()) {
                     case 1://申请手游视界推荐位
                         // 推荐位信息
