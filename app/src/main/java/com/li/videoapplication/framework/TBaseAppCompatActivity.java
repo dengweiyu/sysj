@@ -470,6 +470,7 @@ public abstract class TBaseAppCompatActivity extends BaseAppCompatActivity {
         if (tintManager != null) {
             tintManager.setStatusBarTintEnabled(true);
             tintManager.setStatusBarTintColor(color);
+            setStatusBarDarkMode(false, this);
         }
     }
 

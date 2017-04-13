@@ -627,7 +627,7 @@ public class VideoShareTask208 {
             try {
                 thumbnail = VideoCover.generateBitmap(this.entity.getVideo_path());
                 coverFile = SYSJStorageUtil.createCoverPath(this.entity.getVideo_path());
-                thumbnail = imageCompressor(thumbnail);
+                thumbnail = BitmapUtil.imageCompressor(thumbnail);
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
                 thumbnail.compress(Bitmap.CompressFormat.JPEG,80,os);
                 if (uploadManager != null) {
@@ -992,19 +992,5 @@ public class VideoShareTask208 {
     }
 
 
-    private Bitmap imageCompressor(Bitmap bitmap) {
-        double targetwidth = Math.sqrt(64.00 * 1000);
-        if (bitmap.getWidth() > targetwidth || bitmap.getHeight() > targetwidth) {
-            // 创建操作图片用的matrix对象
-            Matrix matrix = new Matrix();
-            // 计算宽高缩放率
-            double x = Math.max(targetwidth / bitmap.getWidth(), targetwidth
-                    / bitmap.getHeight());
-            // 缩放图片动作
-            matrix.postScale((float) x, (float) x);
-            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
-                    bitmap.getHeight(), matrix, true);
-        }
-        return bitmap;
-    }
+
 }

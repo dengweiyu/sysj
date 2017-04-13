@@ -190,6 +190,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
         viewPager.setOffscreenPageLimit(3);
 
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(1);
 
         new HorizontalOverScrollBounceEffectDecorator(new ViewPagerOverScrollDecorAdapter(viewPager));
 
@@ -442,7 +443,6 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 game = event.getData();
                 setHeaderData(game);
                 introduceFragment.loadData();
-                viewPager.setCurrentItem(1);
 
                 presenter.getGroupEventsList(1, game.getGame_id());
                 if (game != null){

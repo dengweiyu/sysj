@@ -36,6 +36,7 @@ import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.CircleImageView;
 import com.ypy.eventbus.EventBus;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,8 +81,8 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
     /**
      * 跳转：支付方式选择
      */
-    private void startPaymentWayActivity(float money,int number,int entry) {
-        ActivityManeger.startPaymentWayActivity(this,money,number,entry);
+    private void startPaymentWayActivity(int number,int entry) {
+        ActivityManeger.startPaymentWayActivity(this,Float.parseFloat(getPrice(selectedPos)),number,entry);
     }
 
     @Override
@@ -154,15 +155,18 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
 
     public void setPrice(int pos) {
         Log.d(tag, "setPrice: pos = " + pos);
+        String priceStr = "售价：" + TextUtil.toColor(getPrice(pos), "#fe5e5e") + " 元";
+        price.setText(Html.fromHtml(priceStr));
+    }
+
+    private String getPrice(int pos){
         Double priceDouble;
         if (pos != adapter.getData().size() - 1) {
             priceDouble = Double.valueOf(option[pos]) / Double.valueOf(rateStr);
         } else {
             priceDouble = adapter.getCustomInt() / Double.valueOf(rateStr);
         }
-        String priceDouble2 = new DecimalFormat("#0.00").format(priceDouble);
-        String priceStr = "售价：" + TextUtil.toColor(priceDouble2, "#fe5e5e") + " 元";
-        price.setText(Html.fromHtml(priceStr));
+        return new DecimalFormat("#0.00").format(priceDouble);
     }
 
     private void addOnClickListener() {
@@ -209,12 +213,12 @@ public class TopUpActivity extends TBaseAppCompatActivity implements MallContrac
                     }
                  /*   presenter.payment(getMember_id(), adapter.getCustomInt() + "",
                             Constant.ALIPAY, entry);*/
-                    startPaymentWayActivity((float) (adapter.getCustomInt()/Double.valueOf(rateStr)),adapter.getCustomInt(),this.entry);
+                    startPaymentWayActivity(adapter.getCustomInt(),this.entry);
                 } else {
                     Log.d(tag, "onClick: final seleccted = " + option[selectedPos]);
            /*         presenter.payment(getMember_id(), option[selectedPos],
                             Constant.ALIPAY, entry);*/
-                    startPaymentWayActivity((float) (Integer.valueOf(option[selectedPos])/Double.valueOf(rateStr)),Integer.valueOf(option[selectedPos]),this.entry);
+                    startPaymentWayActivity(Integer.valueOf(option[selectedPos]),this.entry);
                 }
                 break;
         }

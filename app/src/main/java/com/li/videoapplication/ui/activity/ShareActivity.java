@@ -36,6 +36,7 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.Platform.ShareParams;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.wechat.utils.WechatClientNotExistException;
 
 /**
  * 活动：分享
@@ -87,6 +88,11 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
         @Override
         public void onError(Platform platform, int i, Throwable throwable) {
             LogHelper.i(tag, "throwable : " + throwable);
+            if (throwable instanceof WechatClientNotExistException){
+                ToastHelper.s(R.string.share_wechat_client_inavailable);
+            }else {
+                ToastHelper.s("分享失败");
+            }
         }
 
         @Override

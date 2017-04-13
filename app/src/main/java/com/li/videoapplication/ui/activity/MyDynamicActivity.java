@@ -36,7 +36,10 @@ import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.GroupDetailVideoAdapter;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
+import com.li.videoapplication.utils.BitmapUtil;
+import com.li.videoapplication.utils.ExpandUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.utils.ThreadUtil;
 import com.li.videoapplication.views.CircleImageView;
 
 import java.io.File;
@@ -118,6 +121,7 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
     @Override
     public void beforeOnCreate() {
         super.beforeOnCreate();
+
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setSystemBar(false);
     }
@@ -125,6 +129,7 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
     @Override
     public void afterOnCreate() {
         super.afterOnCreate();
+
         setAbBackgroundTranceparent();
         setAbTitleWhite();
         setAbTitle(R.string.mydynamic_title);
@@ -372,43 +377,30 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
         if (resultCode == Activity.RESULT_CANCELED) {
             return;
         }
+        String imagePath = null;
         if (requestCode == PhotoHelper.REQUESTCODE_PHOTO_TAKE) {
-            String path = photoHelper.getPath();
-            if (path != null)
-                updatePhoto(path);
+            imagePath = photoHelper.getPath();
+        }else {
+            imagePath = new ExpandUtil().getImagePath(this,requestCode,resultCode,data);
         }
-        if (requestCode == PhotoHelper.REQUESTCODE_PHOTO_PICK) {
-            if (data != null) {
-                Uri uri = data.getData();
-                if (uri != null) {
-                    Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-                    if (null == cursor || !cursor.moveToFirst()) {
-                        showToastShort("没有找到您想要的图片");
-                        return;
-                    }
-                    int columnIndex = cursor.getColumnIndex("_data");
-                    String path = cursor.getString(columnIndex);
-                    if (path != null) {
-                        File file = new File(path);
-                        if (!file.exists()) {
-                            showToastShort("没有找到您想要的图片");
-                            return;
-                        }
-                    }
-                    cursor.close();
-                    updatePhoto(path);
-                }
-            }
+        if (StringUtil.isNull(imagePath)){
+            showToastShort("没有找到您想要的图片");
+        }else {
+            updatePhoto(imagePath);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void updatePhoto(String originPath) {
 
-        Bitmap bitmap = com.li.videoapplication.tools.BitmapHelper.getimage(originPath);
+        final Bitmap bitmap = com.li.videoapplication.tools.BitmapHelper.getimage(originPath);
         String tempPath = BitmapLoader.saveBitmapToLocal(bitmap);
-        File file = new File(tempPath);
-        // 上传封面
+        File file ;
+        if (StringUtil.isNull(tempPath)){       //保存失败
+           file =  new File(originPath);
+        }else {
+            file = new File(tempPath);         //不保存到缓存目录
+        }
         DataManager.userProfileUploadCover(getMember_id(), file);
         showProgressDialog(LoadingDialog.LOADING);
     }

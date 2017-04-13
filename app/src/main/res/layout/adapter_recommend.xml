@@ -40,7 +40,7 @@
         android:layout_alignTop="@+id/left"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="12dp"
-        android:layout_marginTop="4dp"
+
         android:layout_toRightOf="@+id/left"
         android:ellipsize="end"
         android:lines="2"

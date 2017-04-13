@@ -1,5 +1,60 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'AndResGuard'
+//资源混淆依赖库
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        /* maven { url 'https://maven.fabric.io/public' }*/
+    }
+    dependencies {
+        // The Fabric Gradle plugin uses an open ended version to react
+        // quickly to Android tooling updates
+        classpath ('com.tencent.mm:AndResGuard-gradle-plugin:1.2.0') { changing=true }
+    }
+}
+//资源混淆 使用gradle task来执行打包  当前版本(下个版本会支持)不之前使用v2方式进行签名，因此和Walle互斥
+andResGuard {
+    mappingFile = file("./resource_mapping.txt")
+    use7zip = false         //7zip压缩 极限压缩    V2签名下不支持
+    useSign = true          //是否自动签名
+    keepRoot = true         //保持资源路径
+    // add <yourpackagename>.R.drawable.icon into whitelist.
+    // because the launcher will get the icon with his name
+    whiteList = [                                   //白名单 有些需要根据标识来获取资源的不要混淆,第三方的也建议不混淆
+         "R.drawable.ic_launcher",
+         //https://docs.fabric.io/android/crashlytics/build-tools.html
+         "R.string.com.crashlytics.*",
+         // for umeng update
+         "R.string.umeng*",
+         "R.string.UM*",
+         "R.string.tb_*",
+         "R.layout.umeng*",
+         "R.layout.tb_*",
+         "R.drawable.umeng*",
+          "R.drawable.tb_*",
+          "R.anim.umeng*",
+          "R.color.umeng*",
+          "R.color.tb_*",
+          "R.style.*UM*",
+          "R.style.umeng*",
+          "R.id.umeng*",
+        "R.string.ssdk*"                        //mob一键分享相关不混淆
+    ]
+    compressFilePattern = [
+            "*.png",
+            "*.jpg",
+            "*.jpeg",
+            "*.gif",
+            "resources.arsc"
+    ]
+    sevenzip {
+        artifact = 'com.tencent.mm:SevenZip:1.2.0'
+        //path = "/usr/local/bin/7za"
+    }
+}
+
 
 android {
     packagingOptions {
@@ -41,7 +96,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
         // 20170104,2.1.4   test:20161122, 2.1.2
-        versionCode 20170410
+        versionCode 20170412
         versionName "2.1.8.2"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
@@ -52,6 +107,8 @@ android {
         release {
             // 是否进行混淆
             minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
             // 混淆文件的位置
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // 输出apk名称为VideoApplication V1.1.7 build 20151105.apk
@@ -190,9 +247,10 @@ dependencies {
     compile project(':IMsdk')
     //友盟分析
     compile files('libs/umeng-analytics-v6.0.9.jar')
-
     //QQ支付
     compile files('libs/mqqopenpay.jar')
     //微信支付在Shared SDk中进行了依赖  因为支付结果的回调需要在WxEntryActivity中处理
 
+    //Walle 多渠道
+    compile 'com.meituan.android.walle:library:1.1.1'
 }

@@ -75,7 +75,7 @@ public class GroupdetailIntroduceFragment extends TBaseFragment{
             if (StringUtil.isNull(downloadNum)){
                 downloadNum = "0";
             }
-            setTextViewText(mDownloadNum, "下载："+ StringUtil.formatNum(downloadNum));
+           //  setTextViewText(mDownloadNum, "下载："+ StringUtil.formatNum(downloadNum));
             GlideHelper.displayImage(getActivity(),activity.game.getFlag(),mIcon);
         }
 

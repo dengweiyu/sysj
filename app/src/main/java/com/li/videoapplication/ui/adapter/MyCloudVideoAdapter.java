@@ -73,20 +73,7 @@ public class MyCloudVideoAdapter extends BaseAdapter {
             }
         } else {
             // 七牛视频
-            try {
-                // IntentHelper.startActivityActionViewVideo(context, qn_url);
-                VideoActivity.startVideoActivity(context, qn_url, item.getTitle());
-                Log.d(TAG, "startPlayerActivity: 1");
-            } catch (Exception exc) {
-                exc.printStackTrace();
-                try {
-                    IntentHelper.startActivityActionView(context, qn_url);
-                    Log.d(TAG, "startPlayerActivity: 2");
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    Log.d(TAG, "startPlayerActivity: 3");
-                }
-            }
+            ActivityManeger.startVideoPlayActivity(context,item);
         }
         UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "云端视频-成功播放云端视频任意视频");
     }

@@ -59,9 +59,9 @@ public class MainApplication extends BaseApplication {
                     "io.rong.push".equals(AppUtil.getCurrentProcessName(getApplicationContext()))) {
                 RongIM.init(MainApplication.this);
             }
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+          //  new Handler().postDelayed(new Runnable() {
+           //     @Override
+          //      public void run() {
 
                     RequestExecutor.start(new Runnable() {
                         @Override
@@ -90,8 +90,8 @@ public class MainApplication extends BaseApplication {
                                     AnalyticsConfig.getChannel(getApplicationContext()));
                         }
                     });
-                }
-            }, 1500);
+            //    }
+        //    }, 1500);
         }
         //只能同步启动
         x.Ext.init(MainApplication.this);

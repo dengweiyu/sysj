@@ -10,6 +10,7 @@ import java.io.InputStream;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
 import android.util.Log;
@@ -215,5 +216,26 @@ public class BitmapUtil {
             bitmap.recycle();
             System.gc();
         }
+    }
+
+    /**
+     * 压缩图片
+     * @param bitmap
+     * @return
+     */
+    public static Bitmap imageCompressor(Bitmap bitmap) {
+        double targetwidth = Math.sqrt(64.00 * 1000);
+        if (bitmap.getWidth() > targetwidth || bitmap.getHeight() > targetwidth) {
+            // 创建操作图片用的matrix对象
+            Matrix matrix = new Matrix();
+            // 计算宽高缩放率
+            double x = Math.max(targetwidth / bitmap.getWidth(), targetwidth
+                    / bitmap.getHeight());
+            // 缩放图片动作
+            matrix.postScale((float) x, (float) x);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                    bitmap.getHeight(), matrix, true);
+        }
+        return bitmap;
     }
 }

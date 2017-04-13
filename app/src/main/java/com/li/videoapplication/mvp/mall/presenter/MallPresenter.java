@@ -149,6 +149,7 @@ public class MallPresenter implements IMallPresenter {
             @Override
             public void onFailure(Throwable e) {
                 Log.e("payment",e.getMessage());
+                paymentListView.refreshFault();
             }
         });
     }

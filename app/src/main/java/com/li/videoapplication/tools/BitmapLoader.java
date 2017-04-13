@@ -69,6 +69,7 @@ public class BitmapLoader {
             // 使用随机数使得发送的图片的缩略图文件名不相同
             imgFile = new File(desDir.getAbsoluteFile() + "/" + String.valueOf(bitmap.hashCode() + Math.random()) + ".jpg");
             imgFile.createNewFile();
+
             fileOutput = new FileOutputStream(imgFile);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 80, fileOutput);
             fileOutput.flush();

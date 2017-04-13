@@ -166,8 +166,10 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
 
     @Override
     public void afterOnCreate() {
-        super.afterOnCreate();
         setSystemBarBackgroundColor(Color.BLACK);
+        super.afterOnCreate();
+
+
     }
 
     @Override
@@ -291,7 +293,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
     }
 
     private void refreshBtnColor() {
-        if (mViewPager.getCurrentItem() == 0) {
+        if (mViewPager.getCurrentItem() == 0 && match != null) {
             //8:签到已截止，9：比赛结束，12：匹配已截止
             if (match.getBtn_status() == 9 || match.getBtn_status() == 12 || match.getBtn_status() == 8) {
                 cardViewText.setBackgroundResource(R.drawable.gamematchdetail_btn_gray);
@@ -317,7 +319,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
                     DialogManager.showLogInDialog(this);
                     return;
                 }
-                if (mViewPager.getCurrentItem() == 0) {//赛规页面
+                if (mViewPager.getCurrentItem() == 0 && match != null) {//赛规页面
                     switch (match.getBtn_status()) {
                         case 1://立即报名
                             startSignUpActivity();
@@ -340,6 +342,9 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
                         case 7:// xx月xx日 xxxx-xxxx 点击这里签到
                             String s;
                             try {
+                                if (match == null){
+                                    return;
+                                }
                                 String signStatrTime = TimeHelper.getWholeTimeFormat(match.getSign_starttime());
                                 String signEndTime = TimeHelper.getTime2HmFormat(match.getSign_endtime());
                                 s = "请于" + signStatrTime + "~" + signEndTime + "前进行签到";
@@ -400,7 +405,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
                 startShareActivity();
                 break;
             case R.id.gamematch_startchat:
-                if (isLogin()) {
+                if (isLogin() && match != null) {
                     presenter.groupJoin(getMember_id(), match.getChatroom_group_id());
                     UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "群聊");
                 } else {
@@ -437,17 +442,19 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
     @Override
     public void onPageSelected(int position) {
         refreshBtnColor();
-        switch (position) {
-            case 0:
-                con.setVisibility(View.VISIBLE);
-                cardViewText.setVisibility(View.VISIBLE);
-                cardViewText.setText(match.getBtn_text());
-                break;
-            case 1:
-                con.setVisibility(View.VISIBLE);
-                cardViewText.setVisibility(View.VISIBLE);
-                cardViewText.setText("我的赛程");
-                break;
+        if (match != null){
+            switch (position) {
+                case 0:
+                    con.setVisibility(View.VISIBLE);
+                    cardViewText.setVisibility(View.VISIBLE);
+                    cardViewText.setText(match.getBtn_text());
+                    break;
+                case 1:
+                    con.setVisibility(View.VISIBLE);
+                    cardViewText.setVisibility(View.VISIBLE);
+                    cardViewText.setText("我的赛程");
+                    break;
+            }
         }
     }
 
@@ -456,6 +463,9 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
     }
 
     private void showVictoryDialog() {
+        if (match == null){
+            return;
+        }
         switch (match.getAlert_status()) {
             case 0://没有弹框
                 break;
@@ -484,6 +494,9 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
     }
 
     private void getCustomerServiceID() {
+        if (match == null){
+            return;
+        }
         String[] cs = match.getCustomer_service();
         PreferencesHepler.getInstance().saveCustomerServiceIDs(Arrays.asList(cs));//保存客服id集合
         int num = new Random().nextInt(cs.length);//随机获取一个客服ID
@@ -529,7 +542,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
      */
     @Override
     public void refreshGroupJoin(BaseHttpResult data) {
-        if (data.isResult() && RongIM.getInstance() != null &&
+        if (match != null && data.isResult() && RongIM.getInstance() != null &&
                 RongIM.getInstance().getCurrentConnectionStatus() == ConnectionStatus.CONNECTED) {
 
             RongIMHelper.setCoversationNotifMute(Conversation.ConversationType.GROUP,

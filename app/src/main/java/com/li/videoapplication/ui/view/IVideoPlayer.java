@@ -1,9 +1,13 @@
 package com.li.videoapplication.ui.view;
 
+import android.content.Context;
+
 /**
  * 视图：播放器
  */
 public interface IVideoPlayer {
+
+    void initListener(Context context);
 
     void startVideo();
 
