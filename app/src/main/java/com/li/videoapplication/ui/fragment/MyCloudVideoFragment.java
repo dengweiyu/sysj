@@ -10,6 +10,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.event.CloudVideoEvent;
 import com.li.videoapplication.data.model.event.CloudVideoRecommendEvent;
 import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
 import com.li.videoapplication.data.model.response.AuthorVideoList2Entity;
@@ -26,6 +27,7 @@ import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.MyCloudVideoAdapter;
 import com.li.videoapplication.utils.StringUtil;
+import com.ypy.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -69,6 +71,8 @@ public class MyCloudVideoFragment extends TBaseFragment implements PullToRefresh
         initListView(view);
 
         onPullDownToRefresh(pullToRefreshListView);
+
+        EventBus.getDefault().register(this);
     }
 
     private void initListView(View view) {
@@ -163,6 +167,13 @@ public class MyCloudVideoFragment extends TBaseFragment implements PullToRefresh
         if (event != null && event.isResult() && !StringUtil.isNull(video_id)) {//正常情况，商城有卖推荐位
             DialogManager.showOfficialPaymentDialog(getActivity(), event, video_id);
         }
+    }
+
+    /**
+     * 回调: 更新云端视频列表
+     */
+    public void onEventMainThread(CloudVideoEvent event) {
+        onPullDownToRefresh(pullToRefreshListView);
     }
 
     /**

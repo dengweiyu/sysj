@@ -141,6 +141,11 @@ public class VideoPlayActivity extends TBaseActivity implements
         if (item == null) {
             finish();
         }
+        if (!StringUtil.isNull(item.getMore_mark())){
+            if (item.getMore_mark().equals("player_square")){
+                UmengAnalyticsHelper.onEvent(this,UmengAnalyticsHelper.MAIN,"首页-玩家广场");
+            }
+        }
         try {
             isLandscape = getIntent().getBooleanExtra("isLandscape", false);
         } catch (Exception e) {

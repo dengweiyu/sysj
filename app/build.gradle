@@ -250,7 +250,4 @@ dependencies {
     //QQ支付
     compile files('libs/mqqopenpay.jar')
     //微信支付在Shared SDk中进行了依赖  因为支付结果的回调需要在WxEntryActivity中处理
-
-    //Walle 多渠道
-    compile 'com.meituan.android.walle:library:1.1.1'
 }
