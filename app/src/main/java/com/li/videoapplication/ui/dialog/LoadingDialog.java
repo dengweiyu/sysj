@@ -27,10 +27,15 @@ import com.li.videoapplication.framework.BaseDialog;
 @SuppressLint("CutPasteId") 
 public class LoadingDialog extends BaseDialog {
 
+
 	public static String VERIFYING = "验证中...";
 	public static String LOADING = "加载中...";
 	public static String UPLOADING = "上传中...";
 	public static String LOHIN = "登录中...";
+	public static String DELETING = "删除中...";
+	public static String CUTTING = "剪辑中...";
+	public static String MUXING = "合成中...";
+	public static String SAVING = "保存中...";
 
 	private TextView textView;
 	private ImageView imageView;

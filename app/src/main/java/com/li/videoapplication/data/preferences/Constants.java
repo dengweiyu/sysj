@@ -59,4 +59,25 @@ public class Constants {
 	public static final String DYNAMICT_TIME = "dynamicTime";// 动态刷新时间
 	public static final String TASK_TIME = "taskTime";// 任务刷新时间
 	public static final String IM_LOGOUT = "im_logout";//im断线
+
+	/**############### 以下是剪辑相关  ##################*/
+	/**
+	 * 封面
+	 */
+	public static final String COVER = "Cover";
+
+	/**
+	 * 图片（通栏广告等）
+	 */
+	public static final String IMAGE = "Image";
+
+	/**
+	 * 字幕
+	 */
+	public static final String SUBTITLE = "Subtitle";
+
+	/**
+	 * 临时视频
+	 */
+	public static final String TMP = "tmp";
 }

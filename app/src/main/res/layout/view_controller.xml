@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/kaka_10"
+    android:paddingBottom="@dimen/kaka_10"
+    android:gravity="center_vertical">
+
+    <!--32/38-->
+
+    <!--16-->
+
+    <ImageView
+        android:id="@+id/controller_play"
+        android:layout_width="@dimen/kaka_32"
+        android:layout_height="@dimen/kaka_32"
+        android:layout_marginLeft="@dimen/kaka_6"
+        android:padding="@dimen/kaka_7.5"
+        android:src="@drawable/videoeditor_pause"/>
+
+    <!--05:01-->
+
+    <TextView
+        android:id="@+id/controller_position"
+        android:layout_width="@dimen/kaka_36"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/kaka_4"
+        android:text=""
+        android:textColor="#ffffff"
+        android:textSize="12sp"/>
+
+    <!--4/14-->
+
+    <com.screeclibinvoke.views.TouchSeekBar
+        android:id="@+id/controller_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/kaka_4"
+        android:layout_marginRight="@dimen/kaka_4"
+        android:minHeight="@dimen/kaka_4"
+        android:maxHeight="@dimen/kaka_4"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:indeterminateOnly="false"
+        android:mirrorForRtl="true"
+        android:max="100"
+        android:progress="40"
+        android:secondaryProgress="60"
+        android:progressDrawable="@drawable/videoeditor_progress"
+        android:thumb="@drawable/videoeditor_circle"/>
+
+    <!--30:32-->
+
+    <TextView
+        android:id="@+id/controller_duration"
+        android:layout_width="@dimen/kaka_36"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/kaka_13.5"
+        android:text=""
+        android:textColor="#ffffff"
+        android:textSize="12sp"/>
+
+    <ImageView
+        android:id="@+id/controller_fullscreen"
+        android:layout_width="@dimen/kaka_32"
+        android:layout_height="@dimen/kaka_32"
+        android:layout_marginRight="@dimen/kaka_6"
+        android:padding="@dimen/kaka_7.5"
+        android:src="@drawable/videoeditor_fullscreen"/>
+</LinearLayout>

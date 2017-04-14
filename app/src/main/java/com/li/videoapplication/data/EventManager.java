@@ -31,6 +31,7 @@ import com.li.videoapplication.data.model.event.Tag2VideoShareEvent;
 import com.li.videoapplication.data.model.event.UploadMatchPicEvent;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.event.VideoCutEvent;
+import com.li.videoapplication.data.model.event.VideoEditor2VideoManagerEvent;
 import com.li.videoapplication.data.model.event.VideoUploadCompleteEvent;
 import com.li.videoapplication.data.model.event.postConnectedTVSuccessEvent;
 
@@ -238,6 +239,17 @@ public class EventManager {
      */
     public static void postImageDirectoryResponseObject(boolean result, String msg, List<ImageDirectoryEntity> data) {
         ImageDirectoryResponseObject event = new ImageDirectoryResponseObject(result, msg, data);
+        EventBus.getDefault().post(event);
+    }
+
+    /**
+     * 本地视频
+     */
+    public static void postVideoEditor2VideoManagerEvent(String[] video_paths, int index) {
+        Log.d(TAG, "postVideoEditor2VideoManagerEvent: ");
+        VideoEditor2VideoManagerEvent event = new VideoEditor2VideoManagerEvent();
+        event.setVideo_paths(video_paths);
+        event.setIndex(index);
         EventBus.getDefault().post(event);
     }
 }

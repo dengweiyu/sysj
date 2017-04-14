@@ -105,6 +105,11 @@
     <color name="menu_billboard_gray">#8b8b8b</color>
     <color name="menu_billboard_transperent">#00ffffff</color>
 
+    <color name="menu_videoeditor_black">#111414</color>
+    <color name="menu_videoeditor_gray">#1a1d1d</color>
+    <color name="menu_videoeditor_blue">#348ed5</color>
+    <color name="menu_videoeditor_white">#ffffff</color>
+
     <color name="menu_help_blue">#5193ff</color>
     <color name="menu_help_gray">#e2e2e2</color>
     <color name="menu_help_transperent">#00ffffff</color>

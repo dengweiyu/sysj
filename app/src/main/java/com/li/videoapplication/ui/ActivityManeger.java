@@ -1385,4 +1385,14 @@ public class  ActivityManeger {
         context.startActivity(intent);
     }
 
+    /**
+     * 视频编辑
+     */
+    public static void startVideoEditorActivity_2(Context context, VideoCaptureEntity entity) {
+        Intent intnet = new Intent(context, VideoEditorActivity.class);
+        if (entity != null)
+            intnet.putExtra("entity", entity);
+        intnet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intnet);
+    }
 }

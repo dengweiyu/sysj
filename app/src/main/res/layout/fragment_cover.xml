@@ -1,0 +1,13 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.li.videoapplication.ui.view.CoverSeekBar
+        android:visibility="visible"
+        android:id="@+id/coverSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="108dp"
+        android:layout_marginTop="@dimen/kaka_10"/>
+
+</LinearLayout>

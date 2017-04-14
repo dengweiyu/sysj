@@ -96,6 +96,39 @@
     <string name="videomanagercopy_hint">请输入视频名称</string>
     <string name="videomanagercopy_tip_empty">视频名称不能为空</string>
     <string name="videomanagercopy_tip_remane">视频名称已存在，请重新命名</string>
+    <string name="videoeditor_title">视频编辑</string>
+    <string name="videoeditor_save">保存</string>
+    <string name="videoeditor_cancel">取消</string>
+    <string name="videoeditor_editor">剪辑</string>
+    <string name="videoeditor_subtitle">字幕</string>
+    <string name="videoeditor_audio">配音</string>
+    <string name="videoeditor_cover">封面</string>
+    <string name="videoeditor_normal">切换到普通编辑模式</string>
+    <string name="videoeditor_advanced">切换到高级编辑模式</string>
+    <string name="videoeditor_tip_audiorecording">正在录音...</string>
+    <string name="videoeditor_tip_addsubtitle">正在添加字幕...</string>
+    <string name="videoeditor_hint_edit">点击输入文字</string>
+
+    <string name="editor_introduce">点击“剪辑”剪去阴影部分</string>
+    <string name="editor_cut">剪辑</string>
+    <string name="editor_cut_tip_exit">视频文件不存在</string>
+    <string name="editor_cut_tip_error">剪辑出错</string>
+    <string name="editor_cut_tip_time">剪辑的视频长度不能小于10s</string>
+    <string name="editor_cut_tip_file">保存文件出错</string>
+    <string name="editor_cut_tip_success">剪辑成功</string>
+    <string name="editor_cut_tip_failed">剪辑失败</string>
+
+    <string name="audio_text">录音中...</string>
+    <string name="audio_original">原声</string>
+    <string name="audio_recording_start">开始</string>
+    <string name="audio_recording_stop">停止</string>
+    <string name="audio_mux_tip_success">配音成功</string>
+    <string name="audio_mux_tip_failed">配音失败</string>
+
+    <string name="subtitle_add">添加</string>
+    <string name="subtitle_confirm">确定</string>
+    <string name="subtitle_tip_srt_not_empty">字幕不能为空</string>
+
 
     <string name="uploadvideo_content">当前手机处于非WIFI环境，上传视频将消耗一定的手机流量,是否上传视频？</string>
     <string name="uploadvideo_cancel">取消</string>

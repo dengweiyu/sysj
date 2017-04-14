@@ -3,6 +3,7 @@ package com.li.videoapplication.data.local;
 import android.content.Context;
 import android.util.Log;
 
+import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.framework.AppManager;
 
 import java.io.File;
@@ -112,6 +113,42 @@ public class LPDSStorageUtil {
         }
         Log.i(TAG, "getLpds: " + file);
         return file;
+    }
+
+    /**
+     * [存储卡]/LuPingDaShi/Cover（V2.0.8版本）
+     */
+    public static File getLpdsCover() {
+//        Log.d(TAG, "-----------------------------------[getLpdsCover]--------------------------------------");
+        File file = getLpds();
+        File floder = null;
+        if (file != null) {
+            String path = file.getPath() + File.separator + Constants.COVER;
+            floder = new File(path);
+            if (!floder.exists()) {
+                floder.mkdirs();
+            }
+        }
+//        Log.d(TAG, "getLpdsCover: " + floder);
+        return floder;
+    }
+
+    /**
+     * [存储卡]/LuPingDaShi/Subtitle（V2.0.8版本）
+     */
+    public static File getLpdsSubtitle() {
+//        Log.d(TAG, "-----------------------------------[getLpdsSubtitle]--------------------------------------");
+        File file = getLpds();
+        File floder = null;
+        if (file != null) {
+            String path = file.getPath() + File.separator + Constants.SUBTITLE;
+            floder = new File(path);
+            if (!floder.exists()) {
+                floder.mkdirs();
+            }
+        }
+//        Log.d(TAG, "getLpdsSubtitle: " + floder);
+        return floder;
     }
 
     /************************  以下为录屏大师 视频/图片文件夹  **************************/
@@ -375,6 +412,101 @@ public class LPDSStorageUtil {
             e.printStackTrace();
         }
         Log.d(TAG, "createFilecachePath: " + file);
+        return file;
+    }
+
+    /**
+     * 生成封面文件（V2.0.8版本）
+     *
+     * [存储卡]/LuPingDaShi/Cover/91859a7fccfdcb6320a8ba886727eb80.png
+     */
+    public static File createCoverPath(String filePath) {
+//        Log.d(TAG, "-----------------------------------[createCoverPath]--------------------------------------");
+        if (StorageUtil.createFilePathName(filePath, ".png") == null)
+            return null;
+        String path = getLpdsCover().getPath() + File.separator + StorageUtil.createFilePathName(filePath, ".png");
+        File file = null;
+        try {
+            file = new File(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        Log.d(TAG, "createCoverPath: " + file);
+        return file;
+    }
+
+
+    /**
+     * 生成字幕文件（V2.0.8版本）
+     *
+     * [存储卡]/LuPingDaShi/Subtitle/91859a7fccfdcb6320a8ba886727eb80.srt
+     */
+    public static File createSubtitlePath(String filePath) {
+//        Log.d(TAG, "-----------------------------------[createSubtitlePath]--------------------------------------");
+        if (StorageUtil.createFilePathName(filePath, ".srt") == null)
+            return null;
+        String path = getLpdsSubtitle().getPath() + File.separator + StorageUtil.createFilePathName(filePath, ".srt");
+        File file = null;
+        try {
+            file = new File(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        Log.d(TAG, "createSubtitlePath: " + file);
+        return file;
+    }
+
+    /**
+     * [存储卡]/LuPingDaShi/tmp（V2.0.8版本）
+     */
+    public static File getLpdsTmp() {
+//        Log.d(TAG, "-----------------------------------[getLpdsTmp]--------------------------------------");
+        File file = getLpds();
+        File floder = null;
+        if (file != null) {
+            String path = file.getPath() + File.separator + Constants.TMP;
+            floder = new File(path);
+            if (!floder.exists()) {
+                floder.mkdirs();
+            }
+        }
+//        Log.d(TAG, "getLpdsTmp: " + floder);
+        return floder;
+    }
+
+    /**
+     * 生成临时视频文件（V2.0.8版本）
+     *
+     * [存储卡]/LuPingDaShi/Tmp/2016-03-07_12_15_12.mp4
+     */
+    public static File createTmpRecPath() {
+//        Log.d(TAG, "-----------------------------------[createTmpRecPath]--------------------------------------");
+        String path = getLpdsTmp().getPath() + File.separator + StorageUtil.createRecName();
+        File file = null;
+        try {
+            file = new File(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        Log.d(TAG, "createTmpRecPath: " + file);
+        return file;
+    }
+
+    /**
+     * 生成临时字幕文件（V2.0.8版本）
+     *
+     * [存储卡]/LuPingDaShi/Tmp/2016-03-07_12_15_12.srt
+     */
+    public static File createTmpSubtitlePath() {
+//        Log.d(TAG, "-----------------------------------[createTmpSubtitlePath]--------------------------------------");
+        String path = getLpdsTmp().getPath() + File.separator + StorageUtil.createFilePathName(".srt");
+        File file = null;
+        try {
+            file = new File(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        Log.d(TAG, "createTmpSubtitlePath: " + file);
         return file;
     }
 }

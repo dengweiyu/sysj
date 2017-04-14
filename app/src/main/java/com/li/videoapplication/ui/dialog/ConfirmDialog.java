@@ -47,7 +47,6 @@ public class ConfirmDialog extends BaseOverShootDialog implements View.OnClickLi
         findViewById(R.id.tv_confirm_dialog_yes).setOnClickListener(this);
 
         mContent = (TextView) findViewById(R.id.tv_confirm_dialog_content);
-
     }
 
     private void init(String content,View.OnClickListener listener){

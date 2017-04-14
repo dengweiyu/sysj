@@ -451,6 +451,10 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
         });
     }
 
+    public final void showProgressDialogCancelable(final String message) {
+        showProgressDialog(message, false, false);
+    }
+
     /*##############  点击非EditText区域隐藏键盘   ##############*/
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
