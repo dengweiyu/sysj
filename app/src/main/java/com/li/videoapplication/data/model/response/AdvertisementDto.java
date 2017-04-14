@@ -37,4 +37,6 @@ public class AdvertisementDto extends BaseResponseEntity {
     public void setData(List<LaunchImage> data) {
         this.data = data;
     }
+
+
 }

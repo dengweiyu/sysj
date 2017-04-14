@@ -75,6 +75,9 @@ public class MatchContract {
 
         //回调：赛事筛选
         void refreshGameCateData(GameCateEntity data);
+
+        //回调：刷新赛事列表失败
+        void refreshMatchListFault(Throwable t);
     }
 
     /**

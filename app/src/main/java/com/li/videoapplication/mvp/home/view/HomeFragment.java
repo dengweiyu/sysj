@@ -106,6 +106,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     private static final int GUESSVIDEO_CHANGE = 1;
     private Timer refreshTimer;
 
+    private boolean isRefresh = false;
 
     /**
      * 跳转：首页更多
@@ -207,6 +208,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             //异步加载新数据
             presenter.loadHomeData(page, true);
         }
+        setRefreshStatus(true);
         presenter.unfinishedTask(getMember_id(),false);
     }
 
@@ -362,9 +364,20 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         return null;
     }
 
+    private void setRefreshStatus(boolean status){
+        isRefresh = status;
+        if (isRefresh){
+            //关闭上拉加载更多
+            homeAdapter.setEnableLoadMore(false);
+        }else {
+            homeAdapter.setEnableLoadMore(true);
+        }
+    }
+
     @Override
     public void onRefresh() {
         Log.d(tag, "------------ onRefresh: ------------");
+        setRefreshStatus(true);
         homeAdapter.removeAllFooterView();
         noAdvertisement = true;
         page = 1;
@@ -384,6 +397,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                 if (swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
                     ToastHelper.s(R.string.net_unstable);
+                    setRefreshStatus(false);
                 }
             }
         }, 1000 * 10);
@@ -476,7 +490,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     @Override
     public void refreshHomeData(HomeDto data) {
         Log.d(tag, "======== refreshHomeData: ========");
-        Log.d(tag, "Home Data: " + data);
+        Log.d(tag, "Home Data: " + data.toJSON().toString());
         if (data != null) {
             page_count = data.getPage_count();
             if (page < 2) {
@@ -524,6 +538,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
             isNetWordChange = true;
             if (refreshTimer != null) refreshTimer.cancel();
+            setRefreshStatus(false);
         } else {
             onRefresh();
         }
@@ -535,14 +550,6 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     @Override
     public void refreshHomeDataFault(final Throwable t) {
 
-        DownLoadExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (t != null){
-                    AppExceptionHandler.getInstance().saveLog(t.getMessage());
-                }
-            }
-        });
     }
 
 

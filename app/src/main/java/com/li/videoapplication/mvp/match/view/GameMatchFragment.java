@@ -64,7 +64,7 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
     private GameCateEntity gameCateData;
     private Timer refreshTimer;
 
-
+    private boolean isRefresh = false;
 
     /**
      * 跳转：游戏赛事详情
@@ -182,12 +182,15 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
         presenter.getEventsList(page, match_type, game_id);
         //游戏类型
         presenter.getGameCate();
+
+        setRefreshStatus(true);
     }
 
     //下拉刷新
     @Override
     public void onRefresh() {
         page = 1;
+        setRefreshStatus(true);
         // 赛事列表
         presenter.getEventsList(page, match_type, game_id);
         //刷新状态刷新超过十秒钟取消
@@ -197,9 +200,20 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
                 if (swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
                     ToastHelper.s(R.string.net_unstable);
+                    setRefreshStatus(false);
                 }
             }
         }, 1000 * 10);
+    }
+
+    private void setRefreshStatus(boolean status){
+        isRefresh = status;
+        if (isRefresh){
+            //关闭上拉加载更多
+            adapter.setEnableLoadMore(false);
+        }else {
+            adapter.setEnableLoadMore(true);
+        }
     }
 
     //加载更多
@@ -217,6 +231,10 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
                 }
             }
         });
+    }
+
+    @Override
+    public void refreshMatchListFault(Throwable t) {
     }
 
     @Override
@@ -252,6 +270,7 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
             adapter.addData(data.getList());
         }
         ++page;
+        setRefreshStatus(false);
         if (refreshTimer != null) refreshTimer.cancel();
     }
 

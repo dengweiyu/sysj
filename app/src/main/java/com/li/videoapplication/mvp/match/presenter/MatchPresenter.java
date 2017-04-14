@@ -114,7 +114,7 @@ public class MatchPresenter implements IMatchPresenter {
 
             @Override
             public void onFailure(Throwable e) {
-
+                matchListView.refreshMatchListFault(e);
             }
         });
     }
