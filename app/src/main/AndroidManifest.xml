@@ -481,6 +481,14 @@
             android:name="com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordPermissionActivity"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize|smallestScreenSize"
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@android:style/Theme.Panel"
+            android:launchMode="singleTask"
+            android:taskAffinity=":recording"
+            android:screenOrientation="unspecified"/>
 
         <!--录屏服务-->
         <service android:name="com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService" />

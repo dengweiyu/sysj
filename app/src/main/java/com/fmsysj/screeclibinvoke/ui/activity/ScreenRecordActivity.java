@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,16 +23,19 @@ import com.fmsysj.screeclibinvoke.utils.RootUtil;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.ifeimo.screenrecordlib.Utils;
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.model.event.ScreenRecordPermission2MainEvent;
 import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.PermissionManager;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.utils.ScreenUtil;
 
 import butterknife.BindView;
@@ -92,6 +96,7 @@ public class ScreenRecordActivity extends TBaseActivity implements
     @BindView(R.id.screenrecord_close)
     ImageView close;
 
+    private Handler handler = new Handler();
     /**
      * 录屏
      */
@@ -134,6 +139,23 @@ public class ScreenRecordActivity extends TBaseActivity implements
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        checkPermission();
+    }
+
+    private void checkPermission(){
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if (Build.VERSION.SDK_INT >= 21) {
+                    ScreenRecordPermissionActivity.startPermission(ScreenRecordActivity.this);
+                } else {/*
+                    showMainTipDialog();
+                    showOppoToast();*/
+                }
+            }
+        }, 900);
     }
 
     @Override
@@ -1020,5 +1042,22 @@ public class ScreenRecordActivity extends TBaseActivity implements
                 }
             }
         });
+    }
+
+    /**
+     * 组件间的通讯事件：5.0录屏（获取权限）
+     */
+
+    public void onEventMainThread(ScreenRecordPermission2MainEvent event) {
+
+        PermissionManager manager = new PermissionManager(this, new PermissionManager.Finishable() {
+            @Override
+            public void onFinish() {
+                Log.d(tag, "onFinish: ");/*
+                showMainTipDialog();
+                showOppoToast();*/
+            }
+        });
+        manager.checkPermission();
     }
 }
