@@ -172,10 +172,12 @@ public class VideoEditorActivity2 extends TBaseActivity {
             }
         });
 
+
         videoEditorActionBar.setSaveListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
                 if (isAudioRecording == true) {
                     ToastHelper.s(R.string.videoeditor_tip_audiorecording);
                     return;
@@ -183,6 +185,7 @@ public class VideoEditorActivity2 extends TBaseActivity {
                 if (isAddingSubtitle == true &&
                         subtitleFragment != null) {
                     subtitleFragment.cancelSubtitle();
+
                     return;
                 }
                 showProgressDialogCancelable(LoadingDialog.SAVING);
@@ -349,15 +352,9 @@ public class VideoEditorActivity2 extends TBaseActivity {
         });
     }
 
-    @OnClick({R.id.ab_videoeditor_save,
-            R.id.ab_videoeditor_cancel})
+    @OnClick(R.id.ab_videoeditor_cancel)
     public void onClick(View view) {
-
         switch (view.getId()) {
-
-            case R.id.ab_videoeditor_save:
-                break;
-
             case R.id.ab_videoeditor_cancel:
                 finish();
                 break;

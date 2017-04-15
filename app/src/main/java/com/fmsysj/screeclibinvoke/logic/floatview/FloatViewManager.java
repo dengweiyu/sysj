@@ -20,6 +20,7 @@ import com.li.videoapplication.framework.AppManager;
 
 public class FloatViewManager {
 
+
 	public static final String TAG = FloatViewManager.class.getSimpleName();
 
 	private static FloatViewManager instance;
@@ -167,6 +168,11 @@ public class FloatViewManager {
 		}
 		if (params == null) {
 			params = new LayoutParams();
+			// TYPE_PHONE
+			// TYPE_SYSTEM_ALERT
+			// TYPE_TOAST
+
+			// 4.3以下版本不能用TYPE_TOAST作为悬浮窗属性
 			if (Build.VERSION.SDK_INT <= 18){
 				params.type = LayoutParams.TYPE_SYSTEM_ALERT;
 			} else {
@@ -209,7 +215,8 @@ public class FloatViewManager {
 		}
 		if (params == null) {
 			params = new LayoutParams();
-			if (Build.VERSION.SDK_INT <= 18){
+			// 4.3以下版本不能用TYPE_TOAST作为悬浮窗属性
+			if (Build.VERSION.SDK_INT <= 18) {
 				params.type = LayoutParams.TYPE_SYSTEM_ALERT;
 			} else {
 				params.type = LayoutParams.TYPE_TOAST;
@@ -251,10 +258,11 @@ public class FloatViewManager {
 		}
 		if (paramsContent == null) {
 			paramsContent = new LayoutParams();
-			if (Build.VERSION.SDK_INT <= 18){
-				params.type = LayoutParams.TYPE_SYSTEM_ALERT;
+			// 4.3以下版本不能用TYPE_TOAST作为悬浮窗属性
+			if (Build.VERSION.SDK_INT <= 18) {
+				paramsContent.type = LayoutParams.TYPE_SYSTEM_ALERT;
 			} else {
-				params.type = LayoutParams.TYPE_TOAST;
+				paramsContent.type = LayoutParams.TYPE_TOAST;
 			}
 			paramsContent.format = PixelFormat.RGBA_8888;
 			paramsContent.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE;
@@ -275,10 +283,11 @@ public class FloatViewManager {
 		}
 		if (paramsContent == null) {
 			paramsContent = new LayoutParams();
-			if (Build.VERSION.SDK_INT <= 18){
-				params.type = LayoutParams.TYPE_SYSTEM_ALERT;
+			// 4.3以下版本不能用TYPE_TOAST作为悬浮窗属性
+			if (Build.VERSION.SDK_INT <= 18) {
+				paramsContent.type = LayoutParams.TYPE_SYSTEM_ALERT;
 			} else {
-				params.type = LayoutParams.TYPE_TOAST;
+				paramsContent.type = LayoutParams.TYPE_TOAST;
 			}
 			paramsContent.format = PixelFormat.RGBA_8888;
 			paramsContent.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE;

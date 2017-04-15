@@ -15,8 +15,9 @@
         android:textSize="@dimen/ab_title"
         android:visibility="visible"/>
 
+
     <TextView
-        android:id="@+id/ab_videoeditor_save"
+        android:id="@+id/ab_video_editor_save"
         android:layout_width="@dimen/kaka_50"
         android:layout_height="@dimen/kaka_24"
         android:layout_alignParentRight="true"
@@ -26,7 +27,8 @@
         android:text="@string/videoeditor_save"
         android:textColor="@drawable/text_white_btn"
         android:textSize="13sp"
-        android:visibility="visible"/>
+        android:visibility="visible" />
+
 
     <TextView
         android:id="@+id/ab_videoeditor_cancel"
