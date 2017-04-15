@@ -58,6 +58,7 @@ import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
 import com.li.videoapplication.views.RoundedImageView;
+import com.ypy.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -296,6 +297,8 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 setTextViewText(focus, R.string.dynamic_focus);
             }
         }
+        //关注发生改变事件
+        EventBus.getDefault().post(new GroupAttentionGroupEntity());
     }
 
     private void setMark(TextView view, final Game item) {
@@ -370,6 +373,8 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                                     }else {
                                         UmengAnalyticsHelper.onEvent(GroupDetailActivity.this, UmengAnalyticsHelper.GAME, "游戏圈关注");
                                     }
+                                    //刷新游戏圈界面
+
                                     break;
                             }
                         }

@@ -1,5 +1,6 @@
 package com.li.videoapplication.ui.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.TimedText;
@@ -9,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
 import com.li.videoapplication.R;
+import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.ui.activity.VideoEditorActivity2;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
+
 
 /**
  * 视图：字幕
@@ -24,9 +27,9 @@ public class TimedTextView extends FrameLayout implements IVideoPlay, MediaPlaye
     private LayoutInflater inflater;
     private View view;
     public TextView content;
-    private VideoPlayActivity activity;
+    private TBaseActivity activity;
 
-    public void init(VideoPlayActivity activity) {
+    public void init(TBaseActivity activity) {
         this.activity = activity;
     }
 
@@ -76,6 +79,10 @@ public class TimedTextView extends FrameLayout implements IVideoPlay, MediaPlaye
         });
     }
 
+    public TextView getContent(){
+        return content;
+    }
+
     @Override
     public void showView() {
         setVisibility(VISIBLE);
@@ -100,5 +107,25 @@ public class TimedTextView extends FrameLayout implements IVideoPlay, MediaPlaye
         if (content != null) {
             content.setTextSize(16);
         }
+    }
+
+    @Override
+    public void showCover() {
+
+    }
+
+    @Override
+    public void hideCover() {
+
+    }
+
+    @Override
+    public void showPlay() {
+
+    }
+
+    @Override
+    public void hidePlay() {
+
     }
 }

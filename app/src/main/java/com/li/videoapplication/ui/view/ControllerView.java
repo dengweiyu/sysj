@@ -294,4 +294,24 @@ public class ControllerView extends RelativeLayout implements View.OnClickListen
     public void maxView() {
         danmuku.setVisibility(View.GONE);
     }
+
+    @Override
+    public void showCover() {
+
+    }
+
+    @Override
+    public void hideCover() {
+
+    }
+
+    @Override
+    public void showPlay() {
+
+    }
+
+    @Override
+    public void hidePlay() {
+
+    }
 }

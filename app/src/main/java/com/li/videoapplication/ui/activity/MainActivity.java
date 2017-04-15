@@ -292,6 +292,10 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             @Override
             public void totalUnreadCount(int count) {
                 Log.d(tag, "totalUnreadCount: count == " + count);
+                if(leftCount == null){
+                    leftCount = (CircleImageView) background.findViewById(R.id.ab_left_count);
+                }
+
                 if (count > 0) {
                     leftCount.setVisibility(View.VISIBLE);
                 } else {
@@ -430,12 +434,15 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         searchIcon = (ImageView) background.findViewById(R.id.ab_search_icon);
         searchText = (TextView) background.findViewById(R.id.ab_search_text);
         scanQnCode = (ImageView) background.findViewById(R.id.ab_scanqrcode);
+
         search.setOnClickListener(this);
         searchIcon.setOnClickListener(this);
         searchText.setOnClickListener(this);
         scanQnCode.setOnClickListener(this);
         left.setOnClickListener(this);
         right.setOnClickListener(this);
+
+        findViewById(R.id.iv_bottom_record).setOnClickListener(this);
         return background;
     }
 
@@ -473,7 +480,13 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 break;
 
             case R.id.ab_right:
+                //消息
+                ActivityManeger.startMyMessageActivity(this);
+                break;
+            case R.id.iv_bottom_record:
+
                 DialogManager.showRecordDialog(this);
+                UmengAnalyticsHelper.onEvent(MainActivity.this,UmengAnalyticsHelper.MAIN,"首页-底部录屏");
                 break;
 
             case R.id.ab_search:
@@ -515,10 +528,13 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 leftIcon.setImageResource(R.drawable.ab_person_red);
             }
         }
+        if(leftCount == null){
+            leftCount = (CircleImageView) background.findViewById(R.id.ab_left_count);
+        }
         switch (index) {
             case 0:// 首页
                 background.setBackgroundResource(R.color.ab_backdround_red);
-                right.setImageResource(R.drawable.ab_vedio_white_205);
+                right.setImageResource(R.drawable.home_message_white);
                 left.setBackgroundResource(R.drawable.ab_red);
                 right.setBackgroundResource(R.drawable.ab_red);
                 title.setVisibility(View.GONE);
@@ -529,7 +545,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
             case 1:// 发现
                 background.setBackgroundResource(R.color.ab_backdround_white);
-                right.setImageResource(R.drawable.ab_vedio_red_205);
+                right.setImageResource(R.drawable.home_message_red);
                 left.setBackgroundResource(R.drawable.ab_white);
                 right.setBackgroundResource(R.drawable.ab_white);
                 title.setVisibility(View.GONE);
@@ -540,7 +556,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
             case 2:// 找游戏
                 background.setBackgroundResource(R.color.ab_backdround_white);
-                right.setImageResource(R.drawable.ab_vedio_red_205);
+                right.setImageResource(R.drawable.home_message_red);
                 left.setBackgroundResource(R.drawable.ab_white);
                 right.setBackgroundResource(R.drawable.ab_white);
                 title.setVisibility(View.GONE);
@@ -551,7 +567,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
             case 3:// 福利
                 background.setBackgroundResource(R.color.ab_backdround_white);
-                right.setImageResource(R.drawable.ab_vedio_red_205);
+                right.setImageResource(R.drawable.home_message_red);
                 left.setBackgroundResource(R.drawable.ab_white);
                 right.setBackgroundResource(R.drawable.ab_white);
                 title.setVisibility(View.GONE);
@@ -580,6 +596,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             leftHead.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
             leftIcon.setVisibility(View.VISIBLE);
             leftHead.setVisibility(View.GONE);
+            if(leftCount == null){
+                leftCount = (CircleImageView) background.findViewById(R.id.ab_left_count);
+            }
             leftCount.setVisibility(View.GONE);
         }
     }

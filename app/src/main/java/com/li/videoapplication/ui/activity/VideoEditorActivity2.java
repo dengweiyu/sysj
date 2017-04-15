@@ -62,7 +62,7 @@ public class VideoEditorActivity2 extends TBaseActivity {
 
     private VideoCaptureEntity entity;
     private String extName;
-    private Handler handler = new Handler();
+    public Handler handler = new Handler();
 
     public boolean isAudioRecording, isAddingSubtitle = false;
 

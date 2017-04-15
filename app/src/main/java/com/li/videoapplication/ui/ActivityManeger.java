@@ -88,7 +88,8 @@ import com.li.videoapplication.ui.activity.SquareActivity;
 import com.li.videoapplication.ui.activity.TagActivity;
 import com.li.videoapplication.ui.activity.UploadMatchResultImageActivity;
 import com.li.videoapplication.ui.activity.VideoChooseActivity;
-import com.li.videoapplication.ui.activity.VideoEditorActivity;
+
+import com.li.videoapplication.ui.activity.VideoEditorActivity2;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
@@ -258,7 +259,7 @@ public class  ActivityManeger {
      * 视频编辑
      */
     public synchronized static void startVideoEditorActivity(Context context, VideoCaptureEntity entity) {
-        Intent intnet = new Intent(context, VideoEditorActivity.class);
+        Intent intnet = new Intent(context, VideoEditorActivity2.class);
         if (entity != null)
             intnet.putExtra("entity", entity);
         context.startActivity(intnet);
@@ -1389,7 +1390,7 @@ public class  ActivityManeger {
      * 视频编辑
      */
     public static void startVideoEditorActivity_2(Context context, VideoCaptureEntity entity) {
-        Intent intnet = new Intent(context, VideoEditorActivity.class);
+        Intent intnet = new Intent(context, VideoEditorActivity2.class);
         if (entity != null)
             intnet.putExtra("entity", entity);
         intnet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

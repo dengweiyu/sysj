@@ -80,4 +80,9 @@ public class Constants {
 	 * 临时视频
 	 */
 	public static final String TMP = "tmp";
+
+	/**
+	 * 录音
+	 */
+	public static final String AUDIO = "Audio";
 }

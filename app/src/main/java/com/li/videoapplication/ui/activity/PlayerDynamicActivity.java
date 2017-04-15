@@ -14,6 +14,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
 import com.li.videoapplication.data.model.response.UserProfilePersonalInformationEntity;
 import com.li.videoapplication.data.model.response.UserProfileTimelineListsEntity;
@@ -26,6 +27,7 @@ import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.DynamicVideoAdapter;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
+import com.ypy.eventbus.EventBus;
 
 /**
  * 活动：玩家动态
@@ -239,6 +241,9 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
                 setTextViewText(focus, R.string.dynamic_focus);
             }
         }
+
+        //关注发生改变事件
+        EventBus.getDefault().post(new GroupAttentionGroupEntity());
     }
 
     /**
@@ -399,5 +404,7 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
                 showToastShort(event.getMsg());
             }
         }
+
+
     }
 }

@@ -90,8 +90,19 @@ public class StartView extends RelativeLayout implements IVideoPlay{
         setVisibility(GONE);
     }
 
+    @Override
     public void showCover() {
         cover.setVisibility(VISIBLE);
+    }
+
+    @Override
+    public void hideCover() {
+        cover.setVisibility(GONE);
+    }
+
+    @Override
+    public void showPlay() {
+        play.setVisibility(VISIBLE);
     }
 
     @Override
@@ -99,4 +110,9 @@ public class StartView extends RelativeLayout implements IVideoPlay{
 
     @Override
     public void maxView() {}
+
+    @Override
+    public void hidePlay() {
+
+    }
 }

@@ -2,7 +2,7 @@ package com.li.videoapplication.ui.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.media.MediaPlayer;
+
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -20,9 +20,13 @@ import android.widget.RelativeLayout;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.tools.SubtitleHelper;
+import com.li.videoapplication.tools.SubtitleHelper2;
 import com.li.videoapplication.ui.activity.VideoEditorActivity2;
 import com.li.videoapplication.ui.fragment.AudioFragment;
+import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.ControllerView2;
+import com.li.videoapplication.ui.view.VideoPlayer;
+import com.pili.pldroid.player.PLMediaPlayer;
 
 import java.io.File;
 
@@ -183,10 +187,9 @@ public class PlayingView extends RelativeLayout {
         }
     }
 
-    private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
-
+    private PLMediaPlayer.OnCompletionListener onCompletionListener = new PLMediaPlayer.OnCompletionListener() {
         @Override
-        public void onCompletion(MediaPlayer mp) {
+        public void onCompletion(PLMediaPlayer plMediaPlayer) {
             Log.d(tag, "onCompletion: // --------------------------------------------------------");
             if (activity != null &&
                     activity.isAudioRecording == true &&
@@ -213,12 +216,15 @@ public class PlayingView extends RelativeLayout {
     private long startPostion;
     private boolean isPrepared = false;
     private boolean isLoading = false;
-    private MediaPlayer mediaPlayer;
+    private PLMediaPlayer mediaPlayer;
 
-    private MediaPlayer.OnPreparedListener onPreparedListener = new MediaPlayer.OnPreparedListener() {
+
+
+
+    private PLMediaPlayer.OnPreparedListener onPreparedListener = new PLMediaPlayer.OnPreparedListener() {
 
         @Override
-        public void onPrepared(MediaPlayer mediaPlayer) {
+        public void onPrepared(PLMediaPlayer plMediaPlayer) {
             Log.d(tag, "onPrepared: // --------------------------------------------------------");
             PlayingView.this.mediaPlayer = mediaPlayer;
             isPrepared = true;
@@ -244,6 +250,7 @@ public class PlayingView extends RelativeLayout {
                 }
             }
         }
+
     };
 
     /**
@@ -266,8 +273,8 @@ public class PlayingView extends RelativeLayout {
         playSubtitle(true, mediaPlayer, path);
     }
 
-    private void addSubtitle(File file, MediaPlayer mediaPlayer) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+    private void addSubtitle(File file, PLMediaPlayer mediaPlayer) {
+    /*    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             try {
                 mediaPlayer.addTimedTextSource(file.getPath(), MediaPlayer.MEDIA_MIMETYPE_TEXT_SUBRIP);
                 MediaPlayer.TrackInfo[] trackInfos = mediaPlayer.getTrackInfo();
@@ -285,10 +292,10 @@ public class PlayingView extends RelativeLayout {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
-    private SubtitleHelper subtitleHelper;
+    private SubtitleHelper2 subtitleHelper;
 
     public void showSubtitle(long position) {
         if (subtitleHelper != null) {
@@ -309,18 +316,18 @@ public class PlayingView extends RelativeLayout {
         }
     }
 
-    private void playSubtitle(boolean playing, MediaPlayer mediaPlayer, String path) {
+    private void playSubtitle(boolean playing, PLMediaPlayer mediaPlayer, String path) {
         if (subtitleHelper == null) {
-            subtitleHelper = new SubtitleHelper(path, videoPlayer, timedTextView.getContent());
+            subtitleHelper = new SubtitleHelper2(path, videoPlayer, timedTextView.getContent());
         }
         subtitleHelper.setPlaying(playing);
         subtitleHelper.playSubtitle();
     }
 
-    private MediaPlayer.OnInfoListener onInfoListener = new MediaPlayer.OnInfoListener() {
+    private PLMediaPlayer.OnInfoListener onInfoListener = new PLMediaPlayer.OnInfoListener() {
 
         @Override
-        public boolean onInfo(MediaPlayer mp, int what, int extra) {
+        public boolean onInfo(PLMediaPlayer plMediaPlayer, int i, int i1) {
             Log.d(tag, "onInfo: // --------------------------------------------------------");
             // mp.getDataSource()
             // mp.getCurrentPosition()
@@ -330,10 +337,10 @@ public class PlayingView extends RelativeLayout {
 
     private boolean onErrorFlag = false;
 
-    private MediaPlayer.OnErrorListener onErrorListener = new MediaPlayer.OnErrorListener() {
+    private PLMediaPlayer.OnErrorListener onErrorListener = new PLMediaPlayer.OnErrorListener() {
 
         @Override
-        public boolean onError(MediaPlayer mp, int what, int extra) {
+        public boolean onError(PLMediaPlayer plMediaPlayer, int what) {
             Log.d(tag, "onError: // --------------------------------------------------------");
             // mp.getDataSource()
             // mp.getCurrentPosition()
@@ -347,17 +354,17 @@ public class PlayingView extends RelativeLayout {
                 if (timedTextView != null)
                     timedTextView.hideView();
                 if (what == 100) {
-                    videoPlayer.stopPlaybackVideo();
+                    videoPlayer.stopPlayback();
                 } else if (what == 1) {
-                    videoPlayer.stopPlaybackVideo();
+                    videoPlayer.stopPlayback();
                 } else if(what == 800) {
-                    videoPlayer.stopPlaybackVideo();
+                    videoPlayer.stopPlayback();
                 } else if (what == 701) {
-                    videoPlayer.stopPlaybackVideo();
+                    videoPlayer.stopPlayback();
                 } else if(what == 700) {
-                    videoPlayer.stopPlaybackVideo();
+                    videoPlayer.stopPlayback();
                 } else if (what == -38) {
-                    videoPlayer.stopPlaybackVideo();
+                    videoPlayer.stopPlayback();
                 }
                 // 停止
                 updatePlayer(4);
@@ -370,8 +377,9 @@ public class PlayingView extends RelativeLayout {
                 pauseSubtitle();
                 Log.d(tag, "onError: true");
             }
-            return true;
+            return false;
         }
+
     };
 
     private void updateProgress() {
@@ -403,13 +411,13 @@ public class PlayingView extends RelativeLayout {
             if (activity != null &&
                     activity.isAudioRecording == true &&
                     audioFragment != null) {
-                long position = videoPlayer.getCurrentPositionVideo();
-                long duration = videoPlayer.getDurationVideo();
+                long position = videoPlayer.getCurrentPosition();
+                long duration = videoPlayer.getVideoDuration();
                 int progress = (int) (position * 100 / duration);
                 audioFragment.updateProgress(progress);
             }
             if (activity != null) {
-                long position = videoPlayer.getCurrentPositionVideo();
+                long position = videoPlayer.getCurrentPosition();
                 if (position > activity.getRightTime()) {
                     updatePlayer(2);
                     seekToPlayer(activity.getLeftTime());
@@ -505,7 +513,7 @@ public class PlayingView extends RelativeLayout {
     private void pausePlayer() {
         if (videoPlayer != null) {
             Log.d(tag, "pausePlayer: ");
-            lastPosition = videoPlayer.getCurrentPositionVideo();
+            lastPosition = videoPlayer.getCurrentPosition();
             videoPlayer.pauseVideo();
         }
     }
@@ -528,7 +536,7 @@ public class PlayingView extends RelativeLayout {
             Log.d(tag, "stopPlayer: ");
             lastPosition = 0l;
             videoPlayer.pauseVideo();
-            videoPlayer.stopPlaybackVideo();
+            videoPlayer.stopPlayback();
         }
     }
 
@@ -559,7 +567,7 @@ public class PlayingView extends RelativeLayout {
     public void pauseRescouce() {
         if (videoPlayer != null) {
             Log.d(tag, "pauseRescouce: ");
-            lastPosition = videoPlayer.getCurrentPositionVideo();
+            lastPosition = videoPlayer.getCurrentPosition();
             videoPlayer.pauseVideo();
         }
         pauseSubtitle();
@@ -569,7 +577,7 @@ public class PlayingView extends RelativeLayout {
         if (videoPlayer != null) {
             Log.d(tag, "destroyRescouce: ");
             videoPlayer.pauseVideo();
-            videoPlayer.stopPlaybackVideo();
+            videoPlayer.stopPlayback();
         }
         if (h != null)
             h.removeCallbacksAndMessages(null);
@@ -580,7 +588,7 @@ public class PlayingView extends RelativeLayout {
     /**
      * 设置播放器比例
      */
-    private void setVideoRatio(MediaPlayer mediaPlayer) {
+    private void setVideoRatio(PLMediaPlayer mediaPlayer) {
         Log.d(tag, "setVideoRatio: // --------------------------------------------------------");
         if (mediaPlayer == null)
             return;

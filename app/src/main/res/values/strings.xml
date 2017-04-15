@@ -128,7 +128,7 @@
     <string name="subtitle_add">添加</string>
     <string name="subtitle_confirm">确定</string>
     <string name="subtitle_tip_srt_not_empty">字幕不能为空</string>
-
+    <string name="subtitle_content">添加的字幕与其他字幕有重复，是否覆盖之前的字幕</string>
 
     <string name="uploadvideo_content">当前手机处于非WIFI环境，上传视频将消耗一定的手机流量,是否上传视频？</string>
     <string name="uploadvideo_cancel">取消</string>

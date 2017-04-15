@@ -114,9 +114,10 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
         view.setVisibility(View.VISIBLE);
         if (record != null) {
             if (record.getTick() == 1) {
-                view.setBackgroundResource(R.drawable.player_focus_gray);
-                view.setTextColor(resources.getColorStateList(R.color.groupdetail_player_white));
-                setTextViewText(view, R.string.dynamic_focused);
+                view.setBackground(null);
+                view.setTextColor(getContext().getResources().getColorStateList(R.color.darkgray));
+                view.setText(R.string.dynamic_focused);
+                view.setEnabled(false);
             } else {
                 view.setBackgroundResource(R.drawable.player_focus_red);
                 view.setTextColor(resources.getColorStateList(R.color.groupdetail_player_red));

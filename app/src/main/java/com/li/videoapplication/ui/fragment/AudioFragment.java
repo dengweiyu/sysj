@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,20 +34,30 @@ import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.ThreadUtil;
 
 import java.io.File;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * 碎片：配音
  */
 public class AudioFragment extends TBaseFragment {
 
-    @Bind(R.id.audio_progress)
-    ProgressBar progress;
-    @Bind(R.id.audio_sound)
-    ImageView sound;
-    @Bind(R.id.audio_record)
-    TextView record;
-    @Bind(R.id.audio_text)
-    TextView text;
 
+    @BindView(R.id.audio_progress)
+    ProgressBar progress;
+    @BindView(R.id.audio_text)
+    TextView text;
+    @BindView(R.id.top)
+    RelativeLayout top;
+    @BindView(R.id.audio_original)
+    TextView original;
+    @BindView(R.id.audio_sound)
+    ImageView sound;
+    @BindView(R.id.audio_record)
+    TextView record;
+    Unbinder unbinder;
     private VideoEditorActivity2 activity;
     private AudioManager audioManager;
     private AudioRecorder audioRecorder;
@@ -96,6 +110,8 @@ public class AudioFragment extends TBaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        unbinder = ButterKnife.bind(this, view);
 
         updateText(false);
 
@@ -318,5 +334,12 @@ public class AudioFragment extends TBaseFragment {
 
     public void updateProgress(int progress) {
         this.progress.setProgress(progress);
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

@@ -1,6 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
               android:background="@color/app_background"
               android:clipToPadding="true"
               android:fitsSystemWindows="true"
@@ -27,6 +31,17 @@
 
     <include
         android:id="@+id/menu"
-        layout="@layout/menu_main"/>
-
+        layout="@layout/menu_main">
+    </include>
 </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_bottom_record"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/home_buttom_record_bg"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="2dp"/>
+</RelativeLayout>

@@ -509,4 +509,42 @@ public class LPDSStorageUtil {
 //        Log.d(TAG, "createTmpSubtitlePath: " + file);
         return file;
     }
+
+    /**
+     * [存储卡]/LuPingDaShi/Audio（V2.0.8版本）
+     */
+    public static File getLpdsAudio() {
+//        Log.d(TAG, "-----------------------------------[getLpdsAudio]--------------------------------------");
+        File file = getLpds();
+        File floder = null;
+        if (file != null) {
+            String path = file.getPath() + File.separator + Constants.AUDIO;
+            floder = new File(path);
+            if (!floder.exists()) {
+                floder.mkdirs();
+            }
+        }
+//        Log.d(TAG, "getLpdsAudio: " + floder);
+        return floder;
+    }
+
+    /**
+     * 生成录音文件（V2.0.8版本）
+     *
+     * [存储卡]/LuPingDaShi/Audio/xxxxxxxxxx.mp4
+     */
+    public static File createAudioPath(String filePath) {
+//        Log.d(TAG, "-----------------------------------[createAudioPath]--------------------------------------");
+        if (StorageUtil.createFilePathName(filePath, ".mp4") == null)
+            return null;
+        String path = getLpdsAudio().getPath() + File.separator + StorageUtil.createFilePathName(filePath, ".mp4");
+        File file = null;
+        try {
+            file = new File(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        Log.d(TAG, "createAudioPath: " + file);
+        return file;
+    }
 }

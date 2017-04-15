@@ -1271,4 +1271,24 @@ public class VideoPlayView extends RelativeLayout implements
     @Override
     public void hideView() {
     }
+
+    @Override
+    public void showCover() {
+
+    }
+
+    @Override
+    public void hideCover() {
+
+    }
+
+    @Override
+    public void showPlay() {
+
+    }
+
+    @Override
+    public void hidePlay() {
+
+    }
 }

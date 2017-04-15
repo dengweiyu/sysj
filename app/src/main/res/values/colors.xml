@@ -75,6 +75,7 @@
     <color name="ab_backdround_blue">#5193ff</color>
     <color name="ab_backdround_blue_pressed">#995193ff</color>
     <color name="ab_search_white">#ffffff</color>
+    <color name="ab_background_black">#1a1d1d</color>
     <color name="ab_search_gray">#eeeeee</color>
     <color name="ab_search_gray_second">#e2e2e2</color>
     <color name="ab_search_gray_pressed">#88eeeeee</color>

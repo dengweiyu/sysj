@@ -20,4 +20,6 @@ public interface IVideoPlayer {
     long getVideoPosition();
 
     void seekToVideo(long ms);
+
+    void resumeVideo();
 }

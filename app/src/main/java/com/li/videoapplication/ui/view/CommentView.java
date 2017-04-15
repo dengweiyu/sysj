@@ -262,4 +262,24 @@ public class CommentView extends FrameLayout implements
 
     @Override
     public void maxView() {}
+
+    @Override
+    public void showCover() {
+
+    }
+
+    @Override
+    public void hideCover() {
+
+    }
+
+    @Override
+    public void showPlay() {
+
+    }
+
+    @Override
+    public void hidePlay() {
+
+    }
 }

@@ -1,13 +1,17 @@
 package com.li.videoapplication.ui.dialog;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.fmsysj.screeclibinvoke.utils.RootUtil;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
+import com.li.videoapplication.framework.BaseDialog;
 import com.li.videoapplication.framework.BaseTopDialog;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
@@ -20,7 +24,7 @@ import com.li.videoapplication.utils.AppUtil;
 /**
  * 弹框：首页录制
  */
-public class RecordDialog extends BaseTopDialog implements View.OnClickListener {
+public class RecordDialog extends BaseDialog implements View.OnClickListener {
 
     private IOnClickListener onClickListener;
     private IDialogVisableListener visableListener;
@@ -72,13 +76,13 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
     }
 
     public RecordDialog(Context context, IDialogVisableListener visableListener) {
-        super(context);
+        super(context,R.style.MyDialog);
         this.visableListener = visableListener;
         activity = AppManager.getInstance().getMainActivity();
     }
 
     public RecordDialog(Context context, IDialogVisableListener visableListener, IOnClickListener onClickListener) {
-        super(context);
+        super(context,R.style.MyDialog);
         this.visableListener = visableListener;
         this.onClickListener = onClickListener;
         activity = AppManager.getInstance().getMainActivity();
@@ -86,12 +90,24 @@ public class RecordDialog extends BaseTopDialog implements View.OnClickListener 
 
     @Override
     protected int getContentView() {
-        return R.layout.popup_record208;
+        return R.layout.popup_record209;
     }
 
     @Override
     protected void afterContentView(Context context) {
         super.afterContentView(context);
+
+        Window window = getWindow();
+        window.setWindowAnimations(R.style.slideBottomAnim); // 设置窗口弹出动画
+    //    window.setBackgroundDrawableResource(android.R.color.transparent); // 设置对话框背景为透明
+        WindowManager.LayoutParams params = window.getAttributes();
+        // 根据x，y坐标设置窗口需要显示的位置
+        params.x = 0; // x小于0左移，大于0右移
+        params.y = 0; // y小于0上移，大于0下移
+        // params.alpha = 0.6f; //设置透明度
+        params.gravity = Gravity.BOTTOM; // 设置重力
+        window.setAttributes(params);
+
         isLogin = PreferencesHepler.getInstance().isLogin();
         findViewById(R.id.record_video).setOnClickListener(this);
         findViewById(R.id.record_record).setOnClickListener(this);

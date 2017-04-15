@@ -33,7 +33,7 @@
 
     <!--4/14-->
 
-    <com.screeclibinvoke.views.TouchSeekBar
+    <com.li.videoapplication.views.TouchSeekBar
         android:id="@+id/controller_progress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
