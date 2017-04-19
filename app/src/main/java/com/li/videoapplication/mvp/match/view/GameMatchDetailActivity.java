@@ -17,9 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.ifeimo.im.framwork.IMSdk;
+import com.ifeimo.im.framwork.Proxy;
+import com.ifeimo.im.framwork.message.OnGroupItemOnClickListener;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Match;
+import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.response.ServiceNameEntity;
 import com.li.videoapplication.data.model.response.SignSchedule210Entity;
@@ -31,6 +35,7 @@ import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchDetailView;
 import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
+import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
@@ -38,6 +43,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.ConversationActivity;
+import com.li.videoapplication.ui.activity.GroupDetailActivity;
 import com.li.videoapplication.ui.fragment.GameMatchRulesFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.utils.NetUtil;
@@ -406,7 +412,29 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
                 break;
             case R.id.gamematch_startchat:
                 if (isLogin() && match != null) {
-                    presenter.groupJoin(getMember_id(), match.getChatroom_group_id());
+                    if (match.isPrivateIM()){
+                        if (Proxy.getMessageManager().getOnGroupItemOnClickListener() == null) {
+                            IMSdk.setOnGroupItemOnClick(new OnGroupItemOnClickListener() {
+                                @Override
+                                public void onGroupItemOnClick(String memberid, String name) {
+                                    ActivityManeger.startConversationActivity(GameMatchDetailActivity.this,
+                                            memberid, name, ConversationActivity.PRIVATE);
+                                }
+                            });
+                        }
+                        if (!Proxy.getConnectManager().isConnect()) {
+                            Member user = getUser();
+                            String memberId = user.getMember_id();
+                            if(null == memberId  || memberId.equals("")){
+                                memberId = getMember_id();
+                            }
+                            FeiMoIMHelper.Login(memberId, user.getNickname(), user.getAvatar());
+                        }
+                        FeiMoIMHelper.createMuccRoom(this, match.getGame_id(), match.getRoomName(), match.getRoomPicurl());
+                    }else {
+                        presenter.groupJoin(getMember_id(), match.getChatroom_group_id());
+                    }
+
                     UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "群聊");
                 } else {
                     DialogManager.showLogInDialog(this);

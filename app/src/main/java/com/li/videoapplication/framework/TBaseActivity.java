@@ -521,11 +521,14 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
     private void setActionBar(int layout) {
         if (layout != 0) {
             abBackground = inflater.inflate(R.layout.actionbar_second, null);
+
             actionBar.setDisplayShowCustomEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setDisplayShowHomeEnabled(false);
             ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
             actionBar.setCustomView(abBackground, params);
+
+
         } else {
             throw new NullPointerException();
         }

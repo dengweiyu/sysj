@@ -7,6 +7,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,10 +20,12 @@ import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.database.VideoCaptureResponseObject;
 import com.li.videoapplication.data.model.event.VideoCutEvent;
 import com.li.videoapplication.data.model.response.PaymentEntity;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.data.preferences.VideoPreferences;
 import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
+import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
@@ -118,6 +121,7 @@ public class MyLocalVideoFragment extends TBaseFragment {
         adapter = new MyLocalVideoAdapter210(getActivity(), data, listView, (VideoMangerActivity) getActivity());
         VideoShareTask208.addCallbacks(adapter);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(mListener);
     }
 
     public void refreshStorge() {
@@ -131,19 +135,53 @@ public class MyLocalVideoFragment extends TBaseFragment {
                 !StringUtil.isNull(activity.inSDCardLeftSize)) {// 显示
             storgeRoot.setVisibility(View.VISIBLE);
             storgeText.setText(Html.fromHtml(
-                    "共" + toRedColor(activity.myLocalVideoSize + "") + "个视频，" +
-                            toRedColor(activity.myScreenShotSize + "") + "张图片，" +
-                            "剩余" + toRedColor(activity.inSDCardLeftSize) + "/"
-                            + toRedColor(activity.inSDCardTotalSize)));
+                    "共" + toBlueColor(activity.myLocalVideoSize + "") + "个视频，" +
+                            toBlueColor(activity.myScreenShotSize + "") + "张图片，" +
+                            "剩余" + toBlueColor(activity.inSDCardLeftSize) + "/"
+                            + toBlueColor(activity.inSDCardTotalSize)));
         } else {
             storgeRoot.setVisibility(View.GONE);
             storgeText.setText("");
         }
     }
 
-    private String toRedColor(String text) {
-        return TextUtil.toColor(text, "#fc3c2d");
+    private String toBlueColor(String text) {
+        return TextUtil.toColor(text, "#40a7ff");
     }
+
+
+    /**
+     * Item 的点击事件
+     */
+    final AdapterView.OnItemClickListener mListener = new AdapterView.OnItemClickListener() {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            final VideoCaptureEntity record = adapter.getItem(position);
+
+            if (!PreferencesHepler.getInstance().isLogin()) {// 检查用户是否已登陆
+                ToastHelper.s("请先登录");
+            }
+
+            if (VideoShareTask208.isUploading()) {
+                ToastHelper.s("当前有视频在上传");
+                return;
+            }
+
+            if (record.getVideo_station().equals(VideoCaptureEntity.VIDEO_STATION_UPLOADING) ||
+                    record.getVideo_station().equals(VideoCaptureEntity.VIDEO_STATION_PAUSE)) {
+                ToastHelper.s("该视频正在上传");
+                return;
+            }
+
+            if (!adapter.edit(record.getVideo_path())) {
+                return;
+            }
+
+            ActivityManeger.startVideoEditorActivity(getActivity(), record);
+            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "本地视频-编辑");
+        }
+    };
 
     /**
      * 导入视频对话框

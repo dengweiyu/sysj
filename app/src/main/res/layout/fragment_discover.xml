@@ -8,6 +8,69 @@
     ptr:ptrAnimationStyle="flip"
     tools:ignore="DuplicateIds">
 
+
+    <RelativeLayout
+        android:id="@+id/discover_square"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_main">
+
+        <ImageView
+            android:id="@+id/left"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/discover_square" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="13dp"
+            android:layout_toRightOf="@+id/left"
+            android:text="@string/discover_square"
+            android:textColor="#bb000000"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/iv_arrow_right"
+            android:layout_width="5dp"
+            android:layout_height="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/go_discover" />
+
+        <TextView
+            android:id="@+id/tv_new_message"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/iv_arrow_right"
+            android:background="@drawable/count_point"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textSize="8sp"
+            android:visibility="visible"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tv_new_message"
+            android:textColor="#bb000000"
+            android:textSize="12sp"
+            android:layout_marginRight="8dp"
+            android:text="手游视界玩家展示"/>
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/discover_activity"
         android:layout_width="match_parent"
@@ -204,42 +267,6 @@
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/discover_square"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/button_main">
-
-        <ImageView
-            android:id="@+id/left"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/discover_square210" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="13dp"
-            android:layout_toRightOf="@+id/left"
-            android:text="@string/discover_square"
-            android:textColor="#bb000000"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:layout_width="5dp"
-            android:layout_height="10dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/go_discover" />
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/discover_recommend"

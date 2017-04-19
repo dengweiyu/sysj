@@ -844,7 +844,14 @@ public class RequestUrl {
      * 广场列表
      */
     public final String squareList() {
-        return BaseSYSJ + "/sysj201/square/squareList";
+        return BaseSYSJ + "/sysj218/PlayerSquare/squareList";
+    }
+
+    /**
+     * 广场游戏分类列表
+     */
+    public final String squareGameList() {
+        return BaseSYSJ + "/sysj218/PlayerSquare/getPlayerSquareGame";
     }
 
 	/* ############## 视频 ############## */

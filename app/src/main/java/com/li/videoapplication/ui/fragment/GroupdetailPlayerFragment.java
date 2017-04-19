@@ -28,11 +28,13 @@ import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
 import com.li.videoapplication.ui.adapter.GroupDetailPlayerAdapter;
 import com.li.videoapplication.utils.StringUtil;
+import com.ypy.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 碎片：玩家
@@ -100,6 +102,9 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
 
     @Override
     protected void initContentView(View view) {
+
+        EventBus.getDefault().register(this);
+
         initRecyclerView();
 
         initAdapter();
@@ -107,6 +112,12 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
         onRefresh();
 
         addOnClickListener();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initRecyclerView() {

@@ -146,7 +146,15 @@
         <activity
             android:name="com.li.videoapplication.ui.activity.SquareActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme" />
+
+        <activity
+            android:name="com.li.videoapplication.ui.activity.SquareGameChoiceActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme" />
+
         <activity
             android:name="com.li.videoapplication.ui.activity.LoginActivity"
             android:launchMode="singleTask"

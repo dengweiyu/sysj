@@ -122,6 +122,7 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
                 view.setBackgroundResource(R.drawable.player_focus_red);
                 view.setTextColor(resources.getColorStateList(R.color.groupdetail_player_red));
                 setTextViewText(view, R.string.dynamic_focus);
+                view.setEnabled(true);
             }
         }
 

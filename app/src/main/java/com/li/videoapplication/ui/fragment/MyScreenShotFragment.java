@@ -110,18 +110,18 @@ public class MyScreenShotFragment extends TBaseFragment implements View.OnClickL
                 !StringUtil.isNull(activity.inSDCardLeftSize)) {// 显示
             storgeRoot.setVisibility(View.VISIBLE);
             storgeText.setText(Html.fromHtml(
-                    "共" + toRedColor(activity.myLocalVideoSize + "") + "个视频，" +
-                            toRedColor(activity.myScreenShotSize + "") + "张图片，"
-                            + "剩余" + toRedColor(activity.inSDCardLeftSize) + "/"
-                            + toRedColor(activity.inSDCardTotalSize)));
+                    "共" + toBlueColor(activity.myLocalVideoSize + "") + "个视频，" +
+                            toBlueColor(activity.myScreenShotSize + "") + "张图片，"
+                            + "剩余" + toBlueColor(activity.inSDCardLeftSize) + "/"
+                            + toBlueColor(activity.inSDCardTotalSize)));
         } else {
             storgeRoot.setVisibility(View.GONE);
             storgeText.setText("");
         }
     }
 
-    private String toRedColor(String text) {
-        return TextUtil.toColor(text, "#fc3c2d");
+    private String toBlueColor(String text) {
+        return TextUtil.toColor(text, "#40a7ff");
     }
 
     @Override

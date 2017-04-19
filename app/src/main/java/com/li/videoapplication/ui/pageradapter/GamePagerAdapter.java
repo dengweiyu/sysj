@@ -14,6 +14,7 @@ public class GamePagerAdapter extends FragmentPagerAdapter {
 
 	private List<Fragment> fragments;
 
+
 	public GamePagerAdapter(FragmentManager manager, List<Fragment> fragments) {
 		super(manager);
 		this.fragments = fragments;
@@ -37,6 +38,7 @@ public class GamePagerAdapter extends FragmentPagerAdapter {
     @Override  
     public void destroyItem(ViewGroup container, int position, Object object) { 
         super.destroyItem(container, position, object);  
-    }  
+    }
+
 }
 

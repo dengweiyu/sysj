@@ -40,6 +40,7 @@ import com.li.videoapplication.data.Utils_Data;
 import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Update;
+import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
@@ -293,7 +294,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             public void totalUnreadCount(int count) {
                 Log.d(tag, "totalUnreadCount: count == " + count);
                 if(leftCount == null){
-                    leftCount = (CircleImageView) background.findViewById(R.id.ab_left_count);
+                     return;
                 }
 
                 if (count > 0) {
@@ -343,6 +344,13 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                             String activityId = helper.getActivityId();
                             if(!StringUtil.isNull(activityId)){
                                 ActivityManeger.startActivityDetailActivity(MainActivity.this,activityId);
+                            }
+                            break;
+                        case ParseMessageHelper.CLICK_TYPE_VIDEO:
+                            String videoId = helper.getVideoId();
+                            if(!StringUtil.isNull(videoId)){
+                               // ActivityManeger.startVideo
+
                             }
                             break;
                     }
@@ -529,7 +537,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             }
         }
         if(leftCount == null){
-            leftCount = (CircleImageView) background.findViewById(R.id.ab_left_count);
+            return;
         }
         switch (index) {
             case 0:// 首页
@@ -597,7 +605,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             leftIcon.setVisibility(View.VISIBLE);
             leftHead.setVisibility(View.GONE);
             if(leftCount == null){
-                leftCount = (CircleImageView) background.findViewById(R.id.ab_left_count);
+                return;
             }
             leftCount.setVisibility(View.GONE);
         }

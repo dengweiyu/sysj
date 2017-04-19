@@ -20,7 +20,9 @@ public class SquareListEntity extends BaseResponseEntity {
 	}
 	
 	public class Data extends BaseResponse2Entity {
-		
+
+		private String game_id;
+
 		private List<VideoImage> list;
 
 		public List<VideoImage> getList() {
@@ -29,6 +31,14 @@ public class SquareListEntity extends BaseResponseEntity {
 
 		public void setList(List<VideoImage> list) {
 			this.list = list;
+		}
+
+		public String getGame_id() {
+			return game_id;
+		}
+
+		public void setGame_id(String game_id) {
+			this.game_id = game_id;
 		}
 	}
 }

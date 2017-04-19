@@ -1,9 +1,12 @@
 package com.li.videoapplication.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
@@ -15,6 +18,7 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.entity.VideoImageGroup;
 import com.li.videoapplication.data.model.response.IndexIndexMore204HotEntity;
 import com.li.videoapplication.data.model.response.IndexIndexMore204NewEntity;
+import com.li.videoapplication.data.model.response.SquareListEntity;
 import com.li.videoapplication.data.model.response.SquareListHotEntity;
 import com.li.videoapplication.data.model.response.SquareListNewEntity;
 import com.li.videoapplication.data.model.response.VideoCollect2Entity;
@@ -24,9 +28,13 @@ import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.adapter.GroupDetailVideoAdapter;
+import com.li.videoapplication.utils.StringUtil;
+import com.mob.tools.log.NLog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 碎片：广场（最新，热门）；首页更多（最新，最热）
@@ -38,16 +46,24 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
     public static final int HOMEMORE_NEW = 3;
     public static final int HOMEMORE_HOT = 4;
 
+    private static Map<String,Map<String,List<VideoImage>>> mCache;      //使用内存保存数据,因为VideoImage实现了 Serializable
+
+    private boolean isLoadData = false;
+
     public synchronized static NewSquareFragment newInstance(int square) {
-        return newInstance(square, null);
+        return newInstance(square, null,null);
     }
 
-    public synchronized static NewSquareFragment newInstance(int square, VideoImageGroup group) {
+    public synchronized static NewSquareFragment newInstance(int square, VideoImageGroup group,String game_id) {
         NewSquareFragment fragment = new NewSquareFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("square", square);
+
         if (group != null) {
             bundle.putSerializable("group", group);
+        }
+        if (!StringUtil.isNull(game_id)){
+            bundle.putString("game_id",game_id);
         }
         fragment.setArguments(bundle);
         return fragment;
@@ -56,11 +72,16 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+
         if (isVisibleToUser) {
             if (getSquare() == SQUARE_HOT) {
                 UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "广场-热门");
             } else if (getSquare() == HOMEMORE_HOT) {
                 UmengAnalyticsHelper.onMainMoreHotEvent(getActivity(), getGroup().getMore_mark());
+            }
+            if (!isLoadData){
+                onPullDownToRefresh(pullToRefreshListView);         //当前fragment真正可见的时候加载数据
+                isLoadData = true;
             }
         }
     }
@@ -69,11 +90,13 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
 
     private VideoImageGroup group;
 
+    private String gameId;
     public int getSquare() {
         if (square == 0) {
             try {
                 square = getArguments().getInt("square");
                 group = (VideoImageGroup) getArguments().getSerializable("group");
+                gameId = getArguments().getString("game_id");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -99,9 +122,12 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
     private PullToRefreshListView pullToRefreshListView;
     private ListView listView;
     private GroupDetailVideoAdapter adapter;
-    private List<VideoImage> data;
+    private List<VideoImage> data ;
 
     private int page = 1;
+
+
+
 
     @Override
     protected int getCreateView() {
@@ -117,16 +143,22 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
     @Override
     protected void initContentView(View view) {
 
+
+        if (data == null){
+            data = new ArrayList<>();
+        }
+
         pullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pulltorefresh);
         pullToRefreshListView.setMode(Mode.BOTH);
         listView = pullToRefreshListView.getRefreshableView();
 
-        data = new ArrayList<>();
+
+
         adapter = new GroupDetailVideoAdapter(getActivity(), data);
         listView.setAdapter(adapter);
         pullToRefreshListView.setOnRefreshListener(this);
 
-        if (getSquare() == SQUARE_NEW) {
+     /*   if (getSquare() == SQUARE_NEW) {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -156,14 +188,14 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
                     onPullDownToRefresh(pullToRefreshListView);
                 }
             }, AppConstant.TIME.SQUARE_HOT);
-        }
-
+        }*/
+        if (getSquare() == HOMEMORE_HOT || getSquare() == HOMEMORE_NEW)
+            adapter.setHomeMoreLocation(getGroup().getMore_mark(), getSquare() == HOMEMORE_NEW);
 
     }
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-
         page = 1;
         onPullUpToRefresh(refreshView);
     }
@@ -173,10 +205,10 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
 
         if (getSquare() == SQUARE_NEW) {
             // 广场列表（最新）
-            DataManager.squareListNew(getMember_id(), page);
+            DataManager.squareListNew(getMember_id(), page,gameId);
         } else if (getSquare() == SQUARE_HOT) {
             // 广场列表（最热）
-            DataManager.squareListHot(getMember_id(), page);
+            DataManager.squareListHot(getMember_id(), page,gameId);
         } else if (getSquare() == HOMEMORE_NEW) {
             // 首页更多（最新）
             DataManager.indexIndexMore217New(getGroup().getMore_mark(), getMember_id(), page);
@@ -186,14 +218,18 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
         }
         onRefreshCompleteDelayed(PullToRefreshActivity.TIME_REFRESH_SHORT);
 
-        if (getSquare() == HOMEMORE_HOT || getSquare() == HOMEMORE_NEW)
-            adapter.setHomeMoreLocation(getGroup().getMore_mark(), getSquare() == HOMEMORE_NEW);
     }
 
     /**
      * 回调:广场列表（最新）
      */
     public void onEventMainThread(SquareListNewEntity event) {
+
+        if(!StringUtil.isNull(gameId)){
+            if (!gameId.equals(event.getData().getGame_id())){
+                return;
+            }
+        }
 
         if (getSquare() == SQUARE_NEW && event != null) {
             if (event.isResult()) {
@@ -209,6 +245,12 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
      * 回调:广场列表（最热）
      */
     public void onEventMainThread(SquareListHotEntity event) {
+
+        if(!StringUtil.isNull(gameId)){                 //从玩家广场进入  需要判断game id过滤数据
+            if (!gameId.equals(event.getData().getGame_id())){
+                return;
+            }
+        }
 
         if (getSquare() == SQUARE_HOT && event != null) {
             if (event.isResult()) {
@@ -251,12 +293,16 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
     }
 
     private void refreshDta(List<VideoImage> list) {
+        if (data == null){
+            data = new ArrayList<>();
+        }
         if (page == 1) {
             data.clear();
         }
         data.addAll(list);
         adapter.notifyDataSetChanged();
         ++page;
+
     }
 
     /**

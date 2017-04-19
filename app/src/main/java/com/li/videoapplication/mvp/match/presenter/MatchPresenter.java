@@ -233,6 +233,8 @@ public class MatchPresenter implements IMatchPresenter {
         });
     }
 
+
+
     @Override
     public void getServiceName(String member_id) {
         matchModel.getServiceName(member_id, new OnLoadDataListener<ServiceNameEntity>() {

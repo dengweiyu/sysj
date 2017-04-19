@@ -3,116 +3,118 @@ package com.li.videoapplication.ui.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Bundle;
+import android.graphics.Color;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.model.entity.SquareScrollEntity;
+import com.li.videoapplication.data.model.entity.SquareGameEntity;
+import com.li.videoapplication.data.model.event.SquareFilterEvent;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.pageradapter.GamePagerAdapter;
+import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.fragment.NewSquareFragment;
+import com.li.videoapplication.ui.fragment.SquareFragment;
+import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.views.ViewPagerY4;
+import com.ypy.eventbus.EventBus;
 
 /**
- * 活动：广场
+ * 活动：玩家广场
  */
-public class SquareActivity extends TBaseActivity {
+public class SquareActivity extends TBaseActivity implements View.OnClickListener {
 
-    private List<RelativeLayout> topButtons;
-    private List<ImageView> topLine;
-    private List<ImageView> topIcon;
-    private List<TextView> topText;
-    private int currIndex = 0;
     private List<Fragment> fragments;
     private ViewPagerY4 viewPager;
-    private GamePagerAdapter adapter;
+    private ViewPagerAdapter adapter;
+
+    private TextView mNew;
+    private TextView mHot;
+
+    private SquareGameEntity game;
+
 
     @Override
     public int getContentView() {
         return R.layout.activity_square;
     }
 
-    public int inflateActionBar() {
-        return R.layout.actionbar_second;
-    }
 
     @Override
     public void afterOnCreate() {
         super.afterOnCreate();
-
-        setSystemBarBackgroundWhite();
-        setAbTitle(R.string.square_title);
+        EventBus.getDefault().register(this);
     }
+
 
     @Override
     public void initView() {
         super.initView();
 
-        initTopMenu();
+        initToolbar();
     }
 
-    protected void initTopMenu() {
+    @Override
+    public void loadData() {
+        super.loadData();
 
-        if (topButtons == null) {
-            topButtons = new ArrayList<>();
-            topButtons.add((RelativeLayout) findViewById(R.id.top_left));
-            topButtons.add((RelativeLayout) findViewById(R.id.top_right));
+        //获取分类列表
+        DataManager.squareGameList();
+    }
+
+    private void initToolbar(){
+        setSystemBarBackgroundWhite();
+        setTextViewText((TextView)findViewById(R.id.tb_title),"玩家广场");
+
+        mHot = (TextView)findViewById(R.id.tv_title_hot);
+        mNew = (TextView)findViewById(R.id.tv_title_new);
+
+        findViewById(R.id.tb_back).setOnClickListener(this);
+        findViewById(R.id.iv_square_menu).setOnClickListener(this);
+    }
+
+    protected void initFragment() {
+        if (game == null){
+            return;
+        }
+        fragments = new ArrayList<>();
+        List<String> title = new ArrayList<>();
+        for (SquareGameEntity.DataBean bean:
+             game.getData()) {
+            fragments.add(SquareFragment.newInstance(bean.getGame_id()));
+            title.add(bean.getName());
         }
 
-        if (topLine == null) {
-            topLine = new ArrayList<>();
-            topLine.add((ImageView) findViewById(R.id.top_left_line));
-            topLine.add((ImageView) findViewById(R.id.top_right_line));
-        }
-
-        if (topText == null) {
-            topText = new ArrayList<>();
-            topText.add((TextView) findViewById(R.id.top_left_text));
-            topText.add((TextView) findViewById(R.id.top_right_text));
-        }
-
-        if (topIcon == null) {
-            topIcon = new ArrayList<>();
-            topIcon.add((ImageView) findViewById(R.id.top_left_icon));
-            topIcon.add((ImageView) findViewById(R.id.top_right_icon));
-        }
-
-        if (fragments == null) {
-            fragments = new ArrayList<>();
-            fragments.add(NewSquareFragment.newInstance(NewSquareFragment.SQUARE_NEW));
-            fragments.add(NewSquareFragment.newInstance(NewSquareFragment.SQUARE_HOT));
-        }
 
         viewPager = (ViewPagerY4) findViewById(R.id.viewpager);
-        viewPager.setScrollable(true);
-        viewPager.setOffscreenPageLimit(2);
-        adapter = new GamePagerAdapter(manager, fragments);
+        viewPager.setOffscreenPageLimit(3);
+        adapter = new ViewPagerAdapter(manager, fragments,title.toArray(new String[]{}));
         viewPager.setAdapter(adapter);
         PageChangeListener listener = new PageChangeListener();
         viewPager.addOnPageChangeListener(listener);
 
-        for (int i = 0; i < topButtons.size(); i++) {
-            OnTabClickListener onTabClickListener = new OnTabClickListener(i);
-            topButtons.get(i).setOnClickListener(onTabClickListener);
-        }
-
-        setTextViewText(topText.get(0), R.string.square_left);
-        setTextViewText(topText.get(1), R.string.square_right);
-
-        switchTab(0);
-        viewPager.setCurrentItem(0);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_square);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.DISCOVER, "广场");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+
     }
 
     private class PageChangeListener implements OnPageChangeListener {
@@ -143,31 +145,64 @@ public class SquareActivity extends TBaseActivity {
         public void onClick(View v) {
             viewPager.setCurrentItem(index);
             switchTab(index);
-            currIndex = index;
+           // currIndex = index;
         }
     }
 
     private void switchTab(int index) {
-        for (int i = 0; i < topText.size(); i++) {
-            if (index == i) {
-                if (i == 0)
-                    topText.get(i).setTextColor(resources.getColorStateList(R.color.menu_game_yellow));
-                else
-                    topText.get(i).setTextColor(resources.getColorStateList(R.color.menu_game_red));
-            } else {
-                topText.get(i).setTextColor(resources.getColorStateList(R.color.menu_game_gray));
-            }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tb_back:
+                finish();
+                break;
+            case R.id.iv_square_menu:
+                ActivityManeger.startSquareGameChoiceActivity(SquareActivity.this,game);
+                break;
         }
-        for (int i = 0; i < topLine.size(); i++) {
-            if (index == i) {
-                if (i == 0)
-                    topLine.get(i).setImageResource(R.color.menu_game_yellow);
-                else
-                    topLine.get(i).setImageResource(R.color.menu_game_red);
-            } else {
-                topLine.get(i).setImageResource(R.color.menu_game_transperent);
+    }
+
+    /**
+     * 回调：游戏列表
+     */
+    public void onEventMainThread(SquareGameEntity entity) {
+        if (entity.isResult()) {
+            game = entity;
+            List<String> title = new ArrayList<>();
+            for (SquareGameEntity.DataBean bean:
+                 entity.getData()) {
+                title.add(bean.getName());
             }
+            initFragment();
         }
+    }
+
+    /**
+     * 内层ViewPager 滚动事件
+     */
+
+    public void onEventMainThread(SquareScrollEntity entity){
+        if (entity.getPosition() == 0){                 //最新列表
+            mNew.setTextColor(getResources().getColor(R.color.white));
+            mHot.setTextColor(Color.parseColor("#5e5e5e"));
+            mNew.setBackgroundResource(R.drawable.square_selected_title);
+            mHot.setBackground(null);
+        }else {                                         //最热列表
+            mHot.setTextColor(getResources().getColor(R.color.white));
+            mNew.setTextColor(Color.parseColor("#5e5e5e"));
+            mHot.setBackgroundResource(R.drawable.square_selected_title);
+            mNew.setBackground(null);
+        }
+    }
+
+    /**
+     * 筛选游戏事件
+     */
+
+    public void onEventMainThread(SquareFilterEvent event){
+        viewPager.setCurrentItem(event.getPosition());
     }
 
 }

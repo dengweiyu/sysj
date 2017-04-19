@@ -1,23 +1,12 @@
 package com.li.videoapplication.ui.activity;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Debug;
-import android.os.Process;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.Window;
-import android.view.WindowManager;
-
-import com.li.videoapplication.BuildConfig;
 import com.li.videoapplication.R;
-import com.li.videoapplication.component.application.MainApplication;
-import com.li.videoapplication.component.service.AppSdkInitIntentService;
 import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
-import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.network.RequestService;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.Constants;
@@ -33,9 +22,6 @@ import com.li.videoapplication.ui.fragment.WelcomeFragment;
 import com.li.videoapplication.component.service.AppStartService;
 import com.li.videoapplication.utils.StringUtil;
 import com.umeng.analytics.MobclickAgent;
-
-import org.jivesoftware.smack.util.dns.minidns.MiniDnsResolver;
-
 import java.io.File;
 
 /**
@@ -139,7 +125,6 @@ public class AppstartActivity extends TBaseActivity {
                 startService(new Intent(AppstartActivity.this, AppSdkInitIntentService.class));
             }
         },4000);*/
-
     }
 
     private boolean haveLaunchAd() {
@@ -165,6 +150,9 @@ public class AppstartActivity extends TBaseActivity {
             e.printStackTrace();
         }
     }
+
+
+
 
     public void replaceBanner() {
         try {

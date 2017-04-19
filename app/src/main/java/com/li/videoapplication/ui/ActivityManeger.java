@@ -17,6 +17,7 @@ import com.li.videoapplication.data.model.entity.GroupType;
 import com.li.videoapplication.data.model.entity.LaunchImage;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.entity.VideoImageGroup;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
@@ -85,6 +86,7 @@ import com.li.videoapplication.ui.activity.SettingActivity;
 import com.li.videoapplication.ui.activity.ShareActivity;
 import com.li.videoapplication.ui.activity.SignUpActivity;
 import com.li.videoapplication.ui.activity.SquareActivity;
+import com.li.videoapplication.ui.activity.SquareGameChoiceActivity;
 import com.li.videoapplication.ui.activity.TagActivity;
 import com.li.videoapplication.ui.activity.UploadMatchResultImageActivity;
 import com.li.videoapplication.ui.activity.VideoChooseActivity;
@@ -1395,5 +1397,16 @@ public class  ActivityManeger {
             intnet.putExtra("entity", entity);
         intnet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intnet);
+    }
+
+    /**
+     * 玩家广场游戏筛选
+     */
+    public static void startSquareGameChoiceActivity(Context context, SquareGameEntity entity) {
+
+        Intent intent = new Intent();
+        intent.setClass(context, SquareGameChoiceActivity.class);
+        intent.putExtra("game",entity);
+        context.startActivity(intent);
     }
 }

@@ -86,6 +86,8 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     private IMatchPresenter presenter;
 
     public boolean isSingleEvent = false;//是否需要将埋点独立
+
+    private int attent ; //关注状态
     /**
      * 跳转：安装应用
      */
@@ -169,6 +171,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 //        setHeaderData(game);
         initViewPager();
     }
+
 
     private void initViewPager() {
         if (fragments == null) {
@@ -297,8 +300,6 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 setTextViewText(focus, R.string.dynamic_focus);
             }
         }
-        //关注发生改变事件
-        EventBus.getDefault().post(new GroupAttentionGroupEntity());
     }
 
     private void setMark(TextView view, final Game item) {
@@ -446,6 +447,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
         if (event != null) {
             if (event.isResult()) {
                 game = event.getData();
+                attent = game.getTick();
                 setHeaderData(game);
                 introduceFragment.loadData();
 
@@ -556,5 +558,10 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     protected void onDestroy() {
         super.onDestroy();
         presenter.setGroupDetailView(null);
+
+        if (game != null && attent != game.getTick()){
+            //关注发生改变事件
+            EventBus.getDefault().post(new GroupAttentionGroupEntity());
+        }
     }
 }

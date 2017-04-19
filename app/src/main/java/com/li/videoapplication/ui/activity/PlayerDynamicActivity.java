@@ -72,6 +72,8 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
     private Member item;
     private TextView emptyText;
 
+    private int attent;
+
     @Override
     public void refreshIntent() {
         super.refreshIntent();
@@ -130,6 +132,15 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
                 onPullDownToRefresh(pullToRefreshListView);
             }
         }, 400);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (attent != item.getIsAttent()){       //如果关注发生改变
+            EventBus.getDefault().post(new GroupAttentionGroupEntity());
+        }
     }
 
     private View getHeaderView() {
@@ -222,6 +233,8 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
                 setImageViewImageNet(textBg, item.getCover());
             }
 
+            attent = item.getIsAttent();
+
             setAbBackgroundTranceparent();
             setAbGobackWhite();
             setAbTitleWhite();
@@ -241,9 +254,6 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
                 setTextViewText(focus, R.string.dynamic_focus);
             }
         }
-
-        //关注发生改变事件
-        EventBus.getDefault().post(new GroupAttentionGroupEntity());
     }
 
     /**
