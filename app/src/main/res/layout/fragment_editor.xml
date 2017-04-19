@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.li.videoapplication.ui.view.EditorSeekBar
+        android:visibility="visible"
+        android:id="@+id/editorSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="108dp"
+        android:layout_marginTop="@dimen/kaka_10"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--14-->
+
+            <TextView
+                android:id="@+id/editor_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/kaka_14"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/editor_introduce"
+                android:textColor="#ffffff"
+                android:textSize="11sp" />
+
+            <!--22 / 12-->
+
+            <TextView
+                android:id="@+id/editor_cut"
+                android:layout_width="@dimen/kaka_66"
+                android:layout_height="@dimen/kaka_27"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/kaka_22"
+                android:layout_marginBottom="@dimen/kaka_12"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/editor_cut"
+                android:text="@string/editor_cut"
+                android:textColor="#ffffff"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

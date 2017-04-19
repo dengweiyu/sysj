@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.model.response.GroupGamerListEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.animation.RecyclerViewAnim;
@@ -26,11 +28,13 @@ import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
 import com.li.videoapplication.ui.adapter.GroupDetailPlayerAdapter;
 import com.li.videoapplication.utils.StringUtil;
+import com.ypy.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 碎片：玩家
@@ -98,6 +102,9 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
 
     @Override
     protected void initContentView(View view) {
+
+        EventBus.getDefault().register(this);
+
         initRecyclerView();
 
         initAdapter();
@@ -105,6 +112,12 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
         onRefresh();
 
         addOnClickListener();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initRecyclerView() {
@@ -226,6 +239,14 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
             }
         }
        hideProgress();
+    }
+
+    /**
+     * 回调：关注圈子201
+     */
+    public void onEventMainThread(GroupAttentionGroupEntity event) {
+        //关注发生改变 刷新玩家列表
+        onRefresh();
     }
 
     public void hideProgress() {

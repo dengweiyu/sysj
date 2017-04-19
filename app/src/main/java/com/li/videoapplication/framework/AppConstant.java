@@ -92,7 +92,7 @@ public class AppConstant {
 	 * @return
 	 */
 	public static final String getEventUrl() {
-		return "/event/detail/event_id/" ;
+		return "/event/detail/" ;
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class AppConstant {
 	 * @return
 	 */
 	public static final String getActivityUrl() {
-		return "activity/detail/id/" ;
+		return "/activity/detail/id/" ;
 	}
 
 

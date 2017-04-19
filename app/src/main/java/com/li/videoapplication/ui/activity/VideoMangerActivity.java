@@ -613,17 +613,17 @@ public class VideoMangerActivity extends TBaseActivity implements
      */
     private void switchMenu(int i) {
         if (i == 0) {
-            first.setTextColor(getResources().getColorStateList(R.color.menu_videomanager_red));
+            first.setTextColor(getResources().getColorStateList(R.color.lpds_blue));
             second.setTextColor(getResources().getColorStateList(R.color.menu_videomanager_gray));
             third.setTextColor(getResources().getColorStateList(R.color.menu_videomanager_gray));
         } else if (i == 1) {
             first.setTextColor(getResources().getColorStateList(R.color.menu_videomanager_gray));
-            second.setTextColor(getResources().getColorStateList(R.color.menu_videomanager_red));
+            second.setTextColor(getResources().getColorStateList(R.color.lpds_blue));
             third.setTextColor(getResources().getColorStateList(R.color.menu_videomanager_gray));
         } else if (i == 2) {
             first.setTextColor(getResources().getColorStateList(R.color.menu_videomanager_gray));
             second.setTextColor(getResources().getColorStateList(R.color.menu_videomanager_gray));
-            third.setTextColor(getResources().getColorStateList(R.color.menu_videomanager_red));
+            third.setTextColor(getResources().getColorStateList(R.color.lpds_blue));
         }
     }
 

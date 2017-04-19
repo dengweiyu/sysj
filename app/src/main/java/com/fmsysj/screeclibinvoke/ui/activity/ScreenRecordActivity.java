@@ -36,6 +36,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.MainActivity;
+import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.ScreenUtil;
 
 import butterknife.BindView;
@@ -379,6 +380,9 @@ public class ScreenRecordActivity extends TBaseActivity implements
                             }
 
                             finishBottomOut();
+
+                            //go to launcher
+                            AppUtil.simulateHomeKey(ScreenRecordActivity.this);
                         }
                     });
                 }
@@ -442,6 +446,9 @@ public class ScreenRecordActivity extends TBaseActivity implements
                                 startRecording();
                             }
                             finishBottomOut();
+                            //go to launcher
+                            AppUtil.simulateHomeKey(ScreenRecordActivity.this);
+
                         }
                     });
                 }

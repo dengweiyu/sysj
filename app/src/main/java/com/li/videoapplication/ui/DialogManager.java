@@ -49,6 +49,7 @@ import com.li.videoapplication.ui.dialog.ShareDialog;
 import com.li.videoapplication.ui.dialog.SignInSuccessDialog;
 import com.li.videoapplication.ui.dialog.SignUpQuestionDialog;
 import com.li.videoapplication.ui.dialog.SignUpSuccessDialog;
+import com.li.videoapplication.ui.dialog.SubtitleDialog;
 import com.li.videoapplication.ui.dialog.UpdateDialog;
 import com.li.videoapplication.ui.dialog.UploadPicDialog;
 import com.li.videoapplication.ui.dialog.UploadVideoDialog;
@@ -445,6 +446,14 @@ public class DialogManager {
      */
     public static void showConfirmDialog(Context context, String content,View.OnClickListener listener){
         Dialog dialog = new ConfirmDialog(context,content,listener);
+        dialog.show();
+    }
+
+    /**
+     * 覆盖字幕
+     */
+    public static void showSubtitleDialog(Context context, DialogInterface.OnClickListener confirmListener, DialogInterface.OnClickListener cancelListener) {
+        Dialog dialog = new SubtitleDialog(context, confirmListener, cancelListener);
         dialog.show();
     }
 }

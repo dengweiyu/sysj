@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ab_height"
+                android:background="@color/ab_background_black"
+                android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/ab_videoeditor_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/videoeditor_title"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/ab_title"
+        android:visibility="visible"/>
+
+
+    <TextView
+        android:id="@+id/ab_video_editor_save"
+        android:layout_width="@dimen/kaka_50"
+        android:layout_height="@dimen/kaka_24"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="@string/videoeditor_save"
+        android:textColor="@drawable/text_white_btn"
+        android:textSize="13sp"
+        android:visibility="visible" />
+
+
+    <TextView
+        android:id="@+id/ab_videoeditor_cancel"
+        android:layout_width="@dimen/kaka_50"
+        android:layout_height="@dimen/kaka_24"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/kaka_12"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="@string/videoeditor_cancel"
+        android:textColor="@drawable/text_white_btn"
+        android:textSize="13sp"
+        android:visibility="visible"/>
+
+</RelativeLayout>

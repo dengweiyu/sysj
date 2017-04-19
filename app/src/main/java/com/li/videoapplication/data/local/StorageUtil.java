@@ -336,6 +336,27 @@ public class StorageUtil {
         return name;
     }
 
+
+    /**
+     * 生成文件对应的文件名
+     *
+     * @param extensions .srt
+     * @return 2016-03-07_12_15_12.mp4
+     */
+    public static String createFilePathName(String extensions) {
+//        Log.d(TAG, "-----------------------------------[createFilePathName]--------------------------------------");
+        if (extensions == null ||  extensions.length() == 0)
+            return null;
+        if (!extensions.startsWith(".")){
+            extensions = "." + extensions;
+        }
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss");
+        String fileName = format.format(new Date());
+        String name = fileName + extensions;
+//        Log.d(TAG, "createFilePathName: " + name);
+        return name;
+    }
+
     /**
      * 生成【方法追踪】文件名
      *

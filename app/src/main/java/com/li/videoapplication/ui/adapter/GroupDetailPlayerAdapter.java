@@ -61,10 +61,12 @@ public class GroupDetailPlayerAdapter extends BaseQuickAdapter<Member, BaseViewH
                 focus.setBackground(null);
                 focus.setTextColor(mContext.getResources().getColorStateList(R.color.darkgray));
                 focus.setText(R.string.dynamic_focused);
+                focus.setEnabled(false);
             } else { // 未关注状态
                 focus.setBackgroundResource(R.drawable.player_focus_red);
                 focus.setTextColor(mContext.getResources().getColorStateList(R.color.groupdetail_player_red));
                 focus.setText(R.string.dynamic_focus);
+                focus.setEnabled(true);
             }
         }
     }

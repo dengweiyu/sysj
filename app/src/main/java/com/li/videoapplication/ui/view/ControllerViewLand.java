@@ -428,4 +428,24 @@ public class ControllerViewLand extends RelativeLayout implements View.OnClickLi
     public void maxView() {
         danmuku.setVisibility(View.GONE);
     }
+
+    @Override
+    public void showCover() {
+
+    }
+
+    @Override
+    public void hideCover() {
+
+    }
+
+    @Override
+    public void showPlay() {
+
+    }
+
+    @Override
+    public void hidePlay() {
+
+    }
 }

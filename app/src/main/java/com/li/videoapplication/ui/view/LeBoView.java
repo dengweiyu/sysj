@@ -113,4 +113,24 @@ public class LeBoView extends RelativeLayout implements IVideoPlay ,View.OnClick
                 activity.finish();
         }
     }
+
+    @Override
+    public void showCover() {
+
+    }
+
+    @Override
+    public void hideCover() {
+
+    }
+
+    @Override
+    public void showPlay() {
+
+    }
+
+    @Override
+    public void hidePlay() {
+
+    }
 }

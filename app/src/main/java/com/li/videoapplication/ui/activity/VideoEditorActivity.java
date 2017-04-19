@@ -145,7 +145,7 @@ public class VideoEditorActivity extends TBaseActivity implements OnClickListene
 
     private void initContentView() {
 
-        videoView = (VideoView) findViewById(R.id.videoview);
+      /*  videoView = (VideoView) findViewById(R.id.videoview);
         seekBar = (VideoSliceSeekBar) findViewById(R.id.seekbar);
 
         textTimeMin = (TextView) findViewById(R.id.videoeditor_timeMin);
@@ -160,7 +160,7 @@ public class VideoEditorActivity extends TBaseActivity implements OnClickListene
         a = (ImageView) findViewById(R.id.videoeditor_image1);
         b = (ImageView) findViewById(R.id.videoeditor_image2);
         c = (ImageView) findViewById(R.id.videoeditor_image3);
-        d = (ImageView) findViewById(R.id.videoeditor_image4);
+        d = (ImageView) findViewById(R.id.videoeditor_image4);*/
 
         playing_container = (AspectRatioLayout) findViewById(R.id.playing_container);
         playing_container.setAspectRatio(RATIO_MAX);

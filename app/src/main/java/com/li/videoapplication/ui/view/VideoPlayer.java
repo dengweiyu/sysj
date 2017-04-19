@@ -58,4 +58,9 @@ public class VideoPlayer extends PLVideoView implements IVideoPlayer {
         seekTo((int) ms);
     }
 
+    @Override
+    public void resumeVideo() {
+        start();
+    }
+
 }

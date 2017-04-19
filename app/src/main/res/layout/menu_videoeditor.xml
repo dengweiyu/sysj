@@ -1,0 +1,126 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+    <!--46-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/videoeditor_first"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/kaka_10"
+            android:paddingBottom="@dimen/kaka_10"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/menu_videoeditor_gray">
+
+            <ImageView
+                android:layout_width="@dimen/kaka_23"
+                android:layout_height="@dimen/kaka_18"
+                android:id="@+id/videoeditor_first_icon"
+                android:src="@drawable/videoeditor_editor_blue"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/videoeditor_first_text"
+                android:layout_marginTop="@dimen/kaka_5"
+                android:text="@string/videoeditor_editor"
+                android:textSize="11sp"
+                android:textColor="@color/menu_videoeditor_blue"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/videoeditor_second"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/kaka_10"
+            android:paddingBottom="@dimen/kaka_10"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/menu_videoeditor_black">
+
+            <ImageView
+                android:layout_width="@dimen/kaka_23"
+                android:layout_height="@dimen/kaka_18"
+                android:id="@+id/videoeditor_second_icon"
+                android:src="@drawable/videoeditor_cover_white"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/videoeditor_second_text"
+                android:layout_marginTop="@dimen/kaka_5"
+                android:text="@string/videoeditor_cover"
+                android:textSize="11sp"
+                android:textColor="@color/menu_videoeditor_white"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/videoeditor_third"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/kaka_10"
+            android:paddingBottom="@dimen/kaka_10"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/menu_videoeditor_black">
+
+            <ImageView
+                android:layout_width="@dimen/kaka_23"
+                android:layout_height="@dimen/kaka_18"
+                android:id="@+id/videoeditor_third_icon"
+                android:src="@drawable/videoeditor_subtitle_white"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/videoeditor_third_text"
+                android:layout_marginTop="@dimen/kaka_5"
+                android:text="@string/videoeditor_subtitle"
+                android:textSize="11sp"
+                android:textColor="@color/menu_videoeditor_white"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/videoeditor_four"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/kaka_10"
+            android:paddingBottom="@dimen/kaka_10"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/menu_videoeditor_black">
+
+            <ImageView
+                android:layout_width="@dimen/kaka_23"
+                android:layout_height="@dimen/kaka_18"
+                android:id="@+id/videoeditor_four_icon"
+                android:src="@drawable/videoeditor_audio_white"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/videoeditor_four_text"
+                android:layout_marginTop="@dimen/kaka_5"
+                android:text="@string/videoeditor_audio"
+                android:textSize="11sp"
+                android:textColor="@color/menu_videoeditor_white"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

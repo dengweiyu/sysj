@@ -1,7 +1,9 @@
 package com.li.videoapplication.ui.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +12,8 @@ import android.widget.RelativeLayout;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.utils.URLUtil;
+
+import static android.R.attr.bitmap;
 
 /**
  * 视图：开始播放：封面，中心播放按键
@@ -54,6 +58,28 @@ public class StartView extends RelativeLayout implements IVideoPlay{
             GlideHelper.displayImageWhite(getContext(),url, cover);
     }
 
+    private Bitmap bitmap;
+
+    public void loadCover(Bitmap b) {
+        if (b != null) {
+            Log.d(tag, "loadCover: ");
+            recycleBitmap(bitmap);
+            bitmap = b;
+            cover.setImageBitmap(bitmap);
+            Log.d(tag, "loadCover: true");
+        }
+    }
+
+    private void recycleBitmap(Bitmap bitmap) {
+        if (bitmap != null && !bitmap.isRecycled())
+            try {
+                bitmap.recycle();
+                Log.d(tag, "recycleBitmap: true");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+    }
+
     @Override
     public void showView() {
         setVisibility(VISIBLE);
@@ -65,8 +91,28 @@ public class StartView extends RelativeLayout implements IVideoPlay{
     }
 
     @Override
+    public void showCover() {
+        cover.setVisibility(VISIBLE);
+    }
+
+    @Override
+    public void hideCover() {
+        cover.setVisibility(GONE);
+    }
+
+    @Override
+    public void showPlay() {
+        play.setVisibility(VISIBLE);
+    }
+
+    @Override
     public void minView() {}
 
     @Override
     public void maxView() {}
+
+    @Override
+    public void hidePlay() {
+
+    }
 }

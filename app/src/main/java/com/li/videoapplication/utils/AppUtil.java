@@ -1,5 +1,6 @@
 package com.li.videoapplication.utils;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.ComponentName;
@@ -210,5 +211,15 @@ public class AppUtil {
             }
         }
         return false;
+    }
+
+    /**
+     * 模拟Home键
+     */
+    public static void simulateHomeKey(Activity activity){
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        activity.startActivity(intent);
     }
 }

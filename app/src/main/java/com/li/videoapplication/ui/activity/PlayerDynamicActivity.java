@@ -14,6 +14,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
 import com.li.videoapplication.data.model.response.UserProfilePersonalInformationEntity;
 import com.li.videoapplication.data.model.response.UserProfileTimelineListsEntity;
@@ -26,6 +27,7 @@ import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.DynamicVideoAdapter;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
+import com.ypy.eventbus.EventBus;
 
 /**
  * 活动：玩家动态
@@ -69,6 +71,8 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
 
     private Member item;
     private TextView emptyText;
+
+    private int attent;
 
     @Override
     public void refreshIntent() {
@@ -128,6 +132,15 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
                 onPullDownToRefresh(pullToRefreshListView);
             }
         }, 400);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (attent != item.getIsAttent()){       //如果关注发生改变
+            EventBus.getDefault().post(new GroupAttentionGroupEntity());
+        }
     }
 
     private View getHeaderView() {
@@ -219,6 +232,8 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
             if (!StringUtil.isNull(item.getCover())) {
                 setImageViewImageNet(textBg, item.getCover());
             }
+
+            attent = item.getIsAttent();
 
             setAbBackgroundTranceparent();
             setAbGobackWhite();
@@ -399,5 +414,7 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
                 showToastShort(event.getMsg());
             }
         }
+
+
     }
 }

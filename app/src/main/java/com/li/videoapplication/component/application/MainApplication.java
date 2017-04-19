@@ -1,6 +1,8 @@
 package com.li.videoapplication.component.application;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Debug;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,6 +14,7 @@ import android.util.Log;
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.happly.link.util.LogCat;
 import com.ifeimo.im.framwork.IMSdk;
+import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.cache.CacheManager;
@@ -22,7 +25,6 @@ import com.li.videoapplication.framework.BaseApplication;
 import com.li.videoapplication.tools.AppExceptionHandler;
 import com.li.videoapplication.tools.JPushHelper;
 import com.li.videoapplication.utils.AppUtil;
-import com.stericson.RootTools.internal.Runner;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
@@ -96,7 +98,7 @@ public class MainApplication extends BaseApplication {
         //只能同步启动
         x.Ext.init(MainApplication.this);
         x.Ext.setDebug(DEBUG);
-        //
+
         //feimo im sdk
         IMSdk.init(MainApplication.this);
     }
@@ -117,6 +119,5 @@ public class MainApplication extends BaseApplication {
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
     }
-
 
 }

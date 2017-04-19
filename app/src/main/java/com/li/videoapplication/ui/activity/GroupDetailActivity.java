@@ -58,6 +58,7 @@ import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
 import com.li.videoapplication.views.RoundedImageView;
+import com.ypy.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +86,8 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     private IMatchPresenter presenter;
 
     public boolean isSingleEvent = false;//是否需要将埋点独立
+
+    private int attent ; //关注状态
     /**
      * 跳转：安装应用
      */
@@ -168,6 +171,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 //        setHeaderData(game);
         initViewPager();
     }
+
 
     private void initViewPager() {
         if (fragments == null) {
@@ -370,6 +374,8 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                                     }else {
                                         UmengAnalyticsHelper.onEvent(GroupDetailActivity.this, UmengAnalyticsHelper.GAME, "游戏圈关注");
                                     }
+                                    //刷新游戏圈界面
+
                                     break;
                             }
                         }
@@ -441,6 +447,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
         if (event != null) {
             if (event.isResult()) {
                 game = event.getData();
+                attent = game.getTick();
                 setHeaderData(game);
                 introduceFragment.loadData();
 
@@ -551,5 +558,10 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     protected void onDestroy() {
         super.onDestroy();
         presenter.setGroupDetailView(null);
+
+        if (game != null && attent != game.getTick()){
+            //关注发生改变事件
+            EventBus.getDefault().post(new GroupAttentionGroupEntity());
+        }
     }
 }

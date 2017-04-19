@@ -1,0 +1,64 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ee000000">
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
+
+        <com.li.videoapplication.ui.view.AspectRatioLayout
+            android:id="@+id/playing_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <!-- 视频播放器 -->
+
+            <com.li.videoapplication.ui.view.VideoPlayer
+                android:id="@+id/videoplayer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true" />
+
+        </com.li.videoapplication.ui.view.AspectRatioLayout>
+
+        <!--字幕-->
+
+        <com.li.videoapplication.ui.view.TimedTextView
+            android:id="@+id/playing_timedtext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_gravity="bottom"/>
+
+        <!-- 开始播放：封面，中心播放按键 -->
+
+        <com.li.videoapplication.ui.view.StartView
+            android:visibility="visible"
+            android:id="@+id/playing_start"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <!--字幕编辑 43 -->
+
+        <com.li.videoapplication.ui.view.SRTEditView
+            android:id="@+id/playing_srtedit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/kaka_43"
+            android:layout_gravity="bottom"/>
+
+    </FrameLayout>
+
+    <!--播放控制 38 -->
+
+    <com.li.videoapplication.views.ControllerView2
+        android:id="@+id/playing_controller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/menu_videoeditor_gray"/>
+
+</LinearLayout>

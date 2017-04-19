@@ -17,7 +17,7 @@
             android:gravity="center"
             android:layout_centerInParent="true"
             android:text="@string/videomanager_mylocalvideo"
-            android:textColor="@color/menu_videomanager_red"
+            android:textColor="@color/lpds_blue"
             android:textSize="12sp"/>
 
         <TextView
@@ -49,6 +49,6 @@
         android:layout_width="wrap_content"
         android:layout_height="2px"
         android:scaleType="fitXY"
-        android:src="@color/menu_videomanager_red"/>
+        android:src="@color/lpds_blue"/>
 
 </LinearLayout>

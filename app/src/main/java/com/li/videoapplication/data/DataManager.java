@@ -8,6 +8,7 @@ import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.data.local.ScreenShotHelper;
 import com.li.videoapplication.data.local.VideoCaptureHelper;
 import com.li.videoapplication.data.model.entity.Advertisement;
+import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.*;
@@ -3158,28 +3159,43 @@ public class DataManager {
     /**
      * 功能：广场列表（最热）
      */
-    public static void squareListHot(String member_id, int page) {
-        DataManager.squareList(new SquareListHotEntity(), member_id, "click", page);
+    public static void squareListHot(String member_id, int page,String game_id) {
+        DataManager.squareList(new SquareListHotEntity(), member_id, "click", page,game_id);
     }
 
     /**
      * 功能：广场列表（最新）
      */
-    public static void squareListNew(String member_id, int page) {
-        DataManager.squareList(new SquareListNewEntity(), member_id, "time", page);
+    public static void squareListNew(String member_id, int page,String game_id) {
+        DataManager.squareList(new SquareListNewEntity(), member_id, "time", page,game_id);
     }
 
     /**
      * 功能：广场列表
      */
-    private static void squareList(BaseResponseEntity entity, String member_id, String sort, int page) {
+    private static void squareList(BaseResponseEntity entity, String member_id, String sort, int page,String game_id) {
 
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().squareList();
-        Map<String, Object> params = RequestParams.getInstance().squareList(member_id, sort, page);
+        Map<String, Object> params = RequestParams.getInstance().squareList(member_id, sort, page,game_id);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(entity);
+        helper.doNetwork(request);
+    }
+
+
+    /**
+     * 功能：广场游戏列表
+     */
+    public static void squareGameList() {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().squareGameList();
+        Map<String, Object> params = RequestParams.getInstance().squareGameList();
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new SquareGameEntity());
         helper.doNetwork(request);
     }
 

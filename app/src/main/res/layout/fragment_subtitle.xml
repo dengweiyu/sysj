@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <com.li.videoapplication.ui.view.SubtitleSeekBar
+        android:visibility="visible"
+        android:id="@+id/subtitleSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="108dp"
+        android:layout_marginTop="@dimen/kaka_10"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--92-->
+
+            <TextView
+                android:id="@+id/subtitle_submit"
+                android:layout_width="@dimen/kaka_66"
+                android:layout_height="@dimen/kaka_27"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/kaka_32"
+                android:layout_marginBottom="@dimen/kaka_12"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/editor_cut"
+                android:text="@string/subtitle_add"
+                android:textColor="#ffffff"
+                android:textSize="13sp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

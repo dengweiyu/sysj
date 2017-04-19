@@ -255,5 +255,8 @@ public class ClassifiedGameFragment extends TBaseFragment implements OnRefreshLi
             Log.d(tag, event.getMsg());
 //                showToastShort(event.getMsg());
         }
+        //关注发生改变 刷新列表
+        page = 1;
+        DataManager.gameList(page, getMember_id(), sort);
     }
 }

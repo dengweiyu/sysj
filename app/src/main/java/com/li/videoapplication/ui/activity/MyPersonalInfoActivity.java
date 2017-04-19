@@ -29,7 +29,9 @@ import com.li.videoapplication.data.model.response.UserProfilePersonalInformatio
 import com.li.videoapplication.data.model.response.UserProfileUploadAvatarEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppAccount;
+import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.BitmapLoader;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.PhotoHelper;
@@ -37,6 +39,7 @@ import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.MyPersonalInfoAdapter;
 import com.li.videoapplication.ui.dialog.EditNameDialog;
+import com.li.videoapplication.ui.dialog.GetMoreMoneyDialog;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.ui.dialog.RegisterMobileDialog;
 import com.li.videoapplication.tools.ToastHelper;
@@ -174,6 +177,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         findViewById(R.id.mypersonnalinfo_matchrecord_btn).setOnClickListener(this);
         findViewById(R.id.mypersonnalinfo_gameedit).setOnClickListener(this);
         findViewById(R.id.mypersonnalinfo_qq_btn).setOnClickListener(this);
+        findViewById(R.id.mypersonnalinfo_bean_btn).setOnClickListener(this);
 
         findViewById(R.id.ll_mypersonnalinfo_horizonid).setOnLongClickListener(mLongClickListener);
 
@@ -198,6 +202,22 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         }
     };
 
+
+    final View.OnClickListener mChoiceListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+               case  R.id.tv_confirm_dialog_no:         //充值
+                   ActivityManeger.startTopUpActivity(MyPersonalInfoActivity.this, Constant.TOPUP_ENTRY_INFO);
+
+                   break;
+               case  R.id.tv_confirm_dialog_yes:        //做任务
+                   ActivityManeger.startMyWalletActivity(MyPersonalInfoActivity.this);
+                   break;
+            }
+        }
+    };
+
     @Override
     public void onClick(View v) {
 
@@ -210,6 +230,9 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 break;
             case R.id.mypersonnalinfo_introduce_btn://个性签名
                 ActivityManeger.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.SIGNATURE);
+                break;
+            case R.id.mypersonnalinfo_bean_btn:
+                new GetMoreMoneyDialog(this,"想获得更多飞磨豆吗？可通过做任务或充值获得哟！",mChoiceListener).show();
                 break;
             case R.id.mypersonnalinfo_gameedit://游戏类型
                 ActivityManeger.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.GAME);

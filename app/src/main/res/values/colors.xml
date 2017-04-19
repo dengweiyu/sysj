@@ -75,6 +75,7 @@
     <color name="ab_backdround_blue">#5193ff</color>
     <color name="ab_backdround_blue_pressed">#995193ff</color>
     <color name="ab_search_white">#ffffff</color>
+    <color name="ab_background_black">#1a1d1d</color>
     <color name="ab_search_gray">#eeeeee</color>
     <color name="ab_search_gray_second">#e2e2e2</color>
     <color name="ab_search_gray_pressed">#88eeeeee</color>
@@ -104,6 +105,11 @@
     <color name="menu_billboard_purple">#95adf9</color>
     <color name="menu_billboard_gray">#8b8b8b</color>
     <color name="menu_billboard_transperent">#00ffffff</color>
+
+    <color name="menu_videoeditor_black">#111414</color>
+    <color name="menu_videoeditor_gray">#1a1d1d</color>
+    <color name="menu_videoeditor_blue">#348ed5</color>
+    <color name="menu_videoeditor_white">#ffffff</color>
 
     <color name="menu_help_blue">#5193ff</color>
     <color name="menu_help_gray">#e2e2e2</color>

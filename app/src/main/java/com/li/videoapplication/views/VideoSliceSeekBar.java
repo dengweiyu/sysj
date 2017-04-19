@@ -11,10 +11,9 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
-
-import com.li.videoapplication.ui.activity.VideoEditorActivity;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
+import com.li.videoapplication.ui.activity.VideoEditorActivity2;
 
 public class VideoSliceSeekBar extends ImageView {
 
@@ -225,7 +224,7 @@ public class VideoSliceSeekBar extends ImageView {
 			msg.what = 1;
 
 			// 发送消息更新UI
-			VideoEditorActivity activity = (VideoEditorActivity) AppManager.getInstance().getActivity(VideoEditorActivity.class);
+			VideoEditorActivity2 activity = (VideoEditorActivity2) AppManager.getInstance().getActivity(VideoEditorActivity2.class);
 			if (activity != null)
 				activity.handler.sendMessage(msg);
 		}

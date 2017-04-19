@@ -17,6 +17,7 @@ import com.li.videoapplication.data.model.entity.GroupType;
 import com.li.videoapplication.data.model.entity.LaunchImage;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.entity.VideoImageGroup;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
@@ -85,10 +86,12 @@ import com.li.videoapplication.ui.activity.SettingActivity;
 import com.li.videoapplication.ui.activity.ShareActivity;
 import com.li.videoapplication.ui.activity.SignUpActivity;
 import com.li.videoapplication.ui.activity.SquareActivity;
+import com.li.videoapplication.ui.activity.SquareGameChoiceActivity;
 import com.li.videoapplication.ui.activity.TagActivity;
 import com.li.videoapplication.ui.activity.UploadMatchResultImageActivity;
 import com.li.videoapplication.ui.activity.VideoChooseActivity;
-import com.li.videoapplication.ui.activity.VideoEditorActivity;
+
+import com.li.videoapplication.ui.activity.VideoEditorActivity2;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
@@ -258,7 +261,7 @@ public class  ActivityManeger {
      * 视频编辑
      */
     public synchronized static void startVideoEditorActivity(Context context, VideoCaptureEntity entity) {
-        Intent intnet = new Intent(context, VideoEditorActivity.class);
+        Intent intnet = new Intent(context, VideoEditorActivity2.class);
         if (entity != null)
             intnet.putExtra("entity", entity);
         context.startActivity(intnet);
@@ -1385,4 +1388,25 @@ public class  ActivityManeger {
         context.startActivity(intent);
     }
 
+    /**
+     * 视频编辑
+     */
+    public static void startVideoEditorActivity_2(Context context, VideoCaptureEntity entity) {
+        Intent intnet = new Intent(context, VideoEditorActivity2.class);
+        if (entity != null)
+            intnet.putExtra("entity", entity);
+        intnet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intnet);
+    }
+
+    /**
+     * 玩家广场游戏筛选
+     */
+    public static void startSquareGameChoiceActivity(Context context, SquareGameEntity entity) {
+
+        Intent intent = new Intent();
+        intent.setClass(context, SquareGameChoiceActivity.class);
+        intent.putExtra("game",entity);
+        context.startActivity(intent);
+    }
 }

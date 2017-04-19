@@ -199,6 +199,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
             holder.copy = (ImageView) convertView.findViewById(R.id.mylocalvideo_copy);
 //            holder.cancelUpload = (ImageView) convertView.findViewById(R.id.mylocalvideo_cancelupload);
             convertView.setTag(holder);
+
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
@@ -228,7 +229,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
         refreshProgressState(record, holder);
 
         // 播放监听
-        holder.cover.setOnClickListener(new OnClickListener() {
+       /* holder.cover.setOnClickListener(new OnClickListener() {
 
             @SuppressLint("NewApi")
             @Override
@@ -241,7 +242,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                     UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "本地视频-有效");
                 }
             }
-        });
+        });*/
 
         //取消上传
 //        holder.cancelUpload.setOnClickListener(new OnClickListener() {
@@ -327,7 +328,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
         });
 
         // 编辑监听
-        holder.cut.setOnClickListener(new OnClickListener() {
+        holder.cover.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -795,7 +796,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
     /**
      * 检查视频信息
      */
-    private boolean edit(String filePath) {
+    public boolean edit(String filePath) {
         // 检查文件是否存在
         File file = new File(filePath);
         if (!file.exists()) {
@@ -889,6 +890,8 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
             }
         }
     }
+
+
 
     private static class ViewHolder {
         View root;

@@ -472,6 +472,11 @@ public abstract class TBaseFragment extends BaseFragment {
         ToastHelper.s(text);
     }
 
+    protected void showToastShort(int resId) {
+        ToastHelper.s(resId);
+    }
+
+
     protected void showToastLong(final String text) {
         ToastHelper.l(text);
     }

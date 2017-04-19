@@ -73,4 +73,24 @@ public class RightBarView extends RelativeLayout implements IVideoPlay {
     public void maxView() {
         send.setVisibility(VISIBLE);
     }
+
+    @Override
+    public void showCover() {
+
+    }
+
+    @Override
+    public void hideCover() {
+
+    }
+
+    @Override
+    public void showPlay() {
+
+    }
+
+    @Override
+    public void hidePlay() {
+
+    }
 }

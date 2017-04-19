@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.li.videoapplication.framework.AppConstant;
+import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 
@@ -381,11 +382,20 @@ public class RequestParams {
 
 	/* ############## 广场 ############## */
 
-    public Map<String, Object> squareList(String member_id, String sort, int page) {
+    public Map<String, Object> squareList(String member_id, String sort, int page,String game_id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("sort", sort);// 最新：time 最热：click
         map.put("page", page);
+        map.put("target",SYSJ);
+        map.put("game_id",game_id);
+        return map;
+    }
+
+    /* ############## 玩家广场游戏列表 ############## */
+    public Map<String, Object> squareGameList() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("target", SYSJ);
         return map;
     }
 

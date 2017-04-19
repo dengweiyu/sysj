@@ -2,6 +2,7 @@ package com.fmsysj.screeclibinvoke.logic.floatview;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.li.videoapplication.framework.AppManager;
  */
 
 public class FloatViewManager {
+
 
 	public static final String TAG = FloatViewManager.class.getSimpleName();
 
@@ -166,7 +168,16 @@ public class FloatViewManager {
 		}
 		if (params == null) {
 			params = new LayoutParams();
-			params.type = LayoutParams.TYPE_PHONE;
+			// TYPE_PHONE
+			// TYPE_SYSTEM_ALERT
+			// TYPE_TOAST
+
+			// 4.3以下版本不能用TYPE_TOAST作为悬浮窗属性
+			if (Build.VERSION.SDK_INT <= 18){
+				params.type = LayoutParams.TYPE_SYSTEM_ALERT;
+			} else {
+				params.type = LayoutParams.TYPE_TOAST;
+			}
 			params.format = PixelFormat.RGBA_8888;
 			params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE;
 			params.gravity = Gravity.LEFT | Gravity.TOP;
@@ -204,7 +215,12 @@ public class FloatViewManager {
 		}
 		if (params == null) {
 			params = new LayoutParams();
-			params.type = LayoutParams.TYPE_PHONE;
+			// 4.3以下版本不能用TYPE_TOAST作为悬浮窗属性
+			if (Build.VERSION.SDK_INT <= 18) {
+				params.type = LayoutParams.TYPE_SYSTEM_ALERT;
+			} else {
+				params.type = LayoutParams.TYPE_TOAST;
+			}
 			params.format = PixelFormat.RGBA_8888;
 			params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE;
 			params.gravity = Gravity.LEFT | Gravity.TOP;
@@ -242,7 +258,12 @@ public class FloatViewManager {
 		}
 		if (paramsContent == null) {
 			paramsContent = new LayoutParams();
-			paramsContent.type = LayoutParams.TYPE_PHONE;
+			// 4.3以下版本不能用TYPE_TOAST作为悬浮窗属性
+			if (Build.VERSION.SDK_INT <= 18) {
+				paramsContent.type = LayoutParams.TYPE_SYSTEM_ALERT;
+			} else {
+				paramsContent.type = LayoutParams.TYPE_TOAST;
+			}
 			paramsContent.format = PixelFormat.RGBA_8888;
 			paramsContent.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE;
 			paramsContent.gravity = Gravity.CENTER;
@@ -262,7 +283,12 @@ public class FloatViewManager {
 		}
 		if (paramsContent == null) {
 			paramsContent = new LayoutParams();
-			paramsContent.type = LayoutParams.TYPE_PHONE;
+			// 4.3以下版本不能用TYPE_TOAST作为悬浮窗属性
+			if (Build.VERSION.SDK_INT <= 18) {
+				paramsContent.type = LayoutParams.TYPE_SYSTEM_ALERT;
+			} else {
+				paramsContent.type = LayoutParams.TYPE_TOAST;
+			}
 			paramsContent.format = PixelFormat.RGBA_8888;
 			paramsContent.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE;
 			paramsContent.gravity = Gravity.CENTER;

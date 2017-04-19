@@ -130,4 +130,24 @@ public class TitleBarView extends RelativeLayout implements
         tv.setVisibility(View.VISIBLE);
         setting.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void showCover() {
+
+    }
+
+    @Override
+    public void hideCover() {
+
+    }
+
+    @Override
+    public void showPlay() {
+
+    }
+
+    @Override
+    public void hidePlay() {
+
+    }
 }

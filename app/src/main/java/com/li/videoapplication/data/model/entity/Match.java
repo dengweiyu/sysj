@@ -150,6 +150,44 @@ public class Match extends BaseEntity {
     private String share_icon;
     private String share_description;
 
+    //2.1.9自有IM 相关字段
+    private String roomPicurl;
+    private String roomJID;
+    private String roomName;
+    private boolean privateIM;
+
+    public String getRoomPicurl() {
+        return roomPicurl;
+    }
+
+    public void setRoomPicurl(String roomPicurl) {
+        this.roomPicurl = roomPicurl;
+    }
+
+    public String getRoomJID() {
+        return roomJID;
+    }
+
+    public void setRoomJID(String roomJID) {
+        this.roomJID = roomJID;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    public boolean isPrivateIM() {
+        return privateIM;
+    }
+
+    public void setPrivateIM(boolean privateIM) {
+        this.privateIM = privateIM;
+    }
+
     public String getShare_icon() {
         return share_icon;
     }

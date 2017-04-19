@@ -204,6 +204,7 @@
                     android:layout_height="@dimen/kaka_36"
                     android:padding="@dimen/kaka_10"
                     android:src="@drawable/videomanager_cut"
+                    android:visibility="gone"
                     android:background="@drawable/localvideo_btn_bg"/>
 
                 <!--复制-->
