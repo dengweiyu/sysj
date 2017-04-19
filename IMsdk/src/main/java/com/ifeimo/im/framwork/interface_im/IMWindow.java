@@ -44,23 +44,16 @@ public interface IMWindow extends IMMain,INotification,IInformation{
     void finishing();
 
     /**
-     * 获取聊天工具实体
-     * @return
-     */
-    @Deprecated
-    BaseChatBean getBean();
-
-    /**
      * 获取窗口唯一key
      * @return
      */
     String getKey();
 
-    /**
-     * 当前聊天房间，null为单聊
-     * @return
-     */
-    String getRoomId();
+//    /**
+//     * 当前聊天房间，null为单聊
+//     * @return
+//     */
+//    String getRoomId();
 
     /**
      * 获取接收者，null为群聊

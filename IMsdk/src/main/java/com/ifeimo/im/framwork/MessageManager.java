@@ -2,14 +2,13 @@ package com.ifeimo.im.framwork;
 
 
 import android.database.ContentObserver;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-import com.ifeimo.im.common.bean.MsgBean;
-import com.ifeimo.im.common.bean.MuccMsgBean;
+import com.ifeimo.im.common.bean.msg.MsgBean;
+import com.ifeimo.im.common.bean.msg.MuccMsgBean;
 import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.chat.ChatBean;
 import com.ifeimo.im.common.bean.chat.MuccBean;
@@ -34,6 +33,7 @@ import org.jivesoftware.smack.chat.ChatManager;
 import org.jivesoftware.smack.chat.ChatMessageListener;
 import org.jivesoftware.smack.packet.Stanza;
 import org.jivesoftware.smackx.muc.MultiUserChat;
+import org.jivesoftware.smackx.muc.MultiUserChatManager;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,7 +45,7 @@ import java.util.Set;
  */
 final class MessageManager implements IMessage {
 
-    public static final String TGA = "XMPP_MessageManager";
+    public static final String TAG = "XMPP_MessageManager";
     private static final int RECEIVER_MSG = 2;
     private static final int SEND_MSG = 4;
     private static final int RESEN_MSG = 8;
@@ -117,7 +117,7 @@ final class MessageManager implements IMessage {
                             }
                         } catch (Exception ex) {
                             ex.printStackTrace();
-                            Log.i(TGA, " ----- XML Format Error -----" + msg.obj);
+                            Log.i(TAG, " ----- XML Format Error -----" + msg.obj);
                         }
                     }
                 };
@@ -161,39 +161,50 @@ final class MessageManager implements IMessage {
     private OnGroupItemOnClickListener onGroupItemOnClickListener;
     private OnHtmlItemClickListener onHtmlItemClickListener;
 
-    public void createMucc(IMWindow imWindow, String roomid) {
-        if (!muccSet.containsKey(roomid)) {
-            MuccBean muccBean = new MuccBean(UserBean.getMemberID(), roomid, null, null);
-            muccSet.put(roomid, muccBean);
-//            Mucm
-
-
+    /**
+     * 创建群聊
+     * @param roomid
+     */
+    @Override
+    public MuccBean createMucc(String roomid) {
+        MuccBean muccBean = null;
+        if (muccSet.containsKey(roomid)) {
+            muccBean = muccSet.get(roomid);
+            Log.i(TAG, "createMucc: 找到房间 "+roomid);
         } else {
-//            muccSet.put(roomid, muccBean);
+            try {
+                muccBean = new MuccBean(UserBean.getMemberID(), roomid, null,
+                        MultiUserChatManager.getInstanceFor(Proxy.getConnectManager().getConnection()).getMultiUserChat(Jid.getRoomJ(IMSdk.CONTEXT,roomid)));
+                muccBean.getMultiUserChat().join(UserBean.getMemberID());
+                muccSet.put(roomid, muccBean);
+                Log.i(TAG, "createMucc: 创建房间 "+roomid);
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
         }
+        return muccBean;
     }
 
     /**
      * 创建单聊
-     * @param context
      * @param receiverID 对方用户
      * @param memberid   自己
      * @return
      */
-    public ChatBean createChat(IMWindow context, String receiverID, String memberid) {
+    public ChatBean createChat(String receiverID, String memberid) {
         final String key = memberid + receiverID;
         if (chatSet.containsKey(key)) {
             ChatBean chatBean = (ChatBean) chatSet.get(key).clone();
             handler.removeCallbacks(chatSet.get(key).getRunnable());
-            Log.i(TGA, "------- Find Chat By receiverID = "+receiverID+" --------");
+            Log.i(TAG, "------- Find Chat By receiverID = "+receiverID+" --------");
             return chatBean;
         } else {
             ChatBean chatBean = new ChatBean(receiverID, memberid, null);
             try {
-                initChat(context, chatBean);
+                initChat(chatBean);
                 ChatBean c2 = (ChatBean) chatBean.clone();
                 chatSet.put(key, c2);
-                Log.i(TGA, "------- create Chat by receiverID = "+receiverID+" --------");
+                Log.i(TAG, "------- create Chat by receiverID = "+receiverID+" --------");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -204,16 +215,15 @@ final class MessageManager implements IMessage {
     /**
      * 初始化单聊
      *
-     * @param context
      * @param chatBean
      */
-    private void initChat(IMWindow context, ChatBean chatBean) {
+    private void initChat(ChatBean chatBean) {
         Chat chat = chatBean.getChat();
         if (chat == null) {
             chat = ChatManager.getInstanceFor(
                     IMConnectManager.getInstances().
-                            getConnection()).createChat(Jid.getJid(context.getContext(), chatBean.getAccount()));
-            Log.i(TGA, "------- Join Chat Opposide ID = " + chatBean.getAccount() + "  --------");
+                            getConnection()).createChat(Jid.getJid(IMSdk.CONTEXT, chatBean.getAccount()));
+            Log.i(TAG, "------- Join Chat Opposide ID = " + chatBean.getAccount() + "  --------");
             chat.addMessageListener(new ChatMessageListener() {
                 @Override
                 public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message message) {
@@ -266,8 +276,8 @@ final class MessageManager implements IMessage {
 
     }
 
-    @Deprecated
-    public void sendMuccMsg(String key, final MuccBean muccBean, final MsgBean msg) {
+    @Override
+    public void sendMuccMsg(String key,final MsgBean msg) {
         final String finalKey = key;
         ThreadUtil.getInstances().createThreadStartToFixedThreadPool(new Runnable() {
             @Override
@@ -297,8 +307,8 @@ final class MessageManager implements IMessage {
                     message.setBody(msg.getContent());
                     msg.setMsgId(message.getPacketID());
                     sendMessageToHandler(IMWindow.MUCCHAT_TYPE, SEND_MSG, 0, msg);
-                    muccBean.getMultiUserChat().sendMessage(message);
                     waitCheck(finalKey, msg);
+                    createMucc(finalKey).getMultiUserChat().sendMessage(message);
                 } catch (Exception e) {
                     ThreadUtil.getInstances().createThreadStartToFixedThreadPool(reSenRunnable);
                 }
@@ -349,10 +359,9 @@ final class MessageManager implements IMessage {
     /**
      * 重发群聊
      * @param key
-     * @param muccBean
      * @param msg
      */
-    public void reSendMuccMsg(String key, final MuccBean muccBean,final MsgBean msg) {
+    public void reSendMuccMsg(String key,final MsgBean msg) {
         final String finalKey = key;
         ThreadUtil.getInstances().createThreadStartToFixedThreadPool(new Runnable() {
             @Override
@@ -379,9 +388,9 @@ final class MessageManager implements IMessage {
                     }
                 };
                 handler.postDelayed(reSenRunnable.runnable,WAITING_TIME);
+                waitCheck(finalKey, msg);
                 try {
-                    muccBean.getMultiUserChat().sendMessage(message);
-                    waitCheck(finalKey, msg);
+                    createMucc(finalKey).getMultiUserChat().sendMessage(message);
                 } catch (Exception e) {
                     ThreadUtil.getInstances().createThreadStartToFixedThreadPool(reSenRunnable);
                 }
@@ -504,11 +513,12 @@ final class MessageManager implements IMessage {
     }
 
 
+    @Deprecated
     public void leaveMuccRoom(IMWindow imWindow) {
         if (imWindow.getType() == IMWindow.MUCCHAT_TYPE) {
             try {
 
-                MuccBean mBean = ((MuccBean) imWindow.getBean());
+                MuccBean mBean = createMucc(imWindow.getKey());
                 if (mBean != null) {
                     MultiUserChat mChat = mBean.getMultiUserChat();
                     if (mChat != null && mChat.isJoined()) {
@@ -520,7 +530,7 @@ final class MessageManager implements IMessage {
 
                 finishUnMessageStatus(imWindow);
 
-                Log.i(TGA, " ------- 离开群聊 --------");
+                Log.i(TAG, " ------- 离开群聊 --------");
             } catch (SmackException.NotConnectedException e) {
                 e.printStackTrace();
             }
@@ -529,7 +539,7 @@ final class MessageManager implements IMessage {
     }
 
     public void leaveChat(String key) {
-        Log.i(TGA, " ------- Postpone Chat Leave  --------");
+        Log.i(TAG, " ------- Postpone Chat Leave  --------");
         ChatBean chatBean = getChatByChatSet(key);
         if (chatBean != null) {
             handler.postDelayed(chatBean.getRunnable(), DEFAULT_CACHE_TIME);
@@ -548,14 +558,13 @@ final class MessageManager implements IMessage {
     public void removeChatSet(String key) {
         if (chatSet.containsKey(key)) {
             chatSet.remove(key);
-            Log.i(TGA, " ------- Delete Cache Chat " + key + " , chatSet.size = " + chatSet.size() + " Now --------");
+            Log.i(TAG, " ------- Delete Cache Chat " + key + " , chatSet.size = " + chatSet.size() + " Now --------");
         }
     }
 
     @Override
     @Deprecated
     public void processMessage(final org.jivesoftware.smack.packet.Message message) {
-//        Log.i(TGA, " ------- 2222 --------" + message);
 
     }
 
@@ -571,7 +580,7 @@ final class MessageManager implements IMessage {
             org.jivesoftware.smack.packet.Message.Type t = ((org.jivesoftware.smack.packet.Message) message).getType();
             switch (t) {
                 case groupchat: {
-                    Log.i(TGA, " ------ Receiver Group Chat Messages ------- \n" + message);
+                    Log.i(TAG, " ------ Receiver Group Chat Messages ------- \n" + message);
 
                     sendMessageToHandler(IMWindow.MUCCHAT_TYPE, RECEIVER_MSG, 0, message,300);
                     if (onMessageReceiver != null) {
@@ -580,7 +589,7 @@ final class MessageManager implements IMessage {
                 }
                 break;
                 case chat: {
-                    Log.i(TGA, " ------- Receiver Single Chat Messages  ------- \n"+message);
+                    Log.i(TAG, " ------- Receiver Single Chat Messages  ------- \n"+message);
                     sendMessageToHandler(IMWindow.CHAT_TYPE, RECEIVER_MSG, 0, message);
                     if (onMessageReceiver != null) {
                         onMessageReceiver.onChatReceiver(message);
@@ -588,11 +597,11 @@ final class MessageManager implements IMessage {
                 }
                 break;
                 case error:
-                    Log.i(TGA, " ------- Receiver Error Messages  ------- \n"+message);
+                    Log.i(TAG, " ------- Receiver Error Messages  ------- \n"+message);
                     break;
             }
         } else {
-            Log.i(TGA, " ------- Receiver IM Server Messages ------- \n"+message);
+            Log.i(TAG, " ------- Receiver IM Server Messages ------- \n"+message);
         }
 
     }
@@ -642,7 +651,7 @@ final class MessageManager implements IMessage {
         }
 
         private void go() {
-            Log.e(TGA + "12", "------ Trying to send again  ." + message.getPacketID() + "  " + message.getBody() + " The " + recount + " Count -------");
+            Log.e(TAG + "12", "------ Trying to send again  ." + message.getPacketID() + "  " + message.getBody() + " The " + recount + " Count -------");
             try {
                 switch (type) {
                     case IMWindow.CHAT_TYPE:
@@ -653,12 +662,12 @@ final class MessageManager implements IMessage {
                     case IMWindow.MUCCHAT_TYPE:
                         IMWindow imWindow = ChatWindowsManager.getInstences().getLastWindow();
                         if (imWindow == null || !imWindow.getKey().equals(key)) {
-                            Log.e(TGA + "12", "------ Key Matching Error" + ".  The " + recount + " Count -------");
+                            Log.e(TAG + "12", "------ Key Matching Error" + ".  The " + recount + " Count -------");
                             handler.removeCallbacks(runnable);
                             runnable.run();
                             return;
                         }
-                        MuccBean muccBean = (MuccBean) imWindow.getBean();
+                        MuccBean muccBean = createMucc(imWindow.getKey());
                         muccBean.getMultiUserChat().sendMessage(message);
                         break;
                 }
@@ -666,7 +675,7 @@ final class MessageManager implements IMessage {
             } catch (Exception e) {
                 e.printStackTrace();
                 if (recount > 3 || !ConnectUtil.isConnect(IMSdk.CONTEXT)) {
-                    Log.e(TGA + "12", "------ Has more than the largest number ." + message.getPacketID() + "  The " + recount + " Count -------");
+                    Log.e(TAG + "12", "------ Has more than the largest number ." + message.getPacketID() + "  The " + recount + " Count -------");
                     handler.removeCallbacks(runnable);
                     runnable.run();
                     return;

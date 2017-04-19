@@ -1,35 +1,25 @@
 package com.ifeimo.im.activity;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 
 import com.ifeimo.im.common.adapter.MuccChatReAdapter;
 import com.ifeimo.im.common.bean.InformationBean;
-import com.ifeimo.im.common.bean.chat.BaseChatBean;
-import com.ifeimo.im.common.bean.chat.MuccBean;
-import com.ifeimo.im.common.bean.MuccMsgBean;
+import com.ifeimo.im.common.bean.msg.MuccMsgBean;
 import com.ifeimo.im.common.bean.UserBean;
-import com.ifeimo.im.common.util.Jid;
+import com.ifeimo.im.common.util.IMWindosThreadUtil;
 import com.ifeimo.im.common.util.PManager;
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.common.util.ThreadUtil;
-import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.framwork.database.business.Business;
 import com.ifeimo.im.framwork.interface_im.IMWindow;
-import com.ifeimo.im.provider.InformationProvide;
-import com.ifeimo.im.provider.MuccProvider;
-
-import org.jivesoftware.smackx.muc.DiscussionHistory;
-import org.jivesoftware.smackx.muc.MultiUserChatManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -39,12 +29,11 @@ public class MucChatActivity extends BaseCompatActivity<MuccChatReAdapter> {
     private String roomJID;
     private String roomName;
     private String roomPicurl;
-    private MuccBean muccBean;
+//    private MuccBean muccBean;
     //发送的队列
     private List<MuccMsgBean> sendMuccMsgBean;
     @Override
     protected void init(Bundle savedInstanceState) {
-
         if (savedInstanceState != null) {
             PManager.getCacheUser(getContext());
             roomJID = savedInstanceState.getString("roomJID");
@@ -59,12 +48,14 @@ public class MucChatActivity extends BaseCompatActivity<MuccChatReAdapter> {
         }
         title.setText(roomName);
         getMsgListView().setVisibility(View.INVISIBLE);
+        Proxy.getMessageManager().createMucc(getKey());
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 getMsgListView().setVisibility(View.VISIBLE);
             }
         }, 800);
+
     }
 
     @Override
@@ -77,7 +68,7 @@ public class MucChatActivity extends BaseCompatActivity<MuccChatReAdapter> {
     }
 
     public void sendOnclick(View v) {
-        ThreadUtil.getInstances().createThreadStartToFixedThreadPool(new Runnable() {
+        IMWindosThreadUtil.getInstances().run(getKey(),new Runnable() {
             @Override
             public void run() {
                 String sendMsg = editeMsg.getText().toString().trim();
@@ -86,7 +77,7 @@ public class MucChatActivity extends BaseCompatActivity<MuccChatReAdapter> {
                 }
                 MuccMsgBean msgBean = createBean(sendMsg);
                 sendMuccMsgBean.add(msgBean);
-                Proxy.getMessageManager().sendMuccMsg(MucChatActivity.this.getKey(), muccBean, msgBean);
+                Proxy.getMessageManager().sendMuccMsg(MucChatActivity.this.getKey(), msgBean);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -109,29 +100,13 @@ public class MucChatActivity extends BaseCompatActivity<MuccChatReAdapter> {
     }
 
     @Override
-    public void close() {
-        Proxy.getMessageManager().leaveMuccRoom(this);
-    }
-
-    @Override
     protected void onRestart() {
         super.onRestart();
-        if (muccBean != null) {
-            if (muccBean.getMultiUserChat() != null) {
-                if (!muccBean.getMultiUserChat().isJoined()) {
-                    try {
-                        muccBean.getMultiUserChat().join(UserBean.getMemberID());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
+        Proxy.getMessageManager().createMucc(getKey());
     }
 
     @Override
-    public BaseChatBean getBean() {
-        return muccBean;
+    public void close() {
     }
 
     @Override
@@ -141,42 +116,7 @@ public class MucChatActivity extends BaseCompatActivity<MuccChatReAdapter> {
 
     @Override
     public void loginSucceed() {
-        join();
-    }
-
-    private void join() {
-        try {
-            if (muccBean != null) {
-                if (muccBean.getMultiUserChat() != null) {
-                    if (muccBean.getMultiUserChat().isJoined()) {
-                        muccBean.getMultiUserChat().leave();
-                        log(" ------ 重新进入群聊 ------- ");
-                    } else {
-                        log(" ------ 进入群聊 ------- ");
-                    }
-                    DiscussionHistory history = new DiscussionHistory();
-                    history.setMaxChars(10);
-//                    muccBean.getMultiUserChat().join(UserBean.getMemberID(),UserBean.getMemberID(),history,8000);
-                    muccBean.getMultiUserChat().join(UserBean.getMemberID());
-                } else {
-                    if (Proxy.getConnectManager().isConnect()) {
-                        muccBean = null;
-                        join();
-                    }
-                }
-            } else {
-//                muccBean = new MuccBean(UserBean.getMemberID(), roomJID,
-//                        null,
-//                        MultiUserChatManager.getInstanceFor(Proxy.getConnectManager().getConnection()).getMultiUserChat(roomJID + "@conference.op.17sysj.com"));
-                muccBean = new MuccBean(UserBean.getMemberID(), roomJID,
-                        null,
-                        MultiUserChatManager.getInstanceFor(Proxy.getConnectManager().getConnection()).getMultiUserChat(Jid.getRoomJ(this,roomJID)));
-                muccBean.getMultiUserChat().addMessageListener(Proxy.getMessageManager());
-                join();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Proxy.getMessageManager().createMucc(getKey());
     }
 
     @Override
@@ -184,16 +124,16 @@ public class MucChatActivity extends BaseCompatActivity<MuccChatReAdapter> {
         return IMWindow.MUCCHAT_TYPE;
     }
 
-    @Override
-    public String getRoomId() {
-        return roomJID;
-    }
+//    @Override
+//    public String getRoomId() {
+//        return roomJID;
+//    }
 
     @Override
     public void send(String content) {
         MuccMsgBean msgBean = createBean(content);
         sendMuccMsgBean.add(msgBean);
-        Proxy.getMessageManager().sendMuccMsg(MucChatActivity.this.getKey(), muccBean, msgBean);
+        Proxy.getMessageManager().sendMuccMsg(MucChatActivity.this.getKey(), msgBean);
     }
 
     @Override
@@ -220,7 +160,7 @@ public class MucChatActivity extends BaseCompatActivity<MuccChatReAdapter> {
 
     @Override
     protected void onBeforeLoad(final Runnable runnable) {
-        ThreadUtil.getInstances().createThreadStartToCachedThreadPool(new Runnable() {
+        IMWindosThreadUtil.getInstances().run(getKey(),new Runnable() {
             @Override
             public void run() {
                 if(Business.getInstances().insertSubscription(UserBean.getMemberID(),roomJID,roomName,roomPicurl) > 0){
@@ -236,10 +176,10 @@ public class MucChatActivity extends BaseCompatActivity<MuccChatReAdapter> {
 
     @Override
     public void cancelInformation() {
-        ThreadUtil.getInstances().createThreadStartToCachedThreadPool(new Runnable() {
+        IMWindosThreadUtil.getInstances().run(getKey(),new Runnable() {
             @Override
             public void run() {
-                Business.getInstances().cancelInformation(UserBean.getMemberID(),getRoomId(), InformationBean.ROOM);
+                Business.getInstances().cancelInformation(UserBean.getMemberID(),getKey(), InformationBean.ROOM);
             }
         });
     }
