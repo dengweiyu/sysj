@@ -490,7 +490,6 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     @Override
     public void refreshHomeData(HomeDto data) {
         Log.d(tag, "======== refreshHomeData: ========");
-        Log.d(tag, "Home Data: " + data.toJSON().toString());
         if (data != null) {
             page_count = data.getPage_count();
             if (page < 2) {
