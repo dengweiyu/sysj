@@ -1,15 +1,12 @@
 package com.ifeimo.im.framwork.interface_im;
 
-import android.content.Loader;
 import android.database.ContentObserver;
 
 import com.ifeimo.im.IEmployee;
 import com.ifeimo.im.OnUpdate;
-import com.ifeimo.im.common.bean.MsgBean;
-import com.ifeimo.im.common.bean.MuccMsgBean;
+import com.ifeimo.im.common.bean.msg.MsgBean;
 import com.ifeimo.im.common.bean.chat.ChatBean;
 import com.ifeimo.im.common.bean.chat.MuccBean;
-import com.ifeimo.im.common.callback.OnSendCallBack;
 import com.ifeimo.im.framwork.message.OnGroupItemOnClickListener;
 import com.ifeimo.im.framwork.message.OnHtmlItemClickListener;
 import com.ifeimo.im.framwork.message.OnMessageReceiver;
@@ -72,21 +69,21 @@ public interface IMessage extends StanzaListener, MessageListener, IEmployee, On
     /**
      * 创建一个单聊
      *
-     * @param imWindow
      * @param receiverID 对方用户
      * @param memberid   自己
      * @return
      */
-    ChatBean createChat(IMWindow imWindow, String receiverID, String memberid);
+    ChatBean createChat(String receiverID, String memberid);
+
+    MuccBean createMucc(String roomid);
 
     /**
      * 发送群聊消息
      *
      * @param key
-     * @param muccBean
      * @param msg
      */
-    void sendMuccMsg(String key, MuccBean muccBean, MsgBean msg);
+    void sendMuccMsg(String key, MsgBean msg);
 
     /**
      * 发送单聊消息
@@ -110,7 +107,7 @@ public interface IMessage extends StanzaListener, MessageListener, IEmployee, On
      * @param key
      * @param msg
      */
-    void reSendMuccMsg(String key,MuccBean muccBean, MsgBean msg);
+    void reSendMuccMsg(String key, MsgBean msg);
 
     /**
      * 註冊消息監聽事件

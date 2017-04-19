@@ -1,7 +1,6 @@
 package com.ifeimo.im.common.adapter;
 
 import android.database.Cursor;
-import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
 import android.widget.Toast;
@@ -10,13 +9,12 @@ import com.bumptech.glide.Glide;
 import com.ifeimo.im.R;
 import com.ifeimo.im.common.adapter.holder.Holder;
 import com.ifeimo.im.common.bean.AccountBean;
-import com.ifeimo.im.common.bean.MsgBean;
+import com.ifeimo.im.common.bean.msg.MsgBean;
 import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.framwork.interface_im.IMWindow;
-import com.ifeimo.im.provider.BaseProvider;
 
 /**
  * Created by lpds on 2017/2/18.

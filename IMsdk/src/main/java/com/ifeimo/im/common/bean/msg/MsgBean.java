@@ -1,4 +1,4 @@
-package com.ifeimo.im.common.bean;
+package com.ifeimo.im.common.bean.msg;
 
 import android.database.Cursor;
 

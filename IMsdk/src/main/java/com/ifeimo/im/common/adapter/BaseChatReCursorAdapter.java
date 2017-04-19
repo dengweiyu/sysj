@@ -2,7 +2,6 @@ package com.ifeimo.im.common.adapter;
 
 import android.database.Cursor;
 import android.text.Html;
-import android.text.Spannable;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,18 +12,14 @@ import android.widget.TextView;
 import com.ifeimo.im.R;
 import com.ifeimo.im.common.adapter.holder.Holder;
 import com.ifeimo.im.common.adapter.base.RecyclerViewCursorAdapter;
-import com.ifeimo.im.common.bean.MsgBean;
-import com.ifeimo.im.common.postentity.IMTextHtmlEntity;
+import com.ifeimo.im.common.bean.msg.MsgBean;
 import com.ifeimo.im.common.util.DateFormatUtil;
 import com.ifeimo.im.common.util.MatchUtil;
 import com.ifeimo.im.common.util.StringUtil;
-import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.framwork.interface_im.IMWindow;
-import com.ifeimo.im.provider.ChatProvider;
 import com.ifeimo.im.view.RoundedImageView;
-import com.ypy.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;

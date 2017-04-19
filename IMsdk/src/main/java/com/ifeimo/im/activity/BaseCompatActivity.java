@@ -28,10 +28,9 @@ import com.ifeimo.im.common.adapter.ChatReAdapter;
 import com.ifeimo.im.common.adapter.MuccChatReAdapter;
 import com.ifeimo.im.common.adapter.holder.Holder;
 import com.ifeimo.im.common.bean.UserBean;
-import com.ifeimo.im.common.bean.chat.BaseChatBean;
+import com.ifeimo.im.common.util.IMWindosThreadUtil;
 import com.ifeimo.im.common.util.PManager;
 import com.ifeimo.im.common.util.ScreenUtil;
-import com.ifeimo.im.common.util.ThreadUtil;
 import com.ifeimo.im.common.util.WindowUtil;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.iduq.OnCursorDataChange;
@@ -202,11 +201,13 @@ abstract class BaseCompatActivity<T extends BaseChatReCursorAdapter<Holder>> ext
 
     @Override
     protected void onDestroy() {
+        IMWindosThreadUtil.getInstances().leaveThreadPool(getKey());
         RecyclerViewHeader.detach();
         Proxy.getManagerList().onDestroy(this);
         if (loader != null && loader.isStarted()) {
             loader.stopLoading();
             loader.cancelLoad();
+            loader = null;
         }
         super.onDestroy();
     }
@@ -250,17 +251,11 @@ abstract class BaseCompatActivity<T extends BaseChatReCursorAdapter<Holder>> ext
     public void finishing() {
         finish();
     }
-
-    @Override
-    public BaseChatBean getBean() {
-        return null;
-    }
-
-
-    @Override
-    public String getRoomId() {
-        return null;
-    }
+//
+//    @Override
+//    public String getRoomId() {
+//        return null;
+//    }
 
     @Override
     public String getReceiver() {
@@ -362,7 +357,7 @@ abstract class BaseCompatActivity<T extends BaseChatReCursorAdapter<Holder>> ext
                         }, null);
             case IMWindow.MUCCHAT_TYPE:
                 return new CursorLoader(this, MuccProvider.CONTENT_URI, null, adapter.getPage() + "",
-                        new String[]{getRoomId()}, null);
+                        new String[]{getKey()}, null);
         }
         return null;
     }

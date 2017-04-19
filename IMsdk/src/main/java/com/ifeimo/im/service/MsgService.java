@@ -7,11 +7,10 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.ifeimo.im.common.bean.MsgBean;
-import com.ifeimo.im.common.bean.MuccMsgBean;
+import com.ifeimo.im.common.bean.msg.MsgBean;
+import com.ifeimo.im.common.bean.msg.MuccMsgBean;
 import com.ifeimo.im.framwork.database.DataBaseThread;
 import com.ifeimo.im.framwork.database.Fields;
-import com.ifeimo.im.provider.BaseProvider;
 import com.ifeimo.im.provider.ChatProvider;
 import com.ifeimo.im.provider.MuccProvider;
 

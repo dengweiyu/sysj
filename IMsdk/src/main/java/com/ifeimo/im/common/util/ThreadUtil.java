@@ -2,6 +2,7 @@ package com.ifeimo.im.common.util;
 
 import android.app.Activity;
 import android.os.Looper;
+import android.util.Log;
 
 import com.ifeimo.im.IEmployee;
 import com.ifeimo.im.framwork.Proxy;
@@ -24,14 +25,12 @@ import java.util.concurrent.Executors;
  *
  */
 public class ThreadUtil implements ILife,IEmployee {
-
+    private final String TAG = "XMPP_ThreadUtil";
     private static ThreadUtil threadUtil;
     private final int MAX_THREAD = 100;
 
     private ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
     private ExecutorService fixedThreadPool = Executors.newFixedThreadPool(MAX_THREAD);
-
-    private IMWindosThreadUtil imWindosThreadUtil = new IMWindosThreadUtil();
 
     static {
         threadUtil = new ThreadUtil();
@@ -64,7 +63,6 @@ public class ThreadUtil implements ILife,IEmployee {
      */
     public void createThreadStartToCachedThreadPool(Runnable runnable) {
         cachedThreadPool.execute(runnable);
-
     }
 
 
@@ -82,21 +80,8 @@ public class ThreadUtil implements ILife,IEmployee {
         return MAX_THREAD;
     }
 
-//    void createThreadPoolByIMMain(IMMain imMain){
-//        imWindosThreadUtil.createThreadPoolByIMMain(imMain);
-//    }
-
-    public void createCurrentThreadPoolRunnable(IMMain imMain,Runnable runnable){
-        imWindosThreadUtil.createCurrentThreadPoolRunnable(imMain,runnable);
-    }
-
-//    void leaveThreadPool(IMMain imMain){
-//        imWindosThreadUtil.leaveThreadPool(imMain);
-//    }
-
     @Override
     public void onCreate(IMMain imMain) {
-        imWindosThreadUtil.createThreadPoolByIMMain(imMain);
     }
 
     @Override
@@ -106,7 +91,7 @@ public class ThreadUtil implements ILife,IEmployee {
 
     @Override
     public void onDestroy(IMMain imMain) {
-        imWindosThreadUtil.leaveThreadPool(imMain);
+
     }
 
     @Override
