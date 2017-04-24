@@ -45,6 +45,7 @@ import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.response.GetRongCloudToken204Entity;
+import com.li.videoapplication.data.model.response.ParseResultEntity;
 import com.li.videoapplication.data.model.response.UpdateVersionEntity;
 import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.NormalPreferences;
@@ -84,6 +85,7 @@ import java.util.List;
 import io.rong.eventbus.EventBus;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rx_cache.internal.cache.memory.apache.IterableMap;
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
 
@@ -108,6 +110,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     }
 
     private View menu;
+    private View root;
     private List<LinearLayout> bottomButtons;
     private List<ImageView> bottomIcon;
     private List<TextView> bottomText;
@@ -332,28 +335,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             @Override
             public void onClick(String memberid, String defaultStr, String[] html, boolean isMe) {
                 if (html != null && !StringUtil.isNull(html[0])){
-                    ParseMessageHelper helper = ParseMessageHelper.getInstance();
-                    switch (helper.parseMessage(html[0])){
-                        case ParseMessageHelper.CLICK_TYPE_MATCH:
-                            String eventId = helper.getEventId();
-                            if(!StringUtil.isNull(eventId)){
-                                ActivityManeger.startGameMatchDetailActivity(MainActivity.this,eventId);
-                            }
-                            break;
-                        case ParseMessageHelper.CLICK_TYPE_ACTIVITY:
-                            String activityId = helper.getActivityId();
-                            if(!StringUtil.isNull(activityId)){
-                                ActivityManeger.startActivityDetailActivity(MainActivity.this,activityId);
-                            }
-                            break;
-                        case ParseMessageHelper.CLICK_TYPE_VIDEO:
-                            String videoId = helper.getVideoId();
-                            if(!StringUtil.isNull(videoId)){
-                               // ActivityManeger.startVideo
-
-                            }
-                            break;
-                    }
+                    //将Url给后台解析
+                    DataManager.parseMessage(html[0]);
                 }
             }
         });
@@ -451,6 +434,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         right.setOnClickListener(this);
 
         findViewById(R.id.iv_bottom_record).setOnClickListener(this);
+        root = findViewById(R.id.rl_main_root);
         return background;
     }
 
@@ -493,7 +477,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 break;
             case R.id.iv_bottom_record:
 
-                DialogManager.showRecordDialog(this);
+                DialogManager.showRecordDialog(this,root);
                 UmengAnalyticsHelper.onEvent(MainActivity.this,UmengAnalyticsHelper.MAIN,"首页-底部录屏");
                 break;
 
@@ -808,7 +792,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         boolean tip = NormalPreferences.getInstance().getBoolean(Constants.TIP_VEDIO, true);
         if (tip) {
             DialogManager.showVideoTipDialog(this);
-            NormalPreferences.getInstance().putBoolean(Constants.TIP_VEDIO, false);
+          //  NormalPreferences.getInstance().putBoolean(Constants.TIP_VEDIO, false);
         }
     }
 
@@ -889,6 +873,28 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             Update update = event.getData().get(0);
             if (update != null && !isShowedUpdate) {
                 updateVersion(update);
+            }
+        }
+    }
+
+    /**
+     * IM 消息URL解析结果
+     */
+    public void onEventMainThread(ParseResultEntity entity){
+        if (entity != null && entity.isResult()){
+            switch (entity.getData().getType()){
+                case "event":
+                    ActivityManeger.startGameMatchDetailActivity(MainActivity.this,entity.getData().getId());
+                    break;                 //点击了赛事链接
+                case "activity":
+                    ActivityManeger.startActivityDetailActivity(MainActivity.this,entity.getData().getId());
+                    break;              //点击了活动链接
+                case "video":
+                    VideoImage item = new VideoImage();
+                    item.setQn_key(entity.getData().getKey());
+                    item.setVideo_id(entity.getData().getId());
+                    ActivityManeger.startVideoPlayActivity(MainActivity.this,item);
+                    break;                 //点击了视频链接
             }
         }
     }

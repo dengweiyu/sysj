@@ -58,7 +58,12 @@ public class HomeMoreActivity extends TBaseActivity implements OnPageChangeListe
         super.afterOnCreate();
 
         setSystemBarBackgroundWhite();
-        setAbTitle(group.getTitle());
+
+        if (group.getTitle().equals("视界原创")){
+            setAbTitle("视界推荐");         //为了兼容旧版本 只能这样
+        }else {
+            setAbTitle(group.getTitle());
+        }
     }
 
     @Override
@@ -106,8 +111,8 @@ public class HomeMoreActivity extends TBaseActivity implements OnPageChangeListe
 
         if (fragments == null) {
             fragments = new ArrayList<>();
-            fragments.add(NewSquareFragment.newInstance(NewSquareFragment.HOMEMORE_NEW, group,null));
-            fragments.add(NewSquareFragment.newInstance(NewSquareFragment.HOMEMORE_HOT, group,null));
+            fragments.add(NewSquareFragment.newInstance(NewSquareFragment.HOMEMORE_NEW, group,null,false));
+            fragments.add(NewSquareFragment.newInstance(NewSquareFragment.HOMEMORE_HOT, group,null,false));
         }
 
         mViewPager = (ViewPagerY4) findViewById(R.id.viewpager);

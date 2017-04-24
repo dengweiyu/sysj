@@ -18,7 +18,7 @@ import com.li.videoapplication.tools.TimeHelper;
 import java.util.Map;
 
 /**
- * Created by liuwei on 2017/4/2.
+ * 支付宝
  */
 
 public class AliPayment implements IPayment {

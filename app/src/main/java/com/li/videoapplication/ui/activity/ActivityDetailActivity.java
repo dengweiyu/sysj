@@ -25,6 +25,8 @@ import com.li.videoapplication.mvp.activity_gift.ActivityGiftContract.IActivityP
 import com.li.videoapplication.mvp.activity_gift.presenter.ActivityPresenter;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.ui.dialog.ActivityRecordDialog;
+import com.li.videoapplication.ui.dialog.GameDetailDialog;
 import com.li.videoapplication.ui.dialog.RecordDialog;
 import com.li.videoapplication.ui.fragment.ActivityRulesFragment;
 import com.li.videoapplication.ui.fragment.JoinActivityFragment;
@@ -57,7 +59,7 @@ public class ActivityDetailActivity extends TBaseAppCompatActivity implements IA
     private String share_url;
     private IActivityPresenter presenter;
     private FloatingActionButton fab;
-    private RecordDialog recordDialog;
+    private ActivityRecordDialog recordDialog;
     private List<TabLayout.Tab> mTabs;
 
     /**

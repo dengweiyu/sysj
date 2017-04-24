@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.framework.BaseEmptyDialog;
 /**
  * 弹框：视频遮罩
@@ -27,6 +28,7 @@ public class VideoTipDialog extends BaseEmptyDialog implements View.OnClickListe
 	
 	private ImageView known;
 
+	private ImageView back;
 	@Override
 	protected int getContentView() {
 		return R.layout.tip_video;
@@ -37,6 +39,10 @@ public class VideoTipDialog extends BaseEmptyDialog implements View.OnClickListe
 		
 		known = (ImageView) findViewById(R.id.tip_known);
 		known.setOnClickListener(this);
+
+		back = (ImageView)findViewById(R.id.iv_tip_video_back);
+
+		GlideHelper.displayImage(getContext(),R.drawable.home_record_tip,back);
 	}
 
 	@Override

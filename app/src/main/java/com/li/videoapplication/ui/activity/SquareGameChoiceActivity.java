@@ -23,6 +23,8 @@ public class SquareGameChoiceActivity extends TBaseActivity implements View.OnCl
     private RecyclerView mList;
 
     private SquareGameChoiceAdapter mAdapter;
+
+    private int mChoicePosition = 0;
     @Override
     public void initView() {
         super.initView();
@@ -52,6 +54,7 @@ public class SquareGameChoiceActivity extends TBaseActivity implements View.OnCl
 
         try {
             mGame = (SquareGameEntity) getIntent().getSerializableExtra("game");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

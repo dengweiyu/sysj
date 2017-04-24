@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    android:clipToPadding="true"
+    android:orientation="vertical"
     android:fitsSystemWindows="true">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/MyTheme.AppBarOverlay"
-        app:elevation="2dp">
 
         <RelativeLayout
             android:background="#ffffff"
@@ -57,9 +52,10 @@
             android:layout_height="1px"
             android:background="#a7dfbab8" />
 
-    </android.support.design.widget.AppBarLayout>
+        <include
+            layout="@layout/activity_videochoose_content" />
 
-   <include layout="@layout/activity_videochoose_content" />
+
 
     <TextView
         android:id="@+id/videochoose_empty"
@@ -72,4 +68,4 @@
         android:textSize="14sp"
         android:visibility="gone"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

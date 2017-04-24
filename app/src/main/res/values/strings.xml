@@ -183,9 +183,9 @@
     <string name="scanqrcode_light_off">关灯</string>
     <string name="scanqrcode_qrcode">我的二维码</string>
 
-    <string name="recommend_title">精彩推荐</string>
+    <string name="recommend_title">玩家精选</string>
 
-    <string name="discover_recommend">精彩推荐</string>
+    <string name="discover_recommend">玩家精选</string>
     <string name="discover_square">玩家广场</string>
     <string name="discover_message">消息</string>
     <string name="discover_billboard">风云榜</string>

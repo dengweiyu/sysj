@@ -12,6 +12,7 @@ import com.li.videoapplication.data.cache.DanmukuCache;
 import com.li.videoapplication.data.cache.RequestCache;
 import com.li.videoapplication.data.danmuku.DanmukuListEntity;
 import com.li.videoapplication.data.danmuku.DanmukuListXmlParser;
+import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.data.model.response.AdvertisementAdImage204Entity;
@@ -32,11 +33,16 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.BaseEntity;
 import com.li.videoapplication.framework.BaseResponseEntity;
+import com.li.videoapplication.mvp.home.model.HomeModel;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.JPushHelper;
 import com.li.videoapplication.utils.HareWareUtil;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -189,8 +195,10 @@ public class ResponseHandler {
         if (entity != null) {
             // 回调网络访问结果
             EventBus.getDefault().post(convert(entity));
+
         }
     }
+
 
     /**
      * 功能：保存网络访问结果

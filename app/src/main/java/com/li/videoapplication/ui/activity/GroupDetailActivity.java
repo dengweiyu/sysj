@@ -207,8 +207,6 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
         ImageView tb_download = (ImageView) findViewById(R.id.tb_download);
         ImageView tb_plus = (ImageView) findViewById(R.id.tb_plus);
         tb_download.setVisibility(View.VISIBLE);

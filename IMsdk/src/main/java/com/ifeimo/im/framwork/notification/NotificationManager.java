@@ -14,12 +14,13 @@
  */
 package com.ifeimo.im.framwork.notification;
 
+import java.util.Collection;
 import java.util.Map;
 
 import android.net.Uri;
 
 import com.ifeimo.im.IEmployee;
-import com.ifeimo.im.common.bean.msg.MsgBean;
+import com.ifeimo.im.common.bean.MsgBean;
 
 /**
  * Provides list of notifications first of which should be shown.

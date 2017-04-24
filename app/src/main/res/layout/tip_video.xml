@@ -1,8 +1,16 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ImageView
+        android:id="@+id/iv_tip_video_back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"/>
 
     <RelativeLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -31,27 +39,24 @@
             android:layout_centerHorizontal="true"
             android:src="@color/tip_bg"/>
     </RelativeLayout>
+    <ImageView
+        android:id="@+id/tip_known"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/home_tip_close"
+        android:layout_alignRight="@+id/text"
+        android:layout_above="@+id/text"/>
 
     <ImageView
         android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="92dp"
-        android:layout_alignParentTop="true"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="61dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="68dp"
-        android:scaleType="fitXY"
+        android:layout_marginTop="-20dp"
+        android:paddingBottom="20dp"
         android:src="@drawable/tip_video"/>
 
-    <ImageView
-        android:id="@+id/tip_known"
-        android:layout_width="88dp"
-        android:layout_height="32dp"
-        android:layout_below="@+id/text"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/tip_known"/>
 
 </RelativeLayout>

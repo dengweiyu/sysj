@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
+import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.network.RequestConstant;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -21,6 +22,7 @@ import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.ui.fragment.ClassifiedGameFragment;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.RoundedImageView;
+import com.ypy.eventbus.EventBus;
 
 /**
  * 适配器：游戏分类

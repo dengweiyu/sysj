@@ -20,6 +20,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.mvp.match.view.GameMatchDetailActivity;
 import com.li.videoapplication.ui.activity.SignUpActivity;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
+import com.li.videoapplication.ui.dialog.ActivityRecordDialog;
 import com.li.videoapplication.ui.dialog.ClassifiedGameDialog;
 import com.li.videoapplication.ui.dialog.ConfirmDialog;
 import com.li.videoapplication.ui.dialog.DeleteApkDialog;
@@ -352,8 +353,8 @@ public class DialogManager {
     /**
      * 首页录制框
      */
-    public static void showRecordDialog(Context context) {
-        Dialog dialog = new RecordDialog(context);
+    public static void showRecordDialog(Context context,View shotView) {
+        Dialog dialog = new RecordDialog(context,shotView);
         dialog.show();
         UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.MAIN, "首页-录制框打开次数");
     }
@@ -361,10 +362,10 @@ public class DialogManager {
     /**
      * 活动详情录制框
      */
-    public static RecordDialog showActivityRecordDialog(Context context,
-                                                        RecordDialog.IDialogVisableListener visableListener,
-                                                        RecordDialog.IOnClickListener onClickListener) {
-        RecordDialog dialog = new RecordDialog(context, visableListener,onClickListener);
+    public static ActivityRecordDialog showActivityRecordDialog(Context context,
+                                                                RecordDialog.IDialogVisableListener visableListener,
+                                                                RecordDialog.IOnClickListener onClickListener) {
+        ActivityRecordDialog dialog = new ActivityRecordDialog(context, visableListener,onClickListener);
         dialog.show();
         return dialog;
     }

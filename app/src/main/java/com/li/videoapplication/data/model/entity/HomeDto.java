@@ -3,13 +3,14 @@ package com.li.videoapplication.data.model.entity;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.framework.BaseResponse2Entity;
+import com.li.videoapplication.framework.BaseResponseEntity;
 
 import java.util.List;
 
 /**
  * 数据传输对象：首页
  */
-public class HomeDto extends BaseResponse2Entity implements MultiItemEntity {
+public class HomeDto extends BaseResponseEntity implements MultiItemEntity {
 
     public static final int TYPE_HOTGAME = 2;//热门游戏
     public static final int TYPE_AD = 3;//通栏广告
@@ -20,29 +21,37 @@ public class HomeDto extends BaseResponse2Entity implements MultiItemEntity {
 
     private int itemType;
 
+    private Data data;
+    public HomeDto(){}
+
+
     public HomeDto(int itemType, GameGroup hotGame) {
         this.itemType = itemType;
-        this.hotGame = hotGame;
+        data = new Data();
+        this.data.hotGame = hotGame;
     }
 
     public HomeDto(int itemType, VideoImageGroup videoGroup) {
         this.itemType = itemType;
+        data = new Data();
         if (itemType == TYPE_GUESSYOULIKE)
-            this.guessVideo = videoGroup;
+            this.data.guessVideo = videoGroup;
         if (itemType == TYPE_SYSJVIDEO)
-            this.sysjVideo = videoGroup;
+            this.data.sysjVideo = videoGroup;
         if (itemType == TYPE_VIDEOGROUP)
-            this.videoGroupItem = videoGroup;
+            this.data.videoGroupItem = videoGroup;
     }
 
     public HomeDto(int itemType, MemberGroup hotMemberVideo) {
         this.itemType = itemType;
-        this.hotMemberVideo = hotMemberVideo;
+        data = new Data();
+        this.data.hotMemberVideo = hotMemberVideo;
     }
 
     public HomeDto(int itemType, AdvertisementDto advertisement) {
         this.itemType = itemType;
-        this.advertisement = advertisement;
+        data = new Data();
+        this.data.advertisement = advertisement;
     }
 
     @Override
@@ -50,117 +59,150 @@ public class HomeDto extends BaseResponse2Entity implements MultiItemEntity {
         return itemType;
     }
 
-    //################## 首页 ######################
 
-    //广告
-    private List<Banner> banner;
-
-    //热门游戏
-    private GameGroup hotGame;
-
-    //猜你喜欢
-    private VideoImageGroup guessVideo;
-
-    //视界原创的视频列表
-    private VideoImageGroup sysjVideo;
-
-    //热门解说
-    private MemberGroup hotMemberVideo;
-
-    //各游戏的视频列表 data.videoList[]
-    private List<VideoImageGroup> videoList;
-
-    //各游戏的视频列表 data.videoList[].get(i)
-    private VideoImageGroup videoGroupItem;
-
-    //################## 广告 ######################
-
-    private AdvertisementDto advertisement;
-
-    //################## 首页每日任务 ######################
-
-    private int num;
-
-    private int amount;
-
-
-    public AdvertisementDto getAdvertisement() {
-        return advertisement;
+    public Data getData() {
+        return data;
     }
 
-    public void setAdvertisement(AdvertisementDto advertisement) {
-        this.advertisement = advertisement;
+    public void setData(Data data) {
+        this.data = data;
     }
 
-    public int getNum() {
-        return num;
+   public static class Data{
+        //################## 首页 ######################
+
+        //广告
+        private List<Banner> banner;
+
+        //热门游戏
+        private GameGroup hotGame;
+
+        //猜你喜欢
+        private VideoImageGroup guessVideo;
+
+        //视界原创的视频列表
+        private VideoImageGroup sysjVideo;
+
+        //热门解说
+        private MemberGroup hotMemberVideo;
+
+        //各游戏的视频列表 data.videoList[]
+        private List<VideoImageGroup> videoList;
+
+        //各游戏的视频列表 data.videoList[].get(i)
+        private VideoImageGroup videoGroupItem;
+
+        //################## 广告 ######################
+
+        private AdvertisementDto advertisement;
+
+        //################## 首页每日任务 ######################
+
+        private int num;
+
+        private int amount;
+
+
+        public AdvertisementDto getAdvertisement() {
+            return advertisement;
+        }
+
+        public void setAdvertisement(AdvertisementDto advertisement) {
+            this.advertisement = advertisement;
+        }
+
+        public int getNum() {
+            return num;
+        }
+
+        public void setNum(int num) {
+            this.num = num;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public void setAmount(int amount) {
+            this.amount = amount;
+        }
+
+        public VideoImageGroup getVideoGroupItem() {
+            return videoGroupItem;
+        }
+
+        public void setVideoGroupItem(VideoImageGroup videoGroupItem) {
+            this.videoGroupItem = videoGroupItem;
+        }
+
+        public List<Banner> getBanner() {
+            return banner;
+        }
+
+        public void setBanner(List<Banner> banner) {
+            this.banner = banner;
+        }
+
+        public List<VideoImageGroup> getVideoList() {
+            return videoList;
+        }
+
+        public void setVideoList(List<VideoImageGroup> videoList) {
+            this.videoList = videoList;
+        }
+
+        public GameGroup getHotGame() {
+            return hotGame;
+        }
+
+        public void setHotGame(GameGroup hotGame) {
+            this.hotGame = hotGame;
+        }
+
+        public VideoImageGroup getGuessVideo() {
+            return guessVideo;
+        }
+
+        public void setGuessVideo(VideoImageGroup guessVideo) {
+            this.guessVideo = guessVideo;
+        }
+
+        public VideoImageGroup getSysjVideo() {
+            return sysjVideo;
+        }
+
+        public void setSysjVideo(VideoImageGroup sysjVideo) {
+            this.sysjVideo = sysjVideo;
+        }
+
+        public MemberGroup getHotMemberVideo() {
+            return hotMemberVideo;
+        }
+
+        public void setHotMemberVideo(MemberGroup hotMemberVideo) {
+            this.hotMemberVideo = hotMemberVideo;
+        }
+
+
+        private int itemsCount;
+
+        private int page_count;
+
+        public int getItemsCount() {
+            return itemsCount;
+        }
+
+        public void setItemsCount(int itemsCount) {
+            this.itemsCount = itemsCount;
+        }
+
+        public int getPage_count() {
+            return page_count;
+        }
+
+        public void setPage_count(int page_count) {
+            this.page_count = page_count;
+        }
     }
 
-    public void setNum(int num) {
-        this.num = num;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public VideoImageGroup getVideoGroupItem() {
-        return videoGroupItem;
-    }
-
-    public void setVideoGroupItem(VideoImageGroup videoGroupItem) {
-        this.videoGroupItem = videoGroupItem;
-    }
-
-    public List<Banner> getBanner() {
-        return banner;
-    }
-
-    public void setBanner(List<Banner> banner) {
-        this.banner = banner;
-    }
-
-    public List<VideoImageGroup> getVideoList() {
-        return videoList;
-    }
-
-    public void setVideoList(List<VideoImageGroup> videoList) {
-        this.videoList = videoList;
-    }
-
-    public GameGroup getHotGame() {
-        return hotGame;
-    }
-
-    public void setHotGame(GameGroup hotGame) {
-        this.hotGame = hotGame;
-    }
-
-    public VideoImageGroup getGuessVideo() {
-        return guessVideo;
-    }
-
-    public void setGuessVideo(VideoImageGroup guessVideo) {
-        this.guessVideo = guessVideo;
-    }
-
-    public VideoImageGroup getSysjVideo() {
-        return sysjVideo;
-    }
-
-    public void setSysjVideo(VideoImageGroup sysjVideo) {
-        this.sysjVideo = sysjVideo;
-    }
-
-    public MemberGroup getHotMemberVideo() {
-        return hotMemberVideo;
-    }
-
-    public void setHotMemberVideo(MemberGroup hotMemberVideo) {
-        this.hotMemberVideo = hotMemberVideo;
-    }
 }

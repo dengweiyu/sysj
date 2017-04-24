@@ -11,13 +11,14 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.internal.VersionUtils;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.ifeimo.im.R;
 import com.ifeimo.im.activity.ChatRecyclerActivity;
 import com.ifeimo.im.common.bean.AccountBean;
-import com.ifeimo.im.common.bean.msg.MsgBean;
+import com.ifeimo.im.common.bean.MsgBean;
 import com.ifeimo.im.common.util.AppUtil;
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.common.util.ThreadUtil;

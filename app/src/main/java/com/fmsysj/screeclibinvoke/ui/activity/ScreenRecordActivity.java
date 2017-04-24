@@ -1,5 +1,6 @@
 package com.fmsysj.screeclibinvoke.ui.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -142,6 +143,7 @@ public class ScreenRecordActivity extends TBaseActivity implements
         }
 
         checkPermission();
+
     }
 
     private void checkPermission(){
@@ -157,6 +159,7 @@ public class ScreenRecordActivity extends TBaseActivity implements
                 }
             }
         }, 900);
+
     }
 
     @Override
@@ -382,7 +385,7 @@ public class ScreenRecordActivity extends TBaseActivity implements
                             finishBottomOut();
 
                             //go to launcher
-                            AppUtil.simulateHomeKey(ScreenRecordActivity.this);
+                  //          AppUtil.simulateHomeKey(ScreenRecordActivity.this);
                         }
                     });
                 }
@@ -447,7 +450,7 @@ public class ScreenRecordActivity extends TBaseActivity implements
                             }
                             finishBottomOut();
                             //go to launcher
-                            AppUtil.simulateHomeKey(ScreenRecordActivity.this);
+                        //    AppUtil.simulateHomeKey(ScreenRecordActivity.this);
 
                         }
                     });
@@ -1066,5 +1069,7 @@ public class ScreenRecordActivity extends TBaseActivity implements
             }
         });
         manager.checkPermission();
+
+        super.checkPermission(new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.CAMERA});
     }
 }

@@ -1,7 +1,10 @@
 package com.ifeimo.im.common.adapter;
 
 import android.database.Cursor;
+import android.text.Html;
+import android.text.Spannable;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -11,14 +14,17 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.ifeimo.im.R;
 import com.ifeimo.im.common.adapter.holder.Holder;
-import com.ifeimo.im.common.bean.msg.MsgBean;
-import com.ifeimo.im.common.bean.msg.MuccMsgBean;
+import com.ifeimo.im.common.bean.MsgBean;
+import com.ifeimo.im.common.bean.MuccMsgBean;
 import com.ifeimo.im.common.bean.UserBean;
+import com.ifeimo.im.common.bean.chat.MuccBean;
+import com.ifeimo.im.common.util.MatchUtil;
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.framwork.interface_im.IMWindow;
+import com.ifeimo.im.provider.BaseProvider;
 
 /**
  * Created by lpds on 2017/2/18.
@@ -109,7 +115,7 @@ public class MuccChatReAdapter extends BaseChatReCursorAdapter<Holder> {
                 holder.reConnectIv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Proxy.getMessageManager().reSendMuccMsg(activity.getKey(), muccMsgBean);
+                        Proxy.getMessageManager().reSendMuccMsg(activity.getKey(), (MuccBean) activity.getBean(), muccMsgBean);
                     }
                 });
             } else if (muccMsgBean.getSendType() == Fields.GroupChatFields.SEND_WAITING) {

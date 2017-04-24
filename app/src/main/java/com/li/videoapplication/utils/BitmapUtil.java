@@ -238,4 +238,18 @@ public class BitmapUtil {
         }
         return bitmap;
     }
+
+    /**
+     * 缩小图片
+     * @param bitmap 需要缩小的图片
+     * @return 缩小的图片
+     */
+    public static Bitmap scaleBitmap(Bitmap bitmap,float scale) {
+        Matrix matrix = new Matrix();
+        matrix.postScale(scale, scale);
+        Bitmap resizeBmp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        return resizeBmp;
+    }
+
+
 }

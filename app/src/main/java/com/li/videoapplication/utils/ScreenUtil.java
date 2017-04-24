@@ -2,10 +2,13 @@ package com.li.videoapplication.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
 
 import com.li.videoapplication.framework.AppManager;
@@ -143,5 +146,17 @@ public class ScreenUtil {
 //		Log.d(TAG, "getAreaOne: width=" + point.x);
 //		Log.d(TAG, "getAreaOne: height=" + point.y);
         return new int[]{ point.x, point.y };
+    }
+
+    /**
+     * 获取View的图像帧
+     * @param v
+     * @return
+     */
+    public static Bitmap getViewShot(View v) {
+        Bitmap b = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(b);
+        v.draw(c);
+        return b;
     }
 }

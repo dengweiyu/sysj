@@ -562,7 +562,15 @@ public final class CameraGLView extends GLSurfaceView {
                     // request preview size
                     // this is a sample project and just use fixed value
                     // if you want to use other size, you also need to change the recording size.
-                    params.setPreviewSize(ScreenUtil.getScreenHeight(), ScreenUtil.getScreenWidth());
+                    int h = ScreenUtil.getScreenHeight();
+                    int w = ScreenUtil.getScreenWidth();
+                    if (w == 1080 ){
+                        if (h != 1920){
+                            h = 1920;
+                            w = 1080;
+                        }
+                    }
+                    params.setPreviewSize(h,w);
 /*					final Size preferedSize = params.getPreferredPreviewSizeForVideo();
                     if (preferedSize != null) {
 						params.setPreviewSize(preferedSize.width, preferedSize.height);
@@ -708,7 +716,7 @@ public final class CameraGLView extends GLSurfaceView {
             CameraGLView.flashMode = flashMode;
             switch (flashMode) {
                 case ON:
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
                     break;
                 case AUTO:
                     parameters.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);

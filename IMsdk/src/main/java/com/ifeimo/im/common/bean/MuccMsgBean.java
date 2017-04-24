@@ -1,9 +1,11 @@
-package com.ifeimo.im.common.bean.msg;
+package com.ifeimo.im.common.bean;
 
 import android.database.Cursor;
 
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.database.Fields;
+import com.ifeimo.im.provider.BaseProvider;
+import com.ifeimo.im.provider.MuccProvider;
 
 import org.jivesoftware.smack.packet.DefaultExtensionElement;
 import org.jivesoftware.smack.packet.ExtensionElement;

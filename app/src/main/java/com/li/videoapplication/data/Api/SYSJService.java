@@ -224,7 +224,7 @@ public interface SYSJService {
     Observable<BaseHttpResult<List<Currency>>> getMemberAward(@QueryMap Map<String, Object> options);
 
     //兑换记录详情
-    @GET("/Sysj217/CurrencyMall/orderDetail")
+    @GET("/ Sysj217/CurrencyMall/orderDetail")
     Observable<BaseHttpResult<Currency>> orderDetail(@QueryMap Map<String, Object> options);
 
     //抽奖记录详情
@@ -244,7 +244,7 @@ public interface SYSJService {
     @GET("/Sysj217/Recharge/getOrderList")
     Observable<BaseHttpResult<List<TopUp>>> getTopUpRecordList(@QueryMap Map<String, Object> options);
 
-    //充值记录
-    @GET("/Sysj217/Recharge/payRechargeWay")
+    //充值方式
+    @GET("/Sysj218/Recharge/payRechargeWay")
     Observable<PaymentList> getPaymentList(@Query("target") String target);
 }

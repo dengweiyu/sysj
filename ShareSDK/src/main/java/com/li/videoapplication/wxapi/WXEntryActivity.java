@@ -75,19 +75,6 @@ public class WXEntryActivity extends WechatHandlerActivity implements IWXAPIEven
     //第三方发消息到微信会回调
     @Override
     public void onResp(BaseResp baseResp) {
-        try {
-            //由于使用多Module的方式 所以使用反射调用
-            Class paymentActivity = Class.forName("com.li.videoapplication.payment.WechatPayment");
-            Method handler = paymentActivity.getMethod("onResponse");
-            handler.invoke(baseResp,this);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }catch (NoSuchMethodException e){
-            e.printStackTrace();
-        }catch (IllegalAccessException e){
-            e.printStackTrace();
-        }catch (InvocationTargetException e){
-            e.printStackTrace();
-        }
+
     }
 }

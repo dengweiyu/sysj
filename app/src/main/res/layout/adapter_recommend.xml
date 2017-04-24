@@ -38,16 +38,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/left"
-        android:layout_marginLeft="8dp"
+        android:layout_toLeftOf="@+id/tv_recommend"
         android:layout_marginRight="12dp"
-
+        android:layout_marginLeft="12dp"
         android:layout_toRightOf="@+id/left"
         android:ellipsize="end"
-        android:lines="2"
+        android:lines="1"
         android:text=""
         android:hint="@string/loading_text"
         android:textColor="#646464"
         android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/tv_recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="推荐"
+        android:textColor="@color/currency_red"
+        android:layout_alignTop="@+id/left"
+        android:layout_marginRight="10dp"
+        android:textSize="9sp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:visibility="invisible"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/stroke_red"/>
 
     <LinearLayout
         android:id="@+id/bottom"
@@ -56,15 +73,25 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/left"
         android:gravity="center_vertical"
-        android:layout_alignLeft="@+id/recommend_title"
-        android:layout_alignRight="@+id/recommend_title">
+        android:layout_alignLeft="@+id/recommend_title">
 
+        <RelativeLayout
+            android:layout_width="20dp"
+            android:layout_height="20dp">
         <com.li.videoapplication.views.CircleImageView
             android:id="@+id/recommend_head"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="#555555"/>
-
+        <ImageView
+            android:id="@+id/iv_recommend_member_v"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/home_v_red"
+            android:visibility="invisible"/>
+        </RelativeLayout>
         <TextView
             android:id="@+id/recommend_name"
             android:layout_width="0dp"
@@ -79,45 +106,28 @@
             android:textColor="#898989"
             android:textSize="11sp"/>
 
+
+
+
         <ImageView
-            android:id="@+id/recommend_good"
+            android:id="@+id/iv_recommend_play_count"
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_marginRight="6dp"
-            android:src="@drawable/videoplay_good_gray_205"
+            android:src="@drawable/recommend_play_count"
             android:scaleType="fitXY"
             android:button="@null"
-            android:checked="false"/>
+            android:checked="false" />
 
         <TextView
-            android:id="@+id/recommend_goodCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="12dp"
-            android:singleLine="true"
-            android:text="0"
-            android:textColor="#898989"
-            android:textSize="12sp" />
-
-        <ImageView
-            android:id="@+id/recommend_star"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_marginRight="6dp"
-            android:src="@drawable/videoplay_star_gray_205"
-            android:scaleType="fitXY"
-            android:button="@null"
-            android:checked="false"/>
-
-        <TextView
-            android:id="@+id/recommend_starCount"
+            android:id="@+id/tv_recommend_play_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:singleLine="true"
+            android:lines="1"
             android:text="0"
             android:textColor="#898989"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </LinearLayout>
 
     <View

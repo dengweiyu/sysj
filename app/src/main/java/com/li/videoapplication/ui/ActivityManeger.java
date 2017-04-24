@@ -86,6 +86,7 @@ import com.li.videoapplication.ui.activity.SettingActivity;
 import com.li.videoapplication.ui.activity.ShareActivity;
 import com.li.videoapplication.ui.activity.SignUpActivity;
 import com.li.videoapplication.ui.activity.SquareActivity;
+import com.li.videoapplication.ui.activity.SquareActivity1;
 import com.li.videoapplication.ui.activity.SquareGameChoiceActivity;
 import com.li.videoapplication.ui.activity.TagActivity;
 import com.li.videoapplication.ui.activity.UploadMatchResultImageActivity;
@@ -1355,7 +1356,7 @@ public class  ActivityManeger {
      */
     public synchronized static void startSquareActivity(Context context) {
         Intent intent = new Intent();
-        intent.setClass(context, SquareActivity.class);
+        intent.setClass(context, SquareActivity1.class);
         context.startActivity(intent);
     }
 

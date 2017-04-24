@@ -107,6 +107,19 @@ public class GlideHelper {
     }
 
     /**
+     * 加载图片，空白占位符，模糊处理
+     */
+    public static void displayImageBlur(Context context, byte[] data, ImageView view,int radius) {
+
+        Glide.with(context)
+                .load(data)
+                .error(Color.TRANSPARENT)
+                .bitmapTransform(new jp.wasabeef.glide.transformations.BlurTransformation(context,radius))
+                .into(view);
+    }
+
+
+    /**
      * 加载图片，sysj默认占位符1s渐变消失
      */
     public static void displayImageFade(String uri, ImageView view) {
@@ -131,6 +144,8 @@ public class GlideHelper {
                 .centerCrop()
                 .into(view);
     }
+
+
 
     /**
      * 显示本地视频封面，sysj默认占位符

@@ -430,7 +430,9 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
                             }
                             FeiMoIMHelper.Login(memberId, user.getNickname(), user.getAvatar());
                         }
-                        FeiMoIMHelper.createMuccRoom(this, match.getGame_id(), match.getRoomName(), match.getRoomPicurl());
+
+
+                        FeiMoIMHelper.createMuccRoom(this, match.getRoomJID(), match.getRoomName(), match.getRoomPicurl());
                     }else {
                         presenter.groupJoin(getMember_id(), match.getChatroom_group_id());
                     }

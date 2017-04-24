@@ -34,6 +34,15 @@ public class RequestUrl {
 
     public String BaseFMYX_V1 = BaseFMYX + "/api/public/index.php/v1";
 
+
+
+    /**
+     * 分享页面广场信息
+     */
+    public final String homeInfo() {
+        return BaseSYSJ + "/Sysj217/Index/index";
+    }
+
     /**
      * 分享页面广场信息
      */
@@ -844,7 +853,7 @@ public class RequestUrl {
      * 广场列表
      */
     public final String squareList() {
-        return BaseSYSJ + "/sysj218/PlayerSquare/squareList";
+        return BaseSYSJ + "/sysj201/square/squareList";
     }
 
     /**
@@ -2182,7 +2191,7 @@ public class RequestUrl {
      * 精彩推荐--视频列表
      */
     public final String editList203() {
-        return BaseSYSJ + "/sysj203/edit/list";
+        return BaseSYSJ + "/Sysj219/Edit/list";
     }
 
     /**
@@ -2213,5 +2222,13 @@ public class RequestUrl {
      */
     public final String srtList203() {
         return BaseSYSJ + "/sysj203/srt/list";
+    }
+
+
+    /**
+     * IM 消息（url） 内容解析
+     */
+    public final String parseMessage() {
+        return BaseSYSJ + "/Sysj219/ResolveLink/getLinkInfo";
     }
 }

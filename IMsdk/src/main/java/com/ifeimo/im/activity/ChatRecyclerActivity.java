@@ -8,16 +8,19 @@ import com.ifeimo.im.common.MD5;
 import com.ifeimo.im.common.adapter.ChatReAdapter;
 import com.ifeimo.im.common.bean.AccountBean;
 import com.ifeimo.im.common.bean.InformationBean;
-import com.ifeimo.im.common.bean.msg.MsgBean;
+import com.ifeimo.im.common.bean.MsgBean;
 import com.ifeimo.im.common.bean.UserBean;
+import com.ifeimo.im.common.bean.chat.BaseChatBean;
 import com.ifeimo.im.common.util.ConnectUtil;
-import com.ifeimo.im.common.util.IMWindosThreadUtil;
 import com.ifeimo.im.common.util.PManager;
 import com.ifeimo.im.common.util.StringUtil;
+import com.ifeimo.im.common.util.ThreadUtil;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.framwork.database.business.Business;
+import com.ifeimo.im.framwork.interface_im.IMWindow;
 import com.ifeimo.im.framwork.request.Account;
+import com.ifeimo.im.provider.ChatProvider;
 
 import org.json.JSONObject;
 
@@ -54,7 +57,7 @@ public class ChatRecyclerActivity extends BaseCompatActivity<ChatReAdapter> impl
 
     private void instances() {
         title.setText(receiverBean.getNickName());
-        IMWindosThreadUtil.getInstances().run(getKey(),new Runnable() {
+        ThreadUtil.getInstances().createThreadStartToFixedThreadPool(new Runnable() {
             @Override
             public void run() {
                 initChat();
@@ -87,7 +90,7 @@ public class ChatRecyclerActivity extends BaseCompatActivity<ChatReAdapter> impl
      * 初始化 chat单聊
      */
     private void initChat() {
-        Proxy.getMessageManager().createChat(receiverBean.getMemeberid(), UserBean.getMemberID());
+        Proxy.getMessageManager().createChat(this, receiverBean.getMemeberid(), UserBean.getMemberID());
     }
 
     public void sendOnclick(View v) {
@@ -126,6 +129,11 @@ public class ChatRecyclerActivity extends BaseCompatActivity<ChatReAdapter> impl
     }
 
     @Override
+    public BaseChatBean getBean() {
+        return null;
+    }
+
+    @Override
     public String getKey() {
         return UserBean.getMemberID() + receiverBean.getMemeberid();
     }
@@ -153,7 +161,7 @@ public class ChatRecyclerActivity extends BaseCompatActivity<ChatReAdapter> impl
             if(!ConnectUtil.isConnect(this)){
                 return;
             }
-            IMWindosThreadUtil.getInstances().run(getKey(),new Runnable() {
+            ThreadUtil.getInstances().createThreadStartToFixedThreadPool(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -175,12 +183,18 @@ public class ChatRecyclerActivity extends BaseCompatActivity<ChatReAdapter> impl
                     }
                 }
             });
+//            ThreadUtil.getInstances().createThreadStartToCachedThreadPool(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                }
+//            });
         }
     }
 
     @Override
     protected void getMaxMsgCount(final Runnable runnable) {
-        IMWindosThreadUtil.getInstances().run(getKey(),new Runnable() {
+        ThreadUtil.getInstances().createThreadStartToCachedThreadPool(new Runnable() {
             @Override
             public void run() {
                 getAdapter().setMaxCount(Business.getInstances().queryMaxCountByTableName(Fields.ChatFields.TB_NAME, " (receiverId = '" + receiverBean.getMemeberid() + "' and memberId = '" + UserBean.getMemberID() + "') " +
@@ -199,7 +213,7 @@ public class ChatRecyclerActivity extends BaseCompatActivity<ChatReAdapter> impl
 
     @Override
     public void cancelInformation() {
-        IMWindosThreadUtil.getInstances().run(getKey(),new Runnable() {
+        ThreadUtil.getInstances().createThreadStartToCachedThreadPool(new Runnable() {
             @Override
             public void run() {
                 Business.getInstances().cancelInformation(UserBean.getMemberID(),getReceiver(), InformationBean.CHAT);

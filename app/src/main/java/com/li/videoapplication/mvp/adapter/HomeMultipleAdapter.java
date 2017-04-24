@@ -79,7 +79,7 @@ public class HomeMultipleAdapter extends BaseMultiItemQuickAdapter<HomeDto, Base
             case HomeDto.TYPE_HOTGAME://热门游戏
                 RecyclerView recyclerView = holder.getView(R.id.homehotgame_recyclerview);
                 recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-                HomeHotGameAdapter hotGameAdapter = new HomeHotGameAdapter(item.getHotGame().getList());
+                HomeHotGameAdapter hotGameAdapter = new HomeHotGameAdapter(item.getData().getHotGame().getList());
                 recyclerView.setAdapter(hotGameAdapter);
                 recyclerView.addOnItemTouchListener(new OnItemClickListener() {
                     @Override
@@ -97,7 +97,7 @@ public class HomeMultipleAdapter extends BaseMultiItemQuickAdapter<HomeDto, Base
             case HomeDto.TYPE_AD://通栏广告
                 setAdLayoutParmas(holder);
                 ImageView pic = holder.getView(R.id.banner_image);
-                helper.setImageViewImageNet(pic, item.getAdvertisement().getData().get(0).getServer_pic_a());
+                helper.setImageViewImageNet(pic, item.getData().getAdvertisement().getData().get(0).getServer_pic_a());
                 holder.addOnClickListener(R.id.banner_delete)
                         .addOnClickListener(R.id.banner_image);
                 break;
@@ -106,30 +106,30 @@ public class HomeMultipleAdapter extends BaseMultiItemQuickAdapter<HomeDto, Base
                         .addOnClickListener(R.id.hometype_youlike_change);
 
                 GridViewY1 youLikeGridView = holder.getView(R.id.hometype_gridview);
-                youLikeAdapter = new YouLikeAdapter(mContext, item.getGuessVideo().getList());
+                youLikeAdapter = new YouLikeAdapter(mContext,item.getData().getGuessVideo().getList());
                 youLikeGridView.setAdapter(youLikeAdapter);
                 break;
             case HomeDto.TYPE_SYSJVIDEO://视界原创
                 holder.setVisible(R.id.hometype_sysj, true)
                         .addOnClickListener(R.id.hometype_sysj);
-                VideoAdapter sysjAdapter = new VideoAdapter(mContext, item.getSysjVideo().getList());
+                VideoAdapter sysjAdapter = new VideoAdapter(mContext, item.getData().getSysjVideo().getList());
                 GridViewY1 sysjGridView = holder.getView(R.id.hometype_gridview);
                 sysjGridView.setAdapter(sysjAdapter);
-                sysjAdapter.setVideoType(item.getSysjVideo().getMore_mark());
+                sysjAdapter.setVideoType(item.getData().getSysjVideo().getMore_mark());
                 break;
             case HomeDto.TYPE_VIDEOGROUP://游戏视频
                 holder.setVisible(R.id.hometype_game, true)
                         .addOnClickListener(R.id.hometype_game);
-                holder.setText(R.id.hoemtype_game_title, item.getVideoGroupItem().getTitle());
-                VideoAdapter gameAdapter = new VideoAdapter(mContext, item.getVideoGroupItem().getList());
+                holder.setText(R.id.hoemtype_game_title, item.getData().getVideoGroupItem().getTitle());
+                VideoAdapter gameAdapter = new VideoAdapter(mContext, item.getData().getVideoGroupItem().getList());
                 GridViewY1 gameGridView = holder.getView(R.id.hometype_gridview);
                 gameGridView.setAdapter(gameAdapter);
-                gameAdapter.setVideoType(item.getVideoGroupItem().getMore_mark());
+                gameAdapter.setVideoType(item.getData().getVideoGroupItem().getMore_mark());
                 break;
             case HomeDto.TYPE_HOTNARRATE://热门主播
                 RecyclerView hotNarrateRecyclerView = holder.getView(R.id.homehotnarrate_recyclerview);
                 hotNarrateRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-                HomeHotNarrateAdapter hotNarrateAdapter = new HomeHotNarrateAdapter(item.getHotMemberVideo().getList());
+                HomeHotNarrateAdapter hotNarrateAdapter = new HomeHotNarrateAdapter(item.getData().getHotMemberVideo().getList());
                 hotNarrateRecyclerView.setAdapter(hotNarrateAdapter);
                 hotNarrateRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
                     @Override

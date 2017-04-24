@@ -11,7 +11,12 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
@@ -21,6 +26,7 @@ import com.li.videoapplication.data.model.response.AssociateEntity;
 import com.li.videoapplication.data.model.response.KeyWordListNewEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.adapter.SearchAssociateAdapter;
 import com.li.videoapplication.ui.adapter.SearchHistoryAdapter;
@@ -38,7 +44,7 @@ import java.util.List;
 /**
  * 活动：搜索
  */
-public class SearchActivity extends TBaseActivity implements
+public class SearchActivity extends TBaseAppCompatActivity implements
         OnClickListener,
         TextWatcher,
         OnItemClickListener,
@@ -79,6 +85,10 @@ public class SearchActivity extends TBaseActivity implements
 
     private View contentContainer;
 
+    private AutoCompleteTextView abSearchEdit;
+    private View  abSearchDelete;
+    private View  abSearchSubmit;
+    private LinearLayout abSearchContainer;
     // 搜索历史
     private View historyContainer;
     private GridViewY1 historyGridView;
@@ -110,9 +120,6 @@ public class SearchActivity extends TBaseActivity implements
         return R.layout.activity_search;
     }
 
-    public int inflateActionBar() {
-        return R.layout.actionbar_second;
-    }
 
     @Override
     public void afterOnCreate() {
@@ -129,7 +136,13 @@ public class SearchActivity extends TBaseActivity implements
         refreshContentView(isAssociateVisible);
     }
 
+
+
     private void initContentView() {
+        Toolbar toolbar = (Toolbar)findViewById(R.id.tl_search_toolbar);
+        setSupportActionBar(toolbar);
+
+        findViewById(R.id.iv_tb_go_back).setOnClickListener(this);
         contentContainer = findViewById(R.id.search_content);
 
         historyContainer = findViewById(R.id.search_history);
@@ -143,6 +156,11 @@ public class SearchActivity extends TBaseActivity implements
 
         clear = (TextView) findViewById(R.id.search_clear);
         clear.setOnClickListener(this);
+
+        abSearchContainer = (LinearLayout) findViewById(R.id.ab_search_container);
+        abSearchEdit = (AutoCompleteTextView) findViewById(R.id.ab_search_edit);
+        abSearchDelete =  findViewById(R.id.ab_search_delete);
+        abSearchSubmit =  findViewById(R.id.ab_search);
 
         abSearchContainer.setVisibility(View.VISIBLE);
         abSearchDelete.setVisibility(View.GONE);
@@ -252,6 +270,9 @@ public class SearchActivity extends TBaseActivity implements
                 hideSearchResultFragment();
                 abSearchEdit.setText("");
                 InputUtil.showKeyboard(abSearchEdit);
+                break;
+            case R.id.iv_tb_go_back:
+                finish();
                 break;
         }
     }

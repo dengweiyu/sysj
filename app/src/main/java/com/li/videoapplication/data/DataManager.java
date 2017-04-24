@@ -8,6 +8,7 @@ import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.data.local.ScreenShotHelper;
 import com.li.videoapplication.data.local.VideoCaptureHelper;
 import com.li.videoapplication.data.model.entity.Advertisement;
+import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.Member;
@@ -25,6 +26,7 @@ import com.li.videoapplication.data.upload.ImageUploadRequstObject;
 import com.li.videoapplication.data.upload.VideoUploadRequestObject;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
+import com.li.videoapplication.framework.BaseResponse2Entity;
 import com.li.videoapplication.framework.BaseResponseEntity;
 import com.li.videoapplication.tools.ArrayHelper;
 import com.li.videoapplication.utils.StringUtil;
@@ -43,8 +45,14 @@ public class DataManager {
     public static String TAG = DataManager.class.getSimpleName();
 
 
-
-
+    public static void getHomeInfo(int page){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().homeInfo();
+        Map<String, Object> params = RequestParams.getInstance().homeInfo(page);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new HomeDto());
+        helper.doService(request);
+    }
 
     /**
      * 分享页面广场信息
@@ -3159,25 +3167,25 @@ public class DataManager {
     /**
      * 功能：广场列表（最热）
      */
-    public static void squareListHot(String member_id, int page,String game_id) {
-        DataManager.squareList(new SquareListHotEntity(), member_id, "click", page,game_id);
+    public static void squareListHot(String member_id, int page) {
+        DataManager.squareList(new SquareListHotEntity(), member_id, "click", page);
     }
 
     /**
      * 功能：广场列表（最新）
      */
-    public static void squareListNew(String member_id, int page,String game_id) {
-        DataManager.squareList(new SquareListNewEntity(), member_id, "time", page,game_id);
+    public static void squareListNew(String member_id, int page) {
+        DataManager.squareList(new SquareListNewEntity(), member_id, "time", page);
     }
 
     /**
      * 功能：广场列表
      */
-    private static void squareList(BaseResponseEntity entity, String member_id, String sort, int page,String game_id) {
+    private static void squareList(BaseResponseEntity entity, String member_id, String sort, int page) {
 
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().squareList();
-        Map<String, Object> params = RequestParams.getInstance().squareList(member_id, sort, page,game_id);
+        Map<String, Object> params = RequestParams.getInstance().squareList(member_id, sort, page);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(entity);
@@ -3677,6 +3685,19 @@ public class DataManager {
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, null, null);
         request.setEntity(new EditGoldMember203Entity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：IM消息点击  将URL给后台解析
+     */
+    public static void parseMessage(String urlStr) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().parseMessage();
+        Map<String, Object> params = RequestParams.getInstance().parseMessage(urlStr);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new ParseResultEntity());
         helper.doNetwork(request);
     }
 }

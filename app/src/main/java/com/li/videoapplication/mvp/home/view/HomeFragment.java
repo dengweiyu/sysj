@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.google.gson.JsonSyntaxException;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.message.OnHtmlItemClickListener;
@@ -188,7 +189,6 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             e.printStackTrace();
             presenter.loadHomeData(page, true);
         }
-
     }
 
 
@@ -296,19 +296,19 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                         }
                         break;
                     case R.id.hometype_sysj://视界原创更多
-                        startHomeMoreActivity(item.getSysjVideo());
+                        startHomeMoreActivity(item.getData().getSysjVideo());
                         break;
                     case R.id.hometype_game://游戏视频更多
-                        if (item.getVideoGroupItem().getIsGame() == 1 &&
-                                !StringUtil.isNull(item.getVideoGroupItem().getGroup_id())) {
-                            startGameDetailActivity(item.getVideoGroupItem().getGroup_id());
-                            UmengAnalyticsHelper.onMainGameMoreEvent(getActivity(), item.getVideoGroupItem().getMore_mark());
+                        if (item.getData().getVideoGroupItem().getIsGame() == 1 &&
+                                !StringUtil.isNull(item.getData().getVideoGroupItem().getGroup_id())) {
+                            startGameDetailActivity(item.getData().getVideoGroupItem().getGroup_id());
+                            UmengAnalyticsHelper.onMainGameMoreEvent(getActivity(), item.getData().getVideoGroupItem().getMore_mark());
                         } else {
-                            if (item.getVideoGroupItem().getMore_mark().equals("player_square")) { //玩家广场
+                            if (item.getData().getVideoGroupItem().getMore_mark().equals("player_square")) { //玩家广场
                                 ActivityManeger.startSquareActivity(getActivity());
                                 UmengAnalyticsHelper.onEvent(getActivity(),UmengAnalyticsHelper.MAIN,"首页-玩家广场-更多");
                             } else {
-                                startHomeMoreActivity(item.getVideoGroupItem());
+                                startHomeMoreActivity(item.getData().getVideoGroupItem());
                             }
                         }
                         break;
@@ -319,7 +319,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                         homeAdapter.remove(1);
                         break;
                     case R.id.banner_image://通栏广告
-                        LaunchImage launchImage = item.getAdvertisement().getData().get(0);
+                        LaunchImage launchImage = item.getData().getAdvertisement().getData().get(0);
                         int ad_type = launchImage.getAd_type();
                         String download_android = launchImage.getDownload_android();
                         switch (ad_type) {
@@ -429,6 +429,18 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         return footerView;
     }
 
+
+    /**
+     * 回调：首页数据
+     * @param homeDto
+     */
+    public void onEventMainThread(HomeDto homeDto){
+        refreshHomeData(homeDto);
+        if (page == 1){
+            PreferencesHepler.getInstance().saveHomeData(homeDto);//保存首页json 只要第一页数据
+        }
+    }
+
     @Override
     public void hideProgress() {
         Log.d(tag, "======== hideProgress: ========");
@@ -488,9 +500,10 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
     //主页数据
     @Override
-    public void refreshHomeData(HomeDto data) {
+    public void refreshHomeData(HomeDto homeDto) {
         Log.d(tag, "======== refreshHomeData: ========");
-        if (data != null) {
+        if (homeDto != null) {
+            HomeDto.Data data = homeDto.getData();
             page_count = data.getPage_count();
             if (page < 2) {
                 Log.d(tag, "refreshHomeData: page = 1");
@@ -537,6 +550,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
             isNetWordChange = true;
             if (refreshTimer != null) refreshTimer.cancel();
+            swipeRefreshLayout.setRefreshing(false);
             setRefreshStatus(false);
         } else {
             onRefresh();
@@ -614,6 +628,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             newGuessList.remove(newGuessList.size() - 1);//移除第4条item
             newGuessList.add(adItem);//替换广告
             homeAdapter.changeGuessVideo(newGuessList);
+            recyclerView.scrollToPosition(0);           //不知道为何 更新了广告图后 会滚动到相应的item  所以直接回到0的位置
         }
     }
 

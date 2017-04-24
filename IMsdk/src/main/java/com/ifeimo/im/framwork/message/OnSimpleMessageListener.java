@@ -1,5 +1,8 @@
 package com.ifeimo.im.framwork.message;
 
+import com.ifeimo.im.common.bean.MsgBean;
+import com.ifeimo.im.common.bean.chat.MuccBean;
+
 /**
  * Created by lpds on 2017/3/3.
  */

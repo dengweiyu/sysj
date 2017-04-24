@@ -6,11 +6,30 @@
     android:clipToPadding="true"
     android:fitsSystemWindows="true">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tl_search_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_tb_go_back"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:onClick="doBack"
+            android:padding="12dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ab_goback_gray"
+            android:visibility="visible"/>
+        <include layout="@layout/menu_searchresult"></include>
+    </android.support.v7.widget.Toolbar>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
+        android:layout_below="@+id/tl_search_toolbar"
         android:scrollbars="none">
 
         <LinearLayout
@@ -163,6 +182,7 @@
 
     <FrameLayout
         android:id="@+id/frag_container"
+        android:layout_below="@+id/tl_search_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

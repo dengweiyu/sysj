@@ -21,7 +21,7 @@ import com.li.videoapplication.views.CircleImageView;
 import java.util.List;
 
 /**
- * 适配器：精彩推荐
+ * 适配器：玩家精选
  */
 @SuppressLint("InflateParams")
 public class RecommendAdapter extends BaseArrayAdapter<VideoImage> {
@@ -57,31 +57,31 @@ public class RecommendAdapter extends BaseArrayAdapter<VideoImage> {
             holder.name = (TextView) view.findViewById(R.id.recommend_name);
             holder.cover = (ImageView) view.findViewById(R.id.recommend_cover);
             holder.title = (TextView) view.findViewById(R.id.recommend_title);
-            holder.good = (ImageView) view.findViewById(R.id.recommend_good);
-            holder.goodCount = (TextView) view.findViewById(R.id.recommend_goodCount);
-            holder.star = (ImageView) view.findViewById(R.id.recommend_star);
-            holder.starCount = (TextView) view.findViewById(R.id.recommend_starCount);
+            holder.playCount = (TextView)view.findViewById(R.id.tv_recommend_play_count);
+            holder.recommend = (TextView)view.findViewById(R.id.tv_recommend);
+            holder.memberV = (ImageView)view.findViewById(R.id.iv_recommend_member_v);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
 
+        boolean isRecommed = !StringUtil.isNull(record.getIsRecommend()) &&
+                !record.getIsRecommend().equals("0");// 0：普通视频；>0：推荐视频，值为推荐位id
 
+        holder.recommend.setVisibility(isRecommed ? View.VISIBLE : View.INVISIBLE);
 
+        if (record.isV()){
+            holder.memberV.setVisibility(View.VISIBLE);
+        }else {
+            holder.memberV.setVisibility(View.INVISIBLE);
+        }
 
         setImageViewImageNet(holder.head, record.getAvatar());
         setTextViewText(holder.name, record.getNickname());
         setImageViewImageNet(holder.cover, record.getFlag());
         setTextViewText(holder.title, record.getTitle());
-        setTextViewText(holder.goodCount, record.getFlower_count());
-        setTextViewText(holder.starCount, record.getCollection_count());
 
-        // 点赞设置
-        setGood(record, holder.good);
-
-        // 收藏设置
-        setStar(record, holder.star);
-
+        setTextViewText(holder.playCount, StringUtil.formatNum(record.getView_count()));
         holder.head.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -193,9 +193,9 @@ public class RecommendAdapter extends BaseArrayAdapter<VideoImage> {
         CircleImageView head;
         TextView name;
 
-        ImageView good;
-        TextView goodCount;
-        ImageView star;
-        TextView starCount;
+        TextView playCount;
+        TextView recommend;
+
+        ImageView memberV;
     }
 }

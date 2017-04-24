@@ -1,5 +1,8 @@
 package com.ifeimo.im.framwork.message;
 
+import com.ifeimo.im.common.bean.MsgBean;
+import com.ifeimo.im.common.bean.MuccMsgBean;
+
 import org.jivesoftware.smack.packet.Stanza;
 
 /**

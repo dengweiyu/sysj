@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
@@ -157,6 +158,9 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
         uploadVideoView.setOnClickListener(this);
         contact.setOnClickListener(this);
         b_avatar.setOnClickListener(this);
+
+        //刷新数据
+        loadData();
     }
 
     private void loadData() {
@@ -176,8 +180,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {//该fragment处于最前台交互状态
-            //刷新数据
-            loadData();
+
         }
     }
 

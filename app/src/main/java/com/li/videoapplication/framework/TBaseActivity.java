@@ -114,7 +114,7 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
         }
 
         actionBar = getActionBar();
-        if (inflateActionBar() != 0) {
+        if (inflateActionBar() != 0 ) {
             setActionBar(inflateActionBar());
         }
         initActionBar();
@@ -521,14 +521,13 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
     private void setActionBar(int layout) {
         if (layout != 0) {
             abBackground = inflater.inflate(R.layout.actionbar_second, null);
-
-            actionBar.setDisplayShowCustomEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setDisplayShowHomeEnabled(false);
-            ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
-            actionBar.setCustomView(abBackground, params);
-
-
+            if (actionBar != null){
+                actionBar.setDisplayShowCustomEnabled(true);
+                actionBar.setDisplayShowTitleEnabled(false);
+                actionBar.setDisplayShowHomeEnabled(false);
+                ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
+                actionBar.setCustomView(abBackground, params);
+            }
         } else {
             throw new NullPointerException();
         }
@@ -536,7 +535,7 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
 
     private void initActionBar() {
 
-        if (abBackground != null) {
+        if (abBackground != null && actionBar != null) {
             abTagConfirm = (TextView) findViewById(R.id.ab_tag_confirm);
             abMyActivity = (TextView) findViewById(R.id.ab_myactivity);
             abMyGift = (TextView) findViewById(R.id.ab_mygift);

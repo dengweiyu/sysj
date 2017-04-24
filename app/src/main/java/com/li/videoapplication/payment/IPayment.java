@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import com.li.videoapplication.data.model.response.PaymentEntity;
 
 /**
- * Created by liuwei on 2017/4/2.
+ * 支付
  */
 
 public interface IPayment {

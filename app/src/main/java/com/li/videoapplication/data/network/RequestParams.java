@@ -34,6 +34,13 @@ public class RequestParams {
         return instance;
     }
 
+
+    public Map<String, Object> homeInfo(int page) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("page", page);
+        return map;
+    }
+
     /**
      * ############## 飞磨游戏 ##############
      */
@@ -382,13 +389,12 @@ public class RequestParams {
 
 	/* ############## 广场 ############## */
 
-    public Map<String, Object> squareList(String member_id, String sort, int page,String game_id) {
+    public Map<String, Object> squareList(String member_id, String sort, int page) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("sort", sort);// 最新：time 最热：click
         map.put("page", page);
         map.put("target",SYSJ);
-        map.put("game_id",game_id);
         return map;
     }
 
@@ -1991,6 +1997,12 @@ public class RequestParams {
     public Map<String, Object> srtList203(String video_id) {
         Map<String, Object> map = new HashMap<>();
         map.put("video_id", video_id);
+        return map;
+    }
+
+    public Map<String, Object> parseMessage(String url) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("urlInfo", url);
         return map;
     }
 }

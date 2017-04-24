@@ -44,6 +44,8 @@ public class PermissionManager {
             public void run() {
                 // mediaRecorder();
                 audioRecord();
+
+
             }
         });
     }

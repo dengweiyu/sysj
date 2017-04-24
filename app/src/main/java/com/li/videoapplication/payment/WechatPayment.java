@@ -7,6 +7,7 @@ import android.util.Log;
 import com.li.videoapplication.data.model.response.PaymentEntity;
 import com.li.videoapplication.mvp.mall.view.PaymentWayActivity;
 import com.li.videoapplication.ui.activity.MainActivity;
+import com.li.videoapplication.wxapi.WXPayEntryActivity;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -15,7 +16,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 /**
- * Created by liuwei on 2017/4/2.
+ * 微信支付
  */
 
 public class WechatPayment implements IPayment {
@@ -23,23 +24,18 @@ public class WechatPayment implements IPayment {
     public final static int PAYMENT_RESULT_FAIL = -1;
     public final static int PAYMENT_RESULT_CANCEL = -2;
 
-    private final static String TYPE = "type";
-    public final static String WX_PAY = "wx_pay";                  //intent 携带数据的key 表示是微信支付
-    public final static String RESULT_NAME = "wx_pay_result";      //intent 携带数据的key 支付结果
-
-    private final static String APP_ID ="";
-
     private String TAG = "WechatPayment";
 
     private IWXAPI mApi;
     private IPayment.Callback mCallback;
+    private Context mContext;
     public WechatPayment(Context context){
-        init(context);
+        mContext = context;
     }
 
-    private void init(Context context){
+    private void init(Context context,String appId){
         mApi = WXAPIFactory.createWXAPI(context,null);
-        mApi.registerApp(APP_ID);
+        mApi.registerApp(appId);
     }
 
     @Override
@@ -57,6 +53,7 @@ public class WechatPayment implements IPayment {
             return;
         }
 
+        init(mContext,entity.getData().getAppId());
 
         PaymentEntity.DataBean data  = entity.getData();
         PayReq request = new PayReq();
@@ -76,8 +73,8 @@ public class WechatPayment implements IPayment {
         if (intent == null){
             return;
         }
-        if (intent.hasExtra(TYPE) && intent.getStringExtra(TYPE).equals(WX_PAY)){
-            int result = intent.getIntExtra(RESULT_NAME,1);
+        if (intent.hasExtra(WXPayEntryActivity.TYPE) && intent.getStringExtra(WXPayEntryActivity.TYPE).equals(WXPayEntryActivity.WX_PAY)){
+            int result = intent.getIntExtra(WXPayEntryActivity.RESULT_NAME,1);
             String message = "";
             switch (result){
                 case PAYMENT_RESULT_SUCCESS:
@@ -112,16 +109,4 @@ public class WechatPayment implements IPayment {
         }
     }
 
-    /**
-     *WXPayEntryActivity onResp()中调用
-     */
-    @SuppressWarnings("unused")
-    public static void onResponse(BaseResp response,Context context){
-        if (response.getType() == ConstantsAPI.COMMAND_PAY_BY_WX){
-            Intent intent = new Intent(context, PaymentWayActivity.class);
-            intent.putExtra(TYPE,WX_PAY);
-            intent.putExtra(RESULT_NAME,response.errCode);
-            context.startActivity(intent);
-        }
-    }
 }

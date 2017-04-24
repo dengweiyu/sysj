@@ -150,6 +150,11 @@
             android:theme="@style/MyTheme" />
 
         <activity
+            android:name="com.li.videoapplication.ui.activity.SquareActivity1"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="com.li.videoapplication.ui.activity.SquareGameChoiceActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -259,6 +264,7 @@
             android:name="com.li.videoapplication.ui.activity.SearchActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name="com.li.videoapplication.ui.activity.ReportActivity"
@@ -366,6 +372,16 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:scheme="qwallet1103189341"/>
             </intent-filter>
+        </activity>
+
+        <!--微信支付结果回调-->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent">
+
         </activity>
 
         <!-- #################################   赛事相关   ######################### -->
@@ -569,7 +585,8 @@
         <activity
             android:name=".ui.activity.HelpActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar"/>
         <activity
             android:name=".ui.activity.ShareActivity"
             android:screenOrientation="portrait"

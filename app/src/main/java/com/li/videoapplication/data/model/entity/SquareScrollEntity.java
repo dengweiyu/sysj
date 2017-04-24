@@ -8,6 +8,14 @@ import com.li.videoapplication.framework.BaseEntity;
 
 public class SquareScrollEntity extends BaseEntity {
 
+
+    public SquareScrollEntity() {
+    }
+
+    public SquareScrollEntity(int position) {
+        this.position = position;
+    }
+
     private int position;
 
     public int getPosition() {

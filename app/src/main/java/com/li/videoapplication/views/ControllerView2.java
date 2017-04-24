@@ -124,7 +124,12 @@ public class ControllerView2 extends RelativeLayout implements View.OnClickListe
                 }
             }
         } else if (v == fullscreen) {
-
+            if (playingView != null) {
+                playingView.pauseVideo();
+                updatePlay(playingView.isVideoPlaying());
+                playingView.seekToPlayer(0);
+                playingView.updatePlayer(2);
+            }
             VideoActivity.startVideoActivity(activity, record.getVideo_path(), record.getVideo_name());
         }
     }

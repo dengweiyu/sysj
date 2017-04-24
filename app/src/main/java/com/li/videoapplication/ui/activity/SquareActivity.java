@@ -93,7 +93,7 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
 
 
         viewPager = (ViewPagerY4) findViewById(R.id.viewpager);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(2);
         adapter = new ViewPagerAdapter(manager, fragments,title.toArray(new String[]{}));
         viewPager.setAdapter(adapter);
         PageChangeListener listener = new PageChangeListener();
@@ -117,6 +117,7 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
 
     }
 
+
     private class PageChangeListener implements OnPageChangeListener {
 
         @Override
@@ -133,23 +134,10 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
         }
     }
 
-    private class OnTabClickListener implements OnClickListener {
 
-        private int index;
-
-        public OnTabClickListener(int i) {
-            this.index = i;
-        }
-
-        @Override
-        public void onClick(View v) {
-            viewPager.setCurrentItem(index);
-            switchTab(index);
-           // currIndex = index;
-        }
-    }
-
-    private void switchTab(int index) {
+    private void switchTab(int position) {
+        int childPosition = ((SquareFragment)fragments.get(position)).getChildPosition();
+        EventBus.getDefault().post(new SquareScrollEntity(childPosition));
     }
 
     @Override
@@ -159,7 +147,9 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.iv_square_menu:
+                game.getData().get(viewPager.getCurrentItem()).setChoice(true);
                 ActivityManeger.startSquareGameChoiceActivity(SquareActivity.this,game);
+                game.getData().get(viewPager.getCurrentItem()).setChoice(false);
                 break;
         }
     }

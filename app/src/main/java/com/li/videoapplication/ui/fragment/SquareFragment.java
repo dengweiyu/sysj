@@ -58,10 +58,11 @@ public class SquareFragment extends TBaseFragment {
         mViewPager = (ViewPagerY5)view.findViewById(R.id.vp_square);
 
         mFragments = new ArrayList<>();
-        mFragments.add(NewSquareFragment.newInstance(NewSquareFragment.SQUARE_NEW,null,game_id));        //最新列表
-        mFragments.add(NewSquareFragment.newInstance(NewSquareFragment.SQUARE_HOT,null,game_id));        //最热列表
+        mFragments.add(NewSquareFragment1.newInstance(NewSquareFragment1.SQUARE_NEW,null));        //最新列表
+        mFragments.add(NewSquareFragment1.newInstance(NewSquareFragment1.SQUARE_HOT,null));        //最热列表
 
         mAdapter = new ViewPagerAdapter(getChildFragmentManager(),mFragments,new String[]{});
+
 
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(mListener);
@@ -77,7 +78,10 @@ public class SquareFragment extends TBaseFragment {
         return null;
     }
 
+    public int getChildPosition(){
 
+        return mViewPager == null?0:mViewPager.getCurrentItem();
+    }
 
     final ViewPager.OnPageChangeListener mListener = new ViewPager.OnPageChangeListener() {
         @Override

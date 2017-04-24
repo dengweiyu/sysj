@@ -2,6 +2,9 @@ package com.li.videoapplication.mvp.home.model;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.database.FileDownloaderEntity;
 import com.li.videoapplication.data.database.FileDownloaderManager;
@@ -15,13 +18,16 @@ import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
+import com.li.videoapplication.framework.BaseResponseEntity;
 import com.li.videoapplication.mvp.OnLoadDataListener;
+import com.li.videoapplication.mvp.home.HomeContract;
 import com.li.videoapplication.mvp.home.HomeContract.onloadHomeDataListener;
 import com.li.videoapplication.mvp.home.HomeContract.IHomeModel;
 import com.li.videoapplication.data.HttpManager;
 import com.li.videoapplication.framework.BaseHttpResult;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
+import com.ypy.eventbus.EventBus;
 
 import java.io.File;
 import java.util.List;
@@ -36,6 +42,9 @@ public class HomeModel implements IHomeModel {
     private static final String TAG = HomeModel.class.getSimpleName();
     private static HomeModel homeModel;
 
+    public HomeModel(){
+
+    }
     public static synchronized IHomeModel getInstance() {
         if (homeModel == null) {
             homeModel = new HomeModel();
@@ -43,24 +52,31 @@ public class HomeModel implements IHomeModel {
         return homeModel;
     }
 
+
+    @Override
+    public void loadHomeData(int page, onloadHomeDataListener listener) {
+        DataManager.getHomeInfo(page);
+    }
+
     @Override
     public void loadHomeData(final int page, boolean isLoad, final onloadHomeDataListener listener) {
-
+        Log.e("loadHomeData-start",System.currentTimeMillis()+"");
         HttpManager.getInstance().getHomeInfo(page, isLoad, new Observer<HomeDto>() {
 
             @Override
             public void onCompleted() {
-
+                Log.e("loadHomeData-onComplet",System.currentTimeMillis()+"");
             }
 
             @Override
             public void onError(Throwable e) {
                 listener.onLoadHomeFault(e);
-
+                Log.e("loadHomeData-onError",System.currentTimeMillis()+"");
             }
 
             @Override
             public void onNext(HomeDto homeDto) {
+                Log.e("loadHomeData-onNext",System.currentTimeMillis()+"");
                 if (page == 1){
                     PreferencesHepler.getInstance().saveHomeData(homeDto);//保存首页json 只要第一页数据
                 }

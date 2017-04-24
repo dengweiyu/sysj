@@ -74,21 +74,32 @@ public class InformationProvide extends BaseProvider {
         switch (matcher.match(uri)) {
             case Cache:
                 try {
-//                    String memberId = "SELECT * FROM (\n" +
-//                            "\n" +
-//                            "SELECT t1.*,tb_accoun.member_nick_name,tb_accoun.avatarUrl,count(*) as maxCount FROM (\n" +
-//                            "       SELECT memberId as opposide_id,create_time as last_create_time,content as last_content,msgId,send_type FROM tb_chat WHERE receiverId = '1722092' AND send_type = 2001 GROUP BY memberId UNION ALL\n" +
-//                            "       SELECT receiverId as opposide_id,create_time as last_create_time,content as last_content,msgId,send_type FROM tb_chat WHERE memberId = '1722092' GROUP BY receiverId) as t1,tb_accoun \n" +
-//                            "WHERE tb_accoun.memberId = t1.opposide_id\n" +
-//                            "GROUP BY t1.opposide_id\n" +
-//                            "\n" +
-//                            "UNION ALL\n" +
-//                            "\n" +
-//                            "SELECT tb_subscription.subscription_id as opposide_id,tb_mucc.create_time as last_create_time,tb_mucc.content as last_content,tb_mucc.msgId,tb_mucc.send_type, tb_subscription.subscription_name,tb_subscription.subscription_pic_url,count(*) as maxCount\n" +
-//                            "FROM tb_mucc,tb_subscription WHERE tb_mucc.roomId = tb_subscription.subscription_id AND tb_subscription.memberId = '1722092' \n" +
-//                            "GROUP BY tb_mucc.roomId \n" +
-//                            ") \n" +
-//                            "ORDER BY last_create_time Desc";
+//                    Cursor cursor = sqLiteDatabase.query(TB_NAME, null,
+//                            s, strings1, null, null, InformationProvide.DB_LAST_CREATETIME+" DESC");
+
+//                    String sql = String.format(
+//                            "SELECT tb_information.*,tb_user.avatarUrl AS pic_url,tb_user.member_nick_name AS title \n" +
+//                            "FROM tb_information INNER JOIN tb_user ON tb_information.opposite_id = tb_user.memberId \n" +
+//                            "WHERE tb_information.memberId = '%s' " +
+//                            "ORDER BY %s DESC",UserBean.getMemberID(), Fields.InformationFields.LAST_CREATETIME);
+//
+
+
+                    String memberId = "SELECT * FROM (\n" +
+                            "\n" +
+                            "SELECT t1.*,tb_accoun.member_nick_name,tb_accoun.avatarUrl,count(*) as maxCount FROM (\n" +
+                            "       SELECT memberId as opposide_id,create_time as last_create_time,content as last_content,msgId,send_type FROM tb_chat WHERE receiverId = '1722092' AND send_type = 2001 GROUP BY memberId UNION ALL\n" +
+                            "       SELECT receiverId as opposide_id,create_time as last_create_time,content as last_content,msgId,send_type FROM tb_chat WHERE memberId = '1722092' GROUP BY receiverId) as t1,tb_accoun \n" +
+                            "WHERE tb_accoun.memberId = t1.opposide_id\n" +
+                            "GROUP BY t1.opposide_id\n" +
+                            "\n" +
+                            "UNION ALL\n" +
+                            "\n" +
+                            "SELECT tb_subscription.subscription_id as opposide_id,tb_mucc.create_time as last_create_time,tb_mucc.content as last_content,tb_mucc.msgId,tb_mucc.send_type, tb_subscription.subscription_name,tb_subscription.subscription_pic_url,count(*) as maxCount\n" +
+                            "FROM tb_mucc,tb_subscription WHERE tb_mucc.roomId = tb_subscription.subscription_id AND tb_subscription.memberId = '1722092' \n" +
+                            "GROUP BY tb_mucc.roomId \n" +
+                            ") \n" +
+                            "ORDER BY last_create_time Desc";
 
 
                     String memberid = UserBean.getMemberID();
@@ -104,6 +115,8 @@ public class InformationProvide extends BaseProvider {
                                     "            WHERE tb_information.memberId = '%s' AND  tb_information.opposite_id = tb_subscription.subscription_id \n" +
                                     "ORDER BY last_create_time DESC"
                     ,memberid,memberid);
+
+
 
                     sql = sql.replaceAll("tb_user", Fields.AccounFields.TB_NAME);
                     Cursor cursor = sqLiteDatabase.rawQuery(sql,null);

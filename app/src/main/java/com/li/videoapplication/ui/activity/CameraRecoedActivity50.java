@@ -1,5 +1,6 @@
 package com.li.videoapplication.ui.activity;
 
+import android.Manifest;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.view.View;
@@ -7,7 +8,6 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
@@ -100,6 +100,8 @@ public class CameraRecoedActivity50 extends TBaseActivity implements OnClickList
     @Override
     public void initView() {
         super.initView();
+
+        super.checkPermission(new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE});
 
         initContentView();
         resetRecord();

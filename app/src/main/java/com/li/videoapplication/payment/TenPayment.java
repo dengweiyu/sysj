@@ -20,7 +20,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * Created by liuwei on 2017/4/2.
+ * QQ支付
  */
 
 public class TenPayment implements IPayment {

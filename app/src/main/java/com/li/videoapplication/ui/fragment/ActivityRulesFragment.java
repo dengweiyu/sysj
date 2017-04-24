@@ -1,6 +1,7 @@
 package com.li.videoapplication.ui.fragment;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.DownloadListener;
@@ -84,6 +85,11 @@ public class ActivityRulesFragment extends TBaseFragment {
                 view.loadUrl(url);
                 return true;
             }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+            }
         });
 
         webView.setWebChromeClient(new WebChromeClient() {
@@ -91,6 +97,11 @@ public class ActivityRulesFragment extends TBaseFragment {
             public void onReceivedTitle(WebView view, String title) {
                 activity.setTitle(title);
                 super.onReceivedTitle(view, title);
+            }
+
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
             }
         });
 
@@ -119,6 +130,7 @@ public class ActivityRulesFragment extends TBaseFragment {
                 }
             }
         });
+
         loadUrl(url);
     }
 

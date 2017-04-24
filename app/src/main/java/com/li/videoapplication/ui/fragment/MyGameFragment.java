@@ -3,6 +3,7 @@ package com.li.videoapplication.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -16,6 +17,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
+import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.model.response.MyGroupListEntity;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
@@ -25,6 +27,7 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.adapter.MyGameAdapter;
+import com.ypy.eventbus.EventBus;
 
 /**
  * 碎片：我的游戏
@@ -52,6 +55,7 @@ public class MyGameFragment extends TBaseFragment implements OnRefreshListener2<
 
     @Override
     protected void initContentView(View view) {
+        EventBus.getDefault().register(this);
 
         pullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pulltorefresh);
         pullToRefreshListView.setMode(Mode.PULL_FROM_START);
@@ -137,5 +141,18 @@ public class MyGameFragment extends TBaseFragment implements OnRefreshListener2<
     public void onEventMainThread(LogoutEvent event) {
         emptyText.setText("登录后可查看");
         onPullDownToRefresh(pullToRefreshListView);
+    }
+
+    /**
+     * 回调：关注圈子201
+     */
+    public void onEventMainThread(GroupAttentionGroupEntity event) {
+
+        if (event != null && event.isResult()) {
+            Log.d(tag, event.getMsg());
+        }
+        //关注发生改变 刷新列表
+        page = 1;
+        DataManager.myGroupList(getMember_id(), page);
     }
 }

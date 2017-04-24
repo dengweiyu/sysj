@@ -5,9 +5,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.ui.fragment.MatchCourseFragment;
 import com.li.videoapplication.ui.fragment.QuestionFragment;
 import com.li.videoapplication.ui.fragment.RecordCourseFragment;
@@ -22,7 +24,7 @@ import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdap
 /**
  * 碎片：使用帮助
  */
-public class HelpActivity extends TBaseActivity implements OnClickListener {
+public class HelpActivity extends TBaseAppCompatActivity implements OnClickListener {
 
     private ViewPagerAdapter adapter;
     public ViewPager viewPager;
@@ -34,9 +36,6 @@ public class HelpActivity extends TBaseActivity implements OnClickListener {
         return R.layout.activity_help;
     }
 
-    public int inflateActionBar() {
-        return R.layout.actionbar_second;
-    }
 
     @Override
     public void afterOnCreate() {
@@ -44,11 +43,10 @@ public class HelpActivity extends TBaseActivity implements OnClickListener {
 
         setSystemBarBackgroundResource(R.color.white);
         setStatusBarDarkMode(false, this);
-        setAbTitle(R.string.help_title);
+        TextView title = (TextView)findViewById(R.id.tb_title);
+        title.setText("帮助与教程");
 
-        setAbTitleGray();
-        setAbTitleGray();
-        abGoback.setOnClickListener(this);
+        findViewById(R.id.tb_back).setOnClickListener(this);
     }
 
     @Override
@@ -79,7 +77,7 @@ public class HelpActivity extends TBaseActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
 
-        if (v == abGoback) {
+        if (v.getId() == R.id.tb_back) {
             if (questionFragment.isMore) {
                 questionFragment.isMore = false;
                 // 隐藏该按钮

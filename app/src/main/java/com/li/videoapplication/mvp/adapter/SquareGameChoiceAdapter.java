@@ -25,9 +25,6 @@ public class SquareGameChoiceAdapter extends BaseQuickAdapter<SquareGameEntity.D
         super(R.layout.square_game_list_item,dataBeen);
         this.data = dataBeen;
 
-        if (dataBeen!= null && dataBeen.size() > 1){
-            dataBeen.get(lastChoice).setChoice(true);
-        }
     }
 
     @Override
@@ -37,6 +34,7 @@ public class SquareGameChoiceAdapter extends BaseQuickAdapter<SquareGameEntity.D
         View root  = holder.getView(R.id.ll_square_item_root);
         if (dataBean.isChoice()){
             root.setBackgroundResource(R.drawable.square_game_selected);
+            lastChoice = holder.getLayoutPosition();
         }else {
             root.setBackgroundResource(R.drawable.square_game_unselected);
         }

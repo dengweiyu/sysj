@@ -43,7 +43,7 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
     @Override
     public void loadHomeData(int page, boolean isLoad) {
         Log.d(TAG, "loadHomeData: " + isLoad);
-        homeModel.loadHomeData(page, isLoad, this);
+        homeModel.loadHomeData(page,this);
     }
 
     @Override

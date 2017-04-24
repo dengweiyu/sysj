@@ -99,7 +99,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
         // 20170104,2.1.4   test:20161122, 2.1.2
-        versionCode 20170414
+        versionCode 20170419
         versionName "2.1.8.3"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
@@ -238,6 +238,7 @@ dependencies {
     compile 'com.github.VictorAlbertos.RxCache:core:1.4.6'
     // 图片加载框架 glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
     //阿里百川用户反馈
     compile(name: 'alisdk-feedback-2.5.0.1', ext: 'aar')
     compile(name: 'securityguardaar3-5.1.81', ext: 'aar')

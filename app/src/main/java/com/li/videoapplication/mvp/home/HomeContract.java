@@ -21,6 +21,9 @@ public class HomeContract {
      */
     public interface IHomeModel {
 
+        //使用OkHttp
+        void loadHomeData(int page, final onloadHomeDataListener listener);
+
         void loadHomeData(int page, boolean isLoad, final onloadHomeDataListener listener);
 
         void unfinishedTask(String member_id, boolean update, final onloadHomeDataListener listener);

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.li.videoapplication.data.cache.BaseUtils;
 import com.li.videoapplication.data.cache.FileManager;
 import com.li.videoapplication.data.cache.SubtitleCache;
+import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.MediaType;
@@ -125,6 +126,7 @@ public class OkHttpMethod implements AbsRequestMethod {
 				.build();
 		execute();
 		parseResult();
+
 	}
 
 	/**
