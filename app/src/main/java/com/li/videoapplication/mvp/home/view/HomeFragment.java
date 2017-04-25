@@ -435,10 +435,10 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
      * @param homeDto
      */
     public void onEventMainThread(HomeDto homeDto){
-        refreshHomeData(homeDto);
         if (page == 1){
             PreferencesHepler.getInstance().saveHomeData(homeDto);//保存首页json 只要第一页数据
         }
+        refreshHomeData(homeDto);
     }
 
     @Override
@@ -504,6 +504,9 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         Log.d(tag, "======== refreshHomeData: ========");
         if (homeDto != null) {
             HomeDto.Data data = homeDto.getData();
+            if (data == null){
+                return;
+            }
             page_count = data.getPage_count();
             if (page < 2) {
                 Log.d(tag, "refreshHomeData: page = 1");

@@ -4,8 +4,12 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,6 +46,7 @@ import com.li.videoapplication.utils.ScreenUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.rong.eventbus.EventBus;
 
 /**
  * 活动：录屏
@@ -98,7 +103,28 @@ public class ScreenRecordActivity extends TBaseActivity implements
     @BindView(R.id.screenrecord_close)
     ImageView close;
 
-    private Handler handler = new Handler();
+    public Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            switch (msg.what){
+                case 1:
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                        ScreenRecordActivity.this.checkPermission(new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.CAMERA});
+
+                    }
+                    PermissionManager manager = new PermissionManager(ScreenRecordActivity.this, new PermissionManager.Finishable() {
+                        @Override
+                        public void onFinish() {
+                            Log.d(tag, "onFinish: ");
+                        }
+                    });
+                    manager.checkPermission();
+                    break;
+            }
+        }
+    };
     /**
      * 录屏
      */
@@ -128,6 +154,7 @@ public class ScreenRecordActivity extends TBaseActivity implements
     @Override
     public void initView() {
         super.initView();
+
         ObserveManager.getInstance().addRecordingObservable(this);
         ObserveManager.getInstance().addRecording2Observable(this);
 
@@ -143,22 +170,15 @@ public class ScreenRecordActivity extends TBaseActivity implements
         }
 
         checkPermission();
-
     }
 
     private void checkPermission(){
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                if (Build.VERSION.SDK_INT >= 21) {
-                    ScreenRecordPermissionActivity.startPermission(ScreenRecordActivity.this);
-                } else {/*
+        if (Build.VERSION.SDK_INT >= 21) {
+            ScreenRecordPermissionActivity.startPermission(ScreenRecordActivity.this);
+        } else {/*
                     showMainTipDialog();
                     showOppoToast();*/
-                }
-            }
-        }, 900);
+        }
 
     }
 
@@ -385,7 +405,7 @@ public class ScreenRecordActivity extends TBaseActivity implements
                             finishBottomOut();
 
                             //go to launcher
-                  //          AppUtil.simulateHomeKey(ScreenRecordActivity.this);
+                            AppUtil.simulateHomeKey(ScreenRecordActivity.this);
                         }
                     });
                 }
@@ -450,7 +470,7 @@ public class ScreenRecordActivity extends TBaseActivity implements
                             }
                             finishBottomOut();
                             //go to launcher
-                        //    AppUtil.simulateHomeKey(ScreenRecordActivity.this);
+                            AppUtil.simulateHomeKey(ScreenRecordActivity.this);
 
                         }
                     });
@@ -1060,16 +1080,5 @@ public class ScreenRecordActivity extends TBaseActivity implements
 
     public void onEventMainThread(ScreenRecordPermission2MainEvent event) {
 
-        PermissionManager manager = new PermissionManager(this, new PermissionManager.Finishable() {
-            @Override
-            public void onFinish() {
-                Log.d(tag, "onFinish: ");/*
-                showMainTipDialog();
-                showOppoToast();*/
-            }
-        });
-        manager.checkPermission();
-
-        super.checkPermission(new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.CAMERA});
     }
 }

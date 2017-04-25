@@ -7,16 +7,16 @@
         android:id="@+id/iv_blur_back"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:scaleType="fitXY"/>
     <!--20-->
     <LinearLayout
         android:id="@+id/ll_popup_record_layout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="185dp"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        android:background="@color/transparent_background">
+        android:background="@color/white">
 
         <LinearLayout
             android:id="@+id/record_video"
@@ -128,7 +128,7 @@
     <RelativeLayout
         android:id="@+id/rl_bottom_close"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="48dp"
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:visibility="gone"

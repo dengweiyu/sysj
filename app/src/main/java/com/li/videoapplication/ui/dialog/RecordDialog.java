@@ -98,9 +98,9 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
         super(context);
         this.shotView = shotView;
         activity = AppManager.getInstance().getMainActivity();
-        if (blurView != null){
+        /*if (blurView != null){
             startBlurBackground();
-        }
+        }*/
     }
 
     public RecordDialog(Context context, IDialogVisableListener visableListener) {
@@ -127,7 +127,7 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
         super.afterContentView(context);
 
         //点击阴影无法取消
-        setCancelable(false);
+      //  setCancelable(false);
 
         Window window = getWindow();
        // window.setWindowAnimations(R.style.slideBottomAnim); // 设置窗口弹出动画
@@ -135,15 +135,15 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
         WindowManager.LayoutParams params = window.getAttributes();
 
         //无状态栏
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+      //  window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // 根据x，y坐标设置窗口需要显示的位置
         params.x = 0; // x小于0左移，大于0右移
         params.y = 0; // y小于0上移，大于0下移
-     //   params.alpha = 0.95f; //设置透明度
+        params.alpha = 0.95f; //设置透明度
         params.gravity = Gravity.BOTTOM; // 设置重力
 
-        params.height = ScreenUtil.getScreenHeight();       //设置高度为全屏
+       // params.height = ScreenUtil.getScreenHeight();       //设置高度为全屏
         window.setAttributes(params);
 
         isLogin = PreferencesHepler.getInstance().isLogin();
@@ -155,6 +155,8 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
         record.setOnClickListener(this);
 
         layout = (LinearLayout) findViewById(R.id.ll_popup_record_layout);
+
+        startAnimation();
 
         closeLayout =  findViewById(R.id.rl_bottom_close);
 
@@ -273,7 +275,7 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
         Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.slide_bottom_in);
         LayoutAnimationController controller = new LayoutAnimationController(animation,0.05f);
         controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
-        layout.setVisibility(View.VISIBLE);     //这里会重绘一次
+
         layout.setLayoutAnimation(controller);
 
         animation.setAnimationListener(new Animation.AnimationListener() {

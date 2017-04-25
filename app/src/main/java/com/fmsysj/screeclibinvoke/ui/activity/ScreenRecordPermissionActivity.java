@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.li.videoapplication.data.model.event.ScreenRecordPermission2MainEvent;
 import com.li.videoapplication.data.network.UITask;
+import com.li.videoapplication.framework.AppManager;
 import com.ypy.eventbus.EventBus;
 
 /**
@@ -79,9 +80,15 @@ public class ScreenRecordPermissionActivity extends Activity {
 	protected void onDestroy() {/*
 		if (handler != null)
 			handler.removeCallbacksAndMessages(null);*/
+//        EventBus.getDefault().post(new ScreenRecordPermission2MainEvent());
+		ScreenRecordActivity activity = (ScreenRecordActivity)AppManager.getInstance().
+				getActivity(ScreenRecordActivity.class);
+		if (activity != null){
+			activity.handler.sendEmptyMessage(1);
+		}
 		Log.i(TAG, "onDestroy");
 		super.onDestroy();
-		EventBus.getDefault().post(new ScreenRecordPermission2MainEvent());
+
 	}
 
 	@TargetApi(21)
@@ -105,16 +112,7 @@ public class ScreenRecordPermissionActivity extends Activity {
 	}
 
 	private void finishTask() {
-		UITask.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-
-				// TaskUtil.clearTaskAndAffinity(ScreenRecordPermissionActivity.this);
-				// Log.d(TAG, "TaskUtil: clearTaskAndAffinity");
-
-				finish();
-				Log.d(TAG, "TaskUtil: finish");
-			}
-		}, 800);
+		finish();
+		Log.d(TAG, "TaskUtil: finish");
 	}
 }
