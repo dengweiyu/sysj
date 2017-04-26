@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="录屏大师"
+                android:text="@string/dialog_tip_record"
                 android:textColor="#525252"
                 android:textSize="12sp"/>
 
@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="上传视频"
+                android:text="@string/dialog_tip_upload_video"
                 android:textColor="#525252"
                 android:textSize="12sp"/>
 
@@ -109,7 +109,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/home_pitcure"/>
+                android:src="@drawable/home_picture"/>
 
             <TextView
                 android:layout_width="wrap_content"

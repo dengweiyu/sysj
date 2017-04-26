@@ -29,6 +29,7 @@ public class Game extends BaseEntity {
 	private String chatroom_group_id;
 	private String download_num;
 
+
 	public String getDownload_num() {
 		return download_num;
 	}

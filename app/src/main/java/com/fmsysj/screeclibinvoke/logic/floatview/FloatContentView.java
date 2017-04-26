@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.ifeimo.screenrecordlib.Utils;
 
@@ -205,7 +206,7 @@ public class FloatContentView extends RelativeLayout implements
 	 */
 	private void main() {
 		// 主页
-		ActivityManeger.startMainActivityNewTask();
+		ScreenRecordActivity.startScreenRecordActivity(getContext());
 
 		// 展开浮窗1
 		FloatViewManager.getInstance().showView();

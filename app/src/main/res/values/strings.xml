@@ -929,4 +929,7 @@
     <string name="confirm_dialog_no">再想想</string>
 
     <string name="app_exception_tip">程序出现异常</string>
+
+    <string name="dialog_tip_record">录屏大师</string>
+    <string name="dialog_tip_upload_video">上传视频</string>
 </resources>

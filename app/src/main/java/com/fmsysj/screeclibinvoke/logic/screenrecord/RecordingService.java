@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
+import android.provider.Contacts;
 import android.util.Log;
 
 import com.fmsysj.screeclibinvoke.data.model.configuration.RecordingSetting;
@@ -913,7 +914,12 @@ public class RecordingService extends BaseService implements
     @Override
     public void onRecordingStoped() {
         Log.d(TAG, "onRecordingStoped: // -----------------------------------------------------------");
+        UITask.postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
+            }
+        },500);
         newThread(new Runnable() {
             @Override
             public void run() {

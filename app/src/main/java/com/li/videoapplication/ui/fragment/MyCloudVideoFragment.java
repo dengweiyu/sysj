@@ -22,6 +22,7 @@ import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.PullToRefreshHepler;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
@@ -154,6 +155,7 @@ public class MyCloudVideoFragment extends TBaseFragment implements PullToRefresh
 
         if (event != null) {
             video_id = event.getVideo_id();
+
             //申请推荐位
             DataManager.recommendedLocation(getMember_id(), new CloudRecommendLocEntity());
         }

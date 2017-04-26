@@ -102,7 +102,8 @@ public class MallPresenter implements IMallPresenter {
 
             @Override
             public void onFailure(Throwable e) {
-
+                if (e != null)
+                Log.e("orderDetail",e.getMessage());
             }
         });
     }

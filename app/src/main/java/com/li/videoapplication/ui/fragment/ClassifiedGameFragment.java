@@ -20,6 +20,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.GroupType;
+import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.event.LogoutEvent;
 import com.li.videoapplication.data.model.response.GameListEntity;
 import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
@@ -37,9 +38,15 @@ import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.views.GridViewY1;
 import com.li.videoapplication.views.bubblelayout.BubbleLayout;
 import com.li.videoapplication.views.bubblelayout.BubblePopupHelper;
+import com.ypy.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 碎片：游戏分类
@@ -236,7 +243,17 @@ public class ClassifiedGameFragment extends TBaseFragment implements OnRefreshLi
                 if (page == 1) {
                     data.clear();
                 }
-                data.addAll(event.getData().getList());
+                LinkedHashMap<String ,Game> map = new LinkedHashMap();
+                for (Game game:
+                        event.getData().getList()) {
+                    map.put(game.getGame_id(),game);
+                }
+                Iterator<Map.Entry<String,Game>> iterator = map.entrySet().iterator();
+                while(iterator.hasNext()){
+                    Map.Entry<String,Game> entity = iterator.next();
+
+                    data.add(entity.getValue());
+                }
                 adapter.notifyDataSetChanged();
                 if (event.getData().getList().size() > 0) {
                     ++page;
@@ -258,5 +275,6 @@ public class ClassifiedGameFragment extends TBaseFragment implements OnRefreshLi
         //关注发生改变 刷新列表
         page = 1;
         DataManager.gameList(page, getMember_id(), sort);
+
     }
 }

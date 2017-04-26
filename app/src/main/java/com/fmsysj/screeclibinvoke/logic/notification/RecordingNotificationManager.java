@@ -15,6 +15,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
@@ -328,7 +329,7 @@ public class RecordingNotificationManager implements
                 switch (id) {
 
                     case EXTRA_BUTTON_MAIN:// 主页
-                        main();
+                        main(context);
                         break;
 
                     case EXTRA_BUTTON_FRONTCAMERA:// 前置摄像头
@@ -355,9 +356,9 @@ public class RecordingNotificationManager implements
     /**
      * 主页
      */
-    private void main() {
+    private void main(Context context) {
         // 主页
-        ActivityManeger.startMainActivityNewTask();
+        ScreenRecordActivity.startScreenRecordActivity(context);
     }
 
     /**

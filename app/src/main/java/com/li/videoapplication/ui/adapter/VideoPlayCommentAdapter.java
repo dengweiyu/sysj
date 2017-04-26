@@ -56,12 +56,15 @@ public class VideoPlayCommentAdapter extends BaseArrayAdapter<Comment> {
 
     private VideoImage item;
 
+    private List<Comment> data;
+
     public void setVideoImage(VideoImage item) {
         this.item = item;
     }
 
     public VideoPlayCommentAdapter(Context context, List<Comment> data) {
         super(context, R.layout.adapter_videoplay_comment, data);
+        this.data = data;
         Emojix.wrap(context);
         expressionArray = context.getResources().getStringArray(R.array.expressionArray);
         expressionCnArray = context.getResources().getStringArray(R.array.expressionCnArray);
@@ -134,6 +137,8 @@ public class VideoPlayCommentAdapter extends BaseArrayAdapter<Comment> {
             @Override
             public void onClick(View v) {
                 DataManager.commentDel(getMember_id(), record.getComment_id());
+                data.remove(position);
+                notifyDataSetInvalidated();
             }
         });
 

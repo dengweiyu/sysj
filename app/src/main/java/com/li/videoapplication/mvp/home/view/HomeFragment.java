@@ -86,7 +86,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     HomeTaskView taskView;
 
     private int page = 1;
-    private int page_count;
+    private int page_count = 1;
 
     private IHomePresenter presenter = HomePresenter.getInstance();
     public HomeMultipleAdapter homeAdapter;
@@ -106,6 +106,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     private static final int GUESSVIDEO_HOME = 0;
     private static final int GUESSVIDEO_CHANGE = 1;
     private Timer refreshTimer;
+    private Timer loadMoreTimer;
 
     private boolean isRefresh = false;
 
@@ -411,6 +412,16 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             public void run() {
                 if (page <= page_count) {
                     presenter.loadHomeData(page, true);
+
+                    //超过十秒钟取消
+                    loadMoreTimer = TimeHelper.runAfter(new TimeHelper.RunAfter() {
+                        @Override
+                        public void runAfter() {
+                            ToastHelper.s(R.string.net_unstable);
+                            homeAdapter.loadMoreComplete();
+                            setRefreshStatus(false);
+                        }
+                    }, 1000 * 10);
                 } else {
                     // 数据全部加载完毕
                     homeAdapter.addFooterView(getFootView());
@@ -529,6 +540,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                 homeAdapter.setNewData(homeData);
                 if (AppConstant.SHOW_DOWNLOAD_AD) //普通渠道，替换广告
                     replaseGDT(data.getGuessVideo().getList(), GUESSVIDEO_HOME);//替换猜你喜欢最后一个为广告
+
             } else {
                 Log.d(tag, "refreshHomeData: page = " + page);
                 if (data.getVideoList() != null && data.getVideoList().size() > 0) {
@@ -553,8 +565,13 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
             isNetWordChange = true;
             if (refreshTimer != null) refreshTimer.cancel();
+            if (loadMoreTimer != null){
+                loadMoreTimer.cancel();
+                loadMoreTimer = null;
+            }
             swipeRefreshLayout.setRefreshing(false);
             setRefreshStatus(false);
+            homeAdapter.loadMoreComplete();
         } else {
             onRefresh();
         }

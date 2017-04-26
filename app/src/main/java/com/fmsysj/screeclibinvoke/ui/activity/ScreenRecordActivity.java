@@ -130,6 +130,7 @@ public class ScreenRecordActivity extends TBaseActivity implements
      */
     public synchronized final static void startScreenRecordActivity(Context context) {
         Intent intent = new Intent();
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setClass(context, ScreenRecordActivity.class);
         context.startActivity(intent);
     }

@@ -10,6 +10,7 @@ import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.event.UnReadMessageEvent;
 import com.li.videoapplication.data.model.response.LoginEntity;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
@@ -27,12 +28,14 @@ import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.MyPlayerActivity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
+import com.ypy.eventbus.EventBus;
 
 /**
  * 碎片：侧滑菜单
  */
 public class SliderFragment extends TBaseFragment implements OnClickListener {
 
+    private MainActivity mActivity;
     /**
      * 跳转：商城
      */
@@ -174,6 +177,9 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         helper.initSDK(getActivity());
+        if (activity instanceof MainActivity){
+            mActivity = (MainActivity)activity;
+        }
     }
 
     @Override
@@ -253,6 +259,9 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
 
     private void refreshRedCount(int total) {
         if (isLogin()) {
+            if (mActivity != null){
+                mActivity.updateUnReadMessage(new UnReadMessageEvent(total));
+            }
             if (total > 0) {
                 slider_message_go.setVisibility(View.GONE);
                 count.setVisibility(View.VISIBLE);

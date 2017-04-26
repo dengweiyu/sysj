@@ -141,6 +141,7 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
     private TextView badCount;
     private SparkButton star;
     private TextView starCount;
+    private View empty;
 
     private View getHeaderView() {
 
@@ -161,6 +162,8 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
             badCount = (TextView) headerView.findViewById(R.id.videoplay_badCount);
             star = (SparkButton) headerView.findViewById(R.id.videoplay_star);
             starCount = (TextView) headerView.findViewById(R.id.videoplay_starCount);
+
+            empty = headerView.findViewById(R.id.ll_video_player_empty);
 
             head.setOnClickListener(this);
             focus.setOnClickListener(this);
@@ -483,9 +486,13 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
                 if (page == 1) {
                     data.clear();
                 }
+                empty.setVisibility(View.GONE);
                 data.addAll(event.getData().getList());
                 adapter.notifyDataSetChanged();
                 ++page;
+            }else {
+                empty.setVisibility(View.VISIBLE);
+                adapter.notifyDataSetChanged();
             }
         }
         onRefreshComplete();

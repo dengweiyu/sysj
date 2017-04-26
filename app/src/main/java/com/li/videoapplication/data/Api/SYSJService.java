@@ -139,7 +139,7 @@ public interface SYSJService {
     Observable<MatchRewardBillboardEntity> loadMatchRewardBillboardData();
 
     //获取赛事列表
-//    @GET("/Sysj214/NewEvents/getEventsListTest")// FIXME: 2016/12/27 test!!!!
+    //@GET("/Sysj214/NewEvents/getEventsListTest")// FIXME: 2016/12/27 test!!!!
     @GET("/Sysj214/NewEvents/getEventsList")
     Observable<BaseHttpResult<EventsList214Entity>> getEventsList(@Query("page") int page,
                                                                   @Query("format_type") String format_type,
@@ -224,7 +224,7 @@ public interface SYSJService {
     Observable<BaseHttpResult<List<Currency>>> getMemberAward(@QueryMap Map<String, Object> options);
 
     //兑换记录详情
-    @GET("/ Sysj217/CurrencyMall/orderDetail")
+    @GET("/Sysj217/CurrencyMall/orderDetail")
     Observable<BaseHttpResult<Currency>> orderDetail(@QueryMap Map<String, Object> options);
 
     //抽奖记录详情

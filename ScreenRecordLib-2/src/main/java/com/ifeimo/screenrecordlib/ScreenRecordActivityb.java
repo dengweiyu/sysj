@@ -149,6 +149,8 @@ public class ScreenRecordActivityb extends Activity {
 			isStopRecording.set(true);
 			Log.d(TAG, "stopRecording: true");
 			RecordingManager.getInstance().onRecordingStoped();
+
+
 		}
 	}
 

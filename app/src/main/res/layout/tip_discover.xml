@@ -56,30 +56,29 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-
+        android:layout_marginLeft="130dp"
         android:visibility="visible">
-
         <!-- 46 + 44 -->
-
         <ImageView
             android:id="@+id/text"
-            android:layout_width="262dp"
-            android:layout_height="102dp"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="76dp"
-            android:scaleType="fitXY"
+            android:layout_marginBottom="60dp"
             android:src="@drawable/tip_discover" />
 
         <ImageView
             android:id="@+id/tip_known"
-            android:layout_width="88dp"
-            android:layout_height="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_above="@+id/text"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/tip_known" />
+            android:layout_marginBottom="-25dp"
+            android:layout_alignRight="@+id/text"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/home_tip_close" />
     </RelativeLayout>
 
 </FrameLayout>

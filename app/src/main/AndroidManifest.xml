@@ -312,7 +312,7 @@
         <!-- ################################# 2.1.1商城相关   ######################### -->
         <activity
             android:name=".mvp.mall.view.TopUpActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar" />

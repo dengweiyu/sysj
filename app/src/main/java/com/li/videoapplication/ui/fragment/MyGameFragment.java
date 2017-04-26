@@ -1,7 +1,13 @@
 package com.li.videoapplication.ui.fragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import android.util.Log;
 import android.view.View;
@@ -21,7 +27,6 @@ import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.model.response.MyGroupListEntity;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
-import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
@@ -116,7 +121,23 @@ public class MyGameFragment extends TBaseFragment implements OnRefreshListener2<
                 if (page == 1) {
                     data.clear();
                 }
-                data.addAll(event.getData().getList());
+                Map<String,Game> map = new HashMap<>();
+                for (Game game:
+                        data) {
+                    map.put(game.getGame_id(),game);
+                }
+
+                for (Game game:
+                        event.getData().getList()) {
+                    map.put(game.getGame_id(),game);
+                }
+                data.clear();
+
+                Iterator<Map.Entry<String,Game>> iterator = map.entrySet().iterator();
+
+                while(iterator.hasNext()){
+                    data.add(iterator.next().getValue());
+                }
                 adapter.notifyDataSetChanged();
                 ++page;
             }else {
@@ -147,9 +168,9 @@ public class MyGameFragment extends TBaseFragment implements OnRefreshListener2<
      * 回调：关注圈子201
      */
     public void onEventMainThread(GroupAttentionGroupEntity event) {
-
         if (event != null && event.isResult()) {
             Log.d(tag, event.getMsg());
+//                showToastShort(event.getMsg());
         }
         //关注发生改变 刷新列表
         page = 1;

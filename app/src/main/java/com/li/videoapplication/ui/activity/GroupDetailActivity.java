@@ -556,10 +556,5 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
     protected void onDestroy() {
         super.onDestroy();
         presenter.setGroupDetailView(null);
-
-        if (game != null && attent != game.getTick()){
-            //关注发生改变事件
-            EventBus.getDefault().post(new GroupAttentionGroupEntity());
-        }
     }
 }

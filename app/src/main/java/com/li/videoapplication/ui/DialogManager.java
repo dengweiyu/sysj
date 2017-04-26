@@ -36,6 +36,7 @@ import com.li.videoapplication.ui.dialog.LogInDialog;
 import com.li.videoapplication.ui.dialog.LogInTaskDoneDialog;
 import com.li.videoapplication.ui.dialog.MatchFliterDialog;
 import com.li.videoapplication.ui.dialog.MatchOpponentDialog;
+import com.li.videoapplication.ui.dialog.MatchTipDialog;
 import com.li.videoapplication.ui.dialog.MyTaskGrowupDialog;
 import com.li.videoapplication.ui.dialog.MyTaskLevelDialog;
 import com.li.videoapplication.ui.dialog.OfficialPaymentDialog;
@@ -423,6 +424,14 @@ public class DialogManager {
      */
     public static void showDiscoverTipDialog(Context context) {
         Dialog dialog = new DiscoverTipDialog(context);
+        dialog.show();
+    }
+
+    /**
+     * 赛事遮罩
+     */
+    public static void showMatchTipDialog(Context context) {
+        Dialog dialog = new MatchTipDialog(context);
         dialog.show();
     }
 

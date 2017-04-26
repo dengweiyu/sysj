@@ -43,10 +43,12 @@ import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
+import com.li.videoapplication.data.model.event.UnReadMessageEvent;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.response.GetRongCloudToken204Entity;
 import com.li.videoapplication.data.model.response.ParseResultEntity;
 import com.li.videoapplication.data.model.response.UpdateVersionEntity;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
@@ -520,9 +522,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 leftIcon.setImageResource(R.drawable.ab_person_red);
             }
         }
-        if(leftCount == null){
-            return;
-        }
+
         switch (index) {
             case 0:// 首页
                 background.setBackgroundResource(R.color.ab_backdround_red);
@@ -532,7 +532,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 title.setVisibility(View.GONE);
                 search.setVisibility(View.VISIBLE);
                 search.setBackgroundResource(R.drawable.search_bg);
-                leftCount.setImageResource(R.color.white);
+                if(leftCount != null){
+                    leftCount.setImageResource(R.color.white);
+                }
                 break;
 
             case 1:// 发现
@@ -543,7 +545,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 title.setVisibility(View.GONE);
                 search.setVisibility(View.VISIBLE);
                 search.setBackgroundResource(R.drawable.search_bg_white);
-                leftCount.setImageResource(R.color.ab_backdround_red);
+                if (leftCount != null){
+                    leftCount.setImageResource(R.color.ab_backdround_red);
+                }
                 break;
 
             case 2:// 找游戏
@@ -554,7 +558,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 title.setVisibility(View.GONE);
                 search.setVisibility(View.VISIBLE);
                 search.setBackgroundResource(R.drawable.search_bg_white);
-                leftCount.setImageResource(R.color.ab_backdround_red);
+                if (leftCount != null){
+                    leftCount.setImageResource(R.color.ab_backdround_red);
+                }
                 break;
 
             case 3:// 福利
@@ -566,7 +572,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 title.setText(R.string.menu_main_fourth);
                 search.setVisibility(View.VISIBLE);
                 search.setBackgroundResource(R.drawable.search_bg_white);
-                leftCount.setImageResource(R.color.ab_backdround_red);
+                if (leftCount != null){
+                    leftCount.setImageResource(R.color.ab_backdround_red);
+                }
                 break;
         }
     }
@@ -723,6 +731,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 bottomIcon.get(1).setImageResource(R.drawable.game_normal);
                 bottomIcon.get(2).setImageResource(R.drawable.discover_normal);
                 bottomIcon.get(3).setImageResource(R.drawable.event_selected);
+                showMatchTipDialog();
                 break;
         }
     }
@@ -791,8 +800,14 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
         boolean tip = NormalPreferences.getInstance().getBoolean(Constants.TIP_VEDIO, true);
         if (tip) {
-            DialogManager.showVideoTipDialog(this);
-          //  NormalPreferences.getInstance().putBoolean(Constants.TIP_VEDIO, false);
+            UITask.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    DialogManager.showVideoTipDialog(MainActivity.this);
+                }
+            },300);
+
+            NormalPreferences.getInstance().putBoolean(Constants.TIP_VEDIO, false);
         }
     }
 
@@ -817,6 +832,17 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         if (tip) {
             DialogManager.showGameTipDialogg(this);
             NormalPreferences.getInstance().putBoolean(Constants.TIP_GAME, false);
+        }
+    }
+
+    /**
+     * 遮罩提示页：赛事
+     */
+    private void showMatchTipDialog() {
+        boolean tip = NormalPreferences.getInstance().getBoolean(Constants.TIP_MATCH, true);
+        if (tip) {
+            DialogManager.showMatchTipDialog(this);
+            NormalPreferences.getInstance().putBoolean(Constants.TIP_MATCH, false);
         }
     }
 
@@ -873,6 +899,19 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             Update update = event.getData().get(0);
             if (update != null && !isShowedUpdate) {
                 updateVersion(update);
+            }
+        }
+    }
+
+    /**
+     *未读消息红点
+     */
+    public void updateUnReadMessage(UnReadMessageEvent event){
+        if (event != null && leftCount != null){
+            if (event.getCount() > 0){
+                leftCount.setVisibility(View.VISIBLE);
+            }else {
+                leftCount.setVisibility(View.GONE);
             }
         }
     }

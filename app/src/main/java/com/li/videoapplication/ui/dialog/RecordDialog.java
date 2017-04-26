@@ -55,6 +55,8 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
 
     private Bitmap blurBitmap;
 
+    private boolean isCLose = false;
+
     /**
      * 跳转：登录
      */
@@ -243,10 +245,11 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
         //执行结束动画
-        closeAnimation();
+        if (!isCLose){
+            isCLose = true;
+            closeAnimation();
+        }
     }
 
     @Override
@@ -314,7 +317,7 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                    cancel();
+                    dismiss();
             }
 
             @Override
