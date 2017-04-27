@@ -398,7 +398,7 @@
             android:layout_marginRight="33dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="高清"
+            android:text="超高清"
             android:textColor="#747474"
             android:textSize="11sp"
             android:visibility="visible"/>

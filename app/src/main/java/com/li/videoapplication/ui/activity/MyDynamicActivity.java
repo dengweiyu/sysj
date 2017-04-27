@@ -177,6 +177,8 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
 
             user = headerView.findViewById(R.id.dynamic_user);
             tourist = headerView.findViewById(R.id.dynamic_tourist);
+
+
             personalcenter = headerView.findViewById(R.id.dynamic_personalcenter);
 
             loginIcon = (ImageView) headerView.findViewById(R.id.dynamic_loginIcon);

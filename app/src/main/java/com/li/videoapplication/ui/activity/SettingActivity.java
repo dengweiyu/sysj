@@ -331,7 +331,6 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
 
                     @Override
                     public void quality(String quality) {
-
                         PreferencesHepler.getInstance().saveRecordingSettingQuality(quality);
                         screenQualityText.setText(PreferencesHepler.getInstance().getRecordingSetting().getQualityText());
                     }

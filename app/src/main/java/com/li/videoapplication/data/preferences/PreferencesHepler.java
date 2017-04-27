@@ -98,8 +98,10 @@ public class PreferencesHepler {
      */
     public RecordingSetting getRecordingSetting() {
         String string = NormalPreferences.getInstance().getString(Constants.RECORDING_SETTING);
-        if (StringUtil.isNull(string))
+        if (StringUtil.isNull(string)){
+            RecordingSetting.DEFAULT.setQuality(RecordingSetting.QUALITY_ULTRA_HIGH);
             return RecordingSetting.DEFAULT;
+        }
         RecordingSetting entity = JSONHelper.parse(string, RecordingSetting.class);
         if (entity == null)
             return RecordingSetting.DEFAULT;

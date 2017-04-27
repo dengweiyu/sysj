@@ -59,7 +59,7 @@ public class RecordingSetting extends BaseEntity {
 	/**
 	 * 录屏清晰度
 	 */
-	private String quality = QUALITY_HIGH;
+	private String quality = QUALITY_ULTRA_HIGH ;
 
 	public RecordingSetting() {
 		super();

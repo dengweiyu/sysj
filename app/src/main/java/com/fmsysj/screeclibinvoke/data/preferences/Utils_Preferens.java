@@ -46,7 +46,7 @@ public class Utils_Preferens {
         recordingSetting.setGameScan(PackageInfoGridviewNotify);
         recordingSetting.setTouchPosition(show_touch_view);
 
-        String quality_of_video = DefaultPreferences.getInstance().getString("quality_of_video", "0");
+        String quality_of_video = DefaultPreferences.getInstance().getString("quality_of_video", "2");
         // 0 超清
         // 1 标清
         // 2 超高清 （4.4以下没有）
