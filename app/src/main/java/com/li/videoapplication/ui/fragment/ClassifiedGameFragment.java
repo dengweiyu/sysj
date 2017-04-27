@@ -21,6 +21,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.GroupType;
 import com.li.videoapplication.data.model.entity.HomeDto;
+import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
 import com.li.videoapplication.data.model.response.GameListEntity;
 import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
@@ -83,7 +84,7 @@ public class ClassifiedGameFragment extends TBaseFragment implements OnRefreshLi
     protected void initContentView(View view) {
 
         mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pulltorefresh);
-        mPullToRefreshListView.setMode(Mode.PULL_FROM_END);
+        mPullToRefreshListView.setMode(Mode.BOTH);
         mListView = mPullToRefreshListView.getRefreshableView();
 
         data = new ArrayList<>();
@@ -218,6 +219,17 @@ public class ClassifiedGameFragment extends TBaseFragment implements OnRefreshLi
                 showHeaderView(true);
                 onRefreshComplete();
             }
+        }
+    }
+
+    /**
+     * 事件：登录
+     */
+    public void onEventMainThread(LoginEvent event) {
+        if (event != null) {
+            page = 1;
+            // 最热，最新游戏列表,请求只是为了刷新关注按钮状态
+            DataManager.gameList(page, getMember_id(), sort);
         }
     }
 

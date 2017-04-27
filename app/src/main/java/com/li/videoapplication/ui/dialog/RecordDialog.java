@@ -128,8 +128,8 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
     protected void afterContentView(Context context) {
         super.afterContentView(context);
 
-        //点击阴影无法取消
-      //  setCancelable(false);
+        setCancelable(true);
+        setCanceledOnTouchOutside(true);
 
         Window window = getWindow();
        // window.setWindowAnimations(R.style.slideBottomAnim); // 设置窗口弹出动画
@@ -151,7 +151,6 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
         isLogin = PreferencesHepler.getInstance().isLogin();
 
         blurView = (ImageView)findViewById(R.id.iv_blur_back);
-
 
         View record =  findViewById(R.id.record_video);
         record.setOnClickListener(this);
@@ -176,7 +175,6 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
         final View close = findViewById(R.id.record_close);
         close.setOnClickListener(this);
 
-
     }
 
     @Override
@@ -184,11 +182,11 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.record_video://录屏
                 activity.startScreenRecordActivity();
-                cancel();
+                super.dismiss();
                 break;
 
             case R.id.record_record://外拍
-                cancel();
+                super.dismiss();
                 if (activity == null)
                     return;
                 if (RecordingManager.getInstance().isRecording()) {
@@ -210,7 +208,7 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
                 break;
 
             case R.id.record_image://图文
-                cancel();
+                super.dismiss();
                 if (isLogin) {
                     if (onClickListener != null) {
                         onClickListener.onUploadImageClick();
@@ -224,7 +222,7 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
                 break;
 
             case R.id.record_local://视频
-                cancel();
+                super.dismiss();
                 if (isLogin) {
                     if (onClickListener !=null){
                         onClickListener.onUploadVideoClick();
@@ -253,8 +251,17 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
     }
 
     @Override
+    public void dismiss() {
+        //执行结束动画
+        if (!isCLose){
+            isCLose = true;
+            closeAnimation();
+        }
+    }
+
+    @Override
     public void cancel() {
-        super.cancel();
+       dismiss();
         if (visableListener != null)
             visableListener.dialogCanceled();
 
@@ -317,7 +324,7 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                    dismiss();
+                RecordDialog.super.dismiss();
             }
 
             @Override

@@ -358,7 +358,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:lineSpacingExtra="3dp"
-                                android:text="点击约战TA进行比赛，如果对方未在19:00前回复，截屏聊天记录上传即判你获胜"
+                                android:text="请通过约战TA，QQ或者游戏内三种方式约战对手，若21：20未回复，上传三种联系截图证明对方缺席"
                                 android:textColor="#848484"
                                 android:textSize="14sp" />
                         </LinearLayout>

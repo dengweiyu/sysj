@@ -39,35 +39,40 @@
             android:layout_height="match_parent"
             android:src="@drawable/ab_person_white"/>
     </FrameLayout>
-
-    <ImageView
-        android:id="@+id/ab_right"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rl_right"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="11dp"
-        android:layout_marginBottom="11dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="15dp"
-        android:src="@drawable/home_message_white"/>
-    <com.li.videoapplication.views.CircleImageView
-        android:id="@+id/ab_left_count"
-        android:layout_width="6dp"
-        android:layout_height="6dp"
-        android:src="@color/white"
-        android:layout_marginTop="10dp"
-        android:layout_alignRight="@+id/ab_right"/>
+        android:paddingBottom="8dp"
+        android:paddingLeft="13dp"
+        android:paddingRight="10dp"
+        android:paddingTop="8dp">
+        <ImageView
+            android:id="@+id/ab_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="5dp"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:layout_centerVertical="true"
+            android:src="@drawable/home_message_white"/>
+        <com.li.videoapplication.views.CircleImageView
+            android:id="@+id/ab_left_count"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:src="@color/white"
+            android:layout_alignRight="@+id/ab_right"/>
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/ab_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="6dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginTop="6dp"
-        android:layout_toLeftOf="@+id/ab_right"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@+id/rl_right"
         android:layout_toRightOf="@+id/ab_left"
         android:background="@drawable/search_bg"
         android:gravity="center_vertical"

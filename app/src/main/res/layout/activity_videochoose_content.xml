@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+    android:id="@+id/rl_video_choose_content"
     android:clipToPadding="true"
     android:background="@color/white"
     android:fitsSystemWindows="true">
@@ -13,18 +13,5 @@
        android:layout_height="wrap_content"
         android:layout_marginBottom="50dp" />
 
-    <Button
-        android:id="@+id/videoupload_ok"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_below="@+id/recyclerView"
-        android:background="@drawable/button_blue"
-        android:text="确认"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
 
 </RelativeLayout>

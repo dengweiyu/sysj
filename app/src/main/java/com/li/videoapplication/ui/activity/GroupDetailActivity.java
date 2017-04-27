@@ -355,7 +355,9 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                     DialogManager.showLogInDialog(this);
                     return;
                 }
-
+                if (game == null){
+                    return;
+                }
                 if (game.getTick() == 1) {
                     DialogManager.showConfirmDialog(this,"取消关注该游戏圈?",new View.OnClickListener(){
                         @Override
@@ -389,7 +391,6 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                     }else {
                         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈关注");
                     }
-
                 }
 
 
@@ -398,6 +399,10 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
             case R.id.groupdetail_chatview://群聊
                 if (!isLogin()) {
                     DialogManager.showLogInDialog(this);
+                    return;
+                }
+
+                if (game == null){
                     return;
                 }
 

@@ -693,6 +693,8 @@
                 <category android:name="com.li.videoapplication" />
             </intent-filter>
         </receiver>
+
+
     </application>
 
 </manifest>

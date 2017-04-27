@@ -3,6 +3,7 @@ package com.li.videoapplication.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.Contacts;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.image.GlideHelper;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -77,6 +79,14 @@ public class GroupdetailIntroduceFragment extends TBaseFragment{
             }
            //  setTextViewText(mDownloadNum, "下载："+ StringUtil.formatNum(downloadNum));
             GlideHelper.displayImage(getActivity(),activity.game.getFlag(),mIcon);
+            UITask.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //这里是必要的 有的手机不知道为什么第一次加载会失败 所以加载第二次
+                    GlideHelper.displayImage(getActivity(),activity.game.getFlag(),mIcon);
+                }
+            },1000);
+
         }
 
     }

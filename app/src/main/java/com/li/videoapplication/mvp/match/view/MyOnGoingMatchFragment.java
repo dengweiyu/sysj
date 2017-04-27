@@ -253,9 +253,11 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
 
         //引导句子1：匹配对手成功后，点击约战TA进行比赛，如果对方未在19:00前与您对战，则截屏聊天记录或其他截图证明上传。
         //红色：#ff3d2e，蓝色：#48c5ff
-        String s1 = "点击" + TextUtil.toColor("约战TA", "#48c5ff") + "进行比赛，如果对方未在" +
-                TextUtil.toColor(after20minOfStartTime, "#ff3d2e") + "前回复，" +
-                TextUtil.toColor("截屏聊天记录上传即判你获胜", "#ff3d2e");
+        String s1 = "请通过约战TA，" +
+                TextUtil.toColor("QQ", "#ff3d2e")+"或者"+
+                TextUtil.toColor("游戏内", "#ff3d2e")+"三种方式约战对手，若"+
+                TextUtil.toColor(after20minOfStartTime, "#ff3d2e") + "未回复，" +
+                TextUtil.toColor("上传三种联系截图证明对方缺席", "#ff3d2e");
         notice1.setText(Html.fromHtml(s1));
 
         //引导句子2  红色：#ff3d2e

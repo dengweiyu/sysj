@@ -446,7 +446,6 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
      * 事件：登录
      */
     public void onEventMainThread(LoginEvent event) {
-
         if (event != null) {
             switchHeaderView(isLogin(), getUser());
         }

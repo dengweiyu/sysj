@@ -1,6 +1,7 @@
 package com.li.videoapplication.ui.activity;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
@@ -59,7 +61,8 @@ public class VideoChooseActivity extends TBaseAppCompatActivity implements OnCli
     private ChooseLocalVideoAdapter adapter;
     private List<VideoCaptureEntity> data = new ArrayList<>();
     private TextView tipEmpty;
-
+    private Button ok;
+    private View content;
     /**
      * 已选择，将要导入的文件列表
      */
@@ -123,7 +126,10 @@ public class VideoChooseActivity extends TBaseAppCompatActivity implements OnCli
         tipEmpty = (TextView) findViewById(R.id.videochoose_empty);
         tipEmpty.setVisibility(View.GONE);
 
-        findViewById(R.id.videoupload_ok).setOnClickListener(this);
+        content = findViewById(R.id.rl_video_choose_content);
+
+        ok = (Button) findViewById(R.id.videoupload_ok);
+        ok.setOnClickListener(this);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -131,6 +137,12 @@ public class VideoChooseActivity extends TBaseAppCompatActivity implements OnCli
 
         adapter = new ChooseLocalVideoAdapter(this, data, recyclerView);
         recyclerView.setAdapter(adapter);
+
+        if (data == null || data.size() == 0){
+            content.setVisibility(View.GONE);
+            tipEmpty.setVisibility(View.VISIBLE);
+            ok.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -290,10 +302,12 @@ public class VideoChooseActivity extends TBaseAppCompatActivity implements OnCli
     private void refreshContentView() {
         if (data != null && data.size() > 0) {
             tipEmpty.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
+            content.setVisibility(View.VISIBLE);
+            ok.setVisibility(View.VISIBLE);
         } else {
             tipEmpty.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
+            content.setVisibility(View.GONE);
+            ok.setVisibility(View.GONE);
         }
     }
 

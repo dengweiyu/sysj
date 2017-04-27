@@ -30,6 +30,8 @@ import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Timer;
@@ -42,8 +44,7 @@ import io.rong.eventbus.EventBus;
  */
 public class LogInDialog extends BaseOverShootDialog implements View.OnClickListener {
 
-    private TextInputLayout code_inputll;
-    private AppCompatEditText phone, code;
+    private EditText phone, code;
     private TextView getCode, login;
     private Activity activity;
     private ShareSDKLoginHelper loginHelper;
@@ -73,9 +74,8 @@ public class LogInDialog extends BaseOverShootDialog implements View.OnClickList
     protected void afterContentView(Context context) {
         super.afterContentView(context);
 
-        code_inputll = (TextInputLayout) findViewById(R.id.login_codeinputll);
-        phone = (AppCompatEditText) findViewById(R.id.login_phone);
-        code = (AppCompatEditText) findViewById(R.id.login_code);
+        phone = (EditText) findViewById(R.id.login_phone);
+        code = (EditText) findViewById(R.id.login_code);
         getCode = (TextView) findViewById(R.id.login_getcode);
         login = (TextView) findViewById(R.id.login_login);
 
@@ -85,6 +85,7 @@ public class LogInDialog extends BaseOverShootDialog implements View.OnClickList
         findViewById(R.id.login_wx).setOnClickListener(this);
         findViewById(R.id.login_wb).setOnClickListener(this);
         findViewById(R.id.login_close).setOnClickListener(this);
+
     }
 
     @Override
@@ -133,11 +134,13 @@ public class LogInDialog extends BaseOverShootDialog implements View.OnClickList
      */
     private void msgRequestNew() {
         if (StringUtil.isNull(getPhoneText())) {
-            code_inputll.setError("手机号码不能为空");
+
+            ToastHelper.l("手机号码不能为空");
             return;
         }
         if (!PatternUtil.isMatchMobile(getPhoneText())) {
-            code_inputll.setError("请输入正确的手机号");
+
+            ToastHelper.l("请输入正确的手机号");
             return;
         }
         // 加密手机号
@@ -151,15 +154,16 @@ public class LogInDialog extends BaseOverShootDialog implements View.OnClickList
      */
     private void verifyCodeNew() {
         if (StringUtil.isNull(getPhoneText())) {
-            code_inputll.setError("手机号码不能为空");
+            ToastHelper.l("手机号码不能为空");
             return;
         }
         if (!PatternUtil.isMatchMobile(getPhoneText())) {
-            code_inputll.setError("请输入正确的手机号");
+            ToastHelper.l("请输入正确的手机号");
             return;
         }
         if (StringUtil.isNull(getCodeText())) {
-            code_inputll.setError("验证码不能为空");
+            ToastHelper.l("验证码不能为空");
+
             return;
         }
         // 提交手机和验证码
@@ -227,7 +231,8 @@ public class LogInDialog extends BaseOverShootDialog implements View.OnClickList
             if (event.isResult()) {// 验证成功
                 DataManager.login(getPhoneText());// 登录
             } else {
-                code_inputll.setError(event.getMsg());
+                ToastHelper.l(event.getMsg());
+
                 dismissProgressDialog();
                 showToastShort("登录失败！");
             }

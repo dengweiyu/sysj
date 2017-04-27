@@ -426,6 +426,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                     // 数据全部加载完毕
                     homeAdapter.addFooterView(getFootView());
                     homeAdapter.loadMoreEnd();
+                    setRefreshStatus(false);
                 }
             }
         });

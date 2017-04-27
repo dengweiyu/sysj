@@ -120,6 +120,19 @@ public class GlideHelper {
 
 
     /**
+     * 加载图片，空白占位符，模糊处理
+     */
+    public static void displayImageBlur(Context context, String url, ImageView view,int radius) {
+
+        Glide.with(context)
+                .load(url)
+                .error(Color.TRANSPARENT)
+                .bitmapTransform(new jp.wasabeef.glide.transformations.BlurTransformation(context,radius))
+                .into(view);
+    }
+
+
+    /**
      * 加载图片，sysj默认占位符1s渐变消失
      */
     public static void displayImageFade(String uri, ImageView view) {
