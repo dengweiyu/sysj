@@ -15,7 +15,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,24 +27,26 @@ import com.ifeimo.im.common.adapter.ChatReAdapter;
 import com.ifeimo.im.common.adapter.MuccChatReAdapter;
 import com.ifeimo.im.common.adapter.holder.Holder;
 import com.ifeimo.im.common.bean.UserBean;
-import com.ifeimo.im.common.bean.chat.BaseChatBean;
+import com.ifeimo.im.common.util.IMWindosThreadUtil;
 import com.ifeimo.im.common.util.PManager;
 import com.ifeimo.im.common.util.ScreenUtil;
-import com.ifeimo.im.common.util.ThreadUtil;
+import com.ifeimo.im.common.util.StatusBarBlackTextHelper;
 import com.ifeimo.im.common.util.WindowUtil;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.iduq.OnCursorDataChange;
 import com.ifeimo.im.framwork.interface_im.IMWindow;
 import com.ifeimo.im.provider.ChatProvider;
-import com.ifeimo.im.provider.MuccProvider;
-import com.ifeimo.im.view.IMRecycleView;
-import com.ifeimo.im.view.OnItemShowListener;
-import com.ifeimo.im.view.RecyclerViewHeader;
+import com.ifeimo.im.provider.GroupChatProvider;
+import com.ifeimo.im.framwork.view.IMRecycleView;
+import com.ifeimo.im.framwork.view.OnItemShowListener;
+import com.ifeimo.im.framwork.view.RecyclerViewHeader;
+
+import y.com.sqlitesdk.framework.interface_model.IModel;
 
 /**
  * Created by lpds on 2017/1/9.
  */
-abstract class BaseCompatActivity<T extends BaseChatReCursorAdapter<Holder>> extends AppCompatActivity
+abstract class BaseCompatActivity<E extends IModel<E>,T extends BaseChatReCursorAdapter<Holder,E>> extends AppCompatActivity
         implements IMWindow, OnCursorDataChange, View.OnLayoutChangeListener, LoaderManager.LoaderCallbacks<Cursor>, OnItemShowListener {
     protected static final String TGA = "XMPP_Activity";
     private final String tip1 = this.getClass().getSimpleName() + " 登陆成功 ";
@@ -66,7 +67,6 @@ abstract class BaseCompatActivity<T extends BaseChatReCursorAdapter<Holder>> ext
     protected Handler handler = new Handler();
     protected Loader loader;
 
-
     /**
      * 界面的父级view
      */
@@ -79,7 +79,7 @@ abstract class BaseCompatActivity<T extends BaseChatReCursorAdapter<Holder>> ext
      * 当前的行数
      */
     private int lastCount = -1;
-    private T adapter;
+    private BaseChatReCursorAdapter adapter;
     private IMRecycleView recyclerViewParentView;
     private Toast toast;
     private int loadId = 1;
@@ -88,6 +88,7 @@ abstract class BaseCompatActivity<T extends BaseChatReCursorAdapter<Holder>> ext
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarBlackTextHelper.initStatusBarTextColor(getWindow(),true);
         loadCaheUser();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -179,12 +180,14 @@ abstract class BaseCompatActivity<T extends BaseChatReCursorAdapter<Holder>> ext
     @Override
     protected void onResume() {
         super.onResume();
+//        loaderResume();
         Proxy.getManagerList().onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+//        loaderPause();
         Proxy.getManagerList().onPause(this);
     }
 
@@ -202,12 +205,9 @@ abstract class BaseCompatActivity<T extends BaseChatReCursorAdapter<Holder>> ext
 
     @Override
     protected void onDestroy() {
+        IMWindosThreadUtil.getInstances().leaveThreadPool(getKey(),false);
         RecyclerViewHeader.detach();
         Proxy.getManagerList().onDestroy(this);
-        if (loader != null && loader.isStarted()) {
-            loader.stopLoading();
-            loader.cancelLoad();
-        }
         super.onDestroy();
     }
 
@@ -250,17 +250,11 @@ abstract class BaseCompatActivity<T extends BaseChatReCursorAdapter<Holder>> ext
     public void finishing() {
         finish();
     }
-
-    @Override
-    public BaseChatBean getBean() {
-        return null;
-    }
-
-
-    @Override
-    public String getRoomId() {
-        return null;
-    }
+//
+//    @Override
+//    public String getRoomId() {
+//        return null;
+//    }
 
     @Override
     public String getReceiver() {
@@ -295,7 +289,9 @@ abstract class BaseCompatActivity<T extends BaseChatReCursorAdapter<Holder>> ext
     }
 
     public void loadChatData(int id) {
-        loader = getLoaderManager().initLoader(id, null, this);
+        if(!isFinishing()) {
+            loader = getLoaderManager().initLoader(id, null, this);
+        }
     }
 
     private void onChangeDate(Cursor cursor) {
@@ -333,19 +329,19 @@ abstract class BaseCompatActivity<T extends BaseChatReCursorAdapter<Holder>> ext
 
     protected T getAdapter() {
         if (adapter != null) {
-            return adapter;
+            return (T) adapter;
         }
         switch (getType()) {
             case IMWindow.CHAT_TYPE:
-                adapter = (T) new ChatReAdapter(this, null, 1);
+                adapter = new ChatReAdapter(this, null, 1);
                 break;
             case IMWindow.MUCCHAT_TYPE:
-                adapter = (T) new MuccChatReAdapter(this, null, 1);
+                adapter = new MuccChatReAdapter(this, null, 1);
                 break;
             default:
                 return null;
         }
-        return adapter;
+        return (T) adapter;
 
 
     }
@@ -361,8 +357,8 @@ abstract class BaseCompatActivity<T extends BaseChatReCursorAdapter<Holder>> ext
                         new String[]{UserBean.getMemberID(), getReceiver()
                         }, null);
             case IMWindow.MUCCHAT_TYPE:
-                return new CursorLoader(this, MuccProvider.CONTENT_URI, null, adapter.getPage() + "",
-                        new String[]{getRoomId()}, null);
+                return new CursorLoader(this, GroupChatProvider.CONTENT_URI, null, adapter.getPage() + "",
+                        new String[]{getKey()}, null);
         }
         return null;
     }

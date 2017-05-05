@@ -57,12 +57,27 @@ public class DataManager {
     /**
      * 分享页面广场信息
      */
-    public static void sharePlayerSquare() {
+    public static void sharePlayerSquare(String memberId) {
 
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().sharePlayerSquare();
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, null, null);
+        Map<String, Object> params = RequestParams.getInstance().sharePlayerSquare(memberId);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new ShareSquareEntity());
+        helper.doService(request);
+    }
+
+
+    /**
+     * 分享成功后进行触发
+     */
+    public static void shareTriggerReward(String memberId,String hook,String taskId,String flag) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().shareTriggerReward();
+        Map<String, Object> params = RequestParams.getInstance().shareTriggerReward(memberId,hook,taskId,flag);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+
         helper.doService(request);
     }
 
@@ -3167,25 +3182,25 @@ public class DataManager {
     /**
      * 功能：广场列表（最热）
      */
-    public static void squareListHot(String member_id, int page) {
-        DataManager.squareList(new SquareListHotEntity(), member_id, "click", page);
+    public static void squareListHot(String member_id, int page,String gameId) {
+        DataManager.squareList(new SquareListHotEntity(), member_id, "click", page,gameId);
     }
 
     /**
      * 功能：广场列表（最新）
      */
-    public static void squareListNew(String member_id, int page) {
-        DataManager.squareList(new SquareListNewEntity(), member_id, "time", page);
+    public static void squareListNew(String member_id, int page,String gameId) {
+        DataManager.squareList(new SquareListNewEntity(), member_id, "time", page,gameId);
     }
 
     /**
      * 功能：广场列表
      */
-    private static void squareList(BaseResponseEntity entity, String member_id, String sort, int page) {
+    private static void squareList(BaseResponseEntity entity, String member_id, String sort, int page,String gameId) {
 
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().squareList();
-        Map<String, Object> params = RequestParams.getInstance().squareList(member_id, sort, page);
+        Map<String, Object> params = RequestParams.getInstance().squareList(member_id, sort, page,gameId);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(entity);
@@ -3204,6 +3219,20 @@ public class DataManager {
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new SquareGameEntity());
+        helper.doNetwork(request);
+    }
+
+
+    /**
+     * 功能：玩家广场页面统计
+     */
+    public static void squareGamePageStatistical(String gameId,String sort) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().squareGameListStatistical();
+        Map<String, Object> params = RequestParams.getInstance().squareGameListStatistical(gameId,sort);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         helper.doNetwork(request);
     }
 

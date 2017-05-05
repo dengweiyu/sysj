@@ -12,6 +12,7 @@ import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.ui.activity.MainActivity;
+import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.utils.ApkUtil;
 
 import java.io.File;
@@ -76,6 +77,24 @@ public class DownLoadManager {
         DownloadingNotificationManager.destruction();
         // 增加所有任务一个监听
         addAllDownLoadListener(downLoadListener);
+    }
+
+    /**
+     * 新增一个下载器任务
+     */
+    public void addDownloader(FileDownloaderEntity entity,boolean isStart,DownLoadListener listener){
+        if (entity == null){
+            return;
+        }
+        DownLoader downLoader = new DownLoader(entity);
+        downLoader.addDownLoadListeners(listener);
+        downLoaders.add(downLoader);
+
+        //开始下载
+        if (isStart){
+            startDownLoader(entity.getA_download_url(),
+                    entity.getAd_id() + "");
+        }
     }
 
     /**
@@ -204,6 +223,11 @@ public class DownLoadManager {
                 // 广告点击统计（14——下载失败）
 //                DataManager.advertisementAdClick204_14(entity.getAd_id());
             }
+        }
+
+        @Override
+        public void addQueue(FileDownloaderEntity entity) {
+
         }
     };
 

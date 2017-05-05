@@ -54,6 +54,7 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
             holder.cover = (ImageView) view.findViewById(R.id.video_cover);
             holder.allTime = (TextView) view.findViewById(R.id.video_allTime);
             holder.deleteState = (CheckBox) view.findViewById(R.id.vedio_deleteState);
+            holder.adLogo = (ImageView)view.findViewById(R.id.iv_ad_logo);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -66,10 +67,13 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
         if (record.isAD() && record.getVideo_id().equals("1")) {//广告
             holder.playCount.setVisibility(View.GONE);
             holder.play.setVisibility(View.GONE);
-            setTextViewText(holder.allTime, "广告");
+            holder.allTime.setVisibility(View.GONE);
+          //  setTextViewText(holder.allTime, "广告");
+            holder.adLogo.setVisibility(View.VISIBLE);
         } else {
             holder.playCount.setVisibility(View.VISIBLE);
             holder.play.setVisibility(View.VISIBLE);
+            holder.adLogo.setVisibility(View.GONE);
             if (!StringUtil.isNull(record.getClick_count())) {
                 //播放数格式成以万为单位
                 String clickCount = StringUtil.toUnitW(record.getClick_count());
@@ -130,5 +134,6 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
         TextView playCount;
         TextView allTime;
         CheckBox deleteState;
+        ImageView adLogo;
     }
 }

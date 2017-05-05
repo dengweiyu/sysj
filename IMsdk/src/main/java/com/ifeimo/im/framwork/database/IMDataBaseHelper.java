@@ -1,134 +1,73 @@
 package com.ifeimo.im.framwork.database;
 
+
 import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.ifeimo.im.BuildConfig;
-import com.ifeimo.im.framwork.IMSdk;
-import com.ifeimo.im.provider.BaseProvider;
-import com.ifeimo.im.provider.InformationProvide;
-import com.ifeimo.im.provider.ChatProvider;
-import com.ifeimo.im.provider.MuccProvider;
+import com.ifeimo.im.common.bean.OpenHelpBean;
+import com.ifeimo.im.common.bean.model.Account2SubscriptionModel;
+import com.ifeimo.im.common.bean.model.AccountModel;
+import com.ifeimo.im.common.bean.model.ChatMsgModel;
+import com.ifeimo.im.common.bean.model.GroupChatModel;
+import com.ifeimo.im.common.bean.model.InformationModel;
+import com.ifeimo.im.common.bean.model.SubscriptionModel;
 
-import java.io.File;
-import java.util.concurrent.Semaphore;
+import y.com.sqlitesdk.framework.business.Business;
+import y.com.sqlitesdk.framework.business.CenterServer;
 
 /**
  * Created by lpds on 2017/1/11.
  */
 public class IMDataBaseHelper extends SQLiteOpenHelper {
-    public static final String TAG ="XMPP_DataBaseHelper";
+    public static final String TAG = "XMPP_DataBaseHelper";
+    private Context context;
+    private static final int VERCODE = 20170427;
+
     public IMDataBaseHelper(Context context) {
-        super(context, "IM_chat.db", null, BuildConfig.VERSION_CODE);
+        super(context, "IM_chat.db", null, VERCODE);
+        this.context = context;
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(sql1());
-        db.execSQL(sql2());
-        db.execSQL(sql3());
-        db.execSQL(sql4());
-        db.execSQL(sql5());
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        switch (oldVersion) {
-
-            case 1:{
-                Log.i(TAG," oldVersion = 1.0 , clear all data");
-                db.execSQL(String.format("DELETE * FROM %s", Fields.ChatFields.TB_NAME));
-                db.execSQL(String.format("DELETE * FROM %s", Fields.GroupChatFields.TB_NAME));
-                db.execSQL(String.format("DELETE * FROM %s", Fields.InformationFields.TB_NAME));
-                db.execSQL(String.format("DELETE * FROM %s", Fields.SubscriptionFields.TB_NAME));
-                db.execSQL(String.format("DELETE * FROM %s", Fields.AccounFields.TB_NAME));
-
-            }
-            break;
-            case 2:
-                break;
-
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        try {
+            Business.getInstances().createTable(sqLiteDatabase, AccountModel.class);
+            Business.getInstances().createTable(sqLiteDatabase, ChatMsgModel.class);
+            Business.getInstances().createTable(sqLiteDatabase, SubscriptionModel.class);
+            Business.getInstances().createTable(sqLiteDatabase, GroupChatModel.class);
+            Business.getInstances().createTable(sqLiteDatabase, InformationModel.class);
+            Business.getInstances().createTable(sqLiteDatabase, Account2SubscriptionModel.class);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-
-    /**
-     * group chat table
-     *
-     * @return
-     */
-    private String sql1() {
-        return String.format("CREATE TABLE %s (%s integer primary key autoincrement," +
-                        "%s integer,%s varchat(20),%s text,%s text,%s varchat(20),%s text)",
-                Fields.GroupChatFields.TB_NAME, Fields.GroupChatFields.ID, Fields.GroupChatFields.SEND_TYPE,
-                Fields.GroupChatFields.MSG_ID, Fields.GroupChatFields.MEMBER_ID, Fields.GroupChatFields.CREATE_TIME,
-                Fields.GroupChatFields.ROOM_ID, Fields.GroupChatFields.CONTENT);
-    }
-
-    /**
-     * chat table
-     *
-     * @return
-     */
-    private String sql2() {
-        return String.format("CREATE TABLE %s (%s integer primary key autoincrement," +
-                        "%s integer,%s varchat(10),%s varchat(20),%s text,%s text,%s text)",
-                Fields.ChatFields.TB_NAME, Fields.ChatFields.ID, Fields.ChatFields.SEND_TYPE, Fields.ChatFields.MEMBER_ID,
-                Fields.ChatFields.RECEIVER_ID, Fields.ChatFields.CREATE_TIME, Fields.ChatFields.CONTENT, Fields.ChatFields.MSG_ID);
-
-    }
-
-    /**
-     * information table
-     *
-     * @return
-     */
-    private String sql3() {
-
-        return String.format("CREATE TABLE %s (%s integer primary key autoincrement," +
-                        "%s varchat(20), %s varchat(20), " +
-                        "%s varchar(10)," +
-                        "%s varchat(20), %s text," +
-                        "%s integer, " +
-                        "%s integer,%s varchat(20),%s integer,%s integer)",
-                Fields.InformationFields.TB_NAME, Fields.InformationFields.ID, Fields.InformationFields.MEMBER_ID,
-                Fields.InformationFields.OPPOSITE_ID,
-                Fields.InformationFields.MSG_ID,
-                Fields.InformationFields.LAST_CONTENT, Fields.InformationFields.LAST_CREATETIME,
-                Fields.InformationFields.SEND_TYPE,
-                Fields.InformationFields.TYPE, Fields.InformationFields.NAME,
-                Fields.InformationFields.UNREAD_COUNT, Fields.InformationFields.IS_ME_SEND);
-    }
-
-    /**
-     * accoun table
-     *
-     * @return
-     */
-    private String sql4() {
-        return String.format("CREATE TABLE %s " +
-                        "(%s integer primary key autoincrement,%s varchat(20),%s varchat(20),%s text)"
-                , Fields.AccounFields.TB_NAME, Fields.AccounFields.ID, Fields.AccounFields.MEMBER_ID,
-                Fields.AccounFields.MEMBER_NICKNAME, Fields.AccounFields.MEMBER_AVATARURL);
-
-    }
-
-    /**
-     * subscription table
-     */
-    private String sql5() {
-
-        return String.format("CREATE TABLE %s " +
-                        "(%s integer primary key autoincrement,%s varchat(20)," +
-                        "%s varchat(20),%s text," +
-                        "%s varchat(20),%s integer)", Fields.SubscriptionFields.TB_NAME,
-                Fields.SubscriptionFields.ID, Fields.SubscriptionFields.MEMBER_ID,
-                Fields.SubscriptionFields.SUBSCRIPTION_ID, Fields.SubscriptionFields.PICURL,
-                Fields.SubscriptionFields.NAME, Fields.SubscriptionFields.TYPE);
-
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        Log.i(TAG, "onUpgrade: oldVersion = " + oldVersion + " newVersion = " + newVersion);
+        if (oldVersion < VERCODE) {
+            try {
+                sqLiteDatabase.execSQL("DROP TABLE tb_accoun");
+                sqLiteDatabase.execSQL("DROP TABLE tb_chat");
+                sqLiteDatabase.execSQL("DROP TABLE tb_information");
+                sqLiteDatabase.execSQL("DROP TABLE tb_mucc");
+                sqLiteDatabase.execSQL("DROP TABLE tb_subscription");
+                Business.getInstances().createTable(sqLiteDatabase, AccountModel.class);
+                Business.getInstances().createTable(sqLiteDatabase, ChatMsgModel.class);
+                Business.getInstances().createTable(sqLiteDatabase, SubscriptionModel.class);
+                Business.getInstances().createTable(sqLiteDatabase, GroupChatModel.class);
+                Business.getInstances().createTable(sqLiteDatabase, InformationModel.class);
+                Business.getInstances().createTable(sqLiteDatabase, Account2SubscriptionModel.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("onUpgrade: oldVersion = " + oldVersion + " newVersion = ");
+            }
+        }
     }
 
 

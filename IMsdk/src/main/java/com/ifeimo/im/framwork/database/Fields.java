@@ -13,7 +13,7 @@ public final class Fields {
         /**
          * 每行的唯一标识
          */
-        public static final String ID = "_id";
+        public static final String ID = "id";
     }
     private static class UserFields extends BaseFields{
         public static final String MEMBER_ID = "memberId";
@@ -37,7 +37,7 @@ public final class Fields {
         /**
          * tabele name
          */
-        public static final String TB_NAME = "tb_mucc";
+        public static final String TB_NAME = "tb_groupchat";
         private GroupChatFields(){}
 
         /**
@@ -124,7 +124,7 @@ public final class Fields {
         /**
          * table name
          */
-        public static final String TB_NAME = "tb_accoun";
+        public static final String TB_NAME = "tb_account";
         private AccounFields(){}
         /**
          * 昵称
@@ -145,7 +145,7 @@ public final class Fields {
     /**
      * 订阅号(房间，广告，服务，内容等)
      */
-    public static final class SubscriptionFields extends UserFields{
+    public static final class SubscriptionFields extends BaseFields{
 
         public static final String TB_NAME = "tb_subscription";
         private SubscriptionFields(){}
@@ -154,6 +154,13 @@ public final class Fields {
         public static final String TYPE = "subscription_type";
         public static final String NAME = "subscription_name";
         public static final String PICURL = "subscription_pic_url";
+    }
+
+    public static final class Account2SubscriptionFields extends UserFields{
+        public static final String TB_NAME = "tb_account2subscription";
+        private Account2SubscriptionFields(){}
+        public static final String SUBSCRIPTION_ID = "subscription_id";
+        public static final String CREATE_TIME = "create_time";
     }
 
 }

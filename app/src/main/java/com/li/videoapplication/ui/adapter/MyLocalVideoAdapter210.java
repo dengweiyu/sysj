@@ -392,6 +392,9 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
         holder.deleteState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (position != holder.position){
+                    return;
+                }
                 // 该视频正在上传
                 VideoCaptureEntity entity = VideoCaptureManager.findByPath(record.getVideo_path());
                 if (entity != null &&
@@ -401,9 +404,18 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                     buttonView.setChecked(false);
                     return;
                 }
-                VideoMangerActivity.myLocalVideoDeleteData.set(position, isChecked);
+
+                VideoMangerActivity.myLocalVideoDeleteData.set(holder.position, isChecked);
+
+
                 if (isChecked){
                     if (activity != null) {
+                        for (VideoCaptureEntity e:
+                                activity.myLocalData) {
+                            if (e.getId() == record.getId()){
+                                return;
+                            }
+                        }
                         activity.myLocalData.add(record);
                     }
                 }else {
@@ -455,7 +467,12 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
 
                 v.setId(position);
                 VideoMangerActivity.performClick2();
-
+                //设置选中
+                VideoMangerActivity.myLocalVideoDeleteData.set(position, true);
+                //加入集合
+                if (activity != null) {
+                    activity.myLocalData.add(record);
+                }
                 return true;
             }
         });
@@ -474,14 +491,14 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
             holder.deleteButton.setVisibility(View.VISIBLE);
             holder.deleteState.setVisibility(View.VISIBLE);
             // 如果是通过长按召唤出的，将长按的控件设置为选中
-            if (holder.root.getId() != -1) {
+        /*    if (holder.root.getId() != -1) {
                 VideoMangerActivity.myLocalVideoDeleteData.set(position, true);
                 if (activity != null) {
                     activity.myLocalData.add(record);
                 }
                 VideoMangerActivity.refreshAbTitle2();
                 holder.root.setId(-1);
-            }
+            }*/
             holder.deleteState.setChecked(VideoMangerActivity.myLocalVideoDeleteData.get(position));
         } else {// 于正常状态
             VideoMangerActivity.myLocalVideoDeleteData.clear();

@@ -8,10 +8,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.ifeimo.im.R;
-import com.ifeimo.im.common.bean.InformationBean;
-import com.ifeimo.im.common.bean.UserBean;
-import com.ifeimo.im.framwork.database.Fields;
-import com.ifeimo.im.provider.InformationProvide;
+import com.ifeimo.im.common.bean.model.InformationModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +18,7 @@ import java.util.List;
  */
 public class ContractFragment extends BaseFragment {
     private ListView listView;
-    private List<InformationBean> list = new ArrayList<>();
+    private List<InformationModel> list = new ArrayList<>();
 //    private CacheMsgListAdapter adapter;
     private Loader<Cursor> loader;
 

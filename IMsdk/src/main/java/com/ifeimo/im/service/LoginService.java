@@ -23,9 +23,8 @@ public class LoginService extends Service{
         super.onCreate();
         Log.i(TGA," ---- 登陆服务开启 ---- ");
         Proxy.getConnectManager().init();
-        startService(new Intent(this,MsgService.class));
     }
-    @Nullable
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;

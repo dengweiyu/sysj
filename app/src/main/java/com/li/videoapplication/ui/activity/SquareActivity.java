@@ -8,7 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
@@ -19,6 +19,8 @@ import com.li.videoapplication.data.model.event.SquareFilterEvent;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.ui.dialog.RecordDialog;
 import com.li.videoapplication.ui.fragment.NewSquareFragment;
 import com.li.videoapplication.ui.fragment.SquareFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
@@ -37,6 +39,7 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
     private TextView mNew;
     private TextView mHot;
 
+    private ImageView mRecord;
     private SquareGameEntity game;
 
 
@@ -51,6 +54,7 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
         super.afterOnCreate();
         EventBus.getDefault().register(this);
     }
+
 
 
     @Override
@@ -72,11 +76,18 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
         setSystemBarBackgroundWhite();
         setTextViewText((TextView)findViewById(R.id.tb_title),"玩家广场");
 
+        mRecord = (ImageView)findViewById(R.id.iv_tb_record);
+        mRecord.setVisibility(View.VISIBLE);
+
         mHot = (TextView)findViewById(R.id.tv_title_hot);
         mNew = (TextView)findViewById(R.id.tv_title_new);
 
         findViewById(R.id.tb_back).setOnClickListener(this);
         findViewById(R.id.iv_square_menu).setOnClickListener(this);
+
+        mNew.setOnClickListener(this);
+        mHot.setOnClickListener(this);
+        mRecord.setOnClickListener(this);
     }
 
     protected void initFragment() {
@@ -93,7 +104,7 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
 
 
         viewPager = (ViewPagerY4) findViewById(R.id.viewpager);
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(1);
         adapter = new ViewPagerAdapter(manager, fragments,title.toArray(new String[]{}));
         viewPager.setAdapter(adapter);
         PageChangeListener listener = new PageChangeListener();
@@ -114,18 +125,18 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-
     }
-
 
     private class PageChangeListener implements OnPageChangeListener {
 
         @Override
         public void onPageScrollStateChanged(int arg0) {
+
         }
 
         @Override
         public void onPageScrolled(int arg0, float arg1, int arg2) {
+
         }
 
         @Override
@@ -137,7 +148,9 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
 
     private void switchTab(int position) {
         int childPosition = ((SquareFragment)fragments.get(position)).getChildPosition();
-        EventBus.getDefault().post(new SquareScrollEntity(childPosition));
+        if (game.getData() != null && game.getData().size() >0){
+            EventBus.getDefault().post(new SquareScrollEntity(game.getData().get(position).getGame_id(),childPosition));
+        }
     }
 
     @Override
@@ -150,6 +163,19 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
                 game.getData().get(viewPager.getCurrentItem()).setChoice(true);
                 ActivityManeger.startSquareGameChoiceActivity(SquareActivity.this,game);
                 game.getData().get(viewPager.getCurrentItem()).setChoice(false);
+                break;
+            case R.id.tv_title_hot:
+                SquareFragment fragmentNew = (SquareFragment) fragments.get(viewPager.getCurrentItem());
+                fragmentNew.setCurrentItem(1);
+                break;
+            case R.id.tv_title_new:
+                SquareFragment fragmentHot = (SquareFragment) fragments.get(viewPager.getCurrentItem());
+                fragmentHot.setCurrentItem(0);
+                break;
+            case R.id.iv_tb_record:
+                //录屏
+                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.DISCOVER, "玩家广场--录制按钮");
+                DialogManager.showSquareRecordDialog(this);
                 break;
         }
     }
@@ -174,16 +200,24 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
      */
 
     public void onEventMainThread(SquareScrollEntity entity){
-        if (entity.getPosition() == 0){                 //最新列表
-            mNew.setTextColor(getResources().getColor(R.color.white));
-            mHot.setTextColor(Color.parseColor("#5e5e5e"));
-            mNew.setBackgroundResource(R.drawable.square_selected_title);
-            mHot.setBackground(null);
-        }else {                                         //最热列表
-            mHot.setTextColor(getResources().getColor(R.color.white));
-            mNew.setTextColor(Color.parseColor("#5e5e5e"));
-            mHot.setBackgroundResource(R.drawable.square_selected_title);
-            mNew.setBackground(null);
+        String gameId = game.getData().get(viewPager.getCurrentItem()).getGame_id();
+        if (entity.getGameId().equals(gameId)){    //非当前游戏不理会，因为使用了预加载
+            String sort = "";
+            if (entity.getPosition() == 0){                 //最新列表
+                mNew.setTextColor(getResources().getColor(R.color.white));
+                mHot.setTextColor(Color.parseColor("#5e5e5e"));
+                mNew.setBackgroundResource(R.drawable.square_selected_title);
+                mHot.setBackground(null);
+                sort = "time";
+            }else {                                         //最热列表
+                mHot.setTextColor(getResources().getColor(R.color.white));
+                mNew.setTextColor(Color.parseColor("#5e5e5e"));
+                mHot.setBackgroundResource(R.drawable.square_selected_title);
+                mNew.setBackground(null);
+                sort = "click";
+            }
+            //统计事件
+            DataManager.squareGamePageStatistical(gameId,sort);
         }
     }
 
@@ -193,6 +227,7 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
 
     public void onEventMainThread(SquareFilterEvent event){
         viewPager.setCurrentItem(event.getPosition());
+
     }
 
 }

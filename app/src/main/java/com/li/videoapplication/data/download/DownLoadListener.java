@@ -44,4 +44,10 @@ public interface DownLoadListener {
      * @param entity 下载任务对象
      */
     void onSuccess(FileDownloaderEntity entity);
+
+    /**
+     * 任务加入队列中等待
+     * @param entity
+     */
+    void addQueue(FileDownloaderEntity entity);
 }

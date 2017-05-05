@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ifeimo.im.view.RoundedImageView;
+import com.ifeimo.im.framwork.view.RoundedImageView;
 
 /**
  * Created by lpds on 2017/2/8.

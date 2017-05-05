@@ -54,6 +54,7 @@ public class FileDownloaderManager {
         return -1;
     }
 
+
     /**
      * 保存或更新根据（game_id）
      *
@@ -291,6 +292,23 @@ public class FileDownloaderManager {
             }
         }
         return -1;
+    }
+
+
+    /**
+     *查找(typeId)
+     */
+    public static List<FileDownloaderEntity> findByMark(String mark) {
+        try {
+            return xUtilsDb.DB
+                    .selector(FileDownloaderEntity.class)
+                    .where(FileDownloaderEntity.MARK, "=",mark)
+                    .orderBy("id",true)
+                    .findAll();
+        } catch (DbException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**

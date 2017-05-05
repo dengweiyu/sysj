@@ -116,11 +116,12 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
      * 页面跳转：安装应用
      */
     private void install() {
-        if (match != null) {
-            Uri uri = Uri.parse(match.getAndroid_address());
+        if (match != null && match.getGame_id() != null) {
+           /* Uri uri = Uri.parse(match.getAndroid_address());
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
-            overridePendingTransition(R.anim.activity_hold, R.anim.activity_hold);
+            overridePendingTransition(R.anim.activity_hold, R.anim.activity_hold);*/
+            ActivityManeger.startDownloadManagerActivity(this,match.getGame_id());
             // 游戏下载数+1
             DataManager.downloadClick217(match.getGame_id(), getMember_id(),
                     Constant.DOWNLOAD_LOCATION_MATCH, event_id);

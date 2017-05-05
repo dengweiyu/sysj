@@ -29,13 +29,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.ifeimo.im.common.util.StatusBarBlackTextHelper;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.AnimationHelper;
 import com.li.videoapplication.tools.LayoutParamsHelper;
-import com.li.videoapplication.tools.StatusBarBlackTextHelper;
+
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.ui.activity.LoginActivity;
 import com.li.videoapplication.ui.dialog.LoadingDialog;

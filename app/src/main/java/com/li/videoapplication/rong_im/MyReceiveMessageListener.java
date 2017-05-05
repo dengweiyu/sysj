@@ -54,7 +54,11 @@ public class MyReceiveMessageListener implements RongIMClient.OnReceiveMessageLi
             @Override
             public void run() {
                 MainActivity activity = AppManager.getInstance().getMainActivity();
-                activity.leftCount.setVisibility(View.VISIBLE);
+                //如果Activity 退出了 会导致空指针
+                if (activity != null && activity.leftCount != null){
+                    activity.leftCount.setVisibility(View.VISIBLE);
+                }
+
                 UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "我的消息-即时消息");
             }
         });

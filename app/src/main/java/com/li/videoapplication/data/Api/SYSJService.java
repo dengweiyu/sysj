@@ -76,6 +76,10 @@ public interface SYSJService {
     @GET("/sysj204/DownloadApp/getDownloadOther")
     Observable<BaseHttpResult<List<Download>>> getDownloadOther(@QueryMap Map<String, Object> options);
 
+    //根据Game Id获取游戏下载详情
+    @GET("/sysj220/DownGame/getDownloadApp")
+    Observable<BaseHttpResult<List<Download>>> getGameDownloadInfo(@QueryMap Map<String, Object> options);
+
     //获取广告
     @GET("/sysj208/ad/adImage")
     Observable<AdvertisementDto> adImage208(@QueryMap Map<String, Object> options);
@@ -165,7 +169,7 @@ public interface SYSJService {
                                                                        @Query("game_id") String game_id);
 
     //获取赛事详情
-    @GET("/Sysj214/NewEvents/getEventsInfo")
+    @GET("/Sysj220/NewEvents/getEventsInfo")
     Observable<BaseHttpResult<Match>> getEventsInfo(@Query("event_id") String event_id,
                                                     @Query("member_id") String member_id);
 

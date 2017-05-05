@@ -1,7 +1,6 @@
 package com.ifeimo.im.common.adapter;
 
 import android.database.Cursor;
-import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
 import android.widget.Toast;
@@ -10,18 +9,19 @@ import com.bumptech.glide.Glide;
 import com.ifeimo.im.R;
 import com.ifeimo.im.common.adapter.holder.Holder;
 import com.ifeimo.im.common.bean.AccountBean;
-import com.ifeimo.im.common.bean.MsgBean;
 import com.ifeimo.im.common.bean.UserBean;
+import com.ifeimo.im.common.bean.model.ChatMsgModel;
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.framwork.interface_im.IMWindow;
-import com.ifeimo.im.provider.BaseProvider;
+
+import y.com.sqlitesdk.framework.business.BusinessUtil;
 
 /**
  * Created by lpds on 2017/2/18.
  */
-public class ChatReAdapter extends BaseChatReCursorAdapter<Holder> {
+public class ChatReAdapter extends BaseChatReCursorAdapter<Holder,ChatMsgModel> {
 
 
     private AccountBean receiverBean;
@@ -39,8 +39,8 @@ public class ChatReAdapter extends BaseChatReCursorAdapter<Holder> {
     }
 
     @Override
-    public MsgBean bindHolder(Holder holder, Cursor cursor) {
-        final MsgBean msgBean = MsgBean.createByCursor(cursor);
+    public ChatMsgModel bindHolder(Holder holder, Cursor cursor) {
+        final ChatMsgModel msgBean = BusinessUtil.getLineModelByCursor(ChatMsgModel.class,cursor);
         holder.id_msgTime_layout.setVisibility(View.GONE);
 
         Spanned spanned = getSpanna(msgBean.getContent());

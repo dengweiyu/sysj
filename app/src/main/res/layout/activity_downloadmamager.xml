@@ -35,19 +35,23 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/kaka_9">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/stroke_gray_2px"
+                android:layout_marginLeft="@dimen/kaka_9"
+                android:layout_marginRight="@dimen/kaka_9"
+                android:layout_marginTop="@dimen/kaka_9"
+                android:padding="1px">
             <!--广告游戏-->
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/firstRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/kaka_9"
-                android:layout_marginRight="@dimen/kaka_9"
-                android:layout_marginTop="@dimen/kaka_9"
-                android:background="@drawable/stroke_gray_2px"
                 android:overScrollMode="never"
                 android:scrollbars="none"
-                android:visibility="gone" />
-
+                />
+            </RelativeLayout>
             <!--飞磨应用-->
             <LinearLayout
                 android:id="@+id/secondContainer"
@@ -82,8 +86,7 @@
                     android:id="@+id/secondRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/kaka_9"
-                    android:layout_marginRight="@dimen/kaka_9"
+
                     android:layout_marginTop="@dimen/kaka_9"
                     android:overScrollMode="never"
                     android:scrollbars="none"

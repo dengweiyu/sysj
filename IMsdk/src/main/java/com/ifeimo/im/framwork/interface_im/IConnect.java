@@ -6,6 +6,7 @@ import com.ifeimo.im.IEmployee;
 import com.ifeimo.im.common.callback.LoginCallBack;
 import com.ifeimo.im.common.callback.LogoutCallBack;
 import com.ifeimo.im.common.callback.OnLoginSYSJCallBack;
+import com.ifeimo.im.framwork.connect.IConnectSupport;
 import com.ifeimo.im.framwork.connect.OnConnectErrorListener;
 
 import org.jivesoftware.smack.ConnectionListener;
@@ -32,5 +33,5 @@ public interface IConnect extends ConnectionListener,IEmployee{
     void removeLogoutCallBack();
     void updateLogin();
     void setErrorListener(OnConnectErrorListener errorListener);
-
+    IConnectSupport getConnectSupport();
 }

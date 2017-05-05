@@ -2,5 +2,7 @@
 <resources>
 
     <color name="html_filter">#3f54dc</color>
-
+    <color name="content_background">#171717</color>
+    <color name="color_ffffff">#ffffff</color>
+    <color name="color_aaaaaa">#eeeeee</color>
 </resources>

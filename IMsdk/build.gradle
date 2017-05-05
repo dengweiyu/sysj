@@ -2,14 +2,14 @@ apply plugin: 'com.android.library'
 
 android {
 
-    compileSdkVersion 22
+    compileSdkVersion 23
     buildToolsVersion '25.0.0'
 
     defaultConfig {
         minSdkVersion 18
         targetSdkVersion 22
-        versionCode 20170419
-        versionName "1.1.1"
+        versionCode 20170427
+        versionName "1.1.2"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -39,4 +39,5 @@ dependencies {
     //    compile 'io.realm:realm-android:0.85.0'
     compile files('libs/EventBus2.4.jar')
     compile files('libs/okhttputils.jar')
+    compile project(':sqlitesdk')
 }

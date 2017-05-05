@@ -2,7 +2,6 @@ package com.ifeimo.im.common.adapter;
 
 import android.database.Cursor;
 import android.text.Html;
-import android.text.Spannable;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,26 +12,23 @@ import android.widget.TextView;
 import com.ifeimo.im.R;
 import com.ifeimo.im.common.adapter.holder.Holder;
 import com.ifeimo.im.common.adapter.base.RecyclerViewCursorAdapter;
-import com.ifeimo.im.common.bean.MsgBean;
-import com.ifeimo.im.common.postentity.IMTextHtmlEntity;
 import com.ifeimo.im.common.util.DateFormatUtil;
 import com.ifeimo.im.common.util.MatchUtil;
 import com.ifeimo.im.common.util.StringUtil;
-import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.framwork.interface_im.IMWindow;
-import com.ifeimo.im.provider.ChatProvider;
-import com.ifeimo.im.view.RoundedImageView;
-import com.ypy.eventbus.EventBus;
+import com.ifeimo.im.framwork.view.RoundedImageView;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import y.com.sqlitesdk.framework.interface_model.IModel;
+
 /**
  * Created by lpds on 2017/2/18.
  */
-public abstract class BaseChatReCursorAdapter<T extends Holder> extends RecyclerViewCursorAdapter<T> {
+public abstract class BaseChatReCursorAdapter<T extends Holder,E extends IModel> extends RecyclerViewCursorAdapter<T> {
 
     protected IMWindow activity;
     protected Map<String, String> time = new HashMap();
@@ -101,7 +97,7 @@ public abstract class BaseChatReCursorAdapter<T extends Holder> extends Recycler
 //        }
     }
 
-    private void timeSetToMsg(T holder, MsgBean msgBean) {
+    private void timeSetToMsg(T holder, E msgBean) {
         String formatTime = time.get(msgBean.getCreateTime());
         if (!StringUtil.isNull(formatTime)) {
             holder.id_msgTime_layout.setVisibility(View.VISIBLE);
@@ -110,7 +106,7 @@ public abstract class BaseChatReCursorAdapter<T extends Holder> extends Recycler
 
     }
 
-    protected abstract MsgBean bindHolder(T holder, Cursor cursor);
+    protected abstract E bindHolder(T holder, Cursor cursor);
 
     @Override
     public T onCreateViewHolder(ViewGroup parent, int viewType) {

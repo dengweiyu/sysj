@@ -14,13 +14,12 @@
  */
 package com.ifeimo.im.framwork.notification;
 
-import java.util.Collection;
 import java.util.Map;
 
 import android.net.Uri;
 
 import com.ifeimo.im.IEmployee;
-import com.ifeimo.im.common.bean.MsgBean;
+import com.ifeimo.im.common.bean.model.IMsg;
 
 /**
  * Provides list of notifications first of which should be shown.
@@ -63,5 +62,5 @@ public interface NotificationManager<T extends NotificationItem> extends IEmploy
 //    int notifyMessageNotification(MsgBean msgBean);
 
 
-    void notifyMessageNotification2(MsgBean msgBean);
+    void notifyMessageNotification2(IMsg msgBean);
 }

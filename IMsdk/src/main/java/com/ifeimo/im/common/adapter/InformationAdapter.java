@@ -1,39 +1,47 @@
 package com.ifeimo.im.common.adapter;
 
-import android.content.ContentValues;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.HorizontalScrollView;
 
 import com.bumptech.glide.Glide;
 import com.ifeimo.im.R;
-import com.ifeimo.im.common.adapter.holder.InformationHolder;
 import com.ifeimo.im.common.adapter.base.RecyclerViewCursorAdapter;
-import com.ifeimo.im.common.bean.InformationBean;
-import com.ifeimo.im.common.util.ThreadUtil;
+import com.ifeimo.im.common.adapter.holder.InformationHolder;
+import com.ifeimo.im.common.bean.model.InformationModel;
+import com.ifeimo.im.common.util.ScreenUtil;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.database.Fields;
-import com.ifeimo.im.framwork.database.business.Business;
-import com.ifeimo.im.provider.InformationProvide;
+import com.ifeimo.im.framwork.view.SlideView;
+import com.ifeimo.im.provider.business.ChatBusiness;
+import com.ifeimo.im.provider.business.GroupChatBusiness;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import y.com.sqlitesdk.framework.business.BusinessUtil;
+import y.com.sqlitesdk.framework.db.Access;
+import y.com.sqlitesdk.framework.sqliteinterface.Execute;
+
 /**
  * Created by lpds on 2017/2/24.
  */
-public class InformationAdapter extends RecyclerViewCursorAdapter<InformationHolder> {
+public class InformationAdapter extends RecyclerViewCursorAdapter<InformationHolder> implements View.OnTouchListener {
+    private static final String TAG = "XMPP_InformationAdapter";
     private LayoutInflater layoutInflater;
     private Context context;
     private OnAdapterItemOnClickListener onAdapterItemOnClickListener;
-
+    private View currentView;
 
     public void setOnAdapterItemOnClickListener(OnAdapterItemOnClickListener onAdapterItemOnClickListener) {
         this.onAdapterItemOnClickListener = onAdapterItemOnClickListener;
@@ -58,67 +66,61 @@ public class InformationAdapter extends RecyclerViewCursorAdapter<InformationHol
     }
 
     @Override
-    public void onBindViewHolder(InformationHolder holder, Cursor cursor) {
+    public void onBindViewHolder(final InformationHolder holder, Cursor cursor) {
 
-        final InformationBean infomationBean = InformationBean.buildInfomationMsgItemByCursor(cursor);
-        holder.muc_left_username.setText(infomationBean.getTitle());
-        holder.muc_left_msg.setText(infomationBean.getLastContent());
-        holder.id_time_tv.setText(getConvertTime(infomationBean.getLastCreateTime()));
-
-        if (infomationBean.getUnread() <= 0) {
+        final InformationModel informationModel = BusinessUtil.getLineModelByCursor(InformationModel.class, cursor);
+        holder.muc_left_username.setText(informationModel.getTitle());
+        holder.muc_left_msg.setText(informationModel.getLastContent());
+        holder.id_time_tv.setText(getConvertTime(informationModel.getLastCreateTime()));
+        holder.delet_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDeleteDialog(informationModel);
+            }
+        });
+        if (informationModel.getUnread() <= 0) {
             holder.id_unreandcount_tv.setVisibility(View.GONE);
         } else {
             holder.id_unreandcount_tv.setVisibility(View.VISIBLE);
-            holder.id_unreandcount_tv.setText( infomationBean.getUnread() + "");
+            holder.id_unreandcount_tv.setText(informationModel.getUnread() > 99 ? 99 + "+" : informationModel.getUnread() + "");
         }
+        holder.itemView.setOnTouchListener(this);
         Glide.with(context)
-                .load(infomationBean.getPicUrl())
+                .load(informationModel.getPicUrl())
                 .dontAnimate()
                 .placeholder(R.drawable.logo_round)
                 .into(holder.muc_left_face);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.muc_left_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final InformationBean clonBean = InformationBean.clon(infomationBean);
-                if(onAdapterItemOnClickListener == null || onAdapterItemOnClickListener.onItemOnClick(clonBean)) {
+                Log.i(TAG, "onClick: item");
+                if (setInitializeDelete()) {
+                    return;
+                }
+                if (onAdapterItemOnClickListener == null || onAdapterItemOnClickListener.onItemOnClick(informationModel)) {
                     try {
-                        switch (clonBean.getType()) {
-                            case InformationBean.ROOM:
-                                IMSdk.createMuccRoom(context, clonBean.getOppositeId(), clonBean.getTitle(),clonBean.getPicUrl());
+                        switch (informationModel.getType()) {
+                            case InformationModel.ROOM:
+                                IMSdk.createMuccRoom(context, informationModel.getOppositeId(), informationModel.getTitle(), informationModel.getPicUrl());
                                 break;
-                            case InformationBean.CHAT:
-                                IMSdk.createChat(context, clonBean.getOppositeId(), clonBean.getTitle(), clonBean.getPicUrl());
+                            case InformationModel.CHAT:
+                                IMSdk.createChat(context, informationModel.getOppositeId(), informationModel.getTitle(), informationModel.getPicUrl());
                                 break;
-                            case InformationBean.Advertisement:
+                            case InformationModel.Advertisement:
                                 break;
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }else{
-                    return;
                 }
             }
         });
 
-        if(infomationBean.getSendType() == Fields.MsgFields.SEND_FINISH){
+        if (informationModel.getSendType() == Fields.MsgFields.SEND_FINISH) {
             holder.id_reSendIV.setVisibility(View.GONE);
-        }else{
+        } else {
             holder.id_reSendIV.setVisibility(View.VISIBLE);
         }
-
-    }
-
-    @Deprecated
-    private void clearPoint(final int id) {
-
-//        ThreadUtil.getInstances().createThreadStartToCachedThreadPool(new Runnable() {
-//            @Override
-//            public void run() {
-//                Business.getInstances().cancelInfomationById(id);
-//            }
-//        });
-
 
     }
 
@@ -129,7 +131,7 @@ public class InformationAdapter extends RecyclerViewCursorAdapter<InformationHol
 
     @Override
     public InformationHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = layoutInflater.inflate(R.layout.item_contract, null);
+        View v = new SlideView(context);
         InformationHolder holder = new InformationHolder(v);
         return holder;
     }
@@ -156,4 +158,57 @@ public class InformationAdapter extends RecyclerViewCursorAdapter<InformationHol
 //        sdf.setNumberFormat(NU);
         return sdf.format(new Date(lTime));
     }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (currentView != view) {
+            setInitializeDelete();
+        }
+        currentView = view;
+        return false;
+    }
+
+    /**
+     * 设置回滚
+     */
+    public boolean setInitializeDelete() {
+        boolean flag = false;
+        if (currentView != null && currentView instanceof SlideView) {
+            SlideView slideView = (SlideView) currentView;
+            slideView.fullScroll(HorizontalScrollView.FOCUS_UP);
+            currentView = null;
+            flag = true;
+        }
+        return flag;
+    }
+
+
+    private void deleteInformation(final InformationModel informationModel) {
+        switch (informationModel.getType()) {
+            case InformationModel.ROOM:
+                GroupChatBusiness.getInstances().deleteInformationByGroupChat(informationModel);
+                break;
+            case InformationModel.CHAT:
+                ChatBusiness.getInstances().deleteInformationByChat(informationModel);
+                break;
+        }
+
+    }
+
+
+    private void showDeleteDialog(final InformationModel informationModel) {
+        new AlertDialog.Builder(context).setTitle("删除消息").setMessage("确定删除此消息？").
+                setNeutralButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteInformation(informationModel);
+                    }
+                }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        }).setCancelable(true).show();
+    }
+
+
 }

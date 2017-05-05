@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
+import com.ifeimo.im.framwork.Proxy;
+import com.ifeimo.im.framwork.message.OnUnReadChange;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
@@ -169,7 +171,9 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
     private ImageView isV,go, slider_message_go;
 
     private TextView count;
-    private int total, a, b, c;
+    private int totalRong , a, b, c;    //融云未读消息总数
+
+    private int totalXMPP;              //XMPP的未读消息总数
 
     private ShareSDKLoginHelper helper = new ShareSDKLoginHelper();
 
@@ -239,6 +243,15 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
         login.setOnClickListener(this);
 
         switchHeaderView(isLogin(), getUser());
+
+        //注册IM 未读消息监听
+        Proxy.getMessageManager().onUnReadChange(new OnUnReadChange() {
+            @Override
+            public void change(int count) {
+                totalXMPP = count;
+                refreshRedCount(totalRong+totalXMPP);
+            }
+        });
     }
 
     //刷新侧栏红点
@@ -251,8 +264,8 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
         RongIMHelper.getTotalUnreadCount(new RongIMHelper.totalUnreadCountCallback() {
             @Override
             public void totalUnreadCount(int count) {
-                total = a + b + c + count;
-                refreshRedCount(total);
+                totalRong = a + b + c + count;
+                refreshRedCount(totalRong+totalXMPP);
             }
         });
     }

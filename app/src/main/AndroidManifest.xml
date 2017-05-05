@@ -140,7 +140,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.DownloadManagerActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar" />
         <activity
@@ -149,10 +149,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme" />
 
-        <activity
-            android:name="com.li.videoapplication.ui.activity.SquareActivity1"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.li.videoapplication.ui.activity.SquareGameChoiceActivity"
@@ -595,13 +591,13 @@
         <!-- #################################  飞磨IM   ######################### -->
 
         <activity
-            android:name="com.ifeimo.im.activity.ChatRecyclerActivity"
+            android:name="com.ifeimo.im.activity.ChatActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTask"
             android:theme="@style/MyTheme.NoActionBar" />
 
         <activity
-            android:name="com.ifeimo.im.activity.MucChatActivity"
+            android:name="com.ifeimo.im.activity.GroupChatActivity"
             android:alwaysRetainTaskState="true"
             android:theme="@style/MyTheme.NoActionBar" />
 

@@ -7,13 +7,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.ifeimo.im.common.adapter.OnAdapterItemOnClickListener;
-import com.ifeimo.im.common.bean.InformationBean;
-import com.ifeimo.im.view.InformationView;
+import com.ifeimo.im.common.bean.model.InformationModel;
+import com.ifeimo.im.framwork.view.InformationView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.MessageMsgRedEntity;
-import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -89,7 +88,7 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
         //消息列表点击时重连（避免账号在异端登陆时挤掉线）
         feiMoIMList.setOnAdapterItemOnClickListener(new OnAdapterItemOnClickListener() {
             @Override
-            public boolean onItemOnClick(InformationBean informationBean) {
+            public boolean onItemOnClick(InformationModel informationModel) {
                 Member member = getUser();
                 FeiMoIMHelper.Login(getMember_id(), member.getNickname(), member.getAvatar());
                 return true;

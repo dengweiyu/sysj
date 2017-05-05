@@ -107,7 +107,7 @@ public class TenPayment implements IPayment {
                         }
 
                     }else {
-                        message = "取消支付";
+                        message = "支付取消";
                         Log.e(TAG,"支付失败 response isSuccess is false.");
                     }
                 } else {

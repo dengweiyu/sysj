@@ -26,6 +26,16 @@ public class Download extends BaseEntity {
 	private String a_download_url = "";
 	private String i_download_url;
 
+	private String mark;
+
+	public String getMark() {
+		return mark;
+	}
+
+	public void setMark(String mark) {
+		this.mark = mark;
+	}
+
 	public long getApp_id() {
 		return app_id;
 	}

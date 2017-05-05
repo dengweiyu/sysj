@@ -42,7 +42,7 @@
             android:layout_marginTop="3dp"
             android:layout_marginRight="30dp">
 
-            <com.ifeimo.im.view.RoundedImageView
+            <com.ifeimo.im.framwork.view.RoundedImageView
                 android:id="@+id/muc_left_face"
                 android:layout_width="43dp"
                 android:layout_height="43dp"
@@ -87,7 +87,7 @@
             android:layout_marginTop="3dp"
             android:layout_height="wrap_content">
 
-            <com.ifeimo.im.view.RoundedImageView
+            <com.ifeimo.im.framwork.view.RoundedImageView
                 android:id="@+id/muc_right_face"
                 android:layout_width="42dp"
                 android:layout_height="42dp"

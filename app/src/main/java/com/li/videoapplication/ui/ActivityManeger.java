@@ -12,6 +12,7 @@ import android.view.View;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
+import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.GroupType;
 import com.li.videoapplication.data.model.entity.LaunchImage;
@@ -86,7 +87,6 @@ import com.li.videoapplication.ui.activity.SettingActivity;
 import com.li.videoapplication.ui.activity.ShareActivity;
 import com.li.videoapplication.ui.activity.SignUpActivity;
 import com.li.videoapplication.ui.activity.SquareActivity;
-import com.li.videoapplication.ui.activity.SquareActivity1;
 import com.li.videoapplication.ui.activity.SquareGameChoiceActivity;
 import com.li.videoapplication.ui.activity.TagActivity;
 import com.li.videoapplication.ui.activity.UploadMatchResultImageActivity;
@@ -115,6 +115,16 @@ public class  ActivityManeger {
      */
     public synchronized static void startDownloadManagerActivity(Context context) {
         Intent intent = new Intent();
+        intent.setClass(context, DownloadManagerActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 下载管理
+     */
+    public synchronized static void startDownloadManagerActivity(Context context, String gameId) {
+        Intent intent = new Intent();
+        intent.putExtra("game_id",gameId);
         intent.setClass(context, DownloadManagerActivity.class);
         context.startActivity(intent);
     }
@@ -1266,10 +1276,10 @@ public class  ActivityManeger {
      * 选择视频
      */
     public synchronized static void startVideoChooseActivity(Context context, Match match, int to) {
-        if (!PreferencesHepler.getInstance().isLogin()) {
+      /*  if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
-        }
+        }*/
         Intent intent = new Intent();
         intent.putExtra("match", match);
         intent.putExtra("to", to);
@@ -1356,7 +1366,7 @@ public class  ActivityManeger {
      */
     public synchronized static void startSquareActivity(Context context) {
         Intent intent = new Intent();
-        intent.setClass(context, SquareActivity1.class);
+        intent.setClass(context, SquareActivity.class);
         context.startActivity(intent);
     }
 

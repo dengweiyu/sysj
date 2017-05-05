@@ -18,7 +18,7 @@ public class xUtilsDb {
     /**
      * 数据库版本：V4（2.1.4）
      */
-    private final static int DATABASE_VERSION = 4;
+    private final static int DATABASE_VERSION = 5;
 
     private static final DbManager.DaoConfig CONFIG = new DbManager.DaoConfig()
             .setDbName(DATABASE_NAME)
@@ -42,6 +42,9 @@ public class xUtilsDb {
                     } else if (oldVersion == 3){
                         // V4增加字段
                         addColumnV4(db);
+                    }else if (oldVersion == 4){
+                        //V5增加游戏下载标识字段
+                        addColumnMark(db);
                     }
                 }
             });
@@ -107,7 +110,18 @@ public class xUtilsDb {
             e.printStackTrace();
         }
         try {
-            db.addColumn(VideoCaptureEntity.class, VideoCaptureEntity.MATCH_NAME);
+            db.addColumn(FileDownloaderEntity.class, VideoCaptureEntity.MATCH_NAME);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 增加游戏下载 标识字段
+     */
+    private static void addColumnMark(DbManager db){
+        try {
+            db.addColumn(FileDownloaderEntity.class,FileDownloaderEntity.MARK);
         } catch (DbException e) {
             e.printStackTrace();
         }

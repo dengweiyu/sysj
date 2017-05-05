@@ -302,7 +302,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
         }
 
         //有对战信息时，显示遮罩引导
-        showContactTipDialog();
+        //showContactTipDialog();
     }
 
     private void setTime(Match record) {
@@ -380,7 +380,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
     }
 
     /**
-     * 遮罩提示页：约战
+     * 遮罩提示页：约战 2.2.0 已经取消
      */
     public void showContactTipDialog() {
 

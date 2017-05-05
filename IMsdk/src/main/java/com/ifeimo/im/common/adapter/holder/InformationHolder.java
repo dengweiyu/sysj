@@ -19,6 +19,8 @@ public class InformationHolder extends RecyclerView.ViewHolder {
     public TextView id_time_tv;
     public TextView muc_left_msg;
     public View id_reSendIV;
+    public View muc_left_layout;
+    public View delet_view;
 
 
     public InformationHolder(View itemView) {
@@ -29,6 +31,8 @@ public class InformationHolder extends RecyclerView.ViewHolder {
         muc_left_face = (ImageView) itemView.findViewById(R.id.muc_left_face);
         muc_left_username = (TextView) itemView.findViewById(R.id.muc_left_username);
         muc_left_msg = (TextView) itemView.findViewById(R.id.muc_left_msg);
+        muc_left_layout=  itemView.findViewById(R.id.muc_left_layout);
+        delet_view = itemView.findViewById(R.id.delet_view);
     }
 
 }

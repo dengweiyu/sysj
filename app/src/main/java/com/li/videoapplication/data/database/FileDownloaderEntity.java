@@ -49,6 +49,7 @@ public class FileDownloaderEntity extends BaseEntity {
     public final static String DISPLAY = "display";
     public final static String A_DOWNLOAD_URL = "a_download_url";
     public final static String I_DOWNLOAD_URL = "i_download_url";
+    public final static String MARK = "mark";
 
     public final static int AD_LOCATION_ID_1 = 1;
     public final static int AD_LOCATION_ID_2 = 2;
@@ -106,6 +107,17 @@ public class FileDownloaderEntity extends BaseEntity {
 
     @Column(name = AD_LOCATION_ID)
     private int ad_location_id;
+
+    @Column(name = MARK)
+    private String mark;
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
 
     public int getId() {
         return id;

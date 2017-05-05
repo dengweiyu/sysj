@@ -9,11 +9,14 @@
 
     <include layout="@layout/toolbar_white" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/activity_main_bg">
+    </View>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:layout_marginTop="1dp"
         android:orientation="horizontal"
         android:paddingRight="10dp">
 

@@ -54,8 +54,8 @@ public class DownLoadExecutor {
             }
         };
 
-        ThreadPoolExecutor pool = new ThreadPoolExecutor(2,
-                3,
+        ThreadPoolExecutor pool = new ThreadPoolExecutor(3,
+                4,
                 30,
                 TimeUnit.SECONDS,
                 queue,

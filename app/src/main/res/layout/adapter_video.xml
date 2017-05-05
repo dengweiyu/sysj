@@ -54,6 +54,17 @@
                     android:textColor="#ffffff"
                     android:textSize="9dp"/>
 
+                <ImageView
+                    android:id="@+id/iv_ad_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="right"
+                    android:layout_marginRight="-12dp"
+                    android:visibility="gone"
+                    android:src="@drawable/advertisement"/>
+
                 <TextView
                     android:id="@+id/video_playCount"
                     android:layout_width="wrap_content"

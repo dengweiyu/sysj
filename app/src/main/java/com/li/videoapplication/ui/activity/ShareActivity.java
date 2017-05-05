@@ -19,8 +19,10 @@ import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.ShareSquare;
+import com.li.videoapplication.data.model.event.SharedSuccessEvent;
 import com.li.videoapplication.data.model.response.ShareSquareEntity;
 import com.li.videoapplication.data.network.UITask;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseActivity;
 import com.li.videoapplication.tools.ToastHelper;
@@ -29,6 +31,7 @@ import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
+import com.ypy.eventbus.EventBus;
 
 import java.util.HashMap;
 
@@ -72,8 +75,10 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
     private TextView squareReward, squareTitle, squareName;
     private ImageView squareIcon;
 
-
+    private ShareSquare square;
     private String videoUrl, imageUrl, VideoTitle, text;
+    private String memberId;
+    private String mSharedChannel;
     private int page;
 
     private PlatformActionListener listener = new PlatformActionListener() {
@@ -83,6 +88,11 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
             Log.d(tag, "onComplete: platform = " + platform + ", i = " + i + ", hashMap = " + hashMap);
             ToastHelper.s("分享成功");
             UmengAnalyticsHelper.onEvent(ShareActivity.this, UmengAnalyticsHelper.SLIDER, "邀请好友-有效");
+
+            //触发
+            DataManager.shareTriggerReward(memberId,"","","");
+            //post
+            EventBus.getDefault().post(new SharedSuccessEvent(mSharedChannel));
         }
 
         @Override
@@ -128,7 +138,8 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
     @Override
     public void loadData() {
         super.loadData();
-   //     DataManager.sharePlayerSquare();
+        memberId = PreferencesHepler.getInstance().getMember_id();
+        DataManager.sharePlayerSquare(memberId);
     }
 
     @Override
@@ -201,7 +212,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
             sysj.setVisibility(View.GONE);
             mSysj.setVisibility(View.GONE);
         }else {
-            mSysj.setVisibility(View.VISIBLE);
+         //   mSysj.setVisibility(View.VISIBLE);
         }
     }
 
@@ -246,6 +257,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
      */
     public void share(Context context, String title, String url, String text, String imageUrl, final String shareChannel) {
         Log.d(tag, "share: shareChannel=" + shareChannel);
+        mSharedChannel = shareChannel;
         ShareParams params = new ShareParams();
         if (page == PAGE_MYLOCALVIDEO) {// 本地视频
             UITask.postDelayed(new Runnable() {
@@ -254,6 +266,13 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
                     EventManager.postShare2VideoShareEvent(shareChannel);
                 }
             }, 0);
+
+            //触发
+            DataManager.shareTriggerReward(memberId,square.getHook(),square.getTask_id(),"1");
+            if (shareChannel.equals("SYSJ")){
+                //post
+                EventBus.getDefault().post(new SharedSuccessEvent(mSharedChannel));
+            }
             finish();
         } else if (page == PAGE_MYSCREENSHOT) {// 本地图片
             params.setImagePath(imageUrl);
@@ -339,7 +358,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
      */
     public void onEventMainThread(ShareSquareEntity event) {
         if (event != null && event.isResult()) {
-            ShareSquare square = event.getData();
+            square = event.getData();
             if (!StringUtil.isNull(square.getDescription())) {
                 //奖励##飞磨豆 --> 奖励20飞磨豆
                 String reward = TextUtil.toColor(square.getReward(), "#fe5e5e");

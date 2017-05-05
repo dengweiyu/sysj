@@ -44,8 +44,8 @@
 
             <CheckBox
                 android:id="@+id/mycloudvideo_deleteState"
-                android:layout_width="@dimen/kaka_12"
-                android:layout_height="@dimen/kaka_12"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="@dimen/kaka_4"

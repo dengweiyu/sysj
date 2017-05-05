@@ -26,7 +26,7 @@
         android:background="#ECEDF1"
         android:orientation="vertical">
 
-        <com.ifeimo.im.view.IMListView
+        <com.ifeimo.im.framwork.view.IMListView
             android:id="@+id/muc_chat_content"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -39,7 +39,7 @@
             android:scrollbars="none"
             android:transcriptMode="normal">
 
-        </com.ifeimo.im.view.IMListView>
+        </com.ifeimo.im.framwork.view.IMListView>
 
         <RelativeLayout
             android:id="@+id/muc_chatboard"
@@ -69,7 +69,7 @@
                     android:orientation="horizontal">
 
 
-                    <com.ifeimo.im.view.IMEditTex
+                    <com.ifeimo.im.framwork.view.IMEditTex
                         android:id="@+id/muc_et_chat_message"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

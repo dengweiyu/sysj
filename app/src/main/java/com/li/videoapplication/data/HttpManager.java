@@ -182,6 +182,14 @@ public class HttpManager extends RetrofitUtils {
         setSubscribe(observable, observer);
     }
 
+
+    public void getGameDownloadInfo(String game_id, Observer<List<Download>> observer) {
+        Map<String, Object> params = RequestParams.getInstance().gameTagList(game_id);
+        Observable<List<Download>> observable = service.getGameDownloadInfo(params)
+                .map(new HttpResultFunc<List<Download>>());
+        setSubscribe(observable, observer);
+    }
+
     /**
      * @param localtion_id 不要怀疑自己的英语，后台做接口拼错的，就得这么写。
      */

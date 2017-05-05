@@ -16,6 +16,7 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
+import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
@@ -127,16 +128,13 @@ public class GroupdetailIntroduceFragment extends TBaseFragment{
      * 跳转：安装应用
      */
     private void install() {
-        if (activity.game != null &&activity.game.getA_download() != null) {
-            if (URLUtil.isURL(activity.game.getA_download())) {
-                Uri uri = Uri.parse(activity.game.getA_download());
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+        if (activity.game != null &&activity.game.getGame_id() != null) {
+            //
+            ActivityManeger.startDownloadManagerActivity(getContext(),activity.game.getGame_id());
+            // 游戏下载数+1
+            DataManager.downloadClick217(activity.game.getGame_id(), getMember_id(),
+                    Constant.DOWNLOAD_LOCATION_GROUP, activity.group_id);
 
-                // 游戏下载数+1
-                DataManager.downloadClick217(activity.game.getGame_id(), getMember_id(),
-                        Constant.DOWNLOAD_LOCATION_GROUP, activity.group_id);
-            }
         }
     }
 }

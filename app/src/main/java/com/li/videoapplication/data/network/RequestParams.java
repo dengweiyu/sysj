@@ -41,6 +41,25 @@ public class RequestParams {
         return map;
     }
 
+    //分享成功后触发
+    public Map<String, Object> shareTriggerReward(String memberId,String hook,String taskId,String flag) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", memberId);
+        map.put("hook", hook);
+        map.put("task_id", taskId);
+        map.put("target", SYSJ);
+        map.put("flag", flag);
+        return map;
+    }
+
+
+    //分享页面信息
+    public Map<String, Object> sharePlayerSquare(String memberId) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", memberId);
+        return map;
+    }
+
     /**
      * ############## 飞磨游戏 ##############
      */
@@ -389,12 +408,13 @@ public class RequestParams {
 
 	/* ############## 广场 ############## */
 
-    public Map<String, Object> squareList(String member_id, String sort, int page) {
+    public Map<String, Object> squareList(String member_id, String sort, int page,String gameId) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("sort", sort);// 最新：time 最热：click
         map.put("page", page);
         map.put("target",SYSJ);
+        map.put("game_id",gameId);
         return map;
     }
 
@@ -402,6 +422,16 @@ public class RequestParams {
     public Map<String, Object> squareGameList() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("target", SYSJ);
+        return map;
+    }
+
+
+    /* ############## 玩家广场页面统计 ############## */
+    public Map<String, Object> squareGameListStatistical(String gameId,String sort) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("target", SYSJ);
+        map.put("game_id", gameId);
+        map.put("sort", sort);
         return map;
     }
 

@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService;
 import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
+import com.ifeimo.im.common.util.StatusBarBlackTextHelper;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.message.OnHtmlItemClickListener;
@@ -61,7 +62,6 @@ import com.li.videoapplication.tools.AppExceptionHandler;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.ParseMessageHelper;
 import com.li.videoapplication.tools.RongIMHelper;
-import com.li.videoapplication.tools.StatusBarBlackTextHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
@@ -479,7 +479,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 break;
             case R.id.iv_bottom_record:
 
-                DialogManager.showRecordDialog(this,root);
+                DialogManager.showRecordDialog(this,getWindow().getDecorView());
                 UmengAnalyticsHelper.onEvent(MainActivity.this,UmengAnalyticsHelper.MAIN,"首页-底部录屏");
                 break;
 

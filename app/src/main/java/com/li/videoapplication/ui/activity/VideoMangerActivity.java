@@ -29,6 +29,7 @@ import com.li.videoapplication.data.local.StorageUtil;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.event.SharedSuccessEvent;
 import com.li.videoapplication.data.model.response.VideoDisplayVideoEntity;
 import com.li.videoapplication.data.network.LightTask;
 import com.li.videoapplication.data.preferences.VideoPreferences;
@@ -38,6 +39,7 @@ import com.li.videoapplication.framework.AsyncTask;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
+import com.li.videoapplication.ui.dialog.SharedSuccessDialog;
 import com.li.videoapplication.ui.fragment.MyCloudVideoFragment;
 import com.li.videoapplication.ui.fragment.MyLocalVideoFragment;
 import com.li.videoapplication.ui.fragment.MyScreenShotFragment;
@@ -45,6 +47,7 @@ import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.CustomViewPager;
+import com.ypy.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -267,6 +270,14 @@ public class VideoMangerActivity extends TBaseActivity implements
 
         setSystemBarBackgroundWhite();
         setAbTitle(R.string.videomanager_title);
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -831,5 +842,21 @@ public class VideoMangerActivity extends TBaseActivity implements
             }
         };
         LightTask.post(r);
+    }
+
+    /**
+     * 分享成功
+     */
+    public void onEventMainThread(SharedSuccessEvent event){
+        String title;
+        switch (event.getChannel()){
+            case "SYSJ":
+                title = "你的视频已经被分享到";
+                break;
+            default:
+                title = "你的视频已经同步被分享到";
+                break;
+        }
+        new SharedSuccessDialog(this,title).show();
     }
 }

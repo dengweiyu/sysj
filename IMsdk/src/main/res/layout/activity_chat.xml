@@ -20,7 +20,7 @@
         android:background="#ECEDF1"
         android:orientation="vertical">
 
-        <com.ifeimo.im.view.IMListView
+        <com.ifeimo.im.framwork.view.IMListView
             android:id="@+id/lchat_content_1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -76,7 +76,7 @@
                         android:textSize="15sp" />
                 </LinearLayout>
 
-                <com.ifeimo.im.view.IMEditTex
+                <com.ifeimo.im.framwork.view.IMEditTex
                     android:id="@+id/et_chat_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

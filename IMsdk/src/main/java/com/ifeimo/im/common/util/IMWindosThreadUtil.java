@@ -1,31 +1,28 @@
 package com.ifeimo.im.common.util;
 
-import android.app.Activity;
 
-import com.ifeimo.im.framwork.interface_im.IMMain;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import de.measite.minidns.record.A;
 
 /**
  * Created by lpds on 2017/4/1.
  */
-final class IMWindosThreadUtil {
+public final class IMWindosThreadUtil {
+    private final String TAG= "XMPP_IMWindosThreadUtil";
     private static IMWindosThreadUtil imWindosThreadUtil;
     static {
         imWindosThreadUtil = new IMWindosThreadUtil();
     }
 
-    IMWindosThreadUtil(){
+    private IMWindosThreadUtil(){
         mainExecutorServiceMap = new HashMap<>();
     }
 
-    static IMWindosThreadUtil getInstances()
+    public static IMWindosThreadUtil getInstances()
     {
         return imWindosThreadUtil;
     }
@@ -33,29 +30,38 @@ final class IMWindosThreadUtil {
 
     private Map<String,ExecutorService> mainExecutorServiceMap;
 
-    void createThreadPoolByIMMain(IMMain imMain){
-        final String hashCode = imMain.hashCode()+"";
-        if(!mainExecutorServiceMap.containsKey(hashCode)){
-            mainExecutorServiceMap.put(hashCode, Executors.newCachedThreadPool());
+    private void createThreadPoolByIMMain(String key){
+        if(!mainExecutorServiceMap.containsKey(key)) {
+            mainExecutorServiceMap.put(key, Executors.newCachedThreadPool());
+            Log.i(TAG, "onCreate: join ThreadPool " + key);
+        }else{
+            Log.i(TAG, "onCreate: had ThreadPool " + key);
         }
     }
 
-    void createCurrentThreadPoolRunnable(IMMain imMain,Runnable runnable){
-        final String hashCode = imMain.hashCode()+"";
-        if(mainExecutorServiceMap.containsKey(hashCode)){
-            mainExecutorServiceMap.get(hashCode).execute(runnable);
+    public void run(String key, Runnable runnable){
+        if(mainExecutorServiceMap.containsKey(key)){
+            mainExecutorServiceMap.get(key).execute(runnable);
+            Log.i(TAG, "createCurrentThreadPoolRunnable: 线程启动");
+        }else{
+            createThreadPoolByIMMain(key);
+            run(key,runnable);
         }
     }
 
 
-    void leaveThreadPool(IMMain imMain){
-        final String hashCode = imMain.hashCode()+"";
-        if(mainExecutorServiceMap.containsKey(hashCode)){
-            ExecutorService executorService = mainExecutorServiceMap.get(hashCode);
-            executorService.shutdownNow();
-            mainExecutorServiceMap.remove(hashCode);
-            executorService = null;
+    public void leaveThreadPool(String key,boolean isShutdownNow){
+        if(mainExecutorServiceMap.containsKey(key)){
+            ExecutorService executorService = mainExecutorServiceMap.get(key);
+            if(isShutdownNow) {
+                executorService.shutdownNow();
+            }else{
+                executorService.shutdown();
+            }
+            mainExecutorServiceMap.remove(key);
         }
+        Log.i(TAG, "onDestroy: destroy ThreadPool " + key);
+
     }
 
 

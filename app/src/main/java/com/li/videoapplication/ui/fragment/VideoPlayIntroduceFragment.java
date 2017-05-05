@@ -16,6 +16,8 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.activity.GroupDetailActivity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.RoundedImageView;
 
@@ -29,10 +31,11 @@ public class VideoPlayIntroduceFragment extends TBaseFragment implements OnClick
      */
     private void install() {
         if (item != null && !StringUtil.isNull(item.getAndroid_address())) {
-            Uri uri = Uri.parse(item.getAndroid_address());
+            /*Uri uri = Uri.parse(item.getAndroid_address());
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             getActivity().startActivity(intent);
-            getActivity().overridePendingTransition(R.anim.activity_hold, R.anim.activity_hold);
+            getActivity().overridePendingTransition(R.anim.activity_hold, R.anim.activity_hold);*/
+            ActivityManeger.startDownloadManagerActivity(getActivity(),item.getGame_id());
             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.VIDEOPLAY, "游戏简介-安装");
             // 游戏下载数+1
             DataManager.downloadClick217(item.getGame_id(), getMember_id(),

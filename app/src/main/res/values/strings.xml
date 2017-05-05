@@ -932,4 +932,7 @@
 
     <string name="dialog_tip_record">录屏大师</string>
     <string name="dialog_tip_upload_video">上传视频</string>
+
+    <string name="square_tip_video_uploading">视频正在上传中...</string>
+    <string name="square_tip_video_is_private">上传完成前仅自己可见</string>
 </resources>

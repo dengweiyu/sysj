@@ -1,15 +1,13 @@
 package com.ifeimo.im.framwork.interface_im;
 
-import android.content.Loader;
 import android.database.ContentObserver;
 
 import com.ifeimo.im.IEmployee;
 import com.ifeimo.im.OnUpdate;
-import com.ifeimo.im.common.bean.MsgBean;
-import com.ifeimo.im.common.bean.MuccMsgBean;
+import com.ifeimo.im.common.bean.model.ChatMsgModel;
+import com.ifeimo.im.common.bean.model.GroupChatModel;
 import com.ifeimo.im.common.bean.chat.ChatBean;
-import com.ifeimo.im.common.bean.chat.MuccBean;
-import com.ifeimo.im.common.callback.OnSendCallBack;
+import com.ifeimo.im.common.bean.chat.GroupChatBean;
 import com.ifeimo.im.framwork.message.OnGroupItemOnClickListener;
 import com.ifeimo.im.framwork.message.OnHtmlItemClickListener;
 import com.ifeimo.im.framwork.message.OnMessageReceiver;
@@ -27,12 +25,6 @@ public interface IMessage extends StanzaListener, MessageListener, IEmployee, On
 
     int DEFAULT_CACHE_TIME = 2 * 60 * 1000;
     int WAITING_TIME = 5000;
-
-    int UN_CONNECT_STATUS = 0x120;
-//    int CONNEXT_STATUS = 0x121;
-    int DIFFERENT_LOGIN_STATUS = 0x122;
-    int LOGIN_STATUS = 0x123;
-//    int
 
     /**
      * 离开群聊
@@ -64,29 +56,34 @@ public interface IMessage extends StanzaListener, MessageListener, IEmployee, On
      * @param key
      */
     void removeChatSet(String key);
-//
-//    Loader loadChatData(IMWindow imWindow);
-//
-//    Loader loadMuccData(IMWindow imWindow);
+
+    GroupChatBean getGroupChatBean(String key);
+
+    void removeGroupChat(String key);
 
     /**
      * 创建一个单聊
      *
-     * @param imWindow
      * @param receiverID 对方用户
      * @param memberid   自己
      * @return
      */
-    ChatBean createChat(IMWindow imWindow, String receiverID, String memberid);
+    ChatBean createChat(String receiverID, String memberid);
+
+    /**
+     * 创建一个群聊
+     * @param roomid 房间名字
+     * @return
+     */
+    GroupChatBean createGruopChat(String roomid);
 
     /**
      * 发送群聊消息
      *
      * @param key
-     * @param muccBean
      * @param msg
      */
-    void sendMuccMsg(String key, MuccBean muccBean, MsgBean msg);
+    void sendMuccMsg(String key, GroupChatModel msg);
 
     /**
      * 发送单聊消息
@@ -94,7 +91,7 @@ public interface IMessage extends StanzaListener, MessageListener, IEmployee, On
      * @param key
      * @param msg
      */
-    void sendChatMsg(String key, MsgBean msg);
+    void sendChatMsg(String key, ChatMsgModel msg);
 
     /**
      * 重发单聊消息
@@ -102,7 +99,7 @@ public interface IMessage extends StanzaListener, MessageListener, IEmployee, On
      * @param key
      * @param msg
      */
-    void reSendChatMsg(String key, MsgBean msg);
+    void reSendChatMsg(String key, ChatMsgModel msg);
 
     /**
      * 重发群聊消息
@@ -110,7 +107,7 @@ public interface IMessage extends StanzaListener, MessageListener, IEmployee, On
      * @param key
      * @param msg
      */
-    void reSendMuccMsg(String key,MuccBean muccBean, MsgBean msg);
+    void reSendMuccMsg(String key, GroupChatModel msg);
 
     /**
      * 註冊消息監聽事件
@@ -118,6 +115,9 @@ public interface IMessage extends StanzaListener, MessageListener, IEmployee, On
      */
     void registerOnMessageReceiver(OnMessageReceiver onMessageReceiver);
 
+    /**
+     * 移除消息監聽事件
+     */
     void removeOnMessageReceiver();
 
     /**
@@ -125,17 +125,46 @@ public interface IMessage extends StanzaListener, MessageListener, IEmployee, On
      */
     void releaseAllChat();
 
+    /**
+     * 注册监听接收到消息的回调
+     * @param onSimpleMessageListener
+     */
     void registerOnMessageReceiver(OnSimpleMessageListener onSimpleMessageListener);
+
+    /**
+     * 获取接收到消息的回调
+     * @return
+     */
     OnSimpleMessageListener getOnMessageReceiver();
 
+    /**
+     * 注册获得未读消息总行数
+     * @param onUnReadChange
+     */
     void onUnReadChange(OnUnReadChange onUnReadChange);
 
+    /**
+     * 获得当前未读消息总行数观察者
+     * @return
+     */
     ContentObserver getUnReadObserver();
 
+    /**
+     * 群聊单击头像回调
+     * @param onGroupItemOnClickListener
+     */
     void setOnGroupItemOnClickListener(OnGroupItemOnClickListener onGroupItemOnClickListener);
 
+    /**
+     *
+     * @return
+     */
     OnGroupItemOnClickListener getOnGroupItemOnClickListener();
 
+    /**
+     * 注册item点击有html回调的接口
+     * @param onHtmlItemClickListener
+     */
     void setOnHtmlItemClickListener(OnHtmlItemClickListener onHtmlItemClickListener);
 
     OnHtmlItemClickListener getOnHtmlItemClickListener();

@@ -16,6 +16,7 @@ import com.ypy.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 玩家广场 最新 最热碎片
@@ -30,6 +31,7 @@ public class SquareFragment extends TBaseFragment {
 
     private SquareScrollEntity mEntity;
 
+    private String gameId;
     public static  SquareFragment newInstance(String gameId){
         SquareFragment instance = new SquareFragment();
 
@@ -47,28 +49,26 @@ public class SquareFragment extends TBaseFragment {
 
     @Override
     protected void initContentView(View view) {
-
-        String game_id = null;
         try {
-            game_id = getArguments().getString("game_id");
+            gameId = getArguments().getString("game_id");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         mViewPager = (ViewPagerY5)view.findViewById(R.id.vp_square);
 
-        mFragments = new ArrayList<>();
-        mFragments.add(NewSquareFragment1.newInstance(NewSquareFragment1.SQUARE_NEW,null));        //最新列表
-        mFragments.add(NewSquareFragment1.newInstance(NewSquareFragment1.SQUARE_HOT,null));        //最热列表
-
-        mAdapter = new ViewPagerAdapter(getChildFragmentManager(),mFragments,new String[]{});
-
+        if (mFragments == null){
+            mFragments = new ArrayList<>();
+            mFragments.add(NewSquareFragment.newInstance(NewSquareFragment.SQUARE_NEW,null,gameId,true));        //最新列表
+            mFragments.add(NewSquareFragment.newInstance(NewSquareFragment.SQUARE_HOT,null,gameId,true));        //最热列表
+            mAdapter = new ViewPagerAdapter(getChildFragmentManager(),mFragments,new String[]{});
+        }
 
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(mListener);
 
         mEntity = new SquareScrollEntity();
-
+        mEntity.setGameId(gameId);
         mEntity.setPosition(0);
         EventBus.getDefault().post(mEntity);
     }
@@ -83,6 +83,12 @@ public class SquareFragment extends TBaseFragment {
         return mViewPager == null?0:mViewPager.getCurrentItem();
     }
 
+    public void setCurrentItem(int position){
+        if (mViewPager != null && position >= 0 && position < mFragments.size()){
+            mViewPager.setCurrentItem(position);
+        }
+    }
+
     final ViewPager.OnPageChangeListener mListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -92,6 +98,7 @@ public class SquareFragment extends TBaseFragment {
         @Override
         public void onPageSelected(int position) {
             mEntity.setPosition(mViewPager.getCurrentItem());
+            mEntity.setGameId(gameId);
             EventBus.getDefault().post(mEntity);
         }
 

@@ -5,9 +5,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
+import android.widget.TextView;
 
 import com.fmsysj.screeclibinvoke.ui.dialog.ManufacturerDialog;
 import com.fmsysj.screeclibinvoke.ui.dialog.SettingQualityDialog;
+import com.li.videoapplication.R;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Game;
@@ -85,6 +87,19 @@ public class DialogManager {
      */
     public static void showLogInTaskDoneDialog(Context context) {
         Dialog dialog = new LogInTaskDoneDialog(context);
+        dialog.show();
+    }
+
+    /**
+     * 分享至手游视界广场（我的钱包跳转各页面提示框）
+     */
+    public static void showSharedToSquareDialog(Context context, String content, View.OnClickListener listener) {
+        Dialog dialog = new ConfirmDialog(context,content,listener);
+        TextView yes = (TextView) dialog.findViewById(R.id.tv_confirm_dialog_yes);
+        TextView no = (TextView) dialog.findViewById(R.id.tv_confirm_dialog_no);
+        yes.setText("再看看");
+        no.setText("进入视频管理");
+        no.setTextColor(context.getResources().getColor(R.color.menu_main_red));
         dialog.show();
     }
 
@@ -358,6 +373,15 @@ public class DialogManager {
         Dialog dialog = new RecordDialog(context,shotView);
         dialog.show();
         UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.MAIN, "首页-录制框打开次数");
+    }
+
+    /**
+     * 玩家广场录制框
+     */
+    public static void showSquareRecordDialog(Context context) {
+        Dialog dialog = new RecordDialog(context);
+        dialog.show();
+
     }
 
     /**

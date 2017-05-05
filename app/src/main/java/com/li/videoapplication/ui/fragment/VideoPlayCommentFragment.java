@@ -199,7 +199,7 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
                                 more.setText("点击收起");
                             } else {//没...
                                 content.setEllipsize(TextUtils.TruncateAt.END); // 收缩
-                                content.setLines(3);
+                                content.setLines(1);
                                 more.setText("展开全文");
                             }
                         }

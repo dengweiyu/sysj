@@ -14,10 +14,13 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.database.FileDownloaderEntity;
 import com.li.videoapplication.data.download.DownLoadListener;
 import com.li.videoapplication.data.download.DownLoadManager;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
+import com.li.videoapplication.data.model.entity.LaunchImage;
 import com.li.videoapplication.data.network.LightTask;
 import com.li.videoapplication.data.network.UITask;
+import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.DialogManager;
@@ -27,7 +30,9 @@ import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.VersionUtils;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 适配器：下载管理
@@ -38,18 +43,40 @@ public class DownloadManagerAdapter extends BaseQuickAdapter<FileDownloaderEntit
     private TextImageHelper helper;
     private boolean isProgress = false;
 
+    private Map<String,Integer> lastProgress;
     public DownloadManagerAdapter(List<FileDownloaderEntity> data) {
         super(R.layout.adapter_downloadmanager, data);
         helper = new TextImageHelper();
+        lastProgress = new HashMap<>();
+
+        for (FileDownloaderEntity e:
+             data) {
+            lastProgress.put(e.getFileUrl(),e.getProgress());
+        }
     }
 
     @Override
+    public void addData(int position, FileDownloaderEntity data) {
+        super.addData(position, data);
+        //
+        lastProgress.put(data.getFileUrl(),data.getProgress());
+    }
+
+    @Override
+    public void addData(FileDownloaderEntity data) {
+        super.addData(data);
+        //
+        lastProgress.put(data.getFileUrl(),data.getProgress());
+    }
+
+
+    @Override
     protected void convert(BaseViewHolder holder, FileDownloaderEntity record) {
-        if (!isProgress) {
-            helper.setImageViewImageNet((ImageView) holder.getView(R.id.applicationdownload_icon), record.getFlag());
-        } else {
+    //    if (!isProgress) {
+            GlideHelper.displayImageEmpty(AppManager.getInstance().getContext(),record.getFlag(),(ImageView) holder.getView(R.id.applicationdownload_icon));
+      /*  } else {
             isProgress = false;
-        }
+        }*/
 
         holder.setText(R.id.applicationdownload_title, record.getApp_name())
                 .setText(R.id.applicationdownload_content, record.getApp_intro());
@@ -276,7 +303,15 @@ public class DownloadManagerAdapter extends BaseQuickAdapter<FileDownloaderEntit
                 e.setDownloading(entity.isDownloading());
                 Log.d(TAG, "onProgress: progress=" + entity.getProgress());
                 isProgress = true;
-                notifyDataSetChanged();
+
+                if (lastProgress.get(entity.getFileUrl()) == null){
+                    lastProgress.put(entity.getFileUrl(),0);
+                }
+                //to update view,while progress more than 1%
+                if (e.getProgress() - lastProgress.get(entity.getFileUrl()) >= 1){
+                    lastProgress.put(e.getFileUrl(),e.getProgress());
+                    notifyDataSetChanged();
+                }
                 break;
             }
         }
@@ -317,7 +352,18 @@ public class DownloadManagerAdapter extends BaseQuickAdapter<FileDownloaderEntit
                 e.setDownloading(entity.isDownloading());
                 Log.d(TAG, "onSuccess: e=" + e);
                 notifyDataSetChanged();
+                //安装
+                ApkUtil.installApp(mContext, entity.getFilePath());
                 break;
+            }
+        }
+    }
+
+    @Override
+    public void addQueue(FileDownloaderEntity entity) {
+        for(FileDownloaderEntity e : getData()){
+            if(e.getFileUrl().equals(entity.getFileUrl())){
+                ToastHelper.s("多个任务执行中，当前任务已提交稍后自动执行");
             }
         }
     }

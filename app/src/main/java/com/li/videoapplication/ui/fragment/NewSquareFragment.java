@@ -1,5 +1,6 @@
 package com.li.videoapplication.ui.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -46,19 +47,18 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
     public static final int HOMEMORE_NEW = 3;
     public static final int HOMEMORE_HOT = 4;
 
-    private static Map<String,Map<String,List<VideoImage>>> mCache;      //使用内存保存数据,因为VideoImage实现了 Serializable
-
-    private boolean isLoadData = false;
-
     public synchronized static NewSquareFragment newInstance(int square) {
         return newInstance(square, null,null,false);
     }
 
     public synchronized static NewSquareFragment newInstance(int square, VideoImageGroup group,String game_id,boolean needLoadData) {
         NewSquareFragment fragment = new NewSquareFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("square", square);
 
+        Bundle bundle = fragment.getArguments();
+        if (bundle == null){
+            bundle = new Bundle();
+        }
+        bundle.putInt("square", square);
         if (group != null) {
             bundle.putSerializable("group", group);
         }
@@ -69,6 +69,7 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
         if (needLoadData){
             fragment.loadData();
         }
+
         return fragment;
     }
 
@@ -78,7 +79,6 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
     public void loadData(){
         getSquare();
         onPullDownToRefresh(pullToRefreshListView);
-        isLoadData = true;
     }
 
     @Override
@@ -91,10 +91,6 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
             } else if (getSquare() == HOMEMORE_HOT) {
                 UmengAnalyticsHelper.onMainMoreHotEvent(getActivity(), getGroup().getMore_mark());
             }
-         /*   if (!isLoadData){
-                onPullDownToRefresh(pullToRefreshListView);         //当前fragment真正可见的时候加载数据
-                isLoadData = true;
-            }*/
         }
     }
 
@@ -138,8 +134,23 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
 
     private int page = 1;
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            String state = bundle.getString("state");
+            if (state != null){
+                Log.d("state",state);
+            }
 
+        }
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 
     @Override
     protected int getCreateView() {
@@ -163,21 +174,6 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
         adapter = new GroupDetailVideoAdapter(getActivity(), data);
         listView.setAdapter(adapter);
         pullToRefreshListView.setOnRefreshListener(this);
-        if (getSquare() == SQUARE_NEW) {
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    onPullDownToRefresh(pullToRefreshListView);
-                }
-            }, AppConstant.TIME.SQUARE_NEW);
-        } else if (getSquare() == SQUARE_HOT) {
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    onPullDownToRefresh(pullToRefreshListView);
-                }
-            }, AppConstant.TIME.SQUARE_HOT);
-        }
 
         if (getSquare() == HOMEMORE_NEW) {
             handler.postDelayed(new Runnable() {
@@ -204,8 +200,6 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
         page = 1;
 
         onPullUpToRefresh(refreshView);
-
-
     }
 
     @Override
@@ -213,10 +207,10 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
 
         if (getSquare() == SQUARE_NEW) {
             // 广场列表（最新）
-            DataManager.squareListNew(getMember_id(), page);
+            DataManager.squareListNew(getMember_id(), page,gameId);
         } else if (getSquare() == SQUARE_HOT) {
             // 广场列表（最热）
-            DataManager.squareListHot(getMember_id(), page);
+            DataManager.squareListHot(getMember_id(), page,gameId);
         } else if (getSquare() == HOMEMORE_NEW) {
             // 首页更多（最新）
             DataManager.indexIndexMore217New(getGroup().getMore_mark(), getMember_id(), page);
@@ -232,12 +226,12 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
      * 回调:广场列表（最新）
      */
     public void onEventMainThread(SquareListNewEntity event) {
-
-   /*     if(!StringUtil.isNull(gameId)){
+        //多个NewSquareFragment存在 需要用gameId来过滤数据
+        if(!StringUtil.isNull(gameId)){
             if (!gameId.equals(event.getData().getGame_id())){
                 return;
             }
-        }*/
+        }
 
         if (getSquare() == SQUARE_NEW && event != null) {
             if (event.isResult()) {
@@ -253,12 +247,12 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
      * 回调:广场列表（最热）
      */
     public void onEventMainThread(SquareListHotEntity event) {
-
-    /*    if(!StringUtil.isNull(gameId)){                 //从玩家广场进入  需要判断game id过滤数据
+        //多个NewSquareFragment存在 需要用gameId来过滤数据
+        if(!StringUtil.isNull(gameId)){
             if (!gameId.equals(event.getData().getGame_id())){
                 return;
             }
-        }*/
+        }
 
         if (getSquare() == SQUARE_HOT && event != null) {
             if (event.isResult()) {

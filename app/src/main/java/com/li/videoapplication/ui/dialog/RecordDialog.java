@@ -96,11 +96,19 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
         UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MAIN, "发布-视频-点击右上角发布按钮后点击视频按钮");
     }
 
+
+    public RecordDialog(Context context) {
+        super(context);
+        this.shotView = shotView;
+        activity = AppManager.getInstance().getMainActivity();
+
+    }
+
     public RecordDialog(Context context,View shotView) {
         super(context);
         this.shotView = shotView;
         activity = AppManager.getInstance().getMainActivity();
-        /*if (blurView != null){
+       /* if (shotView != null){
             startBlurBackground();
         }*/
     }
@@ -145,7 +153,7 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
         params.alpha = 0.95f; //设置透明度
         params.gravity = Gravity.BOTTOM; // 设置重力
 
-       // params.height = ScreenUtil.getScreenHeight();       //设置高度为全屏
+     //   params.height = ScreenUtil.getScreenHeight();       //设置高度为全屏
         window.setAttributes(params);
 
         isLogin = PreferencesHepler.getInstance().isLogin();
@@ -193,7 +201,7 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
                     ToastHelper.s("正在录屏中");
                     return;
                 }
-                if (isLogin) {
+               // if (isLogin) {
                     int SDKVesion = AppUtil.getAndroidSDKVersion();
                     // FIXME: CameraGLView第565行，setPreviewSize（预览宽高有几个固定比例等级），
                     // FIXME: 华为的垃圾机屏幕分辨率不是正常比例来的(因为有条垃圾返回键等底栏) 所以会抛异常。没空先不给华为进入先，看到的大神有空修一下
@@ -202,37 +210,37 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
                     } else {
                         startCameraRecoedActivity();
                     }
-                } else {
-                    startLoginDialog();
-                }
+              //  } else {
+              //      startLoginDialog();
+             //   }
                 break;
 
             case R.id.record_image://图文
                 super.dismiss();
-                if (isLogin) {
+             //   if (isLogin) {
                     if (onClickListener != null) {
                         onClickListener.onUploadImageClick();
                     } else {
                         if (activity != null)
                             startHomeImageShareActivity();
                     }
-                } else {
-                    startLoginDialog();
-                }
+              //  } else {
+              //      startLoginDialog();
+              //  }
                 break;
 
             case R.id.record_local://视频
                 super.dismiss();
-                if (isLogin) {
+              //  if (isLogin) {
                     if (onClickListener !=null){
                         onClickListener.onUploadVideoClick();
                     }else {
                         if (activity != null)
                             startVideoChooseActivity();
                     }
-                } else {
-                    startLoginDialog();
-                }
+               // } else {
+              //      startLoginDialog();
+              //  }
                 break;
             case R.id.record_close:
                 closeAnimation();
@@ -360,6 +368,7 @@ public class RecordDialog extends BaseDialog implements View.OnClickListener {
                 if (blurBitmap != null){
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     blurBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                    blurView.setVisibility(View.VISIBLE);
                     GlideHelper.displayImageBlur(getContext(),baos.toByteArray(),blurView,35);
                     postDelayed(new Runnable() {
                         @Override

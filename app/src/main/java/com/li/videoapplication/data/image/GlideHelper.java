@@ -48,6 +48,9 @@ public class GlideHelper {
      */
     public static void displayImageEmpty(Context context, String uri, ImageView view) {
         Log.d(TAG, "imageUrl=" + uri);
+        if (context == null){
+            return;
+        }
         Glide.with(context)
                 .load(uri)
                 .into(view);
@@ -60,6 +63,9 @@ public class GlideHelper {
     public static void displayImageWhiteTargets(Context context, String uri,
                                                 SimpleTarget<Bitmap> target) {
         Log.d(TAG, "imageUrl=" + uri);
+        if (context == null){
+            return;
+        }
         Glide.with(context)
                 .load(uri)
                 .asBitmap()//强制 Glide 去返回一个 Bitmap 对象
@@ -73,6 +79,9 @@ public class GlideHelper {
      */
     public static void displayImageWhite(Context context, String uri, ImageView view) {
         Log.d(TAG, "imageUrl=" + uri);
+        if (context == null){
+            return;
+        }
         Glide.with(context)
                 .load(uri)
                 .placeholder(Color.TRANSPARENT)
@@ -85,6 +94,9 @@ public class GlideHelper {
      */
     public static void displayGIF(Context context, String gifUrl, ImageView view) {
         Log.d(TAG, "gifUrl =" + gifUrl);
+        if (context == null){
+            return;
+        }
         Glide.with(context)
                 .load(gifUrl)
                 .asGif()//如果这个gifUrl不是一个Gif，当成失败处理
@@ -98,6 +110,9 @@ public class GlideHelper {
      */
     public static void displayImageBlur(Context context, String url, ImageView view) {
         Log.d(TAG, "imageUrl =" + url);
+        if (context == null){
+            return;
+        }
         Glide.with(context)
                 .load(url)
                 .transform(new BlurTransformation(context))
@@ -110,7 +125,9 @@ public class GlideHelper {
      * 加载图片，空白占位符，模糊处理
      */
     public static void displayImageBlur(Context context, byte[] data, ImageView view,int radius) {
-
+        if (context == null){
+            return;
+        }
         Glide.with(context)
                 .load(data)
                 .error(Color.TRANSPARENT)
@@ -123,7 +140,9 @@ public class GlideHelper {
      * 加载图片，空白占位符，模糊处理
      */
     public static void displayImageBlur(Context context, String url, ImageView view,int radius) {
-
+        if (context == null){
+            return;
+        }
         Glide.with(context)
                 .load(url)
                 .error(Color.TRANSPARENT)
@@ -137,6 +156,7 @@ public class GlideHelper {
      */
     public static void displayImageFade(String uri, ImageView view) {
         Log.d(TAG, "imageUrl=" + uri);
+
         Glide.with(AppManager.getInstance().getContext())// FIXME: 全局上下文的GC问题
                 .load(uri)
                 .placeholder(R.drawable.default_video_211)
@@ -150,6 +170,9 @@ public class GlideHelper {
      */
     public static void displayImage(Context context, String uri, ImageView view) {
         Log.d(TAG, "imageUrl=" + uri);
+        if (context == null){
+            return;
+        }
         Glide.with(context)
                 .load(uri)
                 .placeholder(R.drawable.default_video_211)
@@ -165,6 +188,9 @@ public class GlideHelper {
      */
     public static void displayVideo(Context context, String filePath, ImageView view) {
         Log.d(TAG, "filePath =" + filePath);
+        if (context == null){
+            return;
+        }
         Glide.with(context)
                 .load(Uri.fromFile(new File(filePath)))
                 .placeholder(R.drawable.default_video_211)
@@ -176,6 +202,9 @@ public class GlideHelper {
      *显示drawable目录下图，无渐变效果
      */
     public static void displayImage(Context context,int resId,ImageView view){
+        if (context == null){
+            return;
+        }
         Glide.with(context)
                 .load(resId)
                 .dontAnimate()

@@ -38,6 +38,7 @@ public class VideoImage extends BaseEntity {
 	private boolean isV;
 	private String more_mark;
 	private String upload_time;
+	private String personal_private;
 	/*
 	1：转码完成，可以播放
 	3：转码中
@@ -706,5 +707,13 @@ public class VideoImage extends BaseEntity {
 
 	public void setFloor(String floor) {
 		this.floor = floor;
+	}
+
+	public String getPersonal_private() {
+		return personal_private;
+	}
+
+	public void setPersonal_private(String personal_private) {
+		this.personal_private = personal_private;
 	}
 }

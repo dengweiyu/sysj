@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by lpds on 2017/2/27.
  */
-public abstract class MemberBean implements Serializable {
+ abstract class MemberBean implements Serializable {
 
     int id;
     String memeberid;

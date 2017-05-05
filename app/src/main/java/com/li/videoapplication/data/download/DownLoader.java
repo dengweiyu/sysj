@@ -102,10 +102,16 @@ public class DownLoader {
         if(downLoadTask == null) {
             Log.d(TAG, "start: //--------------------------------------------------");
             Log.d(TAG, "start: ");
+            //3为线程池大小 大于2 则加入队列里了
+            if (DownLoadExecutor.getExecutor().getActiveCount() >= 3){
+                handler.sendEmptyMessage(TASK_ADD_QUEUE);
+            }
+
             handler.sendEmptyMessage(TASK_PRESTART);
             downLoadTask = new DownLoadTask();
             DownLoadExecutor.execute(downLoadTask);
             handler.sendEmptyMessage(TASK_START);
+
         }
     }
 
@@ -385,6 +391,7 @@ public class DownLoader {
     private final int TASK_ERROR = 3;
     private final int TASK_SUCCESS = 4;
     private final int TASK_PRESTART = 5;
+    private final int TASK_ADD_QUEUE = -1;
 
     /**
      * 消息处理
@@ -409,6 +416,8 @@ public class DownLoader {
                 onSuccess();
             } else if(msg.what == TASK_PRESTART){ // 开始下载
                 preStart();
+            }else if (msg.what == TASK_ADD_QUEUE){//加入队列等待执行
+                addQueue();
             }
         }
 
@@ -463,6 +472,15 @@ public class DownLoader {
         private void onSuccess() {
             for (DownLoadListener listener : downLoadListeners) {
                 listener.onSuccess(getEntity());
+            }
+        }
+
+        /**
+         * 通知监听器，任务加入队列中等待
+         */
+        private void addQueue(){
+            for (DownLoadListener listener : downLoadListeners) {
+                listener.addQueue(getEntity());
             }
         }
     };

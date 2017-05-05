@@ -52,4 +52,23 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iv_tb_record"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ab_vedio_red_205"/>
+
+    <ImageView
+        android:id="@+id/tb_close"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:src="@drawable/home_close"
+        android:padding="12dp"
+        android:visibility="gone"
+        android:layout_alignParentRight="true"/>
 </RelativeLayout>

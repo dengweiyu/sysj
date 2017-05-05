@@ -17,10 +17,9 @@
         <!-- android:name=".activity.TestActivity" /> -->
 
         <service android:name=".service.LoginService" />
-        <service android:name=".service.MsgService" />
 
         <provider
-            android:name=".provider.MuccProvider"
+            android:name=".provider.GroupChatProvider"
             android:authorities="com.ifeimo.im.db.mucc"
             android:exported="false" />
         <provider
@@ -39,8 +38,6 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name="com.ifeimo.im.activity.TestInformationActivity"
-            android:theme="@style/Theme.AppCompat"></activity>
     </application>
 
 </manifest>

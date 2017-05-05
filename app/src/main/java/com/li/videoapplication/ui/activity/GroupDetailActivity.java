@@ -27,7 +27,9 @@ import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.message.OnGroupItemOnClickListener;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.HttpManager;
 import com.li.videoapplication.data.image.GlideHelper;
+import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
@@ -46,11 +48,10 @@ import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.FglassHelper;
 import com.li.videoapplication.tools.RongIMHelper;
-import com.li.videoapplication.tools.StatusBarBlackTextHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
-import com.li.videoapplication.ui.dialog.ConfirmDialog;
 import com.li.videoapplication.ui.fragment.GroupdetailIntroduceFragment;
 import com.li.videoapplication.ui.fragment.GroupdetailPlayerFragment;
 import com.li.videoapplication.ui.fragment.GroupdetailVideoFragment;
@@ -68,6 +69,8 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
+import rx.Observable;
+import rx.Observer;
 
 /**
  * 活动：圈子详情
@@ -89,20 +92,19 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 
     private int attent ; //关注状态
     /**
-     * 跳转：安装应用
+     * 跳转下载管理
      */
     private void install() {
         if (game != null && game.getA_download() != null) {
-            if (URLUtil.isURL(game.getA_download())) {
+            /*if (URLUtil.isURL(game.getA_download())) {
                 Uri uri = Uri.parse(game.getA_download());
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-
+                startActivity(intent);*/
+                ActivityManeger.startDownloadManagerActivity(GroupDetailActivity.this,game.getGame_id());
                 // 游戏下载数+1
                 DataManager.downloadClick217(game.getGame_id(), getMember_id(),
                         Constant.DOWNLOAD_LOCATION_GROUP, group_id);
             }
-        }
     }
 
     /**
@@ -331,7 +333,12 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 break;
 
             case R.id.tb_download:
+
+                if (game == null){
+                    return;
+                }
                 install();
+
                 if (isSingleEvent){
                     UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, game.getGroup_name()+"-"+"游戏圈-下载游戏");
                 }else {
@@ -550,6 +557,8 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                     ConversationActivity.GROUP);
         }
     }
+
+
 
     @Override
     protected void onStop() {

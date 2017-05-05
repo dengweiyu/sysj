@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.ifeimo.im.R;
-import com.ifeimo.im.activity.ChatRecyclerActivity;
-import com.ifeimo.im.activity.MucChatActivity;
+import com.ifeimo.im.activity.ChatActivity;
+import com.ifeimo.im.activity.GroupChatActivity;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ public class IntentManager {
 
 
     public static void createIMWindows(Context context, Map<String,String> map){
-        Intent intent = new Intent(context, MucChatActivity.class);
+        Intent intent = new Intent(context, GroupChatActivity.class);
         for(String s : map.keySet()){
             intent.putExtra(s,map.get(s));
         }
@@ -28,7 +28,7 @@ public class IntentManager {
     }
 
     public static void createChat(Context context, Map<String,String> map){
-        Intent intent = new Intent(context, ChatRecyclerActivity.class);
+        Intent intent = new Intent(context, ChatActivity.class);
         for(String s : map.keySet()){
             intent.putExtra(s,map.get(s));
         }

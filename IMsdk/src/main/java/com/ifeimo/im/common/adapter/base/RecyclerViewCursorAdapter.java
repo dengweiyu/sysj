@@ -98,7 +98,7 @@ public abstract class RecyclerViewCursorAdapter<VH extends RecyclerView.ViewHold
         mCursor = c;
         mDataValid = cursorPresent;
         mContext = context;
-        mRowIDColumn = cursorPresent ? c.getColumnIndexOrThrow("_id") : -1;
+        mRowIDColumn = cursorPresent ? c.getColumnIndexOrThrow("id") : -1;
         if ((flags & FLAG_REGISTER_CONTENT_OBSERVER) == FLAG_REGISTER_CONTENT_OBSERVER) {
             mChangeObserver = new ChangeObserver();
             mDataSetObserver = new MyDataSetObserver();
@@ -204,7 +204,7 @@ public abstract class RecyclerViewCursorAdapter<VH extends RecyclerView.ViewHold
         if (newCursor != null) {
             if (mChangeObserver != null) newCursor.registerContentObserver(mChangeObserver);
             if (mDataSetObserver != null) newCursor.registerDataSetObserver(mDataSetObserver);
-            mRowIDColumn = newCursor.getColumnIndexOrThrow("_id");
+            mRowIDColumn = newCursor.getColumnIndexOrThrow("id");
             mDataValid = true;
             // notify the observers about the new cursor
             notifyDataSetChanged();

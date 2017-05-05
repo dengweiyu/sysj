@@ -45,6 +45,7 @@
                 android:paddingBottom="1dp"
                 android:paddingLeft="25dp"
                 android:src="@drawable/downloadmanager_delete"
+                android:visibility="gone"
                 />
 
             <FrameLayout

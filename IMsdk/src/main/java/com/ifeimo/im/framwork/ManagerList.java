@@ -32,7 +32,7 @@ final class ManagerList implements IManagerList {
 
     @Override
     public void addManager(IEmployee o) {
-        if (!managers.contains(o.getClass().getSimpleName())) {
+        if (!managers.contains(o)) {
             managers.add(o);
         }
     }

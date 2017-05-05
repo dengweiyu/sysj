@@ -7,6 +7,7 @@ import com.ifeimo.im.framwork.interface_im.IHierarchy;
 import com.ifeimo.im.framwork.interface_im.ILife;
 import com.ifeimo.im.framwork.interface_im.IMRequest;
 import com.ifeimo.im.framwork.interface_im.IMessage;
+import com.ifeimo.im.framwork.interface_im.IProvider;
 import com.ifeimo.im.framwork.notification.NotificationManager;
 
 /**
@@ -41,7 +42,13 @@ public final class Proxy {
 
     public static IManagerList getManagerList(){return ManagerList.getInstances();}
 
+    public static IProvider getProvide(){
+        return ProviderManager.getInstances();
+    }
+
     @Deprecated
     public static Activitys getActivitys(){return Activitys.getInstances();}
+
+
 
 }

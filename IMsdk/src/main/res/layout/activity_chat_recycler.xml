@@ -27,13 +27,13 @@
             android:layout_weight="1"
             android:background="@null">
 
-            <com.ifeimo.im.view.IMRecycleView
+            <com.ifeimo.im.framwork.view.IMRecycleView
                 android:id="@+id/id_RecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical" />
 
-            <com.ifeimo.im.view.RecyclerViewHeader
+            <com.ifeimo.im.framwork.view.RecyclerViewHeader
                 android:id="@+id/id_RecyclerViewHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -45,7 +45,7 @@
                     android:layout_centerInParent="true"
                      />
 
-                </com.ifeimo.im.view.RecyclerViewHeader>
+                </com.ifeimo.im.framwork.view.RecyclerViewHeader>
 
         </FrameLayout>
 
@@ -93,7 +93,7 @@
                         android:textSize="15sp" />
                 </LinearLayout>
 
-                <com.ifeimo.im.view.IMEditTex
+                <com.ifeimo.im.framwork.view.IMEditTex
                     android:id="@+id/et_chat_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

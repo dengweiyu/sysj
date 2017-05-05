@@ -1,12 +1,18 @@
 package com.ifeimo.im.framwork;
 
 import android.app.Activity;
+import android.app.Application;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.callback.LoginCallBack;
 import com.ifeimo.im.common.util.AppUtil;
 import com.ifeimo.im.common.util.WindowUtil;
+import com.ifeimo.im.framwork.database.IMDataBaseHelper;
 import com.ifeimo.im.framwork.interface_im.IHierarchy;
 import com.ifeimo.im.framwork.interface_im.ILife;
 import com.ifeimo.im.framwork.interface_im.IMMain;
@@ -17,14 +23,18 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+import y.com.sqlitesdk.framework.AppMain;
+import y.com.sqlitesdk.framework.db.Access;
+
 /**
  * Created by lpds on 2017/1/10.
  */
-final class ChatWindowsManager implements IHierarchy, LoginCallBack, ILife {
+final class ChatWindowsManager implements IHierarchy, LoginCallBack, ILife{
     private static ChatWindowsManager chatWindowsManager;
     private LinkedList<IMWindow> windowses;
     private Set<String> chats = new LinkedHashSet<>();
     public static final String TGA = "XMPP_ChatWindowsManage";
+    private Handler mainHandler;
 
     static {
         chatWindowsManager = new ChatWindowsManager();
@@ -32,6 +42,7 @@ final class ChatWindowsManager implements IHierarchy, LoginCallBack, ILife {
 
     private ChatWindowsManager() {
         windowses = new LinkedList();
+        mainHandler = new Handler(Looper.getMainLooper());
         ManagerList.getInstances().addManager(this);
     }
 
@@ -168,7 +179,7 @@ final class ChatWindowsManager implements IHierarchy, LoginCallBack, ILife {
     }
 
     public LinkedList<IMWindow> getAllIMWindows() {
-        return windowses;
+        return new LinkedList<>(windowses);
     }
 
     @Override
@@ -179,4 +190,5 @@ final class ChatWindowsManager implements IHierarchy, LoginCallBack, ILife {
     private boolean checkThisMain(IMMain imMain) {
         return imMain != null && imMain.getIMWindow() != null;
     }
+
 }

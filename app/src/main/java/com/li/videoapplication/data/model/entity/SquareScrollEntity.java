@@ -8,11 +8,13 @@ import com.li.videoapplication.framework.BaseEntity;
 
 public class SquareScrollEntity extends BaseEntity {
 
+    private String gameId;
 
     public SquareScrollEntity() {
     }
 
-    public SquareScrollEntity(int position) {
+    public SquareScrollEntity(String gameId, int position) {
+        this.gameId = gameId;
         this.position = position;
     }
 
@@ -24,5 +26,13 @@ public class SquareScrollEntity extends BaseEntity {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 }

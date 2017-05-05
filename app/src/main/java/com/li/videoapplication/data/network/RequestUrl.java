@@ -37,7 +37,7 @@ public class RequestUrl {
 
 
     /**
-     * 分享页面广场信息
+     * 首页信息
      */
     public final String homeInfo() {
         return BaseSYSJ + "/Sysj217/Index/index";
@@ -49,6 +49,15 @@ public class RequestUrl {
     public final String sharePlayerSquare() {
         return BaseSYSJ + "/Sysj218/share/sharePlayerSquare";
     }
+
+
+    /**
+     * 分享成功后触发
+     */
+    public final String shareTriggerReward() {
+        return BaseSYSJ + "/Sysj218/share/triggerReward";
+    }
+
 
     /**
      * 官方推荐位
@@ -853,7 +862,7 @@ public class RequestUrl {
      * 广场列表
      */
     public final String squareList() {
-        return BaseSYSJ + "/sysj201/square/squareList";
+        return BaseSYSJ + "/sysj218/PlayerSquare/squareList";
     }
 
     /**
@@ -861,6 +870,13 @@ public class RequestUrl {
      */
     public final String squareGameList() {
         return BaseSYSJ + "/sysj218/PlayerSquare/getPlayerSquareGame";
+    }
+
+    /**
+     * 广场页面统计
+     */
+    public final String squareGameListStatistical() {
+        return BaseSYSJ + "/sysj218/PlayerSquare/addPlayerSquareStatistical";
     }
 
 	/* ############## 视频 ############## */

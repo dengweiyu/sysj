@@ -24,7 +24,6 @@ public class SquareGameChoiceActivity extends TBaseActivity implements View.OnCl
 
     private SquareGameChoiceAdapter mAdapter;
 
-    private int mChoicePosition = 0;
     @Override
     public void initView() {
         super.initView();
@@ -40,7 +39,12 @@ public class SquareGameChoiceActivity extends TBaseActivity implements View.OnCl
     private void initToolbar(){
         setSystemBarBackgroundWhite();
         setTextViewText((TextView)findViewById(R.id.tb_title),"选择游戏");
-        findViewById(R.id.tb_back).setOnClickListener(this);
+
+        View close  = findViewById(R.id.tb_close);
+        close.setOnClickListener(this);
+        close.setVisibility(View.VISIBLE);
+
+        findViewById(R.id.tb_back).setVisibility(View.GONE);
     }
 
     @Override
@@ -70,7 +74,7 @@ public class SquareGameChoiceActivity extends TBaseActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.tb_back:
+            case R.id.tb_close:
                 finish();
                 break;
         }

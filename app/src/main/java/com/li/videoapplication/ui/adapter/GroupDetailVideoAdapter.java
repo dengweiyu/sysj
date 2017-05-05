@@ -19,6 +19,7 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
@@ -120,6 +121,8 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
             holder.image = (RelativeLayout) view.findViewById(R.id.groupdetail_image);
             holder.video = (RelativeLayout) view.findViewById(R.id.groupdetail_video);
             holder.grid = (GridViewY1) view.findViewById(R.id.gridview);
+            holder.isPrivate = view.findViewById(R.id.ll_is_private);
+            holder.upLoading = view.findViewById(R.id.tv_video_uploading);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -188,7 +191,6 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
             setTextViewText(holder.name, record.getUserName());
             setTextViewText(holder.content, record.getName());
         }
-
         // 点赞设置
         setLike(record, holder.like);
 
@@ -197,6 +199,33 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
 
         // 评论
         setComment(record, holder.comment);
+
+        //判断是否是自己现在上传转码中的视频
+        String isPrivate = record.getPersonal_private();
+        if (!StringUtil.isNull(isPrivate)){
+            if (isPrivate.equals("0")){
+                holder.upLoading.setVisibility(View.GONE);
+                holder.isPrivate.setVisibility(View.GONE);
+                holder.like.setVisibility(View.VISIBLE);
+                holder.likeCount.setVisibility(View.VISIBLE);
+                holder.star.setVisibility(View.VISIBLE);
+                holder.starCount.setVisibility(View.VISIBLE);
+                holder.comment.setVisibility(View.VISIBLE);
+                holder.commentCount.setVisibility(View.VISIBLE);
+                holder.centerPlay.setVisibility(View.VISIBLE);
+            }else {
+                holder.upLoading.setVisibility(View.VISIBLE);
+                holder.isPrivate.setVisibility(View.VISIBLE);
+                holder.like.setVisibility(View.GONE);
+                holder.likeCount.setVisibility(View.GONE);
+                holder.star.setVisibility(View.GONE);
+                holder.starCount.setVisibility(View.GONE);
+                holder.comment.setVisibility(View.GONE);
+                holder.commentCount.setVisibility(View.GONE);
+                holder.centerPlay.setVisibility(View.GONE);
+            }
+        }
+
 
         holder.head.setOnClickListener(new OnClickListener() {
 
@@ -211,7 +240,10 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
 
             @Override
             public void onClick(View v) {
-
+                if (record.getPersonal_private().equals("1")){      //视频上传中仅自己可见
+                    ToastHelper.s("该视频正在上传中，一会再来查看哦~");
+                    return;
+                }
                 if (record.getVideo_id() != null && !record.getVideo_id().equals("0")) {// 视频
                     startVideoPlayActivity(record);
                 }
@@ -439,5 +471,8 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
         RelativeLayout video;
         RelativeLayout image;
         GridViewY1 grid;
+
+        View isPrivate;
+        View upLoading;
     }
 }
