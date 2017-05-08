@@ -849,7 +849,6 @@ public class VideoMangerActivity extends TBaseActivity implements
      */
     public void onEventMainThread(SharedSuccessEvent event){
         String title;
-        ToastHelper.l(event.toJSON());
         switch (event.getChannel()){
             case "SYSJ":
                 title = "你的视频已经被分享到";

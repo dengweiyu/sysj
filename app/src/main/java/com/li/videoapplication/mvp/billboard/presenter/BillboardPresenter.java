@@ -35,7 +35,7 @@ public class BillboardPresenter implements IBillboardPresenter {
         billboardModel = BillboardModel.getInstance();
     }
 
-    //玩家榜view
+    //主播榜view
     public void setPlayerBillboardView(IPlayerBillboardView playerBillboardView) {
         this.playerBillboardView = playerBillboardView;
     }
@@ -54,7 +54,7 @@ public class BillboardPresenter implements IBillboardPresenter {
     //视频榜view
 
 
-    //玩家榜--粉丝榜
+    //主播榜--粉丝榜
     @Override
     public void loadRankingFansData(String member_id, int page) {
         billboardModel.loadRankingFansData(member_id, page, new OnLoadDataListener<PlayerRankingEntity>() {
@@ -71,7 +71,7 @@ public class BillboardPresenter implements IBillboardPresenter {
         });
     }
 
-    //玩家榜--财富榜
+    //主播榜--财富榜
     @Override
     public void loadRankingCurrencyData(String member_id, int page) {
         billboardModel.loadRankingCurrencyData(member_id, page, new OnLoadDataListener<PlayerRankingCurrencyEntity>() {
@@ -88,7 +88,7 @@ public class BillboardPresenter implements IBillboardPresenter {
         });
     }
 
-    //玩家榜--视频榜
+    //主播榜--视频榜
     @Override
     public void loadRankingVideoData(String member_id, int page) {
         billboardModel.loadRankingVideoData(member_id, page, new OnLoadDataListener<PlayerRankingEntity>() {
@@ -105,7 +105,7 @@ public class BillboardPresenter implements IBillboardPresenter {
         });
     }
 
-    //玩家榜--玩家关注
+    //主播榜--玩家关注
     @Override
     public void memberAttention(String member_id, String id) {
         billboardModel.memberAttention(member_id, id, new OnLoadDataListener<MemberAttention201Entity>() {

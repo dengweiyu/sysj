@@ -20,7 +20,7 @@ import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecor
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
 
 /**
- * 活动：玩家榜，视频榜
+ * 活动：主播榜，视频榜
  */
 public class BillboardActivity extends TBaseAppCompatActivity implements View.OnClickListener,
         ViewPager.OnPageChangeListener {
@@ -194,17 +194,32 @@ public class BillboardActivity extends TBaseAppCompatActivity implements View.On
 
         for (int i = 0; i < topTextView.size(); i++) {
             if (index == i) {
-                switch (index) {
-                    case 0:
-                        topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_yellow));
-                        break;
-                    case 1:
-                        topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_blue));
-                        break;
-                    case 2:
-                        topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_purple));
-                        break;
+                if (type == TYPE_PLAYER){
+                    switch (index) {
+                        case 0:
+                            topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_yellow));
+                            break;
+                        case 1:
+                            topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_blue));
+                            break;
+                        case 2:
+                            topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_purple));
+                            break;
+                    }
+                }else {
+                    switch (index) {
+                        case 0:
+                            topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_thin_blue));
+                            break;
+                        case 1:
+                            topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_purple));
+                            break;
+                        case 2:
+                            topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_blue));
+                            break;
+                    }
                 }
+
             } else {
                 topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_gray));
             }
@@ -212,17 +227,32 @@ public class BillboardActivity extends TBaseAppCompatActivity implements View.On
 
         for (int i = 0; i < topLine.size(); i++) {
             if (index == i) {
-                switch (index) {
-                    case 0:
-                        topLine.get(i).setImageResource(R.drawable.playerbillboard_bean_top_line);
-                        break;
-                    case 1:
-                        topLine.get(i).setImageResource(R.drawable.playerbillboard_video_top_line);
-                        break;
-                    case 2:
-                        topLine.get(i).setImageResource(R.drawable.playerbillboard_fans_top_line);
-                        break;
+                if (type == TYPE_PLAYER){
+                    switch (index) {
+                        case 0:
+                            topLine.get(i).setImageResource(R.drawable.playerbillboard_bean_top_line);
+                            break;
+                        case 1:
+                            topLine.get(i).setImageResource(R.drawable.playerbillboard_video_top_line);
+                            break;
+                        case 2:
+                            topLine.get(i).setImageResource(R.drawable.playerbillboard_fans_top_line);
+                            break;
+                    }
+                }else {
+                    switch (index) {
+                        case 0:
+                            topLine.get(i).setImageResource(R.drawable.playerbillboard_watched_top_line);
+                            break;
+                        case 1:
+                            topLine.get(i).setImageResource(R.drawable.playerbillboard_liked_top_line);
+                            break;
+                        case 2:
+                            topLine.get(i).setImageResource(R.drawable.playerbillboard_comment_top_line);
+                            break;
+                    }
                 }
+
             } else {
                 topLine.get(i).setImageResource(R.color.menu_billboard_transperent);
             }
@@ -251,19 +281,19 @@ public class BillboardActivity extends TBaseAppCompatActivity implements View.On
                 }else {
                     switch (index) {
                         case 0:
-                            setImageViewImageRes(topIcon.get(0), R.drawable.vediobiilboard_like);
-                            setImageViewImageRes(topIcon.get(1), R.drawable.vediobiilboard_comment_gray);
-                            setImageViewImageRes(topIcon.get(2), R.drawable.vediobiilboard_watched_gray);
+                            setImageViewImageRes(topIcon.get(0), R.drawable.vediobiilboard_watched);
+                            setImageViewImageRes(topIcon.get(1), R.drawable.vediobiilboard_like_gray);
+                            setImageViewImageRes(topIcon.get(2), R.drawable.vediobiilboard_comment_gray);
                             break;
                         case 1:
-                            setImageViewImageRes(topIcon.get(0), R.drawable.vediobiilboard_like_gray);
-                            setImageViewImageRes(topIcon.get(1), R.drawable.vediobiilboard_comment);
-                            setImageViewImageRes(topIcon.get(2), R.drawable.vediobiilboard_watched_gray);
+                            setImageViewImageRes(topIcon.get(0), R.drawable.vediobiilboard_watched_gray);
+                            setImageViewImageRes(topIcon.get(1), R.drawable.vediobiilboard_like);
+                            setImageViewImageRes(topIcon.get(2), R.drawable.vediobiilboard_comment_gray);
                             break;
                         case 2:
-                            setImageViewImageRes(topIcon.get(0), R.drawable.vediobiilboard_like_gray);
-                            setImageViewImageRes(topIcon.get(1), R.drawable.vediobiilboard_comment_gray);
-                            setImageViewImageRes(topIcon.get(2), R.drawable.vediobiilboard_watched);
+                            setImageViewImageRes(topIcon.get(0), R.drawable.vediobiilboard_watched_gray);
+                            setImageViewImageRes(topIcon.get(1), R.drawable.vediobiilboard_like_gray);
+                            setImageViewImageRes(topIcon.get(2), R.drawable.vediobiilboard_comment);
                             break;
                     }
                 }

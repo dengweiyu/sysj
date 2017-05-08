@@ -25,6 +25,7 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseActivity;
+import com.li.videoapplication.tools.ShareSDKShareHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
@@ -77,40 +78,43 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
 
     private ShareSquare square;
     private String videoUrl, imageUrl, VideoTitle, text;
-    private String memberId;
-    private String mSharedChannel;
+    private static String memberId;
+    private static String mSharedChannel;
     private int page;
 
-    private PlatformActionListener listener = new PlatformActionListener() {
+    private static PlatformActionListener listener = new PlatformActionListener() {
+        //如果是本地视频分享  需要先生成封面才能分享因此不会调用当前监听器
+        //而是调用 ShareSDKShareHelper.listener
 
         @Override
         public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-            Log.d(tag, "onComplete: platform = " + platform + ", i = " + i + ", hashMap = " + hashMap);
+
             ToastHelper.s("分享成功");
-            UmengAnalyticsHelper.onEvent(ShareActivity.this, UmengAnalyticsHelper.SLIDER, "邀请好友-有效");
-
+            UmengAnalyticsHelper.onEvent(AppManager.getInstance().getContext(), UmengAnalyticsHelper.SLIDER, "邀请好友-有效");
             //触发
-            DataManager.shareTriggerReward(memberId,"","","");
+            DataManager.shareTriggerReward(memberId,"","","1");
             //post
-
             EventBus.getDefault().post(new SharedSuccessEvent(mSharedChannel));
-
-            finish();
+            //移除监听器
+            ShareSDKShareHelper.removeListener(listener);
         }
 
         @Override
         public void onError(Platform platform, int i, Throwable throwable) {
-            LogHelper.i(tag, "throwable : " + throwable);
+
             if (throwable instanceof WechatClientNotExistException){
                 ToastHelper.s(R.string.share_wechat_client_inavailable);
             }else {
                 ToastHelper.s("分享失败");
             }
+            //移除监听器
+            ShareSDKShareHelper.removeListener(listener);
         }
 
         @Override
         public void onCancel(Platform platform, int i) {
-
+            //移除监听器
+            ShareSDKShareHelper.removeListener(listener);
         }
     };
 
@@ -146,17 +150,13 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
 
-    }
-
-    public void onDestroy() {
         startExitAnimation();
         super.onDestroy();
         ShareSDK.stopSDK(this);
-
     }
+
 
     @Override
     public void finish() {
@@ -165,7 +165,6 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
     }
 
     private void startEnterAnimation() {
-
         if (touch != null) {
             enterAnimation = new AlphaAnimation(0.1f, 1.0f);
             enterAnimation.setDuration(300);
@@ -240,7 +239,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
             share(this, VideoTitle, videoUrl, text, imageUrl, "SYSJ");
             UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SHARE, "分享渠道-手游视界");
         }
-    //    finish();
+        finish();
     }
 
     /**
@@ -261,8 +260,11 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
     public void share(Context context, String title, String url, String text, String imageUrl, final String shareChannel) {
         Log.d(tag, "share: shareChannel=" + shareChannel);
         mSharedChannel = shareChannel;
-        ShareParams params = new ShareParams();
+        ShareParams params = null;
         if (page == PAGE_MYLOCALVIDEO) {// 本地视频
+            //本地视频第一次分享到第三方不会回调listener  因为需要先生成封面 然后再执行了分享
+            ShareSDKShareHelper.addListener(listener);
+
             UITask.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -270,14 +272,17 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
                 }
             }, 0);
 
-            //触发
-            DataManager.shareTriggerReward(memberId,square.getHook(),square.getTask_id(),"1");
             if (shareChannel.equals("SYSJ")){
+                //触发
+                DataManager.shareTriggerReward(memberId,square.getHook(),square.getTask_id(),"");
                 //post
                 EventBus.getDefault().post(new SharedSuccessEvent(mSharedChannel));
+                finish();
             }
-            finish();
+
         } else if (page == PAGE_MYSCREENSHOT) {// 本地图片
+            params = new ShareParams();
+
             params.setImagePath(imageUrl);
             params.setShareType(Platform.SHARE_IMAGE);
             if (shareChannel.equals("SYSJ")) {
@@ -297,6 +302,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
                 }
             }
         } else if (page == PAGE_MYCLOUDVIDEO) {// 云端视频
+            params = new ShareParams();
             params.setImageUrl(imageUrl);
             params.setTitle(title);
             // 新浪微博文字内容无法携带超链接， 所以将超链接直接放在分享内容中
@@ -310,6 +316,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
             params.setShareType(Platform.SHARE_WEBPAGE);
 
         } else if (page == PAGE_SYSJ) {// 手游视界
+            params = new ShareParams();
             params.setImageUrl(imageUrl);
             params.setTitle(title);
             // 新浪微博文字内容无法携带超链接， 所以将超链接直接放在分享内容中
@@ -322,6 +329,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
             params.setTitleUrl(url);
             params.setShareType(Platform.SHARE_WEBPAGE);
         } else if (page == PAGE_VIDEOPLAY) {// 视频播放
+            params = new ShareParams();
             params.setImageUrl(imageUrl);
             params.setTitle(title);
 
@@ -338,10 +346,13 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
         }
         if (!shareChannel.equals("SYSJ")) {
             Platform platform = ShareSDK.getPlatform(context, shareChannel);
+            if (params != null){
+                platform.share(params);
+            }
             if (listener != null) {
                 platform.setPlatformActionListener(listener);
             }
-            platform.share(params);
+
             Log.d(tag, "share: 9");
         }
     }

@@ -20,12 +20,16 @@ import cn.sharesdk.wechat.utils.WechatTimelineNotSupportedException;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.event.SharedSuccessEvent;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.utils.StringUtil;
+import com.ypy.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 功能：分享ShareSDK
@@ -34,6 +38,7 @@ import java.util.HashMap;
 public class ShareSDKShareHelper {
 	protected static final String TAG = ShareSDKShareHelper.class.getSimpleName();
 
+	private static List<PlatformActionListener> sListener = new ArrayList<>();
 	public synchronized static final void initSDK(Context context) {
 
 	}
@@ -46,6 +51,19 @@ public class ShareSDKShareHelper {
 		return new Listener();
 	}
 
+
+	public static void addListener(PlatformActionListener listener){
+		if (sListener != null && listener != null){
+			sListener.add(listener);
+		}
+	}
+
+	public static void removeListener(PlatformActionListener listener){
+		if (sListener != null && listener != null){
+			sListener.remove(listener);
+		}
+	}
+
 	public static class Listener implements PlatformActionListener {
 
 		@Override
@@ -55,6 +73,11 @@ public class ShareSDKShareHelper {
 			Log.d(TAG, "onError: i=" + i);
 			Log.d(TAG, "onError: hashMap=" + hashMap);
 			ToastHelper.s(R.string.share_success);
+
+			for (PlatformActionListener l:
+				 sListener) {
+				l.onComplete(platform,i,hashMap);
+			}
 		}
 
 		@Override
@@ -87,6 +110,10 @@ public class ShareSDKShareHelper {
 				}
 			}
 
+			for (PlatformActionListener l:
+					sListener) {
+				l.onError(platform,i,throwable);
+			}
 		}
 
 		@Override

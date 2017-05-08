@@ -560,7 +560,7 @@ public class  ActivityManeger {
     }
 
     /**
-     * 玩家榜, 视频榜
+     * 主播榜, 视频榜
      */
     public synchronized static void startBillboardActivity(Context context, int type) {
         Intent intent = new Intent();

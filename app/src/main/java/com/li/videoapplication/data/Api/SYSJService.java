@@ -94,18 +94,18 @@ public interface SYSJService {
     @GET
     Observable<ResponseBody> downloadFile(@Url String fileUrl);
 
-    // 玩家榜--粉丝榜, 视频榜
+    // 主播榜--粉丝榜, 视频榜
     @GET("/sysj201/ranking/memberRanking")
     Observable<BaseHttpResult<PlayerRankingEntity>> loadRankingData(@Query("member_id") String member_id,
                                                                     @Query("sort") String sort,
                                                                     @Query("page") int page);
 
-    // 玩家榜--磨豆榜
+    // 主播榜--磨豆榜
     @GET("/Sysj211/Currency/memberRanking")
     Observable<PlayerRankingCurrencyEntity> loadRankingCurrencyData(@Query("member_id") String member_id,
                                                                     @Query("page") int page);
 
-    // 玩家榜--关注玩家
+    // 主播榜--关注玩家
     @GET("/sysj201/member/attention")
     Observable<MemberAttention201Entity> memberAttention(@Query("member_id") String member_id,
                                                          @Query("id") String id);

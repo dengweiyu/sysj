@@ -233,27 +233,27 @@ public class HttpManager extends RetrofitUtils {
 
     // TODO: ############### 榜单 ###############
 
-    // 玩家榜--粉丝榜
+    // 主播榜--粉丝榜
     public void loadRankingFansData(String member_id, int page, Observer<PlayerRankingEntity> observer) {
         Observable<PlayerRankingEntity> observable = service.loadRankingData(member_id, "fans", page)
                 .map(new HttpResultFunc<PlayerRankingEntity>());
         setSubscribe(observable, observer);
     }
 
-    // 玩家榜--磨豆榜
+    // 主播榜--磨豆榜
     public void loadRankingCurrencyData(String member_id, int page, Observer<PlayerRankingCurrencyEntity> observer) {
         Observable<PlayerRankingCurrencyEntity> observable = service.loadRankingCurrencyData(member_id, page);
         setSubscribe(observable, observer);
     }
 
-    // 玩家榜--视频榜
+    // 主播榜--视频榜
     public void loadRankingVideoData(String member_id, int page, Observer<PlayerRankingEntity> observer) {
         Observable<PlayerRankingEntity> observable = service.loadRankingData(member_id, "video", page)
                 .map(new HttpResultFunc<PlayerRankingEntity>());
         setSubscribe(observable, observer);
     }
 
-    // 玩家榜--关注玩家
+    // 主播榜--关注玩家
     public void memberAttention(String member_id, String id, Observer<MemberAttention201Entity> observer) {
         Observable<MemberAttention201Entity> observable = service.memberAttention(member_id, id);
         setSubscribe(observable, observer);

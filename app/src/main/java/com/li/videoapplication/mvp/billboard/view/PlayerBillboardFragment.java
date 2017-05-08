@@ -37,7 +37,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * 碎片：玩家榜--粉丝榜，财富榜，视频榜
+ * 碎片：主播榜--粉丝榜，财富榜，视频榜
  */
 public class PlayerBillboardFragment extends TBaseFragment implements IPlayerBillboardView, OnRefreshListener,
         RequestLoadMoreListener {
@@ -92,7 +92,7 @@ public class PlayerBillboardFragment extends TBaseFragment implements IPlayerBil
      */
     private void startDynamicActivity(Member member) {
         ActivityManeger.startPlayerDynamicActivity(getActivity(), member);
-        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "玩家榜-个人中心");
+        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "主播榜-个人中心");
     }
 
     @Override
@@ -112,9 +112,9 @@ public class PlayerBillboardFragment extends TBaseFragment implements IPlayerBil
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             if (getTab() == PLAYERBILLBOARD_CURRENCY) {
-                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "玩家榜-磨豆榜");
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "主播榜-磨豆榜");
             } else if (getTab() == PLAYERBILLBOARD_VIDEO) {
-                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "玩家榜-视频榜");
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "主播榜-视频榜");
             }
         }
     }
@@ -177,13 +177,13 @@ public class PlayerBillboardFragment extends TBaseFragment implements IPlayerBil
 
     private void loadData() {
         if (getTab() == PLAYERBILLBOARD_FANS) {
-            // 玩家榜--粉丝榜
+            // 主播榜--粉丝榜
             presenter.loadRankingFansData(getMember_id(), page);
         } else if (getTab() == PLAYERBILLBOARD_CURRENCY) {
-            // 玩家榜--磨豆榜
+            // 主播榜--磨豆榜
             presenter.loadRankingCurrencyData(getMember_id(), page);
         } else if (getTab() == PLAYERBILLBOARD_VIDEO) {
-            // 玩家榜--视频榜
+            // 主播榜--视频榜
             presenter.loadRankingVideoData(getMember_id(), page);
         }
     }
@@ -218,7 +218,7 @@ public class PlayerBillboardFragment extends TBaseFragment implements IPlayerBil
     }
 
     /**
-     * 回调：玩家榜--粉丝榜
+     * 回调：主播榜--粉丝榜
      */
     @Override
     public void refreshRankingFansData(PlayerRankingEntity data) {
@@ -228,7 +228,7 @@ public class PlayerBillboardFragment extends TBaseFragment implements IPlayerBil
     }
 
     /**
-     * 回调：玩家榜--磨豆榜
+     * 回调：主播榜--磨豆榜
      */
     @Override
     public void refreshRankingCurrencyData(PlayerRankingCurrencyEntity data) {
@@ -247,7 +247,7 @@ public class PlayerBillboardFragment extends TBaseFragment implements IPlayerBil
     }
 
     /**
-     * 回调：玩家榜--视频榜
+     * 回调：主播榜--视频榜
      */
     @Override
     public void refreshRankingVideoData(PlayerRankingEntity data) {
@@ -257,11 +257,11 @@ public class PlayerBillboardFragment extends TBaseFragment implements IPlayerBil
     }
 
     /**
-     * 回调：玩家榜--玩家关注
+     * 回调：主播榜--玩家关注
      */
     @Override
     public void refreshPlayerAttention(MemberAttention201Entity data) {
-        Log.d(tag, "玩家榜--玩家关注: "+data.getMsg());
+        Log.d(tag, "主播榜--玩家关注: "+data.getMsg());
     }
 
     private void refreshData(PlayerRankingEntity data) {

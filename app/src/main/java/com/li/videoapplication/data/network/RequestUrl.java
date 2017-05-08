@@ -1739,7 +1739,7 @@ public class RequestUrl {
     }
 
     /**
-     * 玩家榜
+     * 主播榜
      */
     public final String rankingMemberRanking() {
         return BaseSYSJ + "/sysj201/ranking/memberRanking";

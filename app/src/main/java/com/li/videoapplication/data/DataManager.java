@@ -2715,7 +2715,7 @@ public class DataManager {
     }
 
     /**
-     * 功能：用户玩家榜排名
+     * 功能：用户主播榜排名
      */
     public static void rankingMyRanking(String memberId, String order) {
 
@@ -3393,14 +3393,14 @@ public class DataManager {
     }
 
     /**
-     * 功能：玩家榜--粉丝榜
+     * 功能：主播榜--粉丝榜
      */
     public static void rankingMemberRankingFans(String member_id, int page) {
 //        DataManager.rankingMemberRanking(new RankingMemberRankingFansEntity(), member_id, "fans", page);
     }
 
     /**
-     * 功能：玩家榜--磨豆榜
+     * 功能：主播榜--磨豆榜
      */
     public static void memberRankingCurrency(String member_id, int page) {
         RequestHelper helper = new RequestHelper();
@@ -3413,14 +3413,14 @@ public class DataManager {
     }
 
     /**
-     * 功能：玩家榜--视频榜
+     * 功能：主播榜--视频榜
      */
     public static void rankingMemberRankingVideo(String member_id, int page) {
 //        DataManager.rankingMemberRanking(new RankingMemberRankingVideoEntity(), member_id, "video", page);
     }
 
     /**
-     * 功能：玩家榜
+     * 功能：主播榜
      */
     private static void rankingMemberRanking(BaseResponseEntity e, String member_id, String sort, int page) {
 

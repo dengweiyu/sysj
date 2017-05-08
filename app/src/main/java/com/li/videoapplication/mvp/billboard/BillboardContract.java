@@ -14,7 +14,7 @@ import com.li.videoapplication.data.model.response.VideoRankingEntity;
 import com.li.videoapplication.mvp.OnLoadDataListener;
 
 /**
- * 接口存放类：榜单（赛事奖金榜，玩家榜，视频榜）
+ * 接口存放类：榜单（赛事奖金榜，主播榜，视频榜）
  * 放置 Model View Presenter 的接口
  */
 public class BillboardContract {
@@ -23,13 +23,13 @@ public class BillboardContract {
      * Model层接口: 榜单
      */
     public interface IBillboardModel {
-        //玩家榜--粉丝榜
+        //主播榜--粉丝榜
         void loadRankingFansData(String member_id, int page, final OnLoadDataListener<PlayerRankingEntity> listener);
-        //玩家榜--磨豆榜
+        //主播榜--磨豆榜
         void loadRankingCurrencyData(String member_id, int page, final OnLoadDataListener<PlayerRankingCurrencyEntity> listener);
-        //玩家榜--视频榜
+        //主播榜--视频榜
         void loadRankingVideoData(String member_id, int page, final OnLoadDataListener<PlayerRankingEntity> listener);
-        //玩家榜--玩家关注
+        //主播榜--玩家关注
         void memberAttention(String member_id, String id, final OnLoadDataListener<MemberAttention201Entity> listener);
         //视频榜--点赞榜,评论榜,观看榜
         void loadVideoBillboardRankingData(String member_id, String sort, int page, final OnLoadDataListener<VideoRankingEntity> listener);
@@ -46,7 +46,7 @@ public class BillboardContract {
     }
 
     /**
-     * View层接口: 榜单--玩家榜
+     * View层接口: 榜单--主播榜
      */
     public interface IPlayerBillboardView {
         //关闭加载页

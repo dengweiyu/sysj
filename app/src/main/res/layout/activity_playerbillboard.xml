@@ -41,21 +41,21 @@
             android:id="@+id/top_left_line"
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:layout_height="2dp"
-            android:scaleType="fitXY" />
-
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/playerbillboard_bean_top_line"/>
 
         <ImageView
             android:id="@+id/top_middle_line"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:scaleType="fitXY" />
 
         <ImageView
             android:id="@+id/top_right_line"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:scaleType="fitXY" />
     </LinearLayout>

@@ -24,7 +24,7 @@ import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.StringUtil;
 
 /**
- * 适配器：玩家榜
+ * 适配器：主播榜
  */
 @SuppressLint("InflateParams")
 public class PlayerBillboardAdapter extends BaseQuickAdapter<Member, BaseViewHolder> {
@@ -100,12 +100,13 @@ public class PlayerBillboardAdapter extends BaseQuickAdapter<Member, BaseViewHol
         LinearLayout focusView = holder.getView(R.id.playerbillboard_focus);
         if (record != null) {
             if (record.getMember_tick() == 1) {
-               // focusView.setBackgroundResource(R.drawable.focus_gray);
-                focusView.setClickable(false);
+                focusView.setBackground(null);
+                focusView.setEnabled(false);
                 holder.setText(R.id.playerbillboard_focus_text, "已关注")
-                        .setTextColor(R.id.playerbillboard_focus_text, Color.WHITE);
+                        .setTextColor(R.id.playerbillboard_focus_text, mContext.getResources().getColor(R.color.darkgray));
             } else {
                 focusView.setBackgroundResource(R.drawable.player_focus);
+                focusView.setEnabled(true);
                 holder.setText(R.id.playerbillboard_focus_text, "关注")
                         .setTextColor(R.id.playerbillboard_focus_text,
                                 mContext.getResources().getColor(R.color.groupdetail_player_red));
@@ -132,7 +133,7 @@ public class PlayerBillboardAdapter extends BaseQuickAdapter<Member, BaseViewHol
                     // 玩家关注
                     IBillboardPresenter p = new BillboardPresenter();
                     p.memberAttention(record.getMember_id(), PreferencesHepler.getInstance().getMember_id());
-                    UmengAnalyticsHelper.onEvent(mContext, UmengAnalyticsHelper.DISCOVER, "玩家榜-关注");
+                    UmengAnalyticsHelper.onEvent(mContext, UmengAnalyticsHelper.DISCOVER, "主播榜-关注");
                 }
             });
         }
