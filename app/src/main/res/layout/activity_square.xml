@@ -15,9 +15,11 @@
         android:background="@color/activity_main_bg">
     </View>
     <LinearLayout
+        android:id="@+id/ll_square_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:paddingRight="10dp">
 
         <android.support.design.widget.TabLayout
@@ -50,9 +52,11 @@
     </View>
 
     <LinearLayout
+        android:id="@+id/ll_square_tab_second"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
+        android:visibility="gone"
         android:background="@color/activity_main_bg">
         <TextView
             android:id="@+id/tv_title_new"

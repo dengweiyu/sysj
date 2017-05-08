@@ -28,7 +28,7 @@ public class BillboardActivity extends TBaseAppCompatActivity implements View.On
     @BindView(R.id.playerbillboard_viewpager)
     ViewPager viewPager;
 
-    public static final int TYPE_PLAYER = 1;//玩家榜
+    public static final int TYPE_PLAYER = 1;//主播榜
     public static final int TYPE_VIDEO = 2;//视频榜
 
     private List<Fragment> fragments;
@@ -71,13 +71,13 @@ public class BillboardActivity extends TBaseAppCompatActivity implements View.On
         if (fragments == null) {
             fragments = new ArrayList<>();
             if (type == TYPE_PLAYER) {
-                fragments.add(PlayerBillboardFragment.newInstance(PlayerBillboardFragment.PLAYERBILLBOARD_FANS));
                 fragments.add(PlayerBillboardFragment.newInstance(PlayerBillboardFragment.PLAYERBILLBOARD_CURRENCY));
                 fragments.add(PlayerBillboardFragment.newInstance(PlayerBillboardFragment.PLAYERBILLBOARD_VIDEO));
+                fragments.add(PlayerBillboardFragment.newInstance(PlayerBillboardFragment.PLAYERBILLBOARD_FANS));
             } else {
+                fragments.add(VideoBillboardFragment.newInstance(VideoBillboardFragment.VIDEOBILLBOARD_CLICK));
                 fragments.add(VideoBillboardFragment.newInstance(VideoBillboardFragment.VIDEOBILLBOARD_LIKE));
                 fragments.add(VideoBillboardFragment.newInstance(VideoBillboardFragment.VIDEOBILLBOARD_COMMENT));
-                fragments.add(VideoBillboardFragment.newInstance(VideoBillboardFragment.VIDEOBILLBOARD_CLICK));
             }
         }
         GamePagerAdapter adapter = new GamePagerAdapter(getSupportFragmentManager(), fragments);
@@ -94,7 +94,7 @@ public class BillboardActivity extends TBaseAppCompatActivity implements View.On
         findViewById(R.id.tb_back).setOnClickListener(this);
         TextView tb_title = (TextView) findViewById(R.id.tb_title);
         if (type == TYPE_PLAYER) {
-            tb_title.setText("玩家榜");
+            tb_title.setText("主播榜");
         } else {
             tb_title.setText("视频榜");
         }
@@ -196,10 +196,10 @@ public class BillboardActivity extends TBaseAppCompatActivity implements View.On
             if (index == i) {
                 switch (index) {
                     case 0:
-                        topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_blue));
+                        topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_yellow));
                         break;
                     case 1:
-                        topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_yellow));
+                        topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_blue));
                         break;
                     case 2:
                         topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_purple));
@@ -214,13 +214,13 @@ public class BillboardActivity extends TBaseAppCompatActivity implements View.On
             if (index == i) {
                 switch (index) {
                     case 0:
-                        topLine.get(i).setImageResource(R.color.menu_billboard_blue);
+                        topLine.get(i).setImageResource(R.drawable.playerbillboard_bean_top_line);
                         break;
                     case 1:
-                        topLine.get(i).setImageResource(R.color.menu_billboard_yellow);
+                        topLine.get(i).setImageResource(R.drawable.playerbillboard_video_top_line);
                         break;
                     case 2:
-                        topLine.get(i).setImageResource(R.color.menu_billboard_purple);
+                        topLine.get(i).setImageResource(R.drawable.playerbillboard_fans_top_line);
                         break;
                 }
             } else {
@@ -233,19 +233,19 @@ public class BillboardActivity extends TBaseAppCompatActivity implements View.On
                 if (type == TYPE_PLAYER) {
                     switch (index) {
                         case 0:
-                            setImageViewImageRes(topIcon.get(0), R.drawable.playerbillboard_fans);
-                            setImageViewImageRes(topIcon.get(1), R.drawable.slider_bean_gray);
-                            setImageViewImageRes(topIcon.get(2), R.drawable.playerbillboard_vedio_gray);
+                            setImageViewImageRes(topIcon.get(0), R.drawable.slider_bean);
+                            setImageViewImageRes(topIcon.get(1), R.drawable.playerbillboard_vedio_gray);
+                            setImageViewImageRes(topIcon.get(2), R.drawable.playerbillboard_fans_gray);
                             break;
                         case 1:
-                            setImageViewImageRes(topIcon.get(0), R.drawable.playerbillboard_fans_gray);
-                            setImageViewImageRes(topIcon.get(1), R.drawable.slider_bean);
-                            setImageViewImageRes(topIcon.get(2), R.drawable.playerbillboard_vedio_gray);
+                            setImageViewImageRes(topIcon.get(0), R.drawable.slider_bean_gray);
+                            setImageViewImageRes(topIcon.get(1), R.drawable.playerbillboard_vedio);
+                            setImageViewImageRes(topIcon.get(2), R.drawable.playerbillboard_fans_gray);
                             break;
                         case 2:
-                            setImageViewImageRes(topIcon.get(0), R.drawable.playerbillboard_fans_gray);
-                            setImageViewImageRes(topIcon.get(1), R.drawable.slider_bean_gray);
-                            setImageViewImageRes(topIcon.get(2), R.drawable.playerbillboard_vedio);
+                            setImageViewImageRes(topIcon.get(0), R.drawable.slider_bean_gray);
+                            setImageViewImageRes(topIcon.get(1), R.drawable.playerbillboard_vedio_gray);
+                            setImageViewImageRes(topIcon.get(2), R.drawable.playerbillboard_fans);
                             break;
                     }
                 }else {

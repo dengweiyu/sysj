@@ -141,6 +141,9 @@ public class QuestionFragment extends TBaseFragment implements View.OnClickListe
      * 动态改变ExpandableListView的高度
      */
     private void setExpandableHeight(ExpandableListView pull) {
+        if (pull == null){
+            return;
+        }
         int totalHeight = 0;
         View listItem;
         int len = groups.length;

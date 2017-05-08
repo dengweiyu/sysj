@@ -92,7 +92,10 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
             //触发
             DataManager.shareTriggerReward(memberId,"","","");
             //post
+
             EventBus.getDefault().post(new SharedSuccessEvent(mSharedChannel));
+
+            finish();
         }
 
         @Override
@@ -145,7 +148,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onPause() {
         super.onPause();
-        finish();
+
     }
 
     public void onDestroy() {
@@ -237,7 +240,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
             share(this, VideoTitle, videoUrl, text, imageUrl, "SYSJ");
             UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SHARE, "分享渠道-手游视界");
         }
-        finish();
+    //    finish();
     }
 
     /**

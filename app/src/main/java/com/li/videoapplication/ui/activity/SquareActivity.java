@@ -42,7 +42,8 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
     private ImageView mRecord;
     private SquareGameEntity game;
 
-
+    private View mTabFirst;
+    private View mTabScond;
     @Override
     public int getContentView() {
         return R.layout.activity_square;
@@ -76,6 +77,9 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
         setSystemBarBackgroundWhite();
         setTextViewText((TextView)findViewById(R.id.tb_title),"玩家广场");
 
+        mTabFirst = findViewById(R.id.ll_square_tab);
+        mTabScond = findViewById(R.id.ll_square_tab_second);
+
         mRecord = (ImageView)findViewById(R.id.iv_tb_record);
         mRecord.setVisibility(View.VISIBLE);
 
@@ -94,6 +98,10 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
         if (game == null){
             return;
         }
+
+        mTabScond.setVisibility(View.VISIBLE);
+        mTabFirst.setVisibility(View.VISIBLE);
+
         fragments = new ArrayList<>();
         List<String> title = new ArrayList<>();
         for (SquareGameEntity.DataBean bean:

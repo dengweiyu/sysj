@@ -147,7 +147,7 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
 
             case R.id.discover_playerbillboard:
                 ActivityManeger.startBillboardActivity(getActivity(), BillboardActivity.TYPE_PLAYER);
-                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "玩家榜");
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "主播榜");
                 break;
 
             case R.id.discover_videobillboard:

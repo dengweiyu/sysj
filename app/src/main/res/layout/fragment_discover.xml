@@ -169,7 +169,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="13dp"
             android:layout_toRightOf="@+id/left"
-            android:text="玩家榜"
+            android:text="主播榜"
             android:textColor="#bb000000"
             android:textSize="14sp" />
 

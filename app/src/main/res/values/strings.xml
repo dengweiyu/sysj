@@ -233,13 +233,13 @@
     <string name="billboard_left">玩家</string>
     <string name="billboard_right">视频</string>
 
-    <string name="videoBillboard_left">点赞榜</string>
-    <string name="videoBillboard_middle">评论榜</string>
-    <string name="videoBillboard_right">观看榜</string>
+    <string name="videoBillboard_left">播放榜</string>
+    <string name="videoBillboard_middle">点赞榜</string>
+    <string name="videoBillboard_right">评论榜</string>
 
-    <string name="playerBillboard_left">粉丝榜</string>
-    <string name="playerBillboard_middle">财富榜</string>
-    <string name="playerBillboard_right">视频榜</string>
+    <string name="playerBillboard_left">财富榜</string>
+    <string name="playerBillboard_middle">视频榜</string>
+    <string name="playerBillboard_right">粉丝榜</string>
 
     <string name="searchresult_first">相关视频</string>
     <string name="searchresult_second">相关游戏</string>

@@ -131,8 +131,12 @@ public class AppstartActivity extends TBaseActivity {
         //有广告
         if (PreferencesHepler.getInstance().getIndexLaunchImage() != null) {
 
-            String imageName = StringUtil.getFileNameWithExt(PreferencesHepler.getInstance()
-                    .getIndexLaunchImage().getData().get(0).getServer_pic_a());
+            String name = PreferencesHepler.getInstance()
+                    .getIndexLaunchImage().getData().get(0).getServer_pic_a();
+            if (StringUtil.isNull(name)){
+                return false;
+            }
+            String imageName = StringUtil.getFileNameWithExt(name);
             String path = SYSJStorageUtil.getSysjDownload() + File.separator + imageName;
             File file = new File(path);
             return file.exists();

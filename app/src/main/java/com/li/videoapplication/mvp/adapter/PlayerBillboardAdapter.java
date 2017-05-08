@@ -100,7 +100,8 @@ public class PlayerBillboardAdapter extends BaseQuickAdapter<Member, BaseViewHol
         LinearLayout focusView = holder.getView(R.id.playerbillboard_focus);
         if (record != null) {
             if (record.getMember_tick() == 1) {
-                focusView.setBackgroundResource(R.drawable.focus_gray);
+               // focusView.setBackgroundResource(R.drawable.focus_gray);
+                focusView.setClickable(false);
                 holder.setText(R.id.playerbillboard_focus_text, "已关注")
                         .setTextColor(R.id.playerbillboard_focus_text, Color.WHITE);
             } else {
