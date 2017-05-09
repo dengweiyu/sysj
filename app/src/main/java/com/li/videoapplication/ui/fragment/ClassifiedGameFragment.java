@@ -11,6 +11,12 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
@@ -48,6 +54,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import y.com.sqlitesdk.framework.IfeimoSqliteSdk;
 
 /**
  * 碎片：游戏分类
@@ -250,12 +258,12 @@ public class ClassifiedGameFragment extends TBaseFragment implements OnRefreshLi
     public void onEventMainThread(GameListEntity event) {
 
         if (event != null) {
-            boolean result = event.isResult();
+            final boolean result = event.isResult();
             if (result) {
                 if (page == 1) {
                     data.clear();
                 }
-                LinkedHashMap<String ,Game> map = new LinkedHashMap();
+               /* LinkedHashMap<String ,Game> map = new LinkedHashMap();
                 for (Game game:
                         event.getData().getList()) {
                     map.put(game.getGame_id(),game);
@@ -265,7 +273,21 @@ public class ClassifiedGameFragment extends TBaseFragment implements OnRefreshLi
                     Map.Entry<String,Game> entity = iterator.next();
 
                     data.add(entity.getValue());
-                }
+                }*/
+               //去除重复
+                data.addAll(Lists.newArrayList(Iterables.filter(event.getData().getList(), new Predicate<Game>() {
+                    @Override
+                    public boolean apply(Game input) {
+                        for (Game g:
+                             data) {
+                            if (input.getGame_id().equals(g.getGame_id())){
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                })));
+
                 adapter.notifyDataSetChanged();
                 if (event.getData().getList().size() > 0) {
                     ++page;

@@ -72,5 +72,9 @@ public class RequestRunnable implements Runnable {
 			}
 		}
 	}
+
+	public RequestObject getRequestObject() {
+		return requestObject;
+	}
 }
 

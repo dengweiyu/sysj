@@ -7,6 +7,9 @@ import com.li.videoapplication.framework.BaseActivity;
 import com.li.videoapplication.framework.BaseAppCompatActivity;
 import com.li.videoapplication.framework.BaseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 功能：网络请求帮助类
  */
@@ -15,6 +18,7 @@ public class RequestHelper<T extends BaseEntity> {
     protected final String action = this.getClass().getName();
     protected final String tag = this.getClass().getSimpleName();
 
+    private static List<RequestRunnable> sRunable = new ArrayList<>();
     public void doNetwork(RequestObject request) {
         doService(request);
 
@@ -68,8 +72,8 @@ public class RequestHelper<T extends BaseEntity> {
         if (request == null)
             return;
         RequestRunnable runnable = new RequestRunnable(request);
-        RequestExecutor.execute(runnable);
 
+        RequestExecutor.execute(runnable);
         try {
             Log.d(tag, "doExecutor/url=" + request.getUrl());
         } catch (Exception e) {

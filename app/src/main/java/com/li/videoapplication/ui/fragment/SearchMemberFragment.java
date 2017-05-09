@@ -1,24 +1,38 @@
 package com.li.videoapplication.ui.fragment;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.ifeimo.im.framwork.RequestManager;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
 import com.li.videoapplication.data.model.response.SearchMember203Entity;
+import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.framework.AppConstant;
+import com.li.videoapplication.framework.BaseAppCompatActivity;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseChildFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
@@ -125,7 +139,11 @@ public class SearchMemberFragment extends TBaseChildFragment implements OnRefres
 
 	@Override
 	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-	    page = 1;
+		Activity activity = getActivity();
+		if (activity instanceof BaseAppCompatActivity){
+			((BaseAppCompatActivity)activity).requestManager.cancelTask(RequestUrl.getInstance().searchMember203());
+		}
+		page = 1;
 	    onPullUpToRefresh(refreshView);
 	}
 
@@ -150,7 +168,19 @@ public class SearchMemberFragment extends TBaseChildFragment implements OnRefres
 				if (page == 1) {
 					data.clear();
 				}
-				data.addAll(event.getData().getList());
+
+				data.addAll(Lists.newArrayList(Iterables.filter(event.getData().getList(), new Predicate<Member>() {
+					@Override
+					public boolean apply(Member input) {
+						for (Member m:
+								data) {
+							if (m.getId().equals(input.getId())){
+								return false;
+							}
+						}
+						return true;
+					}
+				})));
 				adapter.notifyDataSetChanged();
 				++ page;
 			}

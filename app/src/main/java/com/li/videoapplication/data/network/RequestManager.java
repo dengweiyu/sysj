@@ -2,8 +2,15 @@ package com.li.videoapplication.data.network;
 
 import android.util.Log;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 功能：网络请求页面管理类
@@ -57,6 +64,32 @@ public class RequestManager {
             tasks.remove(task);
             Log.i(tag, "cancelTask/task=" + task);
         }
+    }
+
+    /**
+     * 取消网络任务 取消同一url任务
+     */
+    public  void cancelTask(final String url){
+        Collection<RequestRunnable> collection = Collections2.filter(tasks, new Predicate<RequestRunnable>() {
+            @Override
+            public boolean apply(RequestRunnable input) {
+                RequestObject object = input.getRequestObject();
+                if (object != null){
+                    if (object.getUrl() != null && object.getUrl().equals(url)){
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+        });
+
+        for (RequestRunnable runnable:
+             collection) {
+            runnable.cancel();
+
+        }
+        tasks.removeAll(collection);
     }
 
     /**

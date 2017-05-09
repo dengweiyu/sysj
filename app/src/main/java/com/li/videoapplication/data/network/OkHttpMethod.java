@@ -122,6 +122,7 @@ public class OkHttpMethod implements AbsRequestMethod {
 	private void get() {
 		Log.d(tag, "get");
 		request = new Request.Builder()
+				.tag(newUrl)
 				.url(newUrl)
 				.build();
 		execute();
@@ -274,6 +275,7 @@ public class OkHttpMethod implements AbsRequestMethod {
 	 */
 	private void execute() {
 		try {
+
 			response = client.newCall(request).execute();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -286,7 +288,7 @@ public class OkHttpMethod implements AbsRequestMethod {
 	public boolean cancel() {
 		if (client != null && request != null) {
 			try {
-				client.cancel(request);
+				client.cancel(request.tag());
 				System.out.println(tag + "/cancel/this=" + this);
 				return true;
 			} catch (Exception e) {

@@ -220,6 +220,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+        finish();
         if (v == wx) {
             share(this, VideoTitle, videoUrl, text, imageUrl, "Wechat");
             UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SHARE, "分享渠道-微信");
@@ -239,7 +240,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
             share(this, VideoTitle, videoUrl, text, imageUrl, "SYSJ");
             UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SHARE, "分享渠道-手游视界");
         }
-        finish();
+
     }
 
     /**

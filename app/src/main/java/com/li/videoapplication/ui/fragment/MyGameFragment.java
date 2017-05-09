@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +16,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
@@ -121,23 +126,18 @@ public class MyGameFragment extends TBaseFragment implements OnRefreshListener2<
                 if (page == 1) {
                     data.clear();
                 }
-                Map<String,Game> map = new HashMap<>();
-                for (Game game:
-                        data) {
-                    map.put(game.getGame_id(),game);
-                }
-
-                for (Game game:
-                        event.getData().getList()) {
-                    map.put(game.getGame_id(),game);
-                }
-                data.clear();
-
-                Iterator<Map.Entry<String,Game>> iterator = map.entrySet().iterator();
-
-                while(iterator.hasNext()){
-                    data.add(iterator.next().getValue());
-                }
+                data.addAll(Lists.newArrayList(Iterables.filter(event.getData().getList(), new Predicate<Game>() {
+                    @Override
+                    public boolean apply(Game input) {
+                        for (Game g:
+                                data) {
+                            if (input.getGame_id().equals(g.getGame_id())){
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                })));
                 adapter.notifyDataSetChanged();
                 ++page;
             }else {
