@@ -1,60 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'AndResGuard'
-
-//资源混淆依赖库
-buildscript {
-    repositories {
-        mavenLocal()
-        jcenter()
-        /* maven { url 'https://maven.fabric.io/public' }*/
-    }
-    dependencies {
-        // The Fabric Gradle plugin uses an open ended version to react
-        // quickly to Android tooling updates
-        classpath ('com.tencent.mm:AndResGuard-gradle-plugin:1.2.0') { changing=true }
-    }
-}
-//资源混淆 使用gradle task来执行打包  当前版本(下个版本会支持)不之前使用v2方式进行签名，因此和Walle互斥
-andResGuard {
-    mappingFile = file("./resource_mapping.txt")
-    use7zip = false         //7zip压缩 极限压缩    V2签名下不支持
-    useSign = true          //是否自动签名
-    keepRoot = true         //保持资源路径
-    // add <yourpackagename>.R.drawable.icon into whitelist.
-    // because the launcher will get the icon with his name
-    whiteList = [                                   //白名单 有些需要根据标识来获取资源的不要混淆,第三方的也建议不混淆
-         "R.drawable.ic_launcher",
-         //https://docs.fabric.io/android/crashlytics/build-tools.html
-         "R.string.com.crashlytics.*",
-         // for umeng update
-         "R.string.umeng*",
-         "R.string.UM*",
-         "R.string.tb_*",
-         "R.layout.umeng*",
-         "R.layout.tb_*",
-         "R.drawable.umeng*",
-          "R.drawable.tb_*",
-          "R.anim.umeng*",
-          "R.color.umeng*",
-          "R.color.tb_*",
-          "R.style.*UM*",
-          "R.style.umeng*",
-          "R.id.umeng*",
-        "R.string.ssdk*"                        //mob一键分享相关不混淆
-    ]
-    compressFilePattern = [
-            "*.png",
-            "*.jpg",
-            "*.jpeg",
-            "*.gif",
-            "resources.arsc"
-    ]
-    sevenzip {
-        artifact = 'com.tencent.mm:SevenZip:1.2.0'
-        //path = "/usr/local/bin/7za"
-    }
-}
 
 
 android {
@@ -99,8 +44,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
         // 20170104,2.1.4   test:20161122, 2.1.2
-        versionCode 20170427
-        versionName "2.1.9"
+        versionCode 20170510
+        versionName "2.2.0.1"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
         multiDexEnabled true

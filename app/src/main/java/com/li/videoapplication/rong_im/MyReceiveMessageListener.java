@@ -82,7 +82,7 @@ public class MyReceiveMessageListener implements RongIMClient.OnReceiveMessageLi
             }
 
             Notification.Builder builder = new Builder(context);
-            builder.setSmallIcon(R.drawable.ic_launcher);//设置图标
+            builder.setSmallIcon(R.drawable.logo_round);//设置图标
             builder.setWhen(System.currentTimeMillis());//设置通知时间
             builder.setDefaults(Notification.DEFAULT_LIGHTS);//设置指示灯
             builder.setDefaults(Notification.DEFAULT_SOUND);//设置提示声音
