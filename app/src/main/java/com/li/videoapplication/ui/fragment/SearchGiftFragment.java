@@ -16,6 +16,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Gift;
+import com.li.videoapplication.data.model.event.SearchResultEvent;
 import com.li.videoapplication.data.model.response.ClaimPackageEntity;
 import com.li.videoapplication.data.model.response.SearchPackage203Entity;
 import com.li.videoapplication.framework.AppConstant;
@@ -24,6 +25,8 @@ import com.li.videoapplication.framework.TBaseChildFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.adapter.GiftAdapter;
+import com.ypy.eventbus.EventBus;
+
 /**
  * 碎片：搜索视频
  */
@@ -40,7 +43,12 @@ public class SearchGiftFragment extends TBaseChildFragment implements OnRefreshL
 	private String content;
 	
 	public void setContent(String content) {
-		this.content = content;
+		if (this.content != null &&!this.content.equals(content)){
+			this.content = content;
+			if (data != null){
+				data.clear();
+			}
+		}
 
 		refreshListView();
 	}
@@ -71,6 +79,14 @@ public class SearchGiftFragment extends TBaseChildFragment implements OnRefreshL
 	public void onResume() {
 		super.onResume();
 		adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		if (data != null){
+			data.clear();
+		}
 	}
 
 	@Override
@@ -147,13 +163,17 @@ public class SearchGiftFragment extends TBaseChildFragment implements OnRefreshL
 
 		if (event.isResult()) {
 			if (event.getData().getList().size() > 0) {
+				EventBus.getDefault().post(new SearchResultEvent(3,true));
 				if (page == 1) {
 					data.clear();
 				}
 				data.addAll(event.getData().getList());
-				adapter.notifyDataSetChanged();
 				++ page;
+			}else {
+				EventBus.getDefault().post(new SearchResultEvent(3,false));
+
 			}
+			adapter.notifyDataSetChanged();
 		}
 		onRefreshComplete();
 	}

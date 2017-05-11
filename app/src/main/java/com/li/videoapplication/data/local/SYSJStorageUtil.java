@@ -15,6 +15,12 @@ public class SYSJStorageUtil {
     public final static String TAG = SYSJStorageUtil.class.getSimpleName();
 
 
+    /**
+     * 创建应用系统目录
+     */
+    public static void createSystemDir(){
+
+    }
 
     /**
      * 生成下载应用文件（V2.1.4版本）
@@ -130,7 +136,10 @@ public class SYSJStorageUtil {
         if (file != null) {
             if (file.exists() == false) {
                 file = new File(inner + File.separator + Contants.SYSJ);
-                file.mkdirs();
+                boolean result = file.mkdirs();
+                if (!result){
+
+                }
             }
         }
         Log.d(TAG, "getInnerSysj: " + file);

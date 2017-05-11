@@ -240,9 +240,11 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
 
             @Override
             public void onClick(View v) {
-                if (record.getPersonal_private().equals("1")){      //视频上传中仅自己可见
-                    ToastHelper.s("该视频正在上传中，一会再来查看哦~");
-                    return;
+                if (!StringUtil.isNull(record.getPersonal_private())){
+                    if (record.getPersonal_private().equals("1")){      //视频上传中仅自己可见
+                        ToastHelper.s("该视频正在上传中，一会再来查看哦~");
+                        return;
+                    }
                 }
                 if (record.getVideo_id() != null && !record.getVideo_id().equals("0")) {// 视频
                     startVideoPlayActivity(record);

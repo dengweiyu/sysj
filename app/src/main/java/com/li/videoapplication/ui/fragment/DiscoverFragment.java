@@ -8,6 +8,7 @@ import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.response.DynamicDotEntity;
+import com.li.videoapplication.data.model.response.SquareDotEntity;
 import com.li.videoapplication.data.model.response.SweepstakeStatusEntity;
 import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
@@ -25,6 +26,7 @@ import com.li.videoapplication.views.CircleImageView;
 public class DiscoverFragment extends TBaseFragment implements OnClickListener {
 
     private CircleImageView count;
+    private View mSquareUnRead;
     private ImageView go;
     private View draw;
 
@@ -53,6 +55,7 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
         count = (CircleImageView) view.findViewById(R.id.discover_dynamic_count);
         go = (ImageView) view.findViewById(R.id.discover_dynamic_go);
         draw = view.findViewById(R.id.discover_draw);
+        mSquareUnRead = view.findViewById(R.id.tv_square_new_message);
 
         view.findViewById(R.id.discover_recommend).setOnClickListener(this);
         view.findViewById(R.id.discover_square).setOnClickListener(this);
@@ -64,11 +67,13 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
         view.findViewById(R.id.discover_gift).setOnClickListener(this);
         draw.setOnClickListener(this);
 
+
     }
 
     private void loadData() {
         //抽奖状态获取接口
         DataManager.getSweepstakeStatus();
+
     }
 
     @Override
@@ -91,8 +96,17 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
         mNum++;
         //该fragment处于最前台交互状态
         if (isVisibleToUser) {
+            updateSquareUnRead();
             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MAIN, "进入发现页面次数");
             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "进入发现页面次数");
+        }
+    }
+
+    private void updateSquareUnRead(){
+        if (isLogin()){
+            long squareTime = System.currentTimeMillis();
+            //玩家广场红点
+            DataManager.squareDot(getMember_id(),squareTime);
         }
     }
 
@@ -137,6 +151,8 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
                 break;
 
             case R.id.discover_square:
+                //更新发现页的红点提示
+                mSquareUnRead.setVisibility(View.GONE);
                 ActivityManeger.startSquareActivity(getActivity());
                 break;
 
@@ -188,4 +204,17 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
         }
     }
 
+    /**
+     * 回调：动态更新红点
+     */
+    public void onEventMainThread(SquareDotEntity event) {
+        if (event != null && event.isResult() && mSquareUnRead != null) {
+            //玩家广场动态有更新
+            if (event.getData().isHasNew()) {
+                mSquareUnRead.setVisibility(View.VISIBLE);
+            } else {
+                mSquareUnRead.setVisibility(View.GONE);
+            }
+        }
+    }
 }

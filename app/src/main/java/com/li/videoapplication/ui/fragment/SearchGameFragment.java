@@ -15,6 +15,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
+import com.li.videoapplication.data.model.event.SearchResultEvent;
 import com.li.videoapplication.data.model.response.SearchGame203Entity;
 import com.li.videoapplication.data.model.response.VideoCollect2Entity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
@@ -25,6 +26,7 @@ import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.adapter.MyGameAdapter;
+import com.ypy.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ import java.util.List;
  * 碎片：搜索游戏
  */
 public class SearchGameFragment extends TBaseChildFragment implements OnRefreshListener2<ListView> {
+
 
 	public static SearchGameFragment newInstance(String content) {
 		SearchGameFragment fragment = new SearchGameFragment();
@@ -45,8 +48,13 @@ public class SearchGameFragment extends TBaseChildFragment implements OnRefreshL
 	private String content;
 	
 	public void setContent(String content) {
-		this.content = content;
-		
+		if (this.content != null && !this.content.equals(content)){
+			this.content = content;
+			if (data != null){
+				data.clear();
+			}
+		}
+
 		refreshListView();
 	}
 
@@ -95,6 +103,14 @@ public class SearchGameFragment extends TBaseChildFragment implements OnRefreshL
 	public void onResume() {
 		super.onResume();
 		adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		if (data != null){
+			data.clear();
+		}
 	}
 
 	@Override
@@ -161,17 +177,21 @@ public class SearchGameFragment extends TBaseChildFragment implements OnRefreshL
 	public void onEventMainThread(SearchGame203Entity event) {
 		if (event.isResult()) {
 			if (event.getData().getList().size() > 0) {
+				EventBus.getDefault().post(new SearchResultEvent(0,true));
 				if (page == 1) {
 					data.clear();
 				}
 				data.addAll(event.getData().getList());
-				adapter.notifyDataSetChanged();
 				++ page;
+			}else {
+				EventBus.getDefault().post(new SearchResultEvent(0,false));
+
 			}
+			adapter.notifyDataSetChanged();
 		}
 		onRefreshComplete();
-		if (activity != null)
-			activity.setLoading(false);
+		/*if (activity != null)
+			activity.setLoading(false);*/
 	}
 
 	/**

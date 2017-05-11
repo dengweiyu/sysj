@@ -28,6 +28,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.event.SearchResultEvent;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
 import com.li.videoapplication.data.model.response.SearchMember203Entity;
 import com.li.videoapplication.data.network.RequestUrl;
@@ -38,12 +39,12 @@ import com.li.videoapplication.framework.TBaseChildFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.adapter.SearchMemberAdapter;
+import com.ypy.eventbus.EventBus;
 
 /**
  * 碎片：搜索视频
  */
 public class SearchMemberFragment extends TBaseChildFragment implements OnRefreshListener2<ListView> {
-
 	public static SearchMemberFragment newInstance(String content) {
 		SearchMemberFragment fragment = new SearchMemberFragment();
 		Bundle bundle = new Bundle();
@@ -55,7 +56,12 @@ public class SearchMemberFragment extends TBaseChildFragment implements OnRefres
 	private String content;
 	
 	public void setContent(String content) {
-		this.content = content;
+		if (this.content != null && !this.content.equals(content)){
+			this.content = content;
+			if (data != null){
+				data.clear();
+			}
+		}
 		
 		refreshListView();
 	}
@@ -94,6 +100,14 @@ public class SearchMemberFragment extends TBaseChildFragment implements OnRefres
 	public void onResume() {
 		super.onResume();
 		adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		if (data != null){
+			data.clear();
+		}
 	}
 
 	@Override
@@ -165,10 +179,11 @@ public class SearchMemberFragment extends TBaseChildFragment implements OnRefres
 	public void onEventMainThread(SearchMember203Entity event) {
 		if (event.isResult()) {
 			if (event.getData().getList().size() > 0) {
+				EventBus.getDefault().post(new SearchResultEvent(2,true));
+
 				if (page == 1) {
 					data.clear();
 				}
-
 				data.addAll(Lists.newArrayList(Iterables.filter(event.getData().getList(), new Predicate<Member>() {
 					@Override
 					public boolean apply(Member input) {
@@ -181,9 +196,13 @@ public class SearchMemberFragment extends TBaseChildFragment implements OnRefres
 						return true;
 					}
 				})));
-				adapter.notifyDataSetChanged();
+
 				++ page;
+			}else {
+				EventBus.getDefault().post(new SearchResultEvent(2,false));
+
 			}
+			adapter.notifyDataSetChanged();
 		}
 		onRefreshComplete();
 	}

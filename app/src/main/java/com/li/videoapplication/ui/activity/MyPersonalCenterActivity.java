@@ -105,6 +105,8 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
     private Member item;
     private TextView emptyText;
 
+
+
     @Override
     public int getContentView() {
         return R.layout.activity_mydynamic;
@@ -480,4 +482,6 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
             refreshHeaderView(item);
         }
     }
+
+
 }

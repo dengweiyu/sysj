@@ -892,14 +892,14 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
     //request permission
     protected void checkPermission(String[] permissions){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            boolean isGrant = true;
+
             for (String p:
                     permissions) {
-                isGrant &= ContextCompat.checkSelfPermission(this,p) == PackageManager.PERMISSION_GRANTED;
-            }
-            if (!isGrant){
-                ActivityCompat.requestPermissions(this,
-                        permissions,mRequestCode);
+                if (!(ContextCompat.checkSelfPermission(this,p) == PackageManager.PERMISSION_GRANTED)){
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{p},mRequestCode);
+                }
+
             }
         }
     }

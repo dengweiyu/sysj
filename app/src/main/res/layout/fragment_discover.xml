@@ -47,7 +47,7 @@
             android:src="@drawable/go_discover" />
 
         <TextView
-            android:id="@+id/tv_new_message"
+            android:id="@+id/tv_square_new_message"
             android:layout_width="6dp"
             android:layout_height="6dp"
             android:layout_marginRight="8dp"
@@ -55,7 +55,7 @@
             android:layout_toLeftOf="@+id/iv_arrow_right"
             android:background="@drawable/count_point"
             android:gravity="center"
-
+            android:visibility="gone"
             android:text=""
             android:textColor="#ffffff"
             android:textSize="8sp" />
@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/tv_new_message"
+            android:layout_toLeftOf="@+id/tv_square_new_message"
             android:textColor="#bb000000"
             android:textSize="12sp"
             android:layout_marginRight="8dp"

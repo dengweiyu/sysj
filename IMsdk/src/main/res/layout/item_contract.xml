@@ -15,6 +15,7 @@
 
         <RelativeLayout
             android:id="@+id/muc_left_layout"
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/information_select">
@@ -35,6 +36,7 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/logo_round"
                     app:corner_radius="90dp"
+                    android:clickable="false"
                     app:oval="false" />
 
             </RelativeLayout>

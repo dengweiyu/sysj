@@ -47,6 +47,9 @@ public class FileOperateUtil {
             file = SYSJStorageUtil.getInnerSysj();
         if (file == null || !file.exists())
             file = SYSJStorageUtil.getDefaultSysj();
+        if (file == null){
+            return null;
+        }
         sb.append(file.getAbsolutePath());
         sb.append(File.separator);
         sb.append(FLODER_FILE);

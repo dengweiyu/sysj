@@ -273,6 +273,10 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
                 }
             }, 400);
         } else if (v == share) {
+            if (!isLogin()){
+                DialogManager.showLogInDialog(this);
+                return;
+            }
 //            //敏感词过滤
             DataManager.baseInfo(getDescription(), new BaseInfo4VideoShareEntity());
 //            ActivityManeger.startShareActivity4MyLocalVideo(this);

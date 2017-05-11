@@ -18,6 +18,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
 import com.li.videoapplication.data.model.response.PlayerRankingCurrencyEntity;
 import com.li.videoapplication.data.model.response.PlayerRankingEntity;
@@ -30,6 +31,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.mvp.adapter.PlayerBillboardAdapter;
 import com.li.videoapplication.utils.StringUtil;
+import com.ypy.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,6 +130,14 @@ public class PlayerBillboardFragment extends TBaseFragment implements IPlayerBil
         onRefresh();
 
         addOnClickListener();
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initRecyclerView() {
@@ -276,6 +286,14 @@ public class PlayerBillboardFragment extends TBaseFragment implements IPlayerBil
             }
             ++page;
         }
+    }
+
+    /**
+     * 回调：关注
+     */
+    public void onEventMainThread(GroupAttentionGroupEntity event) {
+        //关注发生改变 刷新列表
+        onRefresh();
     }
 
     private void refreshHeaderView() {

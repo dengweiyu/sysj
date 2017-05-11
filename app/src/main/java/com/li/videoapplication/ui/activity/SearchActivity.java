@@ -69,6 +69,7 @@ public class SearchActivity extends TBaseAppCompatActivity implements
             ft.setCustomAnimations(R.anim.activity_slide_in_right, R.anim.activity_disappear);
             ft.add(R.id.frag_container, searchResultFragment).commit();
         } else {
+            searchResultFragment.setContent(content);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.show(searchResultFragment).commit();
             searchResultFragment.refreshSearchResult(content);

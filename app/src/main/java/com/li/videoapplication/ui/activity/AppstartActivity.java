@@ -34,7 +34,8 @@ public class AppstartActivity extends TBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  Debug.startMethodTracing("startTrace");
+        //申请读写权限
+        requestPermission();
     }
 
     /**
@@ -74,8 +75,7 @@ public class AppstartActivity extends TBaseActivity {
             }
         }
 
-        //申请读写权限
-        requestPermission();
+
         // 初始化下载器
         DownLoadManager.getInstance();
         // 网络请求服务

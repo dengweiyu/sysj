@@ -10,16 +10,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ifeimo.im.framwork.IMSdk;
+import com.ifeimo.im.framwork.Proxy;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.GroupType;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.response.SwitchChatEntity;
 import com.li.videoapplication.data.model.response.GroupType210Entity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
 import com.li.videoapplication.data.model.response.UserProfilePersonalInformationEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.MyPersonalInfoAdapter;
@@ -62,7 +66,7 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
     private MyPersonalInfoAdapter adapter;
     private HorizontalListView mHorizontalListView;
     private List<GroupType> data;
-
+    private SwitchChatEntity entity;
     @Override
     public int getContentView() {
         return R.layout.activity_playerpersonalinfo;
@@ -93,6 +97,11 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
     @Override
     public void loadData() {
         super.loadData();
+
+        //默认使用自有IM
+        entity = new SwitchChatEntity();
+        entity.setPrivateIM(true);
+        DataManager.switchChat();
 
         // 个人资料
         DataManager.userProfilePersonalInformation(member.getId(), getMember_id());
@@ -162,11 +171,26 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
                 }
                 break;
             case R.id.playerpersonalinfo_sendmessage:
-                if (RongIM.getInstance() != null && member != null &&
-                        member.getNickname() != null && member.getId() != null) {
+                if (entity.isPrivateIM()){
+                    Member user = getUser();
+                    String memberId = user.getMember_id();
+                    if (!Proxy.getConnectManager().isConnect()) {
 
-                    ActivityManeger.startConversationActivity(this, member.getId(),
-                            member.getNickname(), false);
+                        if(null == memberId  || memberId.equals("")){
+                            memberId = getMember_id();
+                        }
+                        FeiMoIMHelper.Login(memberId, user.getNickname(), user.getAvatar());
+                    }
+
+                    IMSdk.createChat(PlayerPersonalInfoActivity.this,member.getId(),member.getNickname(),member.getAvatar());
+
+                }else {
+                    if (RongIM.getInstance() != null && member != null &&
+                            member.getNickname() != null && member.getId() != null) {
+
+                        ActivityManeger.startConversationActivity(this, member.getId(),
+                                member.getNickname(), false);
+                    }
                 }
                 break;
         }
@@ -322,6 +346,16 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * 事件：切换聊天
+     */
+    public void onEventMainThread(SwitchChatEntity event) {
+
+        if (event != null) {
+            entity.setPrivateIM(event.isPrivateIM());
         }
     }
 }

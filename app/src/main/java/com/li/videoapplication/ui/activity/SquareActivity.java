@@ -16,6 +16,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.SquareScrollEntity;
 import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.event.SquareFilterEvent;
+import com.li.videoapplication.data.model.response.SquareDotEntity;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
@@ -127,6 +128,7 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
     public void onResume() {
         super.onResume();
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.DISCOVER, "广场");
+
     }
 
     @Override

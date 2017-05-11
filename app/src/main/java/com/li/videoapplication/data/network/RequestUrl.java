@@ -627,6 +627,13 @@ public class RequestUrl {
     }
 
     /**
+     * 玩家广场是否有更新
+     */
+    public final String squareDot() {
+        return BaseSYSJ + "/sysj218/PlayerSquare/getPlayerDynamicDot";
+    }
+
+    /**
      * 我的游戏
      */
     public final String myGroupList() {
@@ -2246,5 +2253,12 @@ public class RequestUrl {
      */
     public final String parseMessage() {
         return BaseSYSJ + "/Sysj219/ResolveLink/getLinkInfo";
+    }
+
+    /**
+     *使用融云还是自有IM
+     */
+    public final String switchChat(){
+        return BaseSYSJ+"/Sysj220/SwitchSelfChat/switchChat";
     }
 }

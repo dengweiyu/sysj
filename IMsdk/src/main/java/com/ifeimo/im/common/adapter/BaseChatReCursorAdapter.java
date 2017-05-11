@@ -282,7 +282,7 @@ public abstract class BaseChatReCursorAdapter<T extends Holder,E extends IModel>
     protected Spanned getSpanna(String content){
         if (MatchUtil.isHtml(content)) {
             String[] contents = MatchUtil.returnHtmlStr(content);
-            if (content != null) {
+            if (contents != null) {
                 for (String text : contents) {
                     if(StringUtil.isNull(text)){
                         continue;

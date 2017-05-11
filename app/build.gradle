@@ -203,4 +203,5 @@ dependencies {
 
     //Guava collection
     compile 'com.google.guava:guava-collections:r03'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

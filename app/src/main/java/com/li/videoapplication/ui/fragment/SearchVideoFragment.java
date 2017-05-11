@@ -19,6 +19,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.event.SearchResultEvent;
 import com.li.videoapplication.data.model.response.SearchVideo203Entity;
 import com.li.videoapplication.data.model.response.SearchVideoHotEntity;
 import com.li.videoapplication.data.model.response.VideoCollect2Entity;
@@ -30,6 +31,7 @@ import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.adapter.GroupDetailVideoAdapter;
+import com.ypy.eventbus.EventBus;
 
 /**
  * 碎片：搜索视频
@@ -49,7 +51,12 @@ public class SearchVideoFragment extends TBaseChildFragment implements OnRefresh
     private String content;
 
     public void setContent(String content) {
-        this.content = content;
+        if (this.content != null && !this.content.equals(content)){
+            this.content = content;
+            if (data != null){
+                data.clear();
+            }
+        }
         refreshListView();
     }
 
@@ -87,6 +94,14 @@ public class SearchVideoFragment extends TBaseChildFragment implements OnRefresh
     public void onResume() {
         super.onResume();
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (data != null){
+            data.clear();
+        }
     }
 
     @Override
@@ -150,13 +165,17 @@ public class SearchVideoFragment extends TBaseChildFragment implements OnRefresh
         if (event.isResult()) {
             page_count = event.getData().getPage_count();
             if (event.getData().getList().size() > 0) {
+                EventBus.getDefault().post(new SearchResultEvent(1,true));
                 if (page == 1) {
                     data.clear();
                 }
                 data.addAll(event.getData().getList());
-                adapter.notifyDataSetChanged();
                 ++page;
+            }else {
+                EventBus.getDefault().post(new SearchResultEvent(1,false));
+
             }
+            adapter.notifyDataSetChanged();
         }
         onRefreshComplete();
     }

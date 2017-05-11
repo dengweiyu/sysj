@@ -10,6 +10,7 @@ import com.li.videoapplication.data.local.VideoCaptureHelper;
 import com.li.videoapplication.data.model.entity.Advertisement;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.SquareGameEntity;
+import com.li.videoapplication.data.model.response.SwitchChatEntity;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.*;
@@ -26,7 +27,6 @@ import com.li.videoapplication.data.upload.ImageUploadRequstObject;
 import com.li.videoapplication.data.upload.VideoUploadRequestObject;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
-import com.li.videoapplication.framework.BaseResponse2Entity;
 import com.li.videoapplication.framework.BaseResponseEntity;
 import com.li.videoapplication.tools.ArrayHelper;
 import com.li.videoapplication.utils.StringUtil;
@@ -2671,6 +2671,20 @@ public class DataManager {
     }
 
     /**
+     * 功能：玩家广场是否有更新
+     */
+    public static void squareDot(String member_id, long currentTime) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().squareDot();
+        Map<String, Object> params = RequestParams.getInstance().dynamicDot(member_id, currentTime);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new SquareDotEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
      * 功能：个人视频（动态）
      */
     public static void memberDynamicList(String member_id, int page) {
@@ -3727,6 +3741,17 @@ public class DataManager {
         Map<String, Object> params = RequestParams.getInstance().parseMessage(urlStr);
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new ParseResultEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：个人信息界面发消息是否使用自有IM
+     */
+    public static  void switchChat(){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().switchChat();
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,null, null);
+        request.setEntity(new SwitchChatEntity());
         helper.doNetwork(request);
     }
 }
