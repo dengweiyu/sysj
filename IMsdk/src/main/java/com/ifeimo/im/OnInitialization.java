@@ -5,6 +5,7 @@ package com.ifeimo.im;
  */
 public interface OnInitialization {
 
+    @Deprecated
     boolean isInitialized();
 
 }

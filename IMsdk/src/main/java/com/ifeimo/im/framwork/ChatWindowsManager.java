@@ -1,9 +1,6 @@
 package com.ifeimo.im.framwork;
 
 import android.app.Activity;
-import android.app.Application;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -11,20 +8,17 @@ import android.util.Log;
 import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.callback.LoginCallBack;
 import com.ifeimo.im.common.util.AppUtil;
-import com.ifeimo.im.common.util.WindowUtil;
-import com.ifeimo.im.framwork.database.IMDataBaseHelper;
 import com.ifeimo.im.framwork.interface_im.IHierarchy;
 import com.ifeimo.im.framwork.interface_im.ILife;
 import com.ifeimo.im.framwork.interface_im.IMMain;
 import com.ifeimo.im.framwork.interface_im.IMWindow;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
-
-import y.com.sqlitesdk.framework.AppMain;
-import y.com.sqlitesdk.framework.db.Access;
 
 /**
  * Created by lpds on 2017/1/10.
@@ -57,6 +51,7 @@ final class ChatWindowsManager implements IHierarchy, LoginCallBack, ILife{
      * @param imMain
      */
     public void onCreate(IMMain imMain) {
+        EventBus.getDefault().register(imMain);
         if (checkThisMain(imMain)) {
             windowses.add(imMain.getIMWindow());
             String im;
@@ -136,6 +131,7 @@ final class ChatWindowsManager implements IHierarchy, LoginCallBack, ILife{
      * @param imMain
      */
     public void onDestroy(IMMain imMain) {
+        EventBus.getDefault().unregister(imMain);
         if (checkThisMain(imMain)) {
             imMain.getIMWindow().close();
             windowses.remove(imMain);

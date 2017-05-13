@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ifeimo.im.R;
+import com.ifeimo.im.common.ILog;
 import com.ifeimo.im.common.adapter.BaseChatReCursorAdapter;
 import com.ifeimo.im.common.adapter.ChatReAdapter;
 import com.ifeimo.im.common.adapter.MuccChatReAdapter;
@@ -40,6 +41,8 @@ import com.ifeimo.im.provider.GroupChatProvider;
 import com.ifeimo.im.framwork.view.IMRecycleView;
 import com.ifeimo.im.framwork.view.OnItemShowListener;
 import com.ifeimo.im.framwork.view.RecyclerViewHeader;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import y.com.sqlitesdk.framework.interface_model.IModel;
 
@@ -60,6 +63,7 @@ abstract class BaseCompatActivity<E extends IModel<E>,T extends BaseChatReCursor
     protected TextView title;
     protected TextView id_top_right_tv;
     protected ImageView id_top_right_iv;
+    protected ViewGroup id_top_right_layout;
     protected TextView sendBtn;
     protected RecyclerViewHeader RecyclerViewHeader;
     protected View doBack;
@@ -163,6 +167,7 @@ abstract class BaseCompatActivity<E extends IModel<E>,T extends BaseChatReCursor
         doBack = findViewById(R.id.id_back);
         id_top_right_tv = (TextView) findViewById(R.id.id_top_right_tv);
         id_top_right_iv = (ImageView) findViewById(R.id.id_top_right_iv);
+        id_top_right_layout = (ViewGroup) findViewById(R.id.id_top_right_layout);
         doBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -203,8 +208,14 @@ abstract class BaseCompatActivity<E extends IModel<E>,T extends BaseChatReCursor
         Proxy.getManagerList().onStop(this);
     }
 
+    @Subscribe
+    public void onEventMainThread(ILog workBean) {
+
+    }
+
     @Override
     protected void onDestroy() {
+
         IMWindosThreadUtil.getInstances().leaveThreadPool(getKey(),false);
         RecyclerViewHeader.detach();
         Proxy.getManagerList().onDestroy(this);

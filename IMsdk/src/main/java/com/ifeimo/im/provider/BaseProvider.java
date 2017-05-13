@@ -25,18 +25,5 @@ public abstract class BaseProvider extends ContentProvider{
         return true;
     }
 
-    protected void checkUser(SQLiteDatabase sqLiteDatabase, String memeberid, ContentValues contentValues){
-        try {
-            Cursor cursor = sqLiteDatabase.query(Fields.AccounFields.TB_NAME, null, String.format("%s = ?", Fields.AccounFields.MEMBER_ID),
-                    new String[]{memeberid}, null, null, null);
-            if (cursor.getCount() == 1 && cursor.moveToFirst()) {
-                contentValues.put(Fields.AccounFields.MEMBER_NICKNAME, cursor.getString(cursor.getColumnIndex(Fields.AccounFields.MEMBER_NICKNAME)));
-                contentValues.put(Fields.AccounFields.MEMBER_AVATARURL, cursor.getString(cursor.getColumnIndex(Fields.AccounFields.MEMBER_AVATARURL)));
-            }
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
 
 }

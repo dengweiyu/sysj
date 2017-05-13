@@ -5,9 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 
+import com.ifeimo.im.R;
 import com.ifeimo.im.common.MD5;
 import com.ifeimo.im.common.adapter.ChatReAdapter;
 import com.ifeimo.im.common.bean.AccountBean;
+import com.ifeimo.im.common.bean.eventbus.ChatWindowEntity;
 import com.ifeimo.im.common.bean.model.ChatMsgModel;
 import com.ifeimo.im.common.bean.model.InformationModel;
 import com.ifeimo.im.common.bean.UserBean;
@@ -21,6 +23,7 @@ import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.framwork.request.Account;
 import com.ifeimo.im.provider.InformationProvide;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -50,6 +53,22 @@ public class ChatActivity extends BaseCompatActivity<ChatMsgModel,ChatReAdapter>
         log("------ 对方用户 " + receiverBean.getMemeberid() + "------ ");
         getAdapter().setReceiverBean(receiverBean);
         checkReceiver();
+
+        setTopBar();
+
+    }
+
+    private void setTopBar() {
+
+
+        id_top_right_iv.setImageResource(R.drawable.user_msg);
+        id_top_right_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChatWindowEntity c = new ChatWindowEntity(receiverBean.getMemeberid(),v.getId());
+                EventBus.getDefault().post(c);
+            }
+        });
     }
 
     @Override
