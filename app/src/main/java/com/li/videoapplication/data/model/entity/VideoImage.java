@@ -3,6 +3,8 @@ package com.li.videoapplication.data.model.entity;
 import java.util.List;
 
 import com.li.videoapplication.framework.BaseEntity;
+import com.li.videoapplication.utils.StringUtil;
+
 /**
  * 实体类：视频
  */
@@ -14,12 +16,12 @@ public class VideoImage extends BaseEntity {
 	public String name;
 	public String url;
 	public String v_description;
-	public String view_count;
-	public String download_count;
+	public String view_count="0";
+	public String download_count="0";
 	public String flag;
-	public String flower_count;
-	public String collection_count;
-	public String comment_count;
+	public String flower_count="0";
+	public String collection_count="0";
+	public String comment_count="0";
 	public String time_length;
 	public String flagPath;
 	public String member_id;
@@ -193,6 +195,9 @@ public class VideoImage extends BaseEntity {
 	}
 
 	public void setFlower_count(String flower_count) {
+		if (flower_count == null){
+			flower_count = "0";
+		}
 		this.flower_count = flower_count;
 	}
 
@@ -201,7 +206,11 @@ public class VideoImage extends BaseEntity {
 	}
 
 	public void setCollection_count(String collection_count) {
+		if (collection_count == null){
+			collection_count = "0";
+		}
 		this.collection_count = collection_count;
+
 	}
 
 	public String getComment_count() {
@@ -209,6 +218,9 @@ public class VideoImage extends BaseEntity {
 	}
 
 	public void setComment_count(String comment_count) {
+		if (comment_count == null){
+			comment_count = "0";
+		}
 		this.comment_count = comment_count;
 	}
 
@@ -346,7 +358,7 @@ public class VideoImage extends BaseEntity {
 	public String uptime;
 	public String up_time;
 	public String title;
-	public String click_count;
+	public String click_count="0";
 	public List<String> pic_urls;
 	public int member_tick;
 	public int flower_tick;
@@ -406,6 +418,9 @@ public class VideoImage extends BaseEntity {
 	}
 
 	public void setClick_count(String click_count) {
+		if (click_count == null){
+			click_count = "0";
+		}
 		this.click_count = click_count;
 	}
 
@@ -661,7 +676,7 @@ public class VideoImage extends BaseEntity {
 		this.sort = sort;
 	}
 
-	public String fndown_count;
+	public String fndown_count="0";
 	public int fndown_tick;
 
 	public String getFndown_count() {
@@ -669,6 +684,9 @@ public class VideoImage extends BaseEntity {
 	}
 
 	public void setFndown_count(String fndown_count) {
+		if (fndown_count == null){
+			fndown_count = "0";
+		}
 		this.fndown_count = fndown_count;
 	}
 

@@ -53,6 +53,17 @@ public class PreferencesHepler {
 
     private Gson gson = new Gson();
 
+
+     /* ##############  玩家广场选中Tab页  ############### */
+
+     public int getSquareTabPosition(){
+         return UserPreferences.getInstance().getInt(Constants.SQUARE_POSITION,0);
+     }
+
+    public void saveSquareTabPosition(int position){
+        UserPreferences.getInstance().putInt(Constants.SQUARE_POSITION,position);
+    }
+
      /* ##############  IM  ############### */
     /**
      * 获取IM是否掉线

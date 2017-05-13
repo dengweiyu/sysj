@@ -211,10 +211,16 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
 
     @Override
     public void onClick(View v) {
+
+        if (videoImage == null){
+            return;
+        }
         switch (v.getId()) {
 
             case R.id.videoplay_head:// 头像
+
                 startPlayerDynamicActivity(getMember(videoImage));
+
                 break;
 
             case R.id.ab_videoplay_remark:// 分享，举报
@@ -224,17 +230,19 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
             case R.id.videoplay_focus:// 关注
                 if (isLogin()) {
                     boolean flag;
-                    if (videoImage.getMember_tick() == 0) {
-                        videoImage.setMember_tick(1);
-                        flag = true;
-                    } else {
-                        videoImage.setMember_tick(0);
-                        flag = false;
-                    }
-                    refreshContentView(videoImage);
-                    // 玩家关注
-                    DataManager.memberAttention201(videoImage.getMember_id(), getMember_id());
-                    UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放-关注");
+
+                        if (videoImage.getMember_tick() == 0) {
+                            videoImage.setMember_tick(1);
+                            flag = true;
+                        } else {
+                            videoImage.setMember_tick(0);
+                            flag = false;
+                        }
+                        refreshContentView(videoImage);
+                        // 玩家关注
+                        DataManager.memberAttention201(videoImage.getMember_id(), getMember_id());
+                        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放-关注");
+
                 } else {
                     DialogManager.showLogInDialog(getActivity());
                 }
@@ -249,7 +257,8 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
                     DialogManager.showLogInDialog(getActivity());
                     return;
                 }
-                if (videoImage.getCollection_tick() == 0) {
+
+                if ( videoImage.getCollection_tick() == 0) {
                     star.setChecked(true);
                     star.playAnimation();
                     videoImage.setCollection_tick(1);
@@ -491,7 +500,9 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
                 adapter.notifyDataSetChanged();
                 ++page;
             }else {
-                empty.setVisibility(View.VISIBLE);
+                if(data == null || data.size() == 0){
+                    empty.setVisibility(View.VISIBLE);
+                }
                 adapter.notifyDataSetChanged();
             }
         }

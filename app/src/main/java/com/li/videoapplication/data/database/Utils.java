@@ -50,7 +50,12 @@ public class Utils {
         File[] outerFiles = null;
         if (outer != null) {
             outerFiles = outer.listFiles();
-            outerLength = outerFiles.length;
+            if (outerFiles == null){
+                outerLength = 0;
+            }else {
+                outerLength = outerFiles.length;
+            }
+
         }
         lengths = innerLength + outerLength;
         if (lengths <= 0) {

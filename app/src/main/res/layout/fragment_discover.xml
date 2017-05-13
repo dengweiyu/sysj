@@ -51,7 +51,7 @@
             android:layout_width="6dp"
             android:layout_height="6dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="10dp"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/iv_arrow_right"
             android:background="@drawable/count_point"
             android:gravity="center"
@@ -60,16 +60,6 @@
             android:textColor="#ffffff"
             android:textSize="8sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/tv_square_new_message"
-            android:textColor="#bb000000"
-            android:textSize="12sp"
-            android:layout_marginRight="8dp"
-            android:text="手游视界玩家展示"
-           />
     </RelativeLayout>
 
     <RelativeLayout

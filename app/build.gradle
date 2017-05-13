@@ -44,7 +44,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
         // 20170104,2.1.4   test:20161122, 2.1.2
-        versionCode 20170510
+        versionCode 20170512
         versionName "2.2.0.1"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
@@ -203,5 +203,5 @@ dependencies {
 
     //Guava collection
     compile 'com.google.guava:guava-collections:r03'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+  /*  compile 'com.android.support.constraint:constraint-layout:1.0.2'*/
 }

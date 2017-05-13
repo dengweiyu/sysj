@@ -31,7 +31,7 @@ public class SquareGameChoiceActivity extends TBaseActivity implements View.OnCl
 
         mList = (RecyclerView)findViewById(R.id.rv_square_choice_list);
 
-        mAdapter = new SquareGameChoiceAdapter(mGame.getData());
+        mAdapter = new SquareGameChoiceAdapter(this,mGame.getData());
         mList.setLayoutManager(new GridLayoutManager(this,4));
         mList.setAdapter(mAdapter);
     }

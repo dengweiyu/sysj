@@ -18,6 +18,7 @@
             android:layout_height="18dp"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
+            android:padding="2dp"
             android:src="@drawable/playerbillboard_one"/>
 
         <TextView

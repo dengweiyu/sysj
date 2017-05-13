@@ -11,11 +11,12 @@
         android:id="@+id/main_view"
         android:layout_width="match_parent"
         android:layout_height="58dp"
+
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/muc_left_layout"
             android:clickable="true"
+            android:id="@+id/muc_left_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/information_select">

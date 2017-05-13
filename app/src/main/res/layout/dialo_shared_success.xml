@@ -30,6 +30,7 @@
         android:text="你的视频已经同步被分享到："/>
 
     <RelativeLayout
+        android:id="@+id/rl_shared_to_square"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"

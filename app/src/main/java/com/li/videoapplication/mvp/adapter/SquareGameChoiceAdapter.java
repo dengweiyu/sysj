@@ -1,5 +1,7 @@
 package com.li.videoapplication.mvp.adapter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -8,6 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.SquareGameEntity;
+import com.li.videoapplication.ui.activity.SquareGameChoiceActivity;
 
 import java.util.List;
 
@@ -20,11 +23,12 @@ public class SquareGameChoiceAdapter extends BaseQuickAdapter<SquareGameEntity.D
     private List<SquareGameEntity.DataBean> data;
 
     private  int lastChoice = 0;
+    private Context mContext;
 
-    public SquareGameChoiceAdapter(List<SquareGameEntity.DataBean> dataBeen){
+    public SquareGameChoiceAdapter(Context context,List<SquareGameEntity.DataBean> dataBeen){
         super(R.layout.square_game_list_item,dataBeen);
         this.data = dataBeen;
-
+        this.mContext = context;
     }
 
     @Override
@@ -48,7 +52,11 @@ public class SquareGameChoiceAdapter extends BaseQuickAdapter<SquareGameEntity.D
                     data.get(lastChoice).setChoice(false);
                     lastChoice = position;
                     data.get(lastChoice).setChoice(true);
-                    notifyDataSetChanged();
+                    //直接返回
+                    if (mContext instanceof Activity){
+                        ((Activity)mContext).finish();
+                    }
+                    //notifyDataSetChanged();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

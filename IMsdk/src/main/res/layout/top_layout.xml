@@ -49,15 +49,23 @@
         android:text=""
         android:textSize="16dp"
         android:layout_marginRight="16dp"/>
+
+    <FrameLayout
+        android:id="@+id/id_top_right_layout"
+        android:layout_height="42dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+
+        android:layout_width="42dp">
+
     <ImageView
         android:id="@+id/id_top_right_iv"
         android:layout_height="25dp"
         android:layout_width="25dp"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:layout_alignParentRight="true"
+        android:layout_gravity="center"
         android:textColor="#000"
-        android:layout_marginRight="16dp"
         />
+    </FrameLayout>
 
 </RelativeLayout>

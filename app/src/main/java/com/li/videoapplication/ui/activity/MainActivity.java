@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService;
 import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
+import com.ifeimo.im.common.bean.eventbus.ChatWindowEntity;
 import com.ifeimo.im.common.util.StatusBarBlackTextHelper;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
@@ -40,6 +41,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.Utils_Data;
 import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.image.GlideHelper;
+import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.LoginEvent;
@@ -78,6 +80,9 @@ import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 import com.li.videoapplication.views.ViewPagerY4;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -251,6 +256,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
         //注册IM 消息点击监听器
         registerIMClickListener();
+        //注册EventBus 3.0
+        org.greenrobot.eventbus.EventBus.getDefault().register(this);
     }
 
     @Override
@@ -315,6 +322,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     @Override
     public void onDestroy() {
+        //反注册 EventBus 3.0
+        org.greenrobot.eventbus.EventBus.getDefault().unregister(this);
+
         EventBus.getDefault().unregister(this);
         AppManager.getInstance().removeMainActivity();
         super.onDestroy();
@@ -947,6 +957,22 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             isShowedUpdate = true;
         } else {// N:最新版本
             Log.d(tag, "updateVersion: New");
+        }
+    }
+
+    /**
+     *聊天界面点击事件
+     */
+    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onChatWindowClickListener(ChatWindowEntity entity){
+        if (entity != null && entity.getId() == com.ifeimo.im.R.id.id_top_right_layout){
+            if (!StringUtil.isNull(entity.getReceiverID())){
+                Member member = new Member();
+                member.setId(entity.getReceiverID());
+                member.setMember_id(entity.getReceiverID());
+                ActivityManeger.startPlayerPersonalInfoActivity(this,member);
+            }
         }
     }
 

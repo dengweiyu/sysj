@@ -200,7 +200,7 @@ public class BillboardActivity extends TBaseAppCompatActivity implements View.On
                             topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_yellow));
                             break;
                         case 1:
-                            topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_blue));
+                            topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_blue1));
                             break;
                         case 2:
                             topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_purple));
@@ -212,7 +212,7 @@ public class BillboardActivity extends TBaseAppCompatActivity implements View.On
                             topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_thin_blue));
                             break;
                         case 1:
-                            topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_purple));
+                            topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_purple1));
                             break;
                         case 2:
                             topTextView.get(i).setTextColor(resources.getColorStateList(R.color.menu_billboard_blue));

@@ -205,7 +205,7 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
     }
 
     /**
-     * 回调：动态更新红点
+     * 回调：玩家广场动态更新红点
      */
     public void onEventMainThread(SquareDotEntity event) {
         if (event != null && event.isResult() && mSquareUnRead != null) {

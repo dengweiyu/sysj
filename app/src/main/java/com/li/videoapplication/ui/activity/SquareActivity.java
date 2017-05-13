@@ -17,6 +17,7 @@ import com.li.videoapplication.data.model.entity.SquareScrollEntity;
 import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.event.SquareFilterEvent;
 import com.li.videoapplication.data.model.response.SquareDotEntity;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManeger;
@@ -32,6 +33,8 @@ import com.ypy.eventbus.EventBus;
  * 活动：玩家广场
  */
 public class SquareActivity extends TBaseActivity implements View.OnClickListener {
+
+    private int mCurrentPage = 0;
 
     private List<Fragment> fragments;
     private ViewPagerY4 viewPager;
@@ -55,6 +58,9 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
     public void afterOnCreate() {
         super.afterOnCreate();
         EventBus.getDefault().register(this);
+
+        //根据上次的页面还原
+        mCurrentPage = PreferencesHepler.getInstance().getSquareTabPosition();
     }
 
 
@@ -122,6 +128,15 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_square);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(viewPager);
+
+
+        if (mCurrentPage < 0 || mCurrentPage >= fragments.size()){
+            setCurrentPage(0);
+        }
+
+        if (fragments.size() > 0){
+            viewPager.setCurrentItem(mCurrentPage);
+        }
     }
 
     @Override
@@ -161,6 +176,13 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
         if (game.getData() != null && game.getData().size() >0){
             EventBus.getDefault().post(new SquareScrollEntity(game.getData().get(position).getGame_id(),childPosition));
         }
+
+        setCurrentPage(position);
+    }
+
+    private void setCurrentPage(int position){
+        mCurrentPage = position;
+        PreferencesHepler.getInstance().saveSquareTabPosition(position);
     }
 
     @Override

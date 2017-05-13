@@ -41,13 +41,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/AndroidMarketDebug/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/AndroidMarketDebug/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/AndroidMarketDebug/shaders" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/rs" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/shaders" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/AndroidMarket/debug" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/AndroidMarket/debug" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/AndroidMarket/debug" isTestSource="true" generated="true" />
@@ -55,6 +48,13 @@
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/androidTest/AndroidMarket/debug" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/AndroidMarket/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/AndroidMarket/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/shaders" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/AndroidMarket/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/AndroidMarket/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/AndroidMarket/assets" type="java-resource" />
@@ -168,7 +168,6 @@
     <orderEntry type="library" exported="" name="guava-annotations-r03" level="project" />
     <orderEntry type="library" exported="" name="gson-2.8.0" level="project" />
     <orderEntry type="library" exported="" name="guava-primitives-r03" level="project" />
-    <orderEntry type="library" exported="" name="constraint-layout-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="xutils-3.3.20" level="project" />
     <orderEntry type="library" exported="" name="guava-base-r03" level="project" />
     <orderEntry type="library" exported="" name="alipaySingle-20161222" level="project" />
@@ -181,7 +180,6 @@
     <orderEntry type="library" exported="" name="httpmime-4.3.3" level="project" />
     <orderEntry type="library" exported="" name="BaseRecyclerViewAdapterHelper-v2.6.0" level="project" />
     <orderEntry type="library" exported="" name="rxjava-1.1.8" level="project" />
-    <orderEntry type="library" exported="" name="constraint-layout-solver-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="support-vector-drawable-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />

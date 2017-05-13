@@ -1,6 +1,7 @@
 package com.li.videoapplication.ui.activity;
 
 import android.net.Uri;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -56,8 +57,8 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
     private ListView listView;
     private MessageAdapter adapter;
     private List<MessageAdapter.Message> data = new ArrayList<>();
-
-
+    private InformationView feiMoIMList;
+    private View mEmptyView;
     public int inflateActionBar() {
         return R.layout.actionbar_second;
     }
@@ -77,12 +78,14 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
     @Override
     public void initView() {
         super.initView();
+        //因为聊天使用融云和openFire两套系统，因此将融云的empty View隐藏，自己来判断
+        mEmptyView = findViewById(R.id.ll_my_message_is_empty);
         listView = (ListView) findViewById(R.id.listview);
         adapter = new MessageAdapter(this, data);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         //飞磨IM消息列表
-        InformationView feiMoIMList = (InformationView) findViewById(R.id.feimo_im_list);
+        feiMoIMList = (InformationView) findViewById(R.id.feimo_im_list);
         //初始化
         feiMoIMList.init();
         //消息列表点击时重连（避免账号在异端登陆时挤掉线）
@@ -94,6 +97,7 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
                 return true;
             }
         });
+
     }
 
     @Override
@@ -134,6 +138,15 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
                 .build();
 
         fragment.setUri(uri);
+
+        //message is empty
+        int rongCount = fragment.getAdapter().getCount();
+        int feimoCount = ((RecyclerView)feiMoIMList.findViewById(R.id.com_im_id_main_list)).getAdapter().getItemCount();;
+        if (rongCount + feimoCount == 0){
+            mEmptyView.setVisibility(View.VISIBLE);
+        }else {
+            mEmptyView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -141,6 +154,7 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
         super.onResume();
         // 圈子消息总数
         DataManager.messageMsgRed(getMember_id());
+
     }
 
     /**
