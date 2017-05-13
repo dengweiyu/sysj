@@ -98,3 +98,5 @@ sweet-alert-dialog/build/intermediates/manifest/tmp/
 sweet-alert-dialog/build/intermediates/rs/
 sweet-alert-dialog/build/intermediates/shaders/
 sysj_android.iml
+sqlitesdk/libs/
+sqlitesdk/src/main/res/drawable/

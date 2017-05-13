@@ -135,6 +135,6 @@
     <orderEntry type="library" exported="" name="smack-extensions-4.1.8" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-22.2.1" level="project" />
     <orderEntry type="module" module-name="sqlitesdk" exported="" />
-    <orderEntry type="library" exported="" name="eventbus-3.0.0" level="project" />
+    <orderEntry type="library" exported="" name="sqlitesdk-unspecified" level="project" />
   </component>
 </module>
