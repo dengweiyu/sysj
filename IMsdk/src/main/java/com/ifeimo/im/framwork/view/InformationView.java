@@ -41,6 +41,7 @@ public class InformationView extends FrameLayout implements OnInitialization,Loa
     private RecyclerView informationRecycleView;
     private RecyclerViewCursorAdapter<InformationHolder> adapter;
     private Loader loader;
+    private Support support;
 
     public InformationView(Context context) {
         super(context);
@@ -107,12 +108,15 @@ public class InformationView extends FrameLayout implements OnInitialization,Loa
     }
 
     @Override
-    public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor cursor) {
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor){
         adapter.changeCursor(cursor);
+        if(support != null){
+            support.messageCount(adapter.getItemCount());
+        }
     }
 
     @Override
-    public void onLoaderReset(android.content.Loader<Cursor> loader) {
+    public void onLoaderReset(Loader<Cursor> loader) {
         adapter.changeCursor(null);
     }
 
@@ -129,4 +133,13 @@ public class InformationView extends FrameLayout implements OnInitialization,Loa
         }
 
     }
+
+    public void setSupport(Support support) {
+        this.support = support;
+    }
+
+    public interface Support{
+        void messageCount(int count);
+    }
+
 }
