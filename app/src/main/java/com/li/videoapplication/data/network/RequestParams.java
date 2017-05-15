@@ -2035,4 +2035,10 @@ public class RequestParams {
         map.put("urlInfo", url);
         return map;
     }
+
+    public Map<String, Object> vipInfo() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("target", SYSJ);
+        return map;
+    }
 }

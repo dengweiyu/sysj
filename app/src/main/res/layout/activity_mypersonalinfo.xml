@@ -591,6 +591,31 @@
             android:layout_below="@+id/left" />
     </RelativeLayout>
 
+
+    <LinearLayout
+        android:id="@+id/ll_personal_info_vip_center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingBottom="9dp"
+        android:paddingLeft="19dp"
+        android:paddingRight="19dp"
+        android:paddingTop="9dp">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/mypersonalinfo_vip_center"
+            android:textColor="#6d6d6d"
+            android:textSize="12sp" />
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"

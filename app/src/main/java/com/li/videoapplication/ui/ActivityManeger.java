@@ -98,6 +98,7 @@ import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.ui.activity.VideoUploadActivity;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.ui.activity.VipCenterActivity;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 
@@ -1419,6 +1420,15 @@ public class  ActivityManeger {
         Intent intent = new Intent();
         intent.setClass(context, SquareGameChoiceActivity.class);
         intent.putExtra("game",entity);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 会员中心
+     */
+    public static void startVipCenterActivity(Context context){
+        Intent intent = new Intent();
+        intent.setClass(context, VipCenterActivity.class);
         context.startActivity(intent);
     }
 }

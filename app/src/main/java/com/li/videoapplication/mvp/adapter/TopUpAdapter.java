@@ -47,14 +47,15 @@ public class TopUpAdapter extends BaseQuickAdapter<TopUp, BaseViewHolder> {
 
         int pos = holder.getAdapterPosition();
         EditText ev_custom = holder.getView(R.id.topup_custom);
-        if (isCustomItem(item)) {
-            addEditTextListener(pos, ev_custom);
-        }
 
         ev_custom.clearFocus();
         if (pos == lastestIndex && getData().get(pos).isSelected()) {
             // 如果该项中的EditText是要获取焦点的
             ev_custom.requestFocus();
+        }
+
+        if (isCustomItem(item)) {
+            addEditTextListener(pos, ev_custom);
         }
     }
 
@@ -63,7 +64,16 @@ public class TopUpAdapter extends BaseQuickAdapter<TopUp, BaseViewHolder> {
     }
 
     private void addEditTextListener(final int pos, final EditText ev_custom) {
+
+        if (ev_custom.getOnFocusChangeListener() != null){
+            return;
+        }
+        //FIXME 光标显示逻辑不正确
         ev_custom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+
+            private boolean loseFocus = false;
+
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 Log.d(TAG, "onFocusChange: " + hasFocus);
@@ -71,8 +81,21 @@ public class TopUpAdapter extends BaseQuickAdapter<TopUp, BaseViewHolder> {
                     ev_custom.addTextChangedListener(textWatch);
                     if (getCustomInt() > 0)
                         activity.setPrice(getData().size() - 1);
+                    //打开光标
+                    if (pos == lastestIndex && !loseFocus){
+                        ev_custom.setCursorVisible(true);
+                    }
+                    loseFocus = false;
                 } else {
                     ev_custom.removeTextChangedListener(textWatch);
+                    //输入框失去焦点 清除输入值
+
+                    if (pos == lastestIndex && loseFocus){
+                        ev_custom.setCursorVisible(false);
+                        ev_custom.setText("");
+                        ev_custom.setOnFocusChangeListener(null);
+                    }
+                    loseFocus = true;
                 }
             }
         });
@@ -110,6 +133,8 @@ public class TopUpAdapter extends BaseQuickAdapter<TopUp, BaseViewHolder> {
             }
         }
     };
+
+
 
     public int getCustomInt() {
         return customInt;

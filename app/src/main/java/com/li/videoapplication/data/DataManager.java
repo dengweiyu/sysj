@@ -3754,4 +3754,16 @@ public class DataManager {
         request.setEntity(new SwitchChatEntity());
         helper.doNetwork(request);
     }
+
+    /**
+     * 功能：会员中心 开通会员
+     */
+    public static  void vipInfo(){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().vipInfo();
+        Map<String, Object> params = RequestParams.getInstance().vipInfo();
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new VipRechargeEntity());
+        helper.doNetwork(request);
+    }
 }

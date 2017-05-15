@@ -172,6 +172,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         findViewById(R.id.mypersonnalinfo_gameedit).setOnClickListener(this);
         findViewById(R.id.mypersonnalinfo_qq_btn).setOnClickListener(this);
         findViewById(R.id.mypersonnalinfo_bean_btn).setOnClickListener(this);
+        findViewById(R.id.ll_personal_info_vip_center).setOnClickListener(this);
 
         findViewById(R.id.ll_mypersonnalinfo_horizonid).setOnLongClickListener(mLongClickListener);
 
@@ -251,6 +252,10 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
 
             case R.id.photo_take://拍照
                 takePhoto();
+                break;
+
+            case  R.id.ll_personal_info_vip_center: //会员中心
+                ActivityManeger.startVipCenterActivity(this);
                 break;
 
             case R.id.mypersonnalinfo_logout_btn://注销

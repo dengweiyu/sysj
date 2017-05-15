@@ -338,7 +338,15 @@ public class CacheManagingDrawTask extends DrawTask {
             }
         }
 
+        /**
+         *
+         * @param oldValue
+         * @return
+         */
         private long clearCache(BaseDanmaku oldValue) {
+            if (oldValue.cache == null){
+                return 0;
+            }
             if (oldValue.cache.hasReferences()) {
                 oldValue.cache.decreaseReference();
                 oldValue.cache = null;

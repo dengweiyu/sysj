@@ -2,7 +2,14 @@ package com.li.videoapplication.ui.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,10 +17,18 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.utils.StringUtil;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 
+import cn.nekocode.emojix.Emojix;
 import master.flame.danmaku.controller.DrawHandler;
 import master.flame.danmaku.controller.IDanmakuView;
 import master.flame.danmaku.danmaku.loader.ILoader;
@@ -23,11 +38,15 @@ import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
 import master.flame.danmaku.danmaku.model.IDanmakus;
 import master.flame.danmaku.danmaku.model.IDisplayer;
+import master.flame.danmaku.danmaku.model.android.BaseCacheStuffer;
 import master.flame.danmaku.danmaku.model.android.DanmakuContext;
 import master.flame.danmaku.danmaku.model.android.Danmakus;
+import master.flame.danmaku.danmaku.model.android.SpannedCacheStuffer;
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 import master.flame.danmaku.danmaku.parser.IDataSource;
 import master.flame.danmaku.danmaku.parser.android.BiliDanmukuParser;
+import master.flame.danmaku.danmaku.util.IOUtils;
+import master.flame.danmaku.ui.widget.CenterImageSpan;
 import master.flame.danmaku.ui.widget.DanmakuView;
 
 /**
@@ -54,6 +73,12 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
         inflater = LayoutInflater.from(context);
 
         initContentView();
+
+        {
+            Emojix.wrap(context);
+            expressionArray = context.getResources().getStringArray(R.array.expressionArray);
+            expressionCnArray = context.getResources().getStringArray(R.array.expressionCnArray);
+        }
     }
 
     private void initContentView() {
@@ -76,6 +101,10 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
     private BaseDanmakuParser parser;
     private DanmakuContext danmakuContext;
 
+
+    /**
+     * Fixme 这里可以修改字幕背景样式 可以参照sample尝试修改融云表情显示的问题
+     */
     public void initDanmuku() {
 
         // 设置最大显示行数
@@ -93,8 +122,111 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
                 .setScrollSpeedFactor(1.4f)
                 .setScaleTextSize(0.8f)
                 .setMaximumLines(maxLinesPair)
-                .preventOverlapping(overlappingEnablePair);
+                .preventOverlapping(overlappingEnablePair)
+                .setCacheStuffer(new SpannedCacheStuffer(),mCacheStufferAdapter);
     }
+
+
+    private String[] expressionArray;
+    private String[] expressionCnArray;
+
+
+    /**
+     * Todo 更改字幕，适配融云表情
+     */
+    private BaseCacheStuffer.Proxy mCacheStufferAdapter = new BaseCacheStuffer.Proxy() {
+
+
+        @Override
+        public void prepareDrawing(final BaseDanmaku danmaku, boolean fromWorkerThread) {
+            if (danmaku == null){
+                return;
+            }
+
+            if (StringUtil.isNull(danmaku.text.toString())){
+                return;
+            }
+
+            //已经处理过 不在处理
+            if (danmaku.text instanceof Spanned){
+                return;
+            }
+
+            String content ;
+            try {
+                content = new String(danmaku.text.toString().getBytes("UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                return;
+            }
+            SpannableString spannableString = null;
+
+            //处理显示表情
+            int len = 0;
+            int starts = 0;
+            int end = 0;
+
+            while (len < content.length()) {
+                if (content.indexOf("[", starts) != -1 && content.indexOf("]", end) != -1) {
+                    starts = content.indexOf("[", starts);
+                    end = content.indexOf("]", end);
+                    String face = content.substring(starts + 1, end);
+                    for (int i = 0; i < expressionCnArray.length; i++) {
+                        if (face.equals(expressionCnArray[i])) {
+                            face = expressionArray[i];
+                            break;
+                        }
+                    }
+                    try {
+                        Field f = R.drawable.class.getDeclaredField(face);
+                        int i = f.getInt(R.drawable.class);
+                        Drawable drawable = context.getResources().getDrawable(i);
+                        if (drawable != null) {
+
+                            int w = (int)(25f * (parser.getDisplayer().getDensity() - 0.6f));
+                            int h = w;
+                            float scale = 1f;
+                            danmaku.padding = 0;
+
+
+                            danmaku.textSize =  w > h ? (int)(w*scale) : (int)(h*scale);
+                            drawable.setBounds(0, 0, (int)(w*scale), (int)(h*scale));
+
+                            CenterImageSpan span = new CenterImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
+
+                            if (spannableString == null) {
+                                spannableString = new SpannableString(content);
+                            }
+
+                            spannableString.setSpan(span, starts, end + 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                            danmaku.text = spannableString;
+                            if (danmakuView != null){
+                                danmakuView.invalidateDanmaku(danmaku,true);
+                            }
+                        }
+                    } catch (SecurityException | NoSuchFieldException | IllegalArgumentException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+
+                    }
+                    starts = end;
+                    len = end;
+                    end++;
+                } else {
+                    starts++;
+                    end++;
+                    len = end;
+                    }
+                }
+
+
+        }
+
+        @Override
+        public void releaseResource(BaseDanmaku danmaku) {
+
+        }
+    };
 
     @Override
     public void hideDanmaku() {
@@ -155,14 +287,14 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
             return;
         }
         danmaku.text = text;
-        danmaku.padding = 5;
+    //    danmaku.padding = 5;
         danmaku.priority = 9;
         danmaku.isLive = true;
         danmaku.time = danmakuView.getCurrentTime() + 1200;
         danmaku.textSize = 25f * (parser.getDisplayer().getDensity() - 0.6f);
         danmaku.textColor = Color.RED;
         danmaku.textShadowColor = Color.WHITE;
-        // danmaku.underlineColor = Color.GREEN;
+         //danmaku.underlineColor = Color.GREEN;
         danmaku.borderColor = Color.GREEN;
         danmakuView.addDanmaku(danmaku);
         Log.i(tag, "addDanmaku");

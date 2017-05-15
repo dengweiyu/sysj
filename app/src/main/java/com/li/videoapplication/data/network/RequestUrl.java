@@ -2261,4 +2261,11 @@ public class RequestUrl {
     public final String switchChat(){
         return BaseSYSJ+"/Sysj220/SwitchSelfChat/switchChat";
     }
+
+    /**
+     *会员开通信息
+     */
+    public final String vipInfo(){
+        return BaseSYSJ+"/Sysj220/VIP/getVIPRechargeInfo";
+    }
 }

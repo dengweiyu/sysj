@@ -205,6 +205,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.VipCenterActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/MyTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name="com.li.videoapplication.ui.activity.PersonalInfoEditActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

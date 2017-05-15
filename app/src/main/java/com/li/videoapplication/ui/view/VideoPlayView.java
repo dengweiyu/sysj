@@ -420,6 +420,7 @@ public class VideoPlayView extends RelativeLayout implements
 
     /**
      * 增加弹幕
+     * Todo 增加弹幕
      */
     @Override
     public boolean addDanmuku(String text) {

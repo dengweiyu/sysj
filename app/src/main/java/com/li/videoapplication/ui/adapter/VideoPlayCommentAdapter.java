@@ -216,6 +216,7 @@ public class VideoPlayCommentAdapter extends BaseArrayAdapter<Comment> {
 
     /**
      * 评论内容，如果是表情串码则替换显示相应表情
+     * ToDo 处理表情
      */
     private void setContent(final Comment record, TextView view) {
         if (record == null || view == null) {
