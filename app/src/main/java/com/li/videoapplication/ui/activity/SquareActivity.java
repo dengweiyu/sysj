@@ -3,6 +3,7 @@ package com.li.videoapplication.ui.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ import com.li.videoapplication.ui.dialog.RecordDialog;
 import com.li.videoapplication.ui.fragment.NewSquareFragment;
 import com.li.videoapplication.ui.fragment.SquareFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
+import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.ViewPagerY4;
 import com.ypy.eventbus.EventBus;
 
@@ -53,11 +55,19 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
         return R.layout.activity_square;
     }
 
+    private String mGameId;
 
     @Override
     public void afterOnCreate() {
         super.afterOnCreate();
         EventBus.getDefault().register(this);
+
+        //
+        try {
+            mGameId = getIntent().getStringExtra("game_id");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //根据上次的页面还原
         mCurrentPage = PreferencesHepler.getInstance().getSquareTabPosition();
@@ -222,7 +232,20 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
             for (SquareGameEntity.DataBean bean:
                  entity.getData()) {
                 title.add(bean.getName());
+                //update tab position
+                if (mGameId != null){
+                    if (mGameId.equals(bean.getGame_id())){
+                        mGameId = null;
+                        setCurrentPage(title.size() - 1);
+                    }
+                }
             }
+
+            //not found game, so go to last tab
+            if (mGameId  != null){
+                setCurrentPage(title.size() - 1);
+            }
+
             initFragment();
         }
     }

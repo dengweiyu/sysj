@@ -183,7 +183,7 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
             int w = (int)(25f * (parser.getDisplayer().getDensity() - 0.6f));
             int h = w;
             float scaleText = 1f;
-            float scaleFace;
+            float scaleFace = 1f;
 
             while (len < content.length()) {
                 if (content.indexOf("[", starts) != -1 && content.indexOf("]", end) != -1) {
@@ -201,7 +201,7 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
                         int i = f.getInt(R.drawable.class);
                         Drawable drawable = context.getResources().getDrawable(i);
                         if (drawable != null) {
-                            scaleFace = 1.5f;
+                       //     scaleFace = 1f;
                             drawable.setBounds(0, 0, (int)(w*scaleFace), (int)(h*scaleFace));
                             CenterImageSpan span = new CenterImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
                             spannableString.setSpan(span, starts, end + 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -225,7 +225,7 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
             //如果是刚刚评论的
             if (danmaku.priority == 9){
                 danmaku.padding = 0;
-                scaleText = 1.5f;
+                scaleText = 1f;
             }else {
                 danmaku.padding = 2;
                 scaleText = 1f;

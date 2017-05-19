@@ -308,7 +308,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                             UmengAnalyticsHelper.onMainGameMoreEvent(getActivity(), item.getData().getVideoGroupItem().getMore_mark());
                         } else {
                             if (item.getData().getVideoGroupItem().getMore_mark().equals("player_square")) { //玩家广场
-                                ActivityManeger.startSquareActivity(getActivity());
+                                ActivityManeger.startSquareActivity(getActivity(),null);
                                 UmengAnalyticsHelper.onEvent(getActivity(),UmengAnalyticsHelper.MAIN,"首页-玩家广场-更多");
                             } else {
                                 startHomeMoreActivity(item.getData().getVideoGroupItem());

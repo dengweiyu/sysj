@@ -1377,9 +1377,12 @@ public class  ActivityManeger {
     /**
      * 广场
      */
-    public synchronized static void startSquareActivity(Context context) {
+    public synchronized static void startSquareActivity(Context context,String gameId) {
         Intent intent = new Intent();
         intent.setClass(context, SquareActivity.class);
+        if (gameId != null){
+            intent.putExtra("game_id",gameId);
+        }
         context.startActivity(intent);
     }
 
