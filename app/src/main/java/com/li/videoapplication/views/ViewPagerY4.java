@@ -25,7 +25,12 @@ public class ViewPagerY4 extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        return isScrollable && super.onTouchEvent(ev);
+        try {
+            return isScrollable && super.onTouchEvent(ev);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isScrollable;
     }
 
     @Override
@@ -34,14 +39,24 @@ public class ViewPagerY4 extends ViewPager {
             return false;
         } else {
             if (isTouchable) {// 放行触摸事件， 父视图放行
-                getParent().requestDisallowInterceptTouchEvent(true);
-                return super.onInterceptTouchEvent(ev);
+
+                try {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                    return super.onInterceptTouchEvent(ev);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             } else {// 拦截触摸事件， 父视图拦截
                 clearFocus();
-                getParent().requestDisallowInterceptTouchEvent(false);
+                try {
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 return true;
             }
         }
+        return true;
     }
 
     public boolean isScrollable() {

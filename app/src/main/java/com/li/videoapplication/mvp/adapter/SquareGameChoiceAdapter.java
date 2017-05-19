@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.SquareGameEntity;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.ui.activity.SquareGameChoiceActivity;
 
 import java.util.List;
@@ -32,9 +33,17 @@ public class SquareGameChoiceAdapter extends BaseQuickAdapter<SquareGameEntity.D
     }
 
     @Override
-    protected void convert(BaseViewHolder holder, SquareGameEntity.DataBean dataBean) {
+    protected void convert(final BaseViewHolder holder, final SquareGameEntity.DataBean dataBean) {
         holder.setText(R.id.tv_game_name,dataBean.getName());
-        GlideHelper.displayImage(mContext,dataBean.getFlag(),(ImageView)holder.getView(R.id.iv_square_game_icon));
+        GlideHelper.displayImage(mContext.getApplicationContext(),dataBean.getFlag(),(ImageView)holder.getView(R.id.iv_square_game_icon));
+        UITask.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //这里是必要的 有的手机不知道为什么第一次加载会失败 所以加载第二次
+                GlideHelper.displayImage(mContext.getApplicationContext(),dataBean.getFlag(),(ImageView)holder.getView(R.id.iv_square_game_icon));
+            }
+        },1000);
+
         View root  = holder.getView(R.id.ll_square_item_root);
         if (dataBean.isChoice()){
             root.setBackgroundResource(R.drawable.square_game_selected);

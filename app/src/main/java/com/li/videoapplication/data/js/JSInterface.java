@@ -196,7 +196,7 @@ public class JSInterface {
                 @Override
                 public void run() {
                     if (PreferencesHepler.getInstance().isLogin()) {
-                        ActivityManeger.startTopUpActivity(context, Constant.TOPUP_ENTRY_SWEEP);
+                        ActivityManeger.startTopUpActivity(context, Constant.TOPUP_ENTRY_SWEEP,0);
                     } else {
                         DialogManager.showLogInDialog(context);
                     }

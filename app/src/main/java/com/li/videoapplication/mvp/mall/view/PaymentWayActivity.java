@@ -1,6 +1,7 @@
 package com.li.videoapplication.mvp.mall.view;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -12,10 +13,12 @@ import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.response.MemberCurrencyEntity;
 import com.li.videoapplication.data.model.response.PaymentEntity;
 import com.li.videoapplication.framework.AppConstant;
+import com.li.videoapplication.framework.AsyncTask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.mvp.adapter.PaymentLisAdapter;
 import com.li.videoapplication.mvp.mall.MallContract;
+import com.li.videoapplication.mvp.mall.model.MallModel;
 import com.li.videoapplication.mvp.mall.presenter.MallPresenter;
 import com.li.videoapplication.payment.IPayment;
 import com.li.videoapplication.payment.PaymentFactory;
@@ -29,10 +32,12 @@ import com.ypy.eventbus.EventBus;
  */
 
 public class PaymentWayActivity extends TBaseAppCompatActivity implements MallContract.IPaymentListView ,View.OnClickListener{
+
     public final static String MONEY = "money";
     public final static String ENTRY = "entryt";       //支付页面入口
     public final static String NUMBER = "number";       //飞磨豆数量
-
+    public final static String USE = "use";
+    public final static String LEVEL = "level";
     private MallContract.IMallPresenter presenter;
 
     private ListView mPaymentList;
@@ -45,8 +50,13 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
     private float mMoney = 0;
     private int entry;
     private int mNumber = 0;
+    private int mUse;
+    private int mLevel;
 
+    private String mTitle ;
     private IPayment mPayment;
+
+
     @Override
     protected int getContentView() {
         return R.layout.activity_payment_way;
@@ -73,8 +83,8 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
     @Override
     public void initView() {
         super.initView();
-        initToolbar();
         initData();
+        initToolbar();
         initAdapter();
         presenter.getPaymentList(AppConstant.SYSJ_ANDROID);
 
@@ -90,13 +100,23 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
         mMoney = intent.getFloatExtra(MONEY,0f);
         entry =intent.getIntExtra("entry", Constant.TOPUP_ENTRY_MYWALLEY);
         mNumber = intent.getIntExtra(NUMBER,0);
+        mUse = intent.getIntExtra(USE,-1);
+        mLevel = intent.getIntExtra(LEVEL,-1);
+        switch (mUse){
+            case  MallModel.USE_RECHARGE_VIP:
+                mTitle = "充值会员";
+                break;
+            default:
+                mTitle = "支付飞磨豆";
+                break;
+        }
     }
 
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         TextView tb_title = (TextView) findViewById(R.id.tb_title);
-        tb_title.setText("支付飞磨豆");
+        tb_title.setText(mTitle);
         findViewById(R.id.tb_back).setOnClickListener(this);
     }
 
@@ -169,10 +189,14 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
                 finish();
                 break;
             case R.id.rl_payment_now:
-                if (mNumber >= 100){
-                    presenter.payment(getMember_id(),mNumber+"",Integer.valueOf(mAdapter.getSelectedPayId()),entry);
-                }else {
-                    ToastHelper.l("值数量最低为100");
+                if (mUse == MallModel.USE_RECHARGE_MONEY){
+                    if (mNumber >= 100){
+                        presenter.payment(mUse,getMember_id(),mLevel,mNumber+"",Integer.valueOf(mAdapter.getSelectedPayId()),entry);
+                    }else {
+                        ToastHelper.l("值数量最低为100");
+                    }
+                }else if(mUse == MallModel.USE_RECHARGE_VIP){
+                    presenter.payment(mUse,getMember_id(),mLevel,mNumber+"",Integer.valueOf(mAdapter.getSelectedPayId()),entry);
                 }
                 break;
         }

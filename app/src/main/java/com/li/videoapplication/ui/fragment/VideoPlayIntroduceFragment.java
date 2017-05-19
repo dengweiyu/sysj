@@ -110,6 +110,14 @@ public class VideoPlayIntroduceFragment extends TBaseFragment implements OnClick
             setImageViewImageNet(pic, item.getG_flag());
             setTextViewText(title, item.getGame_name());
             setTextViewText(content, item.getG_description());
+            if (install != null){
+                if (StringUtil.isNull(item.getAndroid_address())){
+                    install.setVisibility(View.GONE);
+                }else {
+                    install.setVisibility(View.VISIBLE);
+                }
+            }
+
         }
     }
 }

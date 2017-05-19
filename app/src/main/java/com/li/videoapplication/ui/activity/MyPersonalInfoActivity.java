@@ -87,6 +87,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
 
     private CircleImageView head;
     private ImageView isV;
+    private ImageView mVip;
     private TextView horizonId, name;
     private TextView gender;
     private TextView introduce;
@@ -153,6 +154,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
 
         head = (CircleImageView) findViewById(R.id.mypersonnalinfo_head);
         isV = (ImageView) findViewById(R.id.mypersonnalinfo_isv);
+        mVip = (ImageView)findViewById(R.id.iv_person_info_vip);
         horizonId = (TextView) findViewById(R.id.mypersonnalinfo_horizonid);
         name = (TextView) findViewById(R.id.mypersonnalinfo_name);
         gender = (TextView) findViewById(R.id.mypersonnalinfo_gender);
@@ -172,6 +174,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         findViewById(R.id.mypersonnalinfo_gameedit).setOnClickListener(this);
         findViewById(R.id.mypersonnalinfo_qq_btn).setOnClickListener(this);
         findViewById(R.id.mypersonnalinfo_bean_btn).setOnClickListener(this);
+        findViewById(R.id.ll_personal_info_vip_center).setOnClickListener(this);
 
         findViewById(R.id.ll_mypersonnalinfo_horizonid).setOnLongClickListener(mLongClickListener);
 
@@ -202,7 +205,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         public void onClick(View v) {
             switch (v.getId()){
                case  R.id.tv_confirm_dialog_no:         //充值
-                   ActivityManeger.startTopUpActivity(MyPersonalInfoActivity.this, Constant.TOPUP_ENTRY_INFO);
+                   ActivityManeger.startTopUpActivity(MyPersonalInfoActivity.this, Constant.TOPUP_ENTRY_INFO,0);
 
                    break;
                case  R.id.tv_confirm_dialog_yes:        //做任务
@@ -253,6 +256,10 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 takePhoto();
                 break;
 
+            case  R.id.ll_personal_info_vip_center: //会员中心
+                ActivityManeger.startTopUpActivity(this,Constant.TOPUP_ENTRY_INFO,1);
+                break;
+
             case R.id.mypersonnalinfo_logout_btn://注销
                 AppAccount.logout();
                 ToastHelper.s(R.string.logout_success);
@@ -275,6 +282,22 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 isV.setVisibility(View.VISIBLE);
             } else {
                 isV.setVisibility(View.INVISIBLE);
+                if (item.getVipInfo() != null && !StringUtil.isNull(item.getVipInfo().getLevel())){
+                    switch (item.getVipInfo().getLevel()){
+                        case "1":
+                            mVip.setImageResource(R.drawable.vip_level_1_icon);
+                            mVip.setVisibility(View.VISIBLE);
+                            break;
+                        case "2":
+                            mVip.setImageResource(R.drawable.vip_level_2_icon);
+                            mVip.setVisibility(View.VISIBLE);
+                            break;
+                        case "3":
+                            mVip.setImageResource(R.drawable.vip_level_3_icon);
+                            mVip.setVisibility(View.VISIBLE);
+                            break;
+                    }
+                }
             }
 
             if (StringUtil.isNull(item.getSignature())) {

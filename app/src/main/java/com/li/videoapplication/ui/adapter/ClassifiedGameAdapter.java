@@ -24,6 +24,8 @@ import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.RoundedImageView;
 import com.ypy.eventbus.EventBus;
 
+import io.rong.imkit.model.Event;
+
 /**
  * 适配器：游戏分类
  */
@@ -126,6 +128,8 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
                 setTextViewText(view, R.string.dynamic_focus);
                 view.setEnabled(true);
             }
+
+
         }
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +151,9 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
                 DataManager.groupAttentionGroup(record.getGroup_id(), getMember_id());
                 notifyDataSetChanged();
                 UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "找游戏-关注");
+
+                //
+                EventBus.getDefault().post(new GroupAttentionGroupEntity());
             }
         });
     }

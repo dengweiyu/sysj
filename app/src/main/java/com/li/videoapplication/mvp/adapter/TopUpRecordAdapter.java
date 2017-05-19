@@ -1,14 +1,11 @@
 package com.li.videoapplication.mvp.adapter;
 
 import android.text.Html;
-import android.util.Log;
-import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.TopUp;
-import com.li.videoapplication.mvp.mall.view.TopUpActivity;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;

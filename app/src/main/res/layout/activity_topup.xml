@@ -1,5 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -19,119 +19,21 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="#eaeaea"
-        tools:ignore="PxUsage" />
+        android:layout_height="1dp"
+        android:background="#f7f7f7" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="#f3f3f3" />
-
-    <LinearLayout
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tl_recharge_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        app:tabSelectedTextColor="@color/lpds_blue"
+        app:tabIndicatorColor="@color/lpds_blue"></android.support.design.widget.TabLayout>
 
-        <com.li.videoapplication.views.CircleImageView
-            android:id="@+id/topup_head"
-            android:layout_width="62dp"
-            android:layout_height="62dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:src="#e4e4e4" />
-
-        <TextView
-            android:id="@+id/topup_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:text="昵称"
-            android:textColor="@color/textcolor_gray"
-            android:textSize="14sp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="2dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="飞磨豆余额："
-                android:textColor="@color/currency_red"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/topup_currency"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textColor="@color/currency_red"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <View
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_recharge_pager"
         android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="#f3f3f3" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        android:scrollbars="none" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp">
-
-        <TextView
-            android:id="@+id/topup_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="售价：0 元"
-            android:textColor="#757575"
-            android:textSize="14sp" />
-        <TextView
-            android:id="@+id/topup_rate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="(1人民币=1000飞磨豆)"
-            android:textColor="#757575"
-            android:layout_marginStart="6dp"
-            android:textSize="12sp" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/topup_pay"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_marginEnd="38dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="26dp"
-        android:background="#ffc10e"
-        android:clickable="true">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?android:attr/selectableItemBackground"
-            android:gravity="center"
-            android:text="立即支付"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-    </RelativeLayout>
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
 
 </LinearLayout>

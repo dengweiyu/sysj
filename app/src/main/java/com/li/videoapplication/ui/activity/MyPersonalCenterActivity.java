@@ -99,6 +99,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
     private RelativeLayout touch;
     private ImageView loginIcon, textBg, go, text, textBtn, isV;
 
+    private ImageView mVip;
     private int currentpage = 1;
     private int pagelength = 10;
 
@@ -155,6 +156,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
             emptyText = (TextView) findViewById(R.id.dynamic_empty);
 
             headerView = inflater.inflate(R.layout.header_dynamic, null);
+            mVip = (ImageView)headerView.findViewById(R.id.iv_dynamic_vip);
             head = (CircleImageView) headerView.findViewById(R.id.dynamic_head);
             isV = (ImageView) headerView.findViewById(R.id.dynamic_v);
             user = headerView.findViewById(R.id.dynamic_user);
@@ -225,6 +227,22 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
                 if (item.isV()) {
                     isV.setVisibility(View.VISIBLE);
                 } else {
+                    if (item.getVipInfo() != null && !StringUtil.isNull(item.getVipInfo().getLevel())){
+                        switch (item.getVipInfo().getLevel()){
+                            case "1":
+                                mVip.setImageResource(R.drawable.vip_level_1_icon);
+                                mVip.setVisibility(View.VISIBLE);
+                                break;
+                            case "2":
+                                mVip.setImageResource(R.drawable.vip_level_2_icon);
+                                mVip.setVisibility(View.VISIBLE);
+                                break;
+                            case "3":
+                                mVip.setImageResource(R.drawable.vip_level_3_icon);
+                                mVip.setVisibility(View.VISIBLE);
+                                break;
+                        }
+                    }
                     isV.setVisibility(View.INVISIBLE);
                 }
                 if (!StringUtil.isNull(item.getCover())) {

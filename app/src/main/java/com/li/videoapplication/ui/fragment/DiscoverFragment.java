@@ -153,7 +153,7 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
             case R.id.discover_square:
                 //更新发现页的红点提示
                 mSquareUnRead.setVisibility(View.GONE);
-                ActivityManeger.startSquareActivity(getActivity());
+                ActivityManeger.startSquareActivity(getActivity(),null);
                 break;
 
             case R.id.discover_rewardbillboard:

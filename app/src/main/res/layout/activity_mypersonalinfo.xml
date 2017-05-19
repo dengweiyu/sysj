@@ -58,6 +58,15 @@
             android:layout_alignBottom="@+id/mypersonnalinfo_head"
             android:src="@drawable/home_v_red"
             android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/iv_person_info_vip"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_alignEnd="@+id/mypersonnalinfo_head"
+            android:layout_alignBottom="@+id/mypersonnalinfo_head"
+            android:src="@drawable/vip_level_1_icon"
+            android:visibility="invisible" />
     </RelativeLayout>
 
     <View
@@ -590,6 +599,31 @@
             android:layout_marginEnd="19dp"
             android:layout_below="@+id/left" />
     </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_personal_info_vip_center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingBottom="9dp"
+        android:paddingLeft="19dp"
+        android:paddingRight="19dp"
+        android:paddingTop="9dp">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/mypersonalinfo_vip_center"
+            android:textColor="#6d6d6d"
+            android:textSize="12sp" />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

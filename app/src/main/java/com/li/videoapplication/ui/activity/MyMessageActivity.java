@@ -59,6 +59,8 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
     private List<MessageAdapter.Message> data = new ArrayList<>();
     private InformationView feiMoIMList;
     private View mEmptyView;
+    private int mFMCount = 0;
+    private int mRongCount = 0;
     public int inflateActionBar() {
         return R.layout.actionbar_second;
     }
@@ -140,13 +142,17 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
         fragment.setUri(uri);
 
         //message is empty
-        int rongCount = fragment.getAdapter().getCount();
-        int feimoCount = ((RecyclerView)feiMoIMList.findViewById(R.id.com_im_id_main_list)).getAdapter().getItemCount();;
-        if (rongCount + feimoCount == 0){
-            mEmptyView.setVisibility(View.VISIBLE);
-        }else {
-            mEmptyView.setVisibility(View.GONE);
-        }
+        mRongCount = fragment.getAdapter().getCount();
+        mFMCount = ((RecyclerView)feiMoIMList.findViewById(R.id.com_im_id_main_list)).getAdapter().getItemCount();
+        setEmptyView();
+
+        feiMoIMList.setSupport(new InformationView.Support() {
+            @Override
+            public void messageCount(int count) {
+                mFMCount = count;
+                setEmptyView();
+            }
+        });
     }
 
     @Override
@@ -154,6 +160,15 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
         super.onResume();
         // 圈子消息总数
         DataManager.messageMsgRed(getMember_id());
+
+    }
+
+    private void setEmptyView(){
+        if (mRongCount+mFMCount == 0){
+            mEmptyView.setVisibility(View.VISIBLE);
+        }else {
+            mEmptyView.setVisibility(View.GONE);
+        }
 
     }
 

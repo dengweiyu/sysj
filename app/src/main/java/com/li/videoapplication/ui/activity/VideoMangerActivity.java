@@ -29,6 +29,7 @@ import com.li.videoapplication.data.local.StorageUtil;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.event.SearchGame2VideoShareEvent;
 import com.li.videoapplication.data.model.event.SharedSuccessEvent;
 import com.li.videoapplication.data.model.response.VideoDisplayVideoEntity;
 import com.li.videoapplication.data.network.LightTask;
@@ -844,6 +845,8 @@ public class VideoMangerActivity extends TBaseActivity implements
         LightTask.post(r);
     }
 
+    private String gameId ;
+
     /**
      * 分享成功
      */
@@ -854,9 +857,20 @@ public class VideoMangerActivity extends TBaseActivity implements
                 title = "你的视频已经被分享到";
                 break;
             default:
-                title = "你的视频已经同步被分享到";
+                title = "你的视频已经同步分享到玩家广场，让更多人围观!";
                 break;
         }
-        new SharedSuccessDialog(this,title).show();
+        new SharedSuccessDialog(this,title,gameId).show();
+    }
+
+
+
+    /**
+     *选择了游戏的分类
+     */
+    public void onEventMainThread(SearchGame2VideoShareEvent event) {
+        if (event != null && event.getAssociate() != null){
+             gameId = event.getAssociate().getGame_id();
+        }
     }
 }

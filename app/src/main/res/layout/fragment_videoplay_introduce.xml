@@ -71,10 +71,10 @@
                 android:layout_alignTop="@+id/videoplay_introduce_title"
                 android:background="@drawable/player_focus"
                 android:gravity="center"
-                android:text="@string/videoplay_install"
+                android:text="去玩"
                 android:textColor="@color/groupdetail_player_red"
                 android:textSize="11sp"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <View

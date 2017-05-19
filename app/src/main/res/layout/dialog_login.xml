@@ -12,7 +12,7 @@
         android:id="@+id/login_close"
         android:layout_width="14dp"
         android:layout_height="14dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:src="@drawable/videoplay_video_close"

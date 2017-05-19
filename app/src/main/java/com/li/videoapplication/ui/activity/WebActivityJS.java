@@ -21,6 +21,7 @@ import android.widget.ZoomButtonsController;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.js.JSInterface;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.utils.StringUtil;
@@ -170,12 +171,19 @@ public class WebActivityJS extends TBaseAppCompatActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
+                webView.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 requestNoTitle();
+                UITask.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        webView.setVisibility(View.VISIBLE);
+                    }
+                },300);
             }
 
             @Override

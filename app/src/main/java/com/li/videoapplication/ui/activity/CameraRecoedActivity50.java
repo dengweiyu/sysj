@@ -162,6 +162,7 @@ public class CameraRecoedActivity50 extends TBaseActivity implements OnClickList
      */
     private void resetRecord() {
         time.setText("00:00");
+        seconds = 0L;
         start.setVisibility(View.VISIBLE);
         complete.setVisibility(View.GONE);
         path = null;

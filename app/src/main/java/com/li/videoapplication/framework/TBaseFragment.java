@@ -124,13 +124,16 @@ public abstract class TBaseFragment extends BaseFragment {
                 public void run() {
 
                     mIPullToRefresh.onRefreshComplete();
+
                 }
             }, delayMillis);
         }
     }
 
     protected void onRefreshComplete() {
+
         onRefreshComplete(getPullToRefresh());
+
     }
 
     protected void onRefreshComplete(final IPullToRefresh mIPullToRefresh) {

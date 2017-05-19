@@ -40,6 +40,8 @@ import com.handmark.pulltorefresh.library.internal.RotateLoadingLayout;
 import com.handmark.pulltorefresh.library.internal.Utils;
 import com.handmark.pulltorefresh.library.internal.ViewCompat;
 
+import static com.handmark.pulltorefresh.library.PullToRefreshBase.State.RESET;
+
 public abstract class PullToRefreshBase<T extends View> extends LinearLayout implements IPullToRefresh<T> {
 
 	// ===========================================================
@@ -74,7 +76,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 	private float mInitialMotionX, mInitialMotionY;
 
 	private boolean mIsBeingDragged = false;
-	private State mState = State.RESET;
+	private State mState = RESET;
 	private Mode mMode = Mode.getDefault();
 
 	private Mode mCurrentMode;
@@ -302,8 +304,13 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 	@Override
 	public final void onRefreshComplete() {
 		if (isRefreshing()) {
-			setState(State.RESET);
+
+			setState(RESET);
+			hideHeaderView();
 		}
+
+
+
 	}
 
 	@Override
@@ -361,7 +368,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 
 					// If we haven't returned by here, then we're not in a state
 					// to pull, so just reset
-					setState(State.RESET);
+					setState(RESET);
 
 					return true;
 				}
@@ -528,6 +535,39 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 	@Override
 	public final void setShowViewWhileRefreshing(boolean showView) {
 		mShowViewWhileRefreshing = showView;
+	}
+
+	/**
+	 * show head view but not call refreshing listener
+	 */
+	public void showHeaderView(){
+		if (mHeaderLayout != null){
+			//while view is not render is 0
+			//int scrollY = getFooterSize();
+			int scrollY = dp2px(getContext(),60);
+			scrollTo(0,-scrollY);
+			mHeaderLayout.setVisibility(VISIBLE);
+			mHeaderLayout.refreshing();
+			mState = State.REFRESHING;
+		}
+	}
+	/**
+	 * hide head view
+	 */
+	public void hideHeaderView(){
+		if (mHeaderLayout != null){
+			int scrollY = getScrollY();
+			if (scrollY < 0){
+				//scrollTo(0,0);
+				//mHeaderLayout.setVisibility(GONE);
+				mHeaderLayout.reset();
+			}
+		}
+	}
+
+	public int dp2px(Context context, float dpValue) {
+		final float scale = context.getResources().getDisplayMetrics().density;
+		return (int) (dpValue * scale + 0.5f);
 	}
 
 	/**

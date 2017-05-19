@@ -62,11 +62,51 @@ public class Member extends BaseEntity {
 	private String uploadVideoCount;
 	private String NAME;
 	private String token;
-	private boolean isV;
+	private boolean isV;	//指的是热门主播
 	private String currency;
 	private String win;
 	private String failure;
 	private String horizonId;
+
+	private VIPInfo vipInfo;
+
+	public VIPInfo getVipInfo() {
+		return vipInfo;
+	}
+
+	public void setVipInfo(VIPInfo vipInfo) {
+		this.vipInfo = vipInfo;
+	}
+
+	public static class VIPInfo{
+		private String level;
+		private String memeber;
+		private String end_time;
+
+		public String getLevel() {
+			return level;
+		}
+
+		public void setLevel(String level) {
+			this.level = level;
+		}
+
+		public String getMemeber() {
+			return memeber;
+		}
+
+		public void setMemeber(String memeber) {
+			this.memeber = memeber;
+		}
+
+		public String getEnd_time() {
+			return end_time;
+		}
+
+		public void setEnd_time(String end_time) {
+			this.end_time = end_time;
+		}
+	}
 
 	public String getHorizonId() {
 		return horizonId;

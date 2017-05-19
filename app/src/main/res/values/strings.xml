@@ -476,6 +476,7 @@
     <string name="mypersonalinfo_save">保存</string>
     <string name="mypersonalinfo_edit">编辑</string>
     <string name="mypersonalinfo_logout">注销</string>
+    <string name="mypersonalinfo_vip_center">会员中心</string>
     <string name="playerpersonalinfo_title">个人资料</string>
     <string name="playerpersonalinfo_like">他喜欢的游戏类型</string>
 
@@ -935,4 +936,6 @@
 
     <string name="square_tip_video_uploading">视频正在上传中...</string>
     <string name="square_tip_video_is_private">上传完成前仅自己可见</string>
+    
+    <string name="vip_center_recharge_vip">充值会员</string>
 </resources>

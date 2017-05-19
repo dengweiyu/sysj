@@ -104,6 +104,15 @@
             android:src="@drawable/home_v_red"
             android:visibility="invisible" />
 
+        <ImageView
+            android:id="@+id/iv_slider_vip"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignEnd="@+id/slider_head"
+            android:layout_alignBottom="@+id/slider_head"
+            android:src="@drawable/vip_level_1_icon"
+            android:visibility="invisible" />
+
         <TextView
             android:id="@+id/slider_name"
             android:layout_width="wrap_content"

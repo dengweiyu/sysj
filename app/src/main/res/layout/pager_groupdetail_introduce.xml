@@ -59,7 +59,7 @@
             android:id="@+id/tv_group_detail_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="打开"
+            android:text="去玩"
             android:textSize="10sp"
             android:background="@drawable/fragment_group_detail_introduce_open"
             android:textColor="@color/currency_red"

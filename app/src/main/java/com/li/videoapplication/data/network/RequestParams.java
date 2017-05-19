@@ -97,6 +97,15 @@ public class RequestParams {
         return map;
     }
 
+    public Map<String, Object> payment(String member_id, int level,int pay_type) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        map.put("level", level);
+        map.put("pay_type", pay_type);
+        map.put("target", SYSJ);
+        return map;
+    }
+
     public Map<String, Object> orderDetail(String member_id, String order_id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
@@ -2007,6 +2016,7 @@ public class RequestParams {
         map.put("content", content);
         map.put("bullet", bullet);
         map.put("mark", mark);
+        map.put("target",SYSJ);
         map.put("comment_id", comment_id);
         return map;
     }
@@ -2033,6 +2043,12 @@ public class RequestParams {
     public Map<String, Object> parseMessage(String url) {
         Map<String, Object> map = new HashMap<>();
         map.put("urlInfo", url);
+        return map;
+    }
+
+    public Map<String, Object> vipInfo() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("target", SYSJ);
         return map;
     }
 }
