@@ -31,6 +31,7 @@ import com.li.videoapplication.ui.adapter.GroupDetailVideoAdapter;
 import com.li.videoapplication.utils.StringUtil;
 import com.mob.tools.log.NLog;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -164,12 +165,16 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
 
     @Override
     protected void initContentView(View view) {
-        if (data == null){
-            data = new ArrayList<>();
-        }
+
         pullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pulltorefresh);
         pullToRefreshListView.setMode(Mode.BOTH);
         listView = pullToRefreshListView.getRefreshableView();
+        if (data == null){
+            data = new ArrayList<>();
+            if (pullToRefreshListView != null){
+                pullToRefreshListView.showHeaderView();
+            }
+        }
         adapter = new GroupDetailVideoAdapter(getActivity(), data);
         listView.setAdapter(adapter);
         pullToRefreshListView.setOnRefreshListener(this);
@@ -197,8 +202,8 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         page = 1;
-
         onPullUpToRefresh(refreshView);
+
     }
 
     @Override

@@ -11,7 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.TopUp;
-import com.li.videoapplication.mvp.mall.view.TopUpActivity;
+import com.li.videoapplication.mvp.mall.view.RechargeCurrencyFragment;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 
@@ -21,14 +21,17 @@ import java.util.List;
  * 适配器：充值选项
  */
 public class TopUpAdapter extends BaseQuickAdapter<TopUp, BaseViewHolder> {
+
+
+
     private static final String TAG = TopUpAdapter.class.getSimpleName();
-    private TopUpActivity activity;
+    private RechargeCurrencyFragment fragment;
     private int customInt;
     int lastestIndex = -1;
 
-    public TopUpAdapter(List<TopUp> data, TopUpActivity activity) {
+    public TopUpAdapter(List<TopUp> data, RechargeCurrencyFragment fragment) {
         super(R.layout.adapter_topup, data);
-        this.activity = activity;
+        this.fragment = fragment;
     }
 
     @Override
@@ -59,43 +62,35 @@ public class TopUpAdapter extends BaseQuickAdapter<TopUp, BaseViewHolder> {
         }
     }
 
+
+
     private boolean isCustomItem(TopUp item) {
         return item.getOption().equals("-1");
     }
 
     private void addEditTextListener(final int pos, final EditText ev_custom) {
-
-        if (ev_custom.getOnFocusChangeListener() != null){
-            return;
-        }
-        //FIXME 光标显示逻辑不正确
+        ev_custom.addTextChangedListener(new MyTextWatch(ev_custom));
         ev_custom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-
-            private boolean loseFocus = false;
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 Log.d(TAG, "onFocusChange: " + hasFocus);
                 if (hasFocus) {
-                    ev_custom.addTextChangedListener(textWatch);
                     if (getCustomInt() > 0)
-                        activity.setPrice(getData().size() - 1);
-                    //打开光标
-                    if (pos == lastestIndex && !loseFocus){
-                        ev_custom.setCursorVisible(true);
-                    }
-                    loseFocus = false;
-                } else {
-                    ev_custom.removeTextChangedListener(textWatch);
-                    //输入框失去焦点 清除输入值
-
-                    if (pos == lastestIndex && loseFocus){
+                        fragment.setPrice(getData().size() - 1);
+                    //关闭光标
+                    if (pos == lastestIndex){
                         ev_custom.setCursorVisible(false);
-                        ev_custom.setText("");
-                        ev_custom.setOnFocusChangeListener(null);
                     }
-                    loseFocus = true;
+
+                } else {
+                //    ev_custom.removeTextChangedListener(new MyTextWatch(ev_custom));
+                    //输入框失去焦点 清除输入值
+                    if (pos == lastestIndex ){
+                     //   ev_custom.setCursorVisible(false);
+                     //   ev_custom.setText("");
+                    }
+
                 }
             }
         });
@@ -113,13 +108,47 @@ public class TopUpAdapter extends BaseQuickAdapter<TopUp, BaseViewHolder> {
         });
     }
 
-    private TextWatcher textWatch = new TextWatcher() {
+    class  MyTextWatch implements TextWatcher{
+
+       private EditText mEdit;
+        public MyTextWatch(EditText editText){
+            mEdit = editText;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (mEdit != null){
+                mEdit.setCursorVisible(true);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            Log.d(TAG, "-------afterTextChanged: --------");
+            if (s == null || s.length() == 0){
+                return;
+            }
+            try {
+                setCustomInt(Integer.valueOf(s.toString()));
+                fragment.setPrice(getData().size() - 1);
+            } catch (NumberFormatException e) {
+                ToastHelper.s("充值飞磨豆数量不在允许范围");
+            }
+        }
+    } /*= new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
         }
 
         @Override
@@ -132,7 +161,7 @@ public class TopUpAdapter extends BaseQuickAdapter<TopUp, BaseViewHolder> {
                 ToastHelper.s("充值飞磨豆数量不在允许范围");
             }
         }
-    };
+    };*/
 
 
 

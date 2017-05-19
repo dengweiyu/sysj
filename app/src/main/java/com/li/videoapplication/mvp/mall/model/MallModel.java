@@ -20,7 +20,8 @@ import rx.Observer;
  */
 public class MallModel implements IMallModel {
     private static MallModel mallModel;
-
+    public final static int USE_RECHARGE_MONEY = 0;
+    public final static int USE_RECHARGE_VIP = 1;
     public static synchronized IMallModel getInstance() {
         if (mallModel == null) {
             mallModel = new MallModel();
@@ -134,8 +135,8 @@ public class MallModel implements IMallModel {
     }
 
     @Override
-    public void payment(String member_id, String currency_num, int pay_type, int ingress, final OnLoadDataListener<PaymentEntity> listener) {
-        HttpManager.getInstance().payment(member_id, currency_num, pay_type, ingress, new Observer<PaymentEntity>() {
+    public void payment(int use,String member_id,int level, String currency_num, int pay_type, int ingress, final OnLoadDataListener<PaymentEntity> listener) {
+        Observer<PaymentEntity> observer =  new Observer<PaymentEntity>() {
 
             @Override
             public void onCompleted() {
@@ -151,7 +152,16 @@ public class MallModel implements IMallModel {
                 if (entity != null)
                     listener.onSuccess(entity);
             }
-        });
+        };
+
+        switch (use){
+            case USE_RECHARGE_MONEY:        //充值飞磨豆
+                HttpManager.getInstance().payment(member_id, currency_num, pay_type, ingress,observer);
+                break;
+            case USE_RECHARGE_VIP:          //开通VIP
+                HttpManager.getInstance().payment(member_id,level, pay_type,observer);
+                break;
+        }
     }
 
     @Override

@@ -204,11 +204,7 @@
             android:name="com.li.videoapplication.ui.activity.MyPersonalInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.VipCenterActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/MyTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+
         <activity
             android:name="com.li.videoapplication.ui.activity.PersonalInfoEditActivity"
             android:launchMode="singleTask"
@@ -311,6 +307,7 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
 
         <!-- ################################# 2.1.1商城相关   ######################### -->
+
         <activity
             android:name=".mvp.mall.view.TopUpActivity"
             android:windowSoftInputMode="adjustPan"

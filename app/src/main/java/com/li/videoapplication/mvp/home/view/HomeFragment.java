@@ -110,6 +110,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
     private boolean isRefresh = false;
 
+    private boolean isClickLike = false;
     /**
      * 跳转：首页更多
      */
@@ -274,6 +275,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                 HomeDto item = (HomeDto) adapter.getItem(position);
                 switch (view.getId()) {
                     case R.id.hometype_youlike_change://换一换
+                        isClickLike = true;
                         if (ClickUtil.canClick(1000)) {//防止连续点击
                             List<String> videoIds = PreferencesHepler.getInstance().getVideoIds();
                             if (PreferencesHepler.getInstance().canVideoIdsTime()) {// id已过期
@@ -380,6 +382,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         Log.d(tag, "------------ onRefresh: ------------");
         setRefreshStatus(true);
         homeAdapter.removeAllFooterView();
+        isClickLike = false;
         noAdvertisement = true;
         page = 1;
         if (NetUtil.isConnect()) {
@@ -649,7 +652,11 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             newGuessList.remove(newGuessList.size() - 1);//移除第4条item
             newGuessList.add(adItem);//替换广告
             homeAdapter.changeGuessVideo(newGuessList);
-            recyclerView.scrollToPosition(0);           //不知道为何 更新了广告图后 会滚动到相应的item  所以直接回到0的位置
+            if (!isClickLike){
+                recyclerView.scrollToPosition(0);           //不知道为何 更新了广告图后 会滚动到相应的item  所以直接回到0的位置
+            }else {
+                isClickLike = false;
+            }
         }
     }
 

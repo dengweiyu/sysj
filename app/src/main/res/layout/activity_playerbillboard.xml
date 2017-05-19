@@ -18,8 +18,12 @@
 
         </android.support.v7.widget.Toolbar>
 
-        <include
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#c4c4c4"></View>
 
+        <include
             layout="@layout/menu_playerbillboard"/>
     </LinearLayout>
 

@@ -17,7 +17,11 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.model.entity.Comment;
+import com.li.videoapplication.utils.PatternUtil;
 import com.li.videoapplication.utils.StringUtil;
+
+import org.jivesoftware.smack.filter.StanzaIdFilter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +30,11 @@ import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.nekocode.emojix.Emojix;
 import master.flame.danmaku.controller.DrawHandler;
@@ -102,9 +110,7 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
     private DanmakuContext danmakuContext;
 
 
-    /**
-     * Fixme 这里可以修改字幕背景样式 可以参照sample尝试修改融云表情显示的问题
-     */
+
     public void initDanmuku() {
 
         // 设置最大显示行数
@@ -132,39 +138,52 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
 
 
     /**
-     * Todo 更改字幕，适配融云表情
+     * TODO 更改字幕，适配融云表情,Unicode表情
      */
     private BaseCacheStuffer.Proxy mCacheStufferAdapter = new BaseCacheStuffer.Proxy() {
 
 
         @Override
         public void prepareDrawing(final BaseDanmaku danmaku, boolean fromWorkerThread) {
-            if (danmaku == null){
+            if (danmaku == null ){
                 return;
             }
 
-            if (StringUtil.isNull(danmaku.text.toString())){
+            if (danmaku.text == null || StringUtil.isNull(danmaku.text.toString())){
                 return;
             }
 
-            //已经处理过 不在处理
+            //已经处理过 不再处理
             if (danmaku.text instanceof Spanned){
                 return;
             }
-
             String content ;
+            SpannableStringBuilder spannableString = null;
             try {
-                content = new String(danmaku.text.toString().getBytes("UTF-8"));
-            } catch (UnsupportedEncodingException e) {
+                content = new String(danmaku.text.toString().getBytes(StandardCharsets.UTF_8));
+
+                //后台之前的版本是传\\过来
+                if (PatternUtil.isContainUnicode(content)) {
+                    content = content.replace("\\\\", "\\");// \\ud83d\\ude24 --> \ud83d\ude24
+                }
+                //处理Unicode表情
+                //content = "\ud83d\ude24"  这样肯定是可以显示表情的 因为编译器做了转义 所以从后台传过来的就需要自己转
+                content = encodeHex(content);
+                spannableString = new SpannableStringBuilder(content);
+            } catch (Exception e) {
                 e.printStackTrace();
                 return;
             }
-            SpannableString spannableString = null;
 
-            //处理显示表情
+            //处理融云表情
             int len = 0;
             int starts = 0;
             int end = 0;
+            //字体大小
+            int w = (int)(25f * (parser.getDisplayer().getDensity() - 0.6f));
+            int h = w;
+            float scaleText = 1f;
+            float scaleFace;
 
             while (len < content.length()) {
                 if (content.indexOf("[", starts) != -1 && content.indexOf("]", end) != -1) {
@@ -182,27 +201,11 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
                         int i = f.getInt(R.drawable.class);
                         Drawable drawable = context.getResources().getDrawable(i);
                         if (drawable != null) {
-
-                            int w = (int)(25f * (parser.getDisplayer().getDensity() - 0.6f));
-                            int h = w;
-                            float scale = 1f;
-                            danmaku.padding = 0;
-
-
-                            danmaku.textSize =  w > h ? (int)(w*scale) : (int)(h*scale);
-                            drawable.setBounds(0, 0, (int)(w*scale), (int)(h*scale));
-
+                            scaleFace = 1.5f;
+                            drawable.setBounds(0, 0, (int)(w*scaleFace), (int)(h*scaleFace));
                             CenterImageSpan span = new CenterImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
-
-                            if (spannableString == null) {
-                                spannableString = new SpannableString(content);
-                            }
-
                             spannableString.setSpan(span, starts, end + 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                            danmaku.text = spannableString;
-                            if (danmakuView != null){
-                                danmakuView.invalidateDanmaku(danmaku,true);
-                            }
+
                         }
                     } catch (SecurityException | NoSuchFieldException | IllegalArgumentException e) {
                         e.printStackTrace();
@@ -219,6 +222,21 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
                     }
                 }
 
+            //如果是刚刚评论的
+            if (danmaku.priority == 9){
+                danmaku.padding = 0;
+                scaleText = 1.5f;
+            }else {
+                danmaku.padding = 2;
+                scaleText = 1f;
+            }
+            Log.d("width",w+"");
+
+            danmaku.textSize =  w > h ? (int)(w*scaleText) : (int)(h*scaleText);
+            danmaku.text = spannableString;
+            if (danmakuView != null){
+                danmakuView.invalidateDanmaku(danmaku,true);
+            }
 
         }
 
@@ -286,14 +304,15 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
         if (danmaku == null) {
             return;
         }
-        danmaku.text = text;
-    //    danmaku.padding = 5;
+
+        danmaku.text =text;
+        danmaku.padding = 2;
         danmaku.priority = 9;
         danmaku.isLive = true;
         danmaku.time = danmakuView.getCurrentTime() + 1200;
         danmaku.textSize = 25f * (parser.getDisplayer().getDensity() - 0.6f);
         danmaku.textColor = Color.RED;
-        danmaku.textShadowColor = Color.WHITE;
+    //    danmaku.textShadowColor = Color.WHITE;
          //danmaku.underlineColor = Color.GREEN;
         danmaku.borderColor = Color.GREEN;
         danmakuView.addDanmaku(danmaku);
@@ -391,5 +410,57 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
             danmakuView = null;
             Log.i(tag, "destroyDanmaku");
         }
+    }
+
+    /**
+     *emoji需要进行转码
+     * @param content
+     * @return
+     */
+    private final String encodeHex(String content) {
+        if (content == null){
+            return content;
+        }
+
+        int len = 0;
+        StringBuffer sb = new StringBuffer();
+        try {
+           // while(len < content.length()){
+                String pattern = "\\\\[u].{4}\\\\[u].{4}";
+                Pattern r = Pattern.compile(pattern);
+                Matcher m = r.matcher(content);
+                if (m.find()){
+                    content = m.replaceAll(encodeEmoji(m.group()));
+                }
+              //  len++;
+          //  }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sb.toString().equals("")?content:sb.toString();
+    }
+
+
+    private final String encodeEmoji(String content){
+        if (content == null || content.length() != 12){
+            return content;
+        }
+        try {
+            String start = content.substring(2,6);
+            String end = content.substring(8,12);
+
+            int ss1 = Integer.parseInt(start, 16);
+            int ss2 = Integer.parseInt(end, 16);
+
+            char chars = Character.toChars(ss1)[0];
+            char chars2 = Character.toChars(ss2)[0];
+
+            int codePoint = Character.toCodePoint(chars, chars2);
+            String emojiString = new String(Character.toChars(codePoint));
+            return emojiString;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return content;
     }
 }

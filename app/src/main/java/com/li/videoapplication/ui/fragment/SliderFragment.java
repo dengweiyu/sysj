@@ -169,6 +169,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
     private CircleImageView head;
     private TextView name, fans, focus, beanNum;
     private ImageView isV,go, slider_message_go;
+    private ImageView mVip;
 
     private TextView count;
     private int totalRong , a, b, c;    //融云未读消息总数
@@ -208,6 +209,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
 
         head = (CircleImageView) view.findViewById(R.id.slider_head);
         isV = (ImageView) view.findViewById(R.id.slider_isv);
+        mVip = (ImageView)view.findViewById(R.id.iv_slider_vip);
         name = (TextView) view.findViewById(R.id.slider_name);
         fans = (TextView) view.findViewById(R.id.slider_fans);
         focus = (TextView) view.findViewById(R.id.slider_focus);
@@ -286,7 +288,9 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
     }
 
     private void switchHeaderView(boolean isLogin, Member item) {
-
+        if (item == null){
+            return;
+        }
         if (isLogin) {
             login.setVisibility(View.GONE);
             person.setVisibility(View.VISIBLE);
@@ -294,8 +298,30 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             setTextViewText(name, item.getNickname());
             setTextViewText(fans, getFans(item));
             setTextViewText(focus, getFocus(item));
+            if (StringUtil.isNull(item.getCurrency())){
+                item.setCurrency("0");
+            }
             setTextViewText(beanNum, StringUtil.formatNum(item.getCurrency()));
-            if (item.isV()) isV.setVisibility(View.VISIBLE);
+            if (item.isV()){        //主播加V
+                isV.setVisibility(View.VISIBLE);
+            }else {                 //VIP
+                if (item.getVipInfo() != null && !StringUtil.isNull(item.getVipInfo().getLevel())){
+                    switch (item.getVipInfo().getLevel()){
+                        case "1":
+                            mVip.setImageResource(R.drawable.vip_level_1_icon);
+                            mVip.setVisibility(View.VISIBLE);
+                            break;
+                        case "2":
+                            mVip.setImageResource(R.drawable.vip_level_2_icon);
+                            mVip.setVisibility(View.VISIBLE);
+                            break;
+                        case "3":
+                            mVip.setImageResource(R.drawable.vip_level_3_icon);
+                            mVip.setVisibility(View.VISIBLE);
+                            break;
+                    }
+                }
+            }
         } else {
             login.setVisibility(View.VISIBLE);
             person.setVisibility(View.GONE);

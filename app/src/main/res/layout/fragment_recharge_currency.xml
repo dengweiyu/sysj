@@ -1,0 +1,122 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#f7f7f7" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.li.videoapplication.views.CircleImageView
+            android:id="@+id/topup_head"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:src="#e4e4e4" />
+
+        <TextView
+            android:id="@+id/topup_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:text="昵称"
+            android:textColor="@color/textcolor_gray"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="飞磨豆余额："
+                android:textColor="@color/currency_red"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/topup_currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/currency_red"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#f7f7f7" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:nestedScrollingEnabled="false"
+        android:scrollbars="none" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/topup_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="售价：0 元"
+            android:textColor="#757575"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/topup_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(1人民币=1000飞磨豆)"
+            android:textColor="#757575"
+            android:layout_marginStart="6dp"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/topup_pay"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="26dp"
+        android:background="#ffc10e"
+        android:clickable="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:text="立即支付"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+</LinearLayout>

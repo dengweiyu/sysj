@@ -41,13 +41,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/AndroidMarketDebug/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/AndroidMarketDebug/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/AndroidMarketDebug/shaders" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/rs" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/shaders" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/AndroidMarket/debug" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/AndroidMarket/debug" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/AndroidMarket/debug" isTestSource="true" generated="true" />
@@ -55,6 +48,13 @@
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/androidTest/AndroidMarket/debug" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/AndroidMarket/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/AndroidMarket/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/testAndroidMarketDebug/shaders" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/AndroidMarket/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/AndroidMarket/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/AndroidMarket/assets" type="java-resource" />
@@ -238,8 +238,8 @@
     <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.2.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="exposed-instrumentation-api-publish-0.5" level="project" />
     <orderEntry type="library" exported="" name="jxmpp-core-0.4.2" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="rules-0.5" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.2.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="rules-0.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.annotation-api-1.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="xpp3-1.1.4c" level="project" />
     <orderEntry type="library" exported="" name="smack-resolver-minidns-4.1.8" level="project" />

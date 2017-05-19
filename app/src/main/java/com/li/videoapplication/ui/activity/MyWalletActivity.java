@@ -55,7 +55,7 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
      * 跳转：充值
      */
     private void startTopUpActivity() {
-        ActivityManeger.startTopUpActivity(this, Constant.TOPUP_ENTRY_MYWALLEY);
+        ActivityManeger.startTopUpActivity(this, Constant.TOPUP_ENTRY_MYWALLEY,0);
     }
 
     @Override

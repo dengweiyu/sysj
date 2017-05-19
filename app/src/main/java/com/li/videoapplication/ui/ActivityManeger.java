@@ -12,7 +12,6 @@ import android.view.View;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
-import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.GroupType;
 import com.li.videoapplication.data.model.entity.LaunchImage;
@@ -98,7 +97,6 @@ import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.ui.activity.VideoUploadActivity;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.ui.activity.VipCenterActivity;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 
@@ -893,10 +891,20 @@ public class  ActivityManeger {
 
 
     /**
-     * 充值记录
-     * @param money 支付金额
+     *
+     * @param context
+     * @param money
+     *              充值金额
+     * @param number
+     *              飞磨豆数量
+     * @param entry
+     *              点击哪里的入口
+     * @param use
+     *              用于飞磨豆充值还是会员开通
+     * @param level
+     *              需要开通的VIP等级
      */
-    public static void startPaymentWayActivity(Context context,float money,int number,int entry) {
+    public static void startPaymentWayActivity(Context context,float money,int number,int entry,int use,int level) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
@@ -905,6 +913,8 @@ public class  ActivityManeger {
         intent.putExtra(PaymentWayActivity.MONEY,money);
         intent.putExtra(PaymentWayActivity.ENTRY,entry);
         intent.putExtra(PaymentWayActivity.NUMBER,number);
+        intent.putExtra(PaymentWayActivity.USE,use);
+        intent.putExtra(PaymentWayActivity.LEVEL,level);
         intent.setClass(context, PaymentWayActivity.class);
         context.startActivity(intent);
     }
@@ -996,13 +1006,14 @@ public class  ActivityManeger {
     /**
      * 充值
      */
-    public synchronized static void startTopUpActivity(Context context, int entry) {
+    public synchronized static void startTopUpActivity(Context context, int entry,int position) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
         }
         Intent intent = new Intent();
         intent.putExtra("entry", entry);
+        intent.putExtra("position",position);
         intent.setClass(context, TopUpActivity.class);
         context.startActivity(intent);
     }
@@ -1423,12 +1434,5 @@ public class  ActivityManeger {
         context.startActivity(intent);
     }
 
-    /**
-     * 会员中心
-     */
-    public static void startVipCenterActivity(Context context){
-        Intent intent = new Intent();
-        intent.setClass(context, VipCenterActivity.class);
-        context.startActivity(intent);
-    }
+
 }

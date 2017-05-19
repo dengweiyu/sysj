@@ -33,7 +33,7 @@ public class VipRechargeEntity extends BaseResponseEntity {
         private int level;
         private String name;
         private String icon;
-        private int price;
+        private float price;
         private List<String> description;
 
         private boolean isChoice;    //自定义字段  是否在列表中选中c
@@ -62,11 +62,11 @@ public class VipRechargeEntity extends BaseResponseEntity {
             this.icon = icon;
         }
 
-        public int getPrice() {
+        public float getPrice() {
             return price;
         }
 
-        public void setPrice(int price) {
+        public void setPrice(float price) {
             this.price = price;
         }
 

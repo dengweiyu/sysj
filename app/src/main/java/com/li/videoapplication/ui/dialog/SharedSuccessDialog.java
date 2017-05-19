@@ -48,7 +48,7 @@ public class SharedSuccessDialog extends BaseDialog implements View.OnClickListe
         params.x = 0; // x小于0左移，大于0右移
         params.y = 0; // y小于0上移，大于0下移
         params.gravity = Gravity.CENTER; // 设置重力
-        params.width = (int) (ScreenUtil.getScreenWidth()*0.8);
+        params.width = (int) (ScreenUtil.getScreenWidth()*0.85);
         window.setAttributes(params);
         findViewById(R.id.iv_shared_success_confirm).setOnClickListener(this);
         findViewById(R.id.rl_shared_to_square).setOnClickListener(this);

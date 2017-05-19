@@ -50,7 +50,7 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
      * 跳转：充值
      */
     private void startTopUpActivity() {
-        ActivityManeger.startTopUpActivity(getContext(),Constant.TOPUP_ENTRY_RECOMMEND);
+        ActivityManeger.startTopUpActivity(getContext(),Constant.TOPUP_ENTRY_RECOMMEND,0);
     }
 
     public OfficialPaymentDialog(Context context, RecommendedLocationEntity event) {

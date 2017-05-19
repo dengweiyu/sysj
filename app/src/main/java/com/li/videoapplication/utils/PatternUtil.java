@@ -26,6 +26,7 @@ public class PatternUtil {
         return isContain;
     }
 
+
     /**
      * 功能：判断用户名 不能为中文,并且是是手机号码或者是邮箱
      *

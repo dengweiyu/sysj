@@ -854,7 +854,7 @@ public class VideoMangerActivity extends TBaseActivity implements
                 title = "你的视频已经被分享到";
                 break;
             default:
-                title = "你的视频已经同步分享到玩家广场，让更多人围观";
+                title = "你的视频已经同步分享到玩家广场，让更多人围观!";
                 break;
         }
         new SharedSuccessDialog(this,title).show();

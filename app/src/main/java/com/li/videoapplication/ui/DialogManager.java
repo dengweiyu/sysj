@@ -53,6 +53,7 @@ import com.li.videoapplication.ui.dialog.ShareDialog;
 import com.li.videoapplication.ui.dialog.SignInSuccessDialog;
 import com.li.videoapplication.ui.dialog.SignUpQuestionDialog;
 import com.li.videoapplication.ui.dialog.SignUpSuccessDialog;
+import com.li.videoapplication.ui.dialog.SquareRecordDialog;
 import com.li.videoapplication.ui.dialog.SubtitleDialog;
 import com.li.videoapplication.ui.dialog.UpdateDialog;
 import com.li.videoapplication.ui.dialog.UploadPicDialog;
@@ -378,8 +379,8 @@ public class DialogManager {
     /**
      * 玩家广场录制框
      */
-    public static void showSquareRecordDialog(Context context) {
-        Dialog dialog = new RecordDialog(context);
+    public static void showSquareRecordDialog(Activity activity) {
+        Dialog dialog = new SquareRecordDialog(activity);
         dialog.show();
 
     }
