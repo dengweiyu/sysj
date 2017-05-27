@@ -22,7 +22,7 @@ import com.li.videoapplication.data.model.response.GetCompVideoLists208Entity;
 import com.li.videoapplication.data.model.response.SendComment208Entity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.ActivityDetailActivity;
 import com.li.videoapplication.mvp.adapter.GroupDetailVideoRecyclerAdapter;
 import com.li.videoapplication.tools.ToastHelper;
@@ -58,7 +58,7 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
      * 跳转：视频播放
      */
     private void startVideoPlayActivity(VideoImage videoImage) {
-        ActivityManeger.startVideoPlayActivity(getActivity(), videoImage);
+        ActivityManager.startVideoPlayActivity(getActivity(), videoImage);
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "活动-参加活动-视频播放");
     }
 
@@ -66,7 +66,7 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
      * 跳转：玩家动态
      */
     private void startPlayerDynamicActivity(Member member) {
-        ActivityManeger.startPlayerDynamicActivity(getActivity(), member);
+        ActivityManager.startPlayerDynamicActivity(getActivity(), member);
     }
 
     @Override

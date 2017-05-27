@@ -13,7 +13,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.tools.LayoutParamsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.ScreenUtil;
 
 import java.io.File;
@@ -55,7 +55,7 @@ public class ImageShareAdapter extends CommonAdapter<ScreenShotEntity> {
             public void onClick(View v) {
 
                 if (position == getCount() - 1) {// 点击加号图片
-                    ActivityManeger.startImageViewActivity(context);
+                    ActivityManager.startImageViewActivity(context);
                 } else {// 预览图片
                     statAcionView(position);
                 }

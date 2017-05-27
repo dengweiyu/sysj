@@ -1,18 +1,12 @@
 package com.li.videoapplication.ui.activity;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
-import android.text.Selection;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.ReportType;
@@ -20,7 +14,7 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.ReportEntity;
 import com.li.videoapplication.data.model.response.ReportTypeEntity;
 import com.li.videoapplication.framework.TBaseActivity;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.adapter.ReportAdapter;
 import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -177,7 +171,7 @@ public class ReportActivity extends TBaseActivity implements OnClickListener, Te
             showToastLong(event.getMsg());
         }
         if (event.isResult()) {
-            ActivityManeger.startReportResultActivity(this);
+            ActivityManager.startReportResultActivity(this);
         }
         finish();
     }

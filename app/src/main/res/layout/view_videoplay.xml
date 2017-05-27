@@ -51,13 +51,6 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="12dp" />
 
-    <!--标题栏  28/32-->
-    <com.li.videoapplication.ui.view.TitleBarView
-        android:id="@+id/videoplay_titlebar"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerVertical="true" />
 
     <!--播放控制 竖屏  32/38-->
     <com.li.videoapplication.ui.view.ControllerView
@@ -126,5 +119,37 @@
         android:layout_height="38dp"
         android:layout_centerInParent="true"
         android:visibility="gone" />
-
+    <!--视频未审核-->
+    <RelativeLayout
+        android:id="@+id/rl_verify_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/iv_verify_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.9"
+            android:background="#88000000"></View>
+        <TextView
+            android:id="@+id/tv_verify_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="视频正在审核中..."
+            android:textColor="@color/white"/>
+    </RelativeLayout>
+    <!--标题栏  28/32-->
+    <com.li.videoapplication.ui.view.TitleBarView
+        android:id="@+id/videoplay_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true" />
 </RelativeLayout>

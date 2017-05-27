@@ -28,7 +28,7 @@ import com.li.videoapplication.mvp.billboard.BillboardContract.IBillboardPresent
 import com.li.videoapplication.mvp.billboard.BillboardContract.IPlayerBillboardView;
 import com.li.videoapplication.mvp.billboard.presenter.BillboardPresenter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.mvp.adapter.PlayerBillboardAdapter;
 import com.li.videoapplication.utils.StringUtil;
 import com.ypy.eventbus.EventBus;
@@ -93,7 +93,7 @@ public class PlayerBillboardFragment extends TBaseFragment implements IPlayerBil
      * 跳转：玩家动态
      */
     private void startDynamicActivity(Member member) {
-        ActivityManeger.startPlayerDynamicActivity(getActivity(), member);
+        ActivityManager.startPlayerDynamicActivity(getActivity(), member);
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "主播榜-个人中心");
     }
 

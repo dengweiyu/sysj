@@ -24,7 +24,7 @@ import com.li.videoapplication.mvp.mall.MallContract;
 import com.li.videoapplication.mvp.mall.model.MallModel;
 import com.li.videoapplication.mvp.mall.presenter.MallPresenter;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.view.AdapterGridLayoutManager;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
@@ -79,7 +79,7 @@ public class RechargeCurrencyFragment extends TBaseFragment implements MallContr
      * 跳转：支付方式选择
      */
     private void startPaymentWayActivity(int number,int entry) {
-        ActivityManeger.startPaymentWayActivity(mActivity,Float.parseFloat(getPrice(selectedPos)),number,entry, MallModel.USE_RECHARGE_MONEY,-1);
+        ActivityManager.startPaymentWayActivity(mActivity,Float.parseFloat(getPrice(selectedPos)),number,entry, MallModel.USE_RECHARGE_MONEY,-1);
     }
 
     @Override

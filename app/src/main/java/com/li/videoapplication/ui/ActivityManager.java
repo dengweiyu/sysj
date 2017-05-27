@@ -105,9 +105,9 @@ import io.rong.imkit.RongIM;
 /**
  * 功能：活动管理
  */
-public class  ActivityManeger {
+public class ActivityManager {
 
-    private static String TAG = ActivityManeger.class.getSimpleName();
+    private static String TAG = ActivityManager.class.getSimpleName();
 
     /**
      * 下载管理
@@ -386,9 +386,10 @@ public class  ActivityManeger {
     /**
      * 分享本地视频
      */
-    public synchronized static void startShareActivity4MyLocalVideo(Activity activity) {
+    public synchronized static void startShareActivity4MyLocalVideo(Activity activity,boolean isLifeType) {
         Intent intent = new Intent(activity, ShareActivity.class);
         intent.putExtra("page", ShareActivity.PAGE_MYLOCALVIDEO);
+        intent.putExtra("is_life_type",isLifeType);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.push_bottom_in, R.anim.activity_hold);

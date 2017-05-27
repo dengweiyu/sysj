@@ -54,9 +54,9 @@ android {
     buildTypes {
         release {
             // 是否进行混淆
-            minifyEnabled false
-            shrinkResources false
-            zipAlignEnabled false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
 
             // 混淆文件的位置
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -156,7 +156,7 @@ dependencies {
     compile project(':IMKit_v2_7_0')
     compile project(':sweet-alert-dialog')
     //emoji
-    compile project(':lib-emojix')
+  //  compile project(':lib-emojix')
     // 极光推送
     compile project(':JPush')
     // butterknife注解

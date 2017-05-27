@@ -676,6 +676,7 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("video_id", video_id);
         map.put("member_id", member_id);
+        map.put("target",SYSJ);
         return map;
     }
 

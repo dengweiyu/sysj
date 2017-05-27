@@ -22,7 +22,7 @@ import com.li.videoapplication.data.model.response.VideoCollect2Entity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.PullToRefreshActivity;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.DynamicVideoAdapter;
 import com.li.videoapplication.utils.StringUtil;
@@ -40,21 +40,21 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
      * 跳转：玩家个人资料
      */
     public void startPlayePersonalInfoActivity(Member member) {
-        ActivityManeger.startPlayerPersonalInfoActivity(this, member);
+        ActivityManager.startPlayerPersonalInfoActivity(this, member);
     }
 
     /**
      * 跳转：我的粉丝
      */
     public void startMyPlayerActivityMyFans() {
-        ActivityManeger.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFANS, item.getMember_id());
+        ActivityManager.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFANS, item.getMember_id());
     }
 
     /**
      * 跳转：我的关注
      */
     public void startMyPlayerActivityMyFocus() {
-        ActivityManeger.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFOCUS, item.getMember_id());
+        ActivityManager.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFOCUS, item.getMember_id());
     }
 
 

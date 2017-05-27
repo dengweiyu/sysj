@@ -14,7 +14,7 @@ import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.adapter.GiftAdapter;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class GiftListActivity extends TBaseActivity implements OnRefreshListener
      * 跳转：我的礼包
      */
     private void startMyGiftListActivity() {
-        ActivityManeger.startMyGiftListActivity(this);
+        ActivityManager.startMyGiftListActivity(this);
     }
 
     @Override

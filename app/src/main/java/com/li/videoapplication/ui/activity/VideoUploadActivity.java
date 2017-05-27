@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CompoundButton;
@@ -20,11 +19,9 @@ import com.li.videoapplication.data.image.MyLocalVideoImageLoader;
 import com.li.videoapplication.data.image.VideoTimeLoader;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.model.entity.Match;
-import com.li.videoapplication.data.upload.Contants;
-import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 
 /**
  * 活动：活动视频上传
@@ -158,7 +155,7 @@ public class VideoUploadActivity extends TBaseActivity implements OnClickListene
 
         if (v == edit) {// 编辑视频
             if (video_length > 30000) {
-                ActivityManeger.startVideoEditorActivity(this, entity);
+                ActivityManager.startVideoEditorActivity(this, entity);
             } else {
                 showToastShort("30秒以上的时长才可以编辑");
             }

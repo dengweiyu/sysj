@@ -4,9 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
-import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.tools.RongIMHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.ConversationActivity;
 
 import io.rong.imkit.RongIM;
@@ -37,7 +35,7 @@ public class MyConversationBehaviorListener implements RongIM.ConversationBehavi
         Log.d(TAG, "onUserPortraitClick: conversationType == "+conversationType);
 
         if (conversationType != Conversation.ConversationType.PRIVATE){
-            ActivityManeger.startConversationActivity(context,
+            ActivityManager.startConversationActivity(context,
                     userInfo.getUserId(),
                     userInfo.getName(),
                     ConversationActivity.PRIVATE);

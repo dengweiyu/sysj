@@ -30,7 +30,7 @@ import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.tools.BitmapLoader;
 import com.li.videoapplication.tools.PhotoHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.DynamicVideoAdapter;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
@@ -49,7 +49,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
      * 跳转：我的个人资料
      */
     public void startMyPersonalInfoActivity() {
-        ActivityManeger.startMyPersonalInfoActivity(this);
+        ActivityManager.startMyPersonalInfoActivity(this);
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "个人中心-头像-个人资料");
     }
 
@@ -57,14 +57,14 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
      * 跳转：我的粉丝
      */
     public void startMyPlayerActivityMyFans() {
-        ActivityManeger.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFANS, getMember_id());
+        ActivityManager.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFANS, getMember_id());
     }
 
     /**
      * 跳转：我的关注
      */
     public void startMyPlayerActivityMyFocus() {
-        ActivityManeger.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFOCUS, getMember_id());
+        ActivityManager.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFOCUS, getMember_id());
     }
 
     /**

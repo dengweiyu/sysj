@@ -19,7 +19,7 @@ import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.AuthCodeUtil;
 import com.li.videoapplication.utils.CountDownTimerUtils;
@@ -78,7 +78,7 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
             final String imageUrl = match.getFlag();
             final String content = "快来看看" + match.getTitle();
 
-            ActivityManeger.startActivityShareActivity4VideoPlay(this, url, title, imageUrl, content);
+            ActivityManager.startActivityShareActivity4VideoPlay(this, url, title, imageUrl, content);
         }
     }
 
@@ -218,7 +218,7 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
                 if (RongIM.getInstance() != null && !StringUtil.isNull(customer_service_id)
                         && !StringUtil.isNull(customer_service_name)) {
 
-                    ActivityManeger.startConversationActivity(this, customer_service_id,
+                    ActivityManager.startConversationActivity(this, customer_service_id,
                             customer_service_name, false);
                 }
                 break;
@@ -244,6 +244,7 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
     private String getTeamPhoneText() {
 
         StringBuilder teamPhone = new StringBuilder();
+
 
         if (teamPhone_1.getText() != null)
             teamPhone.append(teamPhone_1.getText().toString());
@@ -288,6 +289,24 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
             showToastShort("请输入正确的手机号");
             return;
         }
+
+        String[] teamPhone = getTeamPhone();
+        for (int i = 0; i < teamPhone.length; i++) {
+            if (!StringUtil.isNull(teamPhone[i])){
+                if (!PatternUtil.isMatchMobile(teamPhone[i])){
+                    String position="";
+                    switch (i){
+                        case 0:position="一";break;
+                        case 1:position="二";break;
+                        case 2:position="三";break;
+                        case 3:position="四";break;
+                    }
+                    showToastShort("队员"+position+"手机号码不正确哦~");
+                    return;
+                }
+            }
+        }
+
         if (type_id.equals(TEAM_MATCH) && StringUtil.isNull(getTeamName())) {
             showToastShort("请输入战队名");
             return;
@@ -329,6 +348,15 @@ public class SignUpActivity extends TBaseActivity implements View.OnClickListene
         if (phone.getText() == null)
             return "";
         return phone.getText().toString().trim();
+    }
+
+    private String[] getTeamPhone(){
+        return new String[]{
+                teamPhone_1.getText() == null?null:teamPhone_1.getText().toString(),
+                teamPhone_2.getText() == null?null:teamPhone_2.getText().toString(),
+                teamPhone_3.getText() == null?null:teamPhone_3.getText().toString(),
+                teamPhone_4.getText() == null?null:teamPhone_4.getText().toString(),
+        };
     }
 
     private String getQQ() {

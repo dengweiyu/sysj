@@ -15,12 +15,11 @@ import com.li.videoapplication.data.model.response.MemberTaskEntity;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.fragment.DailyRewardFragment;
 import com.li.videoapplication.ui.fragment.HonorRewardFragment;
 import com.li.videoapplication.ui.fragment.MatchRewardFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
-import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.ypy.eventbus.EventBus;
 
@@ -47,7 +46,7 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
      * 跳转：账单
      */
     private void startMyCurrencyRecordActivity() {
-        ActivityManeger.startMyCurrencyRecordActivity(this);
+        ActivityManager.startMyCurrencyRecordActivity(this);
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "我的钱包-账单");
     }
 
@@ -55,7 +54,7 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
      * 跳转：充值
      */
     private void startTopUpActivity() {
-        ActivityManeger.startTopUpActivity(this, Constant.TOPUP_ENTRY_MYWALLEY,0);
+        ActivityManager.startTopUpActivity(this, Constant.TOPUP_ENTRY_MYWALLEY,0);
     }
 
     @Override

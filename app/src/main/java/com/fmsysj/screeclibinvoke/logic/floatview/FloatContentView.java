@@ -27,7 +27,6 @@ import com.fmsysj.screeclibinvoke.data.observe.listener.FrontCameraObservable;
 import com.fmsysj.screeclibinvoke.data.observe.listener.Recording2Observable;
 import com.fmsysj.screeclibinvoke.logic.frontcamera.FrontCameraManager;
 import com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService;
-import com.li.videoapplication.ui.ActivityManeger;
 
 /**
  * 视图：浮窗详情

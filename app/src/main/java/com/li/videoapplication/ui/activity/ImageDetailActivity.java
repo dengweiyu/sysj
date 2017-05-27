@@ -3,7 +3,6 @@ package com.li.videoapplication.ui.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
@@ -30,8 +29,6 @@ import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.AuthorVideoList2EntityImageDetail;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
-import com.li.videoapplication.data.model.response.PhotoCollectionEntity;
-import com.li.videoapplication.data.model.response.PhotoFlowerEntity;
 import com.li.videoapplication.data.model.response.PhotoPhotoCommentListEntity;
 import com.li.videoapplication.data.model.response.PhotoPhotoDetailEntity;
 import com.li.videoapplication.data.model.response.PhotoSendCommentEntity;
@@ -40,7 +37,7 @@ import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.ShareSDKShareHelper;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.adapter.ImageDetailAdapter;
 import com.li.videoapplication.ui.adapter.VideoPlayCommentAdapter;
 import com.li.videoapplication.ui.adapter.VideoPlayVideoAdapter;
@@ -72,7 +69,7 @@ public class ImageDetailActivity extends TBaseActivity implements
 	 * 跳转：玩家动态
 	 */
 	private void startPlayerDynamicActivity(Member member) {
-		ActivityManeger.startPlayerDynamicActivity(this, member);
+		ActivityManager.startPlayerDynamicActivity(this, member);
 	}
 
 	/**

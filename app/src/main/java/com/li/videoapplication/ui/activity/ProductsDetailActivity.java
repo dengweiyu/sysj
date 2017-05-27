@@ -7,7 +7,7 @@ import com.li.videoapplication.data.model.response.GoodsDetailEntity;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.ScreenUtil;
@@ -16,7 +16,6 @@ import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.RoundedImageView;
 
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -122,7 +121,7 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
                 if (data != null && !StringUtil.isNull(data.getExchange_way())) {
                     switch (data.getExchange_way()) {
                         case "1"://推荐位
-                            ActivityManeger.startVideoMangerActivity(this);
+                            ActivityManager.startVideoMangerActivity(this);
                             break;
                         case "5"://抽奖
                             if (isLogin()) {

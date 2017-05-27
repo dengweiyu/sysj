@@ -18,7 +18,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 
 /**
@@ -31,7 +31,7 @@ public class DynamicVideoAdapter extends BaseArrayAdapter<VideoImage> {
 	 * 跳转：视频播放
 	 */
 	private void startVideoPlayActivity(VideoImage videoImage) {
-		ActivityManeger.startVideoPlayActivity(getContext(), videoImage);
+		ActivityManager.startVideoPlayActivity(getContext(), videoImage);
 	}
 
 	public DynamicVideoAdapter(Context context, List<VideoImage> data) {

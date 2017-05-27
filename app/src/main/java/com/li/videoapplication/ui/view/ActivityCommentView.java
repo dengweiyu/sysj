@@ -1,8 +1,6 @@
 package com.li.videoapplication.ui.view;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Comment;
 import com.li.videoapplication.data.network.UITask;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.ActivityDetailActivity;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.ui.adapter.FaceAdapter;
@@ -40,14 +37,14 @@ public class ActivityCommentView extends FrameLayout implements
     * 跳转：上传图片
     */
     private void startActivityImageUploadActivity() {
-        ActivityManeger.startActivityImageUploadActivity(context, activity.match.getMatch_id());
+        ActivityManager.startActivityImageUploadActivity(context, activity.match.getMatch_id());
     }
 
     /*
     * 跳转：上传视频
     */
     private void  startVideoChooseActivity() {
-        ActivityManeger.startVideoChooseActivity(context, activity.match, VideoShareActivity.TO_FINISH);
+        ActivityManager.startVideoChooseActivity(context, activity.match, VideoShareActivity.TO_FINISH);
     }
 
 

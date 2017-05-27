@@ -5,7 +5,6 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,11 +14,10 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.utils.StringUtil;
-import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.RoundedImageView;
 
 /**
@@ -38,7 +36,7 @@ public class MyGameAdapter extends BaseArrayAdapter<Game> {
      * 跳转：圈子详情
      */
     private void startGameDetailActivity(Game item) {
-        ActivityManeger.startGroupDetailActivity(getContext(), item.getGroup_id());
+        ActivityManager.startGroupDetailActivity(getContext(), item.getGroup_id());
         if (activity instanceof SearchActivity) {
             UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MAIN, "搜索-相关游戏-点击相关游戏内任意游戏圈次数");
         } else {

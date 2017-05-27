@@ -10,13 +10,12 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.response.DynamicDotEntity;
 import com.li.videoapplication.data.model.response.SquareDotEntity;
 import com.li.videoapplication.data.model.response.SweepstakeStatusEntity;
-import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.mvp.billboard.view.BillboardActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.views.CircleImageView;
 
@@ -36,7 +35,7 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
      * 跳转：动态
      */
     private void startDynamicActivity() {
-        ActivityManeger.startMyDynamicActivity(getActivity());
+        ActivityManager.startMyDynamicActivity(getActivity());
     }
 
     @Override
@@ -139,35 +138,35 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
                 break;
 
             case R.id.discover_activity:
-                ActivityManeger.startActivityListActivity(getActivity());
+                ActivityManager.startActivityListActivity(getActivity());
                 break;
 
             case R.id.discover_gift:
-                ActivityManeger.startGiftListActivity(getActivity());
+                ActivityManager.startGiftListActivity(getActivity());
                 break;
 
             case R.id.discover_recommend:
-                ActivityManeger.startRecommendActivity(getActivity());
+                ActivityManager.startRecommendActivity(getActivity());
                 break;
 
             case R.id.discover_square:
                 //更新发现页的红点提示
                 mSquareUnRead.setVisibility(View.GONE);
-                ActivityManeger.startSquareActivity(getActivity(),null);
+                ActivityManager.startSquareActivity(getActivity(),null);
                 break;
 
             case R.id.discover_rewardbillboard:
-                ActivityManeger.startMatchReswardBillboardActivity(getActivity());
+                ActivityManager.startMatchReswardBillboardActivity(getActivity());
                 UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "奖金榜");
                 break;
 
             case R.id.discover_playerbillboard:
-                ActivityManeger.startBillboardActivity(getActivity(), BillboardActivity.TYPE_PLAYER);
+                ActivityManager.startBillboardActivity(getActivity(), BillboardActivity.TYPE_PLAYER);
                 UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "主播榜");
                 break;
 
             case R.id.discover_videobillboard:
-                ActivityManeger.startBillboardActivity(getActivity(), BillboardActivity.TYPE_VIDEO);
+                ActivityManager.startBillboardActivity(getActivity(), BillboardActivity.TYPE_VIDEO);
                 UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "视频榜");
                 break;
 

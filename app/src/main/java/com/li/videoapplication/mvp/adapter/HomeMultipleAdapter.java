@@ -3,7 +3,6 @@ package com.li.videoapplication.mvp.adapter;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -15,23 +14,18 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.li.videoapplication.data.model.entity.VideoImage;
-import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.ui.adapter.VideoAdapter;
 import com.li.videoapplication.ui.adapter.YouLikeAdapter;
-import com.li.videoapplication.ui.fragment.GroupdetailVideoFragment;
-import com.li.videoapplication.ui.view.BannerView;
-import com.li.videoapplication.utils.GDTUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.GridViewY1;
-import com.qq.e.ads.nativ.NativeADDataRef;
 
 import java.util.List;
 
@@ -48,7 +42,7 @@ public class HomeMultipleAdapter extends BaseMultiItemQuickAdapter<HomeDto, Base
      * 跳转：圈子详情
      */
     private void startGameDetailActivity(Game item) {
-        ActivityManeger.startGroupDetailActivity(mContext, item.getGroup_id());
+        ActivityManager.startGroupDetailActivity(mContext, item.getGroup_id());
     }
 
     /**
@@ -58,7 +52,7 @@ public class HomeMultipleAdapter extends BaseMultiItemQuickAdapter<HomeDto, Base
         if (StringUtil.isNull(member.getId())) {
             member.setId(member.getMember_id());
         }
-        ActivityManeger.startPlayerDynamicActivity(mContext, member);
+        ActivityManager.startPlayerDynamicActivity(mContext, member);
         UmengAnalyticsHelper.onEvent(mContext, UmengAnalyticsHelper.MAIN, "热门主播");
     }
 

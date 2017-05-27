@@ -2,9 +2,7 @@ package com.li.videoapplication.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,14 +30,12 @@ import com.li.videoapplication.tools.BitmapLoader;
 import com.li.videoapplication.tools.PhotoHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.GroupDetailVideoAdapter;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
-import com.li.videoapplication.utils.BitmapUtil;
 import com.li.videoapplication.utils.ExpandUtil;
 import com.li.videoapplication.utils.StringUtil;
-import com.li.videoapplication.utils.ThreadUtil;
 import com.li.videoapplication.views.CircleImageView;
 
 import java.io.File;
@@ -55,7 +51,7 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
      * 跳转：我的个人中心
      */
     public void startMyPersonalCenterActivity() {
-        ActivityManeger.startMyPersonalCenterActivity(this);
+        ActivityManager.startMyPersonalCenterActivity(this);
         UmengAnalyticsHelper.onEvent(this,UmengAnalyticsHelper.DISCOVER,"动态-个人");
     }
 
@@ -63,21 +59,21 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
      * 跳转：我的粉丝
      */
     public void startMyPlayerActivityMyFans() {
-        ActivityManeger.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFANS, getMember_id());
+        ActivityManager.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFANS, getMember_id());
     }
 
     /**
      * 跳转：我的关注
      */
     public void startMyPlayerActivityMyFocus() {
-        ActivityManeger.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFOCUS, getMember_id());
+        ActivityManager.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFOCUS, getMember_id());
     }
 
     /**
      * 跳转：我的个人资料
      */
     public void startMyPersonalInfoActivity() {
-        ActivityManeger.startMyPersonalInfoActivity(this);
+        ActivityManager.startMyPersonalInfoActivity(this);
     }
 
     private PhotoHelper photoHelper = new PhotoHelper();

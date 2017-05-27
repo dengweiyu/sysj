@@ -12,9 +12,8 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
-import com.li.videoapplication.tools.AnimationHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.TextUtil;
 
@@ -85,7 +84,7 @@ public class HomeTaskView extends LinearLayout implements
                     DialogManager.showLogInDialog(getContext());
                     return;
                 }
-                ActivityManeger.startMyWalletActivity(getContext());
+                ActivityManager.startMyWalletActivity(getContext());
                 break;
         }
     }

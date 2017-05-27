@@ -9,9 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
@@ -20,7 +17,6 @@ import com.li.videoapplication.data.model.response.MemberMatchPKEntity204;
 import com.li.videoapplication.data.model.response.MemberPKListEntity204;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.MyMatchProcessActivity;
 import com.li.videoapplication.mvp.adapter.MyFinishedMatchProcessAdapter;
 

@@ -364,6 +364,15 @@ public class VideoImage extends BaseEntity {
 	public int flower_tick;
 	public int collection_tick;
 	public String video_flag;
+	private String ispass;
+
+	public String getIspass() {
+		return ispass;
+	}
+
+	public void setIspass(String ispass) {
+		this.ispass = ispass;
+	}
 
 	public String getComment_id() {
 		return comment_id;

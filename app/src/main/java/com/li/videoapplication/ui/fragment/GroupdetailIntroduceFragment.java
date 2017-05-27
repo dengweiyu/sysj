@@ -1,9 +1,6 @@
 package com.li.videoapplication.ui.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.provider.Contacts;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,10 +13,9 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
 import com.li.videoapplication.utils.StringUtil;
-import com.li.videoapplication.utils.URLUtil;
 
 /**
  * 碎片：游戏介绍
@@ -130,7 +126,7 @@ public class GroupdetailIntroduceFragment extends TBaseFragment{
     private void install() {
         if (activity.game != null &&activity.game.getGame_id() != null) {
             //
-            ActivityManeger.startDownloadManagerActivity(getContext(),activity.game.getGame_id());
+            ActivityManager.startDownloadManagerActivity(getContext(),activity.game.getGame_id());
             // 游戏下载数+1
             DataManager.downloadClick217(activity.game.getGame_id(), getMember_id(),
                     Constant.DOWNLOAD_LOCATION_GROUP, activity.group_id);

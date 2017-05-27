@@ -31,7 +31,7 @@ import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.BitmapLoader;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.PhotoHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.MyPersonalInfoAdapter;
 import com.li.videoapplication.ui.dialog.GetMoreMoneyDialog;
@@ -59,14 +59,14 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
      * 跳转：登录
      */
     public void startLoginActivity() {
-        ActivityManeger.startLoginActivity(this);
+        ActivityManager.startLoginActivity(this);
     }
 
     /**
      * 跳转：历史战绩
      */
     public void startMatchRecordActivity() {
-        ActivityManeger.startMatchRecordActivity(this);
+        ActivityManager.startMatchRecordActivity(this);
     }
 
     private PhotoHelper photoHelper = new PhotoHelper();
@@ -205,11 +205,11 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         public void onClick(View v) {
             switch (v.getId()){
                case  R.id.tv_confirm_dialog_no:         //充值
-                   ActivityManeger.startTopUpActivity(MyPersonalInfoActivity.this, Constant.TOPUP_ENTRY_INFO,0);
+                   ActivityManager.startTopUpActivity(MyPersonalInfoActivity.this, Constant.TOPUP_ENTRY_INFO,0);
 
                    break;
                case  R.id.tv_confirm_dialog_yes:        //做任务
-                   ActivityManeger.startMyWalletActivity(MyPersonalInfoActivity.this);
+                   ActivityManager.startMyWalletActivity(MyPersonalInfoActivity.this);
                    break;
             }
         }
@@ -223,16 +223,16 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 DialogManager.showEditSexDialog(this);
                 break;
             case R.id.mypersonnalinfo_name_btn://昵称
-                ActivityManeger.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.NAME);
+                ActivityManager.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.NAME);
                 break;
             case R.id.mypersonnalinfo_introduce_btn://个性签名
-                ActivityManeger.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.SIGNATURE);
+                ActivityManager.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.SIGNATURE);
                 break;
             case R.id.mypersonnalinfo_bean_btn:
                 new GetMoreMoneyDialog(this,"想获得更多飞磨豆吗？可通过做任务或充值获得哟！",mChoiceListener).show();
                 break;
             case R.id.mypersonnalinfo_gameedit://游戏类型
-                ActivityManeger.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.GAME);
+                ActivityManager.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.GAME);
                 break;
             case R.id.mypersonnalinfo_matchrecord_btn://赛事战绩
                 startMatchRecordActivity();
@@ -257,7 +257,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 break;
 
             case  R.id.ll_personal_info_vip_center: //会员中心
-                ActivityManeger.startTopUpActivity(this,Constant.TOPUP_ENTRY_INFO,1);
+                ActivityManager.startTopUpActivity(this,Constant.TOPUP_ENTRY_INFO,1);
                 break;
 
             case R.id.mypersonnalinfo_logout_btn://注销

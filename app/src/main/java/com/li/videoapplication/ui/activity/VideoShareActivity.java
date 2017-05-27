@@ -32,7 +32,6 @@ import com.li.videoapplication.data.model.event.SearchGame2VideoShareEvent;
 import com.li.videoapplication.data.model.event.Share2VideoShareEvent;
 import com.li.videoapplication.data.model.event.Tag2VideoShareEvent;
 import com.li.videoapplication.data.model.response.BaseInfo4VideoShareEntity;
-import com.li.videoapplication.data.model.response.BaseInfoEntity;
 import com.li.videoapplication.data.model.response.GameTagListEntity;
 import com.li.videoapplication.data.model.response.RecommendedLocationEntity;
 import com.li.videoapplication.data.model.response.SelectMatchEntity;
@@ -41,9 +40,8 @@ import com.li.videoapplication.data.model.response.VideoDisplayVideoEntity;
 import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseActivity;
-import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.JoinAdapter;
 import com.li.videoapplication.ui.popupwindows.ApplyPopupWindow;
@@ -63,7 +61,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import cn.sharesdk.framework.ShareSDK;
 
@@ -239,6 +236,7 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
         TAGS.clear();
         IDS.clear();
         SPANS.clear();
+        SearchLifeActivity.recycleData();
         super.onDestroy();
         if (bitmap != null && !bitmap.isRecycled())
             bitmap.recycle();
@@ -250,7 +248,7 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
 
         if (v == edit) {// 编辑视频
             if (video_length > 30000) {
-                ActivityManeger.startVideoEditorActivity(this, entity);
+                ActivityManager.startVideoEditorActivity(this, entity);
             } else {
                 showToastShort("30秒以上的时长才可以编辑");
             }
@@ -295,7 +293,7 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
                 return;
             }
             // 标签
-            ActivityManeger.startTagActivity(this);
+            ActivityManager.startTagActivity(this);
         }
     }
 
@@ -537,6 +535,12 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
             moreTypePopupWindow.dismiss();
     }
 
+
+    private boolean isLifeType;         //是否选择生活类
+
+    private void refreshLiftType(){
+        isLifeType = game == null?false:SearchLifeActivity.isLifeType(game.getGame_id());
+    }
     // ----------------------------------------------------------------------------------------
 
     /**
@@ -557,7 +561,8 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
             // 推荐位信息
             DataManager.recommendedLocation(getMember_id(), new ShareRecommendLocEntity());
         } else {
-            ActivityManeger.startShareActivity4MyLocalVideo(this);
+            refreshLiftType();
+            ActivityManager.startShareActivity4MyLocalVideo(this,isLifeType);
         }
     }
 
@@ -605,7 +610,6 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
     }
 
     // ----------------------------------------------------------------------------------------
-
     /**
      * 回调:推荐位
      */
@@ -619,7 +623,8 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
             DialogManager.showOfficialPaymentDialog(this, event);
         } else {
             //非正常情况下，商城没卖推荐位，或者什么鬼原因推荐位接口返回false了，直接不管，开启分享。
-            ActivityManeger.startShareActivity4MyLocalVideo(this);
+            refreshLiftType();
+            ActivityManager.startShareActivity4MyLocalVideo(this,isLifeType);
         }
     }
 
@@ -635,7 +640,8 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
                     updateDatabase();
                     shareNow();
                 } else {//申请推荐位的弹窗中确认支付了，但是没分享
-                    ActivityManeger.startShareActivity4MyLocalVideo(this);
+                    refreshLiftType();
+                    ActivityManager.startShareActivity4MyLocalVideo(this,isLifeType);
                 }
             }
         }
@@ -783,7 +789,7 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
                 getGoods_id());
 
         if (to == TO_VIDEOMANAGER)
-            ActivityManeger.startVideoMangerActivityNewTask(this);
+            ActivityManager.startVideoMangerActivityNewTask(this);
         ToastHelper.s("视频上传中...");
         finish();
     }

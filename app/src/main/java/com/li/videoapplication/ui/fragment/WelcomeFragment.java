@@ -22,9 +22,8 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseChildFragment;
-import com.li.videoapplication.animation.ViewPagerDepthTransformer;
 import com.li.videoapplication.animation.ViewPagerZoomOutTransformer;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.pageradapter.WelcomePagerAdapter;
 import com.li.videoapplication.views.ViewPagerY4;
 
@@ -37,7 +36,7 @@ public class WelcomeFragment extends TBaseChildFragment implements OnPageChangeL
      * 跳转：主页
      */
     public void startMainActivity() {
-        ActivityManeger.startMainActivity(getActivity());
+        ActivityManager.startMainActivity(getActivity());
     }
 
     private List<View> views;

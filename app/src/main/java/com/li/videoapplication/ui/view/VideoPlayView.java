@@ -14,6 +14,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -24,6 +25,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.danmuku.DanmukuListEntity;
 import com.li.videoapplication.data.danmuku.DanmukuListXmlParser;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.BulletList203Entity;
@@ -69,11 +71,12 @@ public class VideoPlayView extends RelativeLayout implements
     public static final int STATE_START = 4;// 开始播放
     public static final int STATE_TV = 5;// 乐播投屏
     public static final int STATE_ERROR = 9;// 错误
+    public static final int STATE_UNVETIFY = -1;    //视频未审核
 
     private int state = STATE_PREPARE;
 
     private View view;
-
+    private ImageView mUnVerifyView;
     private PrepareView prepareView;
     private ErrorView errorView;
     private StartView startView;
@@ -153,6 +156,9 @@ public class VideoPlayView extends RelativeLayout implements
         initContentView();
         minView();
     }
+
+
+
 
     private void initContentView() {
 
@@ -841,9 +847,43 @@ public class VideoPlayView extends RelativeLayout implements
         }
     };
 
+    /**
+     *
+     */
+    private void initUnVerifyView(){
+        mUnVerifyView = (ImageView) findViewById(R.id.iv_verify_view);
+        if (videoImage != null){
+            GlideHelper.displayImageEmpty(getContext(),videoImage.getFlag(),mUnVerifyView);
+        }
+        findViewById(R.id.rl_verify_view).setVisibility(View.VISIBLE);
+    }
+
     public void switchPlay(int state) {
         this.state = state;
         if (DEBUG) Log.d(tag, "switchPlay/state=" + state);
+
+        /**
+         * 视频未审核
+         */
+        if (state == STATE_UNVETIFY){
+            initUnVerifyView();
+            titleBarView.showView();
+            titleBarView.clearShaw();
+            touchView.hideView();
+            errorView.hideView();
+            startView.hideView();
+            completeView.hideView();
+            controllerView.hideView();
+            controllerViewLand.hideView();
+            rightBarView.hideView();
+            gprsTipView.showView();
+            leBoView.hideView();
+
+            videoPlayer.setVisibility(GONE);
+            webPlayer.setVisibility(GONE);
+            return;
+        }
+
 
         /**
          * 准备播放

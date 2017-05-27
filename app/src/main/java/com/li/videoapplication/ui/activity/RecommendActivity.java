@@ -17,10 +17,9 @@ import com.li.videoapplication.data.model.response.EditBanner203Entity;
 import com.li.videoapplication.data.model.response.EditGoldMember203Entity;
 import com.li.videoapplication.data.model.response.EditList203Entity;
 import com.li.videoapplication.framework.PullToRefreshActivity;
-import com.li.videoapplication.mvp.billboard.view.*;
 import com.li.videoapplication.mvp.billboard.view.BillboardActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.adapter.BannerAdapter;
 import com.li.videoapplication.ui.adapter.RecommendAdapter;
 import com.li.videoapplication.utils.StringUtil;
@@ -39,7 +38,7 @@ public class RecommendActivity extends PullToRefreshActivity<VideoImage> impleme
 	 * 跳转：风云榜
 	 */
 	private void startBillboardActivity() {
-		ActivityManeger.startBillboardActivity(this, BillboardActivity.TYPE_PLAYER);
+		ActivityManager.startBillboardActivity(this, BillboardActivity.TYPE_PLAYER);
 		UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.DISCOVER, "精彩推荐-金牌主播更多");
 	}
 
@@ -50,7 +49,7 @@ public class RecommendActivity extends PullToRefreshActivity<VideoImage> impleme
 		if (StringUtil.isNull(member.getId())) {
 			member.setId(member.getMember_id());
 		}
-		ActivityManeger.startPlayerDynamicActivity(this, member);
+		ActivityManager.startPlayerDynamicActivity(this, member);
 		UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.DISCOVER, "精彩推荐-金牌主播");
 	}
 

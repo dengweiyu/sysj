@@ -15,8 +15,7 @@ import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.activity.MyPlayerActivity;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.CircleImageView;
@@ -39,7 +38,7 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 	 * 跳转：玩家动态
 	 */
 	private void startDynamicActivity(Member member) {
-		ActivityManeger.startPlayerDynamicActivity(getContext(), member);
+		ActivityManager.startPlayerDynamicActivity(getContext(), member);
 		AppManager.getInstance().currentActivity().finish();
 		if (page == PAGE_SEARCHMEMBER){
 			UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MAIN, "搜索-相关主播-点击相关主播内任意主播进入他人动态页次数");

@@ -20,7 +20,7 @@ import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.activity_gift.ActivityGiftContract.IActivityPresenter;
 import com.li.videoapplication.mvp.activity_gift.ActivityGiftContract.IMyActivityView;
 import com.li.videoapplication.mvp.activity_gift.presenter.ActivityPresenter;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.mvp.adapter.ActivityListAdapter;
 
@@ -51,7 +51,7 @@ public class MyActivityListActivity extends TBaseAppCompatActivity implements IM
      * 跳转：活动详情
      */
     private void startActivityDetailActivity(Match record) {
-        ActivityManeger.startActivityDetailActivityNewTask(this, record.getMatch_id());
+        ActivityManager.startActivityDetailActivityNewTask(this, record.getMatch_id());
     }
 
     @Override

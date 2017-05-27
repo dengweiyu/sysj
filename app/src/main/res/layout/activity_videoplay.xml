@@ -17,12 +17,16 @@
         android:layout_centerHorizontal="true"
         android:background="#88000000" />
 
+
+
     <com.li.videoapplication.ui.view.CommentView
         android:id="@+id/comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:visibility="visible" />
+
+
 
     <LinearLayout
         android:id="@+id/middle"
@@ -64,4 +68,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/videoplay"/>
+
+    <fragment
+        android:id="@+id/fg_play_gift"
+        android:name="com.li.videoapplication.ui.fragment.VideoPlayGiftFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+
+        android:layout_above="@+id/comment">
+    </fragment>
 </RelativeLayout>

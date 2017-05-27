@@ -25,10 +25,8 @@ import com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService;
 import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
 import com.ifeimo.im.common.bean.eventbus.ChatWindowEntity;
 import com.ifeimo.im.common.util.StatusBarBlackTextHelper;
-import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.message.OnHtmlItemClickListener;
-import com.ifeimo.im.framwork.message.OnSimpleMessageListener;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.ifeimo.screenrecordlib.TaskUtil;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -55,18 +53,15 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
-import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseSlidingActivity;
 import com.li.videoapplication.mvp.home.view.HomeFragment;
 import com.li.videoapplication.mvp.match.view.GameMatchFragment;
-import com.li.videoapplication.tools.AppExceptionHandler;
 import com.li.videoapplication.tools.FeiMoIMHelper;
-import com.li.videoapplication.tools.ParseMessageHelper;
 import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.fragment.DiscoverFragment;
 import com.li.videoapplication.ui.fragment.GameFragment;
@@ -84,7 +79,6 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +86,6 @@ import java.util.List;
 import io.rong.eventbus.EventBus;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
-import io.rx_cache.internal.cache.memory.apache.IterableMap;
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
 
@@ -160,7 +153,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
      * 跳转：搜索
      */
     private void startSearchActivity() {
-        ActivityManeger.startSearchActivity(this);
+        ActivityManager.startSearchActivity(this);
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "点击搜索框次数");
     }
 
@@ -168,7 +161,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
      * 跳转：二维码扫描
      */
     private void startScanQRCodeActivity() {
-        ActivityManeger.startScanQRCodeActivity(this);
+        ActivityManager.startScanQRCodeActivity(this);
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "点击扫码按钮次数");
     }
 
@@ -485,7 +478,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
             case R.id.ab_right:
                 //消息
-                ActivityManeger.startMyMessageActivity(this);
+                ActivityManager.startMyMessageActivity(this);
                 break;
             case R.id.iv_bottom_record:
 
@@ -933,16 +926,16 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         if (entity != null && entity.isResult()){
             switch (entity.getData().getType()){
                 case "event":
-                    ActivityManeger.startGameMatchDetailActivity(MainActivity.this,entity.getData().getId());
+                    ActivityManager.startGameMatchDetailActivity(MainActivity.this,entity.getData().getId());
                     break;                 //点击了赛事链接
                 case "activity":
-                    ActivityManeger.startActivityDetailActivity(MainActivity.this,entity.getData().getId());
+                    ActivityManager.startActivityDetailActivity(MainActivity.this,entity.getData().getId());
                     break;              //点击了活动链接
                 case "video":
                     VideoImage item = new VideoImage();
                     item.setQn_key(entity.getData().getKey());
                     item.setVideo_id(entity.getData().getId());
-                    ActivityManeger.startVideoPlayActivity(MainActivity.this,item);
+                    ActivityManager.startVideoPlayActivity(MainActivity.this,item);
                     break;                 //点击了视频链接
             }
         }
@@ -971,7 +964,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 Member member = new Member();
                 member.setId(entity.getReceiverID());
                 member.setMember_id(entity.getReceiverID());
-                ActivityManeger.startPlayerPersonalInfoActivity(this,member);
+                ActivityManager.startPlayerPersonalInfoActivity(this,member);
             }
         }
     }

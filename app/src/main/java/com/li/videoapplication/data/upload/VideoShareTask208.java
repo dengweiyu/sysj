@@ -946,6 +946,7 @@ public class VideoShareTask208 {
             Platform.ShareParams params = new Platform.ShareParams();
             if (shareChannel.equals("SinaWeibo")) {
                 params.setText(text + url);
+
             }
             params.setImageUrl(imageUrl);
             params.setTitle(title);

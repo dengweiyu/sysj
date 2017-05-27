@@ -4,13 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,7 +23,7 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.AudioRecorder;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.VideoEditorActivity2;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.utils.ScreenUtil;
@@ -290,7 +286,7 @@ public class AudioFragment extends TBaseFragment {
                                 showToastShort(R.string.audio_mux_tip_success);
                                 getActivity().finish();
                                 // 视频编辑
-                                ActivityManeger.startVideoEditorActivity_2(getActivity(), a);
+                                ActivityManager.startVideoEditorActivity_2(getActivity(), a);
                             }
                             // 通知系统扫描媒体文件
                             IntentHelper.scanFile();

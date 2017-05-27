@@ -6,23 +6,17 @@ import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.framework.TBaseFragment;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.DailyAdapter;
 import com.li.videoapplication.ui.dialog.Jump2Dialog;
-import com.li.videoapplication.utils.TextUtil;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
  * 碎片：荣誉奖励
@@ -59,7 +53,7 @@ public class HonorRewardFragment extends TBaseFragment {
                 Currency item = (Currency) adapter.getItem(position);
                 switch (item.getJumpStatus()){
                     case 1://1=>直接跳转到视屏管理
-                        ActivityManeger.startVideoMangerActivity(getActivity());
+                        ActivityManager.startVideoMangerActivity(getActivity());
                         break;
                     case 2://2=>跳回首页
                         DialogManager.showJump2HomeDialog(getActivity(), item.getName());

@@ -18,7 +18,7 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.home.HomeContract;
 import com.li.videoapplication.mvp.home.presenter.HomePresenter;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.utils.HareWareUtil;
 import com.li.videoapplication.utils.NetUtil;
@@ -40,7 +40,7 @@ public class BannerFragment extends TBaseFragment {
      */
     public void startMainActivity() {
         try {
-            ActivityManeger.startMainActivity(getActivity());
+            ActivityManager.startMainActivity(getActivity());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,11 +69,11 @@ public class BannerFragment extends TBaseFragment {
                             !StringUtil.isNull(launchImage.getAssociated_id())) {
                         switch (launchImage.getModule()) {
                             case "event"://跳转赛事
-                                ActivityManeger.startGameMatchDetailActivity(getActivity(),
+                                ActivityManager.startGameMatchDetailActivity(getActivity(),
                                         launchImage.getAssociated_id());
                                 break;
                             case "active"://跳转活动
-                                ActivityManeger.startActivityDetailActivity(getActivity(),
+                                ActivityManager.startActivityDetailActivity(getActivity(),
                                         launchImage.getAssociated_id());
                                 break;
                         }
@@ -92,7 +92,7 @@ public class BannerFragment extends TBaseFragment {
      */
     public void startDownloadManagerActivity(LaunchImage launchImage) {
         Log.d(tag, "startDownloadManagerActivity: ");
-        ActivityManeger.startDownloadManagerActivity(getActivity(), launchImage);
+        ActivityManager.startDownloadManagerActivity(getActivity(), launchImage);
     }
 
     private ImageView image;

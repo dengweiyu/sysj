@@ -1,6 +1,5 @@
 package com.li.videoapplication.data;
 
-import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -24,7 +23,7 @@ import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.network.RequestUtil;
 import com.li.videoapplication.framework.AppManager;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.ApkUtil;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.URLUtil;
@@ -390,7 +389,7 @@ public class DownloadingNotificationManager {
 
                     case EXTRA_BUTTON_ROOT:// 根布局
                         // 主页
-                        ActivityManeger.startMainActivityNewTask();
+                        ActivityManager.startMainActivityNewTask();
                         break;
                 }
                 closeNotification();

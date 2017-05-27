@@ -3,21 +3,14 @@ package com.li.videoapplication.mvp.adapter;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Gift;
-import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TextImageHelper;
-import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
 
 /**
  * 适配器：我的礼包

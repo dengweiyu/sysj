@@ -28,7 +28,7 @@ import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.dialog.MatchFliterDialog;
 
@@ -70,7 +70,7 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
      * 跳转：游戏赛事详情
      */
     private void startGameMatchDetailActivity(String event_id) {
-        ActivityManeger.startGameMatchDetailActivity(getActivity(), event_id);
+        ActivityManager.startGameMatchDetailActivity(getActivity(), event_id);
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "进入赛事");
     }
 
@@ -78,7 +78,7 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
      * 跳转：活动详情
      */
     private void startActivityDetailActivity208(String match_id) {
-        ActivityManeger.startActivityDetailActivity(getActivity(), match_id);
+        ActivityManager.startActivityDetailActivity(getActivity(), match_id);
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "赛事列表-进入活动");
     }
 
@@ -86,7 +86,7 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
      * 跳转：赛事结果
      */
     private void startMatchResultActivity(String event_id) {
-        ActivityManeger.startMatchResultActivity(getActivity(), event_id);
+        ActivityManager.startMatchResultActivity(getActivity(), event_id);
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "赛事列表-赛事结果");
     }
 

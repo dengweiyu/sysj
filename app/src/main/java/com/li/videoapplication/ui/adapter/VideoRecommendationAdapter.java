@@ -12,7 +12,7 @@ import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.BaseBaseAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.utils.StringUtil;
@@ -39,7 +39,7 @@ public class VideoRecommendationAdapter extends BaseBaseAdapter {
      * 跳转：视频播放
      */
     private void startVideoPlayActivity208(VideoImage item, boolean isLandscape) {
-        ActivityManeger.startVideoPlayActivity208(activity, item, isLandscape);
+        ActivityManager.startVideoPlayActivity208(activity, item, isLandscape);
         UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MACROSCOPIC_DATA, "视频播放完推荐视频点击数");
     }
 

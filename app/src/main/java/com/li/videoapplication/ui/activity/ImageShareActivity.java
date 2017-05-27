@@ -21,7 +21,7 @@ import com.li.videoapplication.data.upload.ImageShareResponseObject;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.adapter.ImageShareAdapter;
 import com.li.videoapplication.ui.popupwindows.MoreTypePopupWindow;
 import com.li.videoapplication.utils.InputUtil;
@@ -269,7 +269,7 @@ public class ImageShareActivity extends TBaseActivity implements
                 dismissProgressDialog();
                 showToastLong("上传成功");
                 AppManager.getInstance().removeActivity(GroupDetailActivity.class);
-                ActivityManeger.startGroupDetailActivityNewTask(this, game.getGroup_id());
+                ActivityManager.startGroupDetailActivityNewTask(this, game.getGroup_id());
                 finish();
             } else
                 showToastLong(msg);

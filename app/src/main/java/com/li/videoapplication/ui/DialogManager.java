@@ -47,6 +47,7 @@ import com.li.videoapplication.ui.dialog.OnGoingUploadImageTipDialog;
 import com.li.videoapplication.ui.dialog.PaymentDialog;
 import com.li.videoapplication.ui.dialog.PhotoDialog;
 import com.li.videoapplication.ui.dialog.RecordDialog;
+import com.li.videoapplication.ui.dialog.RecordDialogNew;
 import com.li.videoapplication.ui.dialog.RegisterMobileDialog;
 import com.li.videoapplication.ui.dialog.SettingDialog;
 import com.li.videoapplication.ui.dialog.ShareDialog;
@@ -370,10 +371,10 @@ public class DialogManager {
     /**
      * 首页录制框
      */
-    public static void showRecordDialog(Context context,View shotView) {
-        Dialog dialog = new RecordDialog(context,shotView);
+    public static void showRecordDialog(Activity activity,View shotView) {
+        Dialog dialog = new RecordDialogNew(activity);
         dialog.show();
-        UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.MAIN, "首页-录制框打开次数");
+        UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MAIN, "首页-录制框打开次数");
     }
 
     /**

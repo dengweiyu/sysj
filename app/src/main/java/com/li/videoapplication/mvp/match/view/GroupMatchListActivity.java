@@ -20,7 +20,7 @@ import com.li.videoapplication.mvp.adapter.MatchListAdapter;
 import com.li.videoapplication.mvp.match.MatchContract.IGroupMatchListView;
 import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class GroupMatchListActivity extends TBaseAppCompatActivity implements IG
      * 跳转：游戏赛事详情
      */
     private void startActivityDetailGameMatch(String event_id) {
-        ActivityManeger.startGameMatchDetailActivity(this, event_id);
+        ActivityManager.startGameMatchDetailActivity(this, event_id);
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, "游戏圈-赛事-赛事详情");
     }
 
@@ -58,7 +58,7 @@ public class GroupMatchListActivity extends TBaseAppCompatActivity implements IG
      * 跳转：活动详情
      */
     private void startActivityDetailActivity208(String match_id) {
-        ActivityManeger.startActivityDetailActivity(this, match_id);
+        ActivityManager.startActivityDetailActivity(this, match_id);
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "游戏圈赛事列表-进入活动");
     }
 
@@ -66,7 +66,7 @@ public class GroupMatchListActivity extends TBaseAppCompatActivity implements IG
      * 跳转：赛事结果
      */
     private void startMatchResultActivity(String event_id) {
-        ActivityManeger.startMatchResultActivity(this, event_id);
+        ActivityManager.startMatchResultActivity(this, event_id);
     }
 
     @Override

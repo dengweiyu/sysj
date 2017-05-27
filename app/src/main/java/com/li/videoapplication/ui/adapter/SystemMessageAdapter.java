@@ -13,7 +13,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.SysMessage;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.views.CircleImageView;
 
 /**
@@ -60,7 +60,7 @@ public class SystemMessageAdapter extends BaseArrayAdapter<SysMessage> {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActivityManeger.startOrderDetailActivity(getContext(), record.getRelation_id(), 1);
+                    ActivityManager.startOrderDetailActivity(getContext(), record.getRelation_id(), 1);
                 }
             });
         }

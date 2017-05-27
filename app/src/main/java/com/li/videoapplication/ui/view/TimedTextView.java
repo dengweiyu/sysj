@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.TimedText;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,9 +28,9 @@ public class TimedTextView extends FrameLayout implements IVideoPlay, MediaPlaye
     private LayoutInflater inflater;
     private View view;
     public TextView content;
-    private TBaseActivity activity;
+    private Activity activity;
 
-    public void init(TBaseActivity activity) {
+    public void init(Activity activity) {
         this.activity = activity;
     }
 
@@ -71,7 +72,7 @@ public class TimedTextView extends FrameLayout implements IVideoPlay, MediaPlaye
         if (text == null)
             return;
         final String string = text.trim();
-        activity.post(new Runnable() {
+        new Handler().post(new Runnable() {
             @Override
             public void run() {
                 content.setText(string);

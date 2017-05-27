@@ -2,13 +2,10 @@ package com.li.videoapplication.ui.adapter;
 
 import java.lang.reflect.Field;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
@@ -18,25 +15,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.reflect.TypeToken;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Comment;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
-import com.li.videoapplication.data.model.response.VideoCommentListEntity;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.activity.ImageDetailActivity;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
-import com.li.videoapplication.utils.EmojiUtils;
 import com.li.videoapplication.utils.PatternUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 
-import cn.nekocode.emojix.Emojix;
+
 
 /**
  * 适配器：视频玩家评论
@@ -48,7 +41,7 @@ public class VideoPlayCommentAdapter extends BaseArrayAdapter<Comment> {
      * 跳转：玩家动态
      */
     private void startPlayerDynamicActivity(Member member) {
-        ActivityManeger.startPlayerDynamicActivity(getContext(), member);
+        ActivityManager.startPlayerDynamicActivity(getContext(), member);
     }
 
     private String[] expressionArray;
@@ -65,7 +58,7 @@ public class VideoPlayCommentAdapter extends BaseArrayAdapter<Comment> {
     public VideoPlayCommentAdapter(Context context, List<Comment> data) {
         super(context, R.layout.adapter_videoplay_comment, data);
         this.data = data;
-        Emojix.wrap(context);
+     //   Emojix.wrap(context);
         expressionArray = context.getResources().getStringArray(R.array.expressionArray);
         expressionCnArray = context.getResources().getStringArray(R.array.expressionCnArray);
     }

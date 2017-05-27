@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,15 +15,13 @@ import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.network.RequestConstant;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.ui.fragment.ClassifiedGameFragment;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.RoundedImageView;
 import com.ypy.eventbus.EventBus;
-
-import io.rong.imkit.model.Event;
 
 /**
  * 适配器：游戏分类
@@ -38,7 +35,7 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
      * 页面跳转：圈子详情
      */
     private void startGameDetailActivity(Game item) {
-        ActivityManeger.startGroupDetailActivity(getContext(), item.getGroup_id());
+        ActivityManager.startGroupDetailActivity(getContext(), item.getGroup_id());
     }
 
     public ClassifiedGameAdapter(Context context, List<Game> data, ClassifiedGameFragment fragment) {

@@ -32,7 +32,6 @@ import com.li.videoapplication.views.sparkbutton.SparkButton;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import cn.nekocode.emojix.Emojix;
 
 /**
  * 适配器：圈子详情（最新/最热视频）, 活动页参与活动
@@ -49,7 +48,7 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
 
     public GroupDetailVideoRecyclerAdapter(Context context, List<VideoImage> data) {
         super(R.layout.adapter_groupdetail_video, data);
-        Emojix.wrap(context);
+        //Emojix.wrap(context);
         helper = new TextImageHelper();
         member_id = PreferencesHepler.getInstance().getMember_id();
         try {

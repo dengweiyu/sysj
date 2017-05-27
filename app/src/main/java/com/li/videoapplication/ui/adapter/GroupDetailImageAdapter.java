@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.BaseArrayAdapter;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.ScreenUtil;
 /**
  * 适配器：圈子详情-图文
@@ -23,7 +23,7 @@ public class GroupDetailImageAdapter extends BaseArrayAdapter<String> {
 	 * 跳转：图文详情
 	 */
 	private void startImageDetailActivity(VideoImage videoImage) {
-		ActivityManeger.startImageDetailActivity(getContext(), videoImage);
+		ActivityManager.startImageDetailActivity(getContext(), videoImage);
 	}
 	
 	private VideoImage videoImage;

@@ -12,8 +12,7 @@ import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.GroupMessage;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.views.RoundedImageView;
 
 import java.util.List;
@@ -28,7 +27,7 @@ public class GameMessageAdapter extends BaseArrayAdapter<GroupMessage> {
      * 跳转：圈子详情
      */
     private void startGroupDetailActivity(Game item) {
-        ActivityManeger.startGroupDetailActivity(getContext(), item.getGroup_id());
+        ActivityManager.startGroupDetailActivity(getContext(), item.getGroup_id());
     }
 
     public GameMessageAdapter(Context context, List<GroupMessage> data) {

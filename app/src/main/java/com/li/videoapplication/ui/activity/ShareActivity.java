@@ -28,8 +28,7 @@ import com.li.videoapplication.framework.BaseActivity;
 import com.li.videoapplication.tools.ShareSDKShareHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.utils.LogHelper;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.ypy.eventbus.EventBus;
@@ -64,6 +63,9 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
         // 这个为邀请好友的内容字段
         text = intent.getStringExtra("content");
 
+        //视频类型为生活类
+        isLifeType = intent.getBooleanExtra("is_life_type",false);
+
         Log.d(tag, "VideoTitle: " + VideoTitle);
         Log.d(tag, "videoUrl: " + videoUrl);
         Log.d(tag, "text: " + text);
@@ -81,6 +83,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
     private static String memberId;
     private static String mSharedChannel;
     private int page;
+    private boolean isLifeType;
 
     private static PlatformActionListener listener = new PlatformActionListener() {
         //如果是本地视频分享  需要先生成封面才能分享因此不会调用当前监听器
@@ -210,12 +213,14 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
         touch.setOnClickListener(this);
         cancel.setOnClickListener(this);
 
-        if (page == PAGE_MYCLOUDVIDEO || page == PAGE_SYSJ || page == PAGE_VIDEOPLAY) {
+        if (page == PAGE_MYCLOUDVIDEO || page == PAGE_SYSJ || page == PAGE_VIDEOPLAY || isLifeType) {
             sysj.setVisibility(View.GONE);
             mSysj.setVisibility(View.GONE);
         }else {
          //   mSysj.setVisibility(View.VISIBLE);
         }
+
+
     }
 
     @Override
@@ -364,7 +369,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
         if (activity != null && activity.game != null) {
             game = activity.game;
         }
-        ActivityManeger.startImageShareActivity(this, this.imageUrl, game);
+        ActivityManager.startImageShareActivity(this, this.imageUrl, game);
     }
 
 

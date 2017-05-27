@@ -35,9 +35,9 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
 
     public final static String MONEY = "money";
     public final static String ENTRY = "entryt";       //支付页面入口
-    public final static String NUMBER = "number";       //飞磨豆数量
-    public final static String USE = "use";
-    public final static String LEVEL = "level";
+    public final static String NUMBER = "number";      //飞磨豆数量
+    public final static String USE = "use";            //支付用途
+    public final static String LEVEL = "level";        //VIP 等级
     private MallContract.IMallPresenter presenter;
 
     private ListView mPaymentList;

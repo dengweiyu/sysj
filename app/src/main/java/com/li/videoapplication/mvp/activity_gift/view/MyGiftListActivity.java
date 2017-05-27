@@ -20,7 +20,7 @@ import com.li.videoapplication.mvp.activity_gift.ActivityGiftContract.IGiftPrese
 import com.li.videoapplication.mvp.activity_gift.ActivityGiftContract.IMyGiftView;
 import com.li.videoapplication.mvp.activity_gift.presenter.GiftPresenter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.mvp.adapter.MyGiftAdapter;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class MyGiftListActivity extends TBaseAppCompatActivity implements IMyGif
      * 跳转：礼包详情
      */
     private void startGiftDetailActivity(Gift item) {
-        ActivityManeger.startGiftDetailActivity(this, item.getId());
+        ActivityManager.startGiftDetailActivity(this, item.getId());
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "我的礼包");
     }
 

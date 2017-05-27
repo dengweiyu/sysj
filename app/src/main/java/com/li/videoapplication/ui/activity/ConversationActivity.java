@@ -1,7 +1,6 @@
 package com.li.videoapplication.ui.activity;
 
 import android.app.NotificationManager;
-import android.content.Context;
 import android.net.Uri;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
@@ -19,7 +18,7 @@ import com.li.videoapplication.data.model.response.UserProfilePersonalInformatio
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
@@ -205,12 +204,12 @@ public class ConversationActivity extends TBaseAppCompatActivity implements View
 
             case R.id.conversation_personalinfo:
                 if (member != null)
-                    ActivityManeger.startPlayerPersonalInfoActivity(this, member);
+                    ActivityManager.startPlayerPersonalInfoActivity(this, member);
                 break;
 
             case R.id.customerservice_chat:
                 if (RongIM.getInstance() != null) {
-                    ActivityManeger.startConversationActivity(this,
+                    ActivityManager.startConversationActivity(this,
                             customerServiceID,
                             customerServiceName,
                             false);

@@ -14,7 +14,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.RecommendActivity;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -34,7 +34,7 @@ public class HotNarrateAdapter extends BaseArrayAdapter<Member> {
         if (StringUtil.isNull(member.getId())) {
             member.setId(member.getMember_id());
         }
-        ActivityManeger.startPlayerDynamicActivity(getContext(), member);
+        ActivityManager.startPlayerDynamicActivity(getContext(), member);
     }
 
     public HotNarrateAdapter(Context context, List<Member> data) {

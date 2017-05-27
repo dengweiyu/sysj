@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cn.nekocode.emojix.Emojix;
+
 import master.flame.danmaku.controller.DrawHandler;
 import master.flame.danmaku.controller.IDanmakuView;
 import master.flame.danmaku.danmaku.loader.ILoader;
@@ -83,7 +83,7 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
         initContentView();
 
         {
-            Emojix.wrap(context);
+         //   Emojix.wrap(context);
             expressionArray = context.getResources().getStringArray(R.array.expressionArray);
             expressionCnArray = context.getResources().getStringArray(R.array.expressionCnArray);
         }
@@ -422,18 +422,14 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
             return content;
         }
 
-        int len = 0;
         StringBuffer sb = new StringBuffer();
         try {
-           // while(len < content.length()){
                 String pattern = "\\\\[u].{4}\\\\[u].{4}";
                 Pattern r = Pattern.compile(pattern);
                 Matcher m = r.matcher(content);
                 if (m.find()){
                     content = m.replaceAll(encodeEmoji(m.group()));
                 }
-              //  len++;
-          //  }
         } catch (Exception e) {
             e.printStackTrace();
         }

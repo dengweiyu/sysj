@@ -3,6 +3,7 @@ package com.li.videoapplication.data.database;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.li.videoapplication.data.model.entity.Tag;
+import com.li.videoapplication.data.upload.Contants;
 import com.li.videoapplication.framework.BaseEntity;
 import com.li.videoapplication.tools.JSONHelper;
 import com.li.videoapplication.utils.StringUtil;
@@ -151,6 +152,7 @@ public class VideoCaptureEntity extends BaseEntity {
 
     @Column(name = UPVIDEO_COVERTOKEN)
     private String upvideo_covertoken = "";
+
 
     public String getUpvideo_covertoken() {
         return upvideo_covertoken;
@@ -358,6 +360,19 @@ public class VideoCaptureEntity extends BaseEntity {
 
     public void setUpvideo_isofficial(int upvideo_isofficial) {
         this.upvideo_isofficial = upvideo_isofficial;
+    }
+
+
+    static class DownloadEntity{
+        private int state = Contants.STATUS_END;
+
+        public int getState() {
+            return state;
+        }
+
+        public void setState(int state) {
+            this.state = state;
+        }
     }
 
     /**

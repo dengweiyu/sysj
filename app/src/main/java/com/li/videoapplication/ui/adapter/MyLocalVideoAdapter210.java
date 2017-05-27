@@ -1,7 +1,6 @@
 package com.li.videoapplication.ui.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
@@ -10,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -26,7 +24,6 @@ import com.li.videoapplication.data.LocalManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.image.GlideHelper;
-import com.li.videoapplication.data.image.VideoCoverHelper;
 import com.li.videoapplication.data.image.VideoDuration;
 import com.li.videoapplication.data.image.VideoDurationHelper;
 import com.li.videoapplication.data.local.FileUtil;
@@ -40,9 +37,8 @@ import com.li.videoapplication.data.upload.Contants;
 import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.tools.IntentHelper;
-import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoActivity;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
@@ -92,7 +88,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
      * 跳转：视频分享
      */
     private void startVideoShareActivity210(VideoCaptureEntity record) {
-        ActivityManeger.startVideoShareActivity210(context, record, null, VideoShareActivity.TO_VIDEOMANAGER);
+        ActivityManager.startVideoShareActivity210(context, record, null, VideoShareActivity.TO_VIDEOMANAGER);
     }
 
     /**
@@ -105,28 +101,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
         Log.d(tag, "status=" + status);
         Log.d(tag, "msg=" + msg);
         Log.d(tag, "progress=" + percent);
-        this.result = result;
-        this.status = status;
-        this.msg = msg;
-        this.pro = (int) (percent * 100);
-        printHolders();
-        final ViewHolder holder = holders.get(filePath);
-        if (holder != null && holder.filePath != null && holder.filePath.equals(filePath)) {
-            Log.d(tag, "holder=" + holder);
-            Log.d(tag, "holder.filePath=" + holder.filePath);
-            holder.cover.setClickable(false);
-            holder.root.setClickable(true);
-            holder.play.setVisibility(View.GONE);
-//            holder.cancelUpload.setVisibility(View.VISIBLE);
-            holder.progressContainer.setVisibility(View.VISIBLE);
-            holder.pause.setVisibility(View.GONE);
-            holder.progressText.setVisibility(View.VISIBLE);
-            if (pro - holder.progress.getProgress() > 0) {
-                holder.progressText.setText(pro + "%");
-                holder.progress.setMax(100);
-                holder.progress.setProgress(pro);
-            }
-        }
+
         if (status == Contants.STATUS_SUCCESS) {
             updataRecordAndView(filePath);
             ToastHelper.s("视频上传成功");
@@ -141,6 +116,34 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
         } else {
             updataRecordAndView(filePath);
         }
+        final ViewHolder holder = holders.get(filePath);
+        if (status == Contants.STATUS_START){
+            holder.cover.setClickable(false);
+            holder.root.setClickable(true);
+            holder.play.setVisibility(View.GONE);
+//            holder.cancelUpload.setVisibility(View.VISIBLE);
+            holder.progressContainer.setVisibility(View.VISIBLE);
+            holder.pause.setVisibility(View.GONE);
+            holder.progressText.setVisibility(View.VISIBLE);
+            holder.progress.setMax(100);
+        }
+
+        this.result = result;
+        this.status = status;
+        this.msg = msg;
+        this.pro = (int) (percent * 100);
+        printHolders();
+
+        if (holder != null && holder.filePath != null && holder.filePath.equals(filePath)) {
+            if (pro - holder.progress.getProgress() < 1) {
+                return;
+            }
+            Log.d(tag, "holder=" + holder);
+            Log.d(tag, "holder.filePath=" + holder.filePath);
+            holder.progressText.setText(pro + "%");
+            holder.progress.setProgress(pro);
+        }
+
     }
 
     public MyLocalVideoAdapter210(final Context context, List<VideoCaptureEntity> data, ListView listView, VideoMangerActivity activity) {
@@ -302,7 +305,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                 if (record.getVideo_station().equals(VideoCaptureEntity.VIDEO_STATION_SHOW)) {
                     final String url = AppConstant.getMUrl(record.getUpvideo_qnkey());
                     final String imageUrl = AppConstant.getCoverUrl(record.getUpvideo_flag());
-                    ActivityManeger.startActivityShareActivity4MyCloudVideo(activity, url, imageUrl, fileName);
+                    ActivityManager.startActivityShareActivity4MyCloudVideo(activity, url, imageUrl, fileName);
                     UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "本地视频-分享");
                     return;
                 }
@@ -352,7 +355,7 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                     return;
                 }
 
-                ActivityManeger.startVideoEditorActivity(context, record);
+                ActivityManager.startVideoEditorActivity(context, record);
                 UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "本地视频-编辑");
             }
         });
@@ -721,7 +724,6 @@ public class MyLocalVideoAdapter210 extends BaseAdapter implements
                 VideoCaptureEntity entity = VideoCaptureManager.findByPath(record.getVideo_path());
                 if (entity != null) {
                     tramsformEntity(record, entity);
-                    notifyDataSetChanged();
                 }
             }
         }

@@ -13,7 +13,7 @@ import com.li.videoapplication.data.model.event.ImageView2ImageShareEvent;
 import com.li.videoapplication.data.upload.Contants;
 import com.li.videoapplication.data.upload.ImageShareResponseObject;
 import com.li.videoapplication.framework.TBaseActivity;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.adapter.ImageShareAdapter;
 import com.li.videoapplication.utils.StringUtil;
 
@@ -93,7 +93,7 @@ public class ActivityImageUploadActivity extends TBaseActivity implements
     public void onResume() {
         super.onResume();
         if (isFirstIn) {
-            ActivityManeger.startImageViewActivity(this);
+            ActivityManager.startImageViewActivity(this);
             isFirstIn = false;
         }
     }

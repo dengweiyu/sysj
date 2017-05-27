@@ -1,10 +1,8 @@
 package com.li.videoapplication.ui.activity;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
@@ -18,7 +16,7 @@ import com.li.videoapplication.data.model.response.MessageGroupMessageEntity;
 import com.li.videoapplication.data.model.response.MessageMyMessageEntity;
 import com.li.videoapplication.data.model.response.MessageSysMessageEntity;
 import com.li.videoapplication.framework.PullToRefreshActivity;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.adapter.GameMessageAdapter;
 import com.li.videoapplication.ui.adapter.SystemMessageAdapter;
 import com.li.videoapplication.ui.adapter.VideoMessageAdapter;
@@ -35,21 +33,21 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
      * 跳转：视频消息
      */
     public static void showVideo(Context context) {
-        ActivityManeger.startMessageListActivity(context, MESSAGE_VIDEO);
+        ActivityManager.startMessageListActivity(context, MESSAGE_VIDEO);
     }
 
     /**
      * 跳转：圈子消息
      */
     public static void showGame(Context context) {
-        ActivityManeger.startMessageListActivity(context, MESSAGE_GAME);
+        ActivityManager.startMessageListActivity(context, MESSAGE_GAME);
     }
 
     /**
      * 跳转：系统消息
      */
     public static void showSystem(Context context) {
-        ActivityManeger.startMessageListActivity(context, MESSAGE_SYSTEM);
+        ActivityManager.startMessageListActivity(context, MESSAGE_SYSTEM);
     }
 
     public static final int MESSAGE_VIDEO = 1;

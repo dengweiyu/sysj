@@ -1,6 +1,5 @@
 package com.li.videoapplication.data.download;
 
-import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,7 +9,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
@@ -22,7 +20,7 @@ import com.li.videoapplication.data.database.FileDownloaderEntity;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.network.RequestUtil;
 import com.li.videoapplication.framework.AppManager;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.ApkUtil;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.ThreadUtil;
@@ -386,14 +384,14 @@ public class DownloadingNotificationManager {
 //                            DataManager.advertisementAdClick204_15(entity.getAd_id());
                         } else {
 //                            ActivityManager.startMainActivityNewTask(-1, 0);
-                            ActivityManeger.startDownloadManagerActivity(context);
+                            ActivityManager.startDownloadManagerActivity(context);
                         }
                         break;
 
                     case EXTRA_BUTTON_ROOT:// 根布局
                         // 主页（哪一个页卡）
 //                        ActivityManager.startMainActivityNewTask(-1, 0);
-                        ActivityManeger.startDownloadManagerActivity(context);
+                        ActivityManager.startDownloadManagerActivity(context);
                         break;
                 }
                 closeNotification();

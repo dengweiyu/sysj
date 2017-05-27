@@ -2,15 +2,12 @@ package com.li.videoapplication.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,9 +24,7 @@ import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.message.OnGroupItemOnClickListener;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.data.HttpManager;
 import com.li.videoapplication.data.image.GlideHelper;
-import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
@@ -48,18 +43,15 @@ import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.FglassHelper;
 import com.li.videoapplication.tools.RongIMHelper;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.fragment.GroupdetailIntroduceFragment;
 import com.li.videoapplication.ui.fragment.GroupdetailPlayerFragment;
 import com.li.videoapplication.ui.fragment.GroupdetailVideoFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.utils.StringUtil;
-import com.li.videoapplication.utils.URLUtil;
 import com.li.videoapplication.views.RoundedImageView;
-import com.ypy.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,8 +61,6 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
-import rx.Observable;
-import rx.Observer;
 
 /**
  * 活动：圈子详情
@@ -100,7 +90,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 Uri uri = Uri.parse(game.getA_download());
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);*/
-                ActivityManeger.startDownloadManagerActivity(GroupDetailActivity.this,game.getGame_id());
+                ActivityManager.startDownloadManagerActivity(GroupDetailActivity.this,game.getGame_id());
                 // 游戏下载数+1
                 DataManager.downloadClick217(game.getGame_id(), getMember_id(),
                         Constant.DOWNLOAD_LOCATION_GROUP, group_id);
@@ -323,7 +313,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 break;
 
             case R.id.tb_gift:
-                ActivityManeger.startGroupGiftActivity(this, game);
+                ActivityManager.startGroupGiftActivity(this, game);
                 if (isSingleEvent){
                     UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, game.getGroup_name()+"-"+ "游戏圈-礼包");
                 }else {
@@ -418,7 +408,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                         IMSdk.setOnGroupItemOnClick(new OnGroupItemOnClickListener() {
                             @Override
                             public void onGroupItemOnClick(String memberid, String name) {
-                                ActivityManeger.startConversationActivity(GroupDetailActivity.this,
+                                ActivityManager.startConversationActivity(GroupDetailActivity.this,
                                         memberid, name, ConversationActivity.PRIVATE);
                             }
                         });
@@ -438,7 +428,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 break;
 
             case R.id.groupdetail_matchview://赛事
-                ActivityManeger.startGroupMatchListActivity(this, game.getGame_id());
+                ActivityManager.startGroupMatchListActivity(this, game.getGame_id());
                 if (isSingleEvent){
                     UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.GAME, game.getGroup_name()+"-"+"游戏圈-赛事-游戏圈点击赛事按钮");
                 }else {
@@ -551,7 +541,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
             RongIMHelper.setCoversationNotifMute(Conversation.ConversationType.GROUP,
                     game.getChatroom_group_id(), true);
 
-            ActivityManeger.startConversationActivity(this,
+            ActivityManager.startConversationActivity(this,
                     game.getChatroom_group_id(),
                     game.getGroup_name(),
                     ConversationActivity.GROUP);

@@ -1,15 +1,11 @@
 package com.li.videoapplication.data.js;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
-import android.widget.ProgressBar;
 
-import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.FGame;
@@ -22,14 +18,11 @@ import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.mvp.billboard.view.MatchRewardBillboardActivity;
 import com.li.videoapplication.mvp.match.view.MatchResultActivity;
 import com.li.videoapplication.tools.DownloadHelper;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
-import com.li.videoapplication.ui.dialog.LoadingDialog;
-import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.StringUtil;
 
 /**
@@ -179,7 +172,7 @@ public class JSInterface {
                     if (!PreferencesHepler.getInstance().isLogin())
                         DialogManager.showLogInDialog(context);
                     else
-                        ActivityManeger.startMyWalletActivity(context);
+                        ActivityManager.startMyWalletActivity(context);
                 }
             });
         } catch (Exception e) {
@@ -196,7 +189,7 @@ public class JSInterface {
                 @Override
                 public void run() {
                     if (PreferencesHepler.getInstance().isLogin()) {
-                        ActivityManeger.startTopUpActivity(context, Constant.TOPUP_ENTRY_SWEEP,0);
+                        ActivityManager.startTopUpActivity(context, Constant.TOPUP_ENTRY_SWEEP,0);
                     } else {
                         DialogManager.showLogInDialog(context);
                     }

@@ -2,7 +2,6 @@ package com.li.videoapplication.ui.fragment;
 
 import android.text.Layout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -24,12 +23,11 @@ import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.adapter.VideoPlayCommentAdapter;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.utils.PatternUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 import com.li.videoapplication.views.sparkbutton.SparkButton;
@@ -51,7 +49,7 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
      * 跳转：玩家动态
      */
     private void startPlayerDynamicActivity(Member member) {
-        ActivityManeger.startPlayerDynamicActivity(getActivity(), member);
+        ActivityManager.startPlayerDynamicActivity(getActivity(), member);
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放-头像");
     }
 

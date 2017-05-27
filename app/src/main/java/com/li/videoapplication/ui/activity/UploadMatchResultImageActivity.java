@@ -2,7 +2,6 @@ package com.li.videoapplication.ui.activity;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.GridView;
 
 import com.li.videoapplication.R;
@@ -11,20 +10,18 @@ import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.event.ImageView2ImageShareEvent;
 import com.li.videoapplication.data.model.response.SaveEventResult204Entity;
-import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.data.upload.Contants;
 import com.li.videoapplication.data.upload.ImageShareResponseObject;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.BitmapHelper;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.adapter.ResultImageUploadAdapter;
 import com.li.videoapplication.utils.TextUtil;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -233,7 +230,7 @@ public class UploadMatchResultImageActivity extends TBaseActivity implements Vie
     @Override
     protected void confirmButtonEvent() {
         AppManager.getInstance().removeActivity(MyMatchProcessActivity.class);
-        ActivityManeger.startMyMatchProcessActivityNewTask(this, matchDetailMatch, customer_service, name);
+        ActivityManager.startMyMatchProcessActivityNewTask(this, matchDetailMatch, customer_service, name);
         finish();
     }
 

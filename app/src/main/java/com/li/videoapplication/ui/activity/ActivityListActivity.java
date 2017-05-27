@@ -16,7 +16,7 @@ import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.response.GetMatchList201Entity;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.mvp.adapter.ActivityListAdapter;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class ActivityListActivity extends TBaseActivity implements OnRefreshList
      * 跳转：活动详情
      */
     private void startActivityDetailActivity(Match record) {
-        ActivityManeger.startActivityDetailActivityNewTask(this, record.getMatch_id());
+        ActivityManager.startActivityDetailActivityNewTask(this, record.getMatch_id());
         if (record.getStatus().equals("进行中")) {
             UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.DISCOVER, "热门活动-进行中");
         } else if (record.getStatus().equals("已结束")) {
@@ -55,7 +55,7 @@ public class ActivityListActivity extends TBaseActivity implements OnRefreshList
      * 跳转：我的活动
      */
     private void startMyActivityListActivity() {
-        ActivityManeger.startMyActivityListActivity(this);
+        ActivityManager.startMyActivityListActivity(this);
     }
 
     @Override

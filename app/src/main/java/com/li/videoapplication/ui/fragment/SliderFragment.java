@@ -18,19 +18,16 @@ import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.response.MessageMsgRedEntity;
-import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.ShareSDKLoginHelper;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.MyPlayerActivity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
-import com.ypy.eventbus.EventBus;
 
 /**
  * 碎片：侧滑菜单
@@ -42,7 +39,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
      * 跳转：商城
      */
     public void startMallActivity() {
-        ActivityManeger.startMallActivity(getActivity());
+        ActivityManager.startMallActivity(getActivity());
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "视界商城-点击视界商城次数");
     }
 
@@ -54,7 +51,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             startLoginActivity();
             return;
         }
-        ActivityManeger.startMyWalletActivity(getActivity());
+        ActivityManager.startMyWalletActivity(getActivity());
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "我的钱包-点击我的钱包次数");
     }
 
@@ -62,14 +59,14 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
      * 跳转：个人资料
      */
     public void startMyPersonalInfoActivity() {
-        ActivityManeger.startMyPersonalInfoActivity(getActivity());
+        ActivityManager.startMyPersonalInfoActivity(getActivity());
     }
 
     /**
      * 跳转：个人中心
      */
     public void startMyPersonalCenterActivity() {
-        ActivityManeger.startMyPersonalCenterActivity(getActivity());
+        ActivityManager.startMyPersonalCenterActivity(getActivity());
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "已登录-头像");
     }
 
@@ -81,7 +78,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             startLoginActivity();
             return;
         }
-        ActivityManeger.startMyPlayerActivity(getActivity(), MyPlayerActivity.PAGE_MYFOCUS, getMember_id());
+        ActivityManager.startMyPlayerActivity(getActivity(), MyPlayerActivity.PAGE_MYFOCUS, getMember_id());
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "关注/粉丝数-关注数");
     }
 
@@ -93,7 +90,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             startLoginActivity();
             return;
         }
-        ActivityManeger.startMyPlayerActivity(getActivity(), MyPlayerActivity.PAGE_MYFANS, getMember_id());
+        ActivityManager.startMyPlayerActivity(getActivity(), MyPlayerActivity.PAGE_MYFANS, getMember_id());
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "关注/粉丝数-粉丝数");
     }
 
@@ -101,7 +98,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
      * 跳转：登录
      */
     public void startLoginActivity() {
-        ActivityManeger.startLoginActivity(getActivity());
+        ActivityManager.startLoginActivity(getActivity());
     }
 
     /**
@@ -112,7 +109,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             startLoginActivity();
             return;
         }
-        ActivityManeger.startMyMatchActivity(getActivity());
+        ActivityManager.startMyMatchActivity(getActivity());
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "我的赛事");
     }
 
@@ -124,7 +121,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             startLoginActivity();
             return;
         }
-        ActivityManeger.startMyMessageActivity(getActivity());
+        ActivityManager.startMyMessageActivity(getActivity());
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "我的消息");
     }
 
@@ -132,7 +129,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
      * 跳转：我的任务
      */
     public void startMyTaskActivity() {
-        ActivityManeger.startMyTaskActivity(getActivity());
+        ActivityManager.startMyTaskActivity(getActivity());
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "我的任务");
     }
 
@@ -140,7 +137,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
      * 跳转：我的视频
      */
     public void startVideoMangerActivity() {
-        ActivityManeger.startVideoMangerActivity(getActivity());
+        ActivityManager.startVideoMangerActivity(getActivity());
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "我的视频");
     }
 
@@ -153,7 +150,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             startLoginActivity();
             return;
         }
-        ActivityManeger.startCollectionActivity(getActivity());
+        ActivityManager.startCollectionActivity(getActivity());
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "我的收藏");
     }
 
@@ -161,7 +158,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
      * 跳转：我的设置
      */
     public void startSettingActivity() {
-        ActivityManeger.startSettingActivity(getActivity());
+        ActivityManager.startSettingActivity(getActivity());
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "设置");
     }
 

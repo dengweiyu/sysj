@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,7 +19,7 @@ import com.li.videoapplication.data.model.entity.Banner;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.BaseBaseAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.RecommendActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.tools.ToastHelper;
@@ -41,28 +40,28 @@ public class BannerAdapter extends BaseBaseAdapter {
      * 跳转：视频播放
      */
     private void startVideoPlayActivity(VideoImage videoImage) {
-        ActivityManeger.startVideoPlayActivity(getContext(), videoImage);
+        ActivityManager.startVideoPlayActivity(getContext(), videoImage);
     }
 
     /**
      * 页面跳转：礼包详情
      */
     private void startGiftDetailActivity(Gift item) {
-        ActivityManeger.startGiftDetailActivity(getContext(), item.getId());
+        ActivityManager.startGiftDetailActivity(getContext(), item.getId());
     }
 
     /**
      * 页面跳转：赛事详情
      */
     private void startGameMatchDetailActivity(String event_id) {
-        ActivityManeger.startGameMatchDetailActivity(getContext(), event_id);
+        ActivityManager.startGameMatchDetailActivity(getContext(), event_id);
     }
 
     /**
      * 页面跳转：活动
      */
     private void startActivityDetailActivity208(String match_id) {
-        ActivityManeger.startActivityDetailActivity(getContext(), match_id);
+        ActivityManager.startActivityDetailActivity(getContext(), match_id);
     }
 
     /**

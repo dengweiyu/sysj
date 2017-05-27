@@ -9,7 +9,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.framework.BaseTopDialog;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.utils.AppUtil;
 
@@ -28,7 +28,7 @@ public class SquareRecordDialog extends BaseTopDialog implements View.OnClickLis
      * 跳转：选择上传视频
      */
     private void startVideoChooseActivity() {
-        ActivityManeger.startVideoChooseActivity(getContext(), null, VideoShareActivity.TO_VIDEOMANAGER);
+        ActivityManager.startVideoChooseActivity(getContext(), null, VideoShareActivity.TO_VIDEOMANAGER);
         UmengAnalyticsHelper.onEvent(mActivity, UmengAnalyticsHelper.MAIN, "玩家视频-弹窗-上传视频");
     }
 

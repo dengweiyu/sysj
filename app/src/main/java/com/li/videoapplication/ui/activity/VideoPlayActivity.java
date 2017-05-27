@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -16,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -42,17 +42,19 @@ import com.li.videoapplication.data.model.response.VideoCommentLike2Entity;
 import com.li.videoapplication.data.model.response.VideoDetail201Entity;
 import com.li.videoapplication.data.model.response.VideoDoComment2CommentEntity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
-import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.ArrayHelper;
 import com.li.videoapplication.tools.RandomUtil;
 import com.li.videoapplication.tools.ShareSDKShareHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.fragment.AuthorVideoListFragment;
 import com.li.videoapplication.ui.fragment.VideoPlayCommentFragment;
+import com.li.videoapplication.ui.fragment.VideoPlayGiftFragment;
 import com.li.videoapplication.ui.fragment.VideoPlayIntroduceFragment;
 import com.li.videoapplication.ui.fragment.VideoPlayVideoFragment;
 import com.li.videoapplication.ui.pageradapter.GamePagerAdapter;
@@ -77,7 +79,7 @@ import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdap
  * 活动：视频详情
  */
 @SuppressLint("SetJavaScriptEnabled")
-public class VideoPlayActivity extends TBaseActivity implements
+public class VideoPlayActivity extends TBaseAppCompatActivity implements
         OnPageChangeListener,
         CommentView.CommentListener,
         RefreshUIInterface {
@@ -102,7 +104,7 @@ public class VideoPlayActivity extends TBaseActivity implements
             if (isLandscape()) {
                 DialogManager.showShareDialog(this, url, imageUrl, title, content);
             } else {
-                ActivityManeger.startActivityShareActivity4VideoPlay(this, url, title, imageUrl, content);
+                ActivityManager.startActivityShareActivity4VideoPlay(this, url, title, imageUrl, content);
             }
             UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.VIDEOPLAY, "视频分享");
             UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MACROSCOPIC_DATA, "视频总分享次数");
@@ -174,7 +176,7 @@ public class VideoPlayActivity extends TBaseActivity implements
     public void afterOnCreate() {
         super.afterOnCreate();
 
-        actionBar.hide();
+       /// actionBar.hide();
 
         // 屏幕状态
         powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -192,6 +194,7 @@ public class VideoPlayActivity extends TBaseActivity implements
 
         initTopMenu();
         initContentView();
+
     }
 
     @Override
@@ -211,6 +214,24 @@ public class VideoPlayActivity extends TBaseActivity implements
         filter.addAction(Const.LINK_PLAY_STATE);
         filter.addAction(Const.HPPLAY_LINK_DISCONNECT);
         registerReceiver(myBroadcastReceiver, filter);
+    }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (mFragmentState){
+            if (mGiftFragment != null){
+                float y = ev.getRawY();
+                float fragmentY = mGiftFragment.getRootView().getY();
+                //touch outside the fragment
+                if (y < fragmentY){
+                    mFragmentState = false;
+                    hideGiftFragment(true);
+                    return true;            //true or false will be intercept event
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     //乐播连接广播
@@ -268,10 +289,81 @@ public class VideoPlayActivity extends TBaseActivity implements
         addDanmukuView = (AddDanmukuView) findViewById(R.id.adddanmuku);
         addDanmukuView.init(this);
         addDanmukuView.setAddDanmukuListener(videoPlayView);
+
     }
 
-    // 是否是弹幕
+
+    private boolean mFragmentState;
+    private VideoPlayGiftFragment mGiftFragment;
+
+    public void setGiftFragmentState(boolean isScroll){
+        mFragmentState = !mFragmentState;
+        if (mFragmentState){
+            showGiftFragment();
+          //  UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.VIDEOPLAY, "视频播放页-打赏按钮");
+        }else {
+            hideGiftFragment(isScroll);
+        }
+    }
+
+
+    /**
+     * just update state
+     */
+    public void refreshState(boolean state){
+        mFragmentState = state;
+    }
+
+
+    /**
+     *
+     */
+    public void hideGiftFragment(){
+        if (mGiftFragment == null){
+            return;
+        }
+        getSupportFragmentManager().beginTransaction().hide(mGiftFragment).commit();
+    }
+
+    /**
+     *
+     */
+    private void showGiftFragment(){
+        mGiftFragment = (VideoPlayGiftFragment)getSupportFragmentManager().findFragmentById(R.id.fg_play_gift);
+        if (mGiftFragment == null){
+            mGiftFragment = new VideoPlayGiftFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fg_play_gift,mGiftFragment).commit();
+        }else {
+            getSupportFragmentManager().beginTransaction().show(mGiftFragment).commit();
+        }
+        UITask.post(new Runnable() {
+            @Override
+            public void run() {
+                mGiftFragment.showContent();
+            }
+        });
+    }
+
+    /**
+     *  hide gift fragment
+     * @param isScroll
+     *
+     */
+    private void hideGiftFragment(boolean isScroll) {
+        VideoPlayGiftFragment fragment = (VideoPlayGiftFragment) getSupportFragmentManager().findFragmentById(R.id.fg_play_gift);
+        if (fragment != null ) {
+            if (!isScroll){
+                hideGiftFragment();
+            }else {
+                fragment.hideContent();
+            }
+        }
+    }
+
+
+            // 是否是弹幕
 //    public boolean bullet;
+
 
     @Override
     public boolean comment(boolean isSecondComment, String text) {
@@ -337,6 +429,8 @@ public class VideoPlayActivity extends TBaseActivity implements
 
         switchTab(0);
         viewPager.setCurrentItem(0);
+
+
     }
 
     private void setFragmentData() {
@@ -887,6 +981,10 @@ public class VideoPlayActivity extends TBaseActivity implements
             Log.d(tag, "qn_url=" + qn_url);
 
             videoPlayView.setVideoImage(videoImage);
+            if (videoImage.getIspass() != null && videoImage.getIspass().equals("0")){
+                videoPlayView.switchPlay(VideoPlayView.STATE_UNVETIFY);
+                return;
+            }
             if (!StringUtil.isNull(qn_key) && URLUtil.isURL(qn_url)) {
                 if (NetUtil.isWIFI()) {
                     videoPlayView.switchPlay(VideoPlayView.STATE_VIDEOPLAY);

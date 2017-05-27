@@ -26,7 +26,7 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.LogHelper;
 
@@ -40,14 +40,14 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
      * 跳转：关于
      */
     public void startAboutActivity() {
-        ActivityManeger.startAboutActivity(this);
+        ActivityManager.startAboutActivity(this);
     }
 
     /**
      * 跳转：分享
      */
     public void startActivityShareActivity4SYSJ() {
-        ActivityManeger.startActivityShareActivity4SYSJ(this);
+        ActivityManager.startActivityShareActivity4SYSJ(this);
     }
 
     private RelativeLayout help;
@@ -193,7 +193,7 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
 
         switch (v.getId()) {
             case R.id.setting_downloadmanager:
-                ActivityManeger.startDownloadManagerActivity(this);
+                ActivityManager.startDownloadManagerActivity(this);
                 break;
             case R.id.setting_anchorModel_toggle:// 主播
                 ViewUtil.enabled(v, 1200);
@@ -207,7 +207,7 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
                 break;
 
             case R.id.setting_help:// 帮助与教程
-                ActivityManeger.startHelpActivity(this);
+                ActivityManager.startHelpActivity(this);
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "帮助教程");
                 break;
 

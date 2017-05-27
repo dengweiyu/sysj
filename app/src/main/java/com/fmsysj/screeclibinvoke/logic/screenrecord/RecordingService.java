@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
-import android.provider.Contacts;
 import android.util.Log;
 
 import com.fmsysj.screeclibinvoke.data.model.configuration.RecordingSetting;
@@ -24,7 +23,6 @@ import com.ifeimo.screenrecordlib.RecordingManager;
 import com.ifeimo.screenrecordlib.Utils;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.EventManager;
-import com.li.videoapplication.data.Utils_Data;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.local.FileUtil;
@@ -34,7 +32,7 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseService;
 import com.li.videoapplication.tools.IntentHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.AppUtil;
 
@@ -1009,7 +1007,7 @@ public class RecordingService extends BaseService implements
                                     //录屏后跳转分享
                                     VideoCaptureEntity videoCaptureEntity = VideoCaptureManager.findByPath(p);
 
-                                    ActivityManeger.startVideoShareActivity210NewTask(AppManager.getInstance().getContext(),
+                                    ActivityManager.startVideoShareActivity210NewTask(AppManager.getInstance().getContext(),
                                             videoCaptureEntity);
                                 }
 

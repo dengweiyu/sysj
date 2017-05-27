@@ -15,7 +15,7 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.fragment.BannerFragment;
 import com.li.videoapplication.ui.fragment.SplashFragment;
 import com.li.videoapplication.ui.fragment.WelcomeFragment;
@@ -42,7 +42,7 @@ public class AppstartActivity extends TBaseActivity {
      * 跳转：主页
      */
     public void startMainActivity() {
-        ActivityManeger.startMainActivity(this);
+        ActivityManager.startMainActivity(this);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class AppstartActivity extends TBaseActivity {
 
 
         if (mainActivity != null) {
-            ActivityManeger.startMainActivityBottom(this);
+            ActivityManager.startMainActivityBottom(this);
         } else {
             if (firstSetup) {
                 // 启动-欢迎

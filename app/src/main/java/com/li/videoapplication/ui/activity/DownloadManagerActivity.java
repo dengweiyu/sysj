@@ -20,15 +20,11 @@ import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.LaunchImage;
 import com.li.videoapplication.data.model.event.FileDownloaderEvent;
-import com.li.videoapplication.data.model.event.SharedSuccessEvent;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.adapter.DownloadManagerAdapter;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
-import com.li.videoapplication.ui.dialog.SharedSuccessDialog;
 import com.li.videoapplication.utils.ApkUtil;
-import com.li.videoapplication.utils.ExpandUtil;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 

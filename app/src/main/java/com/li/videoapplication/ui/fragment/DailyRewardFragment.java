@@ -10,11 +10,9 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Currency;
-import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseFragment;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
-import com.li.videoapplication.ui.activity.DownloadManagerActivity;
 import com.li.videoapplication.ui.adapter.DailyAdapter;
 import com.li.videoapplication.ui.dialog.Jump2Dialog;
 
@@ -86,7 +84,7 @@ public class DailyRewardFragment extends TBaseFragment implements View.OnClickLi
     private void setJump(Currency item) {
         switch (item.getJumpStatus()){
             case 1://1=>直接跳转到视屏管理
-                ActivityManeger.startVideoMangerActivity(getActivity());
+                ActivityManager.startVideoMangerActivity(getActivity());
                 break;
             case 2://2=>跳回首页
                 DialogManager.showJump2HomeDialog(getActivity(), item.getName());
@@ -115,7 +113,7 @@ public class DailyRewardFragment extends TBaseFragment implements View.OnClickLi
                     public void onClick(View v) {
                         switch (v.getId()){
                             case R.id.tv_confirm_dialog_no:
-                                ActivityManeger.startVideoMangerActivity(getActivity());
+                                ActivityManager.startVideoMangerActivity(getActivity());
                                 break;
                         }
                     }

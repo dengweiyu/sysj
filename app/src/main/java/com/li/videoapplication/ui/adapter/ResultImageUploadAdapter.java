@@ -13,7 +13,7 @@ import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.framework.CommonAdapter;
 import com.li.videoapplication.framework.ViewHolder;
 import com.li.videoapplication.tools.LayoutParamsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.ImageViewActivity;
 import com.li.videoapplication.utils.ScreenUtil;
 
@@ -59,7 +59,7 @@ public class ResultImageUploadAdapter extends CommonAdapter<ScreenShotEntity> {
             public void onClick(View v) {
 
                 if (position == getCount() - 1) {// 点击加号图片
-                    ActivityManeger.startImageViewActivity(context);
+                    ActivityManager.startImageViewActivity(context);
                 } else {// 预览图片
                     statAcionView(position);
                 }

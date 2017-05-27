@@ -1,15 +1,12 @@
 package com.li.videoapplication.ui.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -23,10 +20,9 @@ import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.activity_gift.ActivityGiftContract.IActivityDetailView;
 import com.li.videoapplication.mvp.activity_gift.ActivityGiftContract.IActivityPresenter;
 import com.li.videoapplication.mvp.activity_gift.presenter.ActivityPresenter;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.dialog.ActivityRecordDialog;
-import com.li.videoapplication.ui.dialog.GameDetailDialog;
 import com.li.videoapplication.ui.dialog.RecordDialog;
 import com.li.videoapplication.ui.fragment.ActivityRulesFragment;
 import com.li.videoapplication.ui.fragment.JoinActivityFragment;
@@ -35,7 +31,6 @@ import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
@@ -72,7 +67,7 @@ public class ActivityDetailActivity extends TBaseAppCompatActivity implements IA
             final String imageUrl = event.getFlag();
             final String content = event.getShare_description();
 
-            ActivityManeger.startActivityShareActivity4VideoPlay(this, share_url, title, imageUrl, content);
+            ActivityManager.startActivityShareActivity4VideoPlay(this, share_url, title, imageUrl, content);
         }
     }
 
@@ -80,14 +75,14 @@ public class ActivityDetailActivity extends TBaseAppCompatActivity implements IA
    * 跳转：上传图片
    */
     private void startActivityImageUploadActivity() {
-        ActivityManeger.startActivityImageUploadActivity(this, match.getMatch_id());
+        ActivityManager.startActivityImageUploadActivity(this, match.getMatch_id());
     }
 
     /*
     * 跳转：上传视频
     */
     private void startVideoChooseActivity() {
-        ActivityManeger.startVideoChooseActivity(this, match, VideoShareActivity.TO_FINISH);
+        ActivityManager.startVideoChooseActivity(this, match, VideoShareActivity.TO_FINISH);
     }
 
 

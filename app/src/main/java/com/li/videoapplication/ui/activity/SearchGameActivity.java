@@ -26,6 +26,7 @@ import com.li.videoapplication.ui.fragment.ChooseGameFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.ypy.eventbus.EventBus;
 
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;

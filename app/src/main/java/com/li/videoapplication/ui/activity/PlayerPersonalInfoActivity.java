@@ -24,7 +24,7 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.FeiMoIMHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.MyPersonalInfoAdapter;
 import com.li.videoapplication.utils.StringUtil;
@@ -188,7 +188,7 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
                     if (RongIM.getInstance() != null && member != null &&
                             member.getNickname() != null && member.getId() != null) {
 
-                        ActivityManeger.startConversationActivity(this, member.getId(),
+                        ActivityManager.startConversationActivity(this, member.getId(),
                                 member.getNickname(), false);
                     }
                 }

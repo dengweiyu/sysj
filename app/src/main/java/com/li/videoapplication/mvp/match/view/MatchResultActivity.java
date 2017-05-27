@@ -2,7 +2,6 @@ package com.li.videoapplication.mvp.match.view;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.DownloadListener;
@@ -23,7 +22,7 @@ import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchResultView;
 import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
 import com.li.videoapplication.tools.IntentHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.lang.reflect.Field;
@@ -51,7 +50,7 @@ public class MatchResultActivity extends TBaseAppCompatActivity implements View.
             String imageUrl = data.getShare_flag();
             String content = data.getShare_description();
 
-            ActivityManeger.startActivityShareActivity4VideoPlay(this, url, title, imageUrl, content);
+            ActivityManager.startActivityShareActivity4VideoPlay(this, url, title, imageUrl, content);
         }
     }
 
