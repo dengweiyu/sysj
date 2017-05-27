@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.li.videoapplication.R;
@@ -77,6 +78,10 @@ public class AppExceptionHandler implements Thread.UncaughtExceptionHandler {
             return false;
         }
         final Context context = AppManager.getInstance().getContext();
+        if (throwable != null){
+            Log.e("Message","{"+throwable.getMessage()+"}");
+            throwable.printStackTrace();
+        }
         new Thread(){
             @Override
             public void run() {
