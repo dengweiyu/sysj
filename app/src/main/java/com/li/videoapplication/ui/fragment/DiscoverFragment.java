@@ -8,6 +8,7 @@ import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.response.DynamicDotEntity;
+import com.li.videoapplication.data.model.response.RewardStatusEntity;
 import com.li.videoapplication.data.model.response.SquareDotEntity;
 import com.li.videoapplication.data.model.response.SweepstakeStatusEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
@@ -28,6 +29,7 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
     private View mSquareUnRead;
     private ImageView go;
     private View draw;
+    private View mRewardRank;
 
     private int mNum = 0;	//进入页面的次数
     private long mLastLoadTime;
@@ -58,7 +60,8 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
 
         view.findViewById(R.id.discover_recommend).setOnClickListener(this);
         view.findViewById(R.id.discover_square).setOnClickListener(this);
-        view.findViewById(R.id.discover_rewardbillboard).setOnClickListener(this);
+        mRewardRank = view.findViewById(R.id.discover_rewardbillboard);
+        mRewardRank.setOnClickListener(this);
         view.findViewById(R.id.discover_playerbillboard).setOnClickListener(this);
         view.findViewById(R.id.discover_videobillboard).setOnClickListener(this);
         view.findViewById(R.id.discover_dynamic).setOnClickListener(this);
@@ -72,7 +75,8 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
     private void loadData() {
         //抽奖状态获取接口
         DataManager.getSweepstakeStatus();
-
+        //赛事奖金榜状态
+        DataManager.getRewardStatus();
     }
 
     @Override
@@ -173,6 +177,15 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
             case R.id.discover_dynamic:
                 startDynamicActivity();
                 break;
+        }
+    }
+
+    /**
+     * 回调：赛事奖金榜
+     */
+    public void onEventMainThread(RewardStatusEntity event) {
+        if (event!=null && event.isResult()){
+            mRewardRank.setVisibility(View.VISIBLE);
         }
     }
 

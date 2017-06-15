@@ -1,7 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical" android:layout_width="match_parent"
+              android:layout_height="wrap_content">
 
-</LinearLayout>
+        <RelativeLayout
+            android:id="@+id/rl_layout_rank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-72dp"
+            android:layout_below="@+id/iv_trophy">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="385dp"
+                android:background="@drawable/gift_rank_round_gree">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_marginTop="40dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="305dp"
+                        android:background="@drawable/gift_rank_round">
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_rank"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="8dp"></android.support.v7.widget.RecyclerView>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:padding="10dp">
+                        <TextView
+                            android:id="@+id/tv_my_rank_description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:text="我的排名：5,距离第一名排名还差1000魔币"/>
+                        <ImageView
+                            android:id="@+id/iv_go_play_gift"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:src="@drawable/go_play_gift"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+    <ImageView
+        android:id="@+id/iv_trophy"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/trophy"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+    <ImageView
+        android:id="@+id/iv_rank_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/rl_layout_rank"
+        android:paddingTop="24dp"
+        android:src="@drawable/close_white_round"/>
+</RelativeLayout>

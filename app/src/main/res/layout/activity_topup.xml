@@ -26,10 +26,8 @@
         android:id="@+id/tl_recharge_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        app:tabSelectedTextColor="@color/lpds_blue"
-        app:tabIndicatorColor="@color/lpds_blue"></android.support.design.widget.TabLayout>
+        app:tabSelectedTextColor="@color/currency_red"
+        app:tabIndicatorColor="@color/currency_red"></android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_recharge_pager"

@@ -23,6 +23,7 @@ import com.li.videoapplication.R;
 public class HelpQuestionAdapter extends BaseExpandableListAdapter {
 
 	private String[] groups;
+	private String[] groupsMore;
 	private Context mContext;
 	private ViewHolderGroud holderGroup;
 	private ViewHolderChild holderChild;
@@ -31,27 +32,41 @@ public class HelpQuestionAdapter extends BaseExpandableListAdapter {
 	private Animation animation;
 	private boolean siamin = false;
 
-	public HelpQuestionAdapter(Context mContext, String[] groups, List<ArrayList<HelpQuestionEntity>> list) {
+	public HelpQuestionAdapter(Context mContext, String[] groups,String[] groupsMore, List<ArrayList<HelpQuestionEntity>> list) {
 		this.groups = groups;
 		this.list = list;
 		this.mContext = mContext;
+		this.groupsMore = groupsMore;
 
 		inflater = LayoutInflater.from(mContext);
 	}
 
+	private int expandGroup = -1;
+	public void expandGroup(int position){
+		expandGroup = position;
+	}
+
 	@Override
 	public int getGroupCount() {
-		return groups.length;
+		return groups.length+groupsMore.length+2;			//2个头部
 	}
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		return list.get(groupPosition).size();
+		if (groupPosition == 0 || groupPosition == groups.length+1){
+			return 0;
+		}
+		int offset = 1;
+		if (groupPosition > groups.length+1){
+			offset = 2;
+		}
+		return list.get(groupPosition -offset).size();
 	}
 
 	@Override
 	public Object getGroup(int groupPosition) {
-		return groups[groupPosition];
+
+		return  groupPosition <= groups.length?groups[groupPosition-1]:groupsMore[groupPosition-groups.length-2];
 	}
 
 	@Override
@@ -76,22 +91,31 @@ public class HelpQuestionAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-		holderGroup = new ViewHolderGroud();
-		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.adapter_helpquestion_group, null);
-			holderGroup.text = (TextView) convertView.findViewById(R.id.helpquestion_text);
-			holderGroup.image = (ImageView) convertView.findViewById(R.id.helpquestion_image);
-			convertView.setTag(holderGroup);
-		} else {
-			holderGroup = (ViewHolderGroud) convertView.getTag();
-		}
 
-		holderGroup.text.setText(groups[groupPosition]);
-		if (isExpanded) {
-			holderGroup.image.setBackgroundResource(R.drawable.arrow_down_gray);
-		} else {
-			holderGroup.image.setBackgroundResource(R.drawable.arrow_right);
+		if (groupPosition == 0 || groupPosition == groups.length+1 ){
+			convertView = inflater.inflate(R.layout.pager_help_question_header, null);
+			TextView header = (TextView)convertView.findViewById(R.id.iv_help_header);
+			if (groupPosition == 0){
+				header.setText("常见问题");
+			}else {
+				header.setText("更多问题");
+			}
+		}else {
+			//if (convertView == null) {
+				convertView = inflater.inflate(R.layout.adapter_helpquestion_group, null);
+				TextView text = (TextView) convertView.findViewById(R.id.helpquestion_text);
+				ImageView image = (ImageView) convertView.findViewById(R.id.helpquestion_image);
+			//	convertView.setTag(holderGroup);
+			//} else {
+			//	holderGroup = (ViewHolderGroud) convertView.getTag();
+			//}
+			text.setText((String)getGroup(groupPosition));
+			if (isExpanded) {
+				image.setBackgroundResource(R.drawable.arrow_down_gray);
+			} else {
+				image.setBackgroundResource(R.drawable.arrow_right);
 
+			}
 		}
 		return convertView;
 	}
@@ -99,19 +123,31 @@ public class HelpQuestionAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
+		int offset = 1;
+		if (groupPosition == 0 || groupPosition == groups.length+1){
+			return new View(mContext);
+		}
+		if (groupPosition > groups.length+1){
+			offset = 2;
+		}
 		holderChild = new ViewHolderChild();
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.adapter_helpquestion_child, null);
 			holderChild.ask = (TextView) convertView.findViewById(R.id.helpquestion_ask);
 			holderChild.answer = (TextView) convertView.findViewById(R.id.helpquestion_answer);
 			convertView.setTag(holderChild);
+
 		} else {
 			holderChild = (ViewHolderChild) convertView.getTag();
 		}
-		holderChild.ask.setText(list.get(groupPosition).get(childPosition).getTitle());
-		holderChild.answer.setText(list.get(groupPosition).get(childPosition).getContent());
+		holderChild.ask.setText(list.get(groupPosition-offset).get(childPosition).getTitle());
+		holderChild.answer.setText(list.get(groupPosition-offset).get(childPosition).getContent());
 		holderChild.animation = AnimationUtils.loadAnimation(mContext, R.anim.scale_top_enter);
-		convertView.setAnimation(holderChild.animation);
+		if (expandGroup == groupPosition){
+			convertView.setAnimation(holderChild.animation);
+			expandGroup = -1;
+		}
+
 		return convertView;
 	}
 

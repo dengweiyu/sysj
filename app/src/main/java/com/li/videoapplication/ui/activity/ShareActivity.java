@@ -280,7 +280,9 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
 
             if (shareChannel.equals("SYSJ")){
                 //触发
-                DataManager.shareTriggerReward(memberId,square.getHook(),square.getTask_id(),"");
+                if (square != null){
+                    DataManager.shareTriggerReward(memberId,square.getHook(),square.getTask_id(),"");
+                }
                 //post
                 EventBus.getDefault().post(new SharedSuccessEvent(mSharedChannel));
                 finish();
@@ -380,7 +382,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
         if (event != null && event.isResult()) {
             square = event.getData();
             if (!StringUtil.isNull(square.getDescription())) {
-                //奖励##飞磨豆 --> 奖励20飞磨豆
+                //奖励##魔豆 --> 奖励20魔豆
                 String reward = TextUtil.toColor(square.getReward(), "#fe5e5e");
                 String description = square.getDescription().replace("##", reward);
                 squareReward.setVisibility(View.VISIBLE);

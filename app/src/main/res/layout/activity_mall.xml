@@ -85,7 +85,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="飞磨豆余额："
+                    android:text="魔豆余额："
                     android:textColor="#7b7b7b"
                     android:textSize="12sp" />
 

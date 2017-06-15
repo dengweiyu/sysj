@@ -56,11 +56,12 @@ public class VideoRecommendationAdapter extends BaseBaseAdapter {
     @Override
     public List<VideoImage> getItem(int position) {
         LogHelper.d(tag, "getItem position : " + position);
-        if (position < 0){
-            position = 0;
-        }
         if(position >= data.size()){
             position = data.size() - 1;
+        }
+
+        if (position < 0){
+            position = 0;
         }
         return data.get(position);
     }

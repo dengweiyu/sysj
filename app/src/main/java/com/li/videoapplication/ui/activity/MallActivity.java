@@ -104,7 +104,7 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
     @Override
     public void onResume() {
         super.onResume();
-        //个人飞磨豆数量
+        //个人魔豆数量
         DataManager.getMemberCurrency(getMember_id());
     }
 
@@ -179,7 +179,7 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
     }
 
     /**
-     * 回调：个人飞磨豆数量
+     * 回调：个人魔豆数量
      */
     public void onEventMainThread(MemberCurrencyEntity event) {
         setTextViewText(beanNum, StringUtil.formatNum(event.getCurrency()));

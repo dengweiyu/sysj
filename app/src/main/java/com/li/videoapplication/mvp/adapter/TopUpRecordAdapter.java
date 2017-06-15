@@ -33,7 +33,7 @@ public class TopUpRecordAdapter extends BaseQuickAdapter<TopUp, BaseViewHolder> 
         }
 
         String cost = "充值" + TextUtil.toColor(StringUtil.formatNum(item.getCurrency_num()), "#fe5e5e")
-                + "飞磨豆 (" + item.getPrice() + "元)";
+                + "魔豆 (" + item.getPrice() + "元)";
         holder.setText(R.id.topuprecord_cost, Html.fromHtml(cost));
     }
 

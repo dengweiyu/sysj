@@ -1,8 +1,10 @@
 package com.li.videoapplication.data.model.response;
 
+import com.li.videoapplication.framework.BaseResponseEntity;
+
 /**
- * Created by Administrator on 2017/6/13.
+ * 赛事奖金榜
  */
 
-public class RewardStatusEntity {
+public class RewardStatusEntity extends BaseResponseEntity {
 }

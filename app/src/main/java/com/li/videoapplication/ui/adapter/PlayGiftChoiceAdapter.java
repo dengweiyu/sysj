@@ -1,9 +1,16 @@
 package com.li.videoapplication.ui.adapter;
 
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.widget.ImageView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.image.GlideHelper;
+import com.li.videoapplication.data.model.response.PlayGiftTypeEntity;
+import com.li.videoapplication.utils.StringUtil;
 
 import java.util.List;
 
@@ -11,13 +18,38 @@ import java.util.List;
  *礼物列表
  */
 
-public class PlayGiftChoiceAdapter extends BaseQuickAdapter<Integer, BaseViewHolder> {
-    public PlayGiftChoiceAdapter(List<Integer> data) {
-        super(R.layout.square_game_list_item, data);
+public class PlayGiftChoiceAdapter extends BaseQuickAdapter<PlayGiftTypeEntity.DataBean, BaseViewHolder> {
+
+    private int mSelected = 0;
+    public PlayGiftChoiceAdapter(int layoutId,List<PlayGiftTypeEntity.DataBean> data) {
+        super(layoutId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder holder, Integer integer) {
+    protected void convert(BaseViewHolder holder, PlayGiftTypeEntity.DataBean dataBean) {
+        GlideHelper.displayImage(mContext,dataBean.getGift_icon(),(ImageView) holder.getView(R.id.iv_video_play_gift_icon));
+        holder.setText(R.id.tv_video_play_gift_name, dataBean.getGift_name());
+        if ("1".equals(dataBean.getPurchase_method())){
+            holder.setText(R.id.tv_video_play_gift_price,StringUtil.formatNum(dataBean.getCurrency_num())+"魔豆");
+        }else {
+            holder.setText(R.id.tv_video_play_gift_price,StringUtil.formatNum(dataBean.getCoin_num())+"魔币");
+        }
 
+        if (holder.getAdapterPosition() == mSelected){
+            holder.setVisible(R.id.iv_gift_selected,true);
+            holder.setBackgroundRes(R.id.rl_gift_item,R.drawable.stroke_red);
+        }else {
+            holder.setVisible(R.id.iv_gift_selected,false);
+            holder.setBackgroundColor(R.id.rl_gift_item, Color.TRANSPARENT);
+        }
+    }
+
+    public int getSelected() {
+        return mSelected;
+    }
+
+    public void setSelected(int selected) {
+        mSelected = selected;
+        notifyDataSetChanged();
     }
 }

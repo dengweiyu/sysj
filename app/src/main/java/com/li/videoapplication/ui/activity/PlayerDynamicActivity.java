@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.gson.JsonSyntaxException;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
@@ -73,6 +74,10 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
     private TextView emptyText;
 
     private int attent;
+
+    private TextView rewardGift;
+    private ImageView mFirstGift;
+    private ImageView mSecondGift;
 
     @Override
     public void refreshIntent() {
@@ -170,6 +175,11 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
             go = (ImageView) headerView.findViewById(R.id.dynamic_go);
             touch = (RelativeLayout) headerView.findViewById(R.id.dynamic_touch);
 
+            rewardGift = (TextView)headerView.findViewById(R.id.tv_receive_gift);
+            mFirstGift = (ImageView) headerView.findViewById(R.id.iv_first_gift);
+            mSecondGift = (ImageView) headerView.findViewById(R.id.iv_second_gift);
+            rewardGift.setOnClickListener(this);
+
             loginIcon.setOnClickListener(this);
             loginText.setOnClickListener(this);
 
@@ -238,6 +248,23 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
             setAbBackgroundTranceparent();
             setAbGobackWhite();
             setAbTitleWhite();
+
+            //礼物
+            if (item.getRewardInfo() == null||item.getRewardInfo().getGift_icon() == null||!item.getRewardInfo().isHasGift()){
+                rewardGift.setText("收到的礼物：暂无");
+            }else {
+                rewardGift.setText("收到的礼物：");
+                if (item.getRewardInfo().getGift_icon().size() >= 1){
+                    if (mFirstGift != null){
+                        GlideHelper.displayImage(this,item.getRewardInfo().getGift_icon().get(0),mFirstGift);
+                    }
+                }
+                if (item.getRewardInfo().getGift_icon().size() >= 2){
+                    if (mSecondGift != null){
+                        GlideHelper.displayImage(this,item.getRewardInfo().getGift_icon().get(1),mSecondGift);
+                    }
+                }
+            }
         }
     }
 
@@ -307,6 +334,9 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
                     return;
                 }
                 startMyPlayerActivityMyFocus();
+                break;
+            case R.id.tv_receive_gift:
+                ActivityManager.startMyGiftBillActivity(this,item.getMember_id());
                 break;
         }
     }

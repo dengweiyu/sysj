@@ -5,9 +5,13 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
@@ -247,15 +251,29 @@ public class VideoPlayCommentAdapter extends BaseArrayAdapter<Comment> {
                     }
                 }
                 try {
-                    Field f = R.drawable.class.getDeclaredField(face);
-                    int i = f.getInt(R.drawable.class);
-                    Drawable drawable = resources.getDrawable(i);
-                    if (drawable != null) {
-                        drawable.setBounds(0, 0, drawable.getIntrinsicWidth() / 2, drawable.getIntrinsicHeight() / 2);
-                        ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
-                        spannableString.setSpan(span, starts, end + 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                    Field f = null;
+                    try {
+                        f = R.drawable.class.getDeclaredField(face);
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
                     }
-                } catch (SecurityException | NoSuchFieldException | IllegalArgumentException e) {
+                    if (f != null){
+                        int i = f.getInt(R.drawable.class);
+                        Drawable drawable = resources.getDrawable(i);
+                        if (drawable != null) {
+                            drawable.setBounds(0, 0, drawable.getIntrinsicWidth() / 2, drawable.getIntrinsicHeight() / 2);
+                            ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
+                            spannableString.setSpan(span, starts, end + 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                        }
+                    }else {
+                        //[送礼]
+                        if ("送礼".equals(face)){
+                            ForegroundColorSpan span = new ForegroundColorSpan(Color.RED);
+                            spannableString.setSpan(span, starts, end + 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                        }
+                    }
+
+                } catch (SecurityException | IllegalArgumentException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
 
@@ -269,6 +287,8 @@ public class VideoPlayCommentAdapter extends BaseArrayAdapter<Comment> {
                 len = end;
             }
         }
+
+
         view.setText(spannableString);
     }
 

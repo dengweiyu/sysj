@@ -22,6 +22,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.MainActivity;
+import com.li.videoapplication.ui.activity.MyWalletActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.utils.StringUtil;
 
@@ -172,7 +173,7 @@ public class JSInterface {
                     if (!PreferencesHepler.getInstance().isLogin())
                         DialogManager.showLogInDialog(context);
                     else
-                        ActivityManager.startMyWalletActivity(context);
+                        ActivityManager.startMyWalletActivity(context, MyWalletActivity.PAGE_TASK);
                 }
             });
         } catch (Exception e) {

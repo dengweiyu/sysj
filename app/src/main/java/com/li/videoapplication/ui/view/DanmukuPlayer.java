@@ -49,7 +49,6 @@ import master.flame.danmaku.danmaku.model.IDisplayer;
 import master.flame.danmaku.danmaku.model.android.BaseCacheStuffer;
 import master.flame.danmaku.danmaku.model.android.DanmakuContext;
 import master.flame.danmaku.danmaku.model.android.Danmakus;
-import master.flame.danmaku.danmaku.model.android.SpannedCacheStuffer;
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 import master.flame.danmaku.danmaku.parser.IDataSource;
 import master.flame.danmaku.danmaku.parser.android.BiliDanmukuParser;
@@ -121,6 +120,9 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
         overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_RL, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_TOP, true);
 
+        SpannedCacheStuffer cacheStuffer = new SpannedCacheStuffer();
+        cacheStuffer.setPadding(6);         //因为内容居中了 宽度高度各增加了6 保证了每个方向的内边距都是3
+
         danmakuView = (DanmakuView) view.findViewById(R.id.danmukuview);
         danmakuContext = DanmakuContext.create();
         danmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 2)
@@ -129,7 +131,7 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
                 .setScaleTextSize(0.8f)
                 .setMaximumLines(maxLinesPair)
                 .preventOverlapping(overlappingEnablePair)
-                .setCacheStuffer(new SpannedCacheStuffer(),mCacheStufferAdapter);
+                .setCacheStuffer(cacheStuffer,mCacheStufferAdapter);
     }
 
 
@@ -180,10 +182,7 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
             int starts = 0;
             int end = 0;
             //字体大小
-            int w = (int)(25f * (parser.getDisplayer().getDensity() - 0.6f));
-            int h = w;
-            float scaleText = 1f;
-            float scaleFace = 1f;
+            int size = (int)(25f * (parser.getDisplayer().getDensity() - 0.6f));
 
             while (len < content.length()) {
                 if (content.indexOf("[", starts) != -1 && content.indexOf("]", end) != -1) {
@@ -201,8 +200,7 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
                         int i = f.getInt(R.drawable.class);
                         Drawable drawable = context.getResources().getDrawable(i);
                         if (drawable != null) {
-                       //     scaleFace = 1f;
-                            drawable.setBounds(0, 0, (int)(w*scaleFace), (int)(h*scaleFace));
+                            drawable.setBounds(0, 0, size, size);
                             CenterImageSpan span = new CenterImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
                             spannableString.setSpan(span, starts, end + 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
 
@@ -222,17 +220,9 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
                     }
                 }
 
-            //如果是刚刚评论的
-            if (danmaku.priority == 9){
-                danmaku.padding = 0;
-                scaleText = 1f;
-            }else {
-                danmaku.padding = 2;
-                scaleText = 1f;
-            }
-            Log.d("width",w+"");
 
-            danmaku.textSize =  w > h ? (int)(w*scaleText) : (int)(h*scaleText);
+
+            danmaku.textSize = size;
             danmaku.text = spannableString;
             if (danmakuView != null){
                 danmakuView.invalidateDanmaku(danmaku,true);
@@ -305,16 +295,16 @@ public class DanmukuPlayer extends RelativeLayout implements IDanmukuPlayer {
             return;
         }
 
-        danmaku.text =text;
-        danmaku.padding = 2;
+        danmaku.text =text+' ';
+        danmaku.padding = 0;        //只设置了left top 这样会导致边框压到内容 因此设置SpannedCacheStuffer来增加占位宽度和高度从而设置内边距更合适
         danmaku.priority = 9;
         danmaku.isLive = true;
         danmaku.time = danmakuView.getCurrentTime() + 1200;
         danmaku.textSize = 25f * (parser.getDisplayer().getDensity() - 0.6f);
-        danmaku.textColor = Color.RED;
+        danmaku.textColor = Color.WHITE;
     //    danmaku.textShadowColor = Color.WHITE;
          //danmaku.underlineColor = Color.GREEN;
-        danmaku.borderColor = Color.GREEN;
+        danmaku.borderColor = Color.WHITE;
         danmakuView.addDanmaku(danmaku);
         Log.i(tag, "addDanmaku");
     }

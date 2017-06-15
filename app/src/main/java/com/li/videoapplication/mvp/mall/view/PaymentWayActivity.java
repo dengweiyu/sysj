@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.response.MemberCurrencyEntity;
 import com.li.videoapplication.data.model.response.PaymentEntity;
@@ -35,7 +36,7 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
 
     public final static String MONEY = "money";
     public final static String ENTRY = "entryt";       //支付页面入口
-    public final static String NUMBER = "number";      //飞磨豆数量
+    public final static String NUMBER = "number";      //魔豆数量
     public final static String USE = "use";            //支付用途
     public final static String LEVEL = "level";        //VIP 等级
     private MallContract.IMallPresenter presenter;
@@ -106,8 +107,11 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
             case  MallModel.USE_RECHARGE_VIP:
                 mTitle = "充值会员";
                 break;
+            case MallModel.USE_RECHARGE_COIN:
+                mTitle = "充值魔币";
+                break;
             default:
-                mTitle = "支付飞磨豆";
+                mTitle = "支付魔豆";
                 break;
         }
     }
@@ -164,12 +168,9 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
         @Override
         public void success() {
             ToastHelper.l("支付成功");
-            long num;
+
             try {
-                num = Long.parseLong(getUser().getCurrency())+mNumber;
-                MemberCurrencyEntity entity = new MemberCurrencyEntity();
-                entity.setCurrency(num+"");
-                EventBus.getDefault().post(entity);
+                DataManager.userProfilePersonalInformation(getMember_id(),getMember_id());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -196,6 +197,8 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
                         ToastHelper.l("值数量最低为100");
                     }
                 }else if(mUse == MallModel.USE_RECHARGE_VIP){
+                    presenter.payment(mUse,getMember_id(),mLevel,mNumber+"",Integer.valueOf(mAdapter.getSelectedPayId()),entry);
+                }else if(mUse == MallModel.USE_RECHARGE_COIN){
                     presenter.payment(mUse,getMember_id(),mLevel,mNumber+"",Integer.valueOf(mAdapter.getSelectedPayId()),entry);
                 }
                 break;

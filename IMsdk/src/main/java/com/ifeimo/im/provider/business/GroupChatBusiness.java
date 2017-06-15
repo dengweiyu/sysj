@@ -78,6 +78,7 @@ public final class GroupChatBusiness extends SubscriptionBusiness implements IMs
                  * 群聊消息处理
                  */
                 {
+                    //此消息是 android 端发出
                     if (!StringUtil.isNull(modiModel.getMsgId())) {
                         GroupChatModel qureModel = Business.getInstances().queryLineByWhere(sqLiteDatabase,
                                 GroupChatModel.class,
@@ -88,12 +89,14 @@ public final class GroupChatBusiness extends SubscriptionBusiness implements IMs
                             modiModel.setId(qureModel.getId());
                             if (qureModel.getSendType() == Fields.MsgFields.SEND_FINISH) {
                                 modiModel.setSendType(Fields.MsgFields.SEND_FINISH);
-                                if (modiModel.getContent().equals(qureModel.getContent())
-                                        && modiModel.getCreateTime().equals(qureModel.getCreateTime())) {
+                                if (modiModel.getMsgId().equals(qureModel.getMsgId())
+                                        && modiModel.getContent().equals(qureModel.getContent())) {
                                     return;
                                 }
                             }
-//                            modiModel.setCreateTime(qureModel.getCreateTime());
+                            if(modiModel.getSendType() != Fields.MsgFields.SEND_WAITING){
+                                modiModel.setCreateTime(qureModel.getCreateTime());
+                            }
                             if (Business.getInstances().modify(sqLiteDatabase, modiModel) > 0) {
                                 Log.i(TAG, "onExecute: *********** 修改群聊成功 Success Group Modi ********** " + modiModel.toString());
                             }

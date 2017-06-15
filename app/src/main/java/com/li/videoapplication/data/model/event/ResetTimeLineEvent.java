@@ -1,8 +1,10 @@
 package com.li.videoapplication.data.model.event;
 
+import com.li.videoapplication.framework.BaseEntity;
+
 /**
- * Created by Administrator on 2017/6/12.
+ * 重置时间轴
  */
 
-public class ResetTimeLineEvent {
+public class ResetTimeLineEvent extends BaseEntity {
 }

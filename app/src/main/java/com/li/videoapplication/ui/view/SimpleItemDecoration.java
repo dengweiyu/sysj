@@ -16,33 +16,56 @@ import com.li.videoapplication.utils.ScreenUtil;
 import de.measite.minidns.record.A;
 
 /**
- * 礼物页面Item分割线
+ * recycler view Item分割线
  */
 
-public class GiftItemDecoration extends RecyclerView.ItemDecoration {
+public class SimpleItemDecoration extends RecyclerView.ItemDecoration {
     private Context mContext;
     private Paint mPaint;
 
-    private int mSelect;
-    public GiftItemDecoration(Context context) {
+    private boolean mIsLeft;
+    private boolean mIsRight;
+    private boolean mIsTop;
+    private boolean mIsBottom;
+    public SimpleItemDecoration(Context context,boolean isLeft,boolean isRight,boolean isTop,boolean isBottom) {
         super();
         mContext = context;
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(Color.parseColor("#f3f3f3"));       //gray
+        mPaint.setColor(Color.parseColor("#e2e2e2"));       //gray
+
+        this.mIsLeft = isLeft;
+        this.mIsRight = isRight;
+        this.mIsTop = isTop;
+        this.mIsBottom = isBottom;
     }
+
+    public SimpleItemDecoration(Context context){
+        mContext = context;
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setColor(Color.parseColor("#e2e2e2"));       //gray
+    }
+
 
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
 
         int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
-
-            int width = ScreenUtil.dp2px(mContext,1);
-            drawTop(c,parent.getChildAt(i),parent,width);
-            drawBottom(c,parent.getChildAt(i),parent,width);
-            drawLeft(c,parent.getChildAt(i),parent,width);
-           // drawRight(c,parent.getChildAt(i),parent,width);
+            int width = 1;
+            if (mIsTop){
+                drawTop(c,parent.getChildAt(i),parent,width);
+            }
+            if (mIsBottom){
+                drawBottom(c,parent.getChildAt(i),parent,width);
+            }
+            if (mIsLeft){
+                drawLeft(c,parent.getChildAt(i),parent,width);
+            }
+            if (mIsRight){
+                drawRight(c,parent.getChildAt(i),parent,width);
+            }
         }
 
     }
@@ -55,7 +78,7 @@ public class GiftItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     //bottom
-    private void drawBottom(Canvas c,View child, RecyclerView parent,int diverWidth){
+    protected void drawBottom(Canvas c,View child, RecyclerView parent,int diverWidth){
         RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
 
         int left = child.getLeft()- params.leftMargin - diverWidth;
@@ -67,7 +90,7 @@ public class GiftItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     //top
-    private void drawTop(Canvas c,View child, RecyclerView parent,int diverWidth){
+    protected void drawTop(Canvas c,View child, RecyclerView parent,int diverWidth){
         RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
 
         int left = child.getLeft()- params.leftMargin - diverWidth;
@@ -78,7 +101,7 @@ public class GiftItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     //left
-    private void drawLeft(Canvas c,View child, RecyclerView parent,int diverWidth){
+    protected void drawLeft(Canvas c,View child, RecyclerView parent,int diverWidth){
         RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
 
         int top = child.getTop() - params.topMargin - diverWidth;
@@ -89,7 +112,7 @@ public class GiftItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     //right
-    private void drawRight(Canvas c,View child, RecyclerView parent,int diverWidth){
+    protected void drawRight(Canvas c,View child, RecyclerView parent,int diverWidth){
         RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
 
         int top = child.getTop() - params.topMargin - diverWidth;
@@ -100,11 +123,5 @@ public class GiftItemDecoration extends RecyclerView.ItemDecoration {
         c.drawRect(left,top,right,bottom,mPaint);
     }
 
-    public int getSelect() {
-        return mSelect;
-    }
 
-    public void setSelect(int select) {
-        mSelect = select;
-    }
 }

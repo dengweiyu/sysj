@@ -144,7 +144,7 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
                                     if (myCurrency >= Integer.valueOf(data.getCurrency_num())) {
                                         DialogManager.showPaymentDialog(this, data);
                                     } else {
-                                        ToastHelper.s("飞磨豆不足");
+                                        ToastHelper.s("魔豆不足");
                                     }
                                 } else {
                                     DialogManager.showLogInDialog(this);
@@ -164,7 +164,7 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
         setImageViewImageNet(pic, data.getCover());
         setImageViewImageNet(contentPic, data.getContent_pic());
         setTextViewText(name, data.getName());
-        setTextViewText(beam, StringUtil.formatNum(data.getCurrency_num()) + "飞磨豆");
+        setTextViewText(beam, StringUtil.formatNum(data.getCurrency_num()) + "魔豆");
 
         String s = TextUtil.toColor("使用说明：", "#575757") + data.getContent();
         illustration.setText(Html.fromHtml(s));

@@ -17,6 +17,7 @@ import java.io.PipedOutputStream;
 /**
  * Created by lpds on 2017/1/19.
  */
+@Deprecated
 public class AddFriendPopupWindow  {
 
     PopupWindow popupWindow;

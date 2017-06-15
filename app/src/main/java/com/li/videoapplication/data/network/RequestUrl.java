@@ -100,6 +100,13 @@ public class RequestUrl {
     }
 
     /**
+     * 赛事奖金榜状态
+     */
+    public final String getRewardStatus() {
+        return BaseSYSJ + "/sysj213/events/showRewardRankEntrance";
+    }
+
+    /**
      * 抽奖页
      */
     public final String getSweepstake() {
@@ -1361,7 +1368,7 @@ public class RequestUrl {
     }
 
     /**
-     * 个人飞磨豆数量
+     * 个人魔豆数量
      */
     public final String getMemberCurrency() {
         return BaseSYSJ + "/Sysj211/Currency/getMemberCurrency";
@@ -2267,5 +2274,47 @@ public class RequestUrl {
      */
     public final String vipInfo(){
         return BaseSYSJ+"/Sysj220/VIP/getVIPRechargeInfo";
+    }
+
+    /**
+     *礼物类型列表
+     */
+    public final String giftType(){
+        return BaseSYSJ+"/Sysj221/Reward/getGift";
+    }
+
+    /**
+     *礼物流水
+     */
+    public final String giftBill(){
+        return BaseSYSJ+"/Sysj221/UserProfile/personalGift";
+    }
+
+    /**
+     *礼物榜单
+     */
+    public final String getPlayGiftList(){
+        return BaseSYSJ+"/Sysj221/Reward/rewardRanking";
+    }
+
+    /**
+     *时间轴礼物列表
+     */
+    public final String getGiftTimeLineList(){
+        return BaseSYSJ+"/Sysj221/Reward/rewardHistory";
+    }
+
+    /**
+     *获取服务器时间
+     */
+    public final String getServiceTime(){
+        return BaseSYSJ+"/Sysj221/Reward/serviceTimestamp";
+    }
+
+    /**
+     *打赏
+     */
+    public final String playGift(){
+        return BaseSYSJ+"/Sysj221/Reward/rewardGift";
     }
 }

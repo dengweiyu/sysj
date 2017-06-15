@@ -1,7 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/white">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/activity_main_bg"></View>
+    <include
+        layout="@layout/layout_my_currency"></include>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/activity_main_bg"></View>
+    <ScrollView
 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_my_recharge_coin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:nestedScrollingEnabled="false"
+        android:scrollbars="none"
+        android:layout_marginTop="16dp"></android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/tv_coin_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="售价：0 元"
+            android:textColor="#757575"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tv_coin_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(1人民币=10魔币)"
+            android:textColor="#757575"
+            android:layout_marginStart="6dp"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_payment_now"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginBottom="26dp"
+        android:background="#ffc10e"
+        android:clickable="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:text="立即支付"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>
+

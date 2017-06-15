@@ -405,6 +405,14 @@
         android:textSize="13sp"
         android:visibility="gone"/>
 
+    <ImageView
+        android:id="@+id/tb_iv_download_blue"
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/download_blue"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:visibility="gone"/>
 
     <include
         layout="@layout/menu_searchresult"

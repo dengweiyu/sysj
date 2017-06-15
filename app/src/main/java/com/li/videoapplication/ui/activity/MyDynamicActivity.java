@@ -175,7 +175,7 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
             tourist = headerView.findViewById(R.id.dynamic_tourist);
 
 
-            personalcenter = headerView.findViewById(R.id.dynamic_personalcenter);
+         //   personalcenter = headerView.findViewById(R.id.dynamic_personalcenter);
 
             loginIcon = (ImageView) headerView.findViewById(R.id.dynamic_loginIcon);
             loginText = (TextView) headerView.findViewById(R.id.dynamic_loginText);
@@ -195,7 +195,7 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
             loginText.setOnClickListener(this);
             fans.setOnClickListener(this);
             attention.setOnClickListener(this);
-            personalcenter.setOnClickListener(this);
+           // personalcenter.setOnClickListener(this);
             textBtn.setOnClickListener(this);
             touch.setOnClickListener(this);
             go.setOnClickListener(this);
@@ -313,13 +313,13 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
                 }
                 break;
 
-            case R.id.dynamic_personalcenter:// 我的个人中心
+         /*   case R.id.:// 我的个人中心
                 if (!isLogin()) {
                     DialogManager.showLogInDialog(this);
                     return;
                 }
                 startMyPersonalCenterActivity();
-                break;
+                break;*/
 
             case R.id.dynamic_go:// 我的个人资料
                 if (!isLogin()) {

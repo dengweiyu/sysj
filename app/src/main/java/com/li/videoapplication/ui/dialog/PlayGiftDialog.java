@@ -20,8 +20,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.common.collect.Maps;
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.BaseDialog;
+import com.li.videoapplication.tools.TextImageHelper;
+
 import java.util.Map;
 
 /**
@@ -30,11 +33,13 @@ import java.util.Map;
 
 public class PlayGiftDialog extends BaseDialog {
 
+    private String mUrl;
     private ImageView mGiftIcon;
     private TextView mCountText;
 
     private Animation.AnimationListener mTimeListener;
     Animation.AnimationListener mGiftListener;
+    private TextImageHelper mHelper;
     private int mCount;
 
     private static Map<String,Integer> sCountIcon;
@@ -55,9 +60,43 @@ public class PlayGiftDialog extends BaseDialog {
             sCountIcon.put("9",R.drawable.play_gift_time_9);
         }
     }
-    public PlayGiftDialog(Context context,int count) {
+    public PlayGiftDialog(Context context,String url,int count) {
         super(context,R.style.custom_dialog);
         this.mCount = count;
+        mUrl = url;
+        if (mGiftIcon != null){
+            GlideHelper.displayImageWhite(context,mUrl,mGiftIcon);
+        }
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        final Animation giftAnimation = AnimationUtils.loadAnimation(getContext(),R.anim.play_gift_scale_enter);
+        giftAnimation.setAnimationListener(mGiftListener);
+
+        final Animation timeAnimation = AnimationUtils.loadAnimation(getContext(),R.anim.play_gift_time_rotate);
+        timeAnimation.setAnimationListener(mTimeListener);
+
+        //
+        UITask.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mGiftIcon.startAnimation(giftAnimation);
+            }
+        },50);
+
+        //
+        UITask.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mCount <= 0){
+                    mCount = 1;
+                }
+                replaceIcon("X"+mCount,getContext(),mCountText);
+                mCountText.startAnimation(timeAnimation);
+            }
+        },400);
     }
 
     @Override
@@ -75,6 +114,7 @@ public class PlayGiftDialog extends BaseDialog {
         super.afterContentView(context);
 
         Window window = getWindow();
+
         if (window != null) {
             window.setBackgroundDrawableResource(android.R.color.transparent); // 设置对话框背景为透明
             window.clearFlags( WindowManager.LayoutParams.FLAG_DIM_BEHIND);
@@ -90,32 +130,9 @@ public class PlayGiftDialog extends BaseDialog {
         mCountText = (TextView)findViewById(R.id.tv_play_time);
         mGiftIcon = (ImageView) findViewById(R.id.iv_gift_icon);
 
+
         initListener();
-       final Animation giftAnimation = AnimationUtils.loadAnimation(getContext(),R.anim.play_gift_scale_enter);
-        giftAnimation.setAnimationListener(mGiftListener);
 
-       final Animation timeAnimation = AnimationUtils.loadAnimation(getContext(),R.anim.play_gift_time_rotate);
-        timeAnimation.setAnimationListener(mTimeListener);
-
-        //
-        UITask.post(new Runnable() {
-            @Override
-            public void run() {
-                mGiftIcon.startAnimation(giftAnimation);
-            }
-        });
-
-        //
-        UITask.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mCount <= 0){
-                    mCount = 1;
-                }
-                replaceIcon("X"+mCount);
-                mCountText.startAnimation(timeAnimation);
-            }
-        },400);
     }
 
     private void initListener(){
@@ -163,8 +180,8 @@ public class PlayGiftDialog extends BaseDialog {
      * text replace to drawable
      * @param s
      */
-    private void replaceIcon(String s){
-        Context context = getContext();
+    public static void replaceIcon(String s,Context context,TextView countText){
+
         char array[] = s.toCharArray();
         SpannableString spannableString = new SpannableString(s);
         for (int i = 0 ;i < array.length;i++) {
@@ -172,7 +189,7 @@ public class PlayGiftDialog extends BaseDialog {
                 int resId = sCountIcon.get(new String(new char[]{array[i]}));
                 if (resId >= 0){
                     Drawable drawable = context.getResources().getDrawable(resId);
-                    drawable.setBounds(0, 0, (int)mCountText.getTextSize(), (int)mCountText.getTextSize());
+                    drawable.setBounds(0, 0, (int)countText.getTextSize(), (int)countText.getTextSize());
                     ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
                     spannableString.setSpan(span,i,i+1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                     Log.d("ResId",resId+"");
@@ -182,6 +199,6 @@ public class PlayGiftDialog extends BaseDialog {
             }
         }
 
-        mCountText.setText(spannableString);
+        countText.setText(spannableString);
     }
 }

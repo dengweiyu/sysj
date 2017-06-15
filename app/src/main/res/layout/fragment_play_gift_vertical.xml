@@ -15,14 +15,8 @@
             android:id="@+id/rv_play_gift"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="fragment"/>
-        </LinearLayout>
+
+        <include
+            layout="@layout/layout_play_gift_bottom"></include>
     </android.support.design.widget.AppBarLayout>
 </android.support.design.widget.CoordinatorLayout>

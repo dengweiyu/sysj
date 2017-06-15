@@ -262,7 +262,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
         notice2.setText(Html.fromHtml(s2));
 
         //引导句子3  红色：#ff3d2e，蓝色：#48c5ff
-        String s3 = "上传" + TextUtil.toColor("比赛视频", "#48c5ff") + "奖励" + TextUtil.toColor(currencyNum, "#ff3d2e") + "飞磨豆";
+        String s3 = "上传" + TextUtil.toColor("比赛视频", "#48c5ff") + "奖励" + TextUtil.toColor(currencyNum, "#ff3d2e") + "魔豆";
         notice3.setText(Html.fromHtml(s3));
     }
 

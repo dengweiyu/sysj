@@ -77,7 +77,12 @@ public class PhotoHelper {
 			} else {
 				intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 			}
-			activity.startActivityForResult(intent, REQUESTCODE_PHOTO_PICK);
+			try {
+				activity.startActivityForResult(intent, REQUESTCODE_PHOTO_PICK);
+			} catch (Exception e) {
+				e.printStackTrace();
+				ToastHelper.s("无法打开相册");
+			}
 		} else {
 			ToastHelper.s("暂无外部存储");
 			return;

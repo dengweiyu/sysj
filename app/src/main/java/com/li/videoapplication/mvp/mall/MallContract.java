@@ -3,7 +3,9 @@ package com.li.videoapplication.mvp.mall;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.entity.TopUp;
+import com.li.videoapplication.data.model.response.BillEntity;
 import com.li.videoapplication.data.model.response.PaymentEntity;
+import com.li.videoapplication.data.model.response.RechargeCoinEntity;
 import com.li.videoapplication.data.model.response.TopUpOptionEntity;
 import com.li.videoapplication.mvp.OnLoadDataListener;
 
@@ -41,6 +43,12 @@ public class MallContract {
         void getTopUpRecordList(String member_id, final OnLoadDataListener<List<TopUp>> listener);
         //获取支付分类选择
         void getPaymentList(String  target,final OnLoadDataListener<PaymentList> listener);
+
+        //魔币充值列表
+        void getCoinList(final OnLoadDataListener<RechargeCoinEntity> listener);
+
+        //账单列表
+        void getBillList(String member_id,int type,final OnLoadDataListener<BillEntity> listener);
     }
 
     /**
@@ -95,6 +103,27 @@ public class MallContract {
     }
 
     /**
+     * View层接口：魔豆/魔币账单
+     */
+    public interface IBillListView{
+        void refreshBillList(BillEntity entity);
+
+
+        void refreshFault();
+    }
+
+
+    /**
+     * View层接口：魔币支付列表
+     */
+    public interface IRechargeCoinListView{
+        void refreshCoinList(RechargeCoinEntity entity);
+
+
+        void refreshFault();
+    }
+
+    /**
      * Presenter接口: 商城
      */
     public interface IMallPresenter {
@@ -104,6 +133,10 @@ public class MallContract {
 
         void setTopUpView(ITopUpView topUpView);
         void setTopUpRecordView(ITopUpRecordView topUpRecordView);
+
+        void setCoinListView(IRechargeCoinListView coinListView);
+
+        void setBillListView(IBillListView billListView);
 
         void getOrderList(String member_id);
 
@@ -122,5 +155,9 @@ public class MallContract {
         void getPaymentList(String target);
 
         void setPaymentLisView(IPaymentListView paymentLisView);
+
+        void getCoinList();
+
+        void getBillList(String member,int type);
     }
 }

@@ -41,7 +41,7 @@ public class SearchLiftAdapter extends BaseBaseAdapter {
 	}
 
 	public int getCount() {
-		return data.size();
+		return data == null?0:data.size();
 	}
 
 	@Override

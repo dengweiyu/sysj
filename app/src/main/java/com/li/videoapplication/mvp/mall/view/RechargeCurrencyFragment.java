@@ -16,6 +16,7 @@ import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.TopUp;
+import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.response.MemberCurrencyEntity;
 import com.li.videoapplication.data.model.response.TopUpOptionEntity;
 import com.li.videoapplication.framework.TBaseFragment;
@@ -39,7 +40,7 @@ import butterknife.BindView;
 
 
 /**
- * 充值飞磨豆
+ * 充值魔豆
  */
 
 public class RechargeCurrencyFragment extends TBaseFragment implements MallContract.ITopUpView,
@@ -57,6 +58,10 @@ public class RechargeCurrencyFragment extends TBaseFragment implements MallContr
     TextView topupName;
     @BindView(R.id.topup_currency)
     TextView currency;
+    @BindView(R.id.tv_my_currency_coin)
+    TextView coin;
+    @BindView(R.id.tv_my_currency_beans)
+    TextView beans;
     @BindView(R.id.topup_pay)
     RelativeLayout paymentNow;
 
@@ -116,6 +121,8 @@ public class RechargeCurrencyFragment extends TBaseFragment implements MallContr
         setTextViewText(name, member.getNickname());
         setTextViewText(currency, StringUtil.formatNum(member.getCurrency()));
 
+        setTextViewText(coin, StringUtil.formatNum(member.getCoin()));
+        setTextViewText(beans, StringUtil.formatNum(member.getCurrency()));
         paymentNow.setOnClickListener(this);
     }
 
@@ -223,7 +230,7 @@ public class RechargeCurrencyFragment extends TBaseFragment implements MallContr
     }
 
     /**
-     * 回调：充值飞磨豆数量选项
+     * 回调：充值魔豆数量选项
      */
     @Override
     public void refreshTopUpOptionData(TopUpOptionEntity data) {
@@ -236,13 +243,21 @@ public class RechargeCurrencyFragment extends TBaseFragment implements MallContr
             paymentNow.setVisibility(View.VISIBLE);
         }
         setPrice(DEFAULT_SELECTED_POS);
-        setTextViewText(rate, "(1人民币=" + StringUtil.formatNum(rateStr) + "飞磨豆)");
+        setTextViewText(rate, "(1人民币=" + StringUtil.formatNum(rateStr) + "魔豆)");
     }
-    /**
-     * 回调：更新个人飞磨豆数量
-     */
 
-    public void onEventMainThread(MemberCurrencyEntity event) {
-        setTextViewText(currency, StringUtil.formatNum(event.getCurrency()));
+    /**
+     * 事件：更新个人资料
+     */
+    public void onEventMainThread(UserInfomationEvent event) {
+
+        if (event != null) {
+            if (coin != null){
+                coin.setText(StringUtil.formatNum(getUser().getCoin()));
+            }
+            if (beans != null){
+                beans.setText(StringUtil.formatNum(getUser().getCurrency()));
+            }
+        }
     }
 }

@@ -165,7 +165,7 @@ public class AppStartService extends BaseIntentService{
     private void handleLaunchAD() {
         // 启动页同步接口
         AdvertisementDto data = DataManager.adverImageSync(AdvertisementDto.ADVERTISEMENT_6);
-        if (data != null) {
+        if (data != null && data.getData() != null && data.getData().size() > 0) {
             //启动图广告：1,保存json和图片到本地. 2,保存广告中的app下载信息
             switch (data.getData().get(0).getAd_location_id()) {
                 case AdvertisementDto.ADVERTISEMENT_6://启动海报

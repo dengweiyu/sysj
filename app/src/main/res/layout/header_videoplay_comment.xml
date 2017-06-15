@@ -12,6 +12,8 @@
         layout="@layout/header_videoplay_player"/>
     <include
         layout="@layout/header_videoplay_status"/>
+
     <include
-        layout="@layout/header_videoplay_empty"></include>
+        layout="@layout/header_videoplay_gift"></include>
+
 </LinearLayout>

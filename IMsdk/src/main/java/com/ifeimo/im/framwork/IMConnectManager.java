@@ -36,6 +36,7 @@ import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.packet.Stanza;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+import org.jivesoftware.smackx.iqregister.AccountManager;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
@@ -50,6 +51,7 @@ import okhttp3.Response;
 
 /**
  * Created by lpds on 2017/1/11.
+ * 管理IM连接
  */
 final class IMConnectManager implements IConnect {
     private static final String TAG = "XMPP_IMConnectManager";
@@ -114,7 +116,7 @@ final class IMConnectManager implements IConnect {
     }
 
     @Deprecated
-    public void init(Context context) {
+    public synchronized void init(Context context) {
         if (isInit) {
             return;
         }
@@ -130,6 +132,7 @@ final class IMConnectManager implements IConnect {
                 .setDebuggerEnabled(true)
 //                .setSendPresence(true)
                 .setServiceName(connectBean.getServiceName())
+                .setResource("android")
                 .build();
 
     }
@@ -144,7 +147,7 @@ final class IMConnectManager implements IConnect {
     }
 
     private void startConnection() {
-
+        Log.i(TAG, "Thread.currentThread() "+Thread.currentThread().getName());
         if (StringUtil.isNull(UserBean.getMemberID())) {
             PManager.getCacheUser(application);
             if (StringUtil.isNull(UserBean.getMemberID())) {
@@ -298,6 +301,7 @@ final class IMConnectManager implements IConnect {
         } catch (Exception e) {
             log(" ------ Error:The account connection IM of the server failed ------ " + e);
             try {
+
                 Thread.sleep(5000);
             } catch (InterruptedException e1) {
                 e1.printStackTrace();
@@ -310,6 +314,7 @@ final class IMConnectManager implements IConnect {
 
     public void close() {
         if (connection != null && connection.isConnected()) {
+
             connection.disconnect();
         }
     }
@@ -388,7 +393,7 @@ final class IMConnectManager implements IConnect {
             } else {
 
             }
-            throw new SmackException.AlreadyLoggedInException();
+//            throw new SmackException.AlreadyLoggedInException();
         } catch (SmackException.AlreadyLoggedInException e) {
             log("------ 返回码 " + e.getMessage() + " ------");
             log("------ Msg: This account login IM of the server successfully ------");
@@ -493,19 +498,19 @@ final class IMConnectManager implements IConnect {
     }
 
     public void disconnect() {
+        for (IEmployee iEmployee : ManagerList.getInstances().getAllManager()) {
+            if (iEmployee instanceof OnOutIM) {
+                ((OnOutIM) iEmployee).leaveIM();
+            }
+        }
         if (connection != null && connection.isConnected()) {
             PManager.saveLogin(application, false);
+//            AccountManager.getInstance(connection).deleteAccount();
             connection.disconnect();
             connection = null;
             if (logoutCallBack != null) {
                 logoutCallBack.logoutSuccess();
                 return;
-            }
-        }else{
-            for (IEmployee iEmployee : ManagerList.getInstances().getAllManager()) {
-                if (iEmployee instanceof OnOutIM) {
-                    ((OnOutIM) iEmployee).leaveIM();
-                }
             }
         }
     }

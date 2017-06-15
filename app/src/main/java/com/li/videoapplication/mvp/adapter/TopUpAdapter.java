@@ -37,7 +37,7 @@ public class TopUpAdapter extends BaseQuickAdapter<TopUp, BaseViewHolder> {
     @Override
     protected void convert(final BaseViewHolder holder, final TopUp item) {
 
-        holder.setText(R.id.topup_option, StringUtil.formatNum(item.getOption()) + " 飞磨豆")
+        holder.setText(R.id.topup_option, StringUtil.formatNum(item.getOption()) + " 魔豆")
                 .setVisible(R.id.topup_option, !isCustomItem(item))
                 .setVisible(R.id.topup_custom, isCustomItem(item))
                 .setVisible(R.id.topup_check_img, item.isSelected());
@@ -137,7 +137,7 @@ public class TopUpAdapter extends BaseQuickAdapter<TopUp, BaseViewHolder> {
                 setCustomInt(Integer.valueOf(s.toString()));
                 fragment.setPrice(getData().size() - 1);
             } catch (NumberFormatException e) {
-                ToastHelper.s("充值飞磨豆数量不在允许范围");
+                ToastHelper.s("充值魔豆数量不在允许范围");
             }
         }
     } /*= new TextWatcher() {
@@ -158,7 +158,7 @@ public class TopUpAdapter extends BaseQuickAdapter<TopUp, BaseViewHolder> {
                 setCustomInt(Integer.valueOf(s.toString()));
                 activity.setPrice(getData().size() - 1);
             } catch (NumberFormatException e) {
-                ToastHelper.s("充值飞磨豆数量不在允许范围");
+                ToastHelper.s("充值魔豆数量不在允许范围");
             }
         }
     };*/

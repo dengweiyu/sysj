@@ -19,6 +19,7 @@ import com.ifeimo.im.service.LoginService;
 public final class ConnectSupport implements IConnectSupport,OnInitialization{
     private boolean isInit = false;
     private IConnect iConnect;
+    private boolean isPause = false;
     public ConnectSupport(IConnect iConnect) {
         this.iConnect = iConnect;
     }
@@ -33,12 +34,14 @@ public final class ConnectSupport implements IConnectSupport,OnInitialization{
     @Override
     public void onActivityStarted(Activity activity) {
 
+
     }
 
     @Override
     public void onActivityResumed(Activity activity) {
-        Log.i(TAG, "onActivityResumed: App 回到前端");
-        if(isInit) {
+        if(isInit && isPause) {
+            isPause = false;
+            Log.i(TAG, "onActivityResumed: App 回到前端");
             if (!iConnect.isConnect()) {
                 Log.i(TAG, "onActivityResumed: App IM 断开连接！");
                 activity.startService(new Intent(activity, LoginService.class));
@@ -52,7 +55,7 @@ public final class ConnectSupport implements IConnectSupport,OnInitialization{
 
     @Override
     public void onActivityPaused(Activity activity) {
-
+        isPause = true;
     }
 
     @Override

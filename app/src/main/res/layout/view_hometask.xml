@@ -32,7 +32,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="飞磨豆换海量福利！"
+                android:text="魔豆换海量福利！"
                 android:textColor="@color/text_color"
                 android:textSize="14sp" />
 
@@ -42,7 +42,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="完成任务，参与赛事，活动获得海量飞磨豆"
+                android:text="完成任务，参与赛事，活动获得海量魔豆"
                 android:textColor="@color/title_bg_color"
                 android:textSize="12sp" />
         </LinearLayout>

@@ -148,7 +148,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="飞磨豆 0"
+            android:text="魔豆 0"
             android:textColor="#646464"
             android:textSize="10sp"
             android:layout_marginRight="12dp"/>

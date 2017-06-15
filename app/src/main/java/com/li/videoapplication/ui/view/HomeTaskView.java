@@ -15,6 +15,7 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.ui.activity.MyWalletActivity;
 import com.li.videoapplication.utils.TextUtil;
 
 /**
@@ -40,7 +41,7 @@ public class HomeTaskView extends LinearLayout implements
 
         container = view.findViewById(R.id.hometask_container);
         TextView textView = (TextView) view.findViewById(R.id.hometask_text2);
-        String s = "完成" + toRed("任务") + "，参与" + toRed("赛事，活动") + "获得海量飞磨豆";
+        String s = "完成" + toRed("任务") + "，参与" + toRed("赛事，活动") + "获得海量魔豆";
         textView.setText(Html.fromHtml(s));
 
         view.findViewById(R.id.hometask_go2task).setOnClickListener(this);
@@ -84,7 +85,7 @@ public class HomeTaskView extends LinearLayout implements
                     DialogManager.showLogInDialog(getContext());
                     return;
                 }
-                ActivityManager.startMyWalletActivity(getContext());
+                ActivityManager.startMyWalletActivity(getContext(), MyWalletActivity.PAGE_TASK);
                 break;
         }
     }

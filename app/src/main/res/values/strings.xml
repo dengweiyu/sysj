@@ -905,17 +905,18 @@
 
     <string name="sysj_qq">2768484684</string>
     <string name="mywallet_title">钱包</string>
-    <string name="mywalley_mycurrency">飞磨豆余额：</string>
+    <string name="mywalley_mycurrency">魔豆余额：</string>
     <string name="mywallet_topup_qq">充值QQ：</string>
     <string name="top_up">充值</string>
+    <string name="my_wallet_exchange">兑换</string>
     <string name="currency_record">账单</string>
-    <string name="about_fmd">关于飞磨豆</string>
+    <string name="about_fmd">关于魔豆</string>
 
     <string name="jump_home_content">马上跳转到首页观看视频完成任务，是否跳转？</string>
     <string name="jump_home_content_L">马上跳转到首页</string>
     <string name="jump_home_content_R">完成任务，是否跳转？</string>
     <string name="jump_match_content">马上到赛事主页参加比赛完成任务，是否跳转？</string>
-    <string name="jump_upload_content">分享视频即有机会获得飞磨豆奖励，立即分享？</string>
+    <string name="jump_upload_content">分享视频即有机会获得魔豆奖励，立即分享？</string>
     <string name="jump_videobillboard_content">马上到排行榜查看自己的当前排名，是否跳转？</string>
     <string name="jump_playerbillboard_content">马上跳转到推荐榜关注自己心仪的主播，是否跳转？</string>
     <string name="jump_mall_content">跳转到商城购买主播推荐位，即可提高排名，被更多的关注，是否跳转？</string>
@@ -938,4 +939,12 @@
     <string name="square_tip_video_is_private">上传完成前仅自己可见</string>
     
     <string name="vip_center_recharge_vip">充值会员</string>
+
+    <string name="my_wallet_beans_over">魔豆余额</string>
+    <string name="my_wallet_coin_over">魔币余额</string>
+
+    <string name="no_receive_gift_description">要抱抱！还没收到礼物呢~</string>
+    <string name="no_send_gift_description">主人有点懒，还没送礼哦~</string>
+
+    <string name="play_gift_sign_key">293c8f7f66b1c8f4cef872f6371c9020237329a2</string>
 </resources>

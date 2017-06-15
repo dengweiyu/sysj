@@ -1,8 +1,11 @@
 package com.li.videoapplication.data.model.response;
 
+import com.li.videoapplication.framework.BaseResponseEntity;
+
 /**
- * Created by Administrator on 2017/6/10.
+ * 礼物打赏结果
  */
 
-public class PlayGiftResultEntity {
+public class PlayGiftResultEntity extends BaseResponseEntity {
+
 }

@@ -25,8 +25,11 @@ import com.li.videoapplication.data.model.response.PackageInfoEntity;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
+
+import io.rx_cache.internal.cache.memory.apache.IterableMap;
 
 /**
  * 活动：礼包详情
@@ -85,6 +88,8 @@ public class GiftDetailActivity extends TBaseActivity implements OnClickListener
 
     private void initContentView() {
 
+        View download = findViewById(R.id.tb_iv_download_blue);
+
         pic = (ImageView) findViewById(R.id.giftdetail_pic);
         title = (TextView) findViewById(R.id.giftdetail_title);
         remaining = (TextView) findViewById(R.id.giftdetail_remaining);
@@ -109,6 +114,8 @@ public class GiftDetailActivity extends TBaseActivity implements OnClickListener
         receive.setVisibility(View.GONE);
         copy.setVisibility(View.GONE);
         code.setVisibility(View.GONE);
+        download.setVisibility(View.VISIBLE);
+        download.setOnClickListener(this);
     }
 
     private void refreshContentView(Gift item) {
@@ -211,6 +218,14 @@ public class GiftDetailActivity extends TBaseActivity implements OnClickListener
                 ClipboardManager cmb = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                 cmb.setText(code.getText().toString());
                 showToastShort("已复制到剪贴板");
+                break;
+            case R.id.tb_iv_download_blue:
+                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.DISCOVER, "礼包详情-游戏下载");
+                if (item == null || StringUtil.isNull(item.getGame_id())){
+                    showToastShort("暂无此游戏哦~");
+                    return;
+                }
+                ActivityManager.startDownloadManagerActivity(this,item.getGame_id());
                 break;
         }
     }

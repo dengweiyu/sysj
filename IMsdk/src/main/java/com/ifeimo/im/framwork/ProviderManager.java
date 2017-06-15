@@ -97,7 +97,7 @@ final class ProviderManager implements IProvider,Runnable{
                         GroupChatBusiness.getInstances().
                                 getAllSubscriptionByType(sqLiteDatabase, InformationModel.ROOM);
                 QueryRespone<InformationModel> queryRespone = new QueryRespone(informationModels, true, null);
-                Log.i(TAG, "onExecute: queryRespone.size() = "+queryRespone.getData().size());
+                Log.i(TAG, "onExecute: User will join room count is  "+queryRespone.getData().size());
                 EventBus.getDefault().post(queryRespone);
             }
 

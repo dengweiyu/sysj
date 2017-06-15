@@ -108,7 +108,7 @@ public class DailyRewardFragment extends TBaseFragment implements View.OnClickLi
                 DialogManager.showLogInTaskDoneDialog(getActivity());
                 break;
             case 9://9=>分享视频到玩家广场任务
-                DialogManager.showSharedToSquareDialog(getActivity(), "分享至手游视界即有机会获得飞磨豆奖励，是否立即分享视频？", new View.OnClickListener() {
+                DialogManager.showSharedToSquareDialog(getActivity(), "分享至手游视界即有机会获得魔豆奖励，是否立即分享视频？", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         switch (v.getId()){

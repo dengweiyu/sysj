@@ -39,7 +39,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="飞磨豆余额："
+            android:text="魔豆余额："
             android:textColor="@color/currency_red"
             android:textSize="13sp" />
 

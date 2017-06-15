@@ -26,6 +26,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.MyPlayerActivity;
+import com.li.videoapplication.ui.activity.MyWalletActivity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 
@@ -51,7 +52,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             startLoginActivity();
             return;
         }
-        ActivityManager.startMyWalletActivity(getActivity());
+        ActivityManager.startMyWalletActivity(getActivity(), MyWalletActivity.PAGE_BEANS);
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "我的钱包-点击我的钱包次数");
     }
 
@@ -181,6 +182,14 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
         helper.initSDK(getActivity());
         if (activity instanceof MainActivity){
             mActivity = (MainActivity)activity;
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            DataManager.userProfilePersonalInformation(getMember_id(), getMember_id());
         }
     }
 
@@ -419,7 +428,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        DataManager.userProfilePersonalInformation(getMember_id(), getMember_id());
+
     }
 
     /**

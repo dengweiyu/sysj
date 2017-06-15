@@ -240,7 +240,7 @@ public class MyMatchBettleActivity extends TBaseAppCompatActivity implements Vie
         //引导句子1：匹配对手成功后，点击约战TA进行比赛，如果对方未在19:00前与您对战，则截屏聊天记录或其他截图证明上传。
         //红色：#ff3d2e，蓝色：#48c5ff
         //引导句子3  红色：#ff3d2e，蓝色：#48c5ff
-        String s1 = "上传" + TextUtil.toColor("比赛视频", "#48c5ff") + "奖励" + TextUtil.toColor(currencyNum, "#ff3d2e") + "飞磨豆";
+        String s1 = "上传" + TextUtil.toColor("比赛视频", "#48c5ff") + "奖励" + TextUtil.toColor(currencyNum, "#ff3d2e") + "魔豆";
         notice1.setText(Html.fromHtml(s1));
 
     }

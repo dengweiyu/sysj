@@ -26,6 +26,7 @@ import com.li.videoapplication.mvp.activity_gift.view.MyActivityListActivity;
 import com.li.videoapplication.mvp.activity_gift.view.MyGiftListActivity;
 import com.li.videoapplication.mvp.billboard.view.BillboardActivity;
 import com.li.videoapplication.mvp.billboard.view.MatchRewardBillboardActivity;
+import com.li.videoapplication.mvp.mall.view.MyBillDetailActivity;
 import com.li.videoapplication.mvp.mall.view.PaymentWayActivity;
 import com.li.videoapplication.mvp.mall.view.TopUpActivity;
 import com.li.videoapplication.mvp.mall.view.TopUpRecordActivity;
@@ -63,6 +64,7 @@ import com.li.videoapplication.ui.activity.MessageListActivity;
 import com.li.videoapplication.ui.activity.MyCurrencyRecordActivity;
 import com.li.videoapplication.ui.activity.MyDynamicActivity;
 import com.li.videoapplication.mvp.match.view.MyMatchActivity;
+import com.li.videoapplication.ui.activity.MyGiftActivity;
 import com.li.videoapplication.ui.activity.MyMatchProcessActivity;
 import com.li.videoapplication.ui.activity.MyPersonalCenterActivity;
 import com.li.videoapplication.ui.activity.MyPersonalInfoActivity;
@@ -858,9 +860,14 @@ public class ActivityManager {
     /**
      * 我的钱包
      */
-    public synchronized static void startMyWalletActivity(Context context) {
+    public synchronized static void startMyWalletActivity(Context context,int page) {
+        if (!PreferencesHepler.getInstance().isLogin()) {
+            DialogManager.showLogInDialog(context);
+            return;
+        }
         Intent intent = new Intent();
         intent.setClass(context, MyWalletActivity.class);
+        intent.putExtra("page",page);
         context.startActivity(intent);
     }
 
@@ -897,11 +904,11 @@ public class ActivityManager {
      * @param money
      *              充值金额
      * @param number
-     *              飞磨豆数量
+     *              魔豆数量
      * @param entry
      *              点击哪里的入口
      * @param use
-     *              用于飞磨豆充值还是会员开通
+     *              用于魔豆充值还是会员开通
      * @param level
      *              需要开通的VIP等级
      */
@@ -1016,6 +1023,21 @@ public class ActivityManager {
         intent.putExtra("entry", entry);
         intent.putExtra("position",position);
         intent.setClass(context, TopUpActivity.class);
+        context.startActivity(intent);
+    }
+
+
+    /**
+     * 魔豆/魔币账单
+     */
+    public synchronized static void startMyWalletBillActivity(Context context,int mode) {
+        if (!PreferencesHepler.getInstance().isLogin()) {
+            ToastHelper.s("请先登录");
+            return;
+        }
+        Intent intent = new Intent();
+        intent.putExtra("mode",mode);
+        intent.setClass(context, MyBillDetailActivity.class);
         context.startActivity(intent);
     }
 
@@ -1439,4 +1461,14 @@ public class ActivityManager {
     }
 
 
+    /**
+     * 玩家广场游戏筛选
+     */
+    public static void startMyGiftBillActivity(Context context,String userId) {
+
+        Intent intent = new Intent();
+        intent.setClass(context, MyGiftActivity.class);
+        intent.putExtra("user_id",userId);
+        context.startActivity(intent);
+    }
 }

@@ -5,6 +5,7 @@ import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.entity.TopUp;
+import com.li.videoapplication.data.model.response.BillEntity;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
@@ -19,6 +20,7 @@ import com.li.videoapplication.data.model.response.PhotoCollectionEntity;
 import com.li.videoapplication.data.model.response.PhotoFlowerEntity;
 import com.li.videoapplication.data.model.response.PlayerRankingCurrencyEntity;
 import com.li.videoapplication.data.model.response.PlayerRankingEntity;
+import com.li.videoapplication.data.model.response.RechargeCoinEntity;
 import com.li.videoapplication.data.model.response.ServiceNameEntity;
 import com.li.videoapplication.data.model.response.SignScheduleEntity;
 import com.li.videoapplication.data.model.response.TopUpOptionEntity;
@@ -244,6 +246,10 @@ public interface SYSJService {
     @POST("/Sysj218/Recharge/payment")
     Observable<PaymentEntity> payment(@FieldMap Map<String, Object> options);
 
+    @FormUrlEncoded
+    @POST("/Sysj221/CoinPay/payment")
+    Observable<PaymentEntity> paymentCoin(@FieldMap Map<String, Object> options);
+
     //开通会员
     @FormUrlEncoded
     @POST("/Sysj220/VIP/payment")
@@ -256,4 +262,12 @@ public interface SYSJService {
     //充值方式
     @GET("/Sysj218/Recharge/payRechargeWay")
     Observable<PaymentList> getPaymentList(@Query("target") String target);
+
+    //魔币充值方式
+    @GET("/Sysj221/CoinPay/getCoinRechargeRule")
+    Observable<RechargeCoinEntity> getCoinList();
+
+    //魔豆/魔币账单
+    @GET("/Sysj221/StatementBills/getStatementBills")
+    Observable<BillEntity> getBillList(@QueryMap Map<String, Object> options);
 }

@@ -458,6 +458,10 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     public void onOpened() {
         home.stopAutoFlowTimer();
         slider.refreshUnReadMessage();
+        String member_id = PreferencesHepler.getInstance().getMember_id();
+        if (!StringUtil.isNull(member_id)){
+            DataManager.userProfilePersonalInformation(member_id, member_id);
+        }
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "打开左侧栏次数");
     }
 

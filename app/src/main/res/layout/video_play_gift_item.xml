@@ -1,7 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_gift_item"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="90dp"
+    android:minWidth="90dp"
+    android:background="@color/white">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true">
+        <ImageView
+            android:id="@+id/iv_video_play_gift_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/play_gift_bear"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/tv_video_play_gift_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:textSize="12sp"
+            android:text="666"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/tv_video_play_gift_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="12sp"
+            android:layout_marginTop="1dp"
+            android:text="100魔豆"
+            android:textColor="@color/currency_red"/>
 </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_gift_selected"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/topup_selected"
+            android:visibility="gone" />
+</RelativeLayout>

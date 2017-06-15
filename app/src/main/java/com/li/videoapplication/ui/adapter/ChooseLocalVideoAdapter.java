@@ -5,14 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.image.MyLocalVideoImageLoader;
-import com.li.videoapplication.data.image.VideoCoverHelper;
 import com.li.videoapplication.data.image.VideoDurationHelper;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.VideoCaptureHelper;
@@ -27,7 +26,6 @@ import java.util.Map;
  * 适配器：上传比赛结果视频
  */
 public class ChooseLocalVideoAdapter extends RecyclerView.Adapter<ChooseLocalVideoAdapter.VideoViewHolder> {
-    private VideoCoverHelper coverHelper;
     private final VideoDurationHelper durationHelper;
     public MyLocalVideoImageLoader imageLoader;
 
@@ -47,7 +45,6 @@ public class ChooseLocalVideoAdapter extends RecyclerView.Adapter<ChooseLocalVid
         }
         imageLoader = new MyLocalVideoImageLoader(recyclerView, URLS);
         durationHelper = new VideoDurationHelper(recyclerView);
-        coverHelper = new VideoCoverHelper(recyclerView, URLS);
 
         initCheckBox();
     }
@@ -89,8 +86,7 @@ public class ChooseLocalVideoAdapter extends RecyclerView.Adapter<ChooseLocalVid
         final String fileName = record.getVideo_name();
 
         // 视频缩略图
-        holder.cover.setTag(filePath);
-        coverHelper.displayImage208(filePath, holder.cover);
+        GlideHelper.displayImage(context,filePath,holder.cover);
 
         holder.title.setText(fileName);
         holder.createTime.setText(VideoCaptureHelper.getLastModified(record.getVideo_path()));
@@ -111,7 +107,6 @@ public class ChooseLocalVideoAdapter extends RecyclerView.Adapter<ChooseLocalVid
         for (int i = 0; i < data.size(); i++) {
             URLS[i] = data.get(i).getVideo_path();
         }
-        coverHelper.setFilePaths(URLS);
         notifyDataSetChanged();
         initCheckBox();
     }

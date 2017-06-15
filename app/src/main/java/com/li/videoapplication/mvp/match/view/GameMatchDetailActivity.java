@@ -88,7 +88,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
     private GameMatchProcessFragment processFragment;
 
     public String event_id;
-    private String customerServiceID, customerServiceName;
+    private String customerServiceID, customerServiceName,customerServiceIcon;
     private PopupWindow popupWindow;
     private BubbleLayout bubbleLayout;
     private MatchPresenter presenter;
@@ -416,8 +416,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
                             IMSdk.setOnGroupItemOnClick(new OnGroupItemOnClickListener() {
                                 @Override
                                 public void onGroupItemOnClick(String memberid, String name) {
-                                    ActivityManager.startConversationActivity(GameMatchDetailActivity.this,
-                                            memberid, name, ConversationActivity.PRIVATE);
+                                  IMSdk.createChat(GameMatchDetailActivity.this,memberid,name,"");
                                 }
                             });
                         }
@@ -452,10 +451,28 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
                     DialogManager.showLogInDialog(this);
                     return;
                 }
-                if (RongIM.getInstance() != null && customerServiceID != null) {
-                    ActivityManager.startConversationActivity(this, customerServiceID, customerServiceName, false);
-                    UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "客服");
+                if (match != null&& customerServiceID != null){
+                    if (match.isPrivateIM()){
+
+                        if (!Proxy.getConnectManager().isConnect()) {
+                            Member user = getUser();
+                            String memberId = user.getMember_id();
+                            if(null == memberId  || memberId.equals("")){
+                                memberId = getMember_id();
+                            }
+                            FeiMoIMHelper.Login(memberId, user.getNickname(), user.getAvatar());
+                        }
+
+                        IMSdk.createChat(GameMatchDetailActivity.this,customerServiceID,customerServiceName,customerServiceIcon);
+
+                    }else {
+                        if (RongIM.getInstance() != null && customerServiceID != null) {
+                            ActivityManager.startConversationActivity(this, customerServiceID, customerServiceName, false);
+                            UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "客服");
+                        }
+                    }
                 }
+
                 break;
             case R.id.gamematch_popup_course://教程
                 ActivityManager.startHelpActivity(this);
@@ -541,6 +558,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
     public void refreshServiceName(ServiceNameEntity data) {
         if (!StringUtil.isNull(data.getName())) {
             customerServiceName = data.getName();
+            customerServiceIcon = data.getIcon();
         }
     }
 

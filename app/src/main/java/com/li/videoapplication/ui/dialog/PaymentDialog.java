@@ -120,7 +120,7 @@ public class PaymentDialog extends BaseDialog implements View.OnClickListener {
             codeView.setVisibility(View.GONE);
 
             String s = "确认兑换 [ " + childList.getName() + " ] 兑换成功将扣除 " + childList.getCurrency_num()
-                    + " 飞磨豆。(" + TextUtil.toColor("兑换成功可在兑换记录查看", "#fe5e5e") + ")";
+                    + " 魔豆。(" + TextUtil.toColor("兑换成功可在兑换记录查看", "#fe5e5e") + ")";
             title.setText(Html.fromHtml(s));
             setTextViewText(confirm, "确认兑换");
 

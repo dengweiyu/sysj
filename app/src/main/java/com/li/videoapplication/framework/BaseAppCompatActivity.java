@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.li.videoapplication.data.network.RequestManager;
 import com.li.videoapplication.utils.LogHelper;
@@ -80,6 +81,13 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity implements
 	protected void onStop() {
 		super.onStop();
 		LogHelper.d(tag, "onStop");
+	}
+
+	/**
+	 * 标题栏返回
+	 */
+	public void doBack(View view) {
+		onBackPressed();
 	}
 
 	@Override

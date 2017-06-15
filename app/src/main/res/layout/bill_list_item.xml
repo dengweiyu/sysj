@@ -1,7 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
 
-</LinearLayout>
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/ll_bill_day_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:padding="8dp"
+        android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_bill_record_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/billboard_matchreward_bg"
+        android:textSize="12sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="2dp"
+        android:text="今天"/>
+
+    <TextView
+        android:id="@+id/tv_bill_record_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/billboard_matchreward_bg"
+        android:layout_below="@+id/tv_bill_record_day"
+        android:textSize="12sp"
+        android:layout_gravity="center"
+        android:text="22:00"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/iv_bill_record_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="24dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/play_gift"
+        android:layout_toRightOf="@+id/ll_bill_day_time"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/iv_bill_record_icon"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/tv_bill_amount"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_bill_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+6000"
+            android:layout_gravity="left"
+            android:textColor="@color/currency_red"/>
+
+        <TextView
+            android:id="@+id/tv_bill_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_gravity="left"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="抽奖"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_bill_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:textSize="10sp"
+        android:layout_marginRight="8dp"
+        android:text="余额:4999豆"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/activity_main_bg"></View>
+</RelativeLayout>

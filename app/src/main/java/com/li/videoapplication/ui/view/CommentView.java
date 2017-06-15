@@ -18,6 +18,7 @@ import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.adapter.FaceAdapter;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.ui.dialog.GiftNumberInputDialog;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.lang.reflect.Field;
@@ -86,8 +87,8 @@ public class CommentView extends FrameLayout implements
         face = (TextView) findViewById(R.id.comment_face);
         gridView = (GridView) findViewById(R.id.gridview);
         edit = (EditText) findViewById(R.id.comment_edit);
-        playGift = findViewById(R.id.tv_video_play_gift);
-        playGift.setOnClickListener(this);
+       // playGift = findViewById(R.id.tv_video_play_gift);
+     //   playGift.setOnClickListener(this);
 
         face.setOnClickListener(this);
         submit.setOnClickListener(this);
@@ -117,8 +118,7 @@ public class CommentView extends FrameLayout implements
         if (hasFocus) {
             gridView.setVisibility(View.GONE);
             face.setBackgroundResource(R.drawable.face_normal_205);
-            hasFace = false;
-
+            setHasFace(false);
             hideGiftFragment();
         }
     }
@@ -128,6 +128,18 @@ public class CommentView extends FrameLayout implements
             ((VideoPlayActivity)activity).hideGiftFragment();
         }
     }
+
+    private void setHasFace(boolean hasFace){
+        this.hasFace = hasFace;
+        showOrHideTimeLine(!hasFace);
+    }
+
+    private void showOrHideTimeLine(boolean isShow){
+        if (activity instanceof VideoPlayActivity){
+            ((VideoPlayActivity)activity).showOrHideTimeLine(isShow);
+        }
+    }
+
 
 
     @Override
@@ -146,20 +158,20 @@ public class CommentView extends FrameLayout implements
                             gridView.setVisibility(View.VISIBLE);
                         }
                     }, 300);
-                    hasFace = true;
+                    setHasFace(true);
                     hideGiftFragment();
                 } else {// 再一次点击表情按钮
                     // toggle软键盘
                     toggleInput();
                     face.setBackgroundResource(R.drawable.face_normal_205);
                     gridView.setVisibility(View.GONE);
-                    hasFace = false;
+                    setHasFace(false);
                 }
                 break;
 
             case R.id.comment_edit:// 评论输入框
                 hideGiftFragment();
-                hasFace = false;
+                setHasFace(false);
                 gridView.setVisibility(View.GONE);
                 face.setBackgroundResource(R.drawable.face_normal_205);
                 break;
@@ -181,23 +193,30 @@ public class CommentView extends FrameLayout implements
                     gridView.setVisibility(View.GONE);
                     face.setBackgroundResource(R.drawable.face_normal_205);
                     edit.setText("");
-                    hasFace = false;
+                    setHasFace(false);
                     isSecondComment = false;
                 }
                 break;
-            case R.id.tv_video_play_gift:
+           /* case R.id.tv_video_play_gift:
                 if (activity instanceof VideoPlayActivity){
                     ((VideoPlayActivity)activity).setGiftFragmentState(true);
+                  //  new GiftNumberInputDialog(context,playGift).show();
                 }
-
-
                 if (hasFace){
                     face.setBackgroundResource(R.drawable.face_normal_205);
                     gridView.setVisibility(View.GONE);
                     hasFace = false;
                 }
 
-                break;
+                break;*/
+        }
+    }
+
+    public void hideFaceView(){
+        if (hasFace){
+            face.setBackgroundResource(R.drawable.face_normal_205);
+            gridView.setVisibility(View.GONE);
+            setHasFace(false);
         }
     }
 
@@ -255,6 +274,7 @@ public class CommentView extends FrameLayout implements
             manager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
         }
         hideGiftFragment();
+
     }
 
     /**
@@ -266,6 +286,7 @@ public class CommentView extends FrameLayout implements
                 if (activity.getCurrentFocus().getApplicationWindowToken() != null)
                     manager.hideSoftInputFromWindow(activity.getCurrentFocus().getApplicationWindowToken(),
                             InputMethodManager.HIDE_NOT_ALWAYS);
+
     }
 
     /**
@@ -275,6 +296,7 @@ public class CommentView extends FrameLayout implements
         if (activity != null && manager != null){
             manager.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
             hideGiftFragment();
+
         }
 
     }

@@ -966,6 +966,8 @@ public class RecordingService extends BaseService implements
                     });
                     return;
                 }
+
+
                 final File file = SYSJStorageUtil.createRecPath();
                 String path = null;
                 try {

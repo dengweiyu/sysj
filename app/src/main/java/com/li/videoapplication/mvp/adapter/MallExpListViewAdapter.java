@@ -159,7 +159,7 @@ public class MallExpListViewAdapter extends BaseExpandableListAdapter {
                                     if (myCurrency >= Integer.valueOf(childList.getCurrency_num())) {
                                         DialogManager.showPaymentDialog(context, childList);
                                     } else {
-                                        ToastHelper.s("飞磨豆不足");
+                                        ToastHelper.s("魔豆不足");
                                     }
                                 } else {
                                     DialogManager.showLogInDialog(context);

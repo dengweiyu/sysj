@@ -5,7 +5,9 @@ import android.util.Log;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.entity.TopUp;
+import com.li.videoapplication.data.model.response.BillEntity;
 import com.li.videoapplication.data.model.response.PaymentEntity;
+import com.li.videoapplication.data.model.response.RechargeCoinEntity;
 import com.li.videoapplication.data.model.response.TopUpOptionEntity;
 import com.li.videoapplication.mvp.OnLoadDataListener;
 import com.li.videoapplication.mvp.mall.MallContract;
@@ -30,7 +32,9 @@ public class MallPresenter implements IMallPresenter {
     private IExchangeRecordDetailView exchangeRecordDetailView;
     private ITopUpView topUpView;
     private ITopUpRecordView topUpRecordView;
+    private MallContract.IRechargeCoinListView mCoinListView;
     private MallContract.IPaymentListView paymentListView;
+    private MallContract.IBillListView billListView;
     public MallPresenter() {
         mallModel = MallModel.getInstance();
     }
@@ -60,6 +64,16 @@ public class MallPresenter implements IMallPresenter {
     @Override
     public void setPaymentLisView(MallContract.IPaymentListView paymentLisView) {
         this.paymentListView = paymentLisView;
+    }
+
+    @Override
+    public void setCoinListView(MallContract.IRechargeCoinListView coinListView) {
+        this.mCoinListView = coinListView;
+    }
+
+    @Override
+    public void setBillListView(MallContract.IBillListView billListView) {
+            this.billListView = billListView;
     }
 
     @Override
@@ -182,5 +196,37 @@ public class MallPresenter implements IMallPresenter {
             public void onFailure(Throwable e) {
             }
         });
+    }
+
+    @Override
+    public void getCoinList() {
+        mallModel.getCoinList(new OnLoadDataListener<RechargeCoinEntity>() {
+            @Override
+            public void onSuccess(RechargeCoinEntity data) {
+                mCoinListView.refreshCoinList(data);
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+                mCoinListView.refreshFault();
+            }
+        });
+    }
+
+
+
+    @Override
+    public void getBillList(String member,int type) {
+         mallModel.getBillList(member, type, new OnLoadDataListener<BillEntity>() {
+             @Override
+             public void onSuccess(BillEntity data) {
+                 billListView.refreshBillList(data);
+             }
+
+             @Override
+             public void onFailure(Throwable e) {
+                 billListView.refreshFault();
+             }
+         });
     }
 }

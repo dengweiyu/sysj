@@ -1,10 +1,8 @@
 package com.li.videoapplication.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
@@ -14,7 +12,7 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
-import com.li.videoapplication.data.image.VideoCoverHelper;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.preferences.VideoPreferences;
 import com.li.videoapplication.ui.fragment.MyLocalVideoFragment;
 import com.li.videoapplication.views.SmoothCheckBox;
@@ -39,7 +37,6 @@ public class VideoManagerImportAdapter extends BaseAdapter implements AbsListVie
     private ViewHolder holder;
     private MyLocalVideoFragment fragment;
 
-    public VideoCoverHelper helper;
 
     public VideoManagerImportAdapter(Context context, ListView listView, List<VideoCaptureEntity> list, MyLocalVideoFragment fragment) {
         this.data = list;
@@ -54,7 +51,6 @@ public class VideoManagerImportAdapter extends BaseAdapter implements AbsListVie
         for (int i = 0; i < data.size(); i++) {
             filePaths[i] = data.get(i).getVideo_path();
         }
-        helper = new VideoCoverHelper(listView, filePaths);
         listView.setOnScrollListener(this);
 
         for (int i = 0; i < list.size(); i++) {
@@ -99,8 +95,9 @@ public class VideoManagerImportAdapter extends BaseAdapter implements AbsListVie
         File f = new File(record.getVideo_path());
         holder.title.setText(f.getName());
 
-        holder.pic.setTag(record.getVideo_path());
-        helper.displayImage(record.getVideo_path(), holder.pic);
+    //    holder.pic.setTag(record.getVideo_path());
+
+        GlideHelper.displayImage(context,record.getVideo_path(),holder.pic);
 
         // 对某个外部视频是否导入进行判断
         if (extData.get(postion)) {
@@ -131,26 +128,15 @@ public class VideoManagerImportAdapter extends BaseAdapter implements AbsListVie
 
     // -----------------------------------------------------------------------
 
-    private boolean firstEnter = true;
-    private int firstVisibleItem, lastVisibleItem;
+
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-        if (scrollState == SCROLL_STATE_IDLE) {
-            helper.loadImage(firstVisibleItem, lastVisibleItem);
-        } else {
-            helper.cancelAllTask();
-        }
+
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        this.firstVisibleItem = firstVisibleItem;
-        lastVisibleItem = firstVisibleItem + visibleItemCount;
-        if (firstEnter && visibleItemCount > 0) {
-            helper.loadImage(this.firstVisibleItem, lastVisibleItem);
-            firstEnter = false;
-        }
     }
 
     // -----------------------------------------------------------------------

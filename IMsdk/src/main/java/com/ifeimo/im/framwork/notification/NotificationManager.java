@@ -61,6 +61,9 @@ public interface NotificationManager<T extends NotificationItem> extends IEmploy
 
 //    int notifyMessageNotification(MsgBean msgBean);
 
-
+    /**
+     * 单聊 推送
+     * @param msgBean
+     */
     void notifyMessageNotification2(IMsg msgBean);
 }

@@ -34,6 +34,8 @@ public class VideoImage extends BaseEntity {
 	public String attention_time;
 	public String collection_time;
 	public String flower_time;
+	private String frequency;
+	private String share_count;
 	public int attentionMark;
 	public int collectionMark;
 	public int flowerMark;
@@ -53,6 +55,22 @@ public class VideoImage extends BaseEntity {
 	private int jumpStatus;
 
 	private String isRecommend;
+
+	public String getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
+
+	public String getShare_count() {
+		return share_count;
+	}
+
+	public void setShare_count(String share_count) {
+		this.share_count = share_count;
+	}
 
 	public String getIsRecommend() {
 		return isRecommend;

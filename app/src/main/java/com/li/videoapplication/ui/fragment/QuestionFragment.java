@@ -3,6 +3,8 @@ package com.li.videoapplication.ui.fragment;
 import android.content.res.AssetManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -34,14 +36,17 @@ public class QuestionFragment extends TBaseFragment implements View.OnClickListe
     public ExpandableListView expandableListView;
     private HelpQuestionAdapter adapter;
     private List<ArrayList<HelpQuestionEntity>> data;
+    private List<ArrayList<HelpQuestionEntity>> dataMore;
     public boolean isMore = false;
     /**
      * 文件项目个数，用来动态定位
      */
     private int items = 5;
-    private String groups[];
-    public TextView moreQuestion,normalQuestion;
+    private String groups[] = new String[]{};
+    private String groupsMore[] = new String[]{};
 
+    private TextView mStickyHeader;
+    private View rootView;
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -58,10 +63,9 @@ public class QuestionFragment extends TBaseFragment implements View.OnClickListe
     @Override
     protected void initContentView(View view) {
 
-        normalQuestion=(TextView)view.findViewById(R.id.help_normalquestion);
-        moreQuestion=(TextView)view.findViewById(R.id.help_morequetion);
-        moreQuestion.setOnClickListener(this);
-        initListView(view);
+        rootView = view;
+        initListView();
+        mStickyHeader = (TextView) rootView.findViewById(R.id.tv_help_question_header);
     }
 
     @Override
@@ -69,9 +73,10 @@ public class QuestionFragment extends TBaseFragment implements View.OnClickListe
         return null;
     }
 
-    private void initListView(View view) {
-        expandableListView = (ExpandableListView) view.findViewById(R.id.expandable);
-        if (!isMore) {
+    public void initListView() {
+        expandableListView = (ExpandableListView) rootView.findViewById(R.id.expandable);
+
+        if (!isMore){
             groups = new String[]{getStringForR(R.string.help_question1),
                     getStringForR(R.string.help_question2),
                     getStringForR(R.string.help_question3),
@@ -79,34 +84,39 @@ public class QuestionFragment extends TBaseFragment implements View.OnClickListe
                     getStringForR(R.string.help_question5),
                     getStringForR(R.string.help_question6),
                     getStringForR(R.string.help_question7)};
-        } else {
-            groups = new String[]{getStringForR(R.string.help_question8),
+            data = new ArrayList<>();
+            groupsMore = new String[]{};
+            doMyMission();
+            adapter = new HelpQuestionAdapter(getActivity(), groups,groupsMore, data);
+            expandableListView.setAdapter(adapter);
+        }else {
+            groupsMore = new String[]{getStringForR(R.string.help_question8),
                     getStringForR(R.string.help_question9),
                     getStringForR(R.string.help_question10),
                     getStringForR(R.string.help_question11)};
+            dataMore = new ArrayList<>();
+            doMyMission();
+            data.addAll(dataMore);
+            adapter = new HelpQuestionAdapter(getActivity(), groups,groupsMore, data);
+            expandableListView.setAdapter(adapter);
         }
-        data = new ArrayList<>();
-        doMyMission();
-        adapter = new HelpQuestionAdapter(getActivity(), groups, data);
-        setExpandableHeight(expandableListView);
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
 
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
-                items = items + 1;
-                setExpandableHeight(expandableListView);
-                setExpandableHeight2(expandableListView, groupPosition);
+                if (groupPosition == groups.length+1){
+                    if (!isMore){
+                        isMore = true;
+                        initListView();
+                    }else {
+                        isMore = false;
+                        initListView();
+                    }
+                }
+                adapter.expandGroup(groupPosition);
             }
         });
-        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
 
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                items = items - 1;
-                setExpandableHeight(expandableListView);
-            }
-        });
-        expandableListView.setAdapter(adapter);
     }
 
     private String getStringForR(int res) {
@@ -120,22 +130,28 @@ public class QuestionFragment extends TBaseFragment implements View.OnClickListe
         try {
             AssetManager as = getActivity().getAssets();
             InputStream is;
+            QuestionSaxHandler handler ;
             if (!isMore) {
                 is = as.open("questions.xml");
+               handler =  new QuestionSaxHandler(data);
             } else {
                 is = as.open("questions_more.xml");
+                handler =  new QuestionSaxHandler(dataMore);
             }
             InputSource source = new InputSource(is);
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
             XMLReader reader = parser.getXMLReader();
-            QuestionSaxHandler handler = new QuestionSaxHandler(data);
+
+
             reader.setContentHandler(handler);
             reader.parse(source);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 
     /**
      * 动态改变ExpandableListView的高度
@@ -178,15 +194,6 @@ public class QuestionFragment extends TBaseFragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.help_morequetion:
-                isMore = true;
-                initListView(v);
-                // 隐藏该按钮
-                moreQuestion.setVisibility(View.GONE);
-                normalQuestion.setText("更多问题");
-                break;
-        }
     }
 
     /**

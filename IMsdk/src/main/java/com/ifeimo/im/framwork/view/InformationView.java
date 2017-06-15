@@ -108,7 +108,7 @@ public class InformationView extends FrameLayout implements OnInitialization,Loa
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor){
+    public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor cursor){
         adapter.changeCursor(cursor);
         if(support != null){
             support.messageCount(adapter.getItemCount());
@@ -116,7 +116,7 @@ public class InformationView extends FrameLayout implements OnInitialization,Loa
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(android.content.Loader<Cursor> loader) {
         adapter.changeCursor(null);
     }
 

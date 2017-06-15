@@ -25,7 +25,7 @@ import java.util.List;
  * 钱包
  */
 
-public class MyWalletActivityNew extends TBaseAppCompatActivity implements View.OnClickListener {
+public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnClickListener {
     public static int PAGE_BEANS = 0;
     public static int PAGE_CURRENCY = 1;
     public static int PAGE_TASK = 2;
@@ -93,6 +93,7 @@ public class MyWalletActivityNew extends TBaseAppCompatActivity implements View.
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_tb_record:
+                //钱包说明
                 WebActivityJS.startWebActivityJS(this,"http://apps.ifeimo.com/Sysj221/WalletInstructions/index","我的钱包说明","");
                 break;
             case R.id.tb_back:

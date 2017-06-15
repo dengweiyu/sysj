@@ -152,4 +152,37 @@
         android:layout_height="32dp"
         android:layout_alignParentTop="true"
         android:layout_centerVertical="true" />
+
+    <!--横屏时打赏按钮-->
+    <ImageView
+        android:id="@+id/iv_play_gift_right"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/play_gift"
+        android:visibility="gone"
+        android:layout_centerVertical="true"/>
+
+
+    <!--横屏打赏榜时间轴-->
+    <RelativeLayout
+        android:id="@+id/rv_play_gift_list_h"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="72dp"
+        android:background="@color/transparent_background">
+    </RelativeLayout>
+
+    <!--横屏打赏页面-->
+    <RelativeLayout
+        android:id="@+id/fg_play_gift_h"
+        android:name="com.li.videoapplication.ui.fragment.VideoPlayGiftFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@color/transparent_background">
+    </RelativeLayout>
 </RelativeLayout>

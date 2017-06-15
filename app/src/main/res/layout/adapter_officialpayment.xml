@@ -29,7 +29,7 @@
         android:id="@+id/op_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1000飞磨豆"
+        android:text="1000魔豆"
         android:textSize="11sp"
         android:layout_gravity="center_vertical"
         android:textColor="@color/title_bg_color" />

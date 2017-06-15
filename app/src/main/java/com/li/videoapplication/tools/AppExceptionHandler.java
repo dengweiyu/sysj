@@ -11,9 +11,6 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.li.videoapplication.R;
-import com.li.videoapplication.component.application.MainApplication;
-import com.li.videoapplication.data.download.DownLoadExecutor;
 import com.li.videoapplication.data.local.FileOperateUtil;
 import com.li.videoapplication.data.local.StorageUtil;
 
@@ -23,7 +20,7 @@ import com.li.videoapplication.ui.activity.MainActivity;
 import java.io.File;
 
 /**
- * Created by liuwei on 2017/3/28 0028.
+ * 处理未捕获异常
  */
 
 public class AppExceptionHandler implements Thread.UncaughtExceptionHandler {
@@ -53,7 +50,7 @@ public class AppExceptionHandler implements Thread.UncaughtExceptionHandler {
             mDefaultHandler.uncaughtException(thread,throwable);
         }else {
             try {
-                Thread.sleep(100);          //maybe new thread get cpu
+                Thread.sleep(200);          //maybe new thread get cpu
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
