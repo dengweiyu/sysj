@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,6 +8,9 @@
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     tools:ignore="IncludeLayoutParam,ObsoleteLayoutParam,HardcodedText,RtlHardcoded,SpUsage,ContentDescription">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <com.li.videoapplication.ui.view.VideoPlayView
         android:id="@+id/videoplay"
@@ -80,18 +84,7 @@
         android:layout_height="200dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="72dp"
-        android:background="@color/transparent_background">
-    </RelativeLayout>
-
-
-    <!--如果用fragment标签 横屏时设置位置不起作用-->
-    <!--竖屏打赏页面-->
-    <RelativeLayout
-        android:id="@+id/fg_play_gift_v"
-        android:name="com.li.videoapplication.ui.fragment.VideoPlayGiftFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/comment"
+        android:visibility="gone"
         android:background="@color/transparent_background">
     </RelativeLayout>
 
@@ -107,3 +100,19 @@
         android:elevation="2dp"/>
 
 </RelativeLayout>
+
+    <!--如果用fragment标签 横屏时设置位置不起作用-->
+    <!--竖屏打赏页面-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/fg_play_gift_v"
+            android:name="com.li.videoapplication.ui.fragment.VideoPlayGiftFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/transparent_background">
+        </RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>

@@ -71,6 +71,7 @@
             android:layout_gravity="left"
             android:maxLines="1"
             android:ellipsize="end"
+            android:clickable="true"
             android:text="抽奖"/>
     </LinearLayout>
     <TextView

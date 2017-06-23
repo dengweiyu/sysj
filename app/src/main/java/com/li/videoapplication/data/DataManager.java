@@ -368,11 +368,11 @@ public class DataManager {
         /**
          * 功能：视频分享数+1
          */
-        public static void videoShareVideo211(String video_id, String member_id) {
+        public static void videoShareVideo211(String video_id, String member_id,int mark) {
 
             RequestHelper helper = new RequestHelper();
             String url = RequestUrl.getInstance().videoShare211();
-            Map<String, Object> params = RequestParams.getInstance().videoClickVideo201(video_id, member_id);
+            Map<String, Object> params = RequestParams.getInstance().videoClickVideo221(video_id, member_id,mark);
 
             RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
             request.setEntity(new VideoShareVideo211Entity());
@@ -3848,6 +3848,17 @@ public class DataManager {
         Map<String, Object> params = RequestParams.getInstance().playGift(sign,memberId,videoId,giftId,videoNode,number,time);
         RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
         request.setEntity(new PlayGiftResultEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：视频播放页分享成功后触发
+     */
+    public static  void sharedSuccess(String videoId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().sharedSuccess();
+        Map<String, Object> params = RequestParams.getInstance().sharedSuccess(videoId);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
         helper.doNetwork(request);
     }
 }

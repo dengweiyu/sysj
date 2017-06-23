@@ -2000,6 +2000,14 @@ public class RequestParams {
         return map;
     }
 
+    public Map<String, Object> videoClickVideo221(String video_id, String member_id,int mark) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("video_id", video_id);
+        map.put("member_id", member_id);
+        map.put("videoMark",mark);
+        return map;
+    }
+
     public Map<String, Object> videoDownLoad201(String video_id) {
         Map<String, Object> map = new HashMap<>();
         map.put("video_id", video_id);
@@ -2106,6 +2114,12 @@ public class RequestParams {
         map.put("target", SYSJ);
         map.put("num", number);
         map.put("timestamp", time);
+        return map;
+    }
+
+    public Map<String, Object> sharedSuccess(String videoId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("video_id", videoId);
         return map;
     }
 }

@@ -46,6 +46,7 @@ import com.li.videoapplication.ui.dialog.OnGoingContactTipDialog;
 import com.li.videoapplication.ui.dialog.OnGoingUploadImageTipDialog;
 import com.li.videoapplication.ui.dialog.PaymentDialog;
 import com.li.videoapplication.ui.dialog.PhotoDialog;
+import com.li.videoapplication.ui.dialog.PlayGiftTipDialog;
 import com.li.videoapplication.ui.dialog.RecordDialog;
 import com.li.videoapplication.ui.dialog.RecordDialogNew;
 import com.li.videoapplication.ui.dialog.RegisterMobileDialog;
@@ -440,10 +441,11 @@ public class DialogManager {
     /**
      * 游戏遮罩
      */
-    public static void showGameTipDialogg(Context context) {
+    public static void showGameTipDialog(Context context) {
         Dialog dialog = new GameTipDialog(context);
         dialog.show();
     }
+
 
     /**
      * 发现遮罩
@@ -458,6 +460,14 @@ public class DialogManager {
      */
     public static void showMatchTipDialog(Context context) {
         Dialog dialog = new MatchTipDialog(context);
+        dialog.show();
+    }
+
+    /**
+     * 打赏遮罩
+     */
+    public static void showPlayGiftTipDialog(Context context) {
+        Dialog dialog = new PlayGiftTipDialog(context);
         dialog.show();
     }
 

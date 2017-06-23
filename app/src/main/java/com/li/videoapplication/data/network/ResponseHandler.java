@@ -14,6 +14,7 @@ import com.li.videoapplication.data.danmuku.DanmukuListEntity;
 import com.li.videoapplication.data.danmuku.DanmukuListXmlParser;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.data.model.response.AdvertisementAdImage204Entity;
 import com.li.videoapplication.data.model.response.AdvertisementAdLocation204Entity;
@@ -94,6 +95,9 @@ public class ResponseHandler {
 
         if (response == null) {
             return;
+        }
+        if (response.getStatusCode() != 200){
+            postErrorEventBus(response.getUrl(),response.getStatusCode());
         }
 
         String url = new String();
@@ -197,6 +201,13 @@ public class ResponseHandler {
             EventBus.getDefault().post(convert(entity));
 
         }
+    }
+
+    /**
+     * 网络错误
+     */
+    private void postErrorEventBus(String url ,int code){
+        EventBus.getDefault().post(new NetworkError(code,url));
     }
 
 

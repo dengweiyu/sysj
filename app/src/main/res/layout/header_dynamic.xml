@@ -204,18 +204,23 @@
             android:textColorHint="#aaffffff"
             android:textSize="10sp" />
 
+        <LinearLayout
+            android:id="@+id/ll_receive_gift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dynamic_introduce"
+            android:layout_toRightOf="@+id/dynamic_head_layout"
+            android:layout_marginLeft="12dp"
+            android:orientation="horizontal">
             <TextView
                 android:id="@+id/tv_receive_gift"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#aaffffff"
                 android:textSize="10sp"
-                android:layout_marginLeft="12dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:layout_gravity="center_vertical"
-                android:layout_below="@+id/dynamic_introduce"
-                android:layout_toRightOf="@+id/dynamic_head_layout"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
                 android:text="收到的礼物：暂无"/>
@@ -224,26 +229,20 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:scaleType="fitXY"
-                android:layout_toRightOf="@+id/tv_receive_gift"
-                android:layout_alignTop="@+id/tv_receive_gift"
-
                 android:layout_gravity="center_vertical"/>
             <ImageView
                 android:id="@+id/iv_second_gift"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:layout_toRightOf="@+id/iv_first_gift"
-                android:layout_alignTop="@+id/tv_receive_gift"
-
                 android:scaleType="fitXY"
                 android:layout_gravity="center_vertical"/>
 
-
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/dynamic_focus_layout"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_below="@+id/tv_receive_gift"
+            android:layout_below="@+id/ll_receive_gift"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/dynamic_head_layout"

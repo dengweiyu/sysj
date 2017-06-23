@@ -12,10 +12,8 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,6 +31,8 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Bullet;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.event.PlayGiftSuccessEvent;
+import com.li.videoapplication.data.model.event.SharedSuccessEvent;
 import com.li.videoapplication.data.model.response.BulletDo203Bullet2VideoEntity;
 import com.li.videoapplication.data.model.response.BulletList203Entity;
 import com.li.videoapplication.data.model.response.ChangeVideo208Entity;
@@ -44,7 +44,8 @@ import com.li.videoapplication.data.model.response.VideoCommentLike2Entity;
 import com.li.videoapplication.data.model.response.VideoDetail201Entity;
 import com.li.videoapplication.data.model.response.VideoDoComment2CommentEntity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
-import com.li.videoapplication.data.network.UITask;
+import com.li.videoapplication.data.preferences.Constants;
+import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
@@ -54,6 +55,8 @@ import com.li.videoapplication.tools.ShareSDKShareHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.ui.dialog.GameTipDialog;
+import com.li.videoapplication.ui.dialog.PlayGiftTipDialog;
 import com.li.videoapplication.ui.fragment.AuthorVideoListFragment;
 import com.li.videoapplication.ui.fragment.GiftTimeLineFragment;
 import com.li.videoapplication.ui.fragment.VideoPlayCommentFragment;
@@ -201,12 +204,15 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
 
         initTopMenu();
         initContentView();
+        //引导页
+        showPlayTipDialog();
 
     }
 
     @Override
     public void loadData() {
         super.loadData();
+
         //点赞 收藏.
         initStatus();
         // 网页视频 3137
@@ -253,6 +259,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         mGift.setOnClickListener(this);
         mShared.setOnClickListener(this);
         mStart.setOnClickListener(this);
+        mGiftCount.setOnClickListener(this);
     }
 
     @Override
@@ -434,10 +441,10 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         int id ;
         if (isLandscape()){
             id = R.id.fg_play_gift_h;
-            UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.VIDEOPLAY, "视频播放页-横屏-打赏按钮");
+            UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.VIDEOPLAY, "视频播放页-横屏-礼物页面按钮");
         }else {
             id = R.id.fg_play_gift_v;
-            UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.VIDEOPLAY, "视频播放页-竖屏-打赏按钮");
+            UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.VIDEOPLAY, "视频播放页-竖屏-礼物页面按钮");
         }
 
         mGiftFragment = (VideoPlayGiftFragment) getSupportFragmentManager().findFragmentById(id);
@@ -469,6 +476,16 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         }
     }
 
+    /**
+     * 遮罩提示页：打赏
+     */
+    private void showPlayTipDialog() {
+        boolean tip = NormalPreferences.getInstance().getBoolean(Constants.TIP_PLAY_GIFT, true);
+        if (tip) {
+            DialogManager.showPlayGiftTipDialog(this);
+            NormalPreferences.getInstance().putBoolean(Constants.TIP_PLAY_GIFT, false);
+        }
+    }
 
             // 是否是弹幕
 //    public boolean bullet;
@@ -630,10 +647,23 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
                 viewPager.setCurrentItem(1);
             }
 
-            mGoodCount.setText(StringUtil.formatNum(item.getFlower_count()));
-            mSharedCount.setText(StringUtil.formatNum(item.getShare_count()));
-            mGiftCount.setText(StringUtil.formatNum(item.getFrequency()));
-            mStartCount.setText(StringUtil.formatNum(item.getCollection_count()));
+            mGoodCount.setText(StringUtil.toUnitW(item.getFlower_count()));
+            mSharedCount.setText(StringUtil.toUnitW(item.getShare_count()));
+            mGiftCount.setText(StringUtil.toUnitW(item.getFrequency()));
+            mStartCount.setText(StringUtil.toUnitW(item.getCollection_count()));
+
+            int count = 0;
+            try {
+                count = Integer.parseInt(item.getFrequency());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+
+            if (count > 0){
+                mGift.setImageResource(R.drawable.gift_selected);
+            }else {
+                mGift.setImageResource(R.drawable.gift_unselected);
+            }
 
             if (item.getFlower_tick() == 0){
                 mGoodBtn.setChecked(false);
@@ -710,6 +740,28 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         }
     }
 
+    private int mSharedSuccessCount;
+    /**
+     * 回调：分享成功
+     */
+    public void onEventMainThread(SharedSuccessEvent event){
+        //触发一下后台
+        if (item != null && item.getVideo_id() != null){
+            DataManager.sharedSuccess(item.getVideo_id());
+            mSharedSuccessCount++;
+            int count = 0;
+
+            try {
+                count = Integer.parseInt(item.getShare_count());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+
+            mSharedCount.setText(StringUtil.toUnitW((count+mSharedSuccessCount)+""));
+        }
+
+    }
+
     /**
      * 回调：视频详情
      */
@@ -725,6 +777,26 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         } else {
             ToastHelper.s(event.getMsg());
             finish();
+        }
+    }
+
+
+    private int mPlatGiftCount = 0;
+    /**
+     * 回调：打赏成功
+     */
+    public void onEventMainThread(PlayGiftSuccessEvent event) {
+        if (mGiftCount != null){
+            mPlatGiftCount++;
+            int count = 0;
+            if (item != null && !StringUtil.isNull(item.getFrequency())){
+                try {
+                    count = Integer.parseInt(item.getFrequency());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+            mGiftCount.setText(StringUtil.toUnitW((count+mPlatGiftCount)+""));
         }
     }
 
@@ -1253,7 +1325,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
                 // 视频点赞
                 DataManager.videoFlower2(item.getId(), getMember_id());
                 videoPlayView.controllerViewLand.refreshIconView(item);
-                mGoodCount.setText(StringUtil.formatNum(item.getFlower_count()));
+                mGoodCount.setText(StringUtil.toUnitW(item.getFlower_count()));
                 break;
             case R.id.sb_video_play_start:
                 if (!isLogin()) {
@@ -1279,11 +1351,15 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
                 // 视频收藏
                 DataManager.videoCollect2(item.getId(), getMember_id());
                 videoPlayView.controllerViewLand.refreshIconView(item);
-                mStartCount.setText(StringUtil.formatNum(item.getCollection_count()));
+                mStartCount.setText(StringUtil.toUnitW(item.getCollection_count()));
                 break;
 
             case R.id.iv_video_play_status_gift:
-                setGiftFragmentState(true);
+                if (comment != null){
+                    if (!comment.showRankDialog()){
+                        setGiftFragmentState(true);
+                    }
+                }
                 break;
             case R.id.iv_video_play_shared:
                 startShareActivity();

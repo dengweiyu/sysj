@@ -59,7 +59,7 @@ public class MyHistoryFragment extends TBaseFragment {
     public void onResume() {
         super.onResume();
 
-        refreshHistory();
+     //   refreshHistory();
     }
 
     @SuppressWarnings("rawtypes")

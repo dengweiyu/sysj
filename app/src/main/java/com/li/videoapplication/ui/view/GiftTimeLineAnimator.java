@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 
 public class GiftTimeLineAnimator extends DefaultItemAnimator {
 
-
     @Override
     public boolean animateMove(RecyclerView.ViewHolder holder, int fromX, int fromY, int toX, int toY) {
         addAlphaAnimator(holder,500);

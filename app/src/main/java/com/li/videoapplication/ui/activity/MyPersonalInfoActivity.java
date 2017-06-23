@@ -175,8 +175,8 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         findViewById(R.id.mypersonnalinfo_matchrecord_btn).setOnClickListener(this);
         findViewById(R.id.mypersonnalinfo_gameedit).setOnClickListener(this);
         findViewById(R.id.mypersonnalinfo_qq_btn).setOnClickListener(this);
-        findViewById(R.id.iv_beans).setOnClickListener(this);
-        findViewById(R.id.iv_currency).setOnClickListener(this);
+        findViewById(R.id.ll_beans).setOnClickListener(this);
+        findViewById(R.id.ll_currency).setOnClickListener(this);
         findViewById(R.id.ll_personal_info_vip_center).setOnClickListener(this);
 
         findViewById(R.id.ll_mypersonnalinfo_horizonid).setOnLongClickListener(mLongClickListener);
@@ -238,10 +238,10 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
             case R.id.mypersonnalinfo_introduce_btn://个性签名
                 ActivityManager.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.SIGNATURE);
                 break;
-            case R.id.iv_currency:
+            case R.id.ll_currency:
                 new GetMoreMoneyDialog(this,"想获得更多魔币？可通过充值获得哟！",GetMoreMoneyDialog.MODE_CURRENCY,mChoiceListener).show();
                 break;
-            case R.id.iv_beans:
+            case R.id.ll_beans:
                 new GetMoreMoneyDialog(this,"想获得更多魔豆吗？可通过做任务获得哟！",GetMoreMoneyDialog.MODE_BEANS,mChoiceListener).show();
                 break;
             case R.id.mypersonnalinfo_gameedit://游戏类型
@@ -418,6 +418,10 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        if (is == null){
+            return originPath;
+        }
+
         Bitmap bitmap = BitmapFactory.decodeStream(is);
         // 图片允许最大空间 单位：KB（因为实际读取的原文件要大，所以设置值要为15K，不是20K)
         double maxSize = 100.00;

@@ -263,17 +263,17 @@ public class BillboardActivity extends TBaseAppCompatActivity implements View.On
                 if (type == TYPE_PLAYER) {
                     switch (index) {
                         case 0:
-                            setImageViewImageRes(topIcon.get(0), R.drawable.slider_bean);
+                            setImageViewImageRes(topIcon.get(0), R.drawable.playerbillboard_player_yellow);
                             setImageViewImageRes(topIcon.get(1), R.drawable.playerbillboard_vedio_gray);
                             setImageViewImageRes(topIcon.get(2), R.drawable.playerbillboard_fans_gray);
                             break;
                         case 1:
-                            setImageViewImageRes(topIcon.get(0), R.drawable.slider_bean_gray);
+                            setImageViewImageRes(topIcon.get(0), R.drawable.playerbillboard_player_gray);
                             setImageViewImageRes(topIcon.get(1), R.drawable.playerbillboard_vedio);
                             setImageViewImageRes(topIcon.get(2), R.drawable.playerbillboard_fans_gray);
                             break;
                         case 2:
-                            setImageViewImageRes(topIcon.get(0), R.drawable.slider_bean_gray);
+                            setImageViewImageRes(topIcon.get(0), R.drawable.playerbillboard_player_gray);
                             setImageViewImageRes(topIcon.get(1), R.drawable.playerbillboard_vedio_gray);
                             setImageViewImageRes(topIcon.get(2), R.drawable.playerbillboard_fans);
                             break;

@@ -12,7 +12,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+import com.google.common.collect.PeekingIterator;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
@@ -27,6 +29,7 @@ import com.li.videoapplication.ui.view.SimpleItemDecoration;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -100,7 +103,6 @@ public class ReceiveGiftFragment extends TBaseFragment implements View.OnClickLi
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.addItemDecoration(new SimpleItemDecoration(getActivity(),false,false,false,true));
         mRecyclerView.setAdapter(mAdapter);
-
         mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
@@ -110,6 +112,7 @@ public class ReceiveGiftFragment extends TBaseFragment implements View.OnClickLi
                         if (!mUserId.equals(data.t.getMember_id())){
                             Member member = new Member();
                             member.setMember_id(data.t.getMember_id());
+                            ActivityManager.startPlayerDynamicActivity(getContext(),member);
                         }
                         break;
                     case R.id.tv_my_gift_video_name:
@@ -120,6 +123,8 @@ public class ReceiveGiftFragment extends TBaseFragment implements View.OnClickLi
                 }
             }
         });
+
+
 
         mRed = getResources().getColor(R.color.currency_red);
         mGray = getResources().getColor(R.color.activity_gray);

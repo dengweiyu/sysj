@@ -45,12 +45,12 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="2dp"
                     android:paddingBottom="2dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/mywallet_currencyrecord_red"
                     android:textColor="@color/white"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:text="@string/top_up"/>
                 <TextView
                     android:id="@+id/tv_my_wallet_exchange"
@@ -58,11 +58,11 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="2dp"
                     android:paddingBottom="2dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:background="@drawable/stroke_red_btn"
                     android:textColor="@color/currency_red"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:text="@string/my_wallet_exchange"/>
         </LinearLayout>
     </RelativeLayout>

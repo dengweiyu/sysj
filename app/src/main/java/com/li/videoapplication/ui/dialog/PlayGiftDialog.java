@@ -181,7 +181,6 @@ public class PlayGiftDialog extends BaseDialog {
      * @param s
      */
     public static void replaceIcon(String s,Context context,TextView countText){
-
         char array[] = s.toCharArray();
         SpannableString spannableString = new SpannableString(s);
         for (int i = 0 ;i < array.length;i++) {

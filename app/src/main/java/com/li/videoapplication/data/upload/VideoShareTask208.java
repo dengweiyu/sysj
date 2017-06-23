@@ -395,6 +395,10 @@ public class VideoShareTask208 {
      */
     private void preparing() {
         Log.d(tag, "preparing: // ------------------------------------------------------");
+        if (entity == null || entity.getVideo_path() == null){
+            return;
+        }
+
         Bitmap b = VideoCover.generateBitmap(entity.getVideo_path());
         int width = 0;
         int height = 0;
@@ -892,7 +896,7 @@ public class VideoShareTask208 {
             h.sendEmptyMessage(0);
 
             EventManager.postVideoUploadCompleteEvent(video_id);
-            DataManager.TASK.videoShareVideo211(video_id, member_id);
+            DataManager.TASK.videoShareVideo211(video_id, member_id,0);
             UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.MACROSCOPIC_DATA, "玩家上传视频数");
         } else {
             if (entity != null && !StringUtil.isNull(entity.getMsg())) {

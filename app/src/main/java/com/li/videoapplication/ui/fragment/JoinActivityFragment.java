@@ -121,7 +121,7 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
 
     private void initAdapter() {
         data = new ArrayList<>();
-        adapter = new GroupDetailVideoRecyclerAdapter(getActivity(), data);
+        adapter = new GroupDetailVideoRecyclerAdapter(getActivity(),null, data);
         adapter.setLoadMoreView(new LoadMoreViewWhite());
         adapter.setOnLoadMoreListener(this);
 

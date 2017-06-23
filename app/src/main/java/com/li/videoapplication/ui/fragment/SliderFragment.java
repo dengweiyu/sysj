@@ -165,7 +165,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
 
     private View login, person;
     private CircleImageView head;
-    private TextView name, fans, focus, beanNum;
+    private TextView name, fans, focus, beanNum,coinNum;
     private ImageView isV,go, slider_message_go;
     private ImageView mVip;
 
@@ -220,6 +220,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
         fans = (TextView) view.findViewById(R.id.slider_fans);
         focus = (TextView) view.findViewById(R.id.slider_focus);
         beanNum = (TextView) view.findViewById(R.id.slider_bean_num);
+        coinNum = (TextView) view.findViewById(R.id.tv_slider_coin);
 
         go = (ImageView) view.findViewById(R.id.go);
         slider_message_go = (ImageView) view.findViewById(R.id.slider_message_go);
@@ -308,6 +309,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
                 item.setCurrency("0");
             }
             setTextViewText(beanNum, StringUtil.formatNum(item.getCurrency()));
+            setTextViewText(coinNum,StringUtil.formatNum(item.getCoin()));
             if (item.isV()){        //主播加V
                 isV.setVisibility(View.VISIBLE);
             }else {                 //VIP

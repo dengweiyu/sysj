@@ -27,7 +27,7 @@ import java.util.Map;
  */
 public class ChooseLocalVideoAdapter extends RecyclerView.Adapter<ChooseLocalVideoAdapter.VideoViewHolder> {
     private final VideoDurationHelper durationHelper;
-    public MyLocalVideoImageLoader imageLoader;
+  //  public MyLocalVideoImageLoader imageLoader;
 
     private List<VideoCaptureEntity> data;
     private Context context;
@@ -43,7 +43,7 @@ public class ChooseLocalVideoAdapter extends RecyclerView.Adapter<ChooseLocalVid
         for (int i = 0; i < this.data.size(); i++) {
             URLS[i] = data.get(i).getVideo_path();
         }
-        imageLoader = new MyLocalVideoImageLoader(recyclerView, URLS);
+       // imageLoader = new MyLocalVideoImageLoader(recyclerView, URLS);
         durationHelper = new VideoDurationHelper(recyclerView);
 
         initCheckBox();

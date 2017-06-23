@@ -19,6 +19,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Comment;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.event.RefreshCommendEvent;
 import com.li.videoapplication.data.model.response.CommentDelEntity;
 import com.li.videoapplication.data.model.response.VideoCommentListEntity;
 import com.li.videoapplication.data.model.response.VideoPlayGiftEntity;
@@ -207,6 +208,20 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
         }
     }
 
+
+    public boolean showRankDialog(){
+        if (mRankDialog == null){
+            DataManager.getPlayGiftList(getMember_id(),videoImage.video_id);
+            return false;
+        }else {
+            if (mRankDialog.rankSize() == 0){
+                return false;
+            }
+            mRankDialog.show();
+        }
+        return true;
+    }
+
     private void refreshTextLength() {
         content.post(new Runnable() {
             @Override
@@ -370,12 +385,8 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
                 activity.videoPlayView.controllerViewLand.refreshIconView(videoImage);
                 break;
             case R.id.tv_play_gift_detail:
-                if (mRankDialog == null){
-                    DataManager.getPlayGiftList(getMember_id(),videoImage.video_id);
-                }else {
-                    mRankDialog.show();
-                }
-
+            case R.id.ll_had_gift:
+               showRankDialog();
                 break;
         }
     }
@@ -565,29 +576,42 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
      * 回调:获取打赏榜
      */
     public void onEventMainThread(VideoPlayGiftEntity entity) {
-        if (entity != null && entity.isResult() && entity.getData().getIncludes() != null && entity.getData().getIncludes().size() >= 3){
-            mPlayGift.setVisibility(View.VISIBLE);
-            mHadGift.setVisibility(View.GONE);
-            List<VideoPlayGiftEntity.DataBean.IncludesBean> data = entity.getData().getIncludes();
-            List<VideoPlayGiftEntity.DataBean.IncludesBean> dataNew = new ArrayList<>();
-            if (data.size() > 3){
-                dataNew.add(data.get(0));
-                dataNew.add(data.get(1));
-                dataNew.add(data.get(2));
+
+        if (entity != null && entity.isResult() && entity.getData().getIncludes() != null ){
+            if (entity.getData().getIncludes().size() >= 3){
+                mPlayGift.setVisibility(View.VISIBLE);
+                mHadGift.setVisibility(View.GONE);
+                List<VideoPlayGiftEntity.DataBean.IncludesBean> data = entity.getData().getIncludes();
+                List<VideoPlayGiftEntity.DataBean.IncludesBean> dataNew = new ArrayList<>();
+                if (data.size() > 3){
+                    dataNew.add(data.get(0));
+                    dataNew.add(data.get(1));
+                    dataNew.add(data.get(2));
+                }else {
+                    dataNew = data;
+                }
+                mGiftList.setAdapter(new PlayGiftListAdapter(dataNew));
             }else {
-                dataNew = data;
-            }
-            mGiftList.setAdapter(new PlayGiftListAdapter(dataNew));
-            mRankDialog = new GiftRankDialog(getActivity(),entity.getData().getIncludes(),getMember_id());
-        }else {
-            mPlayGift.setVisibility(View.GONE);
-            if (entity.getData().getIncludes() != null){
-                int size = entity.getData().getIncludes().size();
-                if (size > 0){
-                    mHadGift.setVisibility(View.VISIBLE);
-                    ((TextView)mHadGift.findViewById(R.id.tv_play_gift_description)).setText("已有"+size+"人打赏");
+                mPlayGift.setVisibility(View.GONE);
+                if (entity.getData().getIncludes() != null){
+                    int size = entity.getData().getIncludes().size();
+                    if (size > 0){
+                        mHadGift.setVisibility(View.VISIBLE);
+                        TextView description = ((TextView)mHadGift.findViewById(R.id.tv_play_gift_description));
+                        description.setText("已有"+size+"人打赏");
+                        mHadGift.setOnClickListener(this);
+                    }
                 }
             }
+            mRankDialog = new GiftRankDialog(getActivity(),entity.getData().getIncludes(),getMember_id());
         }
+    }
+
+    /**
+     *刷新评论列表
+     */
+    public void onEventMainThread(RefreshCommendEvent event){
+        page = 1;
+        DataManager.videoCommentList211(videoImage.getId(), getMember_id(), page);
     }
 }

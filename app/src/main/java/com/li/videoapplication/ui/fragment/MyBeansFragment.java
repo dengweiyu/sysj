@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.ui.ActivityManager;
@@ -54,15 +55,23 @@ public class MyBeansFragment extends TBaseFragment implements View.OnClickListen
             mMode = bundle.getInt("mode");
         }
 
+       refreshInfo();
+    }
+
+
+
+    private void refreshInfo(){
         Member member = getUser();
-        if (mMode == MY_BEANS){
-            mOverTile.setText(R.string.my_wallet_beans_over);
-            mExchange.setText("兑换");
-            mOver.setText(StringUtil.formatNum(member.getCurrency()));
-        }else if (mMode == MY_CURRENCY){
-            mOverTile.setText(R.string.my_wallet_coin_over);
-            mExchange.setText("提现");
-            mOver.setText(StringUtil.formatNum(member.getCoin()));
+        if (member != null){
+            if (mMode == MY_BEANS){
+                mOverTile.setText(R.string.my_wallet_beans_over);
+                mExchange.setText("兑换");
+                mOver.setText(StringUtil.formatNum(member.getCurrency()));
+            }else if (mMode == MY_CURRENCY){
+                mOverTile.setText(R.string.my_wallet_coin_over);
+                mExchange.setText("提现");
+                mOver.setText(StringUtil.formatNum(member.getCoin()));
+            }
         }
     }
 
@@ -98,5 +107,12 @@ public class MyBeansFragment extends TBaseFragment implements View.OnClickListen
                     break;
             }
         }
+    }
+
+    /**
+     * 事件：更新个人资料
+     */
+    public void onEventMainThread(UserInfomationEvent event) {
+        refreshInfo();
     }
 }

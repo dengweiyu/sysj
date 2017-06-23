@@ -1462,7 +1462,7 @@ public class ActivityManager {
 
 
     /**
-     * 玩家广场游戏筛选
+     * 礼物流水
      */
     public static void startMyGiftBillActivity(Context context,String userId) {
 

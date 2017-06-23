@@ -35,7 +35,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
                         android:orientation="horizontal"
                         android:gravity="center"
                         android:padding="10dp">
@@ -44,11 +43,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="12sp"
+                            android:textColor="@color/white"
                             android:text="我的排名：5,距离第一名排名还差1000魔币"/>
                         <ImageView
                             android:id="@+id/iv_go_play_gift"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="24dp"
                             android:visibility="gone"
                             android:src="@drawable/go_play_gift"/>
                     </LinearLayout>

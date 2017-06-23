@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -908,14 +909,23 @@ public class VideoPlayView extends RelativeLayout implements
     };
 
     /**
-     *
+     *视频审核中
      */
     private void initUnVerifyView(){
         mUnVerifyView = (ImageView) findViewById(R.id.iv_verify_view);
         if (videoImage != null){
             GlideHelper.displayImageEmpty(getContext(),videoImage.getFlag(),mUnVerifyView);
         }
-        findViewById(R.id.rl_verify_view).setVisibility(View.VISIBLE);
+        View view =  findViewById(R.id.rl_verify_view);
+        view.setVisibility(View.VISIBLE);
+
+        //拦截事件
+        view.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
     }
 
     public void switchPlay(int state) {

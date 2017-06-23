@@ -4,10 +4,14 @@ package com.li.videoapplication.ui.adapter;
 import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
+import com.google.common.collect.PeekingIterator;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.response.MyGiftBillEntity;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -15,6 +19,7 @@ import java.util.List;
  */
 
 public class MyGiftBillAdapter extends BaseSectionQuickAdapter<MyGiftBillEntity.SectionBill,BaseViewHolder> {
+
     public MyGiftBillAdapter( List<MyGiftBillEntity.SectionBill> data) {
         super(R.layout.my_gift_bill_list_item, R.layout.bill_list_item_header, data);
     }
@@ -38,20 +43,33 @@ public class MyGiftBillAdapter extends BaseSectionQuickAdapter<MyGiftBillEntity.
         holder.addOnClickListener(R.id.tv_my_gift_nick_name)
                 .addOnClickListener(R.id.tv_my_gift_video_name);
 
+
     }
 
     @Override
-    public void setNewData(List<MyGiftBillEntity.SectionBill> data) {
+    public void setNewData(final List<MyGiftBillEntity.SectionBill> data) {
         //no child view, remove title
-        Iterator<MyGiftBillEntity.SectionBill> iterator =  data.iterator();
-        while(iterator.hasNext()){
-            if (iterator.next().isHeader){
-                if (!iterator.hasNext() || iterator.next().isHeader){
-                    iterator.remove();
+        super.setNewData(Lists.newArrayList(Iterables.filter(data, new Predicate<MyGiftBillEntity.SectionBill>() {
+            PeekingIterator iterator = Iterators.peekingIterator(data.iterator());
+            @Override
+            public boolean apply(MyGiftBillEntity.SectionBill input) {
+                if (iterator.hasNext()){
+                    iterator.next();
                 }
+                if (input.isHeader){
+                    if (iterator.hasNext()){
+                        if (((MyGiftBillEntity.SectionBill)iterator.peek()).isHeader){
+                            return false;
+                        }
+                    }else {
+                        return false;
+                    }
+                }
+                return true;
             }
-        }
-
-        super.setNewData(data);
+        })));
     }
+
+
+
 }

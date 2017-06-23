@@ -182,14 +182,14 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
             rewardGift = (TextView)headerView.findViewById(R.id.tv_receive_gift);
             mFirstGift = (ImageView) headerView.findViewById(R.id.iv_first_gift);
             mSecondGift = (ImageView) headerView.findViewById(R.id.iv_second_gift);
-
+            headerView.findViewById(R.id.ll_receive_gift).setOnClickListener(this);
 
             loginIcon.setOnClickListener(this);
             loginText.setOnClickListener(this);
             //mypersoncenter.setOnClickListener(this);
 
             head.setOnClickListener(this);
-           // textBtn.setOnClickListener(this);
+         //   textBtn.setOnClickListener(this);
             touch.setOnClickListener(this);
             fans.setOnClickListener(this);
             attention.setOnClickListener(this);
@@ -352,6 +352,7 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
                 takePhoto();
                 break;
             case R.id.tv_receive_gift:
+            case R.id.ll_receive_gift:
                 ActivityManager.startMyGiftBillActivity(this,getMember_id());
                 break;
         }

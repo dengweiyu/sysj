@@ -56,14 +56,7 @@ public class GiftRankDialog extends BaseOverShootDialog implements View.OnClickL
         mRank.setAdapter(mAdapter);
 
         mGoPlayGift.setOnClickListener(this);
-        setOnDismissListener(new OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if (mAdapter != null){
-                    mAdapter.setFirstShow(false);
-                }
-            }
-        });
+
 
         if (memberId != null){
             boolean isInRank = false;
@@ -109,6 +102,10 @@ public class GiftRankDialog extends BaseOverShootDialog implements View.OnClickL
         if (mAdapter != null){
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    public int rankSize(){
+        return mAdapter.getItemCount();
     }
 
     @Override

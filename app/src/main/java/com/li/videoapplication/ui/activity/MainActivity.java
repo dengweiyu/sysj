@@ -837,7 +837,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
         boolean tip = NormalPreferences.getInstance().getBoolean(Constants.TIP_GAME, true);
         if (tip) {
-            DialogManager.showGameTipDialogg(this);
+            DialogManager.showGameTipDialog(this);
             NormalPreferences.getInstance().putBoolean(Constants.TIP_GAME, false);
         }
     }

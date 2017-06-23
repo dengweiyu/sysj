@@ -62,7 +62,7 @@ public class GroupdetailVideoFragment extends TBaseFragment
     /**
      * 跳转：视频播放
      */
-    private void startVideoPlayActivity(VideoImage videoImage) {
+    public void startVideoPlayActivity(VideoImage videoImage) {
         ActivityManager.startVideoPlayActivity(getActivity(), videoImage);
         if (getTab() == GROUPDETAILVIDEO_NEW) {
             if (null != activity && activity.isSingleEvent){
@@ -170,7 +170,7 @@ public class GroupdetailVideoFragment extends TBaseFragment
 
     private void initAdapter() {
         videoData = new ArrayList<>();
-        adapter = new GroupDetailVideoRecyclerAdapter(getActivity(), videoData);
+        adapter = new GroupDetailVideoRecyclerAdapter(getActivity(),this, videoData);
         adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         adapter.setOnLoadMoreListener(this);
 

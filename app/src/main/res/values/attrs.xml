@@ -142,5 +142,7 @@
         </attr>
     </declare-styleable>
 
-
+    <declare-styleable name="TipView">
+        <attr name="isRound" format="boolean"></attr>
+    </declare-styleable>
 </resources>

@@ -104,7 +104,9 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
     private View emptyView;
 
     private Member item;
-
+    private TextView rewardGift;
+    private ImageView mFirstGift;
+    private ImageView mSecondGift;
     @Override
     public int getContentView() {
         return R.layout.activity_mydynamic;
@@ -191,12 +193,18 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
             go = (ImageView) headerView.findViewById(R.id.dynamic_go);
             touch = (RelativeLayout) headerView.findViewById(R.id.dynamic_touch);
 
+            rewardGift = (TextView)headerView.findViewById(R.id.tv_receive_gift);
+            mFirstGift = (ImageView) headerView.findViewById(R.id.iv_first_gift);
+            mSecondGift = (ImageView) headerView.findViewById(R.id.iv_second_gift);
+            headerView.findViewById(R.id.ll_receive_gift).setOnClickListener(this);
+            rewardGift.setOnClickListener(this);
+
             loginIcon.setOnClickListener(this);
             loginText.setOnClickListener(this);
             fans.setOnClickListener(this);
             attention.setOnClickListener(this);
            // personalcenter.setOnClickListener(this);
-            textBtn.setOnClickListener(this);
+        //    textBtn.setOnClickListener(this);
             touch.setOnClickListener(this);
             go.setOnClickListener(this);
 
@@ -259,6 +267,22 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
                 }
 
                 setMark(fans, attention, item);
+
+                if(item.getRewardInfo() == null||item.getRewardInfo().getGift_icon() == null||!item.getRewardInfo().isHasGift()){
+                    rewardGift.setText("收到的礼物：暂无");
+                }else {
+                    rewardGift.setText("收到的礼物：");
+                    if (item.getRewardInfo().getGift_icon().size() >= 1){
+                        if (mFirstGift != null){
+                            GlideHelper.displayImage(this,item.getRewardInfo().getGift_icon().get(0),mFirstGift);
+                        }
+                    }
+                    if (item.getRewardInfo().getGift_icon().size() >= 2){
+                        if (mSecondGift != null){
+                            GlideHelper.displayImage(this,item.getRewardInfo().getGift_icon().get(1),mSecondGift);
+                        }
+                    }
+                }
             }
         } else {// 游客
             tourist.setVisibility(View.VISIBLE);
@@ -330,9 +354,6 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
                 break;
 
             case R.id.dynamic_touch:// 更换封面
-                break;
-
-            case R.id.dynamic_textBtn:// 更换封面
                 if (!isLogin()) {
                     DialogManager.showLogInDialog(this);
                     return;
@@ -340,12 +361,17 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
                 DialogManager.showPhotoDialog(this, this, this);
                 break;
 
+
             case R.id.photo_pick:
                 pickPhoto();
                 break;
 
             case R.id.photo_take:
                 takePhoto();
+                break;
+            case R.id.tv_receive_gift:
+            case R.id.ll_receive_gift:
+                ActivityManager.startMyGiftBillActivity(this,getMember_id());
                 break;
         }
     }

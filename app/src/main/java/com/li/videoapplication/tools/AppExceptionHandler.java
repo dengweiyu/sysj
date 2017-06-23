@@ -20,7 +20,9 @@ import com.li.videoapplication.ui.activity.MainActivity;
 import java.io.File;
 
 /**
+ * @author liuwei
  * 处理未捕获异常
+ * 能够做到不Crash
  */
 
 public class AppExceptionHandler implements Thread.UncaughtExceptionHandler {
@@ -42,6 +44,21 @@ public class AppExceptionHandler implements Thread.UncaughtExceptionHandler {
     public void init(){
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
+        //以下代码保证不会直接闪退
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                for (;;){
+                    try {
+                        //启动循环
+                        Looper.loop();
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        uncaughtException(Looper.getMainLooper().getThread(),e);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -49,15 +66,8 @@ public class AppExceptionHandler implements Thread.UncaughtExceptionHandler {
         if (!handleException(throwable)){
             mDefaultHandler.uncaughtException(thread,throwable);
         }else {
-            try {
-                Thread.sleep(200);          //maybe new thread get cpu
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            //kill all activity
-            AppManager.getInstance().removeAllActivity();
-            //kill current process
-            android.os.Process.killProcess(android.os.Process.myPid());
+            //kill current activity
+            AppManager.getInstance().removeCurrentActivity();
             //call gc
             System.gc();
         }
@@ -83,20 +93,21 @@ public class AppExceptionHandler implements Thread.UncaughtExceptionHandler {
             @Override
             public void run() {
                 Looper.prepare();
-                Toast.makeText(context,"很抱歉，程序出现异常",Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"很抱歉，程序出现了一点问题~",Toast.LENGTH_SHORT).show();
                 saveLog(throwable.getMessage());
                 Looper.loop();
             }
         }.start();
         //can record exception message in here
-        restartApp(throwable.getMessage());
+      //  restartApp(throwable.getMessage());
         return true;
     }
 
     /**
      * will be restart main activity
      */
-    private void restartApp(String message){
+    @Deprecated
+    private  void restartApp(String message){
         Application context = AppManager.getInstance().getApplication();
         Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

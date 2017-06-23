@@ -40,6 +40,7 @@ import cn.sharesdk.framework.Platform.ShareParams;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.wechat.utils.WechatClientNotExistException;
+import io.rong.imkit.model.Event;
 
 /**
  * 活动：分享
@@ -98,6 +99,9 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
             DataManager.shareTriggerReward(memberId,"","","1");
             //post
             EventBus.getDefault().post(new SharedSuccessEvent(mSharedChannel));
+
+            //下个版本再统一 用融云包里的EventBus
+            io.rong.eventbus.EventBus.getDefault().post(new SharedSuccessEvent(mSharedChannel));
             //移除监听器
             ShareSDKShareHelper.removeListener(listener);
         }

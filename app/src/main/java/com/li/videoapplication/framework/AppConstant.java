@@ -9,6 +9,9 @@ public class AppConstant {
 
 	public static final String SYSJ = "sysj";
 	public static final String SYSJ_ANDROID = "a_sysj";
+
+	//https://sapp.17sysj.com
+	//http://apps.ifeimo.com
 	public static final String API_SERVER = "http://apps.ifeimo.com";//服务器域名
 
 	public static final boolean DEBUG = true;

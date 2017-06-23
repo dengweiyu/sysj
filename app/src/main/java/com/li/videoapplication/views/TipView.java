@@ -2,11 +2,15 @@ package com.li.videoapplication.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Path.Direction;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
@@ -22,13 +26,17 @@ public class TipView extends View {
 	private final int radiu;
 	private final int padding;
 	private final int color;
-	
+
+	private boolean isRound;
 	public TipView(Context context) {
 		this(context, null);
 	}
 
 	public TipView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		TypedArray array = context.obtainStyledAttributes(attrs,R.styleable.TipView);
+		isRound = array.getBoolean(R.styleable.TipView_isRound,false);
+
 		this.context = context;
 		this.paint = new Paint();
 		this.paint.setAntiAlias(true); //消除锯齿
@@ -55,33 +63,49 @@ public class TipView extends View {
 		int t = cy - a;
 		int r = cx + a;
 		int b = cy + a;
-//		int l = 0;
-//		int t = 0;
-//		int r = w;
-//		int b = h;
-		
-		/*//绘制圆角矩形
-		this.paint.setColor(color);
-		this.paint.setStyle(Paint.Style.STROKE);
-		this.paint.setStrokeWidth(padding);
-		RectF f = new RectF(l, t, r, b);
-		canvas.drawRoundRect(f, radiu, radiu, paint);*/
-		
-		//绘制环形矩形
-		this.paint.setColor(color);
-		this.paint.setStyle(Paint.Style.FILL);
-		Path path = new Path();
-		RectF inner = new RectF(l, t, r, b);
-		RectF outer = new RectF(0, 0, w, h);
-		path.addRoundRect(inner, radiu, radiu, Direction.CCW);
-		path.addRect(outer, Direction.CW);
-		path.close();
-		canvas.drawPath(path, paint);
-		
+		if (isRound){
+			l = 0;
+			t = 0;
+			r = w>h?w:h;
+			b = w>h?w:h;
+			RectF f = new RectF(l, t, r, b);
+			//开新图层
+			int v = canvas.saveLayer(l,t,r,b,new Paint(),Canvas.ALL_SAVE_FLAG);
+			//画阴影背景
+			canvas.drawColor(color);
+			//高亮区域
+			Bitmap light = Bitmap.createBitmap(getMeasuredWidth(),getMeasuredWidth(), Bitmap.Config.ARGB_8888);
+			light.eraseColor(Color.TRANSPARENT);
+
+			Canvas canvasLight = new Canvas(light);
+
+			//绘制圆形
+			this.paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+			this.paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+
+			Paint p = new Paint();
+			p.setAntiAlias(true);
+			canvasLight.drawRoundRect(f, r/2, r/2, p);
+
+			canvas.drawBitmap(light,0,0,paint);
+			canvas.restoreToCount(v);
+		}else {
+			//绘制环形矩形
+			this.paint.setColor(color);
+			this.paint.setStyle(Paint.Style.FILL);
+			Path path = new Path();
+			RectF inner = new RectF(l, t, r, b);
+			RectF outer = new RectF(0, 0, w, h);
+			path.addRoundRect(inner, radiu, radiu, Direction.CCW);
+			path.addRect(outer, Direction.CW);
+			path.close();
+			canvas.drawPath(path, paint);
+		}
+
 		super.onDraw(canvas);
 	}
-	
-	
+
+
 	/**
 	 * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
 	 */

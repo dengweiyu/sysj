@@ -24,7 +24,10 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.cache.BaseUtils;
 import com.li.videoapplication.data.cache.RequestCache;
+import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.event.InputNumberEvent;
+import com.li.videoapplication.data.model.event.PlayGiftSuccessEvent;
+import com.li.videoapplication.data.model.event.RefreshCommendEvent;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.response.PlayGiftResultEntity;
 import com.li.videoapplication.data.model.response.PlayGiftTypeEntity;
@@ -32,9 +35,11 @@ import com.li.videoapplication.data.model.response.ServiceTimeEntity;
 import com.li.videoapplication.data.model.response.TimeLineGiftEntity;
 import com.li.videoapplication.data.network.RequestParams;
 import com.li.videoapplication.data.network.RequestUrl;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
@@ -45,6 +50,7 @@ import com.li.videoapplication.ui.dialog.PlayGiftDialog;
 import com.li.videoapplication.ui.view.GiftItemDecoration;
 import com.li.videoapplication.ui.view.SimpleItemDecoration;
 import com.li.videoapplication.utils.StringUtil;
+import com.pnikosis.materialishprogress.ProgressWheel;
 import com.ypy.eventbus.EventBus;
 
 import java.security.MessageDigest;
@@ -114,6 +120,8 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
         if (bundle != null){
             mVideoId = bundle.getString("video_id","");
         }
+        //隐藏余额两字
+        view.findViewById(R.id.tv_currency).setVisibility(View.GONE);
 
         mRoot = view;
         view.findViewById(R.id.tv_video_play_gift).setOnClickListener(this);
@@ -155,7 +163,7 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
         DataManager.getGiftType();
 
         //
-        DataManager.getServiceTime();
+        mHandler.post(mSyncTask);
 
         setGiftByCache();
     }
@@ -185,6 +193,8 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
+        mHandler.removeCallbacks(mSyncTask);
+
         super.onDestroy();
 
     }
@@ -253,6 +263,15 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
     };
 
 
+    //服务器时间同步器
+    private Handler mHandler = new Handler();
+    private Runnable mSyncTask = new Runnable() {
+        @Override
+        public void run() {
+            DataManager.getServiceTime();
+        }
+    };
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -261,9 +280,23 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
                     mInputDialog = new GiftNumberInputDialog(getActivity(),v,mNumberData);
                 }
 
+                if (mActivity.isLandscape()){
+                    UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放页-横屏-礼物数量选择");
+
+                }else {
+                    UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放页-竖屏-礼物数量选择");
+                }
+
                 mInputDialog.showOrHide();
                 break;
             case R.id.tv_video_play_gift:               //打赏
+                if (mActivity.isLandscape()){
+                    UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放页-横屏-打赏按钮");
+
+                }else {
+                    UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放页-竖屏-打赏按钮");
+                }
+
                 if (!isLogin()) {
                     DialogManager.showLogInDialog(getActivity());
                     break;
@@ -280,6 +313,11 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
                 break;
             case R.id.tv_video_play_recharge:           //充值
                 ActivityManager.startMyWalletActivity(getContext(),0);
+                if (mActivity.isLandscape()){
+                    UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放页-横屏-充值");
+                }else {
+                    UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放页-竖屏-充值");
+                }
                 break;
         }
     }
@@ -295,10 +333,9 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
      */
     private void playGift(String memberId,String videoId,String giftId,long videoNode,int number){
         isPlaying = true;
-        if (mServiceTime == 0){
+        mServiceTime = System.currentTimeMillis()/1000+mServiceTimeOffset;
+        if (mServiceTimeOffset == -1){
             DataManager.getServiceTime();
-            cancelLoadingDialog();
-            return;
         }
         if (videoNode == 0){
             ToastHelper.l("请先观看视频哦~");
@@ -344,6 +381,19 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
     }
 
     /**
+     *网络错误
+     * @param error
+     */
+    public void onEventMainThread(NetworkError error){
+        if (error != null){
+            if (RequestUrl.getInstance().playGift().equals(error.getUrl()) || RequestUrl.getInstance().getServiceTime().equals(error.getUrl())){
+                cancelLoadingDialog();
+                ToastHelper.l("网络好像有点问题哦~");
+            }
+        }
+    }
+
+    /**
      * 打赏结果
      */
     public void onEventMainThread(PlayGiftResultEntity entity){
@@ -361,8 +411,14 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
                 if (mEntity != null){
                     io.rong.eventbus.EventBus.getDefault().post(mEntity);
                 }
+                //更新视频评论列表
+                io.rong.eventbus.EventBus.getDefault().post(new RefreshCommendEvent());
+                //更新视频收获的礼物数
+                io.rong.eventbus.EventBus.getDefault().post(new PlayGiftSuccessEvent());
             }else if (entity.getCode() == 20001){
                 ToastHelper.l(entity.getMsg());
+            } else {
+                ToastHelper.l("哎呀~出现问题打赏失败了~");
             }
 
         }else {
@@ -406,26 +462,24 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
     }
 
 
+    private long mServiceTimeOffset = -1;
     /**
      * 同步服务器时间
      */
     public void onEventMainThread(ServiceTimeEntity entity){
         if (entity != null && entity.getTimestamp() != 0){
-            mServiceTime = entity.getTimestamp();
+            mServiceTimeOffset = entity.getTimestamp() - System.currentTimeMillis()/1000;
             if (isPlaying){
                 isPlaying = false;
                 if (mAdapter.getData() != null && mAdapter.getData().size() > 0){
                //     playGift(getMember_id(),mVideoId,mAdapter.getData().get(mAdapter.getSelected()).getGift_id(),mActivity.getProgress(),mNumber);
                 }
             }
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    DataManager.getServiceTime();
-                }
-            },240000);                          //4分钟更新一次
+
+            //4分钟同步一次 修正误差
+            mHandler.postDelayed(mSyncTask,240000);
         }else {
-            mServiceTime = 0;
+            mServiceTimeOffset = -1;
             ToastHelper.l("网络好像有点问题哦~");
             isPlaying = false;
         }

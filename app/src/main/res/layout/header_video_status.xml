@@ -55,7 +55,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center"
-            android:src="@drawable/video_play_gift"/>
+            android:src="@drawable/gift_unselected"/>
 
         <TextView
             android:id="@+id/tv_video_play_gift_count"

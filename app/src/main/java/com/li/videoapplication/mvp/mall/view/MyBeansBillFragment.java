@@ -3,6 +3,7 @@ package com.li.videoapplication.mvp.mall.view;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.common.collect.Lists;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
@@ -25,6 +26,8 @@ public class MyBeansBillFragment extends TBaseFragment implements MallContract.I
     private RecyclerView mRecyclerView;
     private BillAdapter mAdapter;
     private List<BillEntity.SectionBill> mData;
+
+    private TextView mEmpty;
     @Override
     protected int getCreateView() {
         return R.layout.fragment_my_beans_bill;
@@ -35,12 +38,13 @@ public class MyBeansBillFragment extends TBaseFragment implements MallContract.I
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_my_bill_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mData = new ArrayList<>();
-        mAdapter = new BillAdapter(mData);
+        mAdapter = new BillAdapter(mData,getMember_id());
         mRecyclerView.setAdapter(mAdapter);
         presenter = new MallPresenter();
         presenter.setBillListView(this);
         presenter.getBillList(getMember_id(),1);
 
+        mEmpty = (TextView)view.findViewById(R.id.tv_coin_bill_empty);
     }
 
     @Override
@@ -62,6 +66,14 @@ public class MyBeansBillFragment extends TBaseFragment implements MallContract.I
                 }
             }
             mAdapter.setNewData(mData);
+
+            if (datas.size() == 0){
+                mEmpty.setVisibility(View.VISIBLE);
+            }else {
+                mEmpty.setVisibility(View.GONE);
+            }
+        }else {
+            mEmpty.setVisibility(View.VISIBLE);
         }
     }
 

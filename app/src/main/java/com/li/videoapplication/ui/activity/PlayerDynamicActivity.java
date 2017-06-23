@@ -23,6 +23,7 @@ import com.li.videoapplication.data.model.response.VideoCollect2Entity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.PullToRefreshActivity;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.DynamicVideoAdapter;
@@ -178,6 +179,8 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
             rewardGift = (TextView)headerView.findViewById(R.id.tv_receive_gift);
             mFirstGift = (ImageView) headerView.findViewById(R.id.iv_first_gift);
             mSecondGift = (ImageView) headerView.findViewById(R.id.iv_second_gift);
+            headerView.findViewById(R.id.ll_receive_gift).setOnClickListener(this);
+
             rewardGift.setOnClickListener(this);
 
             loginIcon.setOnClickListener(this);
@@ -336,6 +339,7 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
                 startMyPlayerActivityMyFocus();
                 break;
             case R.id.tv_receive_gift:
+            case R.id.ll_receive_gift:
                 ActivityManager.startMyGiftBillActivity(this,item.getMember_id());
                 break;
         }
@@ -367,7 +371,7 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
             } catch (JsonSyntaxException e) {
                 e.printStackTrace();
             }
-            if (m != null) {
+            if (m != null && item.getMember_id().equals(m.getMember_id())) {
                 item = m;
             }
             refreshHeaderView(item);
@@ -397,6 +401,7 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
             addHeaderView(getHeaderView());
             adapter = new DynamicVideoAdapter(this, data);
             setAdapter(adapter);
+
         } else {
             adapter.notifyDataSetChanged();
         }

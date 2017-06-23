@@ -39,7 +39,6 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 	 */
 	private void startDynamicActivity(Member member) {
 		ActivityManager.startPlayerDynamicActivity(getContext(), member);
-		AppManager.getInstance().currentActivity().finish();
 		if (page == PAGE_SEARCHMEMBER){
 			UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MAIN, "搜索-相关主播-点击相关主播内任意主播进入他人动态页次数");
 		}else{
@@ -91,8 +90,8 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 			
 			@Override
 			public void onClick(View v) {
-				Member info = gson.fromJson(record.toJSON(), Member.class);
-				startDynamicActivity(info);
+				//Member info = gson.fromJson(record.toJSON(), Member.class);
+				startDynamicActivity(record);
 			}
 		});
 		

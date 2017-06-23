@@ -87,7 +87,7 @@ public class RechargeVipFragment extends TBaseFragment implements View.OnClickLi
 
 
     public void setPrice(float price){
-        String priceStr =  "支付"+TextUtil.toColor(price+"", "#ff3d2e") + " 元/月";
+        String priceStr =  "支付："+TextUtil.toColor(price+"", "#ff3d2e") + " 元/月";
         mPrice.setText(Html.fromHtml(priceStr));
     }
 

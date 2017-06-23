@@ -130,7 +130,7 @@ public class ControllerView extends RelativeLayout implements View.OnClickListen
                 }
             }
             //
-            UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.VIDEOPLAY, "竖屏切换到横屏点击");
+            UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MACROSCOPIC_DATA, "竖屏切换到横屏点击");
 
         }
     }

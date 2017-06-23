@@ -26,6 +26,8 @@ public class RequestUrl {
 
     public String BaseHome = "http://apps.ifeimo.com/home";
 
+    //http://apps.ifeimo.com
+    //https://sapp.17sysj.com
     public String BaseSYSJ = "http://apps.ifeimo.com";
 
     public String SignSYSJ = "http://17sysj.com";
@@ -2316,5 +2318,12 @@ public class RequestUrl {
      */
     public final String playGift(){
         return BaseSYSJ+"/Sysj221/Reward/rewardGift";
+    }
+
+    /**
+     *视频播放页分享成功后触发
+     */
+    public final String sharedSuccess(){
+        return BaseSYSJ+"/Sysj221/ShareStatical/share";
     }
 }

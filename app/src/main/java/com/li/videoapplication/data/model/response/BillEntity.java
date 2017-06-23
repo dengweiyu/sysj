@@ -99,6 +99,8 @@ public class BillEntity extends BaseResponseEntity {
                  * ico : http://apps.ifeimo.com/Public/Uploads/CurrencyTask/Flag/58a3b5f8a27a0.png
                  * member_name :
                  * video_name :
+                 * member_id:
+                 * video_id:
                  */
 
                 private String num;
@@ -110,6 +112,8 @@ public class BillEntity extends BaseResponseEntity {
                 private String ico;
                 private String member_name;
                 private String video_name;
+                private String member_id;
+                private String video_id;
 
                 public String getNum() {
                     return num;
@@ -181,6 +185,22 @@ public class BillEntity extends BaseResponseEntity {
 
                 public void setVideo_name(String video_name) {
                     this.video_name = video_name;
+                }
+
+                public String getMember_id() {
+                    return member_id;
+                }
+
+                public void setMember_id(String member_id) {
+                    this.member_id = member_id;
+                }
+
+                public String getVideo_id() {
+                    return video_id;
+                }
+
+                public void setVideo_id(String video_id) {
+                    this.video_id = video_id;
                 }
             }
         }

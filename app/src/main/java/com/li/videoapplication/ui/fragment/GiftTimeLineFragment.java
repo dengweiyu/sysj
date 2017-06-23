@@ -34,8 +34,8 @@ public class GiftTimeLineFragment extends TBaseFragment implements View.OnClickL
     private final  int mDelay = 2000;
     private String mVideoId;
     private RecyclerView mTimeLine;
-    private static List<TimeLineGiftEntity.DataBean> sData;
-    private static List<TimeLineGiftEntity.DataBean> sSaveData;
+    private static List<TimeLineGiftEntity.DataBean> sData;                     //所有数据
+    private static List<TimeLineGiftEntity.DataBean> sSaveData;                 //RecyclerView数据
     private GiftTimeLineAdapter mAdapter;
 
     public static GiftTimeLineFragment newInstance(String videoId){
@@ -56,6 +56,7 @@ public class GiftTimeLineFragment extends TBaseFragment implements View.OnClickL
         if (bundle != null){
             mVideoId = bundle.getString("video_id","");
         }
+
 
         mTimeLine = (RecyclerView)view.findViewById(R.id.rv_time_line);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext()){
@@ -110,11 +111,13 @@ public class GiftTimeLineFragment extends TBaseFragment implements View.OnClickL
     public void recyclerData(){
         sData = null;
         sSaveData = null;
-        sQueue = null;
+        if (sQueue != null){
+            sQueue.clear();
+            sQueue = null;
+        }
     }
 
     private void loadData(){
-
         if (sData == null || sData.size() == 0){
             DataManager.getGiftTimeLineList(mVideoId);
         }
@@ -165,6 +168,9 @@ public class GiftTimeLineFragment extends TBaseFragment implements View.OnClickL
         return sQueue.poll();
     }
 
+    /**
+     *
+     */
     private void remove(){
         if (mAdapter != null && mAdapter.getData().size() > 0){
             mAdapter.remove(0);
