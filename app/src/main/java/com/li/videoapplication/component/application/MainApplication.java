@@ -31,6 +31,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.xutils.x;
 
 import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 /**
  * 应用:主应用程序
@@ -101,6 +102,8 @@ public class MainApplication extends BaseApplication {
 
         //feimo im sdk
         IMSdk.init(MainApplication.this);
+
+
     }
 
 
@@ -119,5 +122,15 @@ public class MainApplication extends BaseApplication {
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
     }
+
+
+    //所有接收到的消息、通知、状态都经由此处设置的监听器处理。包括私聊消息、讨论组消息、群组消息、聊天室消息以及各种状态。
+    private final static RongIMClient.OnReceiveMessageListener sRongIMMessageListener = new RongIMClient.OnReceiveMessageListener() {
+        @Override
+        public boolean onReceived(io.rong.imlib.model.Message message, int i) {
+            Log.e("onReceived",message.getExtra());
+            return false;
+        }
+    };
 
 }

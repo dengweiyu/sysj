@@ -404,7 +404,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
-                                android:text="上传比赛视频奖励500飞磨豆"
+                                android:text="上传比赛视频奖励500魔豆"
                                 android:textColor="#848484"
                                 android:textSize="14sp" />
                         </LinearLayout>

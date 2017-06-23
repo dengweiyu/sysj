@@ -19,7 +19,7 @@ import com.li.videoapplication.data.model.response.UpdateVersionAboutEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.IntentHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.AppUtil;
 
 /**
@@ -115,7 +115,7 @@ public class AboutActivity extends TBaseActivity implements OnClickListener {
 			break;
 
 		case R.id.about_privacy:
-			ActivityManeger.startPrivacyActivity(this);
+			ActivityManager.startPrivacyActivity(this);
 			break;
 
 		case R.id.about_feedback:

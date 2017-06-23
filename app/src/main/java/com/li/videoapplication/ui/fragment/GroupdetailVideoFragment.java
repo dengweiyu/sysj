@@ -25,12 +25,11 @@ import com.li.videoapplication.data.model.response.GroupNewDataListEntity;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
 import com.li.videoapplication.mvp.adapter.GroupDetailVideoRecyclerAdapter;
 import com.li.videoapplication.utils.GDTUtil;
 import com.li.videoapplication.utils.StringUtil;
-import com.qq.e.ads.nativ.NativeAD;
 import com.qq.e.ads.nativ.NativeADDataRef;
 
 import java.util.ArrayList;
@@ -63,8 +62,8 @@ public class GroupdetailVideoFragment extends TBaseFragment
     /**
      * 跳转：视频播放
      */
-    private void startVideoPlayActivity(VideoImage videoImage) {
-        ActivityManeger.startVideoPlayActivity(getActivity(), videoImage);
+    public void startVideoPlayActivity(VideoImage videoImage) {
+        ActivityManager.startVideoPlayActivity(getActivity(), videoImage);
         if (getTab() == GROUPDETAILVIDEO_NEW) {
             if (null != activity && activity.isSingleEvent){
                 UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name()+"-"+ "游戏圈-最新视频-有效");
@@ -84,7 +83,7 @@ public class GroupdetailVideoFragment extends TBaseFragment
      * 跳转：玩家动态
      */
     private void startPlayerDynamicActivity(Member member) {
-        ActivityManeger.startPlayerDynamicActivity(getActivity(), member);
+        ActivityManager.startPlayerDynamicActivity(getActivity(), member);
     }
 
     public static GroupdetailVideoFragment newInstance(int tab) {
@@ -171,7 +170,7 @@ public class GroupdetailVideoFragment extends TBaseFragment
 
     private void initAdapter() {
         videoData = new ArrayList<>();
-        adapter = new GroupDetailVideoRecyclerAdapter(getActivity(), videoData);
+        adapter = new GroupDetailVideoRecyclerAdapter(getActivity(),this, videoData);
         adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         adapter.setOnLoadMoreListener(this);
 

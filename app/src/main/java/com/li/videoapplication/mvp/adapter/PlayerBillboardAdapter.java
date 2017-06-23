@@ -145,7 +145,7 @@ public class PlayerBillboardAdapter extends BaseQuickAdapter<Member, BaseViewHol
     private void setCurrency(BaseViewHolder holder, final Member record) {
 
         if (!StringUtil.isNull(record.getCurrency())) {
-            holder.setText(R.id.playerbillboard_left, "飞磨豆\t" + StringUtil.formatNum(record.getCurrency()));
+            holder.setText(R.id.playerbillboard_left, "魔豆\t" + StringUtil.formatNum(record.getCurrency()));
         }
     }
 

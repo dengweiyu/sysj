@@ -63,7 +63,7 @@ final class MessageManager implements IMessage {
     static MessageManager messageManager;
 
     /**
-     * 消息轮询
+     * 接收到的消息轮询
      */
     private static Handler handler;
 
@@ -310,12 +310,12 @@ final class MessageManager implements IMessage {
                     IMConnectManager.getInstances().
                             getConnection()).createChat(Jid.getJid(IMSdk.CONTEXT, chatBean.getAccount()));
             Log.i(TAG, "------- Join Chat Opposide ID = " + chatBean.getAccount() + "  --------");
-            chat.addMessageListener(new ChatMessageListener() {
-                @Override
-                public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message message) {
-                    System.err.print("123123 " + message);
-                }
-            });
+//            chat.addMessageListener(new ChatMessageListener() {
+//                @Override
+//                public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message message) {
+//                    System.err.print("123123 " + message);
+//                }
+//            });
         }
         chatBean.setChat(chat);
     }

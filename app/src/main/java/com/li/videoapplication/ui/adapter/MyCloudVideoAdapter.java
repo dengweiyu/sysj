@@ -13,21 +13,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Tag;
 import com.li.videoapplication.data.model.entity.VideoImage;
-import com.li.videoapplication.data.model.response.CloudRecommendLocEntity;
-import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.mvp.mall.view.ExchangeRecordFragment;
 import com.li.videoapplication.tools.IntentHelper;
-import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.activity.VideoActivity;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.SpanUtil;
@@ -47,7 +42,7 @@ public class MyCloudVideoAdapter extends BaseAdapter {
      */
     public void startShareActivity(String url, String imageUrl, String videoTitle) {
         VideoMangerActivity activity = (VideoMangerActivity) AppManager.getInstance().getActivity(VideoMangerActivity.class);
-        ActivityManeger.startActivityShareActivity4MyCloudVideo(activity, url, imageUrl, videoTitle);
+        ActivityManager.startActivityShareActivity4MyCloudVideo(activity, url, imageUrl, videoTitle);
     }
 
     /**
@@ -73,7 +68,7 @@ public class MyCloudVideoAdapter extends BaseAdapter {
             }
         } else {
             // 七牛视频
-            ActivityManeger.startVideoPlayActivity(context,item);
+            ActivityManager.startVideoPlayActivity(context,item);
         }
         UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "云端视频-成功播放云端视频任意视频");
     }
@@ -165,7 +160,7 @@ public class MyCloudVideoAdapter extends BaseAdapter {
         holder.titleAndCountView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManeger.startVideoPlayActivity(context,record);
+                ActivityManager.startVideoPlayActivity(context,record);
             }
         });
 
@@ -268,7 +263,7 @@ public class MyCloudVideoAdapter extends BaseAdapter {
                         break;
                     case 2://失败
                     case 4://已推荐
-                        ActivityManeger.startOrderDetailActivity(context,
+                        ActivityManager.startOrderDetailActivity(context,
                                 record.getOrderId(), ExchangeRecordFragment.EXC_MALL);
                         break;
 

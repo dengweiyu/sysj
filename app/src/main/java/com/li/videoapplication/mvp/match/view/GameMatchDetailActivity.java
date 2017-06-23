@@ -3,7 +3,6 @@ package com.li.videoapplication.mvp.match.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -40,10 +39,9 @@ import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.ConversationActivity;
-import com.li.videoapplication.ui.activity.GroupDetailActivity;
 import com.li.videoapplication.ui.fragment.GameMatchRulesFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.utils.NetUtil;
@@ -90,7 +88,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
     private GameMatchProcessFragment processFragment;
 
     public String event_id;
-    private String customerServiceID, customerServiceName;
+    private String customerServiceID, customerServiceName,customerServiceIcon;
     private PopupWindow popupWindow;
     private BubbleLayout bubbleLayout;
     private MatchPresenter presenter;
@@ -101,7 +99,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
      * 跳转：报名
      */
     private void startSignUpActivity() {
-        ActivityManeger.startSignUpActivity(this, event_id, match, customerServiceID, customerServiceName);
+        ActivityManager.startSignUpActivity(this, event_id, match, customerServiceID, customerServiceName);
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "报名次数");
     }
 
@@ -109,7 +107,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
      * 跳转：我的赛程
      */
     private void startMyMatchProcessActivity(Match match) {
-        ActivityManeger.startMyMatchProcessActivity(this, match, customerServiceID, customerServiceName);
+        ActivityManager.startMyMatchProcessActivity(this, match, customerServiceID, customerServiceName);
     }
 
     /**
@@ -121,7 +119,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
             overridePendingTransition(R.anim.activity_hold, R.anim.activity_hold);*/
-            ActivityManeger.startDownloadManagerActivity(this,match.getGame_id());
+            ActivityManager.startDownloadManagerActivity(this,match.getGame_id());
             // 游戏下载数+1
             DataManager.downloadClick217(match.getGame_id(), getMember_id(),
                     Constant.DOWNLOAD_LOCATION_MATCH, event_id);
@@ -139,7 +137,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
             final String imageUrl = match.getShare_icon();
             final String content = match.getShare_description();
 
-            ActivityManeger.startActivityShareActivity4VideoPlay(this, url, title, imageUrl, content);
+            ActivityManager.startActivityShareActivity4VideoPlay(this, url, title, imageUrl, content);
             presenter.eventsRecordClick(event_id, 15);//赛事流水点击:15为app分享
         }
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "赛事导航-赛事分享");
@@ -418,8 +416,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
                             IMSdk.setOnGroupItemOnClick(new OnGroupItemOnClickListener() {
                                 @Override
                                 public void onGroupItemOnClick(String memberid, String name) {
-                                    ActivityManeger.startConversationActivity(GameMatchDetailActivity.this,
-                                            memberid, name, ConversationActivity.PRIVATE);
+                                  IMSdk.createChat(GameMatchDetailActivity.this,memberid,name,"");
                                 }
                             });
                         }
@@ -454,13 +451,31 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
                     DialogManager.showLogInDialog(this);
                     return;
                 }
-                if (RongIM.getInstance() != null && customerServiceID != null) {
-                    ActivityManeger.startConversationActivity(this, customerServiceID, customerServiceName, false);
-                    UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "客服");
+                if (match != null&& customerServiceID != null){
+                    if (match.isPrivateIM()){
+
+                        if (!Proxy.getConnectManager().isConnect()) {
+                            Member user = getUser();
+                            String memberId = user.getMember_id();
+                            if(null == memberId  || memberId.equals("")){
+                                memberId = getMember_id();
+                            }
+                            FeiMoIMHelper.Login(memberId, user.getNickname(), user.getAvatar());
+                        }
+
+                        IMSdk.createChat(GameMatchDetailActivity.this,customerServiceID,customerServiceName,customerServiceIcon);
+
+                    }else {
+                        if (RongIM.getInstance() != null && customerServiceID != null) {
+                            ActivityManager.startConversationActivity(this, customerServiceID, customerServiceName, false);
+                            UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "客服");
+                        }
+                    }
                 }
+
                 break;
             case R.id.gamematch_popup_course://教程
-                ActivityManeger.startHelpActivity(this);
+                ActivityManager.startHelpActivity(this);
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "教程");
                 break;
         }
@@ -543,6 +558,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
     public void refreshServiceName(ServiceNameEntity data) {
         if (!StringUtil.isNull(data.getName())) {
             customerServiceName = data.getName();
+            customerServiceIcon = data.getIcon();
         }
     }
 
@@ -579,7 +595,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
             RongIMHelper.setCoversationNotifMute(Conversation.ConversationType.GROUP,
                     match.getChatroom_group_id(), true);
 
-            ActivityManeger.startConversationActivity(this,
+            ActivityManager.startConversationActivity(this,
                     match.getChatroom_group_id(),
                     match.getChatroom_group_name(),
                     ConversationActivity.GROUP,

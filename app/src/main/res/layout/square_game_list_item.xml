@@ -17,8 +17,7 @@
         app:riv_border_color="#ffffff"
         app:riv_border_width="0dp"
         app:riv_corner_radius="4dp"
-        app:riv_oval="false"
- />
+        app:riv_oval="false"/>
     <TextView
         android:id="@+id/tv_game_name"
         android:layout_width="match_parent"

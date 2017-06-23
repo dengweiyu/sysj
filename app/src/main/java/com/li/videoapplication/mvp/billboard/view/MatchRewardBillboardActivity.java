@@ -2,7 +2,6 @@ package com.li.videoapplication.mvp.billboard.view;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.DownloadListener;
@@ -24,7 +23,7 @@ import com.li.videoapplication.mvp.billboard.BillboardContract.IMatchRewardBillb
 import com.li.videoapplication.mvp.billboard.presenter.BillboardPresenter;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
@@ -49,7 +48,7 @@ public class MatchRewardBillboardActivity extends TBaseAppCompatActivity impleme
             String imageUrl = data.getShare_flag();
             String content = data.getShare_description();
 
-            ActivityManeger.startActivityShareActivity4VideoPlay(this, url, title, imageUrl, content);
+            ActivityManager.startActivityShareActivity4VideoPlay(this, url, title, imageUrl, content);
             UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.DISCOVER, "赛事奖金榜-分享");
         }
     }

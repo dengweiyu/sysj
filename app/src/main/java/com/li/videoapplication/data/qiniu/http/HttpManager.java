@@ -39,7 +39,7 @@ public final class HttpManager {
     public HttpManager(Proxy proxy, IReport reporter, String backUpIp) {
         this.backUpIp = backUpIp;
         client = new AsyncHttpClient();
-   
+
         client.setConnectTimeout(Config.CONNECT_TIMEOUT);
         client.setResponseTimeout(Config.RESPONSE_TIMEOUT);
         client.setUserAgent(userAgent);

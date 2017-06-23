@@ -29,7 +29,7 @@ public class OfficialPaymentAdapter extends BaseQuickAdapter<Recommend, BaseView
     @Override
     protected void convert(final BaseViewHolder holder, final Recommend item) {
         holder.setText(R.id.op_name, item.getName())
-                .setText(R.id.op_price, StringUtil.formatNum(item.getCurrency_num()) + "飞磨豆");
+                .setText(R.id.op_price, StringUtil.formatNum(item.getCurrency_num()) + "魔豆");
 
         if (mCheckStates.get(holder.getAdapterPosition())) {
             holder.setImageResource(R.id.op_choose, R.drawable.radiobtn_blue_on);

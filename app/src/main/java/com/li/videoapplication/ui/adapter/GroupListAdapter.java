@@ -6,7 +6,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
@@ -14,7 +13,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.GroupListActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.utils.StringUtil;
@@ -30,7 +29,7 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
      * 跳转：圈子详情
      */
     private void startGroupDetailActivity(Game item) {
-        ActivityManeger.startGroupDetailActivity(getContext(), item.getGroup_id());
+        ActivityManager.startGroupDetailActivity(getContext(), item.getGroup_id());
     }
 
     public GroupListAdapter(Context context, List<Game> data) {

@@ -7,6 +7,8 @@ import android.util.Log;
 import com.ifeimo.im.common.MD5;
 import com.ifeimo.im.common.bean.ConnectBean;
 import com.ifeimo.im.common.bean.UserBean;
+import com.ifeimo.im.framwork.Proxy;
+import com.ifeimo.im.framwork.interface_im.ILock;
 
 /**
  * Created by lpds on 2017/1/11.
@@ -61,13 +63,15 @@ public final class PManager {
     }
 
     public static void getCacheUser(Context context) {
-        if (context == null) {
-            return;
+        synchronized (Proxy.getLockManager().getLock(ILock.USER_LOCK)){
+            if (context == null) {
+                return;
+            }
+            SharedPreferences sharedPreferences = context.getSharedPreferences(USER, Context.MODE_PRIVATE);
+            UserBean.setMemberID(sharedPreferences.getString("MEMBER_ID", UserBean.getMemberID()));
+            UserBean.setAvatarUrl(sharedPreferences.getString("AVATARURL", UserBean.getAvatarUrl()));
+            UserBean.setNickName(sharedPreferences.getString("NICK_NAME", UserBean.getNickName()));
         }
-        SharedPreferences sharedPreferences = context.getSharedPreferences(USER, Context.MODE_PRIVATE);
-        UserBean.setMemberID(sharedPreferences.getString("MEMBER_ID", UserBean.getMemberID()));
-        UserBean.setAvatarUrl(sharedPreferences.getString("AVATARURL", UserBean.getAvatarUrl()));
-        UserBean.setNickName(sharedPreferences.getString("NICK_NAME", UserBean.getNickName()));
     }
 
     public static boolean isOldLogin(Context context) {
@@ -85,8 +89,10 @@ public final class PManager {
     }
 
     public static void clearCacheUser(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(USER, Context.MODE_PRIVATE);
-        sharedPreferences.edit().clear().commit();
+        synchronized (Proxy.getLockManager().getLock(ILock.USER_LOCK)){
+            SharedPreferences sharedPreferences = context.getSharedPreferences(USER, Context.MODE_PRIVATE);
+            sharedPreferences.edit().clear().commit();
+        }
     }
 
     @Deprecated

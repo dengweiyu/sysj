@@ -31,7 +31,7 @@ import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.BitmapLoader;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.PhotoHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.MyPersonalInfoAdapter;
 import com.li.videoapplication.ui.dialog.GetMoreMoneyDialog;
@@ -59,14 +59,14 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
      * 跳转：登录
      */
     public void startLoginActivity() {
-        ActivityManeger.startLoginActivity(this);
+        ActivityManager.startLoginActivity(this);
     }
 
     /**
      * 跳转：历史战绩
      */
     public void startMatchRecordActivity() {
-        ActivityManeger.startMatchRecordActivity(this);
+        ActivityManager.startMatchRecordActivity(this);
     }
 
     private PhotoHelper photoHelper = new PhotoHelper();
@@ -92,6 +92,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
     private TextView gender;
     private TextView introduce;
     private TextView qq, mobile, beanNum, matchRecord;
+    private TextView currencyNum;
 
     private Member member = getUser();
 
@@ -160,6 +161,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         gender = (TextView) findViewById(R.id.mypersonnalinfo_gender);
         introduce = (TextView) findViewById(R.id.mypersonnalinfo_introduce);
         beanNum = (TextView) findViewById(R.id.mypersonnalinfo_bean_num);
+        currencyNum = (TextView)findViewById(R.id.tv_person_info_currency_num);
         matchRecord = (TextView) findViewById(R.id.mypersonnalinfo_matchrecord);
         qq = (TextView) findViewById(R.id.mypersonnalinfo_qq);
         mobile = (TextView) findViewById(R.id.mypersonnalinfo_mobile);
@@ -173,7 +175,8 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         findViewById(R.id.mypersonnalinfo_matchrecord_btn).setOnClickListener(this);
         findViewById(R.id.mypersonnalinfo_gameedit).setOnClickListener(this);
         findViewById(R.id.mypersonnalinfo_qq_btn).setOnClickListener(this);
-        findViewById(R.id.mypersonnalinfo_bean_btn).setOnClickListener(this);
+        findViewById(R.id.ll_beans).setOnClickListener(this);
+        findViewById(R.id.ll_currency).setOnClickListener(this);
         findViewById(R.id.ll_personal_info_vip_center).setOnClickListener(this);
 
         findViewById(R.id.ll_mypersonnalinfo_horizonid).setOnLongClickListener(mLongClickListener);
@@ -203,13 +206,20 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
     final View.OnClickListener mChoiceListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
+            int mode = (Integer) v.getTag();
             switch (v.getId()){
                case  R.id.tv_confirm_dialog_no:         //充值
-                   ActivityManeger.startTopUpActivity(MyPersonalInfoActivity.this, Constant.TOPUP_ENTRY_INFO,0);
-
+                   if(mode == GetMoreMoneyDialog.MODE_BEANS){
+                       ActivityManager.startTopUpActivity(MyPersonalInfoActivity.this, Constant.TOPUP_ENTRY_INFO,0);
+                   }else {
+                       ActivityManager.startTopUpActivity(MyPersonalInfoActivity.this, Constant.TOPUP_ENTRY_INFO,1);
+                   }
                    break;
                case  R.id.tv_confirm_dialog_yes:        //做任务
-                   ActivityManeger.startMyWalletActivity(MyPersonalInfoActivity.this);
+
+                   if (mode == GetMoreMoneyDialog.MODE_BEANS){
+                       ActivityManager.startMyWalletActivity(MyPersonalInfoActivity.this, MyWalletActivity.PAGE_TASK);
+                   }
                    break;
             }
         }
@@ -223,16 +233,19 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 DialogManager.showEditSexDialog(this);
                 break;
             case R.id.mypersonnalinfo_name_btn://昵称
-                ActivityManeger.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.NAME);
+                ActivityManager.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.NAME);
                 break;
             case R.id.mypersonnalinfo_introduce_btn://个性签名
-                ActivityManeger.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.SIGNATURE);
+                ActivityManager.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.SIGNATURE);
                 break;
-            case R.id.mypersonnalinfo_bean_btn:
-                new GetMoreMoneyDialog(this,"想获得更多飞磨豆吗？可通过做任务或充值获得哟！",mChoiceListener).show();
+            case R.id.ll_currency:
+                new GetMoreMoneyDialog(this,"想获得更多魔币？可通过充值获得哟！",GetMoreMoneyDialog.MODE_CURRENCY,mChoiceListener).show();
+                break;
+            case R.id.ll_beans:
+                new GetMoreMoneyDialog(this,"想获得更多魔豆吗？可通过做任务获得哟！",GetMoreMoneyDialog.MODE_BEANS,mChoiceListener).show();
                 break;
             case R.id.mypersonnalinfo_gameedit://游戏类型
-                ActivityManeger.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.GAME);
+                ActivityManager.startPersonalInfoEditActivity(this, PersonalInfoEditActivity.GAME);
                 break;
             case R.id.mypersonnalinfo_matchrecord_btn://赛事战绩
                 startMatchRecordActivity();
@@ -257,7 +270,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 break;
 
             case  R.id.ll_personal_info_vip_center: //会员中心
-                ActivityManeger.startTopUpActivity(this,Constant.TOPUP_ENTRY_INFO,1);
+                ActivityManager.startTopUpActivity(this,Constant.TOPUP_ENTRY_INFO,2);
                 break;
 
             case R.id.mypersonnalinfo_logout_btn://注销
@@ -308,6 +321,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
 
             setTextViewText(qq, item.getQq());
             setTextViewText(beanNum, StringUtil.formatNum(item.getCurrency()));
+            setTextViewText(currencyNum, StringUtil.formatNum(item.getCoin()));
             setTextViewText(mobile, item.getMobile());
             //红色：#ff3d2e，蓝色：#48c5ff
             String record = TextUtil.toColor(item.getWin(), "#ff3d2e")
@@ -404,6 +418,10 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        if (is == null){
+            return originPath;
+        }
+
         Bitmap bitmap = BitmapFactory.decodeStream(is);
         // 图片允许最大空间 单位：KB（因为实际读取的原文件要大，所以设置值要为15K，不是20K)
         double maxSize = 100.00;

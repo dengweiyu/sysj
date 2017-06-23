@@ -5,7 +5,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.fmsysj.screeclibinvoke.utils.RootUtil;
 import com.ifeimo.screenrecordlib.RecordingManager;
@@ -15,7 +14,7 @@ import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseDialog;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
@@ -58,7 +57,7 @@ public class ActivityRecordDialog extends BaseDialog implements View.OnClickList
      * 跳转：外拍（5.0以上）
      */
     private void startCameraRecoed50Activity() {
-        ActivityManeger.startCameraRecoed50Activity(activity);
+        ActivityManager.startCameraRecoed50Activity(activity);
         UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MAIN, "发布-拍摄-点击右上角发布按钮后点击拍摄视频按钮");
     }
 
@@ -66,7 +65,7 @@ public class ActivityRecordDialog extends BaseDialog implements View.OnClickList
      * 跳转：外拍（5.0以下）
      */
     private void startCameraRecoedActivity() {
-        ActivityManeger.startCameraRecoedActivity(activity);
+        ActivityManager.startCameraRecoedActivity(activity);
         UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MAIN, "发布-拍摄-点击右上角发布按钮后点击拍摄视频按钮");
     }
 
@@ -74,7 +73,7 @@ public class ActivityRecordDialog extends BaseDialog implements View.OnClickList
      * 跳转：图文分享
      */
     private void startHomeImageShareActivity() {
-        ActivityManeger.startHomeImageShareActivity(activity, null, false);
+        ActivityManager.startHomeImageShareActivity(activity, null, false);
         UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MAIN, "发布-图文-点击右上角发布按钮后点击图文按钮");
     }
 
@@ -82,7 +81,7 @@ public class ActivityRecordDialog extends BaseDialog implements View.OnClickList
      * 跳转：选择上传视频
      */
     private void startVideoChooseActivity() {
-        ActivityManeger.startVideoChooseActivity(getContext(), null, VideoShareActivity.TO_VIDEOMANAGER);
+        ActivityManager.startVideoChooseActivity(getContext(), null, VideoShareActivity.TO_VIDEOMANAGER);
         UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MAIN, "发布-视频-点击右上角发布按钮后点击视频按钮");
     }
 

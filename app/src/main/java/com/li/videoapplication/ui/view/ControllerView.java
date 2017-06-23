@@ -12,11 +12,14 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.model.event.ResetTimeLineEvent;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.views.TouchSeekBar;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 视图：播放控制
@@ -105,8 +108,9 @@ public class ControllerView extends RelativeLayout implements View.OnClickListen
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 setTime();
-                if (videoPlayView != null)
+                if (videoPlayView != null){
                     videoPlayView.seekToVideo(this.progress);
+                }
             }
         });
     }
@@ -125,6 +129,9 @@ public class ControllerView extends RelativeLayout implements View.OnClickListen
                     setZoom(false);
                 }
             }
+            //
+            UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MACROSCOPIC_DATA, "竖屏切换到横屏点击");
+
         }
     }
 

@@ -1,9 +1,6 @@
 package com.li.videoapplication.mvp.home.view;
 
 import android.app.Activity;
-import android.app.DownloadManager;
-import android.os.Debug;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,23 +8,16 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-import com.google.gson.JsonSyntaxException;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
-import com.ifeimo.im.framwork.Proxy;
-import com.ifeimo.im.framwork.message.OnHtmlItemClickListener;
-import com.li.videoapplication.data.download.DownLoadExecutor;
 import com.li.videoapplication.data.model.entity.LaunchImage;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
-import com.li.videoapplication.data.preferences.Constants;
-import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.mvp.adapter.HomeMultipleAdapter;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
@@ -41,18 +31,16 @@ import com.li.videoapplication.data.model.entity.Banner;
 import com.li.videoapplication.data.model.entity.VideoImageGroup;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
-import com.li.videoapplication.tools.AppExceptionHandler;
 import com.li.videoapplication.tools.ArrayHelper;
 import com.li.videoapplication.tools.RandomUtil;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.ui.adapter.BannerAdapter;
 import com.li.videoapplication.ui.view.HomeTaskView;
-import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.ClickUtil;
 import com.li.videoapplication.utils.GDTUtil;
 import com.li.videoapplication.utils.HareWareUtil;
@@ -115,21 +103,21 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
      * 跳转：首页更多
      */
     private void startHomeMoreActivity(VideoImageGroup group) {
-        ActivityManeger.startHomeMoreActivity(getActivity(), group);
+        ActivityManager.startHomeMoreActivity(getActivity(), group);
     }
 
     /**
      * 跳转：圈子详情
      */
     private void startGameDetailActivity(String group_id) {
-        ActivityManeger.startGroupDetailActivity(getActivity(), group_id);
+        ActivityManager.startGroupDetailActivity(getActivity(), group_id);
     }
 
     /**
      * 跳转：风云榜
      */
     private void startBillboardActivity() {
-        ActivityManeger.startBillboardActivity(getActivity(), BillboardActivity.TYPE_PLAYER);
+        ActivityManager.startBillboardActivity(getActivity(), BillboardActivity.TYPE_PLAYER);
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MAIN, "热门主播更多");
     }
 
@@ -146,7 +134,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
      */
     public void startDownloadManagerActivity(LaunchImage launchImage) {
         Log.d(tag, "startDownloadManagerActivity: ");
-        ActivityManeger.startDownloadManagerActivity(getActivity(), launchImage);
+        ActivityManager.startDownloadManagerActivity(getActivity(), launchImage);
     }
 
     @Override
@@ -308,7 +296,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                             UmengAnalyticsHelper.onMainGameMoreEvent(getActivity(), item.getData().getVideoGroupItem().getMore_mark());
                         } else {
                             if (item.getData().getVideoGroupItem().getMore_mark().equals("player_square")) { //玩家广场
-                                ActivityManeger.startSquareActivity(getActivity(),null);
+                                ActivityManager.startSquareActivity(getActivity(),null);
                                 UmengAnalyticsHelper.onEvent(getActivity(),UmengAnalyticsHelper.MAIN,"首页-玩家广场-更多");
                             } else {
                                 startHomeMoreActivity(item.getData().getVideoGroupItem());

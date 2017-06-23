@@ -6,7 +6,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -24,7 +23,7 @@ import com.li.videoapplication.data.model.response.GroupGamerListEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.animation.RecyclerViewAnim;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
 import com.li.videoapplication.ui.adapter.GroupDetailPlayerAdapter;
 import com.li.videoapplication.utils.StringUtil;
@@ -34,7 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 碎片：玩家
@@ -60,7 +58,7 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
         if (StringUtil.isNull(member.getId())) {
             member.setId(member.getMember_id());
         }
-        ActivityManeger.startPlayerDynamicActivity(getActivity(), member);
+        ActivityManager.startPlayerDynamicActivity(getActivity(), member);
 
         if (null != activity && activity.isSingleEvent){
             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name()+"-"+"游戏圈-玩家-头像");

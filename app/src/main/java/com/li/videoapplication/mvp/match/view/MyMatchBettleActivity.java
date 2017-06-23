@@ -26,7 +26,7 @@ import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
@@ -61,7 +61,7 @@ public class MyMatchBettleActivity extends TBaseAppCompatActivity implements Vie
      * 跳转：选择上传视频
      */
     private void startVideoChooseActivity() {
-        ActivityManeger.startVideoChooseActivity(this, null, VideoShareActivity.TO_FINISH);
+        ActivityManager.startVideoChooseActivity(this, null, VideoShareActivity.TO_FINISH);
     }
 
     @Override
@@ -182,7 +182,7 @@ public class MyMatchBettleActivity extends TBaseAppCompatActivity implements Vie
             case R.id.ongoing_customerservice://客服
                 if (RongIM.getInstance() != null && !StringUtil.isNull(customerServiceID) &&
                         !StringUtil.isNull(customerServiceName)) {
-                    ActivityManeger.startConversationActivity(this,
+                    ActivityManager.startConversationActivity(this,
                             customerServiceID,
                             customerServiceName,
                             false);
@@ -240,7 +240,7 @@ public class MyMatchBettleActivity extends TBaseAppCompatActivity implements Vie
         //引导句子1：匹配对手成功后，点击约战TA进行比赛，如果对方未在19:00前与您对战，则截屏聊天记录或其他截图证明上传。
         //红色：#ff3d2e，蓝色：#48c5ff
         //引导句子3  红色：#ff3d2e，蓝色：#48c5ff
-        String s1 = "上传" + TextUtil.toColor("比赛视频", "#48c5ff") + "奖励" + TextUtil.toColor(currencyNum, "#ff3d2e") + "飞磨豆";
+        String s1 = "上传" + TextUtil.toColor("比赛视频", "#48c5ff") + "奖励" + TextUtil.toColor(currencyNum, "#ff3d2e") + "魔豆";
         notice1.setText(Html.fromHtml(s1));
 
     }

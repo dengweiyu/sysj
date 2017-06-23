@@ -51,13 +51,6 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="12dp" />
 
-    <!--标题栏  28/32-->
-    <com.li.videoapplication.ui.view.TitleBarView
-        android:id="@+id/videoplay_titlebar"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerVertical="true" />
 
     <!--播放控制 竖屏  32/38-->
     <com.li.videoapplication.ui.view.ControllerView
@@ -126,5 +119,70 @@
         android:layout_height="38dp"
         android:layout_centerInParent="true"
         android:visibility="gone" />
+    <!--视频未审核-->
+    <RelativeLayout
+        android:id="@+id/rl_verify_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/iv_verify_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.9"
+            android:background="#88000000"></View>
+        <TextView
+            android:id="@+id/tv_verify_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="视频正在审核中..."
+            android:textColor="@color/white"/>
+    </RelativeLayout>
+    <!--标题栏  28/32-->
+    <com.li.videoapplication.ui.view.TitleBarView
+        android:id="@+id/videoplay_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true" />
 
+    <!--横屏时打赏按钮-->
+    <ImageView
+        android:id="@+id/iv_play_gift_right"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/play_gift"
+        android:visibility="gone"
+        android:layout_centerVertical="true"/>
+
+
+    <!--横屏打赏榜时间轴-->
+    <RelativeLayout
+        android:id="@+id/rv_play_gift_list_h"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="72dp"
+        android:background="@color/transparent_background">
+    </RelativeLayout>
+
+    <!--横屏打赏页面-->
+    <RelativeLayout
+        android:id="@+id/fg_play_gift_h"
+        android:name="com.li.videoapplication.ui.fragment.VideoPlayGiftFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@color/transparent_background">
+    </RelativeLayout>
 </RelativeLayout>

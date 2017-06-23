@@ -2,9 +2,7 @@ package com.li.videoapplication.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,14 +30,12 @@ import com.li.videoapplication.tools.BitmapLoader;
 import com.li.videoapplication.tools.PhotoHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.GroupDetailVideoAdapter;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
-import com.li.videoapplication.utils.BitmapUtil;
 import com.li.videoapplication.utils.ExpandUtil;
 import com.li.videoapplication.utils.StringUtil;
-import com.li.videoapplication.utils.ThreadUtil;
 import com.li.videoapplication.views.CircleImageView;
 
 import java.io.File;
@@ -55,7 +51,7 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
      * 跳转：我的个人中心
      */
     public void startMyPersonalCenterActivity() {
-        ActivityManeger.startMyPersonalCenterActivity(this);
+        ActivityManager.startMyPersonalCenterActivity(this);
         UmengAnalyticsHelper.onEvent(this,UmengAnalyticsHelper.DISCOVER,"动态-个人");
     }
 
@@ -63,21 +59,21 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
      * 跳转：我的粉丝
      */
     public void startMyPlayerActivityMyFans() {
-        ActivityManeger.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFANS, getMember_id());
+        ActivityManager.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFANS, getMember_id());
     }
 
     /**
      * 跳转：我的关注
      */
     public void startMyPlayerActivityMyFocus() {
-        ActivityManeger.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFOCUS, getMember_id());
+        ActivityManager.startMyPlayerActivity(this, MyPlayerActivity.PAGE_MYFOCUS, getMember_id());
     }
 
     /**
      * 跳转：我的个人资料
      */
     public void startMyPersonalInfoActivity() {
-        ActivityManeger.startMyPersonalInfoActivity(this);
+        ActivityManager.startMyPersonalInfoActivity(this);
     }
 
     private PhotoHelper photoHelper = new PhotoHelper();
@@ -108,7 +104,9 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
     private View emptyView;
 
     private Member item;
-
+    private TextView rewardGift;
+    private ImageView mFirstGift;
+    private ImageView mSecondGift;
     @Override
     public int getContentView() {
         return R.layout.activity_mydynamic;
@@ -179,7 +177,7 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
             tourist = headerView.findViewById(R.id.dynamic_tourist);
 
 
-            personalcenter = headerView.findViewById(R.id.dynamic_personalcenter);
+         //   personalcenter = headerView.findViewById(R.id.dynamic_personalcenter);
 
             loginIcon = (ImageView) headerView.findViewById(R.id.dynamic_loginIcon);
             loginText = (TextView) headerView.findViewById(R.id.dynamic_loginText);
@@ -195,12 +193,18 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
             go = (ImageView) headerView.findViewById(R.id.dynamic_go);
             touch = (RelativeLayout) headerView.findViewById(R.id.dynamic_touch);
 
+            rewardGift = (TextView)headerView.findViewById(R.id.tv_receive_gift);
+            mFirstGift = (ImageView) headerView.findViewById(R.id.iv_first_gift);
+            mSecondGift = (ImageView) headerView.findViewById(R.id.iv_second_gift);
+            headerView.findViewById(R.id.ll_receive_gift).setOnClickListener(this);
+            rewardGift.setOnClickListener(this);
+
             loginIcon.setOnClickListener(this);
             loginText.setOnClickListener(this);
             fans.setOnClickListener(this);
             attention.setOnClickListener(this);
-            personalcenter.setOnClickListener(this);
-            textBtn.setOnClickListener(this);
+           // personalcenter.setOnClickListener(this);
+        //    textBtn.setOnClickListener(this);
             touch.setOnClickListener(this);
             go.setOnClickListener(this);
 
@@ -263,6 +267,22 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
                 }
 
                 setMark(fans, attention, item);
+
+                if(item.getRewardInfo() == null||item.getRewardInfo().getGift_icon() == null||!item.getRewardInfo().isHasGift()){
+                    rewardGift.setText("收到的礼物：暂无");
+                }else {
+                    rewardGift.setText("收到的礼物：");
+                    if (item.getRewardInfo().getGift_icon().size() >= 1){
+                        if (mFirstGift != null){
+                            GlideHelper.displayImage(this,item.getRewardInfo().getGift_icon().get(0),mFirstGift);
+                        }
+                    }
+                    if (item.getRewardInfo().getGift_icon().size() >= 2){
+                        if (mSecondGift != null){
+                            GlideHelper.displayImage(this,item.getRewardInfo().getGift_icon().get(1),mSecondGift);
+                        }
+                    }
+                }
             }
         } else {// 游客
             tourist.setVisibility(View.VISIBLE);
@@ -317,13 +337,13 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
                 }
                 break;
 
-            case R.id.dynamic_personalcenter:// 我的个人中心
+         /*   case R.id.:// 我的个人中心
                 if (!isLogin()) {
                     DialogManager.showLogInDialog(this);
                     return;
                 }
                 startMyPersonalCenterActivity();
-                break;
+                break;*/
 
             case R.id.dynamic_go:// 我的个人资料
                 if (!isLogin()) {
@@ -334,9 +354,6 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
                 break;
 
             case R.id.dynamic_touch:// 更换封面
-                break;
-
-            case R.id.dynamic_textBtn:// 更换封面
                 if (!isLogin()) {
                     DialogManager.showLogInDialog(this);
                     return;
@@ -344,12 +361,17 @@ public class MyDynamicActivity extends PullToRefreshActivity<VideoImage> impleme
                 DialogManager.showPhotoDialog(this, this, this);
                 break;
 
+
             case R.id.photo_pick:
                 pickPhoto();
                 break;
 
             case R.id.photo_take:
                 takePhoto();
+                break;
+            case R.id.tv_receive_gift:
+            case R.id.ll_receive_gift:
+                ActivityManager.startMyGiftBillActivity(this,getMember_id());
                 break;
         }
     }

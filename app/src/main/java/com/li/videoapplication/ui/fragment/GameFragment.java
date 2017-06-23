@@ -110,7 +110,9 @@ public class GameFragment extends TBaseChildFragment {
 	
 	public void setCurrentItem(int pager) {
 		if (pager == 0 || pager == 1) {
-			mViewPager.setCurrentItem(pager);
+			if (mViewPager != null){
+				mViewPager.setCurrentItem(pager);
+			}
 		}
 	}
 

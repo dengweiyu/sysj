@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * Created by lpds on 2017/1/17.
  */
+@Deprecated
 public class FriendFragment extends BaseFragment {
     private ListView listView;
     private List<AccountBean> list = new ArrayList<>();

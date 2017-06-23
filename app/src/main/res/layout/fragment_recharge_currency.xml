@@ -1,20 +1,22 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:clipToPadding="true"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="true">
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="#f7f7f7" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <com.li.videoapplication.views.CircleImageView
@@ -45,7 +47,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="飞磨豆余额："
+                android:text="魔豆余额："
                 android:textColor="@color/currency_red"
                 android:textSize="13sp" />
 
@@ -64,7 +66,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:background="#f7f7f7" />
+        android:background="@color/activity_main_bg"></View>
+    <include
+        layout="@layout/layout_my_currency"></include>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/activity_main_bg"></View>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -93,7 +101,7 @@
             android:id="@+id/topup_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="(1人民币=1000飞磨豆)"
+            android:text="(1人民币=1000魔豆)"
             android:textColor="#757575"
             android:layout_marginStart="6dp"
             android:textSize="12sp" />
@@ -106,6 +114,7 @@
         android:layout_marginEnd="38dp"
         android:layout_marginStart="38dp"
         android:layout_marginTop="26dp"
+        android:layout_marginBottom="26dp"
         android:background="#ffc10e"
         android:clickable="true">
 
@@ -120,3 +129,5 @@
     </RelativeLayout>
 
 </LinearLayout>
+
+</ScrollView>

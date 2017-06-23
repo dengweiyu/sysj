@@ -18,7 +18,7 @@ import com.li.videoapplication.data.model.response.MemberCurrencyEntity;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.mvp.adapter.MallExpListViewAdapter;
 import com.li.videoapplication.utils.AppUtil;
@@ -45,7 +45,7 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
      * 跳转：兑换记录
      */
     private void startExchangeRecordActivity() {
-        ActivityManeger.startExchangeRecordActivity(this);
+        ActivityManager.startExchangeRecordActivity(this);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
     @Override
     public void onResume() {
         super.onResume();
-        //个人飞磨豆数量
+        //个人魔豆数量
         DataManager.getMemberCurrency(getMember_id());
     }
 
@@ -145,7 +145,7 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
                 break;
             case R.id.mall_pic:
                 if (isLogin())
-                    ActivityManeger.startMyPersonalInfoActivity(this);
+                    ActivityManager.startMyPersonalInfoActivity(this);
                 break;
         }
     }
@@ -179,7 +179,7 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
     }
 
     /**
-     * 回调：个人飞磨豆数量
+     * 回调：个人魔豆数量
      */
     public void onEventMainThread(MemberCurrencyEntity event) {
         setTextViewText(beanNum, StringUtil.formatNum(event.getCurrency()));

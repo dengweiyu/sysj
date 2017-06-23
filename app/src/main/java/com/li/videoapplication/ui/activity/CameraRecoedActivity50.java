@@ -24,7 +24,7 @@ import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.BitmapHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,13 +51,13 @@ public class CameraRecoedActivity50 extends TBaseActivity implements OnClickList
     }
 
     private void startVideoMangerActivity() {
-        ActivityManeger.startVideoMangerActivity(this, game);
+        ActivityManager.startVideoMangerActivity(this, game);
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "发布-拍摄-点击视频管理按钮次数");
     }
 
     private void startVideoShareActivity() {
         if (entity != null) {
-            ActivityManeger.startVideoShareActivity210(this, entity, game, VideoShareActivity.TO_VIDEOMANAGER);
+            ActivityManager.startVideoShareActivity210(this, entity, game, VideoShareActivity.TO_VIDEOMANAGER);
             finish();
         }
     }

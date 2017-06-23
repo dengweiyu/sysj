@@ -497,7 +497,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="队长填写队员手机号会获得飞磨豆奖励，队员也可获得飞磨豆奖励。"
+                    android:text="队长填写队员手机号会获得魔豆奖励，队员也可获得魔豆奖励。"
                     android:textColor="@color/textcolor_gray"
                     android:textSize="11sp" />
 

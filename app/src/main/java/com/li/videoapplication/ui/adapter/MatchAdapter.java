@@ -48,7 +48,7 @@ public class MatchAdapter extends BaseQuickAdapter<Currency, BaseViewHolder> {
             holder.setVisible(R.id.match_ratio, false);
         }
 
-        //##飞磨豆（每日限奖1次） --> 200飞磨豆（每日限奖1次）
+        //##魔豆（每日限奖1次） --> 200魔豆（每日限奖1次）
         String reward = TextUtil.toColor(currency.getReward(), "#f7b500");
         String description = currency.getDescription().replace("##", reward);
         holder.setText(R.id.match_description, Html.fromHtml(description));

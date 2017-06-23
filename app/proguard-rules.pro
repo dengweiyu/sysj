@@ -11,6 +11,8 @@
 #---------------------------------默认保留区---------------------------------
 #继承activity,application,service,broadcastReceiver,contentprovider....不进行混淆
 -keep public class * extends android.app.Activity
+-keep public class * extends android.app.Fragment
+-keep public class * extends android.support.v4.app.Fragment
 -keep public class * extends android.app.Application
 -keep public class * extends android.support.multidex.MultiDexApplication
 -keep public class * extends android.app.Service
@@ -19,6 +21,7 @@
 -keep public class * extends android.app.backup.BackupAgentHelper
 -keep public class * extends android.preference.Preference
 -keep public class * extends android.view.View
+-keep public class * extends android.view.ViewGroup
 -keep public class com.android.vending.licensing.ILicensingService
 -keep class android.support.** {*;}
 
@@ -255,6 +258,28 @@
  }
 
 
+#smack
+-keep class org.**
+-dontwarn java.awt.Frame
+-dontwarn org.jivesoftware.smackx.jingleold.mediaimpl.**
+-dontwarn javax.media.ControllerListener
+-dontwarn javax.persistence.**
+-dontnote javax.persistence.**
+-dontwarn org.apache.commons.logging.**
+-dontnote org.apache.commons.logging.**
+-dontwarn org.apache.commons.codec.**
+-dontnote org.apache.commons.codec.**
+-dontwarn org.apache.http.entity.ContentType
+-dontwarn org.apache.http.impl.**
+-dontwarn org.slf4j.**
+-dontnote org.slf4j.**
+-dontwarn com.jcraft.jzlib.**
+-dontnote com.jcraft.jzlib.**
+-dontwarn org.xbill.**
+-dontnote org.xbill.**
+-dontwarn org.jivesoftware.smackx.jingleold.nat.**
+-dontnote org.jivesoftware.smackx.jingleold.nat.**
+-dontwarn org.jivesoftware.smack.bosh.**
 
 #eventbus 3.0
 -keepattributes *Annotation*
@@ -448,3 +473,20 @@ public void xxxxxx(**);
 -keepclassmembers class * {
     @org.xutils.view.annotation.Event <methods>;
 }
+
+#实体类
+-keep public class * extends com.li.videoapplication.framework.**{*;}
+-keep public class com.li.videoapplication.framework.**{*;}
+-keep public class com.li.videoapplication.data.model.**{*;}
+-keep public class com.fmsysj.screeclibinvoke.data.model.**{*;}
+
+-keep public class y.com.sqlitesdk.framework.entity.**{*;}
+-keep public class com.ifeimo.im.common.bean.**{*;}
+
+#自定义组件
+-keep public class com.li.videoapplication.views.**{*;}
+
+#弹幕库
+-keep class master.flame.danmaku.**{*;}
+-keep class tv.cjump.jni.**{*;}
+-keep class tv.danmaku.ijk.**{*;}

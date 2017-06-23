@@ -36,7 +36,6 @@ public class LoadingDialog extends BaseDialog {
 	public static String CUTTING = "剪辑中...";
 	public static String MUXING = "合成中...";
 	public static String SAVING = "保存中...";
-
 	private TextView textView;
 	private ImageView imageView;
 	

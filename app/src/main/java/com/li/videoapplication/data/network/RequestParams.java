@@ -87,6 +87,16 @@ public class RequestParams {
         return map;
     }
 
+    public Map<String, Object> paymentCoin(String member_id, String coin_num, int pay_type, int ingress) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        map.put("coin_num", coin_num);
+        map.put("pay_type", pay_type);
+        map.put("ingress", ingress);
+        map.put("target", SYSJ);
+        return map;
+    }
+
     public Map<String, Object> payment(String member_id, String goods_id, String mobile, String account) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
@@ -129,6 +139,13 @@ public class RequestParams {
     public Map<String, Object> getOrderList(String member_id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
+        return map;
+    }
+
+    public Map<String, Object> getBillList(String member_id,int type) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        map.put("type", type);
         return map;
     }
 
@@ -676,6 +693,7 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("video_id", video_id);
         map.put("member_id", member_id);
+        map.put("target",SYSJ);
         return map;
     }
 
@@ -1982,6 +2000,14 @@ public class RequestParams {
         return map;
     }
 
+    public Map<String, Object> videoClickVideo221(String video_id, String member_id,int mark) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("video_id", video_id);
+        map.put("member_id", member_id);
+        map.put("videoMark",mark);
+        return map;
+    }
+
     public Map<String, Object> videoDownLoad201(String video_id) {
         Map<String, Object> map = new HashMap<>();
         map.put("video_id", video_id);
@@ -2049,6 +2075,51 @@ public class RequestParams {
     public Map<String, Object> vipInfo() {
         Map<String, Object> map = new HashMap<>();
         map.put("target", SYSJ);
+        return map;
+    }
+
+    public Map<String, Object> giftType() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("target", SYSJ);
+        return map;
+    }
+
+
+    public Map<String, Object> giftBill(String memberId,String userId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("user_id", userId);
+        return map;
+    }
+
+    public Map<String, Object> getPlayGiftList(String memberId,String videoId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("video_id", videoId);
+        return map;
+    }
+    public Map<String, Object> getGiftTimeLineList(String videoId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("video_id", videoId);
+        return map;
+    }
+
+    public Map<String, Object> playGift(String sign,String memberId,String videoId,String giftId,String videoNode,int number,long time) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("sign", sign);
+        map.put("member_id", memberId);
+        map.put("video_id", videoId);
+        map.put("gift_id", giftId);
+        map.put("video_node", videoNode);
+        map.put("target", SYSJ);
+        map.put("num", number);
+        map.put("timestamp", time);
+        return map;
+    }
+
+    public Map<String, Object> sharedSuccess(String videoId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("video_id", videoId);
         return map;
     }
 }

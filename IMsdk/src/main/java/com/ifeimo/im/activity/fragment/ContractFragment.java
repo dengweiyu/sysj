@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * Created by lpds on 2017/1/17.
  */
+@Deprecated
 public class ContractFragment extends BaseFragment {
     private ListView listView;
     private List<InformationModel> list = new ArrayList<>();

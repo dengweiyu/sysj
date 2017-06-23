@@ -7,6 +7,7 @@ import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.entity.TopUp;
+import com.li.videoapplication.data.model.response.BillEntity;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
@@ -21,6 +22,7 @@ import com.li.videoapplication.data.model.response.PhotoCollectionEntity;
 import com.li.videoapplication.data.model.response.PhotoFlowerEntity;
 import com.li.videoapplication.data.model.response.PlayerRankingCurrencyEntity;
 import com.li.videoapplication.data.model.response.PlayerRankingEntity;
+import com.li.videoapplication.data.model.response.RechargeCoinEntity;
 import com.li.videoapplication.data.model.response.ServiceNameEntity;
 import com.li.videoapplication.data.model.response.SignScheduleEntity;
 import com.li.videoapplication.data.model.response.TopUpOptionEntity;
@@ -474,6 +476,12 @@ public class HttpManager extends RetrofitUtils {
         setSubscribe(observable, observer);
     }
 
+    //充值魔币
+    public void paymentCoin(String member_id, String coin_num, int pay_type, int ingress, Observer<PaymentEntity> observer) {
+        Map<String, Object> params = RequestParams.getInstance().paymentCoin(member_id, coin_num, pay_type, ingress);
+        Observable<PaymentEntity> observable = service.paymentCoin(params);
+        setSubscribe(observable, observer);
+    }
 
     // 充值记录
     public void getTopUpRecordList(String member_id, Observer<List<TopUp>> observer) {
@@ -486,6 +494,17 @@ public class HttpManager extends RetrofitUtils {
     public void getPaymentList(String target,Observer<PaymentList> observer){
         Observable<PaymentList> observable = service.getPaymentList(target);
               //  .map(new HttpResultFunc<PaymentList>());
+        setSubscribe(observable, observer);
+    }
+
+    public void getCoinList(Observer<RechargeCoinEntity> observer){
+        Observable<RechargeCoinEntity> observable = service.getCoinList();
+        setSubscribe(observable, observer);
+    }
+
+    public void getBillList(String memeber_id,int type,Observer<BillEntity> observer){
+        Map<String, Object> params = RequestParams.getInstance().getBillList(memeber_id,type);
+        Observable<BillEntity> observable = service.getBillList(params);
         setSubscribe(observable, observer);
     }
 }

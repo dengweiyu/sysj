@@ -59,7 +59,7 @@
             android:maxLines="2"
             android:paddingEnd="12dp"
             android:paddingStart="12dp"
-            android:text="1000飞磨豆"
+            android:text="1000魔豆"
             android:textColor="@color/textcolor_french_gray"
             android:textSize="11sp" />
     </LinearLayout>

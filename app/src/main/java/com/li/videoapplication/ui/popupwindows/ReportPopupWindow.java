@@ -13,7 +13,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.ScreenUtil;
@@ -98,7 +98,7 @@ public class ReportPopupWindow extends PopupWindow implements OnClickListener, P
                 ToastHelper.s("请先登录");
                 return;
             }
-            ActivityManeger.startReportActivity(activity, videoImage);
+            ActivityManager.startReportActivity(activity, videoImage);
 			this.dismiss();
 		}
 	}

@@ -16,7 +16,7 @@ import com.li.videoapplication.mvp.mall.presenter.MallPresenter;
 import com.li.videoapplication.mvp.mall.view.ExchangeRecordFragment;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.RoundedImageView;
@@ -136,7 +136,7 @@ public class OrderDetailActivity extends TBaseActivity implements IExchangeRecor
                 }
                 break;
             case R.id.orderdetail_recommendgo:
-                ActivityManeger.startMainActivity(this);
+                ActivityManager.startMainActivity(this);
                 MainActivity mainActivity = AppManager.getInstance().getMainActivity();
                 mainActivity.slidingMenu.showContent();
                 break;
@@ -147,7 +147,7 @@ public class OrderDetailActivity extends TBaseActivity implements IExchangeRecor
         if (tab == ExchangeRecordFragment.EXC_MALL) {
             setImageViewImageNet(pic, data.getCover());
             setTextViewText(name, data.getGoods_name());
-            setTextViewText(beam, StringUtil.formatNum(data.getCurrency_num()) + "飞磨豆");
+            setTextViewText(beam, StringUtil.formatNum(data.getCurrency_num()) + "魔豆");
             try {
                 String time = TimeHelper.getWholeTimeFormat(data.getAdd_time());
                 setTextViewText(this.time, time);

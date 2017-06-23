@@ -4,8 +4,6 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -19,7 +17,7 @@ import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.mvp.home.view.HomeFragment;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 
@@ -33,7 +31,7 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
      * 跳转：视频播放
      */
     private void startVideoPlayActivity(VideoImage videoImage) {
-        ActivityManeger.startVideoPlayActivity(getContext(), videoImage);
+        ActivityManager.startVideoPlayActivity(getContext(), videoImage);
     }
 
     public YouLikeAdapter(Context context, List<VideoImage> data) {

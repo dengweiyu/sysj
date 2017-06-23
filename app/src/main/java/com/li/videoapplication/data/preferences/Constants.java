@@ -14,6 +14,7 @@ public class Constants {
 	public static final String TIP_GAME = "tipGame";// 遮罩提示页
 	public static final String TIP_DISCOVER = "tipDiscover";// 遮罩提示页
 	public static final String TIP_MATCH = "tipMatch";// 赛事提示页
+	public static final String TIP_PLAY_GIFT = "playGift";// 打赏提示页
 	public static final String VIDEO_IDS_TIME = "videoIdsTime";// 猜你喜欢保存的时间
 	public static final String COPY_LUPINGDSHI_TO_SYSJ = "copyLuPingDaShiToSysj";// 把/LuPingDaShi目录下的录屏/截屏复制到/sysj
 	public static final String LAUNCH_IMAHE_CHANGETIME = "launchImageChangeTime";// 启动广告时间截

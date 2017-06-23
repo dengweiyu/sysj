@@ -23,7 +23,7 @@ import com.li.videoapplication.mvp.match.MatchContract.IMatchPresenter;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchProcessView;
 import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.mvp.adapter.MatchProcessAdapter;
 import com.li.videoapplication.ui.adapter.MatchProcessHeaderAdapter;
 import com.li.videoapplication.utils.ClickUtil;
@@ -66,7 +66,7 @@ public class GameMatchProcessFragment extends TBaseFragment implements IMatchPro
         VideoImage videoImage = new VideoImage();
         videoImage.setId(video_id);
         videoImage.setVideo_id(video_id);
-        ActivityManeger.startVideoPlayActivity(getActivity(), videoImage);
+        ActivityManager.startVideoPlayActivity(getActivity(), videoImage);
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "赛程-对战表-视频");
     }
 
@@ -201,7 +201,7 @@ public class GameMatchProcessFragment extends TBaseFragment implements IMatchPro
                                 !StringUtil.isNull(record.getA_name()) &&
                                 !record.getA_member_id().equals(getMember_id())) {
 
-                            ActivityManeger.startConversationActivity(getActivity(),
+                            ActivityManager.startConversationActivity(getActivity(),
                                     record.getA_member_id(), record.getA_name(), false);
                             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "对战表-头像");
                         }
@@ -213,10 +213,10 @@ public class GameMatchProcessFragment extends TBaseFragment implements IMatchPro
 
                             if (record.getA_member_id().equals(getMember_id())) {
 
-                                ActivityManeger.startConversationActivity(getActivity(),
+                                ActivityManager.startConversationActivity(getActivity(),
                                         record.getB_member_id(), record.getB_name(), true, record.getB_qq());
                             } else {
-                                ActivityManeger.startConversationActivity(getActivity(),
+                                ActivityManager.startConversationActivity(getActivity(),
                                         record.getB_member_id(), record.getB_name(), false);
                             }
                             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "对战表-头像");

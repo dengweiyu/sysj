@@ -2,6 +2,68 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
 
+apply plugin: 'AndResGuard'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.3'
+    }
+}
+
+andResGuard {
+    // mappingFile = file("./resource_mapping.txt")
+    mappingFile = null
+    // It will be invalid when you sign apk with schemeV2
+    use7zip = true
+    useSign = true
+    // it will keep the origin path of your resources when it's true
+    keepRoot = false
+    whiteList = [
+            // your icon
+            "R.drawable.logo_round",
+            // for fabric
+            "R.string.com.crashlytics.*",
+            // for umeng update
+            "R.string.umeng*",
+            "R.string.UM*",
+            "R.string.tb_*",
+            "R.layout.umeng*",
+            "R.layout.tb_*",
+            "R.drawable.umeng*",
+            "R.drawable.tb_*",
+            "R.anim.umeng*",
+            "R.color.umeng*",
+            "R.color.tb_*",
+            "R.style.*UM*",
+            "R.style.umeng*",
+            "R.id.umeng*",
+            // umeng share for sina
+            "R.drawable.sina*",
+            // for google-services.json
+            "R.string.google_app_id",
+            "R.string.gcm_defaultSenderId",
+            "R.string.default_web_client_id",
+            "R.string.ga_trackingId",
+            "R.string.firebase_database_url",
+            "R.string.google_api_key",
+            "R.string.google_crash_reporting_api_key"
+    ]
+    compressFilePattern = [
+            "*.png",
+            "*.jpg",
+            "*.jpeg",
+            "*.gif",
+            "resources.arsc"
+    ]
+    sevenzip {
+        artifact = 'com.tencent.mm:SevenZip:1.2.3'
+        //path = "/usr/local/bin/7za"
+    }
+}
+
 android {
     packagingOptions {
         exclude 'META-INF/LICENSE'
@@ -44,8 +106,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
         // 20170104,2.1.4   test:20161122, 2.1.2
-        versionCode 20170519
-        versionName "2.2.0"
+        versionCode 20170623
+        versionName "2.2.1"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
         multiDexEnabled true
@@ -57,8 +119,8 @@ android {
             minifyEnabled false
             shrinkResources false
             zipAlignEnabled false
-
-            // 混淆文件的位置
+            signingConfig signingConfigs.feimo
+            // 混淆文件的位置  混淆规则未通过测试不完善
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // 输出apk名称为VideoApplication V1.1.7 build 20151105.apk
             applicationVariants.all { variant ->
@@ -77,6 +139,8 @@ android {
             shrinkResources false
             zipAlignEnabled false
             signingConfig signingConfigs.feimo
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -156,7 +220,7 @@ dependencies {
     compile project(':IMKit_v2_7_0')
     compile project(':sweet-alert-dialog')
     //emoji
-    compile project(':lib-emojix')
+  //  compile project(':lib-emojix')
     // 极光推送
     compile project(':JPush')
     // butterknife注解

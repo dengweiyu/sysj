@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/white">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white">
+
+        <include layout="@layout/toolbar_white" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/activity_main_bg"></View>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_my_gift_bill"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        app:tabIndicatorColor="@color/menu_main_red"
+        app:tabSelectedTextColor="@color/menu_main_red"
+        app:tabTextColor="#7c7c7c"></android.support.design.widget.TabLayout>
+
+        <com.li.videoapplication.views.ViewPagerY4
+            android:id="@+id/vp_my_gift_bill"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+</LinearLayout>

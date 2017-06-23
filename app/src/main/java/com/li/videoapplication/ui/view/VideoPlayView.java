@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,6 +15,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -24,8 +26,10 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.danmuku.DanmukuListEntity;
 import com.li.videoapplication.data.danmuku.DanmukuListXmlParser;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.event.ResetTimeLineEvent;
 import com.li.videoapplication.data.model.response.BulletList203Entity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
@@ -48,6 +52,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.rong.eventbus.EventBus;
+
 import static com.pili.pldroid.player.PLMediaPlayer.ERROR_CODE_READ_FRAME_TIMEOUT;
 
 /**
@@ -69,11 +75,12 @@ public class VideoPlayView extends RelativeLayout implements
     public static final int STATE_START = 4;// 开始播放
     public static final int STATE_TV = 5;// 乐播投屏
     public static final int STATE_ERROR = 9;// 错误
+    public static final int STATE_UNVETIFY = -1;    //视频未审核
 
     private int state = STATE_PREPARE;
 
     private View view;
-
+    private ImageView mUnVerifyView;
     private PrepareView prepareView;
     private ErrorView errorView;
     private StartView startView;
@@ -153,6 +160,9 @@ public class VideoPlayView extends RelativeLayout implements
         initContentView();
         minView();
     }
+
+
+
 
     private void initContentView() {
 
@@ -545,6 +555,11 @@ public class VideoPlayView extends RelativeLayout implements
             videoPlayer.seekToVideo(position);
             seekToDanmaku(progress);
             resumeDanmuku(videoPlayer.isPlayingVideo());
+
+            //拖动进度 重置时间轴
+            EventBus.getDefault().post(new ResetTimeLineEvent());
+
+            activity.resetTimeLineData();
         }
     }
 
@@ -593,8 +608,41 @@ public class VideoPlayView extends RelativeLayout implements
         }
     };
 
-    private long pos;
+    //播放进度监听器
+    public interface OnProgressListener{
+        void onProgress(long p);
+    }
 
+    private int mDelay;
+    //增加监听
+    private List<OnProgressListener> mOnPreparedListeners = new ArrayList<>();
+
+    /**
+     *
+     * @param listener
+     * @param delay
+     *              细粒度 所有新增的监听器会使用同一个细粒度
+     */
+    public void addOnPreparedListener(OnProgressListener listener,int delay){
+        mOnPreparedListeners.add(listener);
+        mDelay = delay;
+        if (progressHandlerNew == null){
+            progressHandlerNew = new Handler();
+        //    progressHandlerNew.post(progressRunnableNew);
+        }
+    }
+
+    //通知监听器
+    private void notifyOnPreparedListener(long p){
+        for (OnProgressListener listener:
+             mOnPreparedListeners) {
+            if (listener != null){
+                listener.onProgress(p);
+            }
+        }
+    }
+
+    private long pos;
     private PLMediaPlayer.OnPreparedListener onPreparedListener = new PLMediaPlayer.OnPreparedListener() {
 
         @Override
@@ -607,6 +655,7 @@ public class VideoPlayView extends RelativeLayout implements
             plMediaPlayer.start();
             plMediaPlayer.seekTo((int) pos);
             updateProgress();
+
             if (controllerView != null) {
                 controllerView.setPlay(false);
                 controllerView.setProgress();
@@ -691,6 +740,7 @@ public class VideoPlayView extends RelativeLayout implements
                 danmukuPlayer.hideDanmaku();
             try {
                 progressHandler.removeCallbacks(progressRunnable);
+              //  progressHandlerNew.removeCallbacks(progressRunnableNew);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -801,6 +851,10 @@ public class VideoPlayView extends RelativeLayout implements
         });
     }
 
+    public long getCurrentPosition(){
+        return videoPlayer.getCurrentPosition();
+    }
+
     private void updateProgress() {
         try {
             progressHandler.post(progressRunnable);
@@ -812,11 +866,13 @@ public class VideoPlayView extends RelativeLayout implements
     private void removeProgress() {
         try {
             progressHandler.removeCallbacks(progressRunnable);
+           // progressHandlerNew.removeCallbacks(progressRunnableNew);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    //进度条显示
     private Handler progressHandler = new Handler();
     private Runnable progressRunnable = new Runnable() {
 
@@ -841,9 +897,63 @@ public class VideoPlayView extends RelativeLayout implements
         }
     };
 
+    //新增进度监听  可控制细粒度
+    private Handler progressHandlerNew = null;
+    private Runnable progressRunnableNew = new Runnable() {
+
+        @Override
+        public void run() {
+            notifyOnPreparedListener(videoPlayer.getCurrentPosition());
+            progressHandlerNew.postDelayed(progressRunnableNew, mDelay);
+        }
+    };
+
+    /**
+     *视频审核中
+     */
+    private void initUnVerifyView(){
+        mUnVerifyView = (ImageView) findViewById(R.id.iv_verify_view);
+        if (videoImage != null){
+            GlideHelper.displayImageEmpty(getContext(),videoImage.getFlag(),mUnVerifyView);
+        }
+        View view =  findViewById(R.id.rl_verify_view);
+        view.setVisibility(View.VISIBLE);
+
+        //拦截事件
+        view.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+    }
+
     public void switchPlay(int state) {
         this.state = state;
         if (DEBUG) Log.d(tag, "switchPlay/state=" + state);
+
+        /**
+         * 视频未审核
+         */
+        if (state == STATE_UNVETIFY){
+            initUnVerifyView();
+            titleBarView.showView();
+            titleBarView.clearShaw();
+            touchView.hideView();
+            errorView.hideView();
+            startView.hideView();
+            completeView.hideView();
+            controllerView.hideView();
+            controllerViewLand.hideView();
+            rightBarView.hideView();
+            gprsTipView.showView();
+            leBoView.hideView();
+
+            videoPlayer.setVisibility(GONE);
+            webPlayer.setVisibility(GONE);
+            return;
+        }
+
 
         /**
          * 准备播放
@@ -1045,6 +1155,9 @@ public class VideoPlayView extends RelativeLayout implements
             videoPlayer.setOnPreparedListener(onPreparedListener);
             videoPlayer.setOnCompletionListener(onCompletionListener);
             videoPlayer.startVideo();
+            //开始播放 重置礼物时间轴
+            EventBus.getDefault().post(new ResetTimeLineEvent());
+            activity.resetTimeLineData();
         }
 
         if (pos == 0) {
@@ -1093,6 +1206,11 @@ public class VideoPlayView extends RelativeLayout implements
                 e.printStackTrace();
             }
         }
+
+        if (progressHandlerNew != null){
+            progressHandlerNew.removeCallbacksAndMessages(null);
+            progressHandlerNew.post(progressRunnableNew);
+        }
     }
 
     public void pause() {
@@ -1119,6 +1237,10 @@ public class VideoPlayView extends RelativeLayout implements
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+
+        if (progressHandlerNew != null){
+            progressHandlerNew.removeCallbacksAndMessages(null);
         }
 
     }
@@ -1155,7 +1277,9 @@ public class VideoPlayView extends RelativeLayout implements
             showHandler.removeCallbacksAndMessages(null);
         if (progressHandler != null)
             progressHandler.removeCallbacksAndMessages(null);
-
+        if (progressHandlerNew != null){
+            progressHandlerNew.removeCallbacksAndMessages(null);
+        }
 //        try {
 //            linkControl.colseHpplayLink();
 //        } catch (Exception e) {

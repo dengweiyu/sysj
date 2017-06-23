@@ -14,7 +14,7 @@ import android.widget.PopupWindow;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.ScreenUtil;
 
 /**
@@ -119,11 +119,13 @@ public class MoreTypePopupWindow extends PopupWindow implements OnClickListener 
     @Override
     public void onClick(View v) {
         if (v == game) {// 手机游戏
-            ActivityManeger.startSearchGameActivity(activity);
+
+            ActivityManager.startSearchGameActivity(activity);
             UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MACROSCOPIC_DATA, "手机游戏");
             this.dismiss();
         } else if (v == life) {// 精彩生活
-            ActivityManeger.startSearchLifeActivity(activity);
+            ActivityManager.startSearchLifeActivity(activity);
+
             UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MACROSCOPIC_DATA, "精彩生活");
             this.dismiss();
         }

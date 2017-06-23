@@ -79,7 +79,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="奖励飞磨豆"
+                        android:text="奖励魔豆"
                         android:textColor="#848484"
                         android:textSize="13sp"
                         android:visibility="gone" />

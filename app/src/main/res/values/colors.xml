@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--浅灰色-->
+    <color name="gray_tint">#eae9e9</color>
+    <!--深灰色-->
+    <color name="gray_deep">#cecdcd</color>
+
     <color name="fab_green">#0dd9d8</color>
     <color name="fab_green_pressed">#0a9695</color>
 

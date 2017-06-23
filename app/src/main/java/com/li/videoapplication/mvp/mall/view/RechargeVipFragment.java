@@ -15,7 +15,7 @@ import com.li.videoapplication.data.model.response.VipRechargeEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.mall.model.MallModel;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.adapter.VipCenterInfoAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.li.videoapplication.utils.TextUtil;
@@ -50,7 +50,7 @@ public class RechargeVipFragment extends TBaseFragment implements View.OnClickLi
      * 跳转：支付方式选择
      */
     private void startPaymentWayActivity(float money,int entry,int level) {
-        ActivityManeger.startPaymentWayActivity(getActivity(),money,0,entry, MallModel.USE_RECHARGE_VIP,level);
+        ActivityManager.startPaymentWayActivity(getActivity(),money,0,entry, MallModel.USE_RECHARGE_VIP,level);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class RechargeVipFragment extends TBaseFragment implements View.OnClickLi
 
 
     public void setPrice(float price){
-        String priceStr =  TextUtil.toColor(price+"", "#ff3d2e") + " 元/月";
+        String priceStr =  "支付："+TextUtil.toColor(price+"", "#ff3d2e") + " 元/月";
         mPrice.setText(Html.fromHtml(priceStr));
     }
 

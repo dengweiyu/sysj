@@ -1,13 +1,11 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
 
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/ll_root"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_white_bg"
+        android:background="@drawable/background_press"
         tools:ignore="DuplicateIds">
 
         <!-- 196dp -->
@@ -120,10 +118,10 @@
 
             <ImageView
                 android:id="@+id/dynamic_like"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:padding="4dp"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="9dp"
                 android:layout_toLeftOf="@+id/dynamic_likeCount"
                 android:src="@drawable/videoplay_good_gray_205"/>
 
@@ -140,10 +138,10 @@
 
             <ImageView
                 android:id="@+id/dynamic_star"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:padding="4dp"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="9dp"
                 android:layout_toLeftOf="@+id/dynamic_starCount"
                 android:src="@drawable/videoplay_star_gray_205"/>
 
@@ -160,10 +158,10 @@
 
             <ImageView
                 android:id="@+id/dynamic_comment"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:padding="4dp"
                 android:layout_centerInParent="true"
-                android:layout_marginRight="9dp"
                 android:layout_toLeftOf="@+id/dynamic_commentCount"
                 android:src="@drawable/videoplay_comment_gray_205"/>
 
@@ -176,6 +174,16 @@
                 android:text=""
                 android:textColor="#949494"
                 android:textSize="9sp"/>
+            <TextView
+                android:id="@+id/tv_video_upload_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="#8c8c8c"
+                android:textSize="10sp"/>
         </RelativeLayout>
 
         <TextView
@@ -192,13 +200,4 @@
             android:textColor="#454545"
             android:textSize="9sp"/>
 
-        <View
-            android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@+id/bottom"
-            android:background="#e2e2e2"/>
-
     </RelativeLayout>
-
-</LinearLayout>

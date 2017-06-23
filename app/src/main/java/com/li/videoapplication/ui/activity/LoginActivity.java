@@ -1,7 +1,5 @@
 package com.li.videoapplication.ui.activity;
 
-import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -13,11 +11,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.response.LoginEntity;
@@ -26,10 +22,8 @@ import com.li.videoapplication.data.model.response.VerifyCodeNewEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.AppConstant;
-import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.ShareSDKLoginHelper;
-import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.utils.AuthCodeUtil;
 import com.li.videoapplication.utils.CountDownTimerUtils;

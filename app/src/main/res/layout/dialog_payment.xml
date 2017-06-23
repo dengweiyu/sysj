@@ -20,7 +20,7 @@
             android:id="@+id/payment_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="确认兑换 [ 京东e卡50元面值 ] 兑换成功将扣除 250000 飞磨豆。(兑换成功可在兑换记录查看)"
+            android:text="确认兑换 [ 京东e卡50元面值 ] 兑换成功将扣除 250000 魔豆。(兑换成功可在兑换记录查看)"
             android:textColor="#686868"
             android:textSize="14sp"
             android:lineSpacingExtra="3dp"/>

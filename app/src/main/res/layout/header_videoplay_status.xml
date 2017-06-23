@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rl_video_play_status"
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:background="#ffffff"
@@ -9,13 +10,6 @@
     <View
         android:layout_alignParentTop="true"
         android:layout_marginTop="3dp"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#e2e2e2"/>
-
-    <View
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="3dp"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="#e2e2e2"/>

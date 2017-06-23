@@ -1,8 +1,9 @@
 package com.li.videoapplication.ui.fragment;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,18 +19,21 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Comment;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.event.RefreshCommendEvent;
 import com.li.videoapplication.data.model.response.CommentDelEntity;
 import com.li.videoapplication.data.model.response.VideoCommentListEntity;
+import com.li.videoapplication.data.model.response.VideoPlayGiftEntity;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
+import com.li.videoapplication.ui.adapter.PlayGiftListAdapter;
 import com.li.videoapplication.ui.adapter.VideoPlayCommentAdapter;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.utils.PatternUtil;
+import com.li.videoapplication.ui.dialog.GiftRankDialog;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 import com.li.videoapplication.views.sparkbutton.SparkButton;
@@ -51,7 +55,7 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
      * 跳转：玩家动态
      */
     private void startPlayerDynamicActivity(Member member) {
-        ActivityManeger.startPlayerDynamicActivity(getActivity(), member);
+        ActivityManager.startPlayerDynamicActivity(getActivity(), member);
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放-头像");
     }
 
@@ -67,6 +71,10 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
     private VideoPlayActivity activity;
     private PullToRefreshListView pullToRefreshListView;
     private ListView listView;
+    private RecyclerView mGiftList;
+    private TextView mGiftDetail;
+    private View mHadGift;
+    private View mPlayGift;
     private VideoPlayCommentAdapter adapter;
     private List<Comment> data;
     private boolean isFirstIn = true;
@@ -95,6 +103,8 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
     @Override
     protected void initContentView(View view) {
         activity = (VideoPlayActivity) getActivity();
+
+        empty = view.findViewById(R.id.ll_video_player_empty);
 
         pullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pulltorefresh);
         pullToRefreshListView.setMode(Mode.PULL_FROM_END);
@@ -143,10 +153,13 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
     private TextView starCount;
     private View empty;
 
+    private GiftRankDialog mRankDialog;
     private View getHeaderView() {
 
         if (headerView == null) {
             headerView = inflater.inflate(R.layout.header_videoplay_comment, null);
+
+            headerView.findViewById(R.id.rl_video_play_status).setVisibility(View.GONE);
             head = (CircleImageView) headerView.findViewById(R.id.videoplay_head);
             isV = (ImageView) headerView.findViewById(R.id.videoplay_v);
             name = (TextView) headerView.findViewById(R.id.videoplay_name);
@@ -154,6 +167,8 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
             focus = (TextView) headerView.findViewById(R.id.videoplay_focus);
             content = (TextView) headerView.findViewById(R.id.videoplay_content);
             more = (TextView) headerView.findViewById(R.id.videoplay_more);
+            mGiftDetail = (TextView)headerView.findViewById(R.id.tv_play_gift_detail);
+
 
             playCount = (TextView) headerView.findViewById(R.id.videoplay_playCount);
             good = (SparkButton) headerView.findViewById(R.id.videoplay_good);
@@ -163,7 +178,10 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
             star = (SparkButton) headerView.findViewById(R.id.videoplay_star);
             starCount = (TextView) headerView.findViewById(R.id.videoplay_starCount);
 
-            empty = headerView.findViewById(R.id.ll_video_player_empty);
+
+            mGiftList = (RecyclerView)headerView.findViewById(R.id.rv_video_play_gift);
+            mPlayGift = headerView.findViewById(R.id.ll_play_gift);
+            mHadGift = headerView.findViewById(R.id.ll_had_gift);
 
             head.setOnClickListener(this);
             focus.setOnClickListener(this);
@@ -171,10 +189,37 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
             bad.setOnClickListener(this);
             star.setOnClickListener(this);
             more.setOnClickListener(this);
+            mGiftDetail.setOnClickListener(this);
 
             badCount.setText("0");
+            initGiftList();
         }
         return headerView;
+    }
+
+    private void initGiftList(){
+        if (mGiftList != null){
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            mGiftList.setLayoutManager(layoutManager);
+
+            //"2868093"
+            DataManager.getPlayGiftList(getMember_id(),videoImage.video_id);
+        }
+    }
+
+
+    public boolean showRankDialog(){
+        if (mRankDialog == null){
+            DataManager.getPlayGiftList(getMember_id(),videoImage.video_id);
+            return false;
+        }else {
+            if (mRankDialog.rankSize() == 0){
+                return false;
+            }
+            mRankDialog.show();
+        }
+        return true;
     }
 
     private void refreshTextLength() {
@@ -339,6 +384,10 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
                 DataManager.fndownClick203(videoImage.getId(), getMember_id());
                 activity.videoPlayView.controllerViewLand.refreshIconView(videoImage);
                 break;
+            case R.id.tv_play_gift_detail:
+            case R.id.ll_had_gift:
+               showRankDialog();
+                break;
         }
     }
 
@@ -358,6 +407,7 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
             star.setChecked(true);
         }
         setTextViewText(starCount, videoImage.getCollection_count());
+        activity.refreshTab(videoImage);
     }
 
     public void refreshGood() {
@@ -367,6 +417,7 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
             good.setChecked(true);
         }
         setTextViewText(goodCount, videoImage.getFlower_count());
+        activity.refreshTab(videoImage);
     }
 
     public void refreshBad() {
@@ -376,6 +427,7 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
             bad.setChecked(true);
         }
         setTextViewText(badCount, videoImage.getFndown_count());
+        activity.refreshTab(videoImage);
     }
 
     /**
@@ -518,5 +570,48 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
             ToastHelper.s("评论删除成功");
             onPullDownToRefresh(pullToRefreshListView);
         }
+    }
+
+    /**
+     * 回调:获取打赏榜
+     */
+    public void onEventMainThread(VideoPlayGiftEntity entity) {
+
+        if (entity != null && entity.isResult() && entity.getData().getIncludes() != null ){
+            if (entity.getData().getIncludes().size() >= 3){
+                mPlayGift.setVisibility(View.VISIBLE);
+                mHadGift.setVisibility(View.GONE);
+                List<VideoPlayGiftEntity.DataBean.IncludesBean> data = entity.getData().getIncludes();
+                List<VideoPlayGiftEntity.DataBean.IncludesBean> dataNew = new ArrayList<>();
+                if (data.size() > 3){
+                    dataNew.add(data.get(0));
+                    dataNew.add(data.get(1));
+                    dataNew.add(data.get(2));
+                }else {
+                    dataNew = data;
+                }
+                mGiftList.setAdapter(new PlayGiftListAdapter(dataNew));
+            }else {
+                mPlayGift.setVisibility(View.GONE);
+                if (entity.getData().getIncludes() != null){
+                    int size = entity.getData().getIncludes().size();
+                    if (size > 0){
+                        mHadGift.setVisibility(View.VISIBLE);
+                        TextView description = ((TextView)mHadGift.findViewById(R.id.tv_play_gift_description));
+                        description.setText("已有"+size+"人打赏");
+                        mHadGift.setOnClickListener(this);
+                    }
+                }
+            }
+            mRankDialog = new GiftRankDialog(getActivity(),entity.getData().getIncludes(),getMember_id());
+        }
+    }
+
+    /**
+     *刷新评论列表
+     */
+    public void onEventMainThread(RefreshCommendEvent event){
+        page = 1;
+        DataManager.videoCommentList211(videoImage.getId(), getMember_id(), page);
     }
 }

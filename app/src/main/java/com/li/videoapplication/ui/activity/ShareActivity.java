@@ -28,8 +28,7 @@ import com.li.videoapplication.framework.BaseActivity;
 import com.li.videoapplication.tools.ShareSDKShareHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.utils.LogHelper;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.ypy.eventbus.EventBus;
@@ -41,6 +40,7 @@ import cn.sharesdk.framework.Platform.ShareParams;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.wechat.utils.WechatClientNotExistException;
+import io.rong.imkit.model.Event;
 
 /**
  * 活动：分享
@@ -64,6 +64,9 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
         // 这个为邀请好友的内容字段
         text = intent.getStringExtra("content");
 
+        //视频类型为生活类
+        isLifeType = intent.getBooleanExtra("is_life_type",false);
+
         Log.d(tag, "VideoTitle: " + VideoTitle);
         Log.d(tag, "videoUrl: " + videoUrl);
         Log.d(tag, "text: " + text);
@@ -81,6 +84,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
     private static String memberId;
     private static String mSharedChannel;
     private int page;
+    private boolean isLifeType;
 
     private static PlatformActionListener listener = new PlatformActionListener() {
         //如果是本地视频分享  需要先生成封面才能分享因此不会调用当前监听器
@@ -95,6 +99,9 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
             DataManager.shareTriggerReward(memberId,"","","1");
             //post
             EventBus.getDefault().post(new SharedSuccessEvent(mSharedChannel));
+
+            //下个版本再统一 用融云包里的EventBus
+            io.rong.eventbus.EventBus.getDefault().post(new SharedSuccessEvent(mSharedChannel));
             //移除监听器
             ShareSDKShareHelper.removeListener(listener);
         }
@@ -210,12 +217,14 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
         touch.setOnClickListener(this);
         cancel.setOnClickListener(this);
 
-        if (page == PAGE_MYCLOUDVIDEO || page == PAGE_SYSJ || page == PAGE_VIDEOPLAY) {
+        if (page == PAGE_MYCLOUDVIDEO || page == PAGE_SYSJ || page == PAGE_VIDEOPLAY || isLifeType) {
             sysj.setVisibility(View.GONE);
             mSysj.setVisibility(View.GONE);
         }else {
          //   mSysj.setVisibility(View.VISIBLE);
         }
+
+
     }
 
     @Override
@@ -275,7 +284,9 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
 
             if (shareChannel.equals("SYSJ")){
                 //触发
-                DataManager.shareTriggerReward(memberId,square.getHook(),square.getTask_id(),"");
+                if (square != null){
+                    DataManager.shareTriggerReward(memberId,square.getHook(),square.getTask_id(),"");
+                }
                 //post
                 EventBus.getDefault().post(new SharedSuccessEvent(mSharedChannel));
                 finish();
@@ -364,7 +375,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
         if (activity != null && activity.game != null) {
             game = activity.game;
         }
-        ActivityManeger.startImageShareActivity(this, this.imageUrl, game);
+        ActivityManager.startImageShareActivity(this, this.imageUrl, game);
     }
 
 
@@ -375,7 +386,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
         if (event != null && event.isResult()) {
             square = event.getData();
             if (!StringUtil.isNull(square.getDescription())) {
-                //奖励##飞磨豆 --> 奖励20飞磨豆
+                //奖励##魔豆 --> 奖励20魔豆
                 String reward = TextUtil.toColor(square.getReward(), "#fe5e5e");
                 String description = square.getDescription().replace("##", reward);
                 squareReward.setVisibility(View.VISIBLE);

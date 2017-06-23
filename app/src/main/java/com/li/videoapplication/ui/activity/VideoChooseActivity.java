@@ -1,7 +1,6 @@
 package com.li.videoapplication.ui.activity;
 
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,7 +23,7 @@ import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.preferences.VideoPreferences;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.adapter.ChooseLocalVideoAdapter;
 import com.li.videoapplication.ui.adapter.MyImportVideoAdapter;
 import com.li.videoapplication.tools.ToastHelper;
@@ -47,14 +46,14 @@ public class VideoChooseActivity extends TBaseAppCompatActivity implements OnCli
      * 跳转：参加活动--视频上传
      */
     private void startVideoUploadActivity(VideoCaptureEntity entity) {
-        ActivityManeger.startVideoUploadActivity(this, entity, match);
+        ActivityManager.startVideoUploadActivity(this, entity, match);
     }
 
     /**
      * 跳转：视频分享
      */
     private void startVideoShareActivity210(VideoCaptureEntity record) {
-        ActivityManeger.startVideoShareActivity210(this, record, game, to);
+        ActivityManager.startVideoShareActivity210(this, record, game, to);
     }
 
     private RecyclerView recyclerView;

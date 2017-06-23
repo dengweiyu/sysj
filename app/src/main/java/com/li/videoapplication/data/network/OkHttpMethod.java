@@ -275,13 +275,13 @@ public class OkHttpMethod implements AbsRequestMethod {
 	 */
 	private void execute() {
 		try {
-
 			response = client.newCall(request).execute();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	@Override

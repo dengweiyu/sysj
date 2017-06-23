@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,7 +12,6 @@ import com.happly.link.HpplayLinkWindow;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.utils.StringUtil;
@@ -112,6 +110,13 @@ public class TitleBarView extends RelativeLayout implements
     @Override
     public void showView() {
         setVisibility(VISIBLE);
+    }
+
+    /**
+     * 去除背景阴影
+     */
+    public void clearShaw(){
+        findViewById(R.id.root).setBackgroundResource(R.color.transparent_background);
     }
 
     @Override

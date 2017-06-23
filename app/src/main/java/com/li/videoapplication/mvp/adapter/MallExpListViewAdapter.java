@@ -14,7 +14,7 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.tools.ToastHelper;
@@ -38,7 +38,7 @@ public class MallExpListViewAdapter extends BaseExpandableListAdapter {
      * 跳转：商品详情
      */
     private void startProductsDetailActivity(Currency childList) {
-        ActivityManeger.startProductsDetailActivity(context, childList.getId(), childList.getShowPage());
+        ActivityManager.startProductsDetailActivity(context, childList.getId(), childList.getShowPage());
         UmengAnalyticsHelper.onEvent(context,UmengAnalyticsHelper.SLIDER,"视界商城-商品详情");
     }
 
@@ -159,7 +159,7 @@ public class MallExpListViewAdapter extends BaseExpandableListAdapter {
                                     if (myCurrency >= Integer.valueOf(childList.getCurrency_num())) {
                                         DialogManager.showPaymentDialog(context, childList);
                                     } else {
-                                        ToastHelper.s("飞磨豆不足");
+                                        ToastHelper.s("魔豆不足");
                                     }
                                 } else {
                                     DialogManager.showLogInDialog(context);

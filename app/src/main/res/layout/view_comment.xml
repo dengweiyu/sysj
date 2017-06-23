@@ -4,48 +4,52 @@
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:orientation="vertical"
-    android:visibility="visible">
-
+    android:visibility="visible"
+    android:background="@color/white">
     <RelativeLayout
         android:id="@+id/comment_conteiner"
         android:layout_width="match_parent"
-        android:layout_height="38dp"
+        android:layout_height="42dp"
         android:layout_above="@+id/gridview_face"
-        android:background="#f5f5f5"
+        android:background="@color/white"
         android:clickable="false"
         tools:ignore="RtlSymmetry,HardcodedText,RtlHardcoded">
 
-        <TextView
-            android:id="@+id/comment_submit"
-            android:layout_width="42dp"
-            android:layout_height="26dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:text="发送"
-            android:textColor="#656565"
-            android:textSize="12sp" />
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/activity_main_bg"></View>
         <EditText
             android:id="@+id/comment_edit"
             android:layout_width="fill_parent"
-            android:layout_height="26dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/comment_submit"
             android:layout_toRightOf="@+id/comment_face"
             android:background="@drawable/commemt_edit"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:hint="我来点评"
+            android:hint="本宝宝有话要说"
             android:lines="3"
             android:paddingLeft="15dp"
             android:textColorHint="#a9a9a9"
             android:textCursorDrawable="@null"
             android:textSize="12sp"
             android:textColor="#656565"/>
+
+        <TextView
+            android:id="@+id/comment_submit"
+            android:layout_width="42dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="64dp"
+            android:gravity="center"
+            android:text="发送"
+            android:background="@drawable/comment_submit"
+            android:textColor="#656565"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/comment_face"

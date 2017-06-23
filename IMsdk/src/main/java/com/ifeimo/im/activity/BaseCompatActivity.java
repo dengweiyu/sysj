@@ -36,11 +36,10 @@ import com.ifeimo.im.common.util.WindowUtil;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.iduq.OnCursorDataChange;
 import com.ifeimo.im.framwork.interface_im.IMWindow;
-import com.ifeimo.im.provider.ChatProvider;
-import com.ifeimo.im.provider.GroupChatProvider;
 import com.ifeimo.im.framwork.view.IMRecycleView;
 import com.ifeimo.im.framwork.view.OnItemShowListener;
-import com.ifeimo.im.framwork.view.RecyclerViewHeader;
+import com.ifeimo.im.provider.ChatProvider;
+import com.ifeimo.im.provider.GroupChatProvider;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -65,7 +64,7 @@ abstract class BaseCompatActivity<E extends IModel<E>,T extends BaseChatReCursor
     protected ImageView id_top_right_iv;
     protected ViewGroup id_top_right_layout;
     protected TextView sendBtn;
-    protected RecyclerViewHeader RecyclerViewHeader;
+    protected com.ifeimo.im.framwork.view.RecyclerViewHeader RecyclerViewHeader;
     protected View doBack;
     protected View id_more_ProgressBar;
     protected Handler handler = new Handler();
@@ -154,7 +153,7 @@ abstract class BaseCompatActivity<E extends IModel<E>,T extends BaseChatReCursor
         if (parentLayout != null) {
             listenSoft(parentLayout);
         }
-        RecyclerViewHeader = (RecyclerViewHeader) findViewById(R.id.id_RecyclerViewHeader);
+        RecyclerViewHeader = (com.ifeimo.im.framwork.view.RecyclerViewHeader) findViewById(R.id.id_RecyclerViewHeader);
         id_more_ProgressBar = findViewById(R.id.id_more_ProgressBar);
         recyclerViewParentView = (IMRecycleView) findViewById(R.id.id_RecyclerView);
         recyclerViewParentView.init(getAdapter(),id_more_ProgressBar);

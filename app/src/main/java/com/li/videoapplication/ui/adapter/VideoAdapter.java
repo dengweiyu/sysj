@@ -14,12 +14,11 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.VideoImage;
-import com.li.videoapplication.data.model.entity.VideoImageGroup;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.CollectionActivity;
 import com.li.videoapplication.ui.fragment.MyCollectionFragment;
 import com.li.videoapplication.ui.fragment.MyHistoryFragment;
@@ -56,7 +55,7 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
      */
     private void startVideoPlayActivity(VideoImage item) {
         if (!StringUtil.isNull(item.getVideo_id())) {
-            ActivityManeger.startVideoPlayActivity(getContext(), item);
+            ActivityManager.startVideoPlayActivity(getContext(), item);
         }
     }
 

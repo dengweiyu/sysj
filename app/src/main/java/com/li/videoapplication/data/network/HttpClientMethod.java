@@ -2,6 +2,7 @@ package com.li.videoapplication.data.network;
 
 import android.annotation.SuppressLint;
 
+import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.utils.NetUtil;
 import com.squareup.okhttp.apache.OkApacheClient;
 
@@ -32,6 +33,8 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 功能：HttpClient网络请求方法
@@ -179,6 +182,7 @@ public class HttpClientMethod implements AbsRequestMethod {
 
 	}
 
+
 	/**
 	 * 功能：执行请求
 	 */
@@ -199,6 +203,7 @@ public class HttpClientMethod implements AbsRequestMethod {
 			}
 		}
 	}
+
 
 	/**
 	 * 功能：解析结果

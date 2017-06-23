@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="余额："
+        android:layout_gravity="center"
+        android:textSize="14sp"/>
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/currency"
+        android:layout_marginTop="1dp"/>
+    <TextView
+        android:id="@+id/tv_my_currency_coin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#f7b500"
+        android:layout_marginLeft="2dp"
+        android:text="0"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="12sp"/>
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/slider_bean"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="16dp"/>
+    <TextView
+        android:id="@+id/tv_my_currency_beans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:layout_gravity="center"
+        android:textColor="#f7b500"
+        android:layout_marginLeft="2dp"
+        android:textSize="12sp"/>
+</LinearLayout>

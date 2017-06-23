@@ -172,6 +172,7 @@ public class ShareSDKShareHelper {
 			oks.setUrl(url);
 			// 对这条分享的评论，仅在人人网和QQ空间使用
 			// oks.setComment("我是测试评论文本");
+			oks.setSilent(false);
 			// 此内容的网站名称，仅在QQ空间使用
 			oks.setSite(site);
 			// 此内容的网站地址，仅在QQ空间使用

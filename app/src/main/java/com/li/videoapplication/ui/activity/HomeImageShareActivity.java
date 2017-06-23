@@ -2,9 +2,6 @@ package com.li.videoapplication.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -22,12 +19,9 @@ import com.li.videoapplication.data.upload.Contants;
 import com.li.videoapplication.data.upload.ImageShareResponseObject;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
-import com.li.videoapplication.tools.BitmapHelper;
-import com.li.videoapplication.tools.BitmapLoader;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.adapter.ResultImageUploadAdapter;
-import com.li.videoapplication.ui.popupwindows.MoreTypePopupWindow;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.NetUtil;
@@ -35,7 +29,6 @@ import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.GridViewY1;
 import com.li.videoapplication.views.SmoothCheckBox;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,7 +141,7 @@ public class HomeImageShareActivity extends TBaseActivity implements
 
         if (isFirstIn) {
             //启动后进入选择图片页
-            ActivityManeger.startImageViewActivity(this);
+            ActivityManager.startImageViewActivity(this);
             isFirstIn = false;
         }
     }
@@ -168,7 +161,7 @@ public class HomeImageShareActivity extends TBaseActivity implements
                     e.printStackTrace();
                 }
 
-                ActivityManeger.startSearchGameActivity(this);
+                ActivityManager.startSearchGameActivity(this);
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MACROSCOPIC_DATA, "手机游戏");
                 break;
 
@@ -259,7 +252,7 @@ public class HomeImageShareActivity extends TBaseActivity implements
                 dismissProgressDialog();
                 showToastLong("上传成功");
                 AppManager.getInstance().removeActivity(GroupDetailActivity.class);
-                ActivityManeger.startGroupDetailActivityNewTask(this, game.getGroup_id());
+                ActivityManager.startGroupDetailActivityNewTask(this, game.getGroup_id());
                 finish();
             } else
                 showToastLong(msg);

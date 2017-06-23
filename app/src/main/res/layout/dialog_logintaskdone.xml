@@ -30,7 +30,7 @@
             android:layout_marginTop="14dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="每天登陆奖励10飞磨豆"
+            android:text="每天登陆奖励10魔豆"
             android:textColor="@color/textcolor_gray"
             android:gravity="center"
             android:textSize="14sp"

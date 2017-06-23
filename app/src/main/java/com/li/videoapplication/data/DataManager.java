@@ -132,6 +132,17 @@ public class DataManager {
         helper.doService(request);
     }
 
+    /**
+     * 赛事奖金榜状态
+     */
+    public static void getRewardStatus() {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getRewardStatus();
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, null, null);
+        request.setEntity(new RewardStatusEntity());
+        helper.doService(request);
+    }
+
     /** ############## 飞磨游戏 ############## */
     /**
      * 游戏详情
@@ -357,11 +368,11 @@ public class DataManager {
         /**
          * 功能：视频分享数+1
          */
-        public static void videoShareVideo211(String video_id, String member_id) {
+        public static void videoShareVideo211(String video_id, String member_id,int mark) {
 
             RequestHelper helper = new RequestHelper();
             String url = RequestUrl.getInstance().videoShare211();
-            Map<String, Object> params = RequestParams.getInstance().videoClickVideo201(video_id, member_id);
+            Map<String, Object> params = RequestParams.getInstance().videoClickVideo221(video_id, member_id,mark);
 
             RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
             request.setEntity(new VideoShareVideo211Entity());
@@ -1699,7 +1710,7 @@ public class DataManager {
     }
 
     /**
-     * 功能：个人飞磨豆数量
+     * 功能：个人魔豆数量
      */
     public static void getMemberCurrency(String member_id) {
 
@@ -3764,6 +3775,90 @@ public class DataManager {
         Map<String, Object> params = RequestParams.getInstance().vipInfo();
         RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
         request.setEntity(new VipRechargeEntity());
+        helper.doNetwork(request);
+    }
+
+
+    /**
+     * 功能：会员中心 开通会员
+     */
+    public static  void getGiftType(){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().giftType();
+        Map<String, Object> params = RequestParams.getInstance().giftType();
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new PlayGiftTypeEntity());
+        helper.doNetwork(request);
+    }
+
+
+    /**
+     * 功能：获取礼物流水：收到/送出礼物
+     */
+    public static  void getGiftBill(String memberId,String userId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().giftBill();
+        Map<String, Object> params = RequestParams.getInstance().giftBill(memberId,userId);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new MyGiftBillEntity());
+        helper.doNetwork(request);
+    }
+
+
+    /**
+     * 功能：获取打赏榜
+     */
+    public static  void getPlayGiftList(String memberId,String videoId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getPlayGiftList();
+        Map<String, Object> params = RequestParams.getInstance().getPlayGiftList(memberId,videoId);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new VideoPlayGiftEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：获取时间轴打赏列表
+     */
+    public static  void getGiftTimeLineList(String videoId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getGiftTimeLineList();
+        Map<String, Object> params = RequestParams.getInstance().getGiftTimeLineList(videoId);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new TimeLineGiftEntity());
+        helper.doNetwork(request);
+    }
+    /**
+     * 功能：获取服务器时间
+     */
+    public static  void getServiceTime(){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getServiceTime();
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,null, null);
+        request.setEntity(new ServiceTimeEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：打赏
+     */
+    public static  void playGift(String sign,String memberId,String videoId,String giftId,String videoNode,int number,long time){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().playGift();
+        Map<String, Object> params = RequestParams.getInstance().playGift(sign,memberId,videoId,giftId,videoNode,number,time);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new PlayGiftResultEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：视频播放页分享成功后触发
+     */
+    public static  void sharedSuccess(String videoId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().sharedSuccess();
+        Map<String, Object> params = RequestParams.getInstance().sharedSuccess(videoId);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
         helper.doNetwork(request);
     }
 }

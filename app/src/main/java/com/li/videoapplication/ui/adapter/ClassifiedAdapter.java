@@ -8,15 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.GroupType;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.utils.ScreenUtil;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 
 /**
@@ -29,7 +27,7 @@ public class ClassifiedAdapter extends BaseArrayAdapter<GroupType> {
      * 页面跳转：圈子列表
      */
     private void startGroupListActivity(GroupType item) {
-        ActivityManeger.startGroupListActivity(getContext(), item);
+        ActivityManager.startGroupListActivity(getContext(), item);
     }
 
     public ClassifiedAdapter(Context context, List<GroupType> data) {

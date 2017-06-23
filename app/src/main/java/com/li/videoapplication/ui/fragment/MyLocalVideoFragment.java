@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -25,10 +24,10 @@ import com.li.videoapplication.data.preferences.VideoPreferences;
 import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
-import com.li.videoapplication.ui.activity.VideoShareActivity;
+import com.li.videoapplication.ui.adapter.MyLocalVideoAdapter;
 import com.li.videoapplication.ui.adapter.MyLocalVideoAdapter210;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
@@ -55,7 +54,7 @@ public class MyLocalVideoFragment extends TBaseFragment {
     public List<VideoCaptureEntity> myImportData = new ArrayList<>();
 
     public ListView listView;
-    public MyLocalVideoAdapter210 adapter;
+    public MyLocalVideoAdapter adapter;
     public List<VideoCaptureEntity> data = new ArrayList<>();
 
     private VideoMangerActivity activity;
@@ -118,8 +117,9 @@ public class MyLocalVideoFragment extends TBaseFragment {
         storgeRoot.setVisibility(View.GONE);
         storgeText.setText("");
 
-        adapter = new MyLocalVideoAdapter210(getActivity(), data, listView, (VideoMangerActivity) getActivity());
+        adapter = new MyLocalVideoAdapter(getActivity(), data, listView, (VideoMangerActivity) getActivity());
         VideoShareTask208.addCallbacks(adapter);
+
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(mListener);
     }
@@ -178,7 +178,7 @@ public class MyLocalVideoFragment extends TBaseFragment {
                 return;
             }
 
-            ActivityManeger.startVideoEditorActivity(getActivity(), record);
+            ActivityManager.startVideoEditorActivity(getActivity(), record);
             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "本地视频-编辑");
         }
     };

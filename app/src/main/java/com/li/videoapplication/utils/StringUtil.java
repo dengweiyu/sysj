@@ -42,8 +42,13 @@ public class StringUtil {
      * 字符串转数字格式（三位一个逗号）
      */
     public static String formatNum(String num) {
-        DecimalFormat df = new DecimalFormat("###,###");
-        return df.format(Double.parseDouble(num));
+        try {
+            DecimalFormat df = new DecimalFormat("###,###");
+            return df.format(Double.parseDouble(num));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "0";
     }
 
     /**

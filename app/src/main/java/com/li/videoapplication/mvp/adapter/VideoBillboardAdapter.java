@@ -19,9 +19,8 @@ import com.li.videoapplication.mvp.billboard.BillboardContract.IBillboardPresent
 import com.li.videoapplication.mvp.billboard.presenter.BillboardPresenter;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.GroupDetailImageAdapter;
 import com.li.videoapplication.utils.StringUtil;
@@ -43,7 +42,7 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
      * 跳转：视频播放
      */
     private void startVideoPlayActivity(VideoImage videoImage) {
-        ActivityManeger.startVideoPlayActivity(mContext, videoImage);
+        ActivityManager.startVideoPlayActivity(mContext, videoImage);
         UmengAnalyticsHelper.onEvent(mContext, UmengAnalyticsHelper.DISCOVER, "视频榜-播放");
     }
 
@@ -51,7 +50,7 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
      * 跳转：玩家动态
      */
     private void startPlayerDynamicActivity(Member member) {
-        ActivityManeger.startPlayerDynamicActivity(mContext, member);
+        ActivityManager.startPlayerDynamicActivity(mContext, member);
         UmengAnalyticsHelper.onEvent(mContext, UmengAnalyticsHelper.DISCOVER, "视频榜-动态");
     }
 

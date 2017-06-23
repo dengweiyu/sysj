@@ -18,7 +18,7 @@ import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -34,7 +34,7 @@ public class ActivityAdapter extends BaseArrayAdapter<Match> {
      * 跳转：活动详情
      */
     private void startActivityDetailActivity(Match record) {
-        ActivityManeger.startActivityDetailActivityNewTask(getContext(), record.getMatch_id());
+        ActivityManager.startActivityDetailActivityNewTask(getContext(), record.getMatch_id());
     }
 
     /**

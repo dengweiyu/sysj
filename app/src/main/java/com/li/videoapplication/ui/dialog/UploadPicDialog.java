@@ -11,7 +11,7 @@ import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.data.model.event.ImageView2ImageShareEvent;
 import com.li.videoapplication.framework.BaseOverShootDialog;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.ImageViewActivity;
 
 import java.util.ArrayList;
@@ -74,7 +74,7 @@ public class UploadPicDialog extends BaseOverShootDialog implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.uploadpic_choose:
-                ActivityManeger.startImageViewActivity(getContext());
+                ActivityManager.startImageViewActivity(getContext());
                 break;
             case R.id.uploadpic_confirm:
                 if (ImageViewActivity.imageViewDeleteData.size() < 1) {

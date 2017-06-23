@@ -1,5 +1,6 @@
 package com.ifeimo.im.framwork;
 
+import com.ifeimo.im.framwork.interface_im.ILockManager;
 import com.ifeimo.im.framwork.interface_im.IManagerList;
 import com.ifeimo.im.framwork.interface_im.IAccount;
 import com.ifeimo.im.framwork.interface_im.IConnect;
@@ -48,6 +49,10 @@ public final class Proxy {
 
     @Deprecated
     public static Activitys getActivitys(){return Activitys.getInstances();}
+
+    public static ILockManager getLockManager(){
+        return LockManager.getInstances();
+    }
 
 
 

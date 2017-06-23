@@ -17,7 +17,7 @@
         android:id="@+id/root"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#00000000">
+        android:background="@drawable/background_press">
 
         <!-- 196dp -->
         <RelativeLayout
@@ -76,22 +76,15 @@
             android:textColor="#aa454545"
             android:textSize="11sp" />
 
-        <TextView
-            android:id="@+id/groupdetail_recommed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="推荐"
-            android:textColor="@color/currency_red"
-            android:textSize="9sp"
-            android:layout_alignBaseline="@id/groupdetail_name"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:visibility="invisible"
-            android:background="@drawable/stroke_red"/>
+         <ImageView
+             android:id="@+id/iv_video_recommed"
+             android:layout_width="38dp"
+             android:layout_height="wrap_content"
+             android:layout_alignBottom="@+id/middle"
+             android:layout_alignParentEnd="true"
+             android:layout_marginBottom="-5dp"
+             android:visibility="gone"
+             android:src="@drawable/video_recommed"/>
 
         <FrameLayout
             android:id="@+id/middle"
@@ -310,10 +303,11 @@
 
             <ImageView
                 android:id="@+id/groupdetail_like"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:padding="4dp"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="9dp"
+                android:layout_marginRight="8dp"
                 android:layout_toLeftOf="@+id/groupdetail_likeCount"
                 android:src="@drawable/videoplay_good_gray_205" />
 
@@ -322,7 +316,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="16dp"
                 android:layout_toLeftOf="@+id/groupdetail_star"
                 android:text=""
                 android:textColor="#949494"
@@ -330,10 +324,11 @@
 
             <ImageView
                 android:id="@+id/groupdetail_star"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:padding="4dp"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="9dp"
+                android:layout_marginRight="8dp"
                 android:layout_toLeftOf="@+id/groupdetail_starCount"
                 android:src="@drawable/videoplay_star_gray_205" />
 
@@ -342,7 +337,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="16dp"
                 android:layout_toLeftOf="@+id/groupdetail_comment"
                 android:text=""
                 android:textColor="#949494"
@@ -350,10 +345,11 @@
 
             <ImageView
                 android:id="@+id/groupdetail_comment"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:padding="4dp"
                 android:layout_centerInParent="true"
-                android:layout_marginRight="9dp"
+                android:layout_marginRight="8dp"
                 android:layout_toLeftOf="@+id/groupdetail_commentCount"
                 android:src="@drawable/videoplay_comment_gray_205" />
 

@@ -6,7 +6,9 @@ import com.li.videoapplication.data.HttpManager;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.entity.TopUp;
+import com.li.videoapplication.data.model.response.BillEntity;
 import com.li.videoapplication.data.model.response.PaymentEntity;
+import com.li.videoapplication.data.model.response.RechargeCoinEntity;
 import com.li.videoapplication.data.model.response.TopUpOptionEntity;
 import com.li.videoapplication.mvp.OnLoadDataListener;
 import com.li.videoapplication.mvp.mall.MallContract.IMallModel;
@@ -22,6 +24,7 @@ public class MallModel implements IMallModel {
     private static MallModel mallModel;
     public final static int USE_RECHARGE_MONEY = 0;
     public final static int USE_RECHARGE_VIP = 1;
+    public final static int USE_RECHARGE_COIN = 2;
     public static synchronized IMallModel getInstance() {
         if (mallModel == null) {
             mallModel = new MallModel();
@@ -135,7 +138,7 @@ public class MallModel implements IMallModel {
     }
 
     @Override
-    public void payment(int use,String member_id,int level, String currency_num, int pay_type, int ingress, final OnLoadDataListener<PaymentEntity> listener) {
+    public void payment(int use,String member_id,int level, String num, int pay_type, int ingress, final OnLoadDataListener<PaymentEntity> listener) {
         Observer<PaymentEntity> observer =  new Observer<PaymentEntity>() {
 
             @Override
@@ -155,11 +158,14 @@ public class MallModel implements IMallModel {
         };
 
         switch (use){
-            case USE_RECHARGE_MONEY:        //充值飞磨豆
-                HttpManager.getInstance().payment(member_id, currency_num, pay_type, ingress,observer);
+            case USE_RECHARGE_MONEY:        //充值魔豆
+                HttpManager.getInstance().payment(member_id, num, pay_type, ingress,observer);
                 break;
             case USE_RECHARGE_VIP:          //开通VIP
                 HttpManager.getInstance().payment(member_id,level, pay_type,observer);
+                break;
+            case USE_RECHARGE_COIN:         //充值魔币
+                HttpManager.getInstance().paymentCoin(member_id,num,pay_type,ingress,observer);
                 break;
         }
     }
@@ -203,6 +209,50 @@ public class MallModel implements IMallModel {
             public void onNext(PaymentList paymentList) {
                 if (paymentList != null){
                     listener.onSuccess(paymentList);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getCoinList(final OnLoadDataListener<RechargeCoinEntity> listener) {
+        HttpManager.getInstance().getCoinList(new Observer<RechargeCoinEntity>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                listener.onFailure(e);
+            }
+
+            @Override
+            public void onNext(RechargeCoinEntity entity) {
+                if (entity != null){
+                    listener.onSuccess(entity);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getBillList(String member_id,int type,final OnLoadDataListener<BillEntity> listener) {
+        HttpManager.getInstance().getBillList(member_id, type, new Observer<BillEntity>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                listener.onFailure(e);
+            }
+
+            @Override
+            public void onNext(BillEntity entity) {
+                if (entity != null){
+                    listener.onSuccess(entity);
                 }
             }
         });

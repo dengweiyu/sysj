@@ -22,7 +22,7 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseBottomDialog;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 
 /**
@@ -80,7 +80,7 @@ public class VideoPlayDialog extends BaseBottomDialog implements View.OnClickLis
             if (videoImage == null) {
                 return;
             }
-            ActivityManeger.startReportActivity(getContext(), videoImage);
+            ActivityManager.startReportActivity(getContext(), videoImage);
 			cancel();
 			break;
 

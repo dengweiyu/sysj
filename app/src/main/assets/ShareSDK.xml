@@ -110,7 +110,7 @@
         AppKey="122729501"
         AppSecret="3ddcd3f9cd5f22aff61bfae75f295402"
         RedirectUrl="http://www.sharesdk.cn"
-        ShareByAppClient="false"
+        ShareByAppClient="true"
         Enable="true" />
 
     <TencentWeibo

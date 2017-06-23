@@ -21,7 +21,6 @@ import android.widget.VideoView;
 
 import com.fmsysj.screeclibinvoke.logic.videoedit.MP4parserHelper;
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
@@ -29,10 +28,8 @@ import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.network.LightTask;
 import com.li.videoapplication.data.network.UITask;
-import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.view.AspectRatioLayout;
 import com.li.videoapplication.views.VideoSliceSeekBar;
 

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Currency;
@@ -19,13 +18,12 @@ import com.li.videoapplication.mvp.adapter.ExchangeRecordAdapter;
 import com.li.videoapplication.mvp.mall.MallContract.IExchangeRecordView;
 import com.li.videoapplication.mvp.mall.MallContract.IMallPresenter;
 import com.li.videoapplication.mvp.mall.presenter.MallPresenter;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
  * 碎片：兑换记录--商城兑换/抽奖记录
@@ -47,7 +45,7 @@ public class ExchangeRecordFragment extends TBaseFragment implements IExchangeRe
      * 跳转：订单详情
      */
     private void startOrderDetailActivity(String order_id) {
-        ActivityManeger.startOrderDetailActivity(getActivity(), order_id, getTab());
+        ActivityManager.startOrderDetailActivity(getActivity(), order_id, getTab());
     }
 
     public static ExchangeRecordFragment newInstance(int tab) {

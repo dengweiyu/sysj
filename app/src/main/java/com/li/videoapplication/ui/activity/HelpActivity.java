@@ -78,14 +78,7 @@ public class HelpActivity extends TBaseAppCompatActivity implements OnClickListe
     public void onClick(View v) {
 
         if (v.getId() == R.id.tb_back) {
-            if (questionFragment.isMore) {
-                questionFragment.isMore = false;
-                // 隐藏该按钮
-                questionFragment.moreQuestion.setVisibility(View.VISIBLE);
-                questionFragment.normalQuestion.setText("常见问题");
-            } else {
                 finish();
-            }
         }
     }
 }

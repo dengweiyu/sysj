@@ -1,5 +1,6 @@
 package com.li.videoapplication.data.model.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -64,11 +65,22 @@ public class Member extends BaseEntity {
 	private String token;
 	private boolean isV;	//指的是热门主播
 	private String currency;
+	private String coin;
 	private String win;
 	private String failure;
 	private String horizonId;
 
 	private VIPInfo vipInfo;
+
+	private RewardInfo rewardInfo;
+
+	public RewardInfo getRewardInfo() {
+		return rewardInfo;
+	}
+
+	public void setRewardInfo(RewardInfo rewardInfo) {
+		this.rewardInfo = rewardInfo;
+	}
 
 	public VIPInfo getVipInfo() {
 		return vipInfo;
@@ -78,7 +90,7 @@ public class Member extends BaseEntity {
 		this.vipInfo = vipInfo;
 	}
 
-	public static class VIPInfo{
+	public static class VIPInfo implements Serializable {
 		private String level;
 		private String memeber;
 		private String end_time;
@@ -105,6 +117,27 @@ public class Member extends BaseEntity {
 
 		public void setEnd_time(String end_time) {
 			this.end_time = end_time;
+		}
+	}
+
+	public static class RewardInfo implements Serializable{
+		private boolean hasGift;
+		private List<String> gift_icon;
+
+		public boolean isHasGift() {
+			return hasGift;
+		}
+
+		public void setHasGift(boolean hasGift) {
+			this.hasGift = hasGift;
+		}
+
+		public List<String> getGift_icon() {
+			return gift_icon;
+		}
+
+		public void setGift_icon(List<String> gift_icon) {
+			this.gift_icon = gift_icon;
 		}
 	}
 
@@ -546,6 +579,14 @@ public class Member extends BaseEntity {
 
 	public void setTick(int tick) {
 		this.tick = tick;
+	}
+
+	public String getCoin() {
+		return coin;
+	}
+
+	public void setCoin(String coin) {
+		this.coin = coin;
 	}
 
 	public List<String> getLikeGroupType() {

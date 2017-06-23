@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,7 +18,7 @@ import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 
@@ -33,21 +32,21 @@ public class VideoMessageAdapter extends BaseArrayAdapter<MyMessage> {
      * 跳转：玩家动态
      */
     private void startPlayerDynamicActivity(Member member) {
-        ActivityManeger.startPlayerDynamicActivity(getContext(), member);
+        ActivityManager.startPlayerDynamicActivity(getContext(), member);
     }
 
     /**
      * 跳转：视频播放
      */
     public void startVideoPlayActivity(VideoImage record) {
-        ActivityManeger.startVideoPlayActivity(getContext(), record);
+        ActivityManager.startVideoPlayActivity(getContext(), record);
     }
 
     /**
      * 跳转：图文详情
      */
     public void startImageDetailActivity(VideoImage record) {
-        ActivityManeger.startImageDetailActivity(getContext(), record);
+        ActivityManager.startImageDetailActivity(getContext(), record);
     }
 
     public VideoMessageAdapter(Context context, List<MyMessage> data) {

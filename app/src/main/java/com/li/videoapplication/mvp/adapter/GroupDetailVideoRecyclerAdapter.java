@@ -22,17 +22,19 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.ActivityDetailActivity;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.adapter.GroupDetailImageAdapter;
+import com.li.videoapplication.ui.fragment.GroupdetailVideoFragment;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.sparkbutton.SparkButton;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-import cn.nekocode.emojix.Emojix;
 
 /**
  * 适配器：圈子详情（最新/最热视频）, 活动页参与活动
@@ -46,11 +48,12 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
     private Activity activity;//引用此适配器页面
     private String[] expressionArray;
     private String[] expressionCnArray;
-
-    public GroupDetailVideoRecyclerAdapter(Context context, List<VideoImage> data) {
+    private GroupdetailVideoFragment fragment;
+    public GroupDetailVideoRecyclerAdapter(Context context, GroupdetailVideoFragment fragment, List<VideoImage> data) {
         super(R.layout.adapter_groupdetail_video, data);
-        Emojix.wrap(context);
+        //Emojix.wrap(context);
         helper = new TextImageHelper();
+        this.fragment = fragment;
         member_id = PreferencesHepler.getInstance().getMember_id();
         try {
             activity = (Activity) context;
@@ -95,8 +98,7 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                 holder.setText(R.id.groupdetail_content, videoImage.getName());
             }
         } else if (activity instanceof GroupDetailActivity) {
-            holder.setBackgroundColor(R.id.root, resources.getColor(R.color.white))
-                    .setVisible(R.id.goodstarcomment, true)
+            holder.setVisible(R.id.goodstarcomment, true)
                     .setVisible(R.id.joinactivity_goodfloor, false)
                     .setBackgroundColor(R.id.gridview, resources.getColor(R.color.white))
                     .setTextColor(R.id.groupdetail_name, resources.getColor(R.color.video_name))
@@ -109,12 +111,13 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                     .setText(R.id.groupdetail_commentCount, videoImage.getComment_count())
                     .setVisible(R.id.bottom, !videoImage.isAD())
                     .addOnClickListener(R.id.groupdetail_comment);
-
             if (!videoImage.isAD()) {//不是广告
                 // 点赞设置
                 setLike(videoImage, holder);
                 // 收藏设置
                 setStar(videoImage, holder);
+                //
+                setPlay(videoImage,holder);
             }
         }
 
@@ -232,6 +235,22 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                 helper.setTextViewText(view, "");
             }
         }
+    }
+
+    /**
+     *点击空白区域播放
+     */
+    private void setPlay(final VideoImage record, final BaseViewHolder holder){
+        holder.getView(R.id.root).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (record.getVideo_id() != null && !record.getVideo_id().equals("0")) {
+                    if(fragment != null){
+                        fragment.startVideoPlayActivity(record);
+                    }
+                }
+            }
+        });
     }
 
     /**

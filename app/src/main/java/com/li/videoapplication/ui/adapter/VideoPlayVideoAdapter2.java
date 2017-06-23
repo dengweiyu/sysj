@@ -1,22 +1,16 @@
 package com.li.videoapplication.ui.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.FragmentManager;
-import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.VideoImage;
-import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.utils.StringUtil;
 

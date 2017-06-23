@@ -2,6 +2,7 @@ package com.li.videoapplication.data.image;
 
 import android.animation.Animator;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -51,6 +52,11 @@ public class GlideHelper {
         if (context == null){
             return;
         }
+        if(context instanceof Activity){
+            if (((Activity)context).isDestroyed()){
+                return;
+            }
+        }
         Glide.with(context)
                 .load(uri)
                 .into(view);
@@ -65,6 +71,11 @@ public class GlideHelper {
         Log.d(TAG, "imageUrl=" + uri);
         if (context == null){
             return;
+        }
+        if(context instanceof Activity){
+            if (((Activity)context).isDestroyed()){
+                return;
+            }
         }
         Glide.with(context)
                 .load(uri)
@@ -82,6 +93,11 @@ public class GlideHelper {
         if (context == null){
             return;
         }
+        if(context instanceof Activity){
+            if (((Activity)context).isDestroyed()){
+                return;
+            }
+        }
         Glide.with(context)
                 .load(uri)
                 .placeholder(Color.TRANSPARENT)
@@ -96,6 +112,11 @@ public class GlideHelper {
         Log.d(TAG, "gifUrl =" + gifUrl);
         if (context == null){
             return;
+        }
+        if(context instanceof Activity){
+            if (((Activity)context).isDestroyed()){
+                return;
+            }
         }
         Glide.with(context)
                 .load(gifUrl)
@@ -113,6 +134,11 @@ public class GlideHelper {
         if (context == null){
             return;
         }
+        if(context instanceof Activity){
+            if (((Activity)context).isDestroyed()){
+                return;
+            }
+        }
         Glide.with(context)
                 .load(url)
                 .transform(new BlurTransformation(context))
@@ -128,6 +154,11 @@ public class GlideHelper {
         if (context == null){
             return;
         }
+        if(context instanceof Activity){
+            if (((Activity)context).isDestroyed()){
+                return;
+            }
+        }
         Glide.with(context)
                 .load(data)
                 .error(Color.TRANSPARENT)
@@ -142,6 +173,11 @@ public class GlideHelper {
     public static void displayImageBlur(Context context, String url, ImageView view,int radius) {
         if (context == null){
             return;
+        }
+        if(context instanceof Activity){
+            if (((Activity)context).isDestroyed()){
+                return;
+            }
         }
         Glide.with(context)
                 .load(url)
@@ -173,6 +209,12 @@ public class GlideHelper {
         if (context == null){
             return;
         }
+        if(context instanceof Activity){
+            if (((Activity)context).isDestroyed()){
+                return;
+            }
+        }
+
         Glide.with(context)
                 .load(uri)
                 .placeholder(R.drawable.default_video_211)
@@ -191,6 +233,13 @@ public class GlideHelper {
         if (context == null){
             return;
         }
+
+        if(context instanceof Activity){
+            if (((Activity)context).isDestroyed()){
+                return;
+            }
+        }
+
         Glide.with(context)
                 .load(Uri.fromFile(new File(filePath)))
                 .placeholder(R.drawable.default_video_211)
@@ -204,6 +253,12 @@ public class GlideHelper {
     public static void displayImage(Context context,int resId,ImageView view){
         if (context == null){
             return;
+        }
+
+        if(context instanceof Activity){
+            if (((Activity)context).isDestroyed()){
+                return;
+            }
         }
         Glide.with(context)
                 .load(resId)

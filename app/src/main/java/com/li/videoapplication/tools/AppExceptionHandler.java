@@ -8,11 +8,9 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Toast;
 
-import com.li.videoapplication.R;
-import com.li.videoapplication.component.application.MainApplication;
-import com.li.videoapplication.data.download.DownLoadExecutor;
 import com.li.videoapplication.data.local.FileOperateUtil;
 import com.li.videoapplication.data.local.StorageUtil;
 
@@ -22,7 +20,9 @@ import com.li.videoapplication.ui.activity.MainActivity;
 import java.io.File;
 
 /**
- * Created by liuwei on 2017/3/28 0028.
+ * @author liuwei
+ * 处理未捕获异常
+ * 能够做到不Crash
  */
 
 public class AppExceptionHandler implements Thread.UncaughtExceptionHandler {
@@ -44,6 +44,21 @@ public class AppExceptionHandler implements Thread.UncaughtExceptionHandler {
     public void init(){
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
+        //以下代码保证不会直接闪退
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                for (;;){
+                    try {
+                        //启动循环
+                        Looper.loop();
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        uncaughtException(Looper.getMainLooper().getThread(),e);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -51,15 +66,8 @@ public class AppExceptionHandler implements Thread.UncaughtExceptionHandler {
         if (!handleException(throwable)){
             mDefaultHandler.uncaughtException(thread,throwable);
         }else {
-            try {
-                Thread.sleep(100);          //maybe new thread get cpu
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            //kill all activity
-            AppManager.getInstance().removeAllActivity();
-            //kill current process
-            android.os.Process.killProcess(android.os.Process.myPid());
+            //kill current activity
+            AppManager.getInstance().removeCurrentActivity();
             //call gc
             System.gc();
         }
@@ -77,24 +85,29 @@ public class AppExceptionHandler implements Thread.UncaughtExceptionHandler {
             return false;
         }
         final Context context = AppManager.getInstance().getContext();
+        if (throwable != null){
+            Log.e("Message","{"+throwable.getMessage()+"}");
+            throwable.printStackTrace();
+        }
         new Thread(){
             @Override
             public void run() {
                 Looper.prepare();
-                Toast.makeText(context,"很抱歉，程序出现异常",Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"很抱歉，程序出现了一点问题~",Toast.LENGTH_SHORT).show();
                 saveLog(throwable.getMessage());
                 Looper.loop();
             }
         }.start();
         //can record exception message in here
-        restartApp(throwable.getMessage());
+      //  restartApp(throwable.getMessage());
         return true;
     }
 
     /**
      * will be restart main activity
      */
-    private void restartApp(String message){
+    @Deprecated
+    private  void restartApp(String message){
         Application context = AppManager.getInstance().getApplication();
         Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -27,6 +27,12 @@ public class UserBean {
     private static String l_MD5;
 //    private static boolean
 
+    public static void clear(){
+        MemberID = null;
+        NickName = null;
+        AvatarUrl = null;
+    }
+
 
     public static String getMd5MemberID() {
         return md5MemberID;

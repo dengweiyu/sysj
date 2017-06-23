@@ -1,10 +1,15 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ <ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white"
     android:clipToPadding="true"
-    android:fitsSystemWindows="true"
+    android:scrollbars="none"
+    android:fitsSystemWindows="true">
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
     tools:ignore="DuplicateIds,UnusedAttribute,HardcodedText,RtlHardcoded,SmallSp">
     <View
@@ -310,47 +315,47 @@
         android:layout_height="8dp"
         android:background="#f7f7f7" />
 
-    <RelativeLayout
-        android:id="@+id/mypersonnalinfo_bean_btn"
+    <LinearLayout
+        android:id="@+id/ll_currency"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:paddingBottom="9dp"
         android:paddingLeft="19dp"
         android:paddingRight="19dp"
-        android:paddingTop="9dp">
-
+        android:paddingTop="9dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/iv_currency"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="飞磨豆"
+            android:text="魔币"
             android:textColor="#6d6d6d"
             android:textSize="12sp" />
-
-        <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@+id/mypersonnalinfo_bean_num"
-            android:src="@drawable/slider_bean" />
-
-        <TextView
-            android:id="@+id/mypersonnalinfo_bean_num"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text=""
-            android:textColor="#f7b500"
-            android:textSize="12sp" />
-    </RelativeLayout>
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/currency" />
+            <TextView
+                android:id="@+id/tv_person_info_currency_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:gravity="center_horizontal|right"
+                android:textColor="#f7b500"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <View
         android:id="@+id/divider_bean"
@@ -358,6 +363,58 @@
         android:layout_height="1px"
         android:layout_marginLeft="19dp"
         android:background="#e2e2e2" />
+
+    <LinearLayout
+        android:id="@+id/ll_beans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="9dp"
+        android:paddingLeft="19dp"
+        android:paddingRight="19dp"
+        android:paddingTop="9dp"
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/iv_beans"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider_bean"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="魔豆"
+            android:textColor="#6d6d6d"
+            android:textSize="12sp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/slider_bean" />
+
+            <TextView
+                android:id="@+id/mypersonnalinfo_bean_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:gravity="center_horizontal|right"
+                android:textColor="#f7b500"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider_bean"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="19dp"
+        android:background="#e2e2e2" />
+
 
     <RelativeLayout
         android:id="@+id/mypersonnalinfo_matchrecord_btn"
@@ -573,7 +630,6 @@
             android:id="@+id/mypersonnalinfo_gameedit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:text="@string/mypersonalinfo_edit"
             android:textSize="12sp"
             android:paddingBottom="9dp"
@@ -582,7 +638,9 @@
             android:paddingTop="9dp"
             android:clickable="true"
             android:textColor="#f7b500"
-            android:background="?android:attr/selectableItemBackground"/>
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"/>
 
         <View
             android:layout_below="@+id/left"
@@ -662,3 +720,4 @@
         android:background="#f7f7f7" />
 
 </LinearLayout>
+</ScrollView>

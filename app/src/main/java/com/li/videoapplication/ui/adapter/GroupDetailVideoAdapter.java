@@ -3,7 +3,6 @@ package com.li.videoapplication.ui.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,7 +20,7 @@ import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.HomeMoreActivity;
 import com.li.videoapplication.ui.activity.MyDynamicActivity;
@@ -51,7 +50,7 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
      * 跳转：视频播放
      */
     private void startVideoPlayActivity(VideoImage videoImage) {
-        ActivityManeger.startVideoPlayActivity(getContext(), videoImage);
+        ActivityManager.startVideoPlayActivity(getContext(), videoImage);
         if (activity instanceof SquareActivity) {
             UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "广场-视频");
         } else if (activity instanceof MyDynamicActivity) {
@@ -67,7 +66,7 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
      * 跳转：玩家动态
      */
     private void startPlayerDynamicActivity(Member member) {
-        ActivityManeger.startPlayerDynamicActivity(getContext(), member);
+        ActivityManager.startPlayerDynamicActivity(getContext(), member);
         if (activity instanceof MyDynamicActivity) {
             UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "动态-他人");
         } else if (activity instanceof SquareActivity) {
@@ -104,7 +103,7 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
             holder.head = (CircleImageView) view.findViewById(R.id.groupdetail_head);
             holder.head_v = (ImageView) view.findViewById(R.id.groupdetail_v);
             holder.name = (TextView) view.findViewById(R.id.groupdetail_name);
-            holder.isRecommend = (TextView) view.findViewById(R.id.groupdetail_recommed);
+            holder.isRecommend = (ImageView) view.findViewById(R.id.iv_video_recommed);
             holder.time = (TextView) view.findViewById(R.id.groupdetail_time);
             holder.content = (TextView) view.findViewById(R.id.groupdetail_content);
             holder.cover = (ImageView) view.findViewById(R.id.groupdetail_cover);
@@ -123,6 +122,7 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
             holder.grid = (GridViewY1) view.findViewById(R.id.gridview);
             holder.isPrivate = view.findViewById(R.id.ll_is_private);
             holder.upLoading = view.findViewById(R.id.tv_video_uploading);
+            holder.root = view.findViewById(R.id.root);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -252,10 +252,25 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
             }
         });
 
+        holder.root.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!StringUtil.isNull(record.getPersonal_private())){
+                    if (record.getPersonal_private().equals("1")){      //视频上传中仅自己可见
+                        ToastHelper.s("该视频正在上传中，一会再来查看哦~");
+                        return;
+                    }
+                }
+                if (record.getVideo_id() != null && !record.getVideo_id().equals("0")) {// 视频
+                    startVideoPlayActivity(record);
+                }
+            }
+        });
+
         holder.isRecommend.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManeger.startProductsDetailActivity(getContext(), record.getIsRecommend(),
+                ActivityManager.startProductsDetailActivity(getContext(), record.getIsRecommend(),
                         Constant.PRODUCTSDETAIL_RICHTEXT_WITHBTN);
             }
         });
@@ -453,7 +468,7 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
         CircleImageView head;
         ImageView head_v;
         TextView name;
-        TextView isRecommend;
+        ImageView isRecommend;
         TextView time;
 
         TextView content;
@@ -476,5 +491,6 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
 
         View isPrivate;
         View upLoading;
+        View root;
     }
 }

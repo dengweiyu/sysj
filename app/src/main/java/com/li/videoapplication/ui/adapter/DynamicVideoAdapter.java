@@ -10,7 +10,9 @@ import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
@@ -18,20 +20,20 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 
 /**
  * 适配器：个人中心，动态
  */
 @SuppressLint("InflateParams")
-public class DynamicVideoAdapter extends BaseArrayAdapter<VideoImage> {
+public class DynamicVideoAdapter extends BaseArrayAdapter<VideoImage>{
 
 	/**
 	 * 跳转：视频播放
 	 */
 	private void startVideoPlayActivity(VideoImage videoImage) {
-		ActivityManeger.startVideoPlayActivity(getContext(), videoImage);
+		ActivityManager.startVideoPlayActivity(getContext(), videoImage);
 	}
 
 	public DynamicVideoAdapter(Context context, List<VideoImage> data) {
@@ -60,6 +62,8 @@ public class DynamicVideoAdapter extends BaseArrayAdapter<VideoImage> {
 			holder.likeCount = (TextView) view.findViewById(R.id.dynamic_likeCount);
 			holder.starCount = (TextView) view.findViewById(R.id.dynamic_starCount);
 			holder.commentCount = (TextView) view.findViewById(R.id.dynamic_commentCount);
+			holder.upliadTime = (TextView) view.findViewById(R.id.tv_video_upload_time);
+			holder.root = view.findViewById(R.id.ll_root);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
@@ -86,16 +90,34 @@ public class DynamicVideoAdapter extends BaseArrayAdapter<VideoImage> {
 		// 评论
 		setComment(record, holder.comment);
 
-		holder.cover.setOnClickListener(new View.OnClickListener() {
+		//上传时间
+		if (record.getTime() != null){
+			try {
+				holder.upliadTime.setText(TimeHelper.getVideoImageUpTime(record.getTime()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
+		//
+		holder.root.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				startVideoPlayActivity(record);
 			}
 		});
 
+	/*	holder.cover.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				startVideoPlayActivity(record);
+			}
+		});*/
+
 		return view;
 	}
+
 
 	/**
 	 * 视频时间长度
@@ -317,5 +339,8 @@ public class DynamicVideoAdapter extends BaseArrayAdapter<VideoImage> {
 		TextView starCount;
 		ImageView comment;
 		TextView commentCount;
+		TextView upliadTime;
+
+		View root;
 	}
 }

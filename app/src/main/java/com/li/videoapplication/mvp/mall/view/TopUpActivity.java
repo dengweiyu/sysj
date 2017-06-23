@@ -7,12 +7,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.model.response.RechargeCoinEntity;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.Constant;
+import com.li.videoapplication.tools.TabLayoutHelper;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
+import com.li.videoapplication.utils.ScreenUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,15 +72,16 @@ public class TopUpActivity extends TBaseAppCompatActivity implements View.OnClic
         if (mFragments == null){
             mFragments = new ArrayList<>();
             mFragments.add(RechargeCurrencyFragment.newInstance());
+            mFragments.add(RechargeCoinFragment.newInstance());
             mFragments.add(RechargeVipFragment.newInstance());
         }
 
-        mAdapter = new ViewPagerAdapter(getSupportFragmentManager(),mFragments,new String[]{"充值飞磨豆","充值会员"});
+        mAdapter = new ViewPagerAdapter(getSupportFragmentManager(),mFragments,new String[]{"充值魔豆","充值魔币","充值会员"});
+        mPager.setOffscreenPageLimit(3);
         mPager.setAdapter(mAdapter);
 
         mPager.setCurrentItem(currentPage,false);
         mTabLayout.setupWithViewPager(mPager);
-
     }
 
     private void initToolbar(){

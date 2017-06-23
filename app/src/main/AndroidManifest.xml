@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -244,6 +244,7 @@
             android:hardwareAccelerated="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:theme="@style/MyThemeDark"
             >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -323,6 +324,12 @@
 
         <activity
             android:name=".ui.activity.MyWalletActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar" />
+
+        <activity
+            android:name=".mvp.mall.view.MyBillDetailActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar" />
@@ -589,6 +596,11 @@
             android:name=".ui.activity.ShareActivity"
             android:screenOrientation="portrait"
             android:theme="@style/custom_dialog" />
+        <activity
+            android:name=".ui.activity.MyGiftActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar"/>
 
         <!-- #################################  飞磨IM   ######################### -->
 
@@ -596,12 +608,12 @@
             android:name="com.ifeimo.im.activity.ChatActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTask"
-            android:theme="@style/MyTheme.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
             android:name="com.ifeimo.im.activity.GroupChatActivity"
             android:alwaysRetainTaskState="true"
-            android:theme="@style/MyTheme.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- #################################  融云  ######################### -->
         <meta-data
@@ -650,6 +662,12 @@
 
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
+
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <!-- 微信分享回调 -->
@@ -659,16 +677,9 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!-- 调用新浪原生SDK，需要注册的回调activity -->
-        <activity
-            android:name="cn.sharesdk.sina.weibo.SinaActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
-            <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+
+
 
         <!--####################################################################################-->
         <!--####################################################################################-->

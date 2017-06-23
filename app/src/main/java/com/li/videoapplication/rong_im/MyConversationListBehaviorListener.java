@@ -7,11 +7,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.RongIMHelper;
-import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.ui.activity.ConversationActivity;
-import com.li.videoapplication.ui.activity.MainActivity;
+import com.li.videoapplication.ui.ActivityManager;
 
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.UIConversation;
@@ -29,7 +26,7 @@ public class MyConversationListBehaviorListener implements RongIM.ConversationLi
     public boolean onConversationPortraitClick(Context context, final Conversation.ConversationType conversationType, final String id) {
         Log.d(TAG, "onConversationPortraitClick: s == "+id);
 
-        ActivityManeger.startConversationActivity(context,
+        ActivityManager.startConversationActivity(context,
                 id, "",
                 RongIMHelper.getConversationType(conversationType));
 
@@ -73,7 +70,7 @@ public class MyConversationListBehaviorListener implements RongIM.ConversationLi
                     }
                 });
 
-        ActivityManeger.startConversationActivity(context,
+        ActivityManager.startConversationActivity(context,
                 uiConversation.getConversationTargetId(),
                 uiConversation.getUIConversationTitle(),
                 RongIMHelper.getConversationType(uiConversation.getConversationType()));

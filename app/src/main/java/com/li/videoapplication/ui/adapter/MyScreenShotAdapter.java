@@ -18,7 +18,7 @@ import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.dialog.VideoManagerRenameDialog;
@@ -45,7 +45,7 @@ public class MyScreenShotAdapter extends BaseAdapter {
      */
     private void startShareActivity(final ScreenShotEntity record) {
         VideoMangerActivity activity = (VideoMangerActivity) AppManager.getInstance().getActivity(VideoMangerActivity.class);
-        ActivityManeger.startActivityShareActivity4MyScreenShot(activity, record.getPath(), record.getDisplayName());
+        ActivityManager.startActivityShareActivity4MyScreenShot(activity, record.getPath(), record.getDisplayName());
     }
 
     private List<ScreenShotEntity> data;

@@ -1,8 +1,6 @@
 package com.li.videoapplication.ui.activity;
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,16 +17,13 @@ import com.li.videoapplication.data.local.ImageDirectoryEntity;
 import com.li.videoapplication.data.local.ImageDirectoryResponseObject;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.ui.adapter.ImageViewAdapter;
 import com.li.videoapplication.ui.popupwindows.ImageDirectoryPopupWindow;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * 活动：图片选择

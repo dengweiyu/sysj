@@ -3,7 +3,6 @@ package com.li.videoapplication.ui.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -17,17 +16,13 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.SquareScrollEntity;
 import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.event.SquareFilterEvent;
-import com.li.videoapplication.data.model.response.SquareDotEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
-import com.li.videoapplication.ui.dialog.RecordDialog;
-import com.li.videoapplication.ui.fragment.NewSquareFragment;
 import com.li.videoapplication.ui.fragment.SquareFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
-import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.ViewPagerY4;
 import com.ypy.eventbus.EventBus;
 
@@ -49,7 +44,7 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
     private SquareGameEntity game;
 
     private View mTabFirst;
-    private View mTabScond;
+    private View mTabSecond;
     @Override
     public int getContentView() {
         return R.layout.activity_square;
@@ -95,7 +90,7 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
         setTextViewText((TextView)findViewById(R.id.tb_title),"玩家广场");
 
         mTabFirst = findViewById(R.id.ll_square_tab);
-        mTabScond = findViewById(R.id.ll_square_tab_second);
+        mTabSecond = findViewById(R.id.ll_square_tab_second);
 
         mRecord = (ImageView)findViewById(R.id.iv_tb_record);
         mRecord.setVisibility(View.VISIBLE);
@@ -116,7 +111,7 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
             return;
         }
 
-        mTabScond.setVisibility(View.VISIBLE);
+        mTabSecond.setVisibility(View.VISIBLE);
         mTabFirst.setVisibility(View.VISIBLE);
 
         fragments = new ArrayList<>();
@@ -203,7 +198,7 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
                 break;
             case R.id.iv_square_menu:
                 game.getData().get(viewPager.getCurrentItem()).setChoice(true);
-                ActivityManeger.startSquareGameChoiceActivity(SquareActivity.this,game);
+                ActivityManager.startSquareGameChoiceActivity(SquareActivity.this,game);
                 game.getData().get(viewPager.getCurrentItem()).setChoice(false);
                 break;
             case R.id.tv_title_hot:

@@ -15,9 +15,8 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Gift;
 import com.li.videoapplication.framework.BaseArrayAdapter;
-import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.GiftListActivity;
 import com.li.videoapplication.ui.activity.GroupGiftActivity;
@@ -38,7 +37,7 @@ public class GiftAdapter extends BaseArrayAdapter<Gift> {
      * 跳转：礼包详情
      */
     private void startGiftDetailActivity(Gift item) {
-        ActivityManeger.startGiftDetailActivity(getContext(), item.getId());
+        ActivityManager.startGiftDetailActivity(getContext(), item.getId());
         if (activity instanceof GiftListActivity)
             UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "热门礼包-有效");
         else if (activity instanceof GroupGiftActivity)

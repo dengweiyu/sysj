@@ -10,10 +10,8 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.BaseDialog;
-import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.ScreenUtil;
-import com.li.videoapplication.utils.StringUtil;
 
 
 /**
@@ -62,7 +60,7 @@ public class SharedSuccessDialog extends BaseDialog implements View.OnClickListe
             case R.id.iv_shared_success_confirm:
                 dismiss();break;
             case R.id.rl_shared_to_square:
-                ActivityManeger.startSquareActivity(getContext(),gameId);
+                ActivityManager.startSquareActivity(getContext(),gameId);
                 dismiss();
                 break;
         }

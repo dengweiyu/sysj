@@ -1,11 +1,8 @@
 package com.li.videoapplication.ui.fragment;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,7 +15,7 @@ import com.li.videoapplication.data.local.LPDSStorageUtil;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.IntentHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.VideoEditorActivity2;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.ui.view.EditorSeekBar;
@@ -221,7 +218,7 @@ public class EditorFragment extends TBaseFragment {
                                     e.printStackTrace();
                                 }
                                 // 视频编辑
-                                ActivityManeger.startVideoEditorActivity_2(getActivity(), a);
+                                ActivityManager.startVideoEditorActivity_2(getActivity(), a);
                             }
                             // 通知系统扫描媒体文件
                             IntentHelper.scanFile();

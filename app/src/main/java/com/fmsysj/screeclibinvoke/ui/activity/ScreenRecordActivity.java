@@ -4,12 +4,9 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,15 +35,13 @@ import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.PermissionManager;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
-import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.ScreenUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.rong.eventbus.EventBus;
 
 /**
  * 活动：录屏
@@ -364,12 +359,12 @@ public class ScreenRecordActivity extends TBaseActivity implements
                 break;
 
             case R.id.screenrecord_setting:
-                ActivityManeger.startSettingActivity(this);
+                ActivityManager.startSettingActivity(this);
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "发布-录制视频-点击设置跳转设置页面");
                 break;
 
             case R.id.screenrecord_video:
-                ActivityManeger.startVideoMangerActivity(this);
+                ActivityManager.startVideoMangerActivity(this);
                 UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "发布-录制视频-点击视频跳转视频页面");
                 break;
 

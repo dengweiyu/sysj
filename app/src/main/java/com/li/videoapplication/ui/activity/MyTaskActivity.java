@@ -21,7 +21,7 @@ import com.li.videoapplication.data.model.response.TaskList203Entity;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.tools.ShareSDKShareHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.MyTaskParentAdapter;
 import com.li.videoapplication.utils.ScreenUtil;
@@ -36,21 +36,21 @@ public class MyTaskActivity extends PullToRefreshActivity<TaskGroup> implements 
 	 * 跳转：个人资料
 	 */
 	public void startMyPersonalInfoActivity() {
-		ActivityManeger.startMyPersonalInfoActivity(this);
+		ActivityManager.startMyPersonalInfoActivity(this);
 	}
 	
 	/**
 	 * 跳转：主页
 	 */
 	public void startMainActivity() {
-        ActivityManeger.startMainActivityNewTask();
+        ActivityManager.startMainActivityNewTask();
 	}
 	
 	/**
 	 * 跳转：分享
 	 */
 	public void startActivityShareActivity4SYSJ() {
-		ActivityManeger.startActivityShareActivity4SYSJ(this);
+		ActivityManager.startActivityShareActivity4SYSJ(this);
 	}
 
 	/**

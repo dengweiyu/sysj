@@ -8,7 +8,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseOverShootDialog;
 import com.li.videoapplication.mvp.billboard.view.BillboardActivity;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.MainActivity;
 
 /**
@@ -100,16 +100,16 @@ public class Jump2Dialog extends BaseOverShootDialog implements View.OnClickList
                             mainActivity.viewPager.setCurrentItem(3);
                         break;
                     case TO_UPLOADVIDEO:
-                        ActivityManeger.startVideoMangerActivity(getContext());
+                        ActivityManager.startVideoMangerActivity(getContext());
                         break;
                     case TO_BILLBOARD_VIDEO:
-                        ActivityManeger.startBillboardActivity(getContext(), BillboardActivity.TYPE_VIDEO);
+                        ActivityManager.startBillboardActivity(getContext(), BillboardActivity.TYPE_VIDEO);
                         break;
                     case TO_BILLBOARD_PLAYER:
-                        ActivityManeger.startBillboardActivity(getContext(), BillboardActivity.TYPE_PLAYER);
+                        ActivityManager.startBillboardActivity(getContext(), BillboardActivity.TYPE_PLAYER);
                         break;
                     case TO_MALL:
-                        ActivityManeger.startMallActivity(getContext());
+                        ActivityManager.startMallActivity(getContext());
                         break;
                 }
                 break;

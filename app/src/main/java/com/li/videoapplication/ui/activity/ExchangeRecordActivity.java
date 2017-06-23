@@ -3,30 +3,18 @@ package com.li.videoapplication.ui.activity;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.data.model.entity.Currency;
-import com.li.videoapplication.data.model.response.OrderListEntity;
-import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.mall.view.ExchangeRecordFragment;
-import com.li.videoapplication.ui.ActivityManeger;
-import com.li.videoapplication.mvp.adapter.ExchangeRecordAdapter;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
 
 /**

@@ -10,12 +10,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.event.UploadMatchPicEvent;
@@ -28,12 +26,11 @@ import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.data.upload.Contants;
 import com.li.videoapplication.data.upload.ImageShareResponseObject;
 import com.li.videoapplication.data.upload.VideoShareTask208;
-import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.BitmapHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.MyMatchProcessActivity;
 import com.li.videoapplication.tools.ToastHelper;
@@ -82,7 +79,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
      * 跳转：上传比赛结果截图页面
      */
     private void startUploadMatchResultImageActivity() {
-        ActivityManeger.startUploadMatchResultImageActivity(getActivity(),
+        ActivityManager.startUploadMatchResultImageActivity(getActivity(),
                 matchDetailMatch,
                 pk_id,
                 match.getTeam_a().getTeam_id(),
@@ -96,7 +93,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
      * 跳转：选择上传视频
      */
     private void startVideoChooseActivity() {
-        ActivityManeger.startVideoChooseActivity(getActivity(), null, VideoShareActivity.TO_FINISH);
+        ActivityManager.startVideoChooseActivity(getActivity(), null, VideoShareActivity.TO_FINISH);
     }
 
     @Override
@@ -265,7 +262,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
         notice2.setText(Html.fromHtml(s2));
 
         //引导句子3  红色：#ff3d2e，蓝色：#48c5ff
-        String s3 = "上传" + TextUtil.toColor("比赛视频", "#48c5ff") + "奖励" + TextUtil.toColor(currencyNum, "#ff3d2e") + "飞磨豆";
+        String s3 = "上传" + TextUtil.toColor("比赛视频", "#48c5ff") + "奖励" + TextUtil.toColor(currencyNum, "#ff3d2e") + "魔豆";
         notice3.setText(Html.fromHtml(s3));
     }
 
@@ -358,7 +355,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
                 break;
             case R.id.ongoing_enemyicon://敌方头像
                 if (RongIM.getInstance() != null && match != null && !StringUtil.isNull(match.getTeam_b().getLeader_id())) {
-                    ActivityManeger.startConversationActivity(getActivity(),
+                    ActivityManager.startConversationActivity(getActivity(),
                             match.getTeam_b().getLeader_id(),
                             match.getTeam_b().getLeader_game_role(),
                             true,
@@ -370,7 +367,7 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
                 if (RongIM.getInstance() != null && activity != null &&
                         activity.customerServiceID != null && activity.customerServiceName != null) {
 
-                    ActivityManeger.startConversationActivity(getActivity(),
+                    ActivityManager.startConversationActivity(getActivity(),
                             activity.customerServiceID,
                             activity.customerServiceName,
                             false);

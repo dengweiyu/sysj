@@ -1,6 +1,5 @@
 package com.fmsysj.screeclibinvoke.logic.notification;
 
-import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,7 +18,6 @@ import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
-import com.li.videoapplication.ui.ActivityManeger;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.fmsysj.screeclibinvoke.data.observe.ObserveManager;
 import com.fmsysj.screeclibinvoke.data.observe.listener.FrontCameraObservable;

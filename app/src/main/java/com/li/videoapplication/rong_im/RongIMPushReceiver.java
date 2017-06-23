@@ -2,7 +2,7 @@ package com.li.videoapplication.rong_im;
 
 import android.content.Context;
 
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 
 import io.rong.push.notification.PushMessageReceiver;
 import io.rong.push.notification.PushNotificationMessage;
@@ -33,7 +33,7 @@ public class RongIMPushReceiver extends PushMessageReceiver {
 
         String targetId = pushNotificationMessage.getTargetId();
         String targetUserName = pushNotificationMessage.getTargetUserName();
-        ActivityManeger.startConversationActivity(context, targetId,targetUserName,false);
+        ActivityManager.startConversationActivity(context, targetId,targetUserName,false);
         return true;
     }
 }

@@ -193,7 +193,6 @@
     <orderEntry type="library" exported="" name="android-async-http-1.4.6" level="project" />
     <orderEntry type="library" exported="" name="butterknife-annotations-8.1.0" level="project" />
     <orderEntry type="library" exported="" name="securityguardaar3-5.1.81-" level="project" />
-    <orderEntry type="module" module-name="lib-emojix" exported="" />
     <orderEntry type="module" module-name="sqlitesdk" exported="" />
     <orderEntry type="module" module-name="ShareSDK" exported="" />
     <orderEntry type="module" module-name="sweet-alert-dialog" exported="" />
@@ -241,8 +240,8 @@
     <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.2.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="exposed-instrumentation-api-publish-0.5" level="project" />
     <orderEntry type="library" exported="" name="jxmpp-core-0.4.2" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="rules-0.5" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.2.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="rules-0.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.annotation-api-1.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="xpp3-1.1.4c" level="project" />
     <orderEntry type="library" exported="" name="smack-resolver-minidns-4.1.8" level="project" />

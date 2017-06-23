@@ -2,10 +2,7 @@ package com.li.videoapplication.mvp.adapter;
 
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +13,7 @@ import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 
@@ -91,7 +88,7 @@ public class MyFinishedMatchProcessAdapter extends BaseQuickAdapter<Match, BaseV
             public void onClick(View v) {
                 if (!StringUtil.isNull(event_id)) {
                     FragmentActivity activity = AppManager.getInstance().currentActivity();
-                    ActivityManeger.startMyMatchBettleActivity(activity,
+                    ActivityManager.startMyMatchBettleActivity(activity,
                             event_id, record.getSchedule_id(), v, "finishmatch",
                             tranView2, "signet");
                 }

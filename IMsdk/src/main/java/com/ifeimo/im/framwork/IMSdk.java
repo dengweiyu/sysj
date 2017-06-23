@@ -44,7 +44,7 @@ import y.com.sqlitesdk.framework.sqliteinterface.Execute;
  * Created by lpds on 2017/1/12.
  */
 public class IMSdk {
-
+    private static final String TAG = "XMPP_IMSDK";
     public static Application CONTEXT;
     public static final int versionCode = 4;
 
@@ -55,6 +55,7 @@ public class IMSdk {
      */
     public static void init(Application application) {
         CONTEXT = application;
+        LockManager.getInstances();
         ChatWindowsManager.getInstences();
         IMConnectManager.getInstances();
         IMAccountManager.getInstances();
@@ -77,18 +78,19 @@ public class IMSdk {
      * @param context * @param isClearCache 是否清空用户缓存
      */
     public static void logout(Context context, boolean isClearCache) {
+        Log.i(TAG, "Thread.currentThread() "+Thread.currentThread().getName());
+        UserBean.clear();
         if (isClearCache) {
             PManager.clearCacheUser(context);
         }
 
+        IMConnectManager.getInstances().disconnect();
         IMConnectManager.getInstances().addLogoutCallBack(new LogoutCallBack() {
             @Override
             public void logoutSuccess() {
                 Log.i("XMPP", "------ 注销成功 ------");
             }
         });
-//        Proxy.getMessageManager().releaseAllChat();
-        IMConnectManager.getInstances().disconnect();
     }
 
     /**

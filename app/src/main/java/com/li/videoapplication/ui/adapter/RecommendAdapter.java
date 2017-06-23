@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +13,7 @@ import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 
@@ -30,7 +29,7 @@ public class RecommendAdapter extends BaseArrayAdapter<VideoImage> {
      * 跳转：视频播放
      */
     private void startVideoPlayActivity(VideoImage videoImage) {
-        ActivityManeger.startVideoPlayActivity(getContext(), videoImage);
+        ActivityManager.startVideoPlayActivity(getContext(), videoImage);
         UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.DISCOVER, "精彩推荐-推荐视频");
     }
 
@@ -38,7 +37,7 @@ public class RecommendAdapter extends BaseArrayAdapter<VideoImage> {
      * 跳转：玩家动态
      */
     private void startPlayerDynamicActivity(Member member) {
-        ActivityManeger.startPlayerDynamicActivity(getContext(), member);
+        ActivityManager.startPlayerDynamicActivity(getContext(), member);
     }
 
     public RecommendAdapter(Context context, List<VideoImage> data) {

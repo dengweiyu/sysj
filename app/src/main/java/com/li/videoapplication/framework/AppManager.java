@@ -11,6 +11,7 @@ import com.li.videoapplication.ui.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
@@ -124,6 +125,7 @@ public class AppManager {
 		}
 	}
 
+
 	/**
 	 * 功能：结束当前Activity，堆栈中后一个压入的
 	 */
@@ -158,11 +160,20 @@ public class AppManager {
 	public void removeActivity(final Class<?> cls) {
 		synchronized (instance) {
 			Log.i(tag, "[finishActivity]" + cls.getSimpleName());
-			for (FragmentActivity activity : activities) {
+			/*for (FragmentActivity activity : activities) {
 				if (activity.getClass().equals(cls)) {
 					removeActivity(activity);
 				}
-			}
+			}*/
+			Iterator<FragmentActivity> iterator = activities.iterator();
+            while (iterator.hasNext()){
+                FragmentActivity activity  = iterator.next();
+                if (activity.getClass().equals(cls)){
+                    activity.finish();
+                    iterator.remove();
+                }
+            }
+
 			printAllActivity();
 		}
 	}
@@ -176,11 +187,12 @@ public class AppManager {
                 Log.i(tag, "[finishActivity]" + cls1.getSimpleName());
             }
             for (Class<?> cls : clss) {
-                for (FragmentActivity activity : activities) {
+               /* for (FragmentActivity activity : activities) {
                     if (activity.getClass().equals(cls)) {
                         removeActivity(activity);
                     }
-                }
+                }*/
+               removeActivity(cls);
             }
 			printAllActivity();
 		}

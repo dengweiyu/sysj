@@ -15,7 +15,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Recommend;
 import com.li.videoapplication.data.model.response.BaseInfo4OfficialDialogEntity;
-import com.li.videoapplication.data.model.response.BaseInfoEntity;
 import com.li.videoapplication.data.model.response.RecommendedLocationEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.BaseDialog;
@@ -23,7 +22,7 @@ import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.mvp.adapter.OfficialPaymentAdapter;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.utils.InputUtil;
@@ -50,7 +49,7 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
      * 跳转：充值
      */
     private void startTopUpActivity() {
-        ActivityManeger.startTopUpActivity(getContext(),Constant.TOPUP_ENTRY_RECOMMEND,0);
+        ActivityManager.startTopUpActivity(getContext(),Constant.TOPUP_ENTRY_RECOMMEND,0);
     }
 
     public OfficialPaymentDialog(Context context, RecommendedLocationEntity event) {
@@ -208,7 +207,7 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
 
             case R.id.official_detail:
                 if (event != null)
-                    ActivityManeger.startProductsDetailActivity(getContext(), event.getDetailId(),
+                    ActivityManager.startProductsDetailActivity(getContext(), event.getDetailId(),
                             Constant.PRODUCTSDETAIL_RICHTEXT_WITHBTN);
                 break;
             case R.id.official_topup:
@@ -227,7 +226,7 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
             } else {
                 dismiss();
                 VideoShareActivity.isPayed = true;
-                ActivityManeger.startShareActivity4MyLocalVideo(activity);
+                ActivityManager.startShareActivity4MyLocalVideo(activity,false);
             }
         }
     }

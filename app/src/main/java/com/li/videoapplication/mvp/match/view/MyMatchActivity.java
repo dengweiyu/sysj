@@ -20,7 +20,7 @@ import com.li.videoapplication.mvp.match.MatchContract.IMatchPresenter;
 import com.li.videoapplication.mvp.match.MatchContract.IMyMatchListView;
 import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.ActivityManeger;
+import com.li.videoapplication.ui.ActivityManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public class MyMatchActivity extends TBaseAppCompatActivity implements IMyMatchL
      * 跳转：游戏赛事详情
      */
     private void startActivityDetailGameMatch(String event_id) {
-        ActivityManeger.startGameMatchDetailActivity(this, event_id);
+        ActivityManager.startGameMatchDetailActivity(this, event_id);
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "侧栏我的赛事-我的赛事页面，点击任何一个赛事 ");
     }
 
@@ -56,7 +56,7 @@ public class MyMatchActivity extends TBaseAppCompatActivity implements IMyMatchL
      * 跳转：活动详情
      */
     private void startActivityDetailActivity208(String match_id) {
-        ActivityManeger.startActivityDetailActivity(this, match_id);
+        ActivityManager.startActivityDetailActivity(this, match_id);
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MATCH, "侧栏我的赛事-进入活动");
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "侧栏我的赛事-我的赛事页面，点击任何一个赛事 ");
     }
