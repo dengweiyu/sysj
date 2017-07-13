@@ -24,6 +24,8 @@ public class AddFriendPopupWindow  {
 
     Context context;
 
+    View.OnClickListener onClickListener;
+
     View contentView;
     View addView;
 
@@ -41,7 +43,9 @@ public class AddFriendPopupWindow  {
             addView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    if(onClickListener!=null){
+                        onClickListener.onClick(view);
+                    }
                 }
             });
             popupWindow = new PopupWindow(contentView,
@@ -70,6 +74,10 @@ public class AddFriendPopupWindow  {
         return popupWindow;
     }
 
+    public AddFriendPopupWindow setOnClickListener(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+        return this;
+    }
 
     public int getHeight() {
         return height;

@@ -10,22 +10,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.image.GlideHelper;
+import com.li.videoapplication.data.model.response.MessageListEntity;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.BaseArrayAdapter;
+import com.li.videoapplication.tools.TimeHelper;
 
 /**
  * 适配器：消息
  */
 @SuppressLint({ "InflateParams", "ViewHolder" }) 
-public class MessageAdapter extends BaseArrayAdapter<MessageAdapter.Message> {
+public class MessageAdapter extends BaseArrayAdapter<MessageListEntity.DataBean> {
 
-	public MessageAdapter(Context context, List<MessageAdapter.Message> data) {
+	private Context mContext;
+	public MessageAdapter(Context context, List<MessageListEntity.DataBean> data) {
 		super(context, R.layout.adapter_message, data);
+		mContext = context;
 	}
 	
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
 		
-		final Message record = getItem(position);
+		final MessageListEntity.DataBean data = getItem(position);
 		final ViewHolder holder;
 		if (view == null) {
 			holder = new ViewHolder();
@@ -33,34 +39,56 @@ public class MessageAdapter extends BaseArrayAdapter<MessageAdapter.Message> {
 			holder.title = (TextView) view.findViewById(R.id.message_name);
 			holder.pic = (ImageView) view.findViewById(R.id.message_pic);
 			holder.go = (ImageView) view.findViewById(R.id.message_go);
-			holder.count = (TextView) view.findViewById(R.id.message_count);
+			holder.count = (TextView) view.findViewById(R.id.tv_unread_message_count);
+			holder.content = (TextView)view.findViewById(R.id.tv_message_content);
+			holder.time = (TextView)view.findViewById(R.id.tv_message_time);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
 
-		setTextViewText(holder.title, record.getContent());
-		setImageViewImageRes(holder.pic, record.getPic());
-		setCount(record, holder.count, holder.go);
+
+		setTextViewText(holder.content, data.getContent());
+		setTextViewText(holder.title, data.getTitle());
+
+		GlideHelper.displayImage(mContext,data.getCover(),holder.pic);
+		UITask.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				GlideHelper.displayImage(mContext,data.getCover(),holder.pic);
+			}
+		},200);
+		setCount(data, holder.count);
 		
 		setListViewLayoutParams(view, 58);
-		
+
+		try {
+			setTextViewText(holder.time, TimeHelper.getMyMessageTime(data.getTime()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return view;
 	}
 	
 	/**
 	 * 设置红点
 	 */
-	private void setCount(Message record, TextView view, ImageView v) {
+	private void setCount(MessageListEntity.DataBean data, TextView view) {
 
 		view.setText("");
-		if (record.getCount() > 0) {
+		int mark = 0;
+
+		try {
+			mark = Integer.parseInt(data.getMark_num());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		view.setText(mark+"");
+		if (mark > 0) {
 //			setTextViewTextVisibility(view, String.valueOf(record.getFileCount()));
 			view.setVisibility(View.VISIBLE);
-			v.setVisibility(View.GONE);
 		} else {
 			view.setVisibility(View.GONE);
-			v.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -70,6 +98,8 @@ public class MessageAdapter extends BaseArrayAdapter<MessageAdapter.Message> {
 		ImageView go;
 		TextView count;
 		ImageView pic;
+		TextView content;
+		TextView time;
 	}
 	
 	public static class Message {

@@ -25,7 +25,7 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.utils.StringUtil;
-import com.ypy.eventbus.EventBus;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;

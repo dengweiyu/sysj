@@ -99,6 +99,7 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
 
     private void initWebView() {
         WebSettings webSettings = webView.getSettings();
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(true);
         webSettings.setBuiltInZoomControls(false);//关闭缩放

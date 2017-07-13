@@ -1,20 +1,12 @@
 package com.ifeimo.im.common.util;
 
-import android.app.Activity;
 import android.os.Looper;
-import android.util.Log;
 
 import com.ifeimo.im.IEmployee;
 import com.ifeimo.im.framwork.Proxy;
-import com.ifeimo.im.framwork.interface_im.ILife;
-import com.ifeimo.im.framwork.interface_im.IMMain;
+import com.ifeimo.im.framwork.commander.ILife;
+import com.ifeimo.im.framwork.commander.IMMain;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

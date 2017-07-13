@@ -7,8 +7,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
+import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.VideoPlayGiftEntity;
 import com.li.videoapplication.data.network.UITask;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.util.List;
@@ -65,13 +67,25 @@ public class GiftRankAdapter extends BaseQuickAdapter<VideoPlayGiftEntity.DataBe
                 .setText(R.id.tv_play_currency,StringUtil.formatNum(includesBean.getCoin_sum()))
                 .setText(R.id.tv_play_beans,StringUtil.formatNum(includesBean.getCurrency_sum()));
 
+        View root  = holder.getView(R.id.ll_rank_root);
         if (!StringUtil.isNull(mMemberId)){
-            View root  = holder.getView(R.id.ll_rank_root);
+
             if (mMemberId.equals(includesBean.getMember_id())){
                 root.setBackgroundResource(R.drawable.gift_rank_own);
             }else {
                 root.setBackgroundResource(R.drawable.gift_rank_other);
             }
         }
+
+        //
+        root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Member member = new Member();
+                member.setMember_id(includesBean.getMember_id());
+                member.setId(includesBean.getMember_id());
+                ActivityManager.startPlayerDynamicActivity(mContext,member);
+            }
+        });
     }
 }

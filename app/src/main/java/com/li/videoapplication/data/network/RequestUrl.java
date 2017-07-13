@@ -693,12 +693,7 @@ public class RequestUrl {
         return BaseHome + "/member/msgList.html";
     }
 
-    /**
-     * 视频图文消息
-     */
-    public final String messageMyMessage() {
-        return BaseSYSJ + "/sysj201/message/myMessage";
-    }
+
 
     /**
      * 清除视频图文消息
@@ -707,12 +702,7 @@ public class RequestUrl {
         return BaseSYSJ + "/sysj211/message/allRead";
     }
 
-    /**
-     * 系统消息
-     */
-    public final String messageSysMessage() {
-        return BaseSYSJ + "/Sysj217/Message/sysMessage";
-    }
+
 
 	/* ############## 圈子/游戏 ############## */
 
@@ -736,6 +726,7 @@ public class RequestUrl {
     public final String messageMsgGroupRed() {
         return BaseSYSJ + "/sysj201/message/msgGroupRed";
     }
+
 
     /**
      * 视频，图文消息已读
@@ -2325,5 +2316,154 @@ public class RequestUrl {
      */
     public final String sharedSuccess(){
         return BaseSYSJ+"/Sysj221/ShareStatical/share";
+    }
+
+    /**
+     *教练列表
+     */
+    public final String getCoachList(){
+        return BaseSYSJ+"/Sysj222/Coach/coaches";
+    }
+
+    /**
+     *教练详情
+     */
+    public final String getCoachDetail(){
+        return BaseSYSJ+"/Sysj222/Coach/coachDetail";
+    }
+
+    /**
+     *陪玩订单选项
+     */
+    public final String getPlayWithOrderOptions(){
+        return BaseSYSJ+"/Sysj222/TrainingOrder/menuMap";
+    }
+
+    /**
+     *陪玩订单价格预览
+     */
+    public final String getPreviewOrderPrice(){
+        return BaseSYSJ+"/Sysj222/TrainingOrder/estimatePrice";
+    }
+
+    /**
+     *生成陪玩订单
+     */
+    public final String createPlayWithOrder(){
+        return BaseSYSJ+"/Sysj222/TrainingOrder/submitOrder";
+    }
+
+    /**
+     *查询下单列表
+     */
+    public final String getPlayWithPlaceOrder(){
+        return BaseSYSJ+"/Sysj222/TrainingOrder/getOrders";
+    }
+
+    /**
+     *查询接单列表
+     */
+    public final String getPlayWithTakeOrder(){
+        return BaseSYSJ+"/Sysj222/TrainingOrder/receiveOrders";
+    }
+
+
+    /**
+     *查询订单详情
+     */
+    public final String getPlayWithOrderDetail(){
+        return BaseSYSJ+"/Sysj222/TrainingOrder/orderDetail";
+    }
+
+    /**
+     *刷新access token
+     */
+    public final String refreshAccessToken(){
+        return BaseSYSJ+"/Sysj222/Token/refresh";
+    }
+
+    /**
+     *确认
+     */
+    public final String confirmOrder(){
+        return BaseSYSJ+"/Sysj222/TrainingOrder/pay";
+    }
+
+    /**
+     *获取评论标签
+     */
+    public final String getCommentTag(){
+        return BaseSYSJ+"/Sysj222/TrainingOrder/evaluateTag";
+    }
+
+    /**
+     *提交评价
+     */
+    public final String commitComment(){
+        return BaseSYSJ+"/Sysj222/TrainingOrder/evaluate";
+    }
+
+    /**
+     *提交订单结果
+     */
+    public final String commitOrderResult(){
+        return BaseSYSJ+"/Sysj222/TrainingOrder/submitResult";
+    }
+
+    /**
+     *教练签到
+     */
+    public final String coachSign(){
+        return BaseSYSJ+"/Sysj222/Coach/status";
+    }
+
+    /**
+     *申请退款
+     */
+    public final String refundApply(){
+        return BaseSYSJ+"/Sysj222/TrainingOrder/applyRefund";
+    }
+
+    /**
+     *消息列表
+     */
+    public final String getMessageList(){
+        return BaseSYSJ+"/Sysj222/message/sysjMessageList";
+    }
+
+    /**
+     * 用户确认完成订单
+     */
+    public final String confirmOrderDone(){
+        return BaseSYSJ+"/Sysj222/TrainingOrder/confirm";
+    }
+
+    /**
+     * 教练确认接单
+     */
+    public final String confirmTakeOrder(){
+        return BaseSYSJ+"/Sysj222/TrainingOrder/receive";
+    }
+
+
+    /**
+     * 提交channel id
+     */
+    public final String submitChannelId(){
+        return BaseSYSJ+"/Sysj222/BindingChannel/memberBindingChannel";
+    }
+
+    /**
+     * 取消消息红点
+     */
+    public final String readMessage(){
+        return BaseSYSJ+"/Sysj222/message/clearRedMsg";
+    }
+
+    /**
+     * 获取客服信息
+     */
+    public final String getCustomerInfo(){
+        return BaseSYSJ+"/Sysj222/TrainingCommunication/trainingCustomerService";
     }
 }

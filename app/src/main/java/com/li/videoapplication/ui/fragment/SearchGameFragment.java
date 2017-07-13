@@ -26,7 +26,8 @@ import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.adapter.MyGameAdapter;
-import com.ypy.eventbus.EventBus;
+
+import io.rong.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,7 +6,11 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 import android.util.Log;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import java.text.DecimalFormat;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -274,5 +278,47 @@ public class StringUtil {
         System.arraycopy(char0, 0, emoji, 0, char0.length);
         System.arraycopy(char1, 0, emoji, char0.length, emoji.length - char0.length);
         return new String(emoji);
+    }
+
+    public static String convert2Chinese(int count){
+        StringBuffer buffer = new StringBuffer();
+        if (count < 0){
+            return "";
+        }else {
+            if (count <= 999){
+                if (count <= 10){
+                    buffer.append(mMapChinese.get(count+""));
+                }else if (count <= 100){
+                    buffer.append(count/10);
+                    buffer.append(mMapChinese.get("10"));
+                    buffer.append(count%10 == 0 ?"":mMapChinese.get(count%10));
+                }else if (count <= 999){
+                    buffer.append(count/100);
+                    buffer.append(mMapChinese.get("100"));
+                    buffer.append((count-100*(count/100))/10);
+                    buffer.append(mMapChinese.get("10"));
+                    buffer.append(count%10 == 0 ?"":mMapChinese.get(count%10));
+                }
+                return buffer.toString();
+            }
+        }
+        return "";
+    }
+
+    private final static Map<String,String> mMapChinese;
+    static {
+        mMapChinese = Maps.newHashMap();
+        mMapChinese.put("0","零");
+        mMapChinese.put("1","一");
+        mMapChinese.put("2","二");
+        mMapChinese.put("3","三");
+        mMapChinese.put("4","四");
+        mMapChinese.put("5","五");
+        mMapChinese.put("6","六");
+        mMapChinese.put("7","七");
+        mMapChinese.put("8","八");
+        mMapChinese.put("9","九");
+        mMapChinese.put("10","十");
+        mMapChinese.put("100","百");
     }
 }

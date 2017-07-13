@@ -22,9 +22,11 @@ import com.li.videoapplication.data.LocalManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.image.GlideHelper;
+import com.li.videoapplication.data.image.VideoCoverHelper;
 import com.li.videoapplication.data.image.VideoDuration;
 import com.li.videoapplication.data.image.VideoDurationHelper;
 import com.li.videoapplication.data.local.FileUtil;
+import com.li.videoapplication.data.local.LPDSStorageUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.local.VideoCaptureHelper;
 import com.li.videoapplication.data.model.event.CloudVideoEvent;
@@ -35,6 +37,7 @@ import com.li.videoapplication.data.upload.Contants;
 import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.tools.IntentHelper;
+import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
@@ -46,7 +49,7 @@ import com.li.videoapplication.ui.dialog.VideoManagerCopyDialog;
 import com.li.videoapplication.ui.dialog.VideoManagerRenameDialog;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
-import com.ypy.eventbus.EventBus;
+import io.rong.eventbus.EventBus;
 
 import java.io.File;
 import java.util.List;
@@ -68,7 +71,7 @@ public class MyLocalVideoAdapter extends BaseAdapter implements
     private LayoutInflater inflater;
 
     private VideoDurationHelper durationHelper;
-
+    public VideoCoverHelper helper;
     private boolean result;
     private int status;
     private String msg;
@@ -157,11 +160,16 @@ public class MyLocalVideoAdapter extends BaseAdapter implements
 
         durationHelper = new VideoDurationHelper(listView);
 
-        VideoMangerActivity.myLocalVideoDeleteData.clear();
-        for (int i = 0; i < this.data.size(); i++) {
-            VideoMangerActivity.myLocalVideoDeleteData.add(false);
 
+        String[] filePaths = new String[this.data.size()];
+
+        for (int i = 0; i < this.data.size(); i++) {
+            VideoCaptureEntity entity = data.get(i);
+
+            filePaths[i] = entity.getVideo_path();
         }
+        helper = new VideoCoverHelper(listView, filePaths);
+
     }
 
     @Override
@@ -219,7 +227,14 @@ public class MyLocalVideoAdapter extends BaseAdapter implements
         holder.createTime.setText("保存于：" + VideoCaptureHelper.getLastModified(record.getVideo_path()));
         holder.filePath = filePath;
 
-        GlideHelper.displayVideo(context, filePath, holder.cover);
+        // 视频缩略图
+        File file = LPDSStorageUtil.createCoverPath(filePath);
+        if (file != null && file.exists()){
+            //这里不要用Glide  否者有缓存 无法看到设置封面的效果出现
+            new TextImageHelper().setImageViewImageLocal(holder.cover,file.getAbsolutePath());
+        }else {
+            GlideHelper.displayVideo(context,filePath,holder.cover);
+        }
 
         // 视频时长
         holder.allTime.setTag(filePath + filePath);

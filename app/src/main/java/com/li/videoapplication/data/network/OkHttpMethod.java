@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import okhttp3.FormBody;
+
 /**
  * 功能：OKHttp网络请求方法
  */
@@ -159,6 +161,8 @@ public class OkHttpMethod implements AbsRequestMethod {
 			}
 			body = builder.build();
 		}
+
+
 		request = new Request.Builder()
 				.url(url)
 				.post(body)

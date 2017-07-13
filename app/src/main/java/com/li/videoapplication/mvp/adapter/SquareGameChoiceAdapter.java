@@ -39,7 +39,7 @@ public class SquareGameChoiceAdapter extends BaseQuickAdapter<SquareGameEntity.D
         UITask.postDelayed(new Runnable() {
             @Override
             public void run() {
-                //这里是必要的 有的手机不知道为什么第一次加载会失败 所以加载第二次
+
                 GlideHelper.displayImage(mContext.getApplicationContext(),dataBean.getFlag(),(ImageView)holder.getView(R.id.iv_square_game_icon));
             }
         },1000);

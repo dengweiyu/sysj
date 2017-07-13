@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.view.View;
 import android.widget.TextView;
 
+import com.fmsysj.screeclibinvoke.ui.dialog.CountDownDialog;
 import com.fmsysj.screeclibinvoke.ui.dialog.ManufacturerDialog;
 import com.fmsysj.screeclibinvoke.ui.dialog.SettingQualityDialog;
 import com.li.videoapplication.R;
@@ -220,8 +221,8 @@ public class DialogManager {
     /**
      * 悬浮窗设置
      */
-    public static void showManufacturerDialog(Context context) {
-        Dialog dialog = new ManufacturerDialog(context);
+    public static void showManufacturerDialog(Context context,int type) {
+        Dialog dialog = new ManufacturerDialog(context,type);
         dialog.show();
     }
 
@@ -500,6 +501,14 @@ public class DialogManager {
      */
     public static void showSubtitleDialog(Context context, DialogInterface.OnClickListener confirmListener, DialogInterface.OnClickListener cancelListener) {
         Dialog dialog = new SubtitleDialog(context, confirmListener, cancelListener);
+        dialog.show();
+    }
+
+    /**
+     * 录屏返回桌面倒计时
+     */
+    public static void showCountDownDialog(Context context){
+        Dialog dialog = new CountDownDialog(context);
         dialog.show();
     }
 }

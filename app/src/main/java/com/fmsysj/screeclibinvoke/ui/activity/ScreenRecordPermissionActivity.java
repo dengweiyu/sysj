@@ -10,11 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-
-import com.li.videoapplication.data.model.event.ScreenRecordPermission2MainEvent;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppManager;
-import com.ypy.eventbus.EventBus;
 
 /**
  * 活动：5.0录屏（获取权限）

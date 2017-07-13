@@ -21,7 +21,7 @@ import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.ui.fragment.ClassifiedGameFragment;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.RoundedImageView;
-import com.ypy.eventbus.EventBus;
+import io.rong.eventbus.EventBus;
 
 /**
  * 适配器：游戏分类

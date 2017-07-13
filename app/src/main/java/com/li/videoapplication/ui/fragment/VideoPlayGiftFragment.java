@@ -24,6 +24,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.cache.BaseUtils;
 import com.li.videoapplication.data.cache.RequestCache;
+import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.event.InputNumberEvent;
 import com.li.videoapplication.data.model.event.PlayGiftSuccessEvent;
@@ -37,6 +38,7 @@ import com.li.videoapplication.data.network.RequestParams;
 import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
+import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -51,7 +53,7 @@ import com.li.videoapplication.ui.view.GiftItemDecoration;
 import com.li.videoapplication.ui.view.SimpleItemDecoration;
 import com.li.videoapplication.utils.StringUtil;
 import com.pnikosis.materialishprogress.ProgressWheel;
-import com.ypy.eventbus.EventBus;
+import io.rong.eventbus.EventBus;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -114,7 +116,6 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
 
     @Override
     protected void initContentView(View view) {
-        EventBus.getDefault().register(this);
 
         Bundle bundle = getArguments();
         if (bundle != null){
@@ -192,7 +193,6 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
 
     @Override
     public void onDestroy() {
-        EventBus.getDefault().unregister(this);
         mHandler.removeCallbacks(mSyncTask);
 
         super.onDestroy();
@@ -225,7 +225,7 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
     final ViewTreeObserver.OnGlobalLayoutListener mLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
-            System.out.println("onGlobalLayout");
+
             mSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             mGift.getViewTreeObserver().removeOnGlobalLayoutListener(this);
         }
@@ -337,11 +337,7 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
         if (mServiceTimeOffset == -1){
             DataManager.getServiceTime();
         }
-        if (videoNode == 0){
-            ToastHelper.l("请先观看视频哦~");
-            cancelLoadingDialog();
-            return;
-        }
+
         final String node = String.valueOf((int) (videoNode/1000));
         String sign = sign(memberId,videoId,giftId,mServiceTime+"",number);
         DataManager.playGift(sign,memberId,videoId,giftId,node,number,mServiceTime);
@@ -365,19 +361,10 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
      * 生成签名
      */
     private String sign(String memberId,String videoId,String giftId,String time,int number){
-        String sign = "";
         String appKey = getContext().getResources().getString(R.string.play_gift_sign_key);
         String params = memberId+giftId+number+videoId+appKey;
 
-        try {
-            sign = new String(Base64.encode(params.getBytes("UTF-8"),Base64.NO_WRAP));
-            sign = BaseUtils.getMd5(sign+time);
-            int index = Integer.parseInt(time.substring(time.length()-1,time.length()));
-            sign = sign.substring(index,22);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return  sign;
+        return AppAccount.sign(params,time);
     }
 
     /**
@@ -403,7 +390,18 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
                 mSuccessDialog.show();
                 ToastHelper.l("打赏成功啦~");
                 //更新个人信息
-                DataManager.userProfilePersonalInformation(getMember_id(),getMember_id());
+                Member member = getUser();
+                member.setCurrency(entity.getData().getCurrency());
+                member.setCoin(entity.getData().getCoin());
+                PreferencesHepler.getInstance().saveUserProfilePersonalInformation(member);
+
+                if (mCoin != null){
+                    mCoin.setText(StringUtil.formatNum(getUser().getCoin()));
+                }
+                if (mBeans != null){
+                    mBeans.setText(StringUtil.formatNum(getUser().getCurrency()));
+                }
+
                 //更新打赏榜
                 DataManager.getPlayGiftList(getMember_id(),mVideoId);
 

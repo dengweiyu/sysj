@@ -1,21 +1,18 @@
 package com.ifeimo.im.framwork.connect;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.ifeimo.im.OnInitialization;
-import com.ifeimo.im.common.bean.model.IMsg;
-import com.ifeimo.im.framwork.IMSdk;
-import com.ifeimo.im.framwork.Proxy;
-import com.ifeimo.im.framwork.interface_im.IConnect;
+import com.ifeimo.im.framwork.commander.IConnect;
 import com.ifeimo.im.service.LoginService;
 
 /**
  * Created by lpds on 2017/5/2.
  */
+@Deprecated
 public final class ConnectSupport implements IConnectSupport,OnInitialization{
     private boolean isInit = false;
     private IConnect iConnect;
@@ -41,7 +38,6 @@ public final class ConnectSupport implements IConnectSupport,OnInitialization{
     public void onActivityResumed(Activity activity) {
         if(isInit && isPause) {
             isPause = false;
-            Log.i(TAG, "onActivityResumed: App 回到前端");
             if (!iConnect.isConnect()) {
                 Log.i(TAG, "onActivityResumed: App IM 断开连接！");
                 activity.startService(new Intent(activity, LoginService.class));

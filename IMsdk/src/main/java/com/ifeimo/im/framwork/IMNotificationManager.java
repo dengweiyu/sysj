@@ -17,14 +17,15 @@ import android.util.Log;
 import com.bumptech.glide.Glide;
 import com.ifeimo.im.R;
 import com.ifeimo.im.activity.ChatActivity;
-import com.ifeimo.im.common.bean.AccountBean;
+import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.model.AccountModel;
 import com.ifeimo.im.common.bean.model.IMsg;
+import com.ifeimo.im.common.bean.response.MemberInfoRespones;
 import com.ifeimo.im.common.util.AppUtil;
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.common.util.ThreadUtil;
 import com.ifeimo.im.framwork.database.Fields;
-import com.ifeimo.im.framwork.interface_im.IMWindow;
+import com.ifeimo.im.framwork.commander.IMWindow;
 import com.ifeimo.im.framwork.notification.NotificationManager;
 import com.ifeimo.im.framwork.notification.NotifyBean;
 import com.ifeimo.im.framwork.request.Account;
@@ -32,7 +33,6 @@ import com.ifeimo.im.framwork.setting.Builder;
 import com.ifeimo.im.provider.ChatProvider;
 import com.ifeimo.im.provider.InformationProvide;
 
-import org.jivesoftware.smack.chat.Chat;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -42,7 +42,6 @@ import java.util.Map;
 
 import okhttp3.Response;
 import y.com.sqlitesdk.framework.business.Business;
-import y.com.sqlitesdk.framework.business.CenterServer;
 import y.com.sqlitesdk.framework.db.Access;
 import y.com.sqlitesdk.framework.sqliteinterface.Execute;
 
@@ -165,10 +164,10 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> {
             public void onExecute(SQLiteDatabase sqLiteDatabase) throws Exception {
                 AccountModel accountModel = Business.getInstances().queryLineByWhere(sqLiteDatabase, AccountModel.class,
                         Fields.AccounFields.MEMBER_ID + " = " + iMsg.getMemberId(), null);
-                if (accountModel  == null) {
+                if (accountModel == null) {
                     accountModel = new AccountModel();
                     accountModel.setMemberId(iMsg.getMemberId());
-                    Business.getInstances().insert(sqLiteDatabase,accountModel);
+                    Business.getInstances().insert(sqLiteDatabase, accountModel);
                 }
                 accountModels[0] = accountModel;
             }
@@ -180,48 +179,32 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> {
         });
 
         if (accountModels[0] != null && !StringUtil.isNull(accountModels[0].getNickName())
-                && !StringUtil.isNull(accountModels[0].getNickName())) {
+                && !StringUtil.isNull(accountModels[0].getAvatarUrl())) {
             iMsg.setMemberNickName(accountModels[0].getNickName());
             iMsg.setMemberAvatarUrl(accountModels[0].getAvatarUrl());
         } else {
             try {
-                if (StringUtil.isNull(iMsg.getMemberAvatarUrl()) || StringUtil.isNull(iMsg.getMemberNickName())) {
-                    Response response = Account.getMemberInfo(IMSdk.CONTEXT, iMsg.getMemberId());
-                    JSONObject jsonObject = new JSONObject(response.body().string());
-                    Log.i(TAG, "------ 获取到的JSon" + jsonObject + " ------");
-                    if (jsonObject.getInt("code") == 200) {
-                        iMsg.setMemberAvatarUrl(jsonObject.getString("avatarUrl"));
-                        iMsg.setMemberNickName(jsonObject.getString("nickname"));
-                    }
+                MemberInfoRespones response = Account.getMemberInfo(IMSdk.CONTEXT, iMsg.getMemberId());
+                if (response.getCode() == 200) {
+                    iMsg.setMemberAvatarUrl(response.getAvatarUrl());
+                    iMsg.setMemberNickName(response.getNickname());
                 }
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(Fields.AccounFields.MEMBER_ID, iMsg.getMemberId());
-                contentValues.put(Fields.AccounFields.MEMBER_NICKNAME, iMsg.getMemberNickName());
-                contentValues.put(Fields.AccounFields.MEMBER_AVATARURL, iMsg.getMemberAvatarUrl());
-
                 final AccountModel insertModel = new AccountModel();
                 insertModel.setNickName(iMsg.getMemberNickName());
                 insertModel.setMemberId(iMsg.getMemberId());
                 insertModel.setAvatarUrl(iMsg.getMemberAvatarUrl());
-//                CenterServer.getInstances().insert(insertModel);
-
-
                 Access.runCustomThread(new Execute() {
                     @Override
                     public void onExecute(SQLiteDatabase sqLiteDatabase) throws Exception {
-                        Business.getInstances().insert(sqLiteDatabase,insertModel);
-                        IMSdk.CONTEXT.getContentResolver().notifyChange(InformationProvide.CONTENT_URI,null);
-                        IMSdk.CONTEXT.getContentResolver().notifyChange(ChatProvider.CONTENT_URI,null);
+                        Business.getInstances().insert(sqLiteDatabase, insertModel);
+                        IMSdk.CONTEXT.getContentResolver().notifyChange(InformationProvide.CONTENT_URI, null);
+                        IMSdk.CONTEXT.getContentResolver().notifyChange(ChatProvider.CONTENT_URI, null);
                     }
 
                     @Override
-                    public void onExternalError() {
-
-                    }
+                    public void onExternalError() {}
                 });
-
                 notifyMessageNotification(iMsg);
-
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -235,7 +218,7 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> {
      * @return
      */
     private boolean cheackShowNotification(IMsg m) {
-        final IMWindow imWindow = ChatWindowsManager.getInstences().getLastWindow();
+        final IMWindow imWindow = ChatWindowsManager.getInstances().getLastWindow();
         if (imWindow != null && AppUtil.isAppInForeground(imWindow.getContext())) {
             switch (imWindow.getType()) {
                 case IMWindow.CHAT_TYPE:
@@ -283,7 +266,7 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> {
     @Override
     public boolean canClearNotifications() {
 
-        final IMWindow imWindow = ChatWindowsManager.getInstences().getAllIMWindows().getLast();
+        final IMWindow imWindow = ChatWindowsManager.getInstances().getAllIMWindows().getLast();
         switch (imWindow.getType()) {
             case IMWindow.CHAT_TYPE:
                 List<IMsg> linkedList = messageNotifications.get(imWindow.getReceiver());

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:visibility="gone"
+    android:id="@+id/rl_order_list_empty">
+
+            <LinearLayout
+                android:id="@+id/ll_order_list_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/no_send_gift"/>
+                <TextView
+                    android:id="@+id/tv_order_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textcolor_french_gray"
+                    android:text="您还没下过单赶紧，"
+                    android:layout_marginLeft="8dp"
+                    android:textSize="12sp"/>
+                <TextView
+                    android:id="@+id/tv_order_tip_red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="去找大神"
+                    android:textColor="@color/ab_backdround_red"
+                    android:textSize="12sp"/>
+                <ImageView
+                    android:id="@+id/iv_arrow_red_one"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/arrow_right_red"/>
+                <ImageView
+                    android:id="@+id/iv_arrow_red_two"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/arrow_right_red"/>
+            </LinearLayout>
+</RelativeLayout>

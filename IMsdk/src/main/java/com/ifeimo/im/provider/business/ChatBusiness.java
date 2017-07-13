@@ -5,15 +5,12 @@ import android.util.Log;
 
 import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.model.ChatMsgModel;
-import com.ifeimo.im.common.bean.model.GroupChatModel;
 import com.ifeimo.im.common.bean.model.InformationModel;
-import com.ifeimo.im.common.bean.model.SubscriptionModel;
+import com.ifeimo.im.common.bean.model.Model;
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.database.Fields;
-import com.ifeimo.im.framwork.request.Account;
 import com.ifeimo.im.provider.ChatProvider;
-import com.ifeimo.im.provider.GroupChatProvider;
 import com.ifeimo.im.provider.InformationProvide;
 
 import y.com.sqlitesdk.framework.business.Business;
@@ -23,7 +20,7 @@ import y.com.sqlitesdk.framework.sqliteinterface.Execute;
 /**
  * Created by lpds on 2017/4/24.
  */
-public class ChatBusiness extends InformationBuseness implements IMsgBusiness {
+public class ChatBusiness extends InformationBusiness implements IMsgBusiness<ChatMsgModel> {
 
     private static final String TAG = "XMPP_ChatBusiness";
 
@@ -38,11 +35,12 @@ public class ChatBusiness extends InformationBuseness implements IMsgBusiness {
     }
 
 
-    public static final ChatBusiness getInstances() {
+    public static final IMsgBusiness getInstances() {
         return chatBusiness;
     }
 
-    public void insert(final ChatMsgModel inserChatMsgModel) {
+    public void insert(Model<ChatMsgModel> model) {
+        final ChatMsgModel inserChatMsgModel =  model.clone();
         Access.runCustomThread(new Execute() {
             @Override
             public void onExecute(SQLiteDatabase sqLiteDatabase) throws Exception {
@@ -118,7 +116,8 @@ public class ChatBusiness extends InformationBuseness implements IMsgBusiness {
         });
     }
 
-    public void deleteInformationByChat(final InformationModel informationModel) {
+    @Override
+    public void deleteInformation(final InformationModel informationModel) {
         Access.run(new Execute() {
             @Override
             public void onExecute(SQLiteDatabase sqLiteDatabase) throws Exception {
@@ -145,20 +144,19 @@ public class ChatBusiness extends InformationBuseness implements IMsgBusiness {
 
                 ChatMsgModel chatMsgModel = new ChatMsgModel();
                 chatMsgModel.setSendType(Fields.MsgFields.SEND_UNCONNECT);
-                if(Business.getInstances().modify(
+                if (Business.getInstances().modify(
                         sqLiteDatabase,
                         chatMsgModel,
-                        String.format("%s != ?",Fields.GroupChatFields.SEND_TYPE),
-                        new String[]{Fields.GroupChatFields.SEND_FINISH + ""}) > 0){
+                        String.format("%s != ?", Fields.GroupChatFields.SEND_TYPE),
+                        new String[]{String.valueOf(Fields.GroupChatFields.SEND_FINISH)}) > 0) {
                     Log.i(TAG, "onExecute: 所有异常菊花发送部分修改");
-                    IMSdk.CONTEXT.getContentResolver().notifyChange(ChatProvider.CONTENT_URI,null);
+                    IMSdk.CONTEXT.getContentResolver().notifyChange(ChatProvider.CONTENT_URI, null);
                 }
 
             }
 
             @Override
             public void onExternalError() {
-
 
 
             }

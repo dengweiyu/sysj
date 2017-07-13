@@ -17,7 +17,7 @@ import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
-import com.ifeimo.im.framwork.interface_im.IMWindow;
+import com.ifeimo.im.framwork.commander.IMWindow;
 
 import y.com.sqlitesdk.framework.business.BusinessUtil;
 
@@ -110,7 +110,7 @@ public class MuccChatReAdapter extends BaseChatReCursorAdapter<Holder,GroupChatM
                 holder.reConnectIv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Proxy.getMessageManager().reSendMuccMsg(activity.getKey(), groupChatModel);
+                        Proxy.getMessageManager().reSendMuccMsg(activity.getKey(), groupChatModel.clone());
                     }
                 });
             } else if (groupChatModel.getSendType() == Fields.GroupChatFields.SEND_WAITING) {

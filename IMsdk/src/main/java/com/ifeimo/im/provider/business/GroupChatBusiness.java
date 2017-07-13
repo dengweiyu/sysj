@@ -7,6 +7,7 @@ import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.chat.GroupChatBean;
 import com.ifeimo.im.common.bean.model.GroupChatModel;
 import com.ifeimo.im.common.bean.model.InformationModel;
+import com.ifeimo.im.common.bean.model.Model;
 import com.ifeimo.im.common.bean.model.SubscriptionModel;
 import com.ifeimo.im.common.util.ConnectUtil;
 import com.ifeimo.im.common.util.StringUtil;
@@ -15,8 +16,6 @@ import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.provider.GroupChatProvider;
 import com.ifeimo.im.provider.InformationProvide;
-
-import org.jivesoftware.smack.SmackException;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ import y.com.sqlitesdk.framework.sqliteinterface.Execute;
 /**
  * Created by lpds on 2017/3/1.
  */
-public final class GroupChatBusiness extends SubscriptionBusiness implements IMsgBusiness{
+public final class GroupChatBusiness extends SubscriptionBusiness implements IMsgBusiness<GroupChatModel>,IInfortmationBusiness {
     //    private BaseProvider provider;
     private static GroupChatBusiness muccBusiness;
     private final String TAG = "XMPP_MuccBusiness";
@@ -48,10 +47,10 @@ public final class GroupChatBusiness extends SubscriptionBusiness implements IMs
     /**
      * 接收
      *
-     * @param modiModel
+     * @param model
      */
-    public void insert(final GroupChatModel modiModel) {
-
+    public void insert(Model<GroupChatModel> model) {
+        final GroupChatModel groupModel = model.clone();
         Access.runCustomThread(new Execute() {
             @Override
             public void onExecute(SQLiteDatabase sqLiteDatabase) throws Exception {
@@ -60,7 +59,7 @@ public final class GroupChatBusiness extends SubscriptionBusiness implements IMs
                  * 基础判断
                  */
                 {
-                    if (StringUtil.isNull(modiModel.getMemberId())) {
+                    if (StringUtil.isNull(groupModel.getMemberId())) {
                         return;
                     }
 
@@ -70,7 +69,9 @@ public final class GroupChatBusiness extends SubscriptionBusiness implements IMs
                  * 用户消息处理
                  */
                 {
-                    insertAccount(sqLiteDatabase, modiModel.getMemberId(), modiModel.getMemberNickName(), modiModel.getMemberAvatarUrl());
+                    if(!groupModel.getMemberId().equals(UserBean.getMemberID())) {
+                        insertAccount(sqLiteDatabase, groupModel.getMemberId(), groupModel.getMemberNickName(), groupModel.getMemberAvatarUrl());
+                    }
                 }
 
 
@@ -79,30 +80,30 @@ public final class GroupChatBusiness extends SubscriptionBusiness implements IMs
                  */
                 {
                     //此消息是 android 端发出
-                    if (!StringUtil.isNull(modiModel.getMsgId())) {
+                    if (!StringUtil.isNull(groupModel.getMsgId())) {
                         GroupChatModel qureModel = Business.getInstances().queryLineByWhere(sqLiteDatabase,
                                 GroupChatModel.class,
                                 String.format("%s = ? and %s = ? and %s = ?",
                                         Fields.GroupChatFields.ROOM_ID, Fields.GroupChatFields.MSG_ID, Fields.GroupChatFields.MEMBER_ID),
-                                new String[]{modiModel.getRoomid(), modiModel.getMsgId(), modiModel.getMemberId()});
+                                new String[]{groupModel.getRoomid(), groupModel.getMsgId(), groupModel.getMemberId()});
                         if (qureModel != null) {
-                            modiModel.setId(qureModel.getId());
+                            groupModel.setId(qureModel.getId());
                             if (qureModel.getSendType() == Fields.MsgFields.SEND_FINISH) {
-                                modiModel.setSendType(Fields.MsgFields.SEND_FINISH);
-                                if (modiModel.getMsgId().equals(qureModel.getMsgId())
-                                        && modiModel.getContent().equals(qureModel.getContent())) {
+                                groupModel.setSendType(Fields.MsgFields.SEND_FINISH);
+                                if (groupModel.getMsgId().equals(qureModel.getMsgId())
+                                        && groupModel.getContent().equals(qureModel.getContent())) {
                                     return;
                                 }
                             }
-                            if(modiModel.getSendType() != Fields.MsgFields.SEND_WAITING){
-                                modiModel.setCreateTime(qureModel.getCreateTime());
+                            if(groupModel.getSendType() != Fields.MsgFields.SEND_WAITING){
+                                groupModel.setCreateTime(qureModel.getCreateTime());
                             }
-                            if (Business.getInstances().modify(sqLiteDatabase, modiModel) > 0) {
-                                Log.i(TAG, "onExecute: *********** 修改群聊成功 Success Group Modi ********** " + modiModel.toString());
+                            if (Business.getInstances().modify(sqLiteDatabase, groupModel) > 0) {
+                                Log.i(TAG, "onExecute: *********** 修改群聊成功 Success Group Modi ********** " + groupModel.toString());
                             }
                         } else if (qureModel == null) {
-                            if (Business.getInstances().insert(sqLiteDatabase, modiModel) > 0) {
-                                Log.i(TAG, "onExecute: *********** 插入群聊成功 Success Group Insert ********** " + modiModel.toString());
+                            if (Business.getInstances().insert(sqLiteDatabase, groupModel) > 0) {
+                                Log.i(TAG, "onExecute: *********** 插入群聊成功 Success Group Insert ********** " + groupModel.toString());
                             }
                         }
                     } else {
@@ -114,16 +115,16 @@ public final class GroupChatBusiness extends SubscriptionBusiness implements IMs
                                         Fields.GroupChatFields.ROOM_ID,
                                         Fields.GroupChatFields.CREATE_TIME),
                                 new String[]{
-                                        modiModel.getMemberId(),
-                                        modiModel.getRoomid(),
-                                        modiModel.getCreateTime()});
+                                        groupModel.getMemberId(),
+                                        groupModel.getRoomid(),
+                                        groupModel.getCreateTime()});
                         if(groupChatModel != null){
-                            if(!modiModel.getContent().equals(groupChatModel.getContent())){
-                                modiModel.setId(groupChatModel.getId());
-                                Business.getInstances().modify(sqLiteDatabase, modiModel);
+                            if(!groupModel.getContent().equals(groupChatModel.getContent())){
+                                groupModel.setId(groupChatModel.getId());
+                                Business.getInstances().modify(sqLiteDatabase, groupModel);
                             }
-                        }else if(Business.getInstances().insert(sqLiteDatabase, modiModel) > 0) {
-                            Log.i(TAG, "onExecute: *********** 插入群聊成功 Success Group Insert ********** " + modiModel.toString());
+                        }else if(Business.getInstances().insert(sqLiteDatabase, groupModel) > 0) {
+                            Log.i(TAG, "onExecute: *********** 插入群聊成功 Success Group Insert ********** " + groupModel.toString());
                         }
                     }
                 }
@@ -133,15 +134,15 @@ public final class GroupChatBusiness extends SubscriptionBusiness implements IMs
                  */
                 {
                     boolean flag = false;
-                    if(UserBean.getMemberID().equals(modiModel.getMemberId())) {
+                    if(UserBean.getMemberID().equals(groupModel.getMemberId())) {
                         flag = true;
                     }
                     insertInformation(sqLiteDatabase,
-                            modiModel.getRoomid(),
-                            modiModel.getMsgId(),
-                            modiModel.getContent(),
-                            modiModel.getCreateTime(),
-                            modiModel.getSendType(),
+                            groupModel.getRoomid(),
+                            groupModel.getMsgId(),
+                            groupModel.getContent(),
+                            groupModel.getCreateTime(),
+                            groupModel.getSendType(),
                             InformationModel.ROOM,
                             null,flag);
                 }
@@ -163,15 +164,8 @@ public final class GroupChatBusiness extends SubscriptionBusiness implements IMs
      * 删除消息列表
      * @param informationModel
      */
-    public void deleteInformationByGroupChat(final InformationModel informationModel)  {
-        final GroupChatBean groupChatBean = Proxy.getMessageManager().getGroupChatBean(informationModel.getOppositeId());
-        if(groupChatBean.getMultiUserChat().isJoined()){
-            try {
-                groupChatBean.getMultiUserChat().leave();
-            } catch (SmackException.NotConnectedException e) {
-                e.printStackTrace();
-            }
-        }
+    @Override
+    public void deleteInformation(final InformationModel informationModel)  {
         Access.run(new Execute() {
             @Override
             public void onExecute(SQLiteDatabase sqLiteDatabase) throws Exception {
@@ -182,7 +176,7 @@ public final class GroupChatBusiness extends SubscriptionBusiness implements IMs
                 Proxy.getMessageManager().removeGroupChat(informationModel.getOppositeId());
                 if(groupChatBean != null){
                     if(ConnectUtil.isConnect(IMSdk.CONTEXT) && Proxy.getConnectManager().isConnect()){
-                        if(groupChatBean.getMultiUserChat() != null){
+                        if(groupChatBean.getMultiUserChat() != null && groupChatBean.getMultiUserChat().isJoined()){
                             groupChatBean.getMultiUserChat().leave();
                         }
                     }
@@ -208,7 +202,7 @@ public final class GroupChatBusiness extends SubscriptionBusiness implements IMs
         });
     }
 
-
+    @Override
     public List<InformationModel> getAllSubscriptionByType(SQLiteDatabase sqLiteDatabase,int type) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
 
         if(StringUtil.isNull(UserBean.getMemberID())){

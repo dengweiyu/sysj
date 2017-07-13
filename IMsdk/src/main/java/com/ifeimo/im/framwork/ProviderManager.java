@@ -2,23 +2,20 @@ package com.ifeimo.im.framwork;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
-import android.os.Looper;
+import android.os.HandlerThread;
 import android.util.Log;
 
-import com.ifeimo.im.common.bean.model.GroupChatModel;
 import com.ifeimo.im.common.bean.model.InformationModel;
-import com.ifeimo.im.common.util.IMWindosThreadUtil;
-import com.ifeimo.im.common.util.ThreadUtil;
-import com.ifeimo.im.framwork.interface_im.IProvider;
+import com.ifeimo.im.framwork.commander.IProvider;
 import com.ifeimo.im.provider.business.ChatBusiness;
 import com.ifeimo.im.provider.business.GroupChatBusiness;
+import com.ifeimo.im.provider.business.IInfortmationBusiness;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 import y.com.sqlitesdk.framework.db.Access;
 import y.com.sqlitesdk.framework.entity.respone.QueryRespone;
@@ -26,11 +23,14 @@ import y.com.sqlitesdk.framework.sqliteinterface.Execute;
 
 /**
  * Created by lpds on 2017/1/24.
+ *此类作用-------------
+ * 处理一些 其他的数据的手尾。
  */
 final class ProviderManager implements IProvider,Runnable{
     private final String TAG = "XMPP_IProvider";
     private final static ProviderManager providerManager;
     private final List<InformationModel> requestConnectInformationModel = new ArrayList<InformationModel>();
+    private HandlerThread handlerThread = new HandlerThread("ProviderManager");
     private Handler executor = null;
 
     static {
@@ -38,16 +38,11 @@ final class ProviderManager implements IProvider,Runnable{
     }
 
     private ProviderManager() {
-        new Thread(){
-            @Override
-            public void run() {
-                Looper.prepare();
-                executor = new Handler();
-                Looper.loop();
-            }
-        }.start();
+        handlerThread.start();
+        executor = new Handler(handlerThread.getLooper());
         EventBus.getDefault().register(this);
         ManagerList.getInstances().addManager(this);
+        IMConnectManager.getInstances().addMemberInfoObserver(this);
     }
 
     public static IProvider getInstances() {
@@ -135,5 +130,15 @@ final class ProviderManager implements IProvider,Runnable{
                 MessageManager.getInstances().createGruopChat(informationModel.getOppositeId());
             }
         }
+    }
+
+    @Override
+    public void onSucceed() {
+        Log.i(TAG, "------------ sysj member info had Submitted successfully ------------");
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.i(TAG, "------------ sysj member info had Submitted error ------------");
     }
 }

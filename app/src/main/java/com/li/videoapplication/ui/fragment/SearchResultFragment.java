@@ -13,7 +13,6 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.views.ViewPagerY4;
-import com.ypy.eventbus.EventBus;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -33,6 +32,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import io.rong.eventbus.EventBus;
 import io.rong.imageloader.utils.L;
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
@@ -62,7 +62,7 @@ public class SearchResultFragment extends TBaseFragment{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        EventBus.getDefault().register(this);
+
     }
 
     @Override

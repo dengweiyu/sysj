@@ -8,14 +8,10 @@ import com.ifeimo.im.common.bean.model.InformationModel;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
-import com.ifeimo.im.framwork.interface_im.IMWindow;
-import com.ifeimo.im.framwork.notification.INotification;
+import com.ifeimo.im.framwork.commander.IMWindow;
 import com.ifeimo.im.provider.InformationProvide;
 
-import java.io.File;
-
 import y.com.sqlitesdk.framework.business.Business;
-import y.com.sqlitesdk.framework.business.BusinessUtil;
 import y.com.sqlitesdk.framework.db.Access;
 import y.com.sqlitesdk.framework.sqliteinterface.Execute;
 

@@ -1,12 +1,16 @@
 package com.li.videoapplication.data.network;
 
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
+import com.li.videoapplication.data.model.entity.OrderResultEntity;
+import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.umeng.analytics.AnalyticsConfig;
 
 /**
  * 功能：网络请求参数
@@ -14,6 +18,10 @@ import com.li.videoapplication.utils.StringUtil;
 public class RequestParams {
     private static final int A_SYSJ = 2;
     private static final String SYSJ = "a_sysj";
+
+    public static String sAccessToken = "";
+
+    public static String sRefreshToken = "";
 
     public RequestParams() {
         super();
@@ -991,9 +999,11 @@ public class RequestParams {
         return map;
     }
 
+
     public Map<String, Object> login(String key) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("key", key);
+
         return map;
     }
 
@@ -1049,6 +1059,17 @@ public class RequestParams {
         map.put("location", location);
         map.put("avatar", avatar);
         map.put("regOrigin", regOrigin);// "a_sysj"
+        return map;
+    }
+
+    public Map<String,Object> addLoginParams(Map<String, Object> map,int version,String time,String sign,String clientId,String clientSecret,String grantType){
+        map.put("target", SYSJ);
+        map.put("timestamp", time);
+        map.put("sign", sign);
+        map.put("client_id", clientId);
+        map.put("client_secret", clientSecret);
+        map.put("grant_type", grantType);
+        map.put("version",version);
         return map;
     }
 
@@ -1997,6 +2018,7 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<>();
         map.put("video_id", video_id);
         map.put("member_id", member_id);
+        map.put("target",SYSJ);
         return map;
     }
 
@@ -2120,6 +2142,167 @@ public class RequestParams {
     public Map<String, Object> sharedSuccess(String videoId) {
         Map<String, Object> map = new HashMap<>();
         map.put("video_id", videoId);
+        return map;
+    }
+
+    public Map<String, Object> getCoachList(int page) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", page);
+        return map;
+    }
+
+    public Map<String, Object> getCoachDetail(String memberId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        return map;
+    }
+
+
+    public Map<String, Object>   getPlayWithOrderOptions(String coachId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", coachId);
+        return map;
+    }
+
+    public Map<String, Object> getPreviewOrderPrice(String memberId,int  rank,int mode) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("training_level",rank);
+        map.put("game_mode",mode);
+        return map;
+    }
+
+    public Map<String, Object> createPlayWithOrder(String memberId,String coachId,int server,int rank,int mode,long time,int count) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("coach_id",coachId);
+        map.put("game_area",server);
+        map.put("training_level", rank);
+        map.put("game_mode",mode);
+        map.put("start_time",time);
+        map.put("inning",count);
+        map.put("target",SYSJ);
+        map.put("access_token", AppAccount.getAccessToken());
+        return map;
+    }
+
+    public Map<String, Object> getPlayWithPlaceOrder(String memberId,int page) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("page",page);
+        map.put("access_token", AppAccount.getAccessToken());
+        return map;
+    }
+
+    public Map<String, Object>  getPlayWithTakeOrder(String memberId,int page) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("page",page);
+        map.put("access_token", AppAccount.getAccessToken());
+        return map;
+    }
+
+
+    public Map<String, Object>  getPlayWithOrderDetail(String memberId,String orderId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("order_id", orderId);
+        map.put("member_id", memberId);
+        map.put("access_token", AppAccount.getAccessToken());
+        return map;
+    }
+
+    public Map<String, Object>  refreshToken(String secret,String grantType,String refreshToken) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("client_id", "app_sysj");
+        map.put("client_secret", secret);
+        map.put("grant_type", grantType);
+        map.put("refresh_token", refreshToken);
+        return map;
+    }
+
+    public Map<String, Object>  confirmOrder(String memberId,String orderId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("order_id", orderId);
+        map.put("access_token", AppAccount.getAccessToken());
+        return map;
+    }
+
+    public Map<String, Object>  commitComment(String memberId,String orderId,String content,float score,int tag) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("order_id", orderId);
+        map.put("content", content);
+        map.put("score", score);
+        map.put("tag", tag);
+        map.put("access_token", AppAccount.getAccessToken());
+        return map;
+    }
+
+    public Map<String, Object>  commitOrderResult(String memberId, String orderId, String data) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("order_id", orderId);
+        map.put("data",data);
+        map.put("access_token", AppAccount.getAccessToken());
+        return map;
+    }
+
+    public Map<String, Object>  coachSign(String memberId, int status) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("status", status);
+        map.put("access_token", AppAccount.getAccessToken());
+        return map;
+    }
+
+    public Map<String, Object>  refundApply(String memberId,String orderId,String defaultReason,String inputReason) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("order_id",orderId);
+        map.put("default_refund_reason", defaultReason);
+        map.put("refund_reason",inputReason);
+        map.put("access_token", AppAccount.getAccessToken());
+        return map;
+    }
+
+    public Map<String, Object>  getMessageList(String memberId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        return map;
+    }
+
+    public Map<String, Object>  confirmOrderDone(String memberId,String orderId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("order_id",orderId);
+        map.put("access_token", AppAccount.getAccessToken());
+        return map;
+    }
+
+    public Map<String, Object>  confirmTakeOrder(String memberId,String orderId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("order_id",orderId);
+        map.put("access_token", AppAccount.getAccessToken());
+        return map;
+    }
+
+    public Map<String, Object>  submitChannelId(String memberId,String channelId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("channel_id",channelId);
+        map.put("system", "android");
+        return map;
+    }
+
+    public Map<String, Object>  readMessage(String memberId,String msgId,String symbol,String msgType,int isAll) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("msg_id",msgId);
+        map.put("symbol", symbol);
+        map.put("msg_type", msgType);
+        map.put("all", isAll);
         return map;
     }
 }

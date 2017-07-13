@@ -6,24 +6,52 @@
 
     <ImageView
         android:id="@+id/message_pic"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
+        android:scaleType="fitXY"
         android:src="@drawable/message_game"/>
 
     <TextView
         android:id="@+id/message_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_alignTop="@+id/message_pic"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="20dp"
         android:layout_toRightOf="@+id/message_pic"
         android:text="@string/message_video"
         android:textColor="#e0333333"
         android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tv_message_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_toRightOf="@+id/message_pic"
+        android:text="消息"
+        android:layout_alignBottom="@+id/message_pic"
+        android:textColor="@color/textcolor_french_gray"
+        android:layout_toLeftOf="@+id/tv_unread_message_count"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/tv_message_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_alignTop="@+id/message_pic"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="13dp"
+        android:text="14:40"
+        android:textColor="@color/textcolor_french_gray"
+        android:textSize="10sp"/>
 
     <ImageView
         android:id="@+id/message_go"
@@ -34,20 +62,21 @@
         android:layout_marginRight="14dp"
         android:scaleType="fitXY"
         android:src="@drawable/go_message"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
     <TextView
-        android:id="@+id/message_count"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
+        android:id="@+id/tv_unread_message_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:layout_marginRight="13dp"
-        android:background="@drawable/count_point"
+        android:background="@drawable/red_round_fill_normal"
         android:gravity="center"
-        android:text="9"
+        android:text="4"
         android:textColor="#ffffff"
-        android:textSize="8sp"
+        android:layout_alignTop="@+id/tv_message_content"
+        android:layout_marginLeft="32dp"
+        android:textSize="10sp"
         android:visibility="visible"/>
 
 </RelativeLayout>

@@ -1,9 +1,8 @@
 package com.ifeimo.im.common;
 
-import android.content.Context;
 import android.content.pm.PackageManager;
 
-import com.ifeimo.im.framwork.interface_im.IMWindow;
+import com.ifeimo.im.framwork.commander.IMWindow;
 
 /**
  * Created by lpds on 2017/2/6.

@@ -31,8 +31,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.mvp.adapter.PlayerBillboardAdapter;
 import com.li.videoapplication.utils.StringUtil;
-import com.ypy.eventbus.EventBus;
-
+import io.rong.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -131,13 +130,12 @@ public class PlayerBillboardFragment extends TBaseFragment implements IPlayerBil
 
         addOnClickListener();
 
-        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+
     }
 
     private void initRecyclerView() {

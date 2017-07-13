@@ -1,3 +1,10 @@
 <resources>
 
+    <string-array name="fast_reply_string">
+        <item>您好，请问几点可以来一局？</item>
+        <item>您好，请问你擅长哪个英雄？</item>
+        <item>您好，请问现在可以接单吗？</item>
+    </string-array>
+
+
 </resources>

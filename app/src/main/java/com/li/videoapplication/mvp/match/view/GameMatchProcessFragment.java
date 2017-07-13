@@ -164,6 +164,9 @@ public class GameMatchProcessFragment extends TBaseFragment implements IMatchPro
         page = 1;
         if (activity != null && activity.event_id != null) {
             presenter.getEventsSchedule(activity.event_id);
+
+            //同时更新赛事详情
+            presenter.getEventsInfo(activity.event_id, getMember_id());
         }
     }
 

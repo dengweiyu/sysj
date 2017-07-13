@@ -11,11 +11,14 @@ import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.GroupMessage;
 import com.li.videoapplication.data.model.entity.MyMessage;
 import com.li.videoapplication.data.model.entity.SysMessage;
+import com.li.videoapplication.data.model.event.ReadMessageEntity;
 import com.li.videoapplication.data.model.response.AllReadEntity;
 import com.li.videoapplication.data.model.response.MessageGroupMessageEntity;
 import com.li.videoapplication.data.model.response.MessageMyMessageEntity;
 import com.li.videoapplication.data.model.response.MessageSysMessageEntity;
+import com.li.videoapplication.data.model.response.RewardAndPlayWithMsgEntity;
 import com.li.videoapplication.framework.PullToRefreshActivity;
+import com.li.videoapplication.mvp.adapter.RewardAndPlayWithAdapter;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.adapter.GameMessageAdapter;
 import com.li.videoapplication.ui.adapter.SystemMessageAdapter;
@@ -23,6 +26,9 @@ import com.li.videoapplication.ui.adapter.VideoMessageAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.rong.eventbus.EventBus;
+import io.rong.imkit.model.Event;
 
 /**
  * 活动：消息
@@ -32,42 +38,25 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
     /**
      * 跳转：视频消息
      */
-    public static void showVideo(Context context) {
-        ActivityManager.startMessageListActivity(context, MESSAGE_VIDEO);
+    public static void showActivity(Context context,String title ,String url,String type) {
+        ActivityManager.startMessageListActivity(context, title,url,type);
     }
 
-    /**
-     * 跳转：圈子消息
-     */
-    public static void showGame(Context context) {
-        ActivityManager.startMessageListActivity(context, MESSAGE_GAME);
-    }
-
-    /**
-     * 跳转：系统消息
-     */
-    public static void showSystem(Context context) {
-        ActivityManager.startMessageListActivity(context, MESSAGE_SYSTEM);
-    }
-
-    public static final int MESSAGE_VIDEO = 1;
-    public static final int MESSAGE_GAME = 2;
-    public static final int MESSAGE_SYSTEM = 3;
-
-    public int message;
-
+    public String mTitle;
+    private String mUrl;
+    private String mType;
     @Override
     public void refreshIntent() {
         super.refreshIntent();
         try {
-            message = getIntent().getIntExtra("message", 0);
+            mTitle = getIntent().getStringExtra("title");
+            mUrl = getIntent().getStringExtra("url");
+            mType = getIntent().getStringExtra("type");
         } catch (Exception e) {
             e.printStackTrace();
             finish();
         }
-        if (message == 0) {
-            finish();
-        }
+
     }
 
     @Override
@@ -83,48 +72,51 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
     private VideoMessageAdapter videoAdapter;
     private GameMessageAdapter gameAdapter;
     private SystemMessageAdapter systemAdapter;
+    private RewardAndPlayWithAdapter mRewardAdapter;
 
     private List<MyMessage> videoData = new ArrayList<>();
     private List<GroupMessage> gameData = new ArrayList<>();
     private List<SysMessage> systemData = new ArrayList<>();
 
+    private List<RewardAndPlayWithMsgEntity.DataBean.ListBean> mRewardData = new ArrayList<>();
     @Override
     public void afterOnCreate() {
         super.afterOnCreate();
         setSystemBarBackgroundWhite();
-        if (message == MESSAGE_VIDEO) {
-            setAbTitle(R.string.message_video);
-        } else if (message == MESSAGE_GAME) {
-            setAbTitle(R.string.message_game);
-        } else if (message == MESSAGE_SYSTEM) {
-            setAbTitle(R.string.message_system);
-        }
+        setAbTitle(mTitle);
     }
 
     @Override
     public void initView() {
         super.initView();
 
-        videoAdapter = new VideoMessageAdapter(this, videoData);
-        gameAdapter = new GameMessageAdapter(this, gameData);
+        videoAdapter = new VideoMessageAdapter(this, videoData,mType);
+        gameAdapter = new GameMessageAdapter(this, gameData,mType);
         systemAdapter = new SystemMessageAdapter(this, systemData);
+        mRewardAdapter = new RewardAndPlayWithAdapter(this,mRewardData,mType);
 
         View emptyView = getLayoutInflater().inflate(R.layout.emptyview,
                 (ViewGroup) listView.getParent(), false);
         TextView emptyText = (TextView) emptyView.findViewById(R.id.emptyview_text);
         listView.setEmptyView(emptyView);
 
-        if (message == MESSAGE_VIDEO) {
+        if ("video".equals(mType)) {
             abMessageClean.setVisibility(View.VISIBLE);
             abMessageClean.setOnClickListener(this);
             setAdapter(videoAdapter);
             emptyText.setText("没有视频消息");
-        } else if (message == MESSAGE_GAME) {
+        } else if ("group".equals(mType)) {
             setAdapter(gameAdapter);
             emptyText.setText("没有圈子消息");
-        } else if (message == MESSAGE_SYSTEM) {
+        } else if ("sysm".equals(mType)) {
             setAdapter(systemAdapter);
             emptyText.setText("没有系统消息");
+        }else if ("training".equals(mType)){
+            setAdapter(mRewardAdapter);
+            emptyText.setText("没有陪练消息");
+        }else if ("reward".equals(mType)){
+            setAdapter(mRewardAdapter);
+            emptyText.setText("没有打赏消息");
         }
     }
 
@@ -139,7 +131,12 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ab_message_clean:
-                DataManager.allRead(getMember_id());
+             //   DataManager.allRead(getMember_id(),mType);
+
+                ReadMessageEntity entity = new ReadMessageEntity();
+                entity.setMsgId(mType);
+                entity.setAll(0);
+                EventBus.getDefault().post(entity);
                 break;
         }
     }
@@ -157,17 +154,25 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
 
     private void doRequest() {
 
-        if (message == MESSAGE_VIDEO) {
+        if ("video".equals(mType)) {
             // 视频图文消息
-            DataManager.messageMyMessage(getMember_id(), page);
-        } else if (message == MESSAGE_GAME) {
+            DataManager.messageMyMessage(getMember_id(), page,mUrl);
+        } else if ("group".equals(mType)) {
             // 圈子消息
-            DataManager.messageGroupMessage(getMember_id(), page);
-        } else if (message == MESSAGE_SYSTEM) {
+            DataManager.messageGroupMessage(getMember_id(), page,mUrl);
+        } else if ("sysm".equals(mType)) {
             // 系统消息
-            DataManager.messageSysMessage(getMember_id(), page);
+            DataManager.messageSysMessage(getMember_id(), page,mUrl);
+        }else if ("training".equals(mType) || "reward".equals(mType)){
+            DataManager.getRewardAndPlayWithMsg(getMember_id(), page,mUrl);
         }
     }
+
+    public String getMemberId(){
+        return getMember_id();
+    }
+
+
 
     /**
      * 回调：清除视频图文消息
@@ -183,7 +188,7 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
      */
     public void onEventMainThread(MessageMyMessageEntity event) {
 
-        if (message == MESSAGE_VIDEO) {
+        if ("video".equals(mType)) {
             if (event.isResult()) {
                 if (event.getData().getList().size() > 0) {
                     if (page == 1) {
@@ -204,7 +209,7 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
      */
     public void onEventMainThread(MessageSysMessageEntity event) {
 
-        if (message == MESSAGE_SYSTEM) {
+        if ("sysm".equals(mType)) {
             if (event.isResult()) {
                 if (event.getData().getList().size() > 0) {
                     if (page == 1) {
@@ -225,7 +230,7 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
      */
     public void onEventMainThread(MessageGroupMessageEntity event) {
 
-        if (message == MESSAGE_GAME) {
+        if ("group".equals(mType)) {
             if (event.isResult()) {
                 if (event.getData().getList().size() > 0) {
                     if (page == 1) {
@@ -233,6 +238,28 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
                     }
                     gameData.addAll(event.getData().getList());
                     gameAdapter.notifyDataSetChanged();
+                    ++page;
+                }
+            }
+            isRefreshing = false;
+            refreshComplete();
+        }
+    }
+
+    /**
+     * 打赏或者陪练消息
+     */
+
+    public void onEventMainThread(RewardAndPlayWithMsgEntity entity){
+
+        if ("reward".equals(mType) || "training".equals(mType)){
+            if (entity.isResult()){
+                if (entity.getData().getList().size() > 0){
+                    if (page == 1){
+                        mRewardData.clear();
+                    }
+                    mRewardData.addAll(entity.getData().getList());
+                    mRewardAdapter.notifyDataSetChanged();
                     ++page;
                 }
             }

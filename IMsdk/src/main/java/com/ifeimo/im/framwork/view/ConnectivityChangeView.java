@@ -19,7 +19,9 @@ import com.ifeimo.im.R;
 import com.ifeimo.im.common.bean.ConnectivityChangeBean;
 import com.ifeimo.im.common.util.ConnectUtil;
 import com.ifeimo.im.common.util.ScreenUtil;
-import com.ypy.eventbus.EventBus;
+
+import org.greenrobot.eventbus.EventBus;
+
 
 /**
  * Created by lpds on 2017/2/10.

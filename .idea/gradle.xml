@@ -14,10 +14,11 @@
             <option value="$PROJECT_DIR$/IMsdk" />
             <option value="$PROJECT_DIR$/JPush" />
             <option value="$PROJECT_DIR$/PullToRefresh" />
-            <option value="$PROJECT_DIR$/ScreenRecordLib-2" />
+            <option value="$PROJECT_DIR$/ScreenRecordLib-v2" />
             <option value="$PROJECT_DIR$/ShareSDK" />
             <option value="$PROJECT_DIR$/SlidingMenu" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/baidupush" />
             <option value="$PROJECT_DIR$/lib-emojix" />
             <option value="$PROJECT_DIR$/sqlitesdk" />
             <option value="$PROJECT_DIR$/sweet-alert-dialog" />

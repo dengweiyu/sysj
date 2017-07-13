@@ -80,6 +80,37 @@
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:src="@drawable/close_white"
+        android:visibility="gone"
         android:padding="18dp" />
+    <LinearLayout
+        android:id="@+id/screenrecord_float_window_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
 
+        <TextView
+            android:id="@+id/screenrecord_float_window_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="悬浮窗录屏模式"
+            android:textSize="13sp"
+            android:textColor="#ffffff"
+            />
+
+        <ImageView
+            android:id="@+id/screenrecord_float_window_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="7dp"
+            android:src="@drawable/main_blue_bg_open"
+
+            />
+
+    </LinearLayout>
 </RelativeLayout>

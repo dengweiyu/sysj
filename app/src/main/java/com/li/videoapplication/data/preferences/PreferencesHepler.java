@@ -2,7 +2,10 @@ package com.li.videoapplication.data.preferences;
 
 import android.util.Log;
 
+import com.fmsysj.screeclibinvoke.data.ConstantsPreferences;
+import com.fmsysj.screeclibinvoke.data.model.configuration.InitializationSetting;
 import com.fmsysj.screeclibinvoke.data.model.configuration.RecordingSetting;
+import com.fmsysj.screeclibinvoke.data.model.event.SetFloatWindowEvent;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -24,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 功能：保存数据帮助类
@@ -154,6 +159,8 @@ public class PreferencesHepler {
         RecordingSetting recordingSetting = getRecordingSetting();
         recordingSetting.setFloatingWindiws(flag);
         saveRecordingSetting(recordingSetting);
+        //
+        EventBus.getDefault().post(new SetFloatWindowEvent());
     }
 
     /**
@@ -590,6 +597,12 @@ public class PreferencesHepler {
      * 保存个人信息
      */
     public void saveUserProfilePersonalInformation(Member member) {
+        //复制token 避免被覆盖
+        if (isLogin()){
+            if (member.getSysj_token() == null && getUserProfilePersonalInformation().getSysj_token() != null){
+                member.setSysj_token(getUserProfilePersonalInformation().getSysj_token());
+            }
+        }
         UserPreferences.getInstance().putString(Constants.USER_PROFILE_PERSONAL_INFORMATION, gson.toJson(member));
         try {
             Log.d(tag, "save/userProfilePersonalInformation=" + member.toJSON());
@@ -991,5 +1004,19 @@ public class PreferencesHepler {
         UserPreferences.getInstance().clear();
         SettingPreferences.getInstance().clear();
         return true;
+    }
+
+    /**
+     * 获取初始化配置
+     */
+    public InitializationSetting getInitializationSetting() {
+        String string = NormalPreferences.getInstance().getString(ConstantsPreferences.INITIALIZATION_SETTING);
+        if (StringUtil.isNull(string))
+            return InitializationSetting.DEFAULT;
+        InitializationSetting entity = JSONHelper.parse(string, InitializationSetting.class);
+        if (entity == null)
+            return InitializationSetting.DEFAULT;
+        Log.d(tag, "getInitializationSetting: entity=" + entity);
+        return entity;
     }
 }

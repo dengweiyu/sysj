@@ -31,7 +31,8 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
-import com.ypy.eventbus.EventBus;
+
+import io.rong.eventbus.EventBus;
 
 import java.util.HashMap;
 
@@ -86,7 +87,7 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
     private int page;
     private boolean isLifeType;
 
-    private static PlatformActionListener listener = new PlatformActionListener() {
+    private PlatformActionListener listener = new PlatformActionListener() {
         //如果是本地视频分享  需要先生成封面才能分享因此不会调用当前监听器
         //而是调用 ShareSDKShareHelper.listener
 
@@ -97,11 +98,12 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
             UmengAnalyticsHelper.onEvent(AppManager.getInstance().getContext(), UmengAnalyticsHelper.SLIDER, "邀请好友-有效");
             //触发
             DataManager.shareTriggerReward(memberId,"","","1");
-            //post
-            EventBus.getDefault().post(new SharedSuccessEvent(mSharedChannel));
 
-            //下个版本再统一 用融云包里的EventBus
-            io.rong.eventbus.EventBus.getDefault().post(new SharedSuccessEvent(mSharedChannel));
+            if (page != PAGE_MYCLOUDVIDEO){
+                //post
+                EventBus.getDefault().post(new SharedSuccessEvent(mSharedChannel));
+            }
+
             //移除监听器
             ShareSDKShareHelper.removeListener(listener);
         }

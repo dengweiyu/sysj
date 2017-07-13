@@ -16,6 +16,7 @@ import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.entity.Update;
+import com.li.videoapplication.data.model.event.TokenErrorEntity;
 import com.li.videoapplication.data.model.response.AdvertisementAdImage204Entity;
 import com.li.videoapplication.data.model.response.AdvertisementAdLocation204Entity;
 import com.li.videoapplication.data.model.response.BulletList203Entity;
@@ -146,6 +147,13 @@ public class ResponseHandler {
         }
         Log.i(tag, "entity=" + entity);
 
+        if (entity instanceof BaseResponseEntity){
+            //Token 失效
+            if (((BaseResponseEntity)entity).getCode() == 30100){
+                postTokenError();
+            }
+        }
+
         try {
             // 回调网络访问结果
             callBack(response, entity);
@@ -208,6 +216,13 @@ public class ResponseHandler {
      */
     private void postErrorEventBus(String url ,int code){
         EventBus.getDefault().post(new NetworkError(code,url));
+    }
+
+    /**
+     * Token 失效
+     */
+    private void postTokenError(){
+        EventBus.getDefault().post(new TokenErrorEntity());
     }
 
 

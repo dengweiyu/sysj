@@ -265,7 +265,9 @@ public class AboutActivity extends TBaseActivity implements OnClickListener {
 	private void feedback() {
 //		FeedbackAgent agent = new FeedbackAgent(this);
 //		agent.startFeedbackActivity();
-		FeedbackAPI.openFeedbackActivity();
+	//	FeedbackAPI.openFeedbackActivity();
+
+		ActivityManager.startFeedbackActivity(this);
 	}
 
 	/**

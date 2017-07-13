@@ -64,7 +64,9 @@ public class ActivityRulesFragment extends TBaseFragment {
 
         WebSettings webSettings = webView.getSettings();
 
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setUseWideViewPort(true);//双击变大，再双击后变小，当手动放大后，双击可以恢复到原始大小
+        webSettings.setLoadWithOverviewMode(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setBuiltInZoomControls(true);//可缩放
         webSettings.setDisplayZoomControls(false);//不显示缩放按钮

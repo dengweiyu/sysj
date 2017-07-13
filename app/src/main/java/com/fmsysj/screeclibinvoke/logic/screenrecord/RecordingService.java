@@ -17,10 +17,10 @@ import com.fmsysj.screeclibinvoke.logic.notification.RecordingNotificationManage
 import com.fmsysj.screeclibinvoke.logic.videoedit.ShakeHelper;
 import com.fmsysj.screeclibinvoke.logic.videoedit.SoundHelper;
 import com.fmsysj.screeclibinvoke.logic.videoedit.TouchHelper;
-import com.ifeimo.screenrecordlib.Configuration;
-import com.ifeimo.screenrecordlib.RecordingListener;
 import com.ifeimo.screenrecordlib.RecordingManager;
-import com.ifeimo.screenrecordlib.Utils;
+import com.ifeimo.screenrecordlib.constant.Configuration;
+import com.ifeimo.screenrecordlib.listener.RecordingListener;
+import com.ifeimo.screenrecordlib.util.Utils;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;

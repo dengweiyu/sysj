@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/tb_back"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:src="@drawable/ab_goback_gray"
+            android:padding="12dp"
+            android:layout_alignParentStart="true"/>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tl_play_with_and_match"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:tabIndicatorColor="@color/menu_main_red"
+            app:tabSelectedTextColor="@color/menu_main_red"
+            app:tabTextColor="#7c7c7c"
+            android:layout_centerHorizontal="true"></android.support.design.widget.TabLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_play_with_and_match"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+</LinearLayout>

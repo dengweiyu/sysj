@@ -24,8 +24,8 @@ public class RechargeCoinAdapter extends BaseQuickAdapter<Integer, BaseViewHolde
     private int mInputNum;
     public RechargeCoinAdapter(RechargeCoinFragment fragment,List<Integer> data) {
         super(R.layout.adapter_topup, data);
-        if (data != null && data.size() > 0){
-            mSelectPrice = 0;
+        if (data != null && data.size() > 2){
+            mSelectPrice = 2;
         }
         this.mFragment = fragment;
 

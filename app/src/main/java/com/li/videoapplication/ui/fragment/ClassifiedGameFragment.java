@@ -45,7 +45,7 @@ import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.views.GridViewY1;
 import com.li.videoapplication.views.bubblelayout.BubbleLayout;
 import com.li.videoapplication.views.bubblelayout.BubblePopupHelper;
-import com.ypy.eventbus.EventBus;
+import io.rong.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashSet;

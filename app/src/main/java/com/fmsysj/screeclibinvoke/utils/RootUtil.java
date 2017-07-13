@@ -57,7 +57,7 @@ public class RootUtil {
         if (manufacturer.equals("Meizu"))
             return "MEIZU";
         if (manufacturer.equals("vivo"))
-            return "vivo";
+            return "VIVO";
         if (manufacturer.equals("OPPO"))
             return "OPPO";
         return "";

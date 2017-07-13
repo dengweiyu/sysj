@@ -125,6 +125,7 @@ public class AppstartActivity extends TBaseActivity {
                 startService(new Intent(AppstartActivity.this, AppSdkInitIntentService.class));
             }
         },4000);*/
+
     }
 
     private boolean haveLaunchAd() {

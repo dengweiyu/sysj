@@ -315,8 +315,8 @@ public class GroupdetailVideoFragment extends TBaseFragment
             videoData.clear();
             videoData = event.getData().getList();
             adapter.setNewData(videoData);
-            if (AppConstant.SHOW_DOWNLOAD_AD)
-                initGDT(pos_id);//插入一行广点通广告
+           // if (AppConstant.SHOW_DOWNLOAD_AD)
+              //  initGDT(pos_id);//插入一行广点通广告
         } else {
             // 如果有下一页则调用addData，不需要把下一页数据add到list里面，直接新的数据给adapter即可。
             adapter.addData(event.getData().getList());

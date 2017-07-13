@@ -1,12 +1,11 @@
 package com.ifeimo.im.framwork;
 
 import com.ifeimo.im.IEmployee;
-import com.ifeimo.im.framwork.interface_im.ILock;
-import com.ifeimo.im.framwork.interface_im.ILockManager;
+import com.ifeimo.im.framwork.commander.ILock;
+import com.ifeimo.im.framwork.commander.ILockManager;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
 
 /**
  * Created by lpds on 2017/6/5.
@@ -59,8 +58,15 @@ class LockManager implements ILockManager,IEmployee{
                 return ILock.MESSAGE_LOCK;
             }
         };
+        ILock managerListLock = new ILock() {
+            @Override
+            public int getLockType() {
+                return ILock.MANGER_LIST_LOCK;
+            }
+        };
         locks.put(messageLock.getLockType(),messageLock);
         locks.put(userLock.getLockType(),userLock);
+        locks.put(managerListLock.getLockType(),managerListLock);
     }
 
     @Override

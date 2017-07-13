@@ -27,7 +27,6 @@ public class AccountBean extends MemberBean{
     RosterPacket.ItemType type;
     Intent intent;
 
-
     public AccountBean(int id, String memeberid, String nickName, String remarkName, String avatarUrl, String title, String content, String time, Intent intent) {
         this.id = id;
         this.memeberid = memeberid;
@@ -122,21 +121,6 @@ public class AccountBean extends MemberBean{
         AccountBean accountBean = new AccountBean();
         accountBean.setNickName(rosterEntry.getName());
         accountBean.setType(rosterEntry.getType());
-
-
         return accountBean;
     }
-
-    public static AccountBean createAccountBeanByCursor(Cursor cursor) {
-        if(cursor == null){
-            return null;
-        }
-        AccountBean accountBean = new AccountBean();
-        accountBean.id = cursor.getInt(cursor.getColumnIndex(Fields.AccounFields.ID));
-        accountBean.avatarUrl = cursor.getString(cursor.getColumnIndex(Fields.AccounFields.MEMBER_AVATARURL));
-        accountBean.memeberid = cursor.getString(cursor.getColumnIndex(Fields.AccounFields.MEMBER_ID));
-        accountBean.nickName = cursor.getString(cursor.getColumnIndex(Fields.AccounFields.MEMBER_NICKNAME));
-        return accountBean;
-    }
-
 }

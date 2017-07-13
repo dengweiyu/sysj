@@ -50,6 +50,15 @@ public class ScreenUtil {
         return (int) (dpValue * scale + 0.5f);
     }
 
+
+    /**
+     * 功能：sp to px
+     */
+    public static int sp2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
     /**
      * 功能：获得屏幕宽度（px）
      */

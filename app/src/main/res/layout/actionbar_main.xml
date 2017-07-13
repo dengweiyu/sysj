@@ -116,4 +116,58 @@
             android:src="@drawable/ab_scanqrcode"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_play_with_match_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/ll_play_with_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_play_with_title"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:textColor="@color/ab_backdround_red"
+                android:text="陪练"/>
+            <View
+                android:id="@+id/play_with_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/ab_backdround_red"></View>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_match_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_match_title"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:gravity="center"
+                android:textColor="@color/title_bg_color"
+                android:textSize="15sp"
+                android:text="赛事"/>
+            <View
+                android:id="@+id/match_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:visibility="invisible"
+                android:background="@color/ab_backdround_red"></View>
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

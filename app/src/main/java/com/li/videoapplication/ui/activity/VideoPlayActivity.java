@@ -494,9 +494,9 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
     @Override
     public boolean comment(boolean isSecondComment, String text) {
         Log.d(tag, "comment/text=" + text);
-        if (videoPlayView != null && videoPlayView.isVoideoPlaying()) {
+    //    if (videoPlayView != null && videoPlayView.isVoideoPlaying()) {
             videoPlayView.addDanmuku(text);
-        }
+      //   }
         // 评论
 //        DataManager.DANMUKU.bulletDo203Comment2Video(item.getVideo_id(),
 //                getMember_id(),

@@ -6,8 +6,6 @@ import java.io.Serializable;
  * Created by lpds on 2017/4/21.
  */
 public interface IMsg extends IAccountModel{
-
-
     String getContent();
     String getMsgId();
     int getSendType();

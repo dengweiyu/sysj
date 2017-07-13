@@ -1,13 +1,10 @@
 package com.ifeimo.im.framwork.setting;
 
-import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.ifeimo.im.framwork.IMSdk;
-import com.ifeimo.im.framwork.interface_im.IMSetting;
-
-import java.util.Set;
+import com.ifeimo.im.framwork.commander.IMSetting;
 
 /**
  * Created by lpds on 2017/3/3.

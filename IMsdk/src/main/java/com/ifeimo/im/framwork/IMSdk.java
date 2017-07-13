@@ -4,41 +4,28 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.Switch;
 
 import com.ifeimo.im.R;
 import com.ifeimo.im.activity.ChatActivity;
-import com.ifeimo.im.common.bean.OpenHelpBean;
 import com.ifeimo.im.common.bean.UserBean;
-import com.ifeimo.im.common.bean.model.Account2SubscriptionModel;
-import com.ifeimo.im.common.bean.model.AccountModel;
-import com.ifeimo.im.common.bean.model.ChatMsgModel;
-import com.ifeimo.im.common.bean.model.GroupChatModel;
-import com.ifeimo.im.common.bean.model.InformationModel;
-import com.ifeimo.im.common.bean.model.SubscriptionModel;
 import com.ifeimo.im.common.callback.LoginCallBack;
 import com.ifeimo.im.common.IntentManager;
 import com.ifeimo.im.common.callback.LogoutCallBack;
-import com.ifeimo.im.common.callback.OnLoginSYSJCallBack;
 import com.ifeimo.im.common.util.PManager;
 import com.ifeimo.im.common.util.ThreadUtil;
+import com.ifeimo.im.framwork.message.FileTransferImp;
+import com.ifeimo.im.framwork.message.IQMessageManager;
 import com.ifeimo.im.framwork.message.OnGroupItemOnClickListener;
-import com.ifeimo.im.framwork.message.OnMessageReceiver;
+import com.ifeimo.im.framwork.message.OnChatMessageReceiver;
 import com.ifeimo.im.framwork.message.OnSimpleMessageListener;
+import com.ifeimo.im.framwork.message.PresenceMessageManager;
 import com.ifeimo.im.service.LoginService;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import y.com.sqlitesdk.framework.AppMain;
 import y.com.sqlitesdk.framework.IfeimoSqliteSdk;
-import y.com.sqlitesdk.framework.business.Business;
-import y.com.sqlitesdk.framework.business.CenterServer;
-import y.com.sqlitesdk.framework.db.Access;
-import y.com.sqlitesdk.framework.sqliteinterface.Execute;
 
 /**
  * Created by lpds on 2017/1/12.
@@ -55,10 +42,13 @@ public class IMSdk {
      */
     public static void init(Application application) {
         CONTEXT = application;
+        FileTransferImp.getInstances();
         LockManager.getInstances();
-        ChatWindowsManager.getInstences();
+        ChatWindowsManager.getInstances();
         IMConnectManager.getInstances();
         IMAccountManager.getInstances();
+        PresenceMessageManager.getInstances();
+        IQMessageManager.getInstances();
         MessageManager.getInstances();
         SettingsManager.getInstances();
         RequestManager.getInstances();
@@ -67,9 +57,7 @@ public class IMSdk {
         Activitys.getInstances();
         ProviderManager.getInstances();
         IfeimoSqliteSdk.init(SqliteMain.getInstances());
-
-        application.registerActivityLifecycleCallbacks(Proxy.getConnectManager().getConnectSupport());
-
+        //application.registerActivityLifecycleCallbacks( IMConnectManager.getInstances().getConnectSupport());
     }
 
     /**
@@ -117,6 +105,7 @@ public class IMSdk {
      * @param myNickName  昵称
      * @param myAvatarUrl 图片
      */
+    @Deprecated
     public static void Login(Context context, String myMemberID, String myNickName, String myAvatarUrl) {
         UserBean.setLoginUser(myMemberID, myNickName, myAvatarUrl, null, null, null, null, null, null);
         PManager.saveUser(context);
@@ -129,16 +118,12 @@ public class IMSdk {
      * @param context
      * @param myNickName          昵称
      * @param myAvatarUrl         图片
-     * @param onLoginSYSJCallBack 回调
      */
-    public static void upDateUser(Context context, String myNickName, String myAvatarUrl, OnLoginSYSJCallBack onLoginSYSJCallBack) {
+    public static void upDateUser(Context context, String myNickName, String myAvatarUrl) {
         UserBean.setAvatarUrl(myAvatarUrl);
         UserBean.setNickName(myNickName);
         PManager.saveUser(context);
-        IMConnectManager.getInstances().addOnSYSJLoginListener(onLoginSYSJCallBack);
-        Intent intent = new Intent(context, LoginService.class);
-        intent.putExtra(LoginService.RELOGIN_KEY, LoginService.RELOGIN);
-        context.startService(intent);
+        Proxy.getConnectManager().updateLogin();
     }
 
 
@@ -150,19 +135,12 @@ public class IMSdk {
      * @param roomName 房间名字
      */
     public static void createMuccRoom(Context context, String roomJID, String roomName, String roomPicurl) {
-//        if (IMConnectManager.getInstance() == null || !IMConnectManager.getInstance().isConnect()) {
-//            Toast.makeText(context, "网络不稳定，无法进入群聊！", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-
         Map<String, String> map = new HashMap<>();
         map.put("roomJID", roomJID);
         map.put("roomName", roomName);
         map.put("roomPicurl", roomPicurl);
         IntentManager.createIMWindows(context, map);
         Log.i("XMPP", "------ 进入群聊 ------");
-
-//        testCreateList(context);
 
     }
 
@@ -191,33 +169,6 @@ public class IMSdk {
     public static void addLoginCallBack(LoginCallBack loginCallBack) {
         IMConnectManager.getInstances().addLoginListener(loginCallBack);
     }
-
-    public static void removeLoginCallBack() {
-        IMConnectManager.getInstances().addLoginListener(null);
-    }
-
-
-    /**
-     * 註銷
-     *
-     * @param logoutCallBack
-     */
-    public static void addLogoutCallBack(LogoutCallBack logoutCallBack) {
-        IMConnectManager.getInstances().addLogoutCallBack(logoutCallBack);
-    }
-
-    public static void removeLogoutCallBack() {
-        IMConnectManager.getInstances().removeLogoutCallBack();
-    }
-
-    public static void reigisterMessageListener(OnMessageReceiver onMessageReceiver) {
-        MessageManager.getInstances().registerOnMessageReceiver(onMessageReceiver);
-    }
-
-    public static void reigisterMessageListener(OnSimpleMessageListener onSimpleMessageListener) {
-        MessageManager.getInstances().registerOnMessageReceiver(onSimpleMessageListener);
-    }
-
     public static void setOnGroupItemOnClick(OnGroupItemOnClickListener onGroupItemOnClick) {
         Proxy.getMessageManager().setOnGroupItemOnClickListener(onGroupItemOnClick);
     }

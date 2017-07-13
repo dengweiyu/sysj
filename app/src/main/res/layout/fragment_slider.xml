@@ -279,6 +279,42 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/slider_mymatch"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+
+        android:background="@drawable/slider_btn"
+        android:paddingLeft="28dp"
+        android:paddingRight="25dp">
+
+        <ImageView
+            android:id="@+id/left"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_mymatch" />
+
+        <TextView
+            android:id="@+id/mid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/left"
+            android:text="陪练 | 赛事"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/slider_go" />
+    </RelativeLayout>
+    <RelativeLayout
         android:id="@+id/slider_mymessage"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -405,42 +441,6 @@
 
 
 
-    <RelativeLayout
-        android:id="@+id/slider_mymatch"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-
-        android:background="@drawable/slider_btn"
-        android:paddingLeft="28dp"
-        android:paddingRight="25dp">
-
-        <ImageView
-            android:id="@+id/left"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/slider_mymatch" />
-
-        <TextView
-            android:id="@+id/mid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@+id/left"
-            android:text="我的赛事"
-            android:textColor="#ffffff"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:layout_width="8dp"
-            android:layout_height="14dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/slider_go" />
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/slider_collection"
@@ -484,14 +484,19 @@
         android:layout_weight="1"/>
 
     <RelativeLayout
-        android:id="@+id/slider_setting"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:layout_marginBottom="28dp"
-        android:background="@drawable/slider_btn"
         android:paddingLeft="28dp"
         android:paddingRight="25dp">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/slider_btn"
+            android:padding="10dp"
+            android:id="@+id/slider_setting">
         <ImageView
             android:id="@+id/left"
             android:layout_width="20dp"
@@ -511,6 +516,35 @@
             android:text="@string/slider_setup"
             android:textColor="#ffffff"
             android:textSize="14sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/slider_customer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/slider_setting"
+            android:layout_alignTop="@+id/slider_setting"
+            android:background="@drawable/slider_btn"
+            android:padding="10dp"
+            android:layout_marginLeft="20dp">
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:padding="4dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/customer_service_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/left"
+                android:text="@string/slider_customer"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+        </LinearLayout>
+
     </RelativeLayout>
 
 </com.li.videoapplication.views.MyLinearLayout>

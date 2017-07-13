@@ -17,9 +17,11 @@ import com.bumptech.glide.Glide;
 import com.ifeimo.im.R;
 import com.ifeimo.im.common.adapter.base.RecyclerViewCursorAdapter;
 import com.ifeimo.im.common.adapter.holder.InformationHolder;
+import com.ifeimo.im.common.bean.chat.GroupChatBean;
 import com.ifeimo.im.common.bean.model.InformationModel;
 import com.ifeimo.im.common.util.ScreenUtil;
 import com.ifeimo.im.framwork.IMSdk;
+import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.framwork.view.SlideView;
 import com.ifeimo.im.provider.business.ChatBusiness;
@@ -27,6 +29,7 @@ import com.ifeimo.im.provider.business.GroupChatBusiness;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 import y.com.sqlitesdk.framework.business.BusinessUtil;
@@ -186,10 +189,10 @@ public class InformationAdapter extends RecyclerViewCursorAdapter<InformationHol
     private void deleteInformation(final InformationModel informationModel) {
         switch (informationModel.getType()) {
             case InformationModel.ROOM:
-                GroupChatBusiness.getInstances().deleteInformationByGroupChat(informationModel);
+                GroupChatBusiness.getInstances().deleteInformation(informationModel);
                 break;
             case InformationModel.CHAT:
-                ChatBusiness.getInstances().deleteInformationByChat(informationModel);
+                ChatBusiness.getInstances().deleteInformation(informationModel);
                 break;
         }
 

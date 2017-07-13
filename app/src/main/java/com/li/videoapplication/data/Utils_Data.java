@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import com.ifeimo.screenrecordlib.TaskUtil;
+import com.ifeimo.screenrecordlib.util.TaskUtil;
 import com.li.videoapplication.data.download.DownLoadExecutor;
 import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.network.LightTask;

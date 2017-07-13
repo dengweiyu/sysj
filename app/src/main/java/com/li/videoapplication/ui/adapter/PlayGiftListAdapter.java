@@ -39,11 +39,12 @@ public class PlayGiftListAdapter extends BaseQuickAdapter<VideoPlayGiftEntity.Da
 
         holder.setImageResource(R.id.iv_trophy,id);
         holder.setText(R.id.tv_player_nick_name,includesBean.getName());
-        if (!StringUtil.isNull(includesBean.getCurrency_sum()) && !"0".equals(includesBean.getCurrency_sum())){
-             holder.setText(R.id.tv_play_gift_number,includesBean.getCurrency_sum());
+        if (!StringUtil.isNull(includesBean.getCoin_sum()) && !"0".equals(includesBean.getCoin_sum())){
+            holder.setText(R.id.tv_play_gift_number,includesBean.getCoin_sum());
             holder.setImageResource(R.id.tv_play_gift_type,R.drawable.currency);
         }else {
-            holder.setText(R.id.tv_play_gift_number,includesBean.getCoin_sum());
+
+            holder.setText(R.id.tv_play_gift_number,includesBean.getCurrency_sum());
             holder.setImageResource(R.id.tv_play_gift_type,R.drawable.slider_bean);
         }
         GlideHelper.displayImage(mContext,includesBean.getAvatar(),(ImageView)holder.getView(R.id.rv_play_gift_icon));

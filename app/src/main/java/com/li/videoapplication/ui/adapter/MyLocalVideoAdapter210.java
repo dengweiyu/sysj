@@ -47,7 +47,7 @@ import com.li.videoapplication.ui.dialog.VideoManagerCopyDialog;
 import com.li.videoapplication.ui.dialog.VideoManagerRenameDialog;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.NetUtil;
-import com.ypy.eventbus.EventBus;
+import io.rong.eventbus.EventBus;
 
 import java.io.File;
 import java.util.HashMap;

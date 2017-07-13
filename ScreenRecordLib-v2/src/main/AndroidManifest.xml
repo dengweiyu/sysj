@@ -1,0 +1,35 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ifeimo.screenrecordlib">
+
+    <application >
+        <!-- #################################    录屏部分   ######################### -->
+
+        <!--初始化录屏服务-->
+        <service
+            android:name="com.ifeimo.screenrecordlib.service.AppStartService" />
+        <service
+            android:name=".record.record50.EncodingService"/>
+        <!-- 5.0录屏 -->
+        <activity
+            android:name=".record.record50.ScreenRecordActivity"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize|smallestScreenSize"
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@android:style/Theme.Holo.Panel"
+            android:launchMode="standard"
+            android:taskAffinity=":recording"
+
+            android:screenOrientation="unspecified"/>
+        <!--5.0截屏-->
+        <activity
+            android:name="com.ifeimo.screenrecordlib.record.record50.ScreenCaptureActivity"
+
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize|smallestScreenSize"
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@android:style/Theme.Holo.Panel"
+
+            android:launchMode="standard"
+            android:taskAffinity=":recording"
+
+            android:screenOrientation="unspecified"/>
+    </application>
+</manifest>

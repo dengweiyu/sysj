@@ -120,7 +120,7 @@ public class FrontCameraView extends LinearLayout implements
         surfaceView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
-        length = ScreenUtil.dp2px(42);
+        length = ScreenUtil.dp2px(75);
 
         surfaceTexture = new SurfaceTexture(10);
     }
@@ -222,6 +222,7 @@ public class FrontCameraView extends LinearLayout implements
                 camera.setDisplayOrientation(90);
                 camera.setPreviewTexture(surfaceTexture);
                 camera.setPreviewCallback(this);
+                camera.getParameters().setPictureSize(mWidth,mHeight);
                 Log.d(TAG, "configCamera: 2");
             } catch (IOException e) {
                 e.printStackTrace();

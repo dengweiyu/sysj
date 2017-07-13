@@ -229,7 +229,7 @@ public class LogInDialog extends BaseOverShootDialog implements View.OnClickList
     public void onEventMainThread(VerifyCodeNewEntity event) {
         if (event != null) {
             if (event.isResult()) {// 验证成功
-                DataManager.login(getPhoneText());// 登录
+                DataManager.login(getPhoneText(),getContext().getResources().getString(R.string.play_gift_sign_key));// 登录
             } else {
                 ToastHelper.l(event.getMsg());
 

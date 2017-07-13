@@ -120,7 +120,7 @@ public class LoginActivity extends TBaseActivity implements OnClickListener,
                 if (position != 0) {
                     showProgressDialog(LoadingDialog.LOHIN);
                     // 飞磨快速登录
-                    DataManager.loginFm(fmID);
+                    DataManager.loginFm(fmID,getResources().getString(R.string.play_gift_sign_key));
                 }
             }
 
@@ -297,7 +297,7 @@ public class LoginActivity extends TBaseActivity implements OnClickListener,
         if (event != null) {
             if (event.isResult()) {
                 // 登录
-                DataManager.login(mobilePhone);
+                DataManager.login(mobilePhone,getResources().getString(R.string.play_gift_sign_key));
             } else {
                 dismissProgressDialog();
                 showToastShort(event.getMsg());

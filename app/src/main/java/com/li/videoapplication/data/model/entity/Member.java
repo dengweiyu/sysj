@@ -1,5 +1,7 @@
 package com.li.videoapplication.data.model.entity;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,10 +71,29 @@ public class Member extends BaseEntity {
 	private String win;
 	private String failure;
 	private String horizonId;
+	private boolean isCoach;
 
 	private VIPInfo vipInfo;
 
 	private RewardInfo rewardInfo;
+
+	private Token sysj_token;
+
+	public boolean isCoach() {
+		return isCoach;
+	}
+
+	public void setCoach(boolean coach) {
+		isCoach = coach;
+	}
+
+	public Token getSysj_token() {
+		return sysj_token;
+	}
+
+	public void setSysj_token(Token sysj_token) {
+		this.sysj_token = sysj_token;
+	}
 
 	public RewardInfo getRewardInfo() {
 		return rewardInfo;
@@ -141,7 +162,67 @@ public class Member extends BaseEntity {
 		}
 	}
 
-	public String getHorizonId() {
+	public static class  Token implements Serializable{
+		private String access_token;
+		private int expires_in;
+		private String token_type;
+		private String refresh_token;
+
+		private long accessTokenTime;
+		private long refreshTokenTime;
+
+		public void setAccessTokenTime(long accessTokenTime) {
+			this.accessTokenTime = accessTokenTime;
+		}
+
+		public void setRefreshTokenTime(long refreshTokenTime) {
+			this.refreshTokenTime = refreshTokenTime;
+		}
+
+		public String getAccess_token() {
+			return access_token;
+		}
+
+		public void setAccess_token(String access_token) {
+			this.access_token = access_token;
+			accessTokenTime = System.currentTimeMillis();
+		}
+
+		public int getExpires_in() {
+			return expires_in;
+		}
+
+		public void setExpires_in(int expires_in) {
+			this.expires_in = expires_in;
+		}
+
+		public String getToken_type() {
+			return token_type;
+		}
+
+		public void setToken_type(String token_type) {
+			this.token_type = token_type;
+		}
+
+		public String getRefresh_token() {
+			return refresh_token;
+		}
+
+		public void setRefresh_token(String refresh_token) {
+			this.refresh_token = refresh_token;
+			refreshTokenTime = System.currentTimeMillis();
+		}
+
+		public long getAccessTokenTime() {
+			return accessTokenTime;
+		}
+
+		public long getRefreshTokenTime() {
+			return refreshTokenTime;
+		}
+	}
+
+		public String getHorizonId() {
 		return horizonId;
 	}
 

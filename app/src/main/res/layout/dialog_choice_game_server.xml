@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white">
+    <include
+        layout="@layout/layout_choice"></include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <com.li.videoapplication.ui.view.WheelRecyclerView
+        android:id="@+id/wrv_server_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.li.videoapplication.ui.view.WheelRecyclerView>
+        <View
+            android:id="@+id/v_divider_top"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/lightgrey"></View>
+
+        <View
+            android:id="@+id/v_divider_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/lightgrey"></View>
+    </RelativeLayout>
+</LinearLayout>

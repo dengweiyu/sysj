@@ -4,9 +4,9 @@ package com.ifeimo.im.framwork;
 import android.util.Log;
 
 import com.ifeimo.im.common.bean.RequestTag;
-import com.ifeimo.im.framwork.interface_im.ILife;
-import com.ifeimo.im.framwork.interface_im.IMMain;
-import com.ifeimo.im.framwork.interface_im.IMRequest;
+import com.ifeimo.im.framwork.commander.ILife;
+import com.ifeimo.im.framwork.commander.IMMain;
+import com.ifeimo.im.framwork.commander.IMRequest;
 import com.ifeimo.im.framwork.request.Account;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.HasParamsable;
@@ -36,6 +36,7 @@ public final class RequestManager implements IMRequest,ILife{
         ManagerList.getInstances().addManager(this);
         requestQueue = new HashMap<>();
         saveToQueue(getKey(IMSdk.CONTEXT));
+        saveToQueue(getKey(IMConnectManager.getInstances()));
     }
 
     public static IMRequest getInstances(){
@@ -104,12 +105,20 @@ public final class RequestManager implements IMRequest,ILife{
         return requestQueue;
     }
 
+    /**
+     * 存储请求key
+     * @param key
+     */
     private void saveToQueue(String key) {
         if(!requestQueue.keySet().contains(key)) {
             requestQueue.put(key, new RequestTag(key));
         }
     }
 
+    /**
+     * 移除请求key
+     * @param key
+     */
     private void removeByQueue(String key){
         requestQueue.remove(key);
     }

@@ -98,7 +98,7 @@ public class RechargeCoinFragment  extends TBaseFragment implements MallContract
             }
             mRecyclerView.setAdapter(mAdapter);
             mRateInt = entity.getExchangeRate();
-            setPrice(0);
+            setPrice(2);
             setTextViewText(mRate, "(1人民币=" + StringUtil.formatNum(mRateInt+"") + "魔币)");
         }
     }

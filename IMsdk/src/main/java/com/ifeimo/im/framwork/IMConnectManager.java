@@ -1,34 +1,36 @@
 package com.ifeimo.im.framwork;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 
+import com.ifeimo.im.BuildConfig;
 import com.ifeimo.im.IEmployee;
 import com.ifeimo.im.OnOutIM;
+import com.ifeimo.im.common.bean.AccountBean;
 import com.ifeimo.im.common.bean.ConnectBean;
 import com.ifeimo.im.common.bean.UserBean;
+import com.ifeimo.im.common.bean.model.AccountModel;
 import com.ifeimo.im.common.callback.LoginCallBack;
 import com.ifeimo.im.common.callback.LogoutCallBack;
-import com.ifeimo.im.common.callback.OnLoginSYSJCallBack;
 import com.ifeimo.im.common.util.ConnectUtil;
 import com.ifeimo.im.common.util.PManager;
 import com.ifeimo.im.common.util.StringUtil;
-import com.ifeimo.im.common.util.ThreadRunnable;
-import com.ifeimo.im.common.util.ThreadUtil;
 import com.ifeimo.im.framwork.connect.ConnectSupport;
 import com.ifeimo.im.framwork.connect.IConnectSupport;
+import com.ifeimo.im.framwork.connect.MemberInfoObserver;
 import com.ifeimo.im.framwork.connect.OnConnectErrorListener;
-import com.ifeimo.im.framwork.interface_im.IConnect;
-import com.ifeimo.im.framwork.interface_im.IMWindow;
+import com.ifeimo.im.framwork.commander.IConnect;
+import com.ifeimo.im.framwork.commander.IMWindow;
 import com.ifeimo.im.OnUpdate;
+import com.ifeimo.im.framwork.message.PresenceMessageManager;
 import com.ifeimo.im.framwork.request.Account;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ReconnectionManager;
 import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.StanzaListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.StanzaFilter;
@@ -36,47 +38,41 @@ import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.packet.Stanza;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
-import org.jivesoftware.smackx.iqregister.AccountManager;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.Set;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
+import y.com.sqlitesdk.framework.business.CenterServer;
 
 /**
  * Created by lpds on 2017/1/11.
  * 管理IM连接
  */
-final class IMConnectManager implements IConnect {
+final class IMConnectManager implements IConnect{
     private static final String TAG = "XMPP_IMConnectManager";
-    static IMConnectManager connectManager;
+    private static IMConnectManager connectManager;
     private XMPPTCPConnectionConfiguration connConfig = null;
     private ReconnectionManager reconnectionManager;
     private ConnectBean connectBean = null;
     private XMPPTCPConnection connection;
-    //    private Semaphore semaphore;
     private DeflaterStanzaFilter deflaterStanzaFilter;
-    private StanzaListener stanzaListener;
     private static Context application;
     private boolean isSYSJlLogin = false;
     private boolean isInit = false;
-    @Deprecated
-    private boolean status;
-
     private LoginCallBack loginCallBack;
-    private OnLoginSYSJCallBack onLoginSYSJCallBack;
     private LogoutCallBack logoutCallBack;
     private OnConnectErrorListener errorListener;
-
     private HandlerThread connectHandlerthread = null;
     private Handler handler;
     private IConnectSupport iConnectSupport;
+    private Set<MemberInfoObserver> memberInfoObservers;
+    private AccountBean lastConnextAccount;
     public void setErrorListener(OnConnectErrorListener errorListener) {
         this.errorListener = errorListener;
     }
@@ -95,24 +91,37 @@ final class IMConnectManager implements IConnect {
     private Runnable updateLoginRunnable = new Runnable() {
         @Override
         public void run() {
-            if (!(isSYSJlLogin = sendSysjService())) {
+            if (!(isSYSJlLogin = sendSysjService2())) {
                 handler.postDelayed(updateLoginRunnable, 5000);
             }
         }
     };
-
-
     static {
         connectManager = new IMConnectManager();
-        // RequestManager.getInstances().getRequestQueue().put(RequestManager.getKey(connectManager),new ArrayList<RequestCall>());
     }
-
     private IMConnectManager() {
         ManagerList.getInstances().addManager(this);
         connectHandlerthread = new HandlerThread(TAG);
         connectHandlerthread.start();
         handler = new Handler(connectHandlerthread.getLooper());
         iConnectSupport = new ConnectSupport(this);
+        memberInfoObservers = new HashSet<MemberInfoObserver>(){
+            @Override
+            public boolean add(MemberInfoObserver memberInfoObserver) {
+                synchronized (this) {
+                    boolean flag = super.add(memberInfoObserver);
+                    return flag;
+                }
+            }
+
+            @Override
+            public boolean remove(Object object) {
+                synchronized (this) {
+                    boolean flag = super.remove(object);
+                    return flag;
+                }
+            }
+        };
     }
 
     @Deprecated
@@ -132,9 +141,8 @@ final class IMConnectManager implements IConnect {
                 .setDebuggerEnabled(true)
 //                .setSendPresence(true)
                 .setServiceName(connectBean.getServiceName())
-                .setResource("android")
+                .setResource("android"+ BuildConfig.VERSION_CODE)
                 .build();
-
     }
 
     @Override
@@ -146,8 +154,15 @@ final class IMConnectManager implements IConnect {
         return connectManager;
     }
 
+    /**
+     * 开始连接 im
+     */
     private void startConnection() {
-        Log.i(TAG, "Thread.currentThread() "+Thread.currentThread().getName());
+        if (!ConnectUtil.isConnect(application)) {
+            log(" ------ Error : NO NETWORK ------");
+            return;
+        }
+
         if (StringUtil.isNull(UserBean.getMemberID())) {
             PManager.getCacheUser(application);
             if (StringUtil.isNull(UserBean.getMemberID())) {
@@ -155,17 +170,12 @@ final class IMConnectManager implements IConnect {
                 return;
             }
         }
-        if (!ConnectUtil.isConnect(application)) {
-            log(" ------ Error : NO NETWORK ------");
-            return;
-        }
 
-        if (PManager.isOldLogin(application) && PManager.isLoginSucceed(application)) {
+        if (PManager.isOldAcoount(application)) {
             log(" ------ Msg: Old acoount will connect IM of the Server ------");
             connect();
-
         } else if (connection == null || !connection.isConnected()) {
-            if (isSYSJlLogin = sendSysjService()) {
+            if (isSYSJlLogin = sendSysjService2()) {
                 log(" ------ Msg: Acoount will connect IM of the Server ------");
                 connect();
             } else {
@@ -178,104 +188,49 @@ final class IMConnectManager implements IConnect {
      * 開啟登錄線程
      */
     public void runConnectThread() {
-        handler.removeCallbacks(runConnectRunnbale);
-        handler.removeCallbacks(updateLoginRunnable);
+        handler.removeCallbacksAndMessages(null);
         handler.post(runConnectRunnbale);
     }
 
     /**
      * 提交信息到sysj
-     *
      * @return
      */
-    private boolean sendSysjService() {
-        final OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
-                .connectTimeout(8, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
-                .build();
-        StringBuilder tempParams = new StringBuilder();
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("avatarUrl", UserBean.getAvatarUrl());
-        map.put("nickname", UserBean.getNickName());
-        map.put("memberId", UserBean.getMemberID());
-        try {
-            //处理参数
-            int pos = 0;
-            for (String key : map.keySet()) {
-                if (pos > 0) {
-                    tempParams.append("&");
-                }
-                //对参数进行URLEncoder
-                tempParams.append(String.format("%s=%s", key, URLEncoder.encode(map.get(key), "utf-8")));
-                pos++;
-            }
-            //补全请求地址 正式环境
-            String requestUrl = String.format("http://im.17sysj.com:8080/IM/SetMemberInfo?%s", tempParams.toString());
-
-            //測試環境
-//            String requestUrl = String.format("http://192.168.48.185:8080/IM/SetMemberInfo?%s", tempParams.toString());
-
-
-            //创建一个请求
-//                String content = "?memberId=" + a + "&nickname=" + b + "&avatarUrl=" + c;
-            Request request = new Request.Builder()
-//                    .addHeader("Connection", "keep-alive")
-//                    .addHeader("accept", "*/*")
-//                    .addHeader("user-agent", "Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.1; SV1)")
-                    .url(requestUrl)
-                    .build();
-            Response response = null;
-            response = okHttpClient.newCall(request).execute();
-            if (response.isSuccessful()) {
-                final String reJson = response.body().string();
-                final JSONObject jsonObject = new JSONObject(reJson);
-                final Object code = jsonObject.get("code");
-                if (!"200".equals(code.toString())) {
-                    if (onLoginSYSJCallBack != null) {
-                        onLoginSYSJCallBack.callFail(code.toString());
-                    }
-                    throw new Exception();
-                } else {
-                    if (onLoginSYSJCallBack != null) {
-                        onLoginSYSJCallBack.callSuccess();
-                    }
-                    PManager.saveLogin(application, true);
-                    log(" ------ Msg: Submit SYSJ' information successfully ------ " + jsonObject);
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (onLoginSYSJCallBack != null) {
-                onLoginSYSJCallBack.callFail(null);
-            }
-            PManager.saveLogin(application, false);
-            log(" ------ Error: Submit SYSJ' information Error ------ " + e);
-        }
-        return false;
-    }
-
-    @Deprecated
     private boolean sendSysjService2() {
+        if(!ConnectUtil.isConnect(IMSdk.CONTEXT)){
+            return true;
+        }
         Map<String, String> map = new HashMap<String, String>();
         map.put("avatarUrl", UserBean.getAvatarUrl());
         map.put("nickname", UserBean.getNickName());
         map.put("memberId", UserBean.getMemberID());
         try {
-            Response response = Account.sendMemberMsgToSYSJ(RequestManager.getKey(connectManager), map);
+            Response response = Account.sendMemberMsgToSYSJ(this, map);
             JSONObject jsonObject = new JSONObject(response.body().string());
             final Object code = jsonObject.get("code");
             if ("200".equals(code.toString())) {
-                if (onLoginSYSJCallBack != null) {
-                    onLoginSYSJCallBack.callSuccess();
+                synchronized (memberInfoObservers) {
+                    for (MemberInfoObserver memberInfoObserver : memberInfoObservers) {
+                        memberInfoObserver.onSucceed();
+                    }
                 }
+                PManager.saveLogin(application);
+                log(" ------ Msg: Submit SYSJ information successfully ------ " + jsonObject);
+                CenterServer.getInstances().insert(new AccountModel(
+                        UserBean.getMemberID(),
+                        UserBean.getNickName(),
+                        UserBean.getAvatarUrl()));
                 return true;
             } else {
-                onLoginSYSJCallBack.callFail(code.toString());
-                return false;
+                throw  new Exception();
             }
         } catch (Exception e) {
             e.printStackTrace();
+            synchronized (memberInfoObservers) {
+                for (MemberInfoObserver memberInfoObserver : memberInfoObservers) {
+                    memberInfoObserver.onError(e);
+                }
+            }
             return false;
         }
 
@@ -300,13 +255,12 @@ final class IMConnectManager implements IConnect {
             return true;
         } catch (Exception e) {
             log(" ------ Error:The account connection IM of the server failed ------ " + e);
-            try {
-
-                Thread.sleep(5000);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
-            connect();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    connect();
+                }
+            }, 5000);
         }
         return false;
 
@@ -321,7 +275,7 @@ final class IMConnectManager implements IConnect {
 
     @Override
     public boolean isInitialized() {
-        return connectManager != null;
+        return true;
     }
 
     public class DeflaterStanzaFilter implements StanzaFilter {
@@ -330,16 +284,6 @@ final class IMConnectManager implements IConnect {
             return true;
         }
 
-    }
-
-
-    public void addStanzaListener(StanzaListener stanzaListener, DeflaterStanzaFilter deflaterStanzaFilter) {
-        if (connection != null) {
-            connection.removeAsyncStanzaListener(stanzaListener);
-            connection.addAsyncStanzaListener(stanzaListener, deflaterStanzaFilter);
-        }
-        this.stanzaListener = stanzaListener;
-        this.deflaterStanzaFilter = deflaterStanzaFilter;
     }
 
     @Override
@@ -354,46 +298,23 @@ final class IMConnectManager implements IConnect {
     }
 
     /**
-     * Code XMPP Error Type
-     * 500 interna-server-error WAIT
-     * 403 forbidden AUTH
-     * 400bad-request MODIFY
-     * 404 item-not-found CANCEL
-     * 409 conflict CANCEL
-     * 501 feature-not-implemented CANCEL
-     * 302 gone MODIFY
-     * 400 jid-malformed MODIFY
-     * 406 no-acceptable MODIFY
-     * 405 not-allowed CANCEL
-     * 401 not-authorized AUTH
-     * 402 payment-required AUTH
-     * 404 recipient-unavailable WAIT
-     * 302 redirect MODIFY
-     * 407 registration-required AUTH
-     * 404 remote-server-not-found CANCEL
-     * 504 remote-server-timeout WAIT
-     * 502 remote-server-error CANCEL
-     * 500 resource-constraint WAIT
-     * 503 service-unavailable CANCEL
-     * 407 subscription-required AUTH
-     * 500 undefined-condition WAIT
-     * 400 unexpected-condition WAIT
-     * 408 request-timeout CANCEL
+     * 登录im
+     *
+     *
      */
     private void login() {
         try {
-//                AbstractXMPPConnection connection = (AbstractXMPPConnection) connection;
             if (connection != null && connection.isConnected()) {
                 connection.login(UserBean.getMemberID(), UserBean.getMemberID());
-                Presence presence = new Presence(Presence.Type.available);
-                presence.setMode(Presence.Mode.available);
+                Presence presence = new Presence(PresenceMessageManager.getInstances().getConfig().type);
+                presence.setMode(PresenceMessageManager.getInstances().getConfig().mode);
                 connection.sendStanza(presence);
                 connection.addAsyncStanzaListener(MessageManager.getInstances(), deflaterStanzaFilter);
                 loginSucceed();
             } else {
-
+                handler.removeCallbacksAndMessages(null);
+                handler.post(runConnectRunnbale);
             }
-//            throw new SmackException.AlreadyLoggedInException();
         } catch (SmackException.AlreadyLoggedInException e) {
             log("------ 返回码 " + e.getMessage() + " ------");
             log("------ Msg: This account login IM of the server successfully ------");
@@ -405,18 +326,21 @@ final class IMConnectManager implements IConnect {
             if (loginCallBack != null) {
                 loginCallBack.callFail();
             }
-            try {
-                Thread.sleep(5000);
-                login();
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    login();
+                }
+            },5000);
         }
     }
 
+    /**
+     * 登陆成功
+     */
     private void loginSucceed() {
 
-        final LinkedList<IMWindow> imWindows = ChatWindowsManager.getInstences().getAllIMWindows();
+        final LinkedList<IMWindow> imWindows = ChatWindowsManager.getInstances().getAllIMWindows();
         for (IMWindow imWindow : imWindows) {
             imWindow.loginSucceed();
         }
@@ -477,20 +401,18 @@ final class IMConnectManager implements IConnect {
     @Override
     public void reconnectionSuccessful() {
         login();
-        log("------ IM重连成功 ------");
+        log("------ IM reconnection Successful ------");
     }
 
     @Override
-    public void reconnectingIn(int seconds) {
-
-    }
+    public void reconnectingIn(int seconds) {}
 
     @Override
     public void reconnectionFailed(Exception e) {
         if (loginCallBack != null) {
             loginCallBack.callFail();
         }
-        log("------ IM重连失败 ------");
+        log("------ IM reconnection Failed ------");
     }
 
     public XMPPTCPConnection getConnection() {
@@ -504,8 +426,6 @@ final class IMConnectManager implements IConnect {
             }
         }
         if (connection != null && connection.isConnected()) {
-            PManager.saveLogin(application, false);
-//            AccountManager.getInstance(connection).deleteAccount();
             connection.disconnect();
             connection = null;
             if (logoutCallBack != null) {
@@ -517,14 +437,6 @@ final class IMConnectManager implements IConnect {
 
     public boolean isConnect() {
         return connection != null && connection.isConnected();
-    }
-
-    @Override
-    public boolean isLogin() {
-//        if(isConnect()){
-//            connection.is
-//        }
-        return false;
     }
 
     public void log(String msg) {
@@ -540,19 +452,6 @@ final class IMConnectManager implements IConnect {
     }
 
     @Override
-    public void addOnSYSJLoginListener(OnLoginSYSJCallBack onLoginSYSJCallBack) {
-
-        this.onLoginSYSJCallBack = onLoginSYSJCallBack;
-
-    }
-
-    @Override
-    public void removeOnSYSJLoginListener() {
-        onLoginSYSJCallBack = null;
-    }
-
-
-    @Override
     public void addLogoutCallBack(LogoutCallBack logoutCallBack) {
         this.logoutCallBack = logoutCallBack;
     }
@@ -560,6 +459,28 @@ final class IMConnectManager implements IConnect {
     @Override
     public void removeLogoutCallBack() {
         logoutCallBack = null;
+    }
+
+    @Override
+    public void addMemberInfoObserver(MemberInfoObserver memberInfoObserver) {
+        if(memberInfoObserver == null){
+            log("------ Msg: Add memberInfoObserver error , Because memberInfoObserver is null ------");
+        }else if(memberInfoObservers.add(memberInfoObserver)){
+            log("------ Msg: Add memberInfoObserver successfully ------");
+        }else{
+            log("------ Msg: Add memberInfoObserver error , Because memberInfoObserver already exist ------");
+        }
+    }
+
+    @Override
+    public void removeMemberInfoObserver(MemberInfoObserver memberInfoObserver) {
+        if(memberInfoObserver == null){
+            log("------ Msg: Remove memberInfoObserver error , Because memberInfoObserver is null ------");
+        }else if(memberInfoObservers.remove(memberInfoObserver)){
+            log("------ Msg: Remove memberInfoObserver successfully ------");
+        }else{
+            log("------ Msg: Remove memberInfoObserver error , Because memberInfoObserver does not exist ------");
+        }
     }
 
 }

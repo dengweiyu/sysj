@@ -1,14 +1,14 @@
 package com.ifeimo.im.framwork;
 
-import com.ifeimo.im.framwork.interface_im.ILockManager;
-import com.ifeimo.im.framwork.interface_im.IManagerList;
-import com.ifeimo.im.framwork.interface_im.IAccount;
-import com.ifeimo.im.framwork.interface_im.IConnect;
-import com.ifeimo.im.framwork.interface_im.IHierarchy;
-import com.ifeimo.im.framwork.interface_im.ILife;
-import com.ifeimo.im.framwork.interface_im.IMRequest;
-import com.ifeimo.im.framwork.interface_im.IMessage;
-import com.ifeimo.im.framwork.interface_im.IProvider;
+import com.ifeimo.im.framwork.commander.ILockManager;
+import com.ifeimo.im.framwork.commander.IManagerList;
+import com.ifeimo.im.framwork.commander.IAccount;
+import com.ifeimo.im.framwork.commander.IConnect;
+import com.ifeimo.im.framwork.commander.IHierarchy;
+import com.ifeimo.im.framwork.commander.ILife;
+import com.ifeimo.im.framwork.commander.IMRequest;
+import com.ifeimo.im.framwork.commander.MessageObserver;
+import com.ifeimo.im.framwork.commander.IProvider;
 import com.ifeimo.im.framwork.notification.NotificationManager;
 
 /**
@@ -17,7 +17,7 @@ import com.ifeimo.im.framwork.notification.NotificationManager;
 public final class Proxy {
 
 
-    public static IMessage getMessageManager(){
+    public static MessageObserver getMessageManager(){
         return MessageManager.getInstances();
     }
 
@@ -26,10 +26,10 @@ public final class Proxy {
     }
 
     public static IHierarchy getIMWindowManager(){
-        return ChatWindowsManager.getInstences();
+        return ChatWindowsManager.getInstances();
     }
 
-    public static ILife getIMWindowLifeManager(){return (ILife) ChatWindowsManager.getInstences();}
+    public static ILife getIMWindowLifeManager(){return (ILife) ChatWindowsManager.getInstances();}
 
     public static IAccount getAccountManger(){
         return IMAccountManager.getInstances();
