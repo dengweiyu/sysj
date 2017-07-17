@@ -10,13 +10,11 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.SquareScrollEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
-import com.li.videoapplication.views.ViewPagerY4;
 import com.li.videoapplication.views.ViewPagerY5;
-import com.ypy.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 玩家广场 最新 最热碎片

@@ -6,10 +6,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.li.videoapplication.BuildConfig;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.local.ScreenShotEntity;
@@ -156,7 +158,7 @@ public class IntentHelper {
         try {
             Intent intent = new Intent();
             intent.setAction("miui.intent.action.APP_PERM_EDITOR");
-            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.AppPermissionsEditorActivity");
+            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity");
             intent.putExtra("extra_pkgname", context.getPackageName());
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
@@ -164,12 +166,7 @@ public class IntentHelper {
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
             try {
-                Intent intent = new Intent();
-                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package", context.getPackageName(), null);
-                intent.setData(uri);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                openNormalPermission();
                 Log.d(TAG, "openFloatWindiws_XiaoMi: 2");
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -205,6 +202,78 @@ public class IntentHelper {
      * 打开魅族悬浮窗
      */
     public static void openFloatWindiws_Meizu() {
-        // TODO: 2016/10/18
+        Context context = AppManager.getInstance().getContext();
+        Intent intent = new Intent("com.meizu.safe.security.SHOW_APPSEC");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.putExtra("packageName", BuildConfig.APPLICATION_ID);
+        try {
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            openNormalPermission();
+        }
+    }
+
+    /**
+     * 打开Oppo悬浮窗
+     */
+    public static void openFloatWindiws_Oppo() {
+        Context context = AppManager.getInstance().getContext();
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            intent.setClassName("com.coloros.safecenter", "com.coloros.safecenter.sysfloatwindow.FloatWindowListActivity");
+            context.startActivity(intent);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 打开Vivo悬浮窗
+     */
+    public static void openFloatWindiws_Vivo() {
+        Context context = AppManager.getInstance().getContext();
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        if (Build.VERSION.SDK_INT >= 23) { // 6.0系统
+            try {
+                intent.setClassName("com.iqoo.secure", "com.iqoo.secure.safeguard.SoftPermissionDetailActivity");
+                Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+                intent.setData(uri);
+                context.startActivity(intent);
+                Log.d(TAG, "openFloatWindiws_Vivo: 1");
+            } catch (Exception e) {
+                e.printStackTrace();
+                openNormalPermission();
+            }
+        } else if (Build.VERSION.SDK_INT >= 21){ // 5.0到5.1系统
+            try {
+                intent.setClassName("com.iqoo.secure", "com.iqoo.secure.MainGuideActivity");
+                context.startActivity(intent);
+                Log.d(TAG, "openFloatWindiws_Vivo: 2");
+            } catch (Exception e) {
+                e.printStackTrace();
+                openNormalPermission();
+            }
+        }
+
+    }
+
+    public static void openNormalPermission(){
+        Context context = AppManager.getInstance().getContext();
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+        intent.setData(uri);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

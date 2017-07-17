@@ -17,7 +17,8 @@ import android.widget.TextView;
 
 import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
 import com.ifeimo.screenrecordlib.RecordingManager;
-import com.ifeimo.screenrecordlib.Utils;
+
+import com.ifeimo.screenrecordlib.util.Utils;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.ToastHelper;

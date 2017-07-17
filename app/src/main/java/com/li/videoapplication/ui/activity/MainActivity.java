@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -28,7 +29,7 @@ import com.ifeimo.im.common.util.StatusBarBlackTextHelper;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.message.OnHtmlItemClickListener;
 import com.ifeimo.screenrecordlib.RecordingManager;
-import com.ifeimo.screenrecordlib.TaskUtil;
+import com.ifeimo.screenrecordlib.util.TaskUtil;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnCloseListener;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnClosedListener;
@@ -56,7 +57,6 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseSlidingActivity;
 import com.li.videoapplication.mvp.home.view.HomeFragment;
-import com.li.videoapplication.mvp.match.view.GameMatchFragment;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.ToastHelper;
@@ -65,6 +65,7 @@ import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.fragment.DiscoverFragment;
 import com.li.videoapplication.ui.fragment.GameFragment;
+import com.li.videoapplication.ui.fragment.PlayWithFragment;
 import com.li.videoapplication.ui.fragment.SliderFragment;
 import com.li.videoapplication.ui.pageradapter.WelfarePagerAdapter;
 import com.li.videoapplication.utils.AppUtil;
@@ -88,6 +89,10 @@ import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
+
+import static android.support.v4.view.ViewPager.SCROLL_STATE_DRAGGING;
+import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
+import static android.support.v4.view.ViewPager.SCROLL_STATE_SETTLING;
 
 /**
  * 活动：主页
@@ -122,6 +127,13 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private FrameLayout left;
     private TextView title;
     private LinearLayout search;
+    private LinearLayout mPlayWith;
+    private TextView mOrderList;
+    private View mPlayWithIndicator;
+    private View mMatchIndicator;
+    private TextView mPlayWithTitle;
+    private TextView mMatchTitle;
+
     private ImageView searchIcon;
     private TextView searchText;
     private ImageView scanQnCode;
@@ -131,7 +143,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private HomeFragment home;
     private DiscoverFragment discover;
     private GameFragment game;
-    private GameMatchFragment matchFragment;
+    private PlayWithFragment playWithFragment;
 
     private Fragment context;
     private SliderFragment slider;
@@ -142,6 +154,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private boolean isShowedUpdate = false;
     private SlidingMenu.CanvasTransformer mTransformer;
 
+
+    private TextView mPlayWithBottom;
+    private View mDivider;
     /**
      * 双击退出应用
      */
@@ -198,6 +213,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             }
         }, 400);
     }
+
+
 
 	/* ########### 侧滑菜单 ############### */
 
@@ -262,11 +279,16 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     }
 
     private int tab;
-
+    private int mMainPosition;
+    private int mMatchPosition;
     private void getIntentValue() {
         if (getIntent() != null) {
             try {
+                //老版本
                 tab = getIntent().getIntExtra("tab", 0);
+                //新版本
+                mMainPosition = getIntent().getIntExtra("main_position",-1);
+                mMatchPosition = getIntent().getIntExtra("match_position",-1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -279,6 +301,33 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             if (viewPager != null) {
                 viewPager.setCurrentItem(tab - 1);
                 tab = 0;
+            }
+
+            //跳到赛事页面
+            if(tab == 4){
+                if (playWithFragment != null) {
+                    playWithFragment.setCurrentPage(1);
+                }
+            }
+        }
+
+        if (mMainPosition > 0 && mMainPosition < 4){
+            if (viewPager != null) {
+                viewPager.setCurrentItem(mMainPosition);
+                mMainPosition = -1;
+            }
+        }
+
+        if (mMatchPosition > 0 && mMatchPosition < 2){
+            if (playWithFragment != null) {
+                playWithFragment.setCurrentPage(mMatchPosition);
+                mMatchPosition = -1;
+            }
+        }
+
+        if (slidingMenu != null){
+            if (slidingMenu.isMenuShowing()){
+                toggle();
             }
         }
     }
@@ -301,7 +350,15 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 if(leftCount == null){
                      return;
                 }
+                if (mUnReadMsg == null){
+                    mUnReadMsg = new UnReadMessageEvent(count);
+                }else {
+                    mUnReadMsg.setCount(mUnReadMsg.getCount()+count);
+                }
 
+                if (viewPager != null && viewPager.getCurrentItem() == 3){
+                    return;
+                }
                 if (count > 0) {
                     leftCount.setVisibility(View.VISIBLE);
                 } else {
@@ -431,6 +488,16 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         searchText = (TextView) background.findViewById(R.id.ab_search_text);
         scanQnCode = (ImageView) background.findViewById(R.id.ab_scanqrcode);
 
+        mPlayWith = (LinearLayout) background.findViewById(R.id.ll_play_with_match_tab);
+        mPlayWithIndicator = background.findViewById(R.id.play_with_indicator);
+        mPlayWithTitle = (TextView)background.findViewById(R.id.tv_play_with_title);
+        mMatchTitle = (TextView)background.findViewById(R.id.tv_match_title);
+        mMatchIndicator = background.findViewById(R.id.match_indicator);
+        mOrderList = (TextView)background.findViewById(R.id.tv_order_list);
+
+        mOrderList.setOnClickListener(this);
+        mPlayWithTitle.setOnClickListener(this);
+        mMatchTitle.setOnClickListener(this);
         search.setOnClickListener(this);
         searchIcon.setOnClickListener(this);
         searchText.setOnClickListener(this);
@@ -504,6 +571,33 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
             case R.id.ab_scanqrcode:
                 startScanQRCodeActivity();
+                break;
+            case R.id.tv_play_with_title:
+                if (playWithFragment != null){
+                    playWithFragment.setCurrentPage(0);
+                }
+                break;
+            case R.id.tv_match_title:
+                if (playWithFragment != null){
+                    playWithFragment.setCurrentPage(1);
+                }
+                break;
+            case R.id.tv_order_list:
+
+                if(PreferencesHepler.getInstance().isLogin()){
+                    Member member = PreferencesHepler.getInstance().getUserProfilePersonalInformation();
+                    if (member != null ){
+                        if (member.isCoach()){
+                            ActivityManager.startPlayWithOrderAndMatchActivity(MainActivity.this,0,1);
+                        }else {
+                            ActivityManager.startPlayWithOrderAndMatchActivity(MainActivity.this,0,0);
+                        }
+                    }
+
+                }else {
+                    DialogManager.showLogInDialog(MainActivity.this);
+                }
+
                 break;
         }
     }
@@ -638,25 +732,30 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         home = new HomeFragment();
         game = new GameFragment();
         discover = new DiscoverFragment();
-        matchFragment = new GameMatchFragment();
+        playWithFragment = new PlayWithFragment();
 
         fragments.add(home);
         fragments.add(game);
         fragments.add(discover);
-        fragments.add(matchFragment);
+        fragments.add(playWithFragment);
         viewPager = (ViewPagerY4) findViewById(R.id.pager);
         viewPager.setScrollable(true);
         viewPager.setOffscreenPageLimit(3);
         adapter = new WelfarePagerAdapter(manager, fragments);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(this);
+        playWithFragment.setOnScrollListener(mPlayWithListener);
 
+    //    viewPager.setPageTransformer(false,new HomeShadeTransformer(viewPager,search,mPlayWidth,3));
         new HorizontalOverScrollBounceEffectDecorator(new ViewPagerOverScrollDecorAdapter(viewPager));
     }
 
     public void initMenu() {
 
         menu = findViewById(R.id.menu);
+
+        mPlayWithBottom = (TextView)findViewById(R.id.tv_bottom_play_with);
+        mDivider = findViewById(R.id.v_divider_bottom);
 
         if (bottomButtons == null) {
             bottomButtons = new ArrayList<>();
@@ -688,12 +787,49 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
     }
 
+
+    private float mLastOffset;
+    private int mPreviousPosition;
+    private int mScrollState;
+
     @Override
     public void onPageScrollStateChanged(int arg0) {
+
+        mScrollState = arg0;
+        if (mScrollState == SCROLL_STATE_IDLE){
+            if (viewPager.getCurrentItem() == 3){
+                showPlayWidthTab(true);
+            }else {
+                showPlayWidthTab(false);
+            }
+            mPreviousPosition = viewPager.getCurrentItem();
+            mLastOffset = 0;
+        }
     }
 
     @Override
     public void onPageScrolled(int arg0, float arg1, int arg2) {
+        System.out.println("scale:"+arg1 +" currentItem:"+viewPager.getCurrentItem());
+        if (mPreviousPosition == 3 && arg1 == 0){
+            return;
+        }
+
+        if (arg1 - mLastOffset > 0){              //0->1
+            if (mPreviousPosition == 2 || viewPager.getCurrentItem() == 3){
+                if (mLastOffset != 0){
+                    showShade(arg1);
+                    hideShade(1-arg1);
+                    System.out.println("A");
+                }
+            }
+        }else {                                   //1-0
+            if (mPreviousPosition == 3 && viewPager.getCurrentItem() == 3){
+                showShade(arg1);
+                hideShade(1-arg1);
+                System.out.println("B");
+            }
+        }
+        mLastOffset = arg1;
     }
 
     @Override
@@ -704,10 +840,50 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         currIndex = position;
     }
 
+    /**
+     * 陪玩 Item 监听
+     */
+    final OnPageChangeListener mPlayWithListener = new OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            showPlayWidthTab(true);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
+
+
+    private void showShade(float scale){
+        if (mPlayWith == null){
+            return;
+        }
+        if (mPlayWith.getVisibility() == View.GONE){
+            mPlayWith.setVisibility(View.VISIBLE);
+        }
+
+        mPlayWith.setAlpha(scale);
+    }
+
+    private void hideShade(float scale){
+        if (search == null){
+            return;
+        }
+        search.setAlpha(scale);
+    }
+
     private void switchTab(final int index) {
         for (int i = 0; i < bottomText.size(); i++) {
             if (index == i) {
                 bottomText.get(i).setTextColor(resources.getColorStateList(R.color.menu_main_red));
+
             } else {
                 bottomText.get(i).setTextColor(resources.getColorStateList(R.color.menu_main_gray));
             }
@@ -718,12 +894,14 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 bottomIcon.get(1).setImageResource(R.drawable.game_normal);
                 bottomIcon.get(2).setImageResource(R.drawable.discover_normal);
                 bottomIcon.get(3).setImageResource(R.drawable.event_nomal);
+                showPlayWidthTab(false);
                 break;
             case 1: // 打游戏
                 bottomIcon.get(0).setImageResource(R.drawable.home_normal);
                 bottomIcon.get(1).setImageResource(R.drawable.game_selected);
                 bottomIcon.get(2).setImageResource(R.drawable.discover_normal);
                 bottomIcon.get(3).setImageResource(R.drawable.event_nomal);
+                showPlayWidthTab(false);
                 showGameTipDialog();
                 break;
             case 2: // 发现
@@ -731,6 +909,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 bottomIcon.get(1).setImageResource(R.drawable.game_normal);
                 bottomIcon.get(2).setImageResource(R.drawable.discover_selected);
                 bottomIcon.get(3).setImageResource(R.drawable.event_nomal);
+                showPlayWidthTab(false);
                 showDiscoverTipDialog();
                 break;
             case 3:// 福利
@@ -738,8 +917,49 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 bottomIcon.get(1).setImageResource(R.drawable.game_normal);
                 bottomIcon.get(2).setImageResource(R.drawable.discover_normal);
                 bottomIcon.get(3).setImageResource(R.drawable.event_selected);
+                showPlayWidthTab(true);
                 showMatchTipDialog();
                 break;
+        }
+    }
+
+    private void showPlayWidthTab(boolean isShow){
+        if (isShow){
+            leftCount.setVisibility(View.GONE);
+            right.setVisibility(View.GONE);
+            mPlayWith.setAlpha(1);
+            mPlayWith.setVisibility(View.VISIBLE);
+            search.setVisibility(View.GONE);
+            mPlayWithBottom.setTextColor(getResources().getColor(R.color.ab_backdround_red));
+            mDivider.setBackgroundColor(getResources().getColor(R.color.ab_backdround_red));
+            mOrderList.setVisibility(View.VISIBLE);
+            switch(playWithFragment.getCurrentPage()){
+                case 0:
+                    mPlayWithTitle.setTextColor(Color.parseColor("#fc3c2e"));
+                    mPlayWithIndicator.setVisibility(View.VISIBLE);
+
+                    mMatchTitle.setTextColor(Color.parseColor("#8b8b8b"));
+                    mMatchIndicator.setVisibility(View.INVISIBLE);
+                    break;
+                case 1:
+                    mMatchTitle.setTextColor(Color.parseColor("#fc3c2e"));
+                    mMatchIndicator.setVisibility(View.VISIBLE);
+
+                    mPlayWithTitle.setTextColor(Color.parseColor("#8b8b8b"));
+                    mPlayWithIndicator.setVisibility(View.INVISIBLE);
+                    break;
+            }
+        }else {
+
+            leftCount.setVisibility(View.VISIBLE);
+
+            right.setVisibility(View.VISIBLE);
+            mOrderList.setVisibility(View.GONE);
+            mPlayWithBottom.setTextColor(getResources().getColor(R.color.menu_main_gray));
+            mDivider.setBackgroundColor(getResources().getColor(R.color.menu_main_gray));
+            mPlayWith.setVisibility(View.GONE);
+            search.setVisibility(View.VISIBLE);
+            search.setAlpha(1);
         }
     }
 
@@ -910,15 +1130,15 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
     }
 
+    private UnReadMessageEvent mUnReadMsg;
     /**
      *未读消息红点
      */
     public void updateUnReadMessage(UnReadMessageEvent event){
         if (event != null && leftCount != null){
-            if (event.getCount() > 0){
-                leftCount.setVisibility(View.VISIBLE);
-            }else {
-                leftCount.setVisibility(View.GONE);
+            mUnReadMsg = event;
+            if (viewPager != null && viewPager.getCurrentItem() == 3){
+                return;
             }
         }
     }

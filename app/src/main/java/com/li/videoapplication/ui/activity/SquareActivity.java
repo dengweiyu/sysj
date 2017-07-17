@@ -24,7 +24,9 @@ import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.fragment.SquareFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.views.ViewPagerY4;
-import com.ypy.eventbus.EventBus;
+
+import io.rong.eventbus.EventBus;
+
 
 /**
  * 活动：玩家广场
@@ -55,7 +57,6 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
     @Override
     public void afterOnCreate() {
         super.afterOnCreate();
-        EventBus.getDefault().register(this);
 
         //
         try {
@@ -154,7 +155,7 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+
     }
 
     private class PageChangeListener implements OnPageChangeListener {

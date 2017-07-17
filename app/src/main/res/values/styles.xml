@@ -196,4 +196,22 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="AlphaDialog" parent="Base.Theme.AppCompat.Dialog">
+        <item name="android:windowEnterAnimation">@null</item>
+    </style>
+
+    <style name="ScoreStar" parent="@android:style/Widget.Holo.RatingBar">
+        <item name="android:progressDrawable">@drawable/show_start_score</item>
+           <item name="android:minHeight">26dp</item>
+           <item name="android:maxHeight">26dp</item>
+                <item name="android:isIndicator">true</item>
+    </style>
+
+    <style name="CommentScoreStar" parent="@android:style/Widget.Holo.RatingBar">
+        <item name="android:progressDrawable">@drawable/show_comment_start</item>
+               <item name="android:minHeight">40dp</item>
+               <item name="android:maxHeight">40dp</item>
+        <item name="android:isIndicator">false</item>
+    </style>
+
 </resources>

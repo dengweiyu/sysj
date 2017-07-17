@@ -14,7 +14,7 @@ import com.ifeimo.im.common.bean.model.ChatMsgModel;
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
-import com.ifeimo.im.framwork.interface_im.IMWindow;
+import com.ifeimo.im.framwork.commander.IMWindow;
 
 import y.com.sqlitesdk.framework.business.BusinessUtil;
 

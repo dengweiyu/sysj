@@ -25,7 +25,8 @@ import com.li.videoapplication.framework.TBaseChildFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.adapter.GiftAdapter;
-import com.ypy.eventbus.EventBus;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 碎片：搜索视频

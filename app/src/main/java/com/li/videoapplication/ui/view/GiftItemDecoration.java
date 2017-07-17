@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
- * Created by Administrator on 2017/6/9.
+ * 礼物RecyclerView分割线
  */
 
 public class GiftItemDecoration extends SimpleItemDecoration {
@@ -15,6 +15,11 @@ public class GiftItemDecoration extends SimpleItemDecoration {
     public GiftItemDecoration(Context context,boolean isLand) {
         super(context);
         this.mIsLand = isLand;
+
+        mIsLeft = true;
+        mIsBottom = true;
+        mIsRight = true;
+        mIsTop = true;
     }
 
     @Override

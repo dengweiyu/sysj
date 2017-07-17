@@ -11,7 +11,7 @@ import com.li.videoapplication.R;
 /**
  * 视图：出错了
  */
-public class ErrorView extends RelativeLayout implements IVideoPlay{
+public class ErrorView extends RelativeLayout implements IVideoPlay,View.OnClickListener{
 
     public final String action = this.getClass().getName();
     public final String tag = this.getClass().getSimpleName();
@@ -20,6 +20,8 @@ public class ErrorView extends RelativeLayout implements IVideoPlay{
 
     private View view;
     private RelativeLayout root;
+
+    private  VideoPlayView mPlayView;
 
     public ErrorView(Context context) {
         this(context, null);
@@ -37,6 +39,9 @@ public class ErrorView extends RelativeLayout implements IVideoPlay{
         inflater = LayoutInflater.from(getContext());
         view = inflater.inflate(R.layout.view_videoplay_error, this);
         root = (RelativeLayout) view.findViewById(R.id.root);
+
+        view.findViewById(R.id.iv_reload).setOnClickListener(this);
+
     }
 
     @Override
@@ -73,5 +78,20 @@ public class ErrorView extends RelativeLayout implements IVideoPlay{
     @Override
     public void hidePlay() {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.iv_reload:
+                if (mPlayView != null){
+                    mPlayView.switchPlay(VideoPlayView.STATE_VIDEOPLAY);
+                }
+                break;
+        }
+    }
+
+    public void setPlayView(VideoPlayView playView) {
+        mPlayView = playView;
     }
 }

@@ -10,7 +10,7 @@ import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.event.SquareFilterEvent;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.mvp.adapter.SquareGameChoiceAdapter;
-import com.ypy.eventbus.EventBus;
+import io.rong.eventbus.EventBus;
 
 /**
  * 玩家广场 游戏选择

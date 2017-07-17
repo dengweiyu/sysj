@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="36dp"
+    android:layout_marginRight="36dp"
+    android:layout_gravity="center"
+    android:padding="20dp"
+    android:background="@drawable/aboutwechat_bg"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="客 服"
+        android:textColor="#333333"
+        android:textSize="17sp"
+        />
+
+    <LinearLayout
+        android:id="@+id/service_btn_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:background="@drawable/dialog_service_bg_blue"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/customer_service_blue" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="在 线 客 服"
+            android:textSize="17sp"
+            android:textColor="#626262"
+            />
+
+        <TextView
+            android:id="@+id/service_text_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="机 器 人 实 时 在 线"
+            android:textSize="13sp"
+            android:textColor="#626262"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:text="人 工 客 服 在 线 时 间 9:00 - 18:00"
+            android:textSize="13sp"
+            android:textColor="#626262"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/feedback_btn_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:background="@drawable/dialog_service_bg_red"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/leave_mesage_red" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="留 言 反 馈"
+            android:textSize="17sp"
+            android:textColor="#626262"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:text="非 客 服 在 线 时 间 请 使 用 留 言 反 馈"
+            android:textSize="13sp"
+            android:textColor="#626262"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

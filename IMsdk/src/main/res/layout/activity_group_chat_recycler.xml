@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--<FrameLayout-->
+    <!--android:id="@+id/muc_title"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:elevation="10dp"-->
+    <!--android:orientation="vertical">-->
+
+    <include layout="@layout/top_layout" />
+
+    <!--</FrameLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#ECEDF1"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@null">
+
+            <com.ifeimo.im.framwork.view.IMRecycleView
+                android:id="@+id/id_RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
+
+            <com.ifeimo.im.framwork.view.RecyclerViewHeader
+                android:id="@+id/id_RecyclerViewHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/id_more_ProgressBar"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerInParent="true" />
+
+            </com.ifeimo.im.framwork.view.RecyclerViewHeader>
+
+        </FrameLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rl_chat_message_toolbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F6F6F6"
+        android:focusable="true"
+        android:elevation="2dp"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp">
+        <com.ifeimo.im.framwork.view.IMEditTex
+            android:id="@+id/et_chat_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:layout_marginLeft="8dp"
+            android:hint=" 请输入消息内容"
+            android:imeOptions="actionSend"
+            android:inputType="textMultiLine"
+            android:maxHeight="60dp"
+            android:minHeight="30dp"
+
+            android:paddingLeft="5dp"
+            android:textColor="#000"
+            android:textColorHint="#d2d2d2"
+
+            android:textSize="15sp" />
+
+        <!--<ImageView-->
+        <!--android:id="@+id/et_chat_add"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/ic_add_circle_outline_blue_400_36dp"-->
+        <!--android:visibility="gone" />-->
+
+        <LinearLayout
+            android:id="@+id/ll_chat_send_toolbox"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:background="@null"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_chat_send_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="8dp"
+                android:background="@null"
+                android:gravity="center"
+                android:onClick="sendOnclick"
+                android:text="发送"
+                android:textColor="#2979FF"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

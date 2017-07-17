@@ -83,6 +83,8 @@ public class GameMatchRulesFragment extends Fragment {
         ws.setBuiltInZoomControls(true);//可缩放
         ws.setDisplayZoomControls(false);//不显示缩放按钮
         ws.setDefaultFontSize(40);//默认字体大小
+        ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        ws.setLoadWithOverviewMode(true);
         ws.setUseWideViewPort(true);//双击变大，再双击后变小，当手动放大后，双击可以恢复到原始大小
 //        ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.setOnLongClickListener(new View.OnLongClickListener() {

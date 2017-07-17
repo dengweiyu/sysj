@@ -28,6 +28,7 @@ public class TipView extends View {
 	private final int color;
 
 	private boolean isRound;
+	private float marginBottom = 0;
 	public TipView(Context context) {
 		this(context, null);
 	}
@@ -36,7 +37,7 @@ public class TipView extends View {
 		super(context, attrs);
 		TypedArray array = context.obtainStyledAttributes(attrs,R.styleable.TipView);
 		isRound = array.getBoolean(R.styleable.TipView_isRound,false);
-
+		marginBottom = array.getDimension(R.styleable.TipView_marginBottom,0f);
 		this.context = context;
 		this.paint = new Paint();
 		this.paint.setAntiAlias(true); //消除锯齿
@@ -68,7 +69,8 @@ public class TipView extends View {
 			t = 0;
 			r = w>h?w:h;
 			b = w>h?w:h;
-			RectF f = new RectF(l, t, r, b);
+
+			RectF f = new RectF(l+marginBottom, t+marginBottom, r-marginBottom, b-marginBottom);
 			//开新图层
 			int v = canvas.saveLayer(l,t,r,b,new Paint(),Canvas.ALL_SAVE_FLAG);
 			//画阴影背景

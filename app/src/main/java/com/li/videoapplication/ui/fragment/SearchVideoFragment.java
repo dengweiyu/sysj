@@ -31,7 +31,9 @@ import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.adapter.GroupDetailVideoAdapter;
-import com.ypy.eventbus.EventBus;
+
+import io.rong.eventbus.EventBus;
+
 
 /**
  * 碎片：搜索视频

@@ -111,6 +111,9 @@ public class LPDSStorageUtil {
             Context context = AppManager.getInstance().getContext();
             file = context.getExternalFilesDir(null);
         }
+        if (!file.exists()){
+            file.mkdir();
+        }
         Log.i(TAG, "getLpds: " + file);
         return file;
     }

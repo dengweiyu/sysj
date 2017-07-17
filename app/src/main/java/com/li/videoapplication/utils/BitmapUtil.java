@@ -104,7 +104,8 @@ public class BitmapUtil {
         }
         if (file != null && file.exists())
             try {
-                file.delete();
+                boolean isDelete = file.getAbsoluteFile().delete();
+                file.createNewFile();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -116,7 +117,7 @@ public class BitmapUtil {
         }
         if (fos == null)
             return false;
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        boolean isSave = bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
         try {
             fos.flush();
         } catch (IOException e) {

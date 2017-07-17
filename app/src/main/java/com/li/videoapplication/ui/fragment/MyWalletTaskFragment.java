@@ -12,7 +12,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.response.MemberTaskEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
-import com.ypy.eventbus.EventBus;
+import io.rong.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class MyWalletTaskFragment extends TBaseFragment {
 
     @Override
     protected void initContentView(View view) {
-        EventBus.getDefault().register(this);
+
         mPager = (ViewPager)view.findViewById(R.id.vp_my_wallet_task);
 
         if (mFragments == null){
@@ -57,7 +57,7 @@ public class MyWalletTaskFragment extends TBaseFragment {
 
     @Override
     public void onDestroy() {
-        EventBus.getDefault().unregister(this);
+
         super.onDestroy();
     }
 

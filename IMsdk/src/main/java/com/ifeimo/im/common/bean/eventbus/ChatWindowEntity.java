@@ -1,6 +1,6 @@
 package com.ifeimo.im.common.bean.eventbus;
 
-import com.ifeimo.im.framwork.interface_im.IMWindow;
+import com.ifeimo.im.framwork.commander.IMWindow;
 
 /**
  * Created by lpds on 2017/5/12.

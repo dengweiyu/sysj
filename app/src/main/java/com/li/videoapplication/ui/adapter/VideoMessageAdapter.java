@@ -14,13 +14,17 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.MyMessage;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.event.ReadMessageEntity;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
+import com.li.videoapplication.ui.view.RightBarView;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 适配器：视频图文消息
@@ -49,8 +53,12 @@ public class VideoMessageAdapter extends BaseArrayAdapter<MyMessage> {
         ActivityManager.startImageDetailActivity(getContext(), record);
     }
 
-    public VideoMessageAdapter(Context context, List<MyMessage> data) {
+
+    private String mType;
+
+    public VideoMessageAdapter(Context context, List<MyMessage> data,String type) {
         super(context, R.layout.adapter_videomessage, data);
+        mType = type;
     }
 
     @Override
@@ -101,8 +109,14 @@ public class VideoMessageAdapter extends BaseArrayAdapter<MyMessage> {
                 } else {// 个人中心
                     startPlayerDynamicActivity(getMember(record));
                 }
-                // 视频，图文消息已读
-                DataManager.messageClickMsg(record.getMsg_id());
+
+                //
+                ReadMessageEntity entity = new ReadMessageEntity();
+                entity.setSymbol(mType);
+                entity.setMsgId(record.getMsg_id());
+                entity.setAll(0);
+                EventBus.getDefault().post(entity);
+
                 record.setMark("0");
                 notifyDataSetChanged();
 

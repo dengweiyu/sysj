@@ -522,7 +522,6 @@ public class MyPersonalCenterActivity extends PullToRefreshActivity<VideoImage> 
     public void onEventMainThread(UserInfomationEvent event) {
 
         if (event != null) {
-
             item = getUser();
             refreshHeaderView(item);
         }

@@ -2,9 +2,13 @@ package com.li.videoapplication.component.service;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
+import com.baidu.push.example.entity.BaiduEntity;
 import com.fmsysj.screeclibinvoke.data.preferences.Utils_Preferens;
+import com.li.videoapplication.component.application.MainApplication;
 import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.HttpManager;
 import com.li.videoapplication.data.database.FileDownloaderEntity;
@@ -12,10 +16,19 @@ import com.li.videoapplication.data.database.FileDownloaderManager;
 import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
+import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.entity.NetworkError;
+import com.li.videoapplication.data.model.event.LogoutEvent;
+import com.li.videoapplication.data.model.event.TokenErrorEntity;
+import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.response.GetDownloadAppEntity;
 import com.li.videoapplication.data.model.response.GetDownloadOtherEntity;
+import com.li.videoapplication.data.model.response.LoginEntity;
+import com.li.videoapplication.data.model.response.SubmitChannelIdEntity;
+import com.li.videoapplication.data.model.response.Token;
+import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.mvp.home.HomeContract;
 import com.li.videoapplication.mvp.home.presenter.HomePresenter;
@@ -45,6 +58,48 @@ public class AppStartService extends BaseIntentService{
     public static final String ACTION = AppStartService.class.getName();
     private HomeContract.IHomePresenter homePresenter;
 
+    private static Handler mTokenHandler;
+
+    //FIXME
+    //Access token 刷新
+   /* Runnable mRefreshTokenTask = new Runnable() {
+        @Override
+        public void run() {
+            if (PreferencesHepler.getInstance().isLogin()){
+                Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
+                //无token
+                if (member.getSysj_token() == null){
+                    //退出当前登录
+                    AppAccount.logout();
+                }else {
+                    Member.Token token = member.getSysj_token();
+                    //refresh token > 28天 无效执行退出操作
+                    if (System.currentTimeMillis() - token.getRefreshTokenTime() > 2419200000L){
+                        AppAccount.logout();
+                    }else {
+                        //有效期为 55分钟  提前5分钟
+                        long duration = System.currentTimeMillis() - token.getAccessTokenTime();
+                        if (duration >  member.getSysj_token().getExpires_in()*1000 - 300000){
+                            //刷新token
+                            DataManager.refreshAccessToken(member.getSysj_token().getRefresh_token());
+                        }else {
+                            if (mTokenHandler == null){
+                                mTokenHandler = new Handler();
+                            }
+                            mTokenHandler.postDelayed(this,member.getSysj_token().getExpires_in()*1000 - 300000 - duration);
+                        }
+                    }
+                }
+            }else {
+                if (mTokenHandler != null){
+                    mTokenHandler.removeCallbacks(this);
+                    mTokenHandler = null;
+                }
+            }
+        }
+    };*/
+
+
     /**
      * 启动服务
      */
@@ -60,6 +115,18 @@ public class AppStartService extends BaseIntentService{
 
     public AppStartService() {
         super(TAG);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        //刷新Token
+        //FIXME
+   /*     if (PreferencesHepler.getInstance().isLogin()){
+            mTokenHandler = new Handler();
+            mTokenHandler.post(mRefreshTokenTask);
+        }*/
     }
 
     @Override
@@ -481,4 +548,125 @@ public class AppStartService extends BaseIntentService{
         Log.d(TAG, "feimo: true");
     }
 
+    /**
+     * 回调:登录成功
+     */
+    public void onEventMainThread(LoginEntity event) {
+
+        //FIXME
+/*        if (event != null && event.isResult()){
+            //
+            Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
+            if (member != null){
+                if (member.getSysj_token() == null){
+                    member.setSysj_token(event.getData().getSysj_token());
+                }
+                member.getSysj_token().setAccessTokenTime(System.currentTimeMillis());
+                member.getSysj_token().setRefreshTokenTime(System.currentTimeMillis());
+                //更新时间
+                PreferencesHepler.getInstance().saveUserProfilePersonalInformation(member);
+            }
+            if(mTokenHandler == null){
+                mTokenHandler = new Handler();
+                //55分钟后检查更新
+                mTokenHandler.postDelayed(mRefreshTokenTask,member.getSysj_token().getExpires_in()*1000 - 300000);
+            }
+        }*/
+
+
+    }
+
+    /**
+     *回调：退出
+     */
+    public void onEventMainThread(LogoutEvent event){
+        //FIXME
+        /*if (mTokenHandler != null){
+            mTokenHandler.removeCallbacks(mRefreshTokenTask);
+            mTokenHandler = null;
+        }
+*/
+        //
+        MainApplication app = (MainApplication) getApplication();
+        app.setSubmitChannelId(true);
+    }
+
+    /**
+     *回调：刷新token
+     */
+    public void onEventMainThread(Token data){
+        //FIXME
+    /*    if (data != null && data.isResult()){
+            //
+            Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
+            if (member != null){
+                if(member.getSysj_token() == null){
+                    member.setSysj_token(new Member.Token());
+                }
+                member.getSysj_token().setAccessTokenTime(System.currentTimeMillis());
+                member.getSysj_token().setRefreshTokenTime(System.currentTimeMillis());
+                member.getSysj_token().setAccess_token(data.getData().getAccess_token());
+                member.getSysj_token().setRefresh_token(data.getData().getRefresh_token());
+                member.getSysj_token().setExpires_in(data.getData().getExpires_in());
+                member.getSysj_token().setToken_type(data.getData().getToken_type());
+                //更新时间
+                PreferencesHepler.getInstance().saveUserProfilePersonalInformation(member);
+
+                if (mTokenHandler != null){
+                    mTokenHandler.removeCallbacks(mRefreshTokenTask);
+                    //55分钟后更新
+                    mTokenHandler.postDelayed(mRefreshTokenTask,member.getSysj_token().getExpires_in()*1000 - 300000);
+                }
+            }
+        }else {
+            //这里失败的话就是代码问题了~
+            //退出当前登录
+           // AppAccount.logout();
+        }*/
+    }
+
+    /**
+     * 接口时报Token失效
+     */
+    public void onEventMainThread(TokenErrorEntity error){
+        //FIXME
+    /*    Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
+
+        if (member != null){
+            //刷新token
+            DataManager.refreshAccessToken(member.getSysj_token().getRefresh_token());
+        }*/
+    }
+
+    /**
+     * 个人资料刷新事件
+     */
+    public void onEventMainThread(UserInfomationEvent event) {
+        //上传Baidu Push 的channel_id
+        if (getApplication() instanceof MainApplication){
+            MainApplication app = (MainApplication) getApplication();
+            Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
+            if (PreferencesHepler.getInstance().isLogin()){
+                if (app.isSubmitChannelId()){
+                    BaiduEntity entity = app.getBaiduEntity();
+                    if (entity != null && !StringUtil.isNull(entity.getChannelId())) {
+                        DataManager.submitChannelId(member.getId(),entity.getChannelId());
+                        app.setSubmitChannelId(false);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * channel id 提交结果
+     */
+    public void onEventMainThread(SubmitChannelIdEntity entity){
+        if (entity != null){
+              if (!entity.isResult()){
+                  MainApplication app = (MainApplication) getApplication();
+                  app.setSubmitChannelId(true);
+              }
+        }
+    }
 }

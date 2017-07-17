@@ -496,6 +496,10 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         Log.d(tag, "comment/text=" + text);
         if (videoPlayView != null && videoPlayView.isVoideoPlaying()) {
             videoPlayView.addDanmuku(text);
+         }else {
+            if (videoPlayView != null && videoPlayView.videoImage != null){
+                DataManager.DANMUKU.bulletDo203Bullet2Video(videoPlayView.videoImage.getVideo_id(),"1000",getMember_id(),text);
+            }
         }
         // 评论
 //        DataManager.DANMUKU.bulletDo203Comment2Video(item.getVideo_id(),

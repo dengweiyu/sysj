@@ -108,10 +108,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.li.videoapplication.ui.activity.MessageActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.li.videoapplication.ui.activity.MyTaskActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -221,7 +217,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.li.videoapplication.ui.activity.PlayerDynamicActivity"
-            android:launchMode="singleTask"
+
             android:screenOrientation="portrait" />
         <activity
             android:name="com.li.videoapplication.ui.activity.MyPlayerActivity"
@@ -237,6 +233,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
+        <activity android:name=".ui.activity.FeedbackActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/MyTheme.NoActionBar"/>
         <activity
             android:name="com.li.videoapplication.ui.activity.VideoPlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -401,6 +402,40 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.activity.CoachDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.CreatePlayWithOrderActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.NoActionBar" />
+
+        <activity android:name=".mvp.match.view.PlayWithAndMatchActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/MyTheme.NoActionBar" />
+        <activity android:name=".ui.activity.PlayWithOrderDetailActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/MyTheme.NoActionBar" />
+        <activity android:name=".ui.activity.CommentPlayWithOrderActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/MyTheme.NoActionBar"
+                  android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity android:name=".ui.activity.ConfirmOrderDoneActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/MyTheme.NoActionBar"/>
+        <activity android:name=".ui.activity.RefundApplyActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="stateHidden|adjustPan"
+                  android:theme="@style/MyTheme.NoActionBar"/>
         <!--单聊界面，包括客服-->
         <activity
             android:name=".ui.activity.ConversationActivity"

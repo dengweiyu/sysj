@@ -67,7 +67,7 @@ public class RecommendAdapter extends BaseArrayAdapter<VideoImage> {
         boolean isRecommed = !StringUtil.isNull(record.getIsRecommend()) &&
                 !record.getIsRecommend().equals("0");// 0：普通视频；>0：推荐视频，值为推荐位id
 
-        holder.recommend.setVisibility(isRecommed ? View.VISIBLE : View.INVISIBLE);
+     //   holder.recommend.setVisibility(isRecommed ? View.VISIBLE : View.INVISIBLE);
 
         if (record.isV()){
             holder.memberV.setVisibility(View.VISIBLE);

@@ -27,7 +27,6 @@ import com.li.videoapplication.data.HttpManager;
 import com.li.videoapplication.framework.BaseHttpResult;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
-import com.ypy.eventbus.EventBus;
 
 import java.io.File;
 import java.util.List;

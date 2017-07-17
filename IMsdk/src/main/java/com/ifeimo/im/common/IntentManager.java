@@ -37,4 +37,9 @@ public class IntentManager {
             ((Activity)context).overridePendingTransition(R.anim.left_in,R.anim.left_out);
         }
     }
+
+    public static void startSelectPhotoActivity(Activity activity,int requestCode){
+        Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        activity.startActivityForResult(intent,requestCode);
+    }
 }

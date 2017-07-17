@@ -25,7 +25,6 @@ import com.li.videoapplication.payment.IPayment;
 import com.li.videoapplication.payment.PaymentFactory;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
-import com.ypy.eventbus.EventBus;
 
 /**
  * Created by liuwei on 2017/4/1.

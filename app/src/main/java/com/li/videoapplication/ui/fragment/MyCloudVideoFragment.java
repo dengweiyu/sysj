@@ -22,7 +22,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.MyCloudVideoAdapter;
 import com.li.videoapplication.utils.StringUtil;
-import com.ypy.eventbus.EventBus;
+import io.rong.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -67,7 +67,7 @@ public class MyCloudVideoFragment extends TBaseFragment implements PullToRefresh
 
         onPullDownToRefresh(pullToRefreshListView);
 
-        EventBus.getDefault().register(this);
+
     }
 
     private void initListView(View view) {

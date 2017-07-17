@@ -322,9 +322,12 @@ public class VideoEditorActivity2 extends TBaseActivity {
         Log.d(tag, "saveCover: ");
         if (coverBitmap != null) {
             File coverFile = LPDSStorageUtil.createCoverPath(entity.getVideo_path());
+
             if (coverFile != null) {
                 BitmapUtil.saveBitmap(coverBitmap, coverFile.getPath());
             }
+
+
         }
     }
 

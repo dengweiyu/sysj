@@ -30,7 +30,7 @@ import java.lang.reflect.Field;
  *首页底部录屏
  */
 
-public class RecordDialogNew extends BottomSheetDialog implements View.OnClickListener {
+public class RecordDialogNew extends AlphaShadeDialog implements View.OnClickListener {
 
     private Activity mActivity;
 
@@ -50,6 +50,8 @@ public class RecordDialogNew extends BottomSheetDialog implements View.OnClickLi
 
         setContentView(R.layout.popup_record221);
 
+        resetCallback();
+
         Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
 
@@ -64,37 +66,6 @@ public class RecordDialogNew extends BottomSheetDialog implements View.OnClickLi
         findViewById(R.id.ll_popup_record_layout).setOnClickListener(this);
 
 
-      /*  Class sc =  this.getClass().getSuperclass();
-        try {
-            Field behavior = sc.getDeclaredField("mBehavior");
-            behavior.setAccessible(true);
-
-            BottomSheetBehavior<FrameLayout> bottomSheetBehavior =  (BottomSheetBehavior)(behavior.get(this));
-
-            bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback(){
-                @Override
-                public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                    if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                        dismiss();
-                    }
-                }
-
-                @Override
-                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-                    if(Double.isNaN(slideOffset)){
-                        return;
-                    }
-                    mColorDrawable.setAlpha((255+(int) (255*slideOffset)));
-                }
-            });
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }catch (IllegalAccessException e){
-            e.printStackTrace();
-        }catch (Exception e){
-            e.printStackTrace();
-        }*/
     }
 
     @Override

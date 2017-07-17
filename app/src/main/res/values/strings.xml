@@ -174,6 +174,7 @@
     <string name="slider_setup">设置</string>
     <string name="slider_focus">关注</string>
     <string name="slider_fans">粉丝</string>
+    <string name="slider_customer">客服</string>
 
     <string name="scanqrcode_title">扫一扫</string>
     <string name="scanqrcode_cancel">取消</string>
@@ -305,7 +306,7 @@
     <string name="about_teamwork_content">bd@ifeimo.com</string>
     <string name="about_talents">人才招聘</string>
     <string name="about_talents_content">hr@ifeimo.com</string>
-    <string name="about_privacy">隐私及免费声明</string>
+    <string name="about_privacy">隐私及免责声明</string>
     <string name="about_feekback">意见及反馈</string>
 
     <string-array name="about_title">
@@ -315,7 +316,7 @@
         <item>玩家QQ群</item>
         <item>合作邮箱</item>
         <item>人才招聘</item>
-        <item>隐私及免费声明</item>
+        <item>隐私及免责声明</item>
         <item>意见及反馈</item>
     </string-array>
     <string-array name="about_content">

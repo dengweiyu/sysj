@@ -14,6 +14,7 @@ import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
 
+import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.framework.AppManager;
 import com.mob.tools.utils.UIHandler;
@@ -37,9 +38,11 @@ public class ShareSDKLoginHelper implements PlatformActionListener, Callback {
 
     private Context context;
 
+    private String appKey;
     public void initSDK(Context context) {
         this.context = context;
         ShareSDK.initSDK(context);
+        appKey = context.getResources().getString(R.string.play_gift_sign_key);
     }
 
     public void stopSDK(Context context) {
@@ -103,7 +106,7 @@ public class ShareSDKLoginHelper implements PlatformActionListener, Callback {
                 String userName = platform.getDb().getUserName();
                 String userGender = platform.getDb().getUserGender();
                 String userIcon = platform.getDb().getUserIcon();
-                DataManager.login(userId, userName, userName, userGender, "", userIcon);
+                DataManager.login(userId,appKey, userName, userName, userGender, "", userIcon);
                 return;
             }
         }
@@ -182,7 +185,7 @@ public class ShareSDKLoginHelper implements PlatformActionListener, Callback {
             String sex = res.get("gender").toString();
             String location = res.get("province").toString() + res.get("city").toString();
             String figureurl = res.get("figureurl").toString();
-            DataManager.login(openId, nickname, nickname, sex, location, figureurl);
+            DataManager.login(openId,appKey, nickname, nickname, sex, location, figureurl);
             UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "QQ登录成功");
 
             mTime = 0;
@@ -194,7 +197,7 @@ public class ShareSDKLoginHelper implements PlatformActionListener, Callback {
             String sex = ((res.get("gender").equals("m")) ? "男" : "女");
             String location = res.get("location").toString();
             String figureurl = res.get("avatar_large").toString();
-            DataManager.login(openId, nickname, nickname, sex, location, figureurl);
+            DataManager.login(openId, appKey,nickname, nickname, sex, location, figureurl);
             UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "新浪微博登录成功");
         }
         if (openState == 3) {
@@ -204,7 +207,7 @@ public class ShareSDKLoginHelper implements PlatformActionListener, Callback {
             String sex = res.get("sex").toString();
             String location = res.get("province").toString() + " " + res.get("city").toString();
             String figureurl = res.get("headimgurl").toString();
-            DataManager.login(openId, nickname, nickname, sex, location, figureurl);
+            DataManager.login(openId,appKey, nickname, nickname, sex, location, figureurl);
             UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "微信登录成功");
         }
     }

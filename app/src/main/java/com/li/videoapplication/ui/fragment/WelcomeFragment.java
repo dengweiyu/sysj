@@ -153,7 +153,7 @@ public class WelcomeFragment extends TBaseChildFragment implements OnPageChangeL
         gointo.setOnClickListener(this);
         male.setOnClickListener(this);
         female.setOnClickListener(this);
-        sex.setOnCheckedChangeListener(this);
+       // sex.setOnCheckedChangeListener(this);
         switchTab(0);
     }
 

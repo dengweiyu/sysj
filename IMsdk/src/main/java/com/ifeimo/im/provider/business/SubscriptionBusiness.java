@@ -5,18 +5,15 @@ import android.util.Log;
 
 import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.model.Account2SubscriptionModel;
-import com.ifeimo.im.common.bean.model.IMsg;
-import com.ifeimo.im.common.bean.model.InformationModel;
 import com.ifeimo.im.common.bean.model.SubscriptionModel;
 import com.ifeimo.im.framwork.database.Fields;
-import com.ifeimo.im.framwork.request.Account;
 
 import y.com.sqlitesdk.framework.business.Business;
 
 /**
  * Created by lpds on 2017/4/24.
  */
-abstract class SubscriptionBusiness extends InformationBuseness{
+abstract class SubscriptionBusiness extends InformationBusiness {
 
     private final String TAG = "XMPP_Subscription";
 
@@ -45,24 +42,10 @@ abstract class SubscriptionBusiness extends InformationBuseness{
 
     }
     public long insertSubscriptionDetails(SQLiteDatabase sqLiteDatabase, SubscriptionModel subscriptionModel) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
-//        SubscriptionModel model =
-//                Business.getInstances().queryLineByWhere(sqLiteDatabase,
-//                        SubscriptionModel.class,
-//                        String.format("%s = ?", Fields.SubscriptionFields.SUBSCRIPTION_ID),
-//                        new String[]{subscriptionModel.getSubscription_id()});
-//        if(model != null){
-//            if(!model.getSubscription_name().equals(subscriptionModel.getSubscription_name())
-//                    || !model.getSubscription_pic_url().equals(subscriptionModel.getSubscription_pic_url())){
-//                if(Business.getInstances().modify(sqLiteDatabase,subscriptionModel) > 0){
-//                    Log.i(TAG, "insertSubscription: ********** Success SubscriptionModel Modi ************ "+subscriptionModel);
-//                }
-//            }
-//        }else{
             if(Business.getInstances().insert(sqLiteDatabase,subscriptionModel) > 0){
                 Log.i(TAG, "insertSubscription: ********** 订阅信息成功 Success SubscriptionModel Insert ************ "+subscriptionModel);
             }
         return subscriptionModel.getId();
-//        }
     }
 
 

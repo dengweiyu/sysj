@@ -1,44 +1,84 @@
 package com.ifeimo.im.activity;
 
+
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 
 import com.ifeimo.im.R;
 import com.ifeimo.im.common.MD5;
 import com.ifeimo.im.common.adapter.ChatReAdapter;
 import com.ifeimo.im.common.bean.AccountBean;
+import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.eventbus.ChatWindowEntity;
 import com.ifeimo.im.common.bean.model.ChatMsgModel;
 import com.ifeimo.im.common.bean.model.InformationModel;
-import com.ifeimo.im.common.bean.UserBean;
+import com.ifeimo.im.common.bean.response.MemberInfoRespones;
+import com.ifeimo.im.common.bean.xml.PresenceList;
+import com.ifeimo.im.common.popupwindow.AddFriendPopupWindow;
 import com.ifeimo.im.common.util.ConnectUtil;
 import com.ifeimo.im.common.util.IMWindosThreadUtil;
 import com.ifeimo.im.common.util.PManager;
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
+import com.ifeimo.im.framwork.commander.IFileTransfer;
 import com.ifeimo.im.framwork.database.Fields;
+import com.ifeimo.im.framwork.message.FileTransferImp;
 import com.ifeimo.im.framwork.request.Account;
+import com.ifeimo.im.framwork.view.FashReplyListView;
 import com.ifeimo.im.provider.InformationProvide;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONObject;
+import org.jivesoftware.smack.roster.RosterEntry;
 
-import java.util.List;
+import java.io.File;
 
-import okhttp3.Response;
 import y.com.sqlitesdk.framework.business.Business;
 import y.com.sqlitesdk.framework.db.Access;
 import y.com.sqlitesdk.framework.sqliteinterface.Execute;
 
-public class ChatActivity extends BaseCompatActivity<ChatMsgModel,ChatReAdapter> {
+public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapter> {
 
+    public static final int SHOW_FAST_REPLY = 1000;
+    public static final int SHOW_EFAULT = -200;
     private AccountBean receiverBean = new AccountBean();
+    private PopupWindow addFriendPopupWindow;
+
+    private ImageView id_fast_reply_iv ;
+    private FashReplyListView id_fast_reply_lv;
+    private boolean isShow = false;
+
+    private int show;
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        show = getIntent().getIntExtra("show",SHOW_EFAULT);
+        id_fast_reply_iv = (ImageView) findViewById(R.id.id_fast_reply_iv);
+        id_fast_reply_lv = (FashReplyListView) findViewById(R.id.id_fast_reply_lv);
+        if(show == SHOW_FAST_REPLY) {
+            id_fast_reply_lv.setEditText(editeMsg);
+            id_fast_reply_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isShow) {
+                        id_fast_reply_lv.setVisibility(View.GONE);
+                    } else {
+                        id_fast_reply_lv.setVisibility(View.VISIBLE);
+                    }
+                    isShow = !isShow;
+                }
+            });
+        }else{
+            id_fast_reply_iv.setVisibility(View.GONE);
+        }
+
         if (savedInstanceState != null) {
             PManager.getCacheUser(getContext());
             receiverBean = (AccountBean) savedInstanceState.getSerializable("receiver");
@@ -53,15 +93,15 @@ public class ChatActivity extends BaseCompatActivity<ChatMsgModel,ChatReAdapter>
         log("------ 对方用户 " + receiverBean.getMemeberid() + "------ ");
         getAdapter().setReceiverBean(receiverBean);
         checkReceiver();
-
-        setTopBar();
-
+        setTopRightBar();
+//        DEBUG = true;
     }
 
-    private void setTopBar() {
-
-
-        id_top_right_iv.setImageResource(R.drawable.user_msg);
+    /**
+     * 设置右上方图片
+     */
+    private void setTopRightBar() {
+        super.id_top_right_iv.setImageResource(R.drawable.user_msg);
         id_top_right_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,10 +112,40 @@ public class ChatActivity extends BaseCompatActivity<ChatMsgModel,ChatReAdapter>
     }
 
     @Override
+    protected void debug() {
+        IMWindosThreadUtil.getInstances().run(getKey(), new Runnable() {
+            @Override
+            public void run() {
+                PresenceList  presenceList = null;
+                if(null != (presenceList = Account.getCoachPresence())){
+                    for(PresenceList.Presence presence: presenceList.getPresences()){
+                        System.out.print("id = " + presence.getId());
+                        System.out.print(" ,from = " + presence.getFrom());
+                        System.out.print(" ,show = " + presence.getShow());
+                        System.out.print(" ,status = " + presence.getStatus());
+                        System.out.print(" ,type = " + presence.getType());
+                        System.out.println();
+
+                    }
+                }
+            }
+        });
+
+//        addFriendPopupWindow = new AddFriendPopupWindow(this).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showTipToast(receiverBean.getNickName()+"  "+receiverBean.getMemeberid());
+//                Proxy.getAccountManger().addFriend(receiverBean);
+//                addFriendPopupWindow.dismiss();
+//            }
+//        }).init();
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putSerializable("receiver", receiverBean);
         super.onSaveInstanceState(outState);
-        log("------- ChatActivity.Class 单聊被回收 数据已缓存 --------- ");
+        log("------- ChatActivity.Class  数据已缓存 --------- ");
     }
 
     private void instances() {
@@ -102,8 +172,7 @@ public class ChatActivity extends BaseCompatActivity<ChatMsgModel,ChatReAdapter>
     }
 
     private ChatMsgModel initMsgBean() {
-        ChatMsgModel chatMsgModel = null;
-        chatMsgModel = new ChatMsgModel();
+        ChatMsgModel chatMsgModel =  new ChatMsgModel();
         chatMsgModel.setMemberId(UserBean.getMemberID());
         chatMsgModel.setReceiverId(receiverBean.getMemeberid());
         return chatMsgModel;
@@ -117,7 +186,6 @@ public class ChatActivity extends BaseCompatActivity<ChatMsgModel,ChatReAdapter>
     }
 
     public void sendOnclick(View v) {
-
         new Thread() {
             @Override
             public void run() {
@@ -180,12 +248,10 @@ public class ChatActivity extends BaseCompatActivity<ChatMsgModel,ChatReAdapter>
                 @Override
                 public void run() {
                     try {
-                        Response response = Account.getMemberInfo(ChatActivity.this, receiverBean.getMemeberid());
-
-                        JSONObject jsonObject = new JSONObject(response.body().string());
-                        if (jsonObject.getInt("code") == 200) {
-                            receiverBean.setAvatarUrl(jsonObject.getString("avatarUrl"));
-                            receiverBean.setNickName(jsonObject.getString("nickname"));
+                        MemberInfoRespones response = Account.getMemberInfo(ChatActivity.this, receiverBean.getMemeberid());
+                        if (response.getCode() == 200) {
+                            receiverBean.setAvatarUrl(response.getAvatarUrl());
+                            receiverBean.setNickName(response.getNickname());
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -206,19 +272,12 @@ public class ChatActivity extends BaseCompatActivity<ChatMsgModel,ChatReAdapter>
         IMWindosThreadUtil.getInstances().run(getKey(), new Runnable() {
             @Override
             public void run() {
-//                getAdapter().setMaxCount(Business.getInstances().queryMaxCountByTableName(Fields.ChatFields.TB_NAME, " (receiverId = '" + receiverBean.getMemeberid() + "' and memberId = '" + UserBean.getMemberID() + "') " +
-//                        "or (receiverId = '" + UserBean.getMemberID() + "' and memberId = '" + receiverBean.getMemeberid() + "')"));
-//                log(" ------ 最大的消息量为 maxCount = " + getAdapter().getMaxCount() + " -------");
-//                runnable.run();
                 Access.runCustomThread(new Execute() {
                     @Override
                     public void onExecute(SQLiteDatabase sqLiteDatabase) throws Exception {
-
-                        long maxCount =
-                                Business.getInstances().getTableMaxCount(sqLiteDatabase, ChatMsgModel.class,
+                        long maxCount = Business.getInstances().getTableMaxCount(sqLiteDatabase, ChatMsgModel.class,
                                         " (receiverId = '" + receiverBean.getMemeberid() + "' and memberId = '" + UserBean.getMemberID() + "') " +
                                                 "or (receiverId = '" + UserBean.getMemberID() + "' and memberId = '" + receiverBean.getMemeberid() + "')");
-
                         getAdapter().setMaxCount(Integer.parseInt(maxCount + ""));
                         if(!isFinishing()) {
                             runnable.run();
@@ -226,20 +285,15 @@ public class ChatActivity extends BaseCompatActivity<ChatMsgModel,ChatReAdapter>
                     }
 
                     @Override
-                    public void onExternalError() {
-
-                    }
+                    public void onExternalError() {}
                 });
             }
         });
     }
-
     @Override
     protected void onBeforeLoad(Runnable runnable) {
         runnable.run();
     }
-
-
     @Override
     public void cancelInformation() {
         IMWindosThreadUtil.getInstances().run(getKey(), new Runnable() {
@@ -248,7 +302,6 @@ public class ChatActivity extends BaseCompatActivity<ChatMsgModel,ChatReAdapter>
                 Access.runCustomThread(new Execute() {
                     @Override
                     public void onExecute(SQLiteDatabase sqLiteDatabase) throws Exception {
-
                         InformationModel informationModel = Business.getInstances().queryLineByWhere(sqLiteDatabase,
                                 InformationModel.class,
                                 String.format("%s = ? AND %s = ? AND %s = ?",
@@ -264,17 +317,76 @@ public class ChatActivity extends BaseCompatActivity<ChatMsgModel,ChatReAdapter>
                                 IMSdk.CONTEXT.getContentResolver().notifyChange(InformationProvide.CONTENT_URI, null);
                             }
                         }
-
                     }
-
                     @Override
-                    public void onExternalError() {
-
-                    }
+                    public void onExternalError() {}
                 });
-
-
             }
         });
+    }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if(resultCode == RESULT_OK){
+//            switch (requestCode){
+//                case 100:
+//                    Uri selectedImage = data.getData();
+//                    String[] filePathColumn = { MediaStore.Images.Media.DATA };
+//                    Cursor cursor = getContentResolver().query(selectedImage,
+//                            filePathColumn, null, null, null);
+//                    cursor.moveToFirst();
+//                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//                    final String picturePath = cursor.getString(columnIndex);
+//                    cursor.close();
+//                    showTipToast(picturePath);
+//                    RosterEntry r = Proxy.getAccountManger().getFriend(receiverBean.getMemeberid());
+//                    if(r == null){
+//                        showTipToast("你们还不是好友关系");
+//                        return;
+//                    }
+//                    FileTransferImp.getInstances().sendFileChat(r, picturePath, new IFileTransfer.FileObserver() {
+//                        @Override
+//                        public void onStart(File file) {
+//                            log("-------------file = "+file.getAbsolutePath());
+//                            showTipToast(" 准备发送  "+file.getAbsolutePath());
+//                        }
+
+//
+//                        @Override
+//                        public void progress(final Double d) {
+//                            runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    showTipToast(" 已发送 "+d);
+//                                }
+//                            });
+//                        }
+//
+//                        @Override
+//                        public void complete() {
+//                            showTipToast(" 发送完毕 ");
+//                        }
+//
+//                        @Override
+//                        public void onError(Exception e) {
+//                            showTipToast(e.getMessage());
+//                        }
+//                    });
+////                    IMWindosThreadUtil.getInstances().run(getKey(), new Runnable() {
+////                        @Override
+////                        public void run() {
+////
+////                        }
+////                    });
+//
+//                    break;
+//            }
+//
+//        }
+//    }
+
+    @Override
+    protected int getContentViewByInt() {
+        return R.layout.activity_chat_recycler;
     }
 }

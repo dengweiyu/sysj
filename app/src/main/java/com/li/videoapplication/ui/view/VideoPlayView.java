@@ -169,6 +169,8 @@ public class VideoPlayView extends RelativeLayout implements
         view = inflater.inflate(R.layout.view_videoplay, this);
 
         errorView = (ErrorView) view.findViewById(R.id.videoplay_error);
+        errorView.setPlayView(this);
+
         prepareView = (PrepareView) view.findViewById(R.id.videoplay_prepare);
         startView = (StartView) view.findViewById(R.id.videoplay_start);
         completeView = (CompleteView) view.findViewById(R.id.videoplay_complete);

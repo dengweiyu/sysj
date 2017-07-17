@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.li.videoapplication.utils.StringUtil;
+import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.Arrays;
@@ -71,6 +72,13 @@ public class UmengAnalyticsHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 获取渠道
+     */
+    public static String getChannel(Context context){
+        return AnalyticsConfig.getChannel(context);
     }
 
     public static void onMainMoreHotEvent(Context context, String more_mark) {

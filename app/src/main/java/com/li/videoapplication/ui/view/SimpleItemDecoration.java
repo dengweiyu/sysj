@@ -16,6 +16,7 @@ import com.li.videoapplication.utils.ScreenUtil;
 import de.measite.minidns.record.A;
 
 /**
+ *
  * recycler view Item分割线
  */
 
@@ -23,10 +24,10 @@ public class SimpleItemDecoration extends RecyclerView.ItemDecoration {
     private Context mContext;
     private Paint mPaint;
 
-    private boolean mIsLeft;
-    private boolean mIsRight;
-    private boolean mIsTop;
-    private boolean mIsBottom;
+    protected boolean mIsLeft;
+    protected boolean mIsRight;
+    protected boolean mIsTop;
+    protected boolean mIsBottom;
     public SimpleItemDecoration(Context context,boolean isLeft,boolean isRight,boolean isTop,boolean isBottom) {
         super();
         mContext = context;
@@ -74,7 +75,12 @@ public class SimpleItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect,view,parent,state);
-        outRect.set(1,1,1,1);           //每个方向都需要画分割线
+
+        int top = mIsTop ? 1 : 0;
+        int bottom = mIsBottom ? 1 : 0;
+        int left = mIsLeft ? 1 : 0;
+        int right = mIsRight ? 1 : 0;
+        outRect.set(left,top,right,bottom);           //每个方向都需要画分割线
     }
 
     //bottom

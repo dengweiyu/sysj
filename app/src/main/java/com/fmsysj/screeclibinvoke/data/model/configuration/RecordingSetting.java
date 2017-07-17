@@ -1,6 +1,7 @@
 package com.fmsysj.screeclibinvoke.data.model.configuration;
 
 
+import com.fmsysj.screeclibinvoke.utils.RootUtil;
 import com.li.videoapplication.framework.BaseEntity;
 
 /**
@@ -63,6 +64,10 @@ public class RecordingSetting extends BaseEntity {
 
 	public RecordingSetting() {
 		super();
+		String manufacturer = RootUtil.getManufacturer();
+		if (manufacturer.equals("MIUI") || manufacturer.equals("OPPO") || manufacturer.equals("VIVO")){
+			floatingWindiws = false;
+		}
 	}
 
 	public RecordingSetting(boolean soundRecording,

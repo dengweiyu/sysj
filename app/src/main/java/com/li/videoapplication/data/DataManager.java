@@ -9,6 +9,7 @@ import com.li.videoapplication.data.local.ScreenShotHelper;
 import com.li.videoapplication.data.local.VideoCaptureHelper;
 import com.li.videoapplication.data.model.entity.Advertisement;
 import com.li.videoapplication.data.model.entity.HomeDto;
+import com.li.videoapplication.data.model.entity.OrderResultEntity;
 import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.response.SwitchChatEntity;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
@@ -25,6 +26,7 @@ import com.li.videoapplication.data.upload.ImageShareRequestObject;
 import com.li.videoapplication.data.upload.ImageShareRequestObject208;
 import com.li.videoapplication.data.upload.ImageUploadRequstObject;
 import com.li.videoapplication.data.upload.VideoUploadRequestObject;
+import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseResponseEntity;
@@ -2238,13 +2240,17 @@ public class DataManager {
     /**
      * 功能：提交登录
      */
-    public static void login(String key) {
+    public static void login(String key,String appKey) {
 
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().login();
+        String time  = System.currentTimeMillis() / 1000+"";
         Map<String, Object> params = RequestParams.getInstance().login(key);
 
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        //增加参数
+       // RequestParams.getInstance().addLoginParams(params,2,time, AppAccount.sign(appKey,time),"app_sysj","E!AHcLR%Pxyp*&d8","password");
+
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
         request.setEntity(new LoginEntity());
         helper.doNetwork(request);
     }
@@ -2252,13 +2258,15 @@ public class DataManager {
     /**
      * 功能：飞磨内部快速登录
      */
-    public static void loginFm(String key) {
+    public static void loginFm(String key, String appKey) {
 
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().loginFm();
         Map<String, Object> params = RequestParams.getInstance().login(key);
+        String time  = System.currentTimeMillis() / 1000+"";
+    //    RequestParams.getInstance().addLoginParams(params,2,time, AppAccount.sign(appKey,time),"app_sysj","E!AHcLR%Pxyp*&d8","password");
 
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
         request.setEntity(new LoginEntity());
         helper.doNetwork(request);
     }
@@ -2266,9 +2274,12 @@ public class DataManager {
     /**
      * 功能：第三方登录
      */
-    public static void login(String key, String nickname, String name, String sex, String location, String avatar) {
+    public static void login(String key, String appKey,String nickname, String name, String sex, String location, String avatar) {
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().login();
+
+        String time  = System.currentTimeMillis() / 1000+"";
+
         Map<String, Object> params = RequestParams.getInstance().login(key,
                 "1",
                 nickname,
@@ -2277,6 +2288,8 @@ public class DataManager {
                 location,
                 avatar,
                 AppConstant.SYSJ_ANDROID);
+
+     //   RequestParams.getInstance().addLoginParams(params,2,time, AppAccount.sign(appKey,time),"app_sysj","E!AHcLR%Pxyp*&d8","password");
 
         RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
         request.setEntity(new LoginEntity());
@@ -2355,6 +2368,23 @@ public class DataManager {
         request.setEntity(new UserProfilePersonalInformationEntity());
         UserProfilePersonalInformationEntity entity = (UserProfilePersonalInformationEntity) helper.postEntity(request);
         return entity;
+    }
+
+
+    /**
+     * 功能：个人资料  返回数据包含Token
+     *
+     */
+    public static void userProfilePersonalInformationWithToken(String user_id, String member_id) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().userProfilePersonalInformation();
+        Map<String, Object> params = RequestParams.getInstance().UserProfilePersonalInformation(user_id, member_id);
+        params.put("version",2);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
+        request.setA(1);
+        request.setEntity(new UserProfilePersonalInformationEntity());
+        helper.doExecutor(request);
     }
 
     /**
@@ -3505,10 +3535,10 @@ public class DataManager {
     /**
      * 功能：视频图文消息
      */
-    public static void messageMyMessage(String member_id, int page) {
+    public static void messageMyMessage(String member_id, int page,String url) {
 
         RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().messageMyMessage();
+
         Map<String, Object> params = RequestParams.getInstance().messageMyMessage(member_id, page);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
@@ -3519,24 +3549,24 @@ public class DataManager {
     /**
      * 功能：清除视频图文消息
      */
-    public static void allRead(String member_id) {
+    public static void allRead(String member_id,String type) {
 
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().allRead();
         Map<String, Object> params = RequestParams.getInstance().allRead(member_id);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new AllReadEntity());
+        request.setEntity(new AllReadEntity(type));
         helper.doNetwork(request);
     }
 
     /**
      * 功能：系统消息
      */
-    public static void messageSysMessage(String member_id, int page) {
+    public static void messageSysMessage(String member_id, int page,String url) {
 
         RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().messageSysMessage();
+
         Map<String, Object> params = RequestParams.getInstance().messageSysMessage(member_id, page);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
@@ -3547,10 +3577,9 @@ public class DataManager {
     /**
      * 功能：圈子消息
      */
-    public static void messageGroupMessage(String member_id, int page) {
+    public static void messageGroupMessage(String member_id, int page,String url) {
 
         RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().messageGroupMessage();
         Map<String, Object> params = RequestParams.getInstance().messageGroupMessage(member_id, page);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
@@ -3573,16 +3602,16 @@ public class DataManager {
     }
 
     /**
-     * 功能：消息提示红点
+     * 功能：打赏和陪练消息
      */
-    public static void messageMsgGroupRed(String memberId) {
+    public static void getRewardAndPlayWithMsg(String memberId,int page,String url) {
 
         RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().messageMsgGroupRed();
-        Map<String, Object> params = RequestParams.getInstance().messageMsgGroupRed(memberId);
+
+        Map<String, Object> params = RequestParams.getInstance().messageSysMessage(memberId,page);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new MessageMsgGroupRedEntity());
+        request.setEntity(new RewardAndPlayWithMsgEntity());
         helper.doNetwork(request);
     }
 
@@ -3859,6 +3888,288 @@ public class DataManager {
         String url = RequestUrl.getInstance().sharedSuccess();
         Map<String, Object> params = RequestParams.getInstance().sharedSuccess(videoId);
         RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 教练列表
+     */
+
+    public static void getCoachList(int page){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getCoachList();
+        Map<String, Object> params = RequestParams.getInstance().getCoachList(page);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new CoachListEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 教练详情
+     */
+
+    public static void getCoachList(String memberId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getCoachDetail();
+        Map<String, Object> params = RequestParams.getInstance().getCoachDetail(memberId);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new CoachDetailEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 陪玩订单选项
+     */
+
+    public static void getPlayWithOrderOptions(String coachId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getPlayWithOrderOptions();
+        Map<String, Object> params = RequestParams.getInstance().getPlayWithOrderOptions(coachId);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new PlayWithOrderOptionsEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 预览订单价格
+     */
+    public static void getPreviewOrderPrice(String memberId,int rank,int mode){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getPreviewOrderPrice();
+        if (memberId == null){
+            memberId = "";
+        }
+        Map<String, Object> params = RequestParams.getInstance().getPreviewOrderPrice(memberId,rank,mode);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new PlayWithOrderPriceEntity());
+        helper.doNetwork(request);
+    }
+
+
+    /**
+     * 生成陪玩订单
+     */
+    public static void createPlayWithOrder(String memberId,String coachId,int server,int rank,int mode,long time,int count){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().createPlayWithOrder();
+        Map<String, Object> params = RequestParams.getInstance().createPlayWithOrder(memberId,coachId,server,rank,mode,time,count);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new PlayWithOrderEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 查询下单列表
+     */
+    public static void getPlayWithPlaceOrder(String memberId,int page){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getPlayWithPlaceOrder();
+        Map<String, Object> params = RequestParams.getInstance().getPlayWithPlaceOrder(memberId,page);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new PlayWithPlaceOrderEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 查询接单列表
+     */
+    public static void getPlayWithTakeOrder(String memberId,int page){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getPlayWithTakeOrder();
+        Map<String, Object> params = RequestParams.getInstance().getPlayWithTakeOrder(memberId,page);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new PlayWithTakeOrderEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 订单详情查询
+     */
+
+    public static void getPlayWithOrderDetail(String memberId,String orderId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getPlayWithOrderDetail();
+        Map<String, Object> params = RequestParams.getInstance().getPlayWithOrderDetail(memberId,orderId);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new PlayWithOrderDetailEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     *刷新Token
+     */
+    public static void refreshAccessToken(String refreshToken){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().refreshAccessToken();
+        Map<String, Object> params = RequestParams.getInstance().refreshToken("E!AHcLR%Pxyp*&d8","refresh_token",refreshToken);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new Token());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 订单确认
+     */
+    public static void confirmOrder(String memberId,String orderId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().confirmOrder();
+        Map<String, Object> params = RequestParams.getInstance().confirmOrder(memberId,orderId);
+
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new ConfirmOrderEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     *评论标签
+     */
+    public static void getCommentTag(){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getCommentTag();
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,null, null);
+        request.setEntity(new CommentTagEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 提交评价
+     */
+    public static void commitComment(String memberId,String orderId,String content,float score,int tag){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().commitComment();
+        Map<String, Object> params = RequestParams.getInstance().commitComment(memberId,orderId,content,score,tag);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new CommitCommentEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 订单完成结果提交
+     */
+    public static void confirmOrderResult(String memberId,String orderId, String data){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().commitOrderResult();
+        Map<String, Object> params = RequestParams.getInstance().commitOrderResult(memberId,orderId,data);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new OrderResultCommitEntity());
+        helper.doNetwork(request);
+    }
+
+
+    /**
+     * 教练签到
+     */
+    public static void coachSign(String memberId,int status){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().coachSign();
+        Map<String, Object> params = RequestParams.getInstance().coachSign(memberId,status);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new CoachSignEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 申请退款
+     */
+    public static void refundApply(String memberId,String orderId,String defaultReason,String inputReason){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().refundApply();
+        Map<String, Object> params = RequestParams.getInstance().refundApply(memberId,orderId,defaultReason,inputReason);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new RefundApplyEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 消息列表
+     */
+    public static void getMessageList(String memberId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getMessageList();
+        Map<String, Object> params = RequestParams.getInstance().getMessageList(memberId);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new MessageListEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 用户确认完成订单
+     */
+    public static void confirmOrderDone(String memberId,String orderId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().confirmOrderDone();
+        Map<String, Object> params = RequestParams.getInstance().confirmOrderDone(memberId,orderId);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new ConfirmOrderDoneEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 教练确认接单
+     */
+    public static void confirmTakeOrder(String memberId,String orderId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().confirmTakeOrder();
+        Map<String, Object> params = RequestParams.getInstance().confirmTakeOrder(memberId,orderId);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new ConfirmTakeOrderEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 提交baidu push channel id
+     */
+    public static void submitChannelId(String memberId,String channelId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().submitChannelId();
+        Map<String, Object> params = RequestParams.getInstance().submitChannelId(memberId,channelId);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new SubmitChannelIdEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 取消 消息红点
+     */
+    public static void readMessage(String memberId,String msgId,String symbol,String msgType,int isAll){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().readMessage();
+        Map<String, Object> params = RequestParams.getInstance().readMessage(memberId,msgId,symbol,msgType,isAll);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 获取客服相关信息
+     */
+    public static void getCustomerInfo(){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getCustomerInfo();
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,null, null);
+        request.setEntity(new CustomerInfoEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 教练确认退款
+     */
+    public static void coachConfirmRefund(String memberId,String orderId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().coachConfirmRefund();
+        Map<String, Object> params = RequestParams.getInstance().coachConfirmRefund(memberId,orderId);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new CoachConfirmRefundEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     *  获取教练状态
+     */
+    public static void getCoachStatus(){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getCoachStatus();
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,null, null);
+        request.setEntity(new CoachStatusEntity());
         helper.doNetwork(request);
     }
 }

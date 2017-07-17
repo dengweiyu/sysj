@@ -1,10 +1,10 @@
 package com.ifeimo.im.framwork;
 
 import com.ifeimo.im.IEmployee;
-import com.ifeimo.im.framwork.interface_im.IMMain;
-import com.ifeimo.im.framwork.interface_im.IManagerList;
-import com.ifeimo.im.framwork.interface_im.ILife;
-import com.ifeimo.im.framwork.interface_im.IMWindow;
+import com.ifeimo.im.framwork.commander.HandlerMessageLeader;
+import com.ifeimo.im.framwork.commander.IMMain;
+import com.ifeimo.im.framwork.commander.IManagerList;
+import com.ifeimo.im.framwork.commander.ILife;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +16,16 @@ final class ManagerList implements IManagerList {
 
     static ManagerList managerList;
 
-    HashSet<IEmployee> managers;
+    /**
+     * 管理者队列
+     */
+    private Set<IEmployee> managers;
+
+    /**
+     * 处理xml消息的管理者队列
+     * 实现此接口的 HandlerMessageLeader 类
+     */
+    private Set<HandlerMessageLeader> handlerMessageSet;
 
     static {
         managerList = new ManagerList();
@@ -24,6 +33,7 @@ final class ManagerList implements IManagerList {
 
     private ManagerList() {
         managers = new HashSet<>();
+        handlerMessageSet = new HashSet<>();
     }
 
     public static IManagerList getInstances() {
@@ -34,6 +44,9 @@ final class ManagerList implements IManagerList {
     public void addManager(IEmployee o) {
         if (!managers.contains(o)) {
             managers.add(o);
+            if(o instanceof HandlerMessageLeader){
+                handlerMessageSet.add((HandlerMessageLeader) o);
+            }
         }
     }
 
@@ -45,6 +58,42 @@ final class ManagerList implements IManagerList {
 
         return iEmployees;
 
+    }
+
+    /**
+     * 获取管理者队列中某个类型的集合
+     * @param c
+     * @param <T>
+     * @return
+     */
+    public <T> Set<T> getManagersByClass(Class<T> c) {
+        synchronized (this) {
+            Set<T> set = new HashSet<>();
+            for (IEmployee iEmployee : managers) {
+                if (c.isInstance(iEmployee)) {
+                    set.add((T) iEmployee);
+                }
+            }
+            return set;
+        }
+    }
+
+    /**
+     * 获的处理消息的一些管理类
+     * @param tClass
+     * @param <T>
+     * @return
+     */
+    public <T extends HandlerMessageLeader> Set<T> getAllHandlerMessageLeader(Class<T> tClass){
+//        synchronized (this) {
+            Set<T> set = new HashSet<>();
+            for (HandlerMessageLeader handlerMessageLeader : handlerMessageSet) {
+                if (tClass.isInstance(handlerMessageLeader)) {
+                    set.add((T) handlerMessageLeader);
+                }
+            }
+            return set;
+//        }
     }
 
     @Override

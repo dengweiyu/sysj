@@ -8,12 +8,11 @@ import android.util.Log;
 import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.callback.LoginCallBack;
 import com.ifeimo.im.common.util.AppUtil;
-import com.ifeimo.im.framwork.interface_im.IHierarchy;
-import com.ifeimo.im.framwork.interface_im.ILife;
-import com.ifeimo.im.framwork.interface_im.IMMain;
-import com.ifeimo.im.framwork.interface_im.IMWindow;
+import com.ifeimo.im.framwork.commander.IHierarchy;
+import com.ifeimo.im.framwork.commander.ILife;
+import com.ifeimo.im.framwork.commander.IMMain;
+import com.ifeimo.im.framwork.commander.IMWindow;
 
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -40,7 +39,7 @@ final class ChatWindowsManager implements IHierarchy, LoginCallBack, ILife{
         ManagerList.getInstances().addManager(this);
     }
 
-    public static IHierarchy getInstences() {
+    public static IHierarchy getInstances() {
         return chatWindowsManager;
     }
 
@@ -51,13 +50,11 @@ final class ChatWindowsManager implements IHierarchy, LoginCallBack, ILife{
      * @param imMain
      */
     public void onCreate(IMMain imMain) {
-        EventBus.getDefault().register(imMain);
         if (checkThisMain(imMain)) {
             windowses.add(imMain.getIMWindow());
             String im;
             if (imMain.getIMWindow().getType() == IMWindow.CHAT_TYPE) {
                 im = " Single chat";
-//                imMain.getIMWindow().
             } else {
                 im = " Group chat ";
             }
@@ -131,7 +128,6 @@ final class ChatWindowsManager implements IHierarchy, LoginCallBack, ILife{
      * @param imMain
      */
     public void onDestroy(IMMain imMain) {
-        EventBus.getDefault().unregister(imMain);
         if (checkThisMain(imMain)) {
             imMain.getIMWindow().close();
             windowses.remove(imMain);

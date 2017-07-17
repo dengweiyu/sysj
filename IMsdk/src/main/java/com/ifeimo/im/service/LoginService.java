@@ -32,11 +32,7 @@ public class LoginService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent != null && intent.getIntExtra(RELOGIN_KEY,-1) == RELOGIN){
-            Proxy.getConnectManager().updateLogin();
-        }else{
-            Proxy.getConnectManager().runConnectThread();
-        }
+        Proxy.getConnectManager().runConnectThread();
         return Service.START_STICKY;
     }
 

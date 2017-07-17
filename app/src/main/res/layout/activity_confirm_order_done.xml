@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+    android:background="@color/activity_main_bg">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tv_commit_order_result"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white">
+            <include layout="@layout/toolbar_white" />
+
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="1dp"
+            android:layout_margin="10dp"
+            app:cardBackgroundColor="@color/white">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp">
+
+                <com.li.videoapplication.views.CircleImageView
+                    android:id="@+id/civ_user_icon"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:id="@+id/tv_user_nick_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/civ_user_icon"
+                    android:text="霸道总裁"
+                    android:textColor="@color/text_color"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/tv_user_place_order_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/civ_user_icon"
+                    android:layout_alignLeft="@+id/tv_user_nick_name"
+                    android:text="下单数：56"
+                    android:textColor="@color/textcolor_french_gray"
+                    android:textSize="12sp"/>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="1dp"
+            android:layout_margin="10dp"
+            app:cardBackgroundColor="@color/white">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_order_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"></android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_commit_order_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:textSize="14sp"
+        android:layout_alignParentBottom="true"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:background="@color/ab_backdround_red"/>
+</RelativeLayout>

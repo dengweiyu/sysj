@@ -17,7 +17,9 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.database.VideoCaptureResponseObject;
+import com.li.videoapplication.data.image.VideoCoverHelper;
 import com.li.videoapplication.data.model.event.VideoCutEvent;
+import com.li.videoapplication.data.model.event.VideoEditor2VideoManagerEvent;
 import com.li.videoapplication.data.model.response.PaymentEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.data.preferences.VideoPreferences;
@@ -32,6 +34,9 @@ import com.li.videoapplication.ui.adapter.MyLocalVideoAdapter210;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +63,7 @@ public class MyLocalVideoFragment extends TBaseFragment {
     public List<VideoCaptureEntity> data = new ArrayList<>();
 
     private VideoMangerActivity activity;
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -259,6 +265,26 @@ public class MyLocalVideoFragment extends TBaseFragment {
                 }
             }
             activity.setImporting(false);
+        }
+    }
+
+    /**
+     * 回调：本地视频
+     */
+    public void onEventMainThread(VideoEditor2VideoManagerEvent event) {
+        Log.d(tag, "onMessage: VideoEditor2VideoManagerEvent");
+
+        if (adapter != null) {
+            // 视频编辑
+            if (event.getIndex() == 1) {
+                Log.d(tag, "onMessage: 1");
+                adapter.notifyDataSetChanged();
+            }
+            // 视频分享
+            if (event.getIndex() == 2) {
+                Log.d(tag, "onMessage: 2");
+                adapter.updataRecordsAndViews(event.getVideo_paths());
+            }
         }
     }
 }

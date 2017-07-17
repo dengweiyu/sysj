@@ -134,11 +134,14 @@ public final class Fields {
          * 头像
          */
         public static final String MEMBER_AVATARURL = "avatarUrl";
-
         /**
          * 账户类型 未使用！！！
          */
         public static final String TYPE = "member_type";
+        /**
+         * 更改时间
+         */
+        public static final String UPDATE_TIME = "update_time";
 
     }
 

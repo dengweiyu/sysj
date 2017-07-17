@@ -22,7 +22,7 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.ui.adapter.GiftNumberInputAdapter;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
-import com.ypy.eventbus.EventBus;
+import io.rong.eventbus.EventBus;
 
 import java.util.List;
 

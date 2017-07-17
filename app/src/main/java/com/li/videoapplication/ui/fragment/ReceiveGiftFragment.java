@@ -243,6 +243,12 @@ public class ReceiveGiftFragment extends TBaseFragment implements View.OnClickLi
                     }
                 })));
             }
+
+        if (mAdapter.getData().size() == 0){
+            showEmptyView();
+        }else {
+            hideEmptyView();
+        }
     }
 
     public void showEmptyView(){

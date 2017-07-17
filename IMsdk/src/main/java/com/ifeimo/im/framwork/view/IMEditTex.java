@@ -20,10 +20,12 @@ public class IMEditTex extends EditText implements TextView.OnEditorActionListen
 
     public IMEditTex(Context context) {
         super(context);
+        setOnEditorActionListener(this);
     }
 
     public IMEditTex(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setOnEditorActionListener(this);
     }
 
     public IMEditTex(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -38,6 +40,7 @@ public class IMEditTex extends EditText implements TextView.OnEditorActionListen
                 if(!StringUtil.isNull(getText().toString())) {
                     Proxy.getIMWindowManager().getLastWindow().send(getText().toString());
                     setText("");
+                    return true;
                 }
             break;
         }

@@ -1,5 +1,8 @@
 package com.ifeimo.im.common.bean.model;
 
+import android.support.v7.widget.RecyclerView;
+import android.widget.ListView;
+
 import com.ifeimo.im.framwork.database.Fields;
 
 import y.com.sqlitesdk.framework.annotation.TBColumn;
@@ -25,6 +28,26 @@ public class AccountModel extends Model<AccountModel> {
     @TBColumn
     private String avatarUrl;
 
+    @TBColumn
+    private String update_time;
+
+    public String getUpdate_time() {
+        return update_time;
+    }
+
+    public void setUpdate_time(String update_time) {
+        this.update_time = update_time;
+    }
+
+    public AccountModel() {
+
+    }
+
+    public AccountModel(String memberId, String member_nick_name, String avatarUrl) {
+        this.memberId = memberId;
+        this.member_nick_name = member_nick_name;
+        this.avatarUrl = avatarUrl;
+    }
 
     public void setMemberId(String memberId) {
         this.memberId = memberId;
@@ -70,5 +93,13 @@ public class AccountModel extends Model<AccountModel> {
         return null;
     }
 
-
+    @Override
+    public String toString() {
+        return "AccountModel{" +
+                "id=" + id +
+                ", memberId='" + memberId + '\'' +
+                ", member_nick_name='" + member_nick_name + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                '}';
+    }
 }

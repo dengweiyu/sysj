@@ -10,7 +10,8 @@ import android.util.Log;
 import com.ifeimo.im.common.bean.ConnectivityChangeBean;
 import com.ifeimo.im.common.util.ConnectUtil;
 import com.ifeimo.im.service.LoginService;
-import com.ypy.eventbus.EventBus;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by lpds on 2017/1/11.

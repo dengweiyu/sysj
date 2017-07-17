@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.util.Log;
 
 import com.ifeimo.im.IEmployee;
-import com.ifeimo.im.framwork.interface_im.ILife;
-import com.ifeimo.im.framwork.interface_im.IMMain;
+import com.ifeimo.im.framwork.commander.ILife;
+import com.ifeimo.im.framwork.commander.IMMain;
 
 import java.util.LinkedList;
 

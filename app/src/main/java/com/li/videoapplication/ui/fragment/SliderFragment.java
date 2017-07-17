@@ -27,6 +27,7 @@ import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.MyPlayerActivity;
 import com.li.videoapplication.ui.activity.MyWalletActivity;
+import com.li.videoapplication.ui.dialog.ServiceDialog;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 
@@ -110,7 +111,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             startLoginActivity();
             return;
         }
-        ActivityManager.startMyMatchActivity(getActivity());
+        ActivityManager.startPlayWithOrderAndMatchActivity(getContext(),0,0);
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "我的赛事");
     }
 
@@ -238,6 +239,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
         view.findViewById(R.id.slider_myvideo).setOnClickListener(this);
         view.findViewById(R.id.slider_collection).setOnClickListener(this);
         view.findViewById(R.id.slider_setting).setOnClickListener(this);
+        view.findViewById(R.id.slider_customer).setOnClickListener(this);
 
         view.findViewById(R.id.slider_qq).setOnClickListener(this);
         view.findViewById(R.id.slider_wx).setOnClickListener(this);
@@ -423,6 +425,9 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             case R.id.slider_wb:
                 helper.wb();
                 UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "新浪微博登录");
+                break;
+            case R.id.slider_customer:
+                new ServiceDialog(getContext()).show();
                 break;
         }
     }

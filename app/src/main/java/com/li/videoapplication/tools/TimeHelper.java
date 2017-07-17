@@ -130,6 +130,13 @@ public class TimeHelper {
         return false;
     }
 
+    public static Calendar getCurrentCalendar(){
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date(System.currentTimeMillis()));
+        return c;
+    }
+
+
     /**
      * 判断是否为昨天
      */
@@ -160,6 +167,17 @@ public class TimeHelper {
     public static long getCurrentTime() throws Exception {
         //获取系统时间的10位的时间戳
         return System.currentTimeMillis() / 1000;
+    }
+
+    /**
+     *返回秒为单位的时间戳
+     */
+    public static final  long getSecondTime(String time) throws Exception {
+        time += ":00";
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = format.parse(time);
+        System.out.println("data:"+date.getTime());
+        return date.getTime();
     }
 
     /**

@@ -29,7 +29,9 @@ import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.DynamicVideoAdapter;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
-import com.ypy.eventbus.EventBus;
+
+import io.rong.eventbus.EventBus;
+
 
 /**
  * 活动：玩家动态
@@ -371,10 +373,18 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
             } catch (JsonSyntaxException e) {
                 e.printStackTrace();
             }
-            if (m != null && item.getMember_id().equals(m.getMember_id())) {
-                item = m;
+            if (m != null) {
+                if (item != null ){
+                    if(item.getId().equals(m.getMember_id())){
+                        item = m;
+                        refreshHeaderView(item);
+                    }
+                }else {
+                    item = m;
+                    refreshHeaderView(item);
+                }
             }
-            refreshHeaderView(item);
+
         }
     }
 

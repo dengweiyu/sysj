@@ -15,16 +15,27 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.fmsysj.screeclibinvoke.data.ConstantsPreferences;
+import com.fmsysj.screeclibinvoke.data.model.event.CountDownFinishEvent;
+import com.fmsysj.screeclibinvoke.data.model.event.SetFloatWindowEvent;
 import com.fmsysj.screeclibinvoke.data.observe.ObserveManager;
 import com.fmsysj.screeclibinvoke.data.observe.listener.Recording2Observable;
 import com.fmsysj.screeclibinvoke.data.observe.listener.RecordingObservable;
+import com.fmsysj.screeclibinvoke.logic.floatview.FloatViewManager;
 import com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService;
+import com.fmsysj.screeclibinvoke.ui.dialog.ManufacturerDialog;
 import com.fmsysj.screeclibinvoke.ui.view.FlickerView2;
+import com.fmsysj.screeclibinvoke.utils.PermissionUtil;
 import com.fmsysj.screeclibinvoke.utils.RootUtil;
 import com.ifeimo.screenrecordlib.RecordingManager;
-import com.ifeimo.screenrecordlib.Utils;
+
+import com.ifeimo.screenrecordlib.constant.Constant;
+import com.ifeimo.screenrecordlib.listener.ScreenRecordPermissionListener;
+import com.ifeimo.screenrecordlib.util.Utils;
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.local.LPDSStorageUtil;
 import com.li.videoapplication.data.model.event.ScreenRecordPermission2MainEvent;
 import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.preferences.Constants;
@@ -97,6 +108,12 @@ public class ScreenRecordActivity extends TBaseActivity implements
     LinearLayout bottom_setting;
     @BindView(R.id.screenrecord_close)
     ImageView close;
+    @BindView(R.id.screenrecord_float_window_layout)
+    LinearLayout float_window_layout;
+    @BindView(R.id.screenrecord_float_window_text)
+    TextView float_window_text;
+    @BindView(R.id.screenrecord_float_window_toggle)
+    ImageView float_window_toggle;
 
     public Handler handler = new Handler(){
         @Override
@@ -165,7 +182,21 @@ public class ScreenRecordActivity extends TBaseActivity implements
             e.printStackTrace();
         }
 
-        checkPermission();
+//        checkPermission();
+
+        RecordingManager.getInstance().setPermissionListener(new ScreenRecordPermissionListener() {
+            @Override
+            public void getPermissionSuccess() {
+                getAudioAndCameraPermission();
+            }
+
+            @Override
+            public void getPermissionFail() {
+
+            }
+        });
+        // 录屏权限开启
+        showRecordPermission(800);
     }
 
     private void checkPermission(){
@@ -176,6 +207,32 @@ public class ScreenRecordActivity extends TBaseActivity implements
                     showOppoToast();*/
         }
 
+    }
+
+    private void getAudioAndCameraPermission(){
+        PermissionManager manager = new PermissionManager(this, new PermissionManager.Finishable() {
+            @Override
+            public void onFinish() {
+
+            }
+        });
+        manager.checkPermission();
+    }
+
+    private void showRecordPermission(int delay){
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // 开启权限，小米用户会重复弹出权限弹框
+                if (Build.VERSION.SDK_INT >= 21) {
+                    com.ifeimo.screenrecordlib.record.record50.ScreenRecordActivity.openPermission(ScreenRecordActivity.this, LPDSStorageUtil.createTmpRecPath().getPath(),
+                            com.ifeimo.screenrecordlib.constant.Configuration.DEFAULT,
+                            UmengAnalyticsHelper.getChannel(ScreenRecordActivity.this));
+                } else { // 直接申请录音和照相权限
+                    getAudioAndCameraPermission();
+                }
+            }
+        }, delay);
     }
 
     @Override
@@ -221,6 +278,7 @@ public class ScreenRecordActivity extends TBaseActivity implements
 
                 landscape.setLayoutParams(landscapeParams);
                 portrait.setLayoutParams(portraitParams);
+                refreshFloatWindow();
             }
             firstLayoutParams = true;
         }
@@ -251,6 +309,7 @@ public class ScreenRecordActivity extends TBaseActivity implements
     public void refreshContentView() throws Exception {
         Log.d(tag, "refreshContentView: ");
         autoMoveCenter(4, null);
+        refreshFloatWindow();
         if (RecordingManager.getInstance().isRecording()) {// 录屏中
             if (RecordingManager.getInstance().configuration() != null &&
                     RecordingManager.getInstance().configuration().isLandscape()) {// 横屏
@@ -350,9 +409,16 @@ public class ScreenRecordActivity extends TBaseActivity implements
 
             R.id.screenrecord_setting,
             R.id.screenrecord_video,
-            R.id.screenrecord_close})
+            R.id.screenrecord_close,
+            R.id.screenrecord_float_window_toggle})
     public void onClick(View view) {
         switch (view.getId()) {
+
+            case R.id.screenrecord_float_window_toggle:
+                refreshFloatWindowToggleState();
+                UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "发布-录制视频-开启/关闭悬浮窗");
+
+                break;
 
             case R.id.screenrecord_close:
                 finish();
@@ -383,25 +449,31 @@ public class ScreenRecordActivity extends TBaseActivity implements
                         }
                     }, 300);
                 } else {
-                    showManufacturerDialog(new Runnable() {
+                    showManufacturerDialog(true,new Runnable() {
                         @Override
                         public void run() {
-                            PreferencesHepler.getInstance().saveRecordingSettingLandscape(true);
                             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && !Utils.root()) {
                                 ToastHelper.s(R.string.root_content);
                                 return;
                             }
                             if (PreferencesHepler.getInstance().getRecordingSetting().isFloatingWindiws()) {// 悬浮窗
                                 showFloatView();
-                                showToastShort(R.string.screenrecord_landscape_tip);
+
+                                if (NormalPreferences.getInstance().
+                                        getBoolean(ConstantsPreferences.FLOAT_WINDOW_TIPS_FIRST_TIME, true)) {
+
+                                    Toast.makeText(ScreenRecordActivity.this, "如果没有浮窗出现，请返回主页设置无浮窗模式",
+                                            Toast.LENGTH_LONG).show();
+                                    NormalPreferences.getInstance().
+                                            putBoolean(ConstantsPreferences.FLOAT_WINDOW_TIPS_FIRST_TIME, false);
+                                } else {
+                                    Toast.makeText(ScreenRecordActivity.this, ScreenRecordActivity.this.getString(R.string.screenrecord_portrait_tip),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                                AppUtil.simulateHomeKey(ScreenRecordActivity.this);
                             } else {// 无悬浮窗
-                                startRecording();
+                                DialogManager.showCountDownDialog(ScreenRecordActivity.this);
                             }
-
-                            finishBottomOut();
-
-                            //go to launcher
-                            AppUtil.simulateHomeKey(ScreenRecordActivity.this);
                         }
                     });
                 }
@@ -450,7 +522,7 @@ public class ScreenRecordActivity extends TBaseActivity implements
                         }
                     }, 300);
                 } else {
-                    showManufacturerDialog(new Runnable() {
+                    showManufacturerDialog(false,new Runnable() {
                         @Override
                         public void run() {
                             PreferencesHepler.getInstance().saveRecordingSettingLandscape(false);
@@ -547,23 +619,55 @@ public class ScreenRecordActivity extends TBaseActivity implements
     /**
      * 悬浮窗设置
      */
-    public void showManufacturerDialog(Runnable r) {
+    public void showManufacturerDialog(boolean isLandscape,Runnable r) {
 
-        if (!NormalPreferences.getInstance().getBoolean(Constants.MANUFACTURER, false)) {
-            String manufacturer = RootUtil.getManufacturer();
-            if (manufacturer.equals("HUAWEI") || manufacturer.equals("MIUI")) {
-                // 悬浮窗设置
-                DialogManager.showManufacturerDialog(AppManager.getInstance().currentActivity());
-            } else {
-                r.run();
+        PreferencesHepler.getInstance().saveRecordingSettingLandscape(isLandscape);
+        String manufacturer = RootUtil.getManufacturer();
+        if (Build.VERSION.SDK_INT >= 21 && PreferencesHepler.getInstance().getRecordingSetting().isFloatingWindiws()) {
+            if (manufacturer.equals("MIUI") || manufacturer.equals("OPPO")){
+                if (!PermissionUtil.isOpAllowed(this, PermissionUtil.OP_SYSTEM_ALERT_WINDOW)) {
+                    // 其他手机如果获取不到SYSTEM_ALERT_WINDOW权限就一直弹窗
+                    DialogManager.showManufacturerDialog(this, ManufacturerDialog.TYPE_RECORD_BUTTON);
+                    return;
+                }
             }
-            NormalPreferences.getInstance().putBoolean(Constants.MANUFACTURER, true);
-        } else {
-            r.run();
         }
+
+        r.run();
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "首页-录制按钮-录制屏幕次数");
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MACROSCOPIC_DATA, "录制视频次数");
     }
+
+    private void refreshFloatWindowToggleState(){
+        if (RecordingManager.getInstance().isRecording()){
+            showToastShort(R.string.record_cannot_change_floatingwindiws);
+            return;
+        }
+
+        String manufacturer = RootUtil.getManufacturer();
+        if (manufacturer.equals("MIUI") || manufacturer.equals("OPPO") || manufacturer.equals("VIVO")){
+            if (!PreferencesHepler.getInstance().getRecordingSetting().isFloatingWindiws()) {
+                if (NormalPreferences.getInstance().getBoolean(Constant.MAIN_VIVO_FIRST_START, true)) {
+                    // 在第一次显示弹窗
+                    DialogManager.showManufacturerDialog(this, ManufacturerDialog.TYPE_SETTING_BUTTON);
+                    NormalPreferences.getInstance().putBoolean(Constant.MAIN_VIVO_FIRST_START, false);
+                }
+            }
+        }
+
+        if (PreferencesHepler.getInstance().getRecordingSetting().isFloatingWindiws()){
+            PreferencesHepler.getInstance().saveRecordingSettingFloatingWindiws(false);
+            // 隐藏与显示悬浮窗
+            RecordingService.toogleFloatView(false);
+            FloatViewManager.getInstance().isFloatingWindiws = false;
+        } else {
+            PreferencesHepler.getInstance().saveRecordingSettingFloatingWindiws(true);
+            // 隐藏与显示悬浮窗
+            RecordingService.toogleFloatView(true);
+            FloatViewManager.getInstance().isFloatingWindiws = true;
+        }
+    }
+
 
     /**
      * 是否进行触摸移动
@@ -624,6 +728,8 @@ public class ScreenRecordActivity extends TBaseActivity implements
 
                     downY = moveY;
                     refreshArrows();
+
+                    refreshFloatWindow();
                     break;
 
                 case MotionEvent.ACTION_UP:
@@ -657,6 +763,13 @@ public class ScreenRecordActivity extends TBaseActivity implements
                                         e.printStackTrace();
                                     }
                                 }
+                                // 字体颜色改变
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        refreshFloatWindow();
+                                    }
+                                });
                             }
                         });
                     } else if (portraitParams.height > (height * 0.7)) {// 向上滑动
@@ -682,6 +795,13 @@ public class ScreenRecordActivity extends TBaseActivity implements
                                         e.printStackTrace();
                                     }
                                 }
+                                // 字体颜色改变
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        refreshFloatWindow();
+                                    }
+                                });
                             }
                         });
                     } else {// 向中间滑动
@@ -732,6 +852,24 @@ public class ScreenRecordActivity extends TBaseActivity implements
             }
         }
         return false;
+    }
+
+    private void refreshFloatWindow(){
+        if (portraitParams != null) {
+            if (portraitParams.height > height - ScreenUtil.dp2px(15)) {
+                float_window_text.setTextColor(0xff40a7ff);
+                if (PreferencesHepler.getInstance().getRecordingSetting().isFloatingWindiws())
+                    float_window_toggle.setImageResource(R.drawable.main_white_bg_open);
+                else
+                    float_window_toggle.setImageResource(R.drawable.main_white_bg_close);
+            } else {
+                float_window_text.setTextColor(0xffffffff);
+                if (PreferencesHepler.getInstance().getRecordingSetting().isFloatingWindiws())
+                    float_window_toggle.setImageResource(R.drawable.main_blue_bg_open);
+                else
+                    float_window_toggle.setImageResource(R.drawable.main_blue_bg_close);
+            }
+        }
     }
 
     /**
@@ -1076,5 +1214,21 @@ public class ScreenRecordActivity extends TBaseActivity implements
 
     public void onEventMainThread(ScreenRecordPermission2MainEvent event) {
 
+    }
+
+    /**
+     *
+     */
+    public void onEventMainThread(CountDownFinishEvent event){
+        startRecording();
+        // 模拟home键
+        AppUtil.simulateHomeKey(this);
+    }
+
+    /**
+     *
+     */
+    public void onEventMainThread(SetFloatWindowEvent event){
+        refreshFloatWindow();
     }
 }

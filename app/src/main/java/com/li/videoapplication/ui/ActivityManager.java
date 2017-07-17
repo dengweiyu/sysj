@@ -20,6 +20,7 @@ import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.entity.VideoImageGroup;
+import com.li.videoapplication.data.model.response.PlayWithOrderDetailEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.mvp.activity_gift.view.MyActivityListActivity;
@@ -33,17 +34,23 @@ import com.li.videoapplication.mvp.mall.view.TopUpRecordActivity;
 import com.li.videoapplication.mvp.match.view.MatchRecordActivity;
 import com.li.videoapplication.mvp.match.view.MatchResultActivity;
 import com.li.videoapplication.mvp.match.view.MyMatchBettleActivity;
+import com.li.videoapplication.mvp.match.view.PlayWithAndMatchActivity;
 import com.li.videoapplication.ui.activity.AboutActivity;
 import com.li.videoapplication.ui.activity.ActivityDetailActivity;
 import com.li.videoapplication.ui.activity.ActivityImageUploadActivity;
 import com.li.videoapplication.ui.activity.ActivityListActivity;
 import com.li.videoapplication.ui.activity.CameraRecoedActivity;
 import com.li.videoapplication.ui.activity.CameraRecoedActivity50;
+import com.li.videoapplication.ui.activity.CoachDetailActivity;
 import com.li.videoapplication.ui.activity.CollectionActivity;
+import com.li.videoapplication.ui.activity.CommentPlayWithOrderActivity;
+import com.li.videoapplication.ui.activity.ConfirmOrderDoneActivity;
 import com.li.videoapplication.ui.activity.ConversationActivity;
+import com.li.videoapplication.ui.activity.CreatePlayWithOrderActivity;
 import com.li.videoapplication.ui.activity.DownloadManagerActivity;
 import com.li.videoapplication.ui.activity.ExchangeRecordActivity;
 import com.li.videoapplication.mvp.match.view.GameMatchDetailActivity;
+import com.li.videoapplication.ui.activity.FeedbackActivity;
 import com.li.videoapplication.ui.activity.GiftDetailActivity;
 import com.li.videoapplication.ui.activity.GiftListActivity;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
@@ -59,7 +66,6 @@ import com.li.videoapplication.ui.activity.ImageViewActivity;
 import com.li.videoapplication.ui.activity.LoginActivity;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.MallActivity;
-import com.li.videoapplication.ui.activity.MessageActivity;
 import com.li.videoapplication.ui.activity.MessageListActivity;
 import com.li.videoapplication.ui.activity.MyCurrencyRecordActivity;
 import com.li.videoapplication.ui.activity.MyDynamicActivity;
@@ -73,11 +79,13 @@ import com.li.videoapplication.ui.activity.MyTaskActivity;
 import com.li.videoapplication.ui.activity.MyWalletActivity;
 import com.li.videoapplication.ui.activity.OrderDetailActivity;
 import com.li.videoapplication.ui.activity.PersonalInfoEditActivity;
+import com.li.videoapplication.ui.activity.PlayWithOrderDetailActivity;
 import com.li.videoapplication.ui.activity.PlayerDynamicActivity;
 import com.li.videoapplication.ui.activity.PlayerPersonalInfoActivity;
 import com.li.videoapplication.ui.activity.PrivacyActivity;
 import com.li.videoapplication.ui.activity.ProductsDetailActivity;
 import com.li.videoapplication.ui.activity.RecommendActivity;
+import com.li.videoapplication.ui.activity.RefundApplyActivity;
 import com.li.videoapplication.ui.activity.ReportActivity;
 import com.li.videoapplication.ui.activity.ReportResultActivity;
 import com.li.videoapplication.ui.activity.ScanQRCodeActivity;
@@ -695,6 +703,21 @@ public class ActivityManager {
     /**
      * 主页
      */
+    public synchronized static void startMainActivity(Context context,int mainPosition,int matchPosition) {
+        try {
+            Intent intent = new Intent();
+            intent.setClass(context, MainActivity.class);
+            intent.putExtra("main_position",mainPosition);
+            intent.putExtra("match_position",matchPosition);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 主页
+     */
     public synchronized static void startMainActivity(Context context) {
         Log.d(TAG, "startMainActivity: ");
         try {
@@ -793,26 +816,16 @@ public class ActivityManager {
         }
     }
 
-    /**
-     * 消息
-     */
-    public synchronized static void startMessageActivity(Context context) {
-        if (!PreferencesHepler.getInstance().isLogin()) {
-            ToastHelper.s("请先登录");
-            return;
-        }
-        Intent intent = new Intent();
-        intent.setClass(context, MessageActivity.class);
-        context.startActivity(intent);
-    }
 
     /**
      * 消息
      */
-    public synchronized static void startMessageListActivity(Context context, int message) {
+    public synchronized static void startMessageListActivity(Context context,String title ,String url,String type) {
         Intent intent = new Intent();
         intent.setClass(context, MessageListActivity.class);
-        intent.putExtra("message", message);
+        intent.putExtra("title", title);
+        intent.putExtra("url", url);
+        intent.putExtra("type",type);
         context.startActivity(intent);
     }
 
@@ -1469,6 +1482,106 @@ public class ActivityManager {
         Intent intent = new Intent();
         intent.setClass(context, MyGiftActivity.class);
         intent.putExtra("user_id",userId);
+        context.startActivity(intent);
+    }
+
+
+    /**
+     * 教练详情
+     */
+    public static void startCoachDetailActivity(Context context,String memberId,String nickName,String avatar) {
+
+        Intent intent = new Intent();
+        intent.setClass(context, CoachDetailActivity.class);
+        intent.putExtra("member_id",memberId);
+        intent.putExtra("nick_name",nickName);
+        intent.putExtra("avatar",avatar);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 生成陪玩订单
+     */
+    public static void startCreatePlayWithOrderActivity(Context context,String memberId,String nickName,String avatar) {
+
+        Intent intent = new Intent();
+        intent.setClass(context, CreatePlayWithOrderActivity.class);
+        intent.putExtra("coach_id",memberId);
+        intent.putExtra("nick_name",nickName);
+        intent.putExtra("avatar",avatar);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 陪玩订单与赛事
+     */
+    public static void startPlayWithOrderAndMatchActivity(Context context,int position,int orderPosition){
+        Intent intent = new Intent();
+        intent.setClass(context, PlayWithAndMatchActivity.class);
+        intent.putExtra("position",position);
+        intent.putExtra("order_position",orderPosition);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 陪玩订单详情
+     */
+    public static void startPlayWithOrderDetailActivity(Context context,String orderId,int role,boolean isShowCoach){
+        Intent intent = new Intent();
+        intent.setClass(context, PlayWithOrderDetailActivity.class);
+        intent.putExtra("order_id",orderId);
+        intent.putExtra("role",role);
+        intent.putExtra("is_show_coach",isShowCoach);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 陪玩订单评价
+     */
+    public static void startPlayWithOrderCommentActivity(Context context,String coachId,String nickName,String avatar,String score,String orderId){
+        Intent intent = new Intent();
+        intent.setClass(context, CommentPlayWithOrderActivity.class);
+        intent.putExtra("coach_id",coachId);
+        intent.putExtra("nick_name",nickName);
+        intent.putExtra("avatar",avatar);
+        intent.putExtra("score",score);
+        intent.putExtra("order_id",orderId);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 确认完成订单
+     */
+
+    public static void startConfirmOrderDoneActivity(Context context,String nickName,String avatar,String orderId,String count,String orderCount){
+        Intent intent = new Intent();
+        intent.setClass(context, ConfirmOrderDoneActivity.class);
+        intent.putExtra("order_id",orderId);
+        intent.putExtra("nick_name",nickName);
+        intent.putExtra("avatar",avatar);
+        intent.putExtra("count",count);
+        intent.putExtra("order_count",orderCount);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 退款申请
+     */
+
+    public static void startRefundApplyActivity(Context context,PlayWithOrderDetailEntity entity,String orderId){
+        Intent intent = new Intent();
+        intent.setClass(context, RefundApplyActivity.class);
+        intent.putExtra("order_detail",entity);
+        intent.putExtra("order_id",orderId);
+        context.startActivity(intent);
+    }
+
+
+    /**
+     * 阿里百川反馈页面
+     */
+    public static void startFeedbackActivity(Context context){
+        Intent intent = new Intent(context, FeedbackActivity.class);
         context.startActivity(intent);
     }
 }

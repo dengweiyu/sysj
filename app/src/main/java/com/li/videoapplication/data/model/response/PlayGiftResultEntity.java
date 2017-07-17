@@ -7,5 +7,34 @@ import com.li.videoapplication.framework.BaseResponseEntity;
  */
 
 public class PlayGiftResultEntity extends BaseResponseEntity {
+    private DataBean data;
 
+    public DataBean getData() {
+        return data;
+    }
+
+    public void setData(DataBean data) {
+        this.data = data;
+    }
+
+    public static class DataBean{
+        private String coin;
+        private String currency;
+
+        public String getCoin() {
+            return coin;
+        }
+
+        public void setCoin(String coin) {
+            this.coin = coin;
+        }
+
+        public String getCurrency() {
+            return currency;
+        }
+
+        public void setCurrency(String currency) {
+            this.currency = currency;
+        }
+    }
 }

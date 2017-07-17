@@ -1,9 +1,7 @@
 package com.ifeimo.im.framwork;
 
-import com.ifeimo.im.framwork.interface_im.IMSetting;
+import com.ifeimo.im.framwork.commander.IMSetting;
 import com.ifeimo.im.framwork.setting.Builder;
-
-import java.nio.Buffer;
 
 /**
  * Created by lpds on 2017/1/16.

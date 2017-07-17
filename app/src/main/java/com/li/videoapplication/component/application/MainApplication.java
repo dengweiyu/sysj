@@ -12,6 +12,8 @@ import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
+import com.baidu.push.example.BaiduPush;
+import com.baidu.push.example.entity.BaiduEntity;
 import com.happly.link.util.LogCat;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
@@ -41,6 +43,9 @@ public class MainApplication extends BaseApplication {
     private static final boolean DEBUG = false;
     private static final String FEEDBACK_KEY = "23590443";
 
+    private BaiduEntity mBaiduEntity;
+
+    private boolean isSubmitChannelId = true;
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -103,6 +108,14 @@ public class MainApplication extends BaseApplication {
         //feimo im sdk
         IMSdk.init(MainApplication.this);
 
+        //Baidu push
+        BaiduPush.getInstances().init(this, new BaiduPush.OnSucceed() {
+            @Override
+            public void succeed(BaiduEntity b) {
+                mBaiduEntity = b;
+
+            }
+        });
 
     }
 
@@ -133,4 +146,15 @@ public class MainApplication extends BaseApplication {
         }
     };
 
+    public BaiduEntity getBaiduEntity() {
+        return mBaiduEntity;
+    }
+
+    public boolean isSubmitChannelId() {
+        return isSubmitChannelId;
+    }
+
+    public void setSubmitChannelId(boolean submitChannelId) {
+        isSubmitChannelId = submitChannelId;
+    }
 }

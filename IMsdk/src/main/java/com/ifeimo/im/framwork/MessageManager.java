@@ -2,8 +2,6 @@ package com.ifeimo.im.framwork;
 
 
 import android.database.ContentObserver;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -15,17 +13,18 @@ import com.ifeimo.im.common.bean.model.IMsg;
 import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.chat.ChatBean;
 import com.ifeimo.im.common.bean.chat.GroupChatBean;
-import com.ifeimo.im.common.bean.model.InformationModel;
 import com.ifeimo.im.common.util.ConnectUtil;
 import com.ifeimo.im.common.util.Jid;
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.common.util.ThreadUtil;
 import com.ifeimo.im.framwork.database.Fields;
-import com.ifeimo.im.framwork.interface_im.IMWindow;
-import com.ifeimo.im.framwork.interface_im.IMessage;
+import com.ifeimo.im.framwork.commander.IMWindow;
+import com.ifeimo.im.framwork.commander.MessageObserver;
+import com.ifeimo.im.framwork.commander.IQObserver;
+import com.ifeimo.im.framwork.commander.PresenceObserver;
 import com.ifeimo.im.framwork.message.OnGroupItemOnClickListener;
 import com.ifeimo.im.framwork.message.OnHtmlItemClickListener;
-import com.ifeimo.im.framwork.message.OnMessageReceiver;
+import com.ifeimo.im.framwork.message.OnChatMessageReceiver;
 import com.ifeimo.im.framwork.message.OnSimpleMessageListener;
 import com.ifeimo.im.framwork.message.OnUnReadChange;
 import com.ifeimo.im.provider.InformationProvide;
@@ -36,24 +35,22 @@ import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.chat.ChatManager;
-import org.jivesoftware.smack.chat.ChatMessageListener;
+import org.jivesoftware.smack.packet.IQ;
+import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.packet.Stanza;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.jivesoftware.smackx.muc.MultiUserChatManager;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import y.com.sqlitesdk.framework.business.Business;
-import y.com.sqlitesdk.framework.db.Access;
-import y.com.sqlitesdk.framework.sqliteinterface.Execute;
-
 /**
  * Created by lpds on 2017/1/11.
  */
-final class MessageManager implements IMessage {
+final class MessageManager implements MessageObserver {
 
 
     public static final String TAG = "XMPP_MessageManager";
@@ -68,7 +65,7 @@ final class MessageManager implements IMessage {
     private static Handler handler;
 
     /**
-     *未读数量的观察者
+     * 未读数量的观察者
      */
     private ContentObserver unReadCountObserver;
     private static Handler unReadHander;
@@ -105,12 +102,7 @@ final class MessageManager implements IMessage {
                                             }
                                         }
                                     } else if (msg.arg1 == SEND_MSG) {
-                                        if (msg.arg2 == RESEN_MSG) {
-                                            ChatBusiness.getInstances().insert((ChatMsgModel) msg.obj);
-
-                                        } else {
-                                            ChatBusiness.getInstances().insert((ChatMsgModel) msg.obj);
-                                        }
+                                        ChatBusiness.getInstances().insert((ChatMsgModel) msg.obj);
                                     }
                                     break;
                                 case IMWindow.MUCCHAT_TYPE:
@@ -151,14 +143,14 @@ final class MessageManager implements IMessage {
             }
         };
         IMSdk.CONTEXT.getContentResolver().registerContentObserver(InformationProvide.CONTENT_URI, true, unReadCountObserver);
-
+        onChatMessageReceivers = new HashSet<OnChatMessageReceiver>();
     }
 
-    public static IMessage getInstances() {
+    public static MessageObserver getInstances() {
         return messageManager;
     }
 
-    private Map<String, ChatBean> chatSet = new HashMap<String, ChatBean>() {
+    private Map<String, ChatBean> singleChatSet = new HashMap<String, ChatBean>() {
         @Override
         public ChatBean put(String key, ChatBean value) {
             synchronized (this) {
@@ -177,6 +169,13 @@ final class MessageManager implements IMessage {
         public boolean containsKey(Object key) {
             synchronized (this) {
                 return super.containsKey(key);
+            }
+        }
+
+        @Override
+        public void clear() {
+            synchronized (this) {
+                super.clear();
             }
         }
     };
@@ -201,14 +200,21 @@ final class MessageManager implements IMessage {
                 return super.containsKey(key);
             }
         }
-    };
-    /**
-     * 无响应队列
-     */
-    @Deprecated
-    private Map<String, Map<String, IMsg>> unMessageList = new HashMap<>();
 
-    private OnMessageReceiver onMessageReceiver;
+        @Override
+        public void clear() {
+            synchronized (this) {
+                super.clear();
+            }
+        }
+    };
+//    /**
+//     * 无响应队列
+//     */
+//    @Deprecated
+//    private Map<String, Map<String, IMsg>> unMessageList = new HashMap<>();
+
+    private Set<OnChatMessageReceiver> onChatMessageReceivers;
     private OnSimpleMessageListener onSimpleMessageListener;
     private OnUnReadChange onUnRead = new OnUnReadChange() {
         @Override
@@ -226,7 +232,6 @@ final class MessageManager implements IMessage {
      */
     @Override
     public GroupChatBean createGruopChat(String roomid) {
-        synchronized (unMessageList) {
             GroupChatBean groupChatBean = null;
             if (groupChatSet.containsKey(roomid)) {
                 groupChatBean = groupChatSet.get(roomid);
@@ -244,7 +249,16 @@ final class MessageManager implements IMessage {
                 }
             }
             return groupChatBean;
-        }
+    }
+
+    @Override
+    public Collection<GroupChatBean> getAllGroups() {
+        return groupChatSet.values();
+    }
+
+    @Override
+    public Set<String> getAllRoomKeys() {
+        return groupChatSet.keySet();
     }
 
     /**
@@ -255,8 +269,8 @@ final class MessageManager implements IMessage {
     private synchronized void joinRoom(MultiUserChat multiUserChat) {
         if (multiUserChat != null) {
             try {
-                multiUserChat.leave();
                 multiUserChat.join(UserBean.getMemberID());
+                Log.i(TAG, "joinRoom: 进入房间 ");
             } catch (SmackException.NoResponseException e) {
                 e.printStackTrace();
             } catch (XMPPException.XMPPErrorException e) {
@@ -264,9 +278,6 @@ final class MessageManager implements IMessage {
             } catch (SmackException.NotConnectedException e) {
                 e.printStackTrace();
             }
-            Log.i(TAG, "joinRoom: 重新进入房间 ");
-
-
         }
     }
 
@@ -279,9 +290,9 @@ final class MessageManager implements IMessage {
      */
     public ChatBean createChat(String receiverID, String memberid) {
         final String key = memberid + receiverID;
-        if (chatSet.containsKey(key)) {
-            ChatBean chatBean = (ChatBean) chatSet.get(key).clone();
-            handler.removeCallbacks(chatSet.get(key).getRunnable());
+        if (singleChatSet.containsKey(key)) {
+            ChatBean chatBean = (ChatBean) singleChatSet.get(key).clone();
+            handler.removeCallbacks(singleChatSet.get(key).getRunnable());
             Log.i(TAG, "------- Find Chat By receiverID = " + receiverID + " --------");
             return chatBean;
         } else {
@@ -289,7 +300,7 @@ final class MessageManager implements IMessage {
             try {
                 initChat(chatBean);
                 ChatBean c2 = (ChatBean) chatBean.clone();
-                chatSet.put(key, c2);
+                singleChatSet.put(key, c2);
                 Log.i(TAG, "------- create Chat by receiverID = " + receiverID + " --------");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -393,7 +404,6 @@ final class MessageManager implements IMessage {
                     message.setBody(msg.getContent());
                     msg.setMsgId(message.getPacketID());
                     sendMessageToHandler(IMWindow.MUCCHAT_TYPE, SEND_MSG, 0, msg);
-                    waitCheck(finalKey, msg);
                     createGruopChat(finalKey).getMultiUserChat().sendMessage(message);
                 } catch (Exception e) {
                     ThreadUtil.getInstances().createThreadStartToFixedThreadPool(reSenRunnable);
@@ -406,6 +416,7 @@ final class MessageManager implements IMessage {
 
     /**
      * 重发单聊
+     *
      * @param key
      * @param msg
      */
@@ -437,7 +448,7 @@ final class MessageManager implements IMessage {
                     msgBean.setSendType(Fields.MsgFields.SEND_WAITING);
                     sendMessageToHandler(IMWindow.CHAT_TYPE, SEND_MSG, RESEN_MSG, msg);
 
-                    chatSet.get(finalKey).getChat().sendMessage(msg.getContent());
+                    singleChatSet.get(finalKey).getChat().sendMessage(msg.getContent());
                     msgBean.setSendType(Fields.MsgFields.SEND_FINISH);
                     sendMessageToHandler(IMWindow.CHAT_TYPE, SEND_MSG, RESEN_MSG, msg);
                 } catch (Exception e) {
@@ -481,7 +492,6 @@ final class MessageManager implements IMessage {
                     }
                 };
                 handler.postDelayed(reSenRunnable.runnable, WAITING_TIME);
-                waitCheck(finalKey, groupChatModel);
                 try {
                     createGruopChat(finalKey).getMultiUserChat().sendMessage(message);
                 } catch (Exception e) {
@@ -492,54 +502,11 @@ final class MessageManager implements IMessage {
     }
 
     /**
-     * 过期
+     * 创建简单消息
      *
-     * @param key
-     * @param msg
+     * @param msgBean
+     * @return
      */
-    @Deprecated
-    private void waitCheck(String key, GroupChatModel msg) {
-        if (unMessageList.containsKey(key)) {
-            Map<String, IMsg> map = unMessageList.get(key);
-            map.put(msg.getMsgId(), msg);
-        } else {
-            unMessageList.put(key, new HashMap<String, IMsg>());
-            this.waitCheck(key, msg);
-        }
-    }
-
-    /**
-     * 发送的未成功，最终退出此群的waiting状态都会自定变成失败
-     *
-     * @param im
-     */
-    private void finishUnMessageStatus(IMWindow im) {
-        final String k = RequestManager.getKey(im);
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                String key = k;
-                if (unMessageList.containsKey(key)) {
-                    Map<String, IMsg> map = unMessageList.get(key);
-                    unMessageList.remove(key);
-                    if (map.size() > 0) {
-                        Set<String> set = map.keySet();
-                        for (String i : set) {
-                            IMsg msg = map.get(i);
-                            if (msg.getSendType() == Fields.MsgFields.SEND_WAITING) {
-                                msg.setSendType(Fields.MsgFields.SEND_UNCONNECT);
-//                                MsgService.upDataMucc((GroupChatModel) msg);
-                                GroupChatBusiness.getInstances().insert((GroupChatModel) msg);
-                            }
-                        }
-                        set.clear();
-                    }
-                }
-                System.gc();
-            }
-        });
-    }
-
     private org.jivesoftware.smack.packet.Message createMessage(IMsg msgBean) {
         org.jivesoftware.smack.packet.Message message =
                 new org.jivesoftware.smack.packet.Message();
@@ -586,6 +553,11 @@ final class MessageManager implements IMessage {
         }, time);
     }
 
+    /**
+     * 发送单聊消息到notify管理者
+     *
+     * @param msgBean
+     */
     private void handlerNotifycationChatMsg(ChatMsgModel msgBean) {
         IMNotificationManager.getInstances().
                 notifyMessageNotification2(msgBean);
@@ -595,62 +567,62 @@ final class MessageManager implements IMessage {
      * 清空群聊，单聊
      */
     public void releaseAllChat() {
-        Set<String> keys = new HashSet<>(chatSet.keySet());
+        Set<String> keys = new HashSet<>(singleChatSet.keySet());
         for (String key : keys) {
-            ChatBean chatBean = chatSet.get(key);
+            ChatBean chatBean = singleChatSet.get(key);
             if (chatBean != null) {
                 handler.removeCallbacks(chatBean.getRunnable());
                 chatBean.getRunnable().run();
             }
         }
-
-        synchronized (unMessageList) {
-            if(ConnectUtil.isConnect(IMSdk.CONTEXT)) {
-                for (String key : groupChatSet.keySet()) {
-                    if (groupChatSet.get(key).getMultiUserChat().isJoined()) {
-                        try {
-                            groupChatSet.get(key).getMultiUserChat().leave();
-                        } catch (SmackException.NotConnectedException e) {
-                            e.printStackTrace();
-                        }
+        if (ConnectUtil.isConnect(IMSdk.CONTEXT)) {
+            Set<String> groupkeys = new HashSet<>(groupChatSet.keySet());
+            for (String key : groupkeys) {
+                if (groupChatSet.get(key).getMultiUserChat().isJoined()) {
+                    try {
+                        groupChatSet.get(key).getMultiUserChat().leave();
+                        removeGroupChat(key);
+                    } catch (SmackException.NotConnectedException e) {
+                        e.printStackTrace();
                     }
                 }
             }
+        }else{
             groupChatSet.clear();
         }
-        Log.i(TAG, "releaseAllChat: 清空群聊，单聊");
-    }
-
-    @Deprecated
-    private void releaseChat() {
+        Log.i(TAG, "--------------- 清空群聊 groupChatSet.size = "+groupChatSet.size()+"，" +
+                "单聊 singleChatSet.size = "+ singleChatSet.size()+"-----------------");
     }
 
 
     @Deprecated
-    public void leaveMuccRoom(IMWindow imWindow) {
-        if (imWindow.getType() == IMWindow.MUCCHAT_TYPE) {
-            try {
-
-                GroupChatBean mBean = createGruopChat(imWindow.getKey());
+    public void leaveMuccRoom(String key) {
+        Log.i(TAG, "leaveMuccRoom: 已过期");
+        try {
+            if (groupChatSet.containsKey(key)) {
+                GroupChatBean mBean = groupChatSet.get(key);
                 if (mBean != null) {
                     MultiUserChat mChat = mBean.getMultiUserChat();
                     if (mChat != null && mChat.isJoined()) {
                         mChat.removeMessageListener(this);
                         mChat.leave();
-                        mBean.setMultiUserChat(null);
                     }
+                    mBean.setMultiUserChat(null);
+                    groupChatSet.remove(key);
                 }
-
-                finishUnMessageStatus(imWindow);
-
                 Log.i(TAG, " ------- 离开群聊 --------");
-            } catch (SmackException.NotConnectedException e) {
-                e.printStackTrace();
             }
-
+        } catch (SmackException.NotConnectedException e) {
+            e.printStackTrace();
         }
     }
 
+    /**
+     * 离开单聊
+     *
+     * @param key 缓存的 key  = 发送者id+接受者id；
+     */
+    @Override
     public void leaveChat(String key) {
         Log.i(TAG, " ------- Postpone Chat Leave  --------");
         ChatBean chatBean = getChatByChatSet(key);
@@ -661,17 +633,17 @@ final class MessageManager implements IMessage {
 
     @Override
     public ChatBean getChatByChatSet(String key) {
-        if (chatSet.containsKey(key)) {
-            return chatSet.get(key);
+        if (singleChatSet.containsKey(key)) {
+            return singleChatSet.get(key);
         }
         return null;
     }
 
     @Deprecated
     public void removeChatSet(String key) {
-        if (chatSet.containsKey(key)) {
-            chatSet.remove(key);
-            Log.i(TAG, " ------- Delete Cache Chat " + key + " , chatSet.size = " + chatSet.size() + " Now --------");
+        if (singleChatSet.containsKey(key)) {
+            singleChatSet.remove(key);
+            Log.i(TAG, " ------- Delete Cache Chat " + key + " , singleChatSet.size = " + singleChatSet.size() + " Now --------");
         }
     }
 
@@ -682,9 +654,7 @@ final class MessageManager implements IMessage {
 
     @Override
     public void removeGroupChat(String key) {
-        synchronized (unMessageList) {
-            groupChatSet.remove(key);
-        }
+        groupChatSet.remove(key);
     }
 
     @Override
@@ -706,27 +676,45 @@ final class MessageManager implements IMessage {
             switch (t) {
                 case groupchat: {
                     Log.i(TAG, " ------ Receiver Group Chat Messages ------- \n" + message);
-
                     sendMessageToHandler(IMWindow.MUCCHAT_TYPE, RECEIVER_MSG, 0, message, 300);
-                    if (onMessageReceiver != null) {
-                        onMessageReceiver.onMuccReceiver(message);
-                    }
                 }
                 break;
                 case chat: {
                     Log.i(TAG, " ------- Receiver Single Chat Messages  ------- \n" + message);
                     sendMessageToHandler(IMWindow.CHAT_TYPE, RECEIVER_MSG, 0, message);
-                    if (onMessageReceiver != null) {
-                        onMessageReceiver.onChatReceiver(message);
-                    }
                 }
                 break;
                 case error:
                     Log.i(TAG, " ------- Receiver Error Messages  ------- \n" + message);
                     break;
             }
-        } else {
-            Log.i(TAG, " ------- Receiver IM Server Messages ------- \n" + message);
+        } else if (message instanceof Presence) {
+            final Presence presence = (Presence) message;
+            switch (presence.getType()) {
+                case error:
+                    Log.i(TAG, " ------- Receiver IM Server Presence Error Messages ------- \n" + message);
+                    break;
+                default:
+                    Log.i(TAG, " ------- Receiver IM Server Presence Messages ------- \n" + message);
+                    for (PresenceObserver observer : ManagerList.managerList.getAllHandlerMessageLeader(PresenceObserver.class)) {
+                        observer.onMessage(presence);
+                    }
+                    break;
+            }
+        } else if (message instanceof IQ) {
+            final IQ iq = (IQ) message;
+            switch (iq.getType()) {
+                case error:
+                    Log.i(TAG, " ------- Receiver IM Server IQ Error Messages ------- \n" + message);
+                    break;
+                default:
+//                    Log.i(TAG, " ------- Receiver IM Server IQ Messages ------- \n" + message);
+                    for (IQObserver observer : ManagerList.managerList.getAllHandlerMessageLeader(IQObserver.class)) {
+                        observer.onMessage(iq);
+                    }
+                    break;
+            }
+
         }
 
     }
@@ -738,18 +726,18 @@ final class MessageManager implements IMessage {
     }
 
     @Override
-    public void update() {}
+    public void update() {
+    }
 
 
     @Override
-    public void registerOnMessageReceiver(OnMessageReceiver onMessageReceiver) {
-        removeOnMessageReceiver();
-        this.onMessageReceiver = onMessageReceiver;
+    public boolean registerOnMessageReceiver(OnChatMessageReceiver onChatMessageReceiver) {
+        return onChatMessageReceivers.add(onChatMessageReceiver);
     }
 
     @Override
-    public void removeOnMessageReceiver() {
-        onMessageReceiver = null;
+    public boolean removeOnMessageReceiver(OnChatMessageReceiver onChatMessageReceiver) {
+        return onChatMessageReceivers.remove(onChatMessageReceiver);
     }
 
     /**
@@ -779,12 +767,12 @@ final class MessageManager implements IMessage {
             try {
                 switch (type) {
                     case IMWindow.CHAT_TYPE:
-                        ChatBean chatBean = chatSet.get(key);
+                        ChatBean chatBean = singleChatSet.get(key);
                         chatBean.getChat().sendMessage(message);
                         handler.removeCallbacks(runnable);
                         break;
                     case IMWindow.MUCCHAT_TYPE:
-                        IMWindow imWindow = ChatWindowsManager.getInstences().getLastWindow();
+                        IMWindow imWindow = ChatWindowsManager.getInstances().getLastWindow();
                         if (imWindow == null || !imWindow.getKey().equals(key)) {
                             Log.e(TAG + "12", "------ Key Matching Error" + ".  The " + recount + " Count -------");
                             handler.removeCallbacks(runnable);
@@ -792,7 +780,13 @@ final class MessageManager implements IMessage {
                             return;
                         }
                         GroupChatBean groupChatBean = createGruopChat(imWindow.getKey());
-                        groupChatBean.getMultiUserChat().sendMessage(message);
+                        if(groupChatBean != null) {
+                            groupChatBean.getMultiUserChat().sendMessage(message);
+                        }else{
+                            runnable.run();
+                            handler.removeCallbacks(runnable);
+                            return;
+                        }
                         break;
                 }
                 sendFinish();
@@ -823,8 +817,7 @@ final class MessageManager implements IMessage {
         this.onSimpleMessageListener = onSimpleMessageListener;
     }
 
-    @Override
-    public OnSimpleMessageListener getOnMessageReceiver() {
+    public OnSimpleMessageListener getOnChatMessageReceiver() {
         return onSimpleMessageListener;
     }
 
@@ -839,9 +832,10 @@ final class MessageManager implements IMessage {
             return;
         }
         if (onUnRead != null) {
-            onUnRead.change(GroupChatBusiness.getInstances().getMaxUnread());
+            onUnRead.change(GroupChatBusiness.getInstances().getMaxUnRead());
         }
     }
+
 
     @Override
     public ContentObserver getUnReadObserver() {

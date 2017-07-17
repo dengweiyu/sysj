@@ -10,7 +10,8 @@
         android:layout_height="match_parent"
         android:divider="#e2e2e2"
         android:dividerHeight="1px"
-        ptr:ptrAnimationStyle="flip" />
+        ptr:ptrAnimationStyle="flip"
+        android:layout_marginTop="-1px"/>
 
     <TextView
         android:id="@+id/dynamic_empty"

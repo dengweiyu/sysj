@@ -37,7 +37,7 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.adapter.MyGameAdapter;
-import com.ypy.eventbus.EventBus;
+import io.rong.eventbus.EventBus;
 
 /**
  * 碎片：我的游戏
@@ -65,7 +65,6 @@ public class MyGameFragment extends TBaseFragment implements OnRefreshListener2<
 
     @Override
     protected void initContentView(View view) {
-        EventBus.getDefault().register(this);
 
         pullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pulltorefresh);
         pullToRefreshListView.setMode(Mode.PULL_FROM_START);

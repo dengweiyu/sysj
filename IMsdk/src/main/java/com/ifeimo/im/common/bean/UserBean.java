@@ -1,6 +1,7 @@
 package com.ifeimo.im.common.bean;
 
 import com.ifeimo.im.common.MD5;
+import com.ifeimo.im.common.util.StringUtil;
 
 /**
  * Created by admin on 2016/12/19.
@@ -94,7 +95,9 @@ public class UserBean {
 
     public static void setMemberID(String memberID) {
         MemberID = memberID;
-        md5MemberID = MD5.getMD5(MemberID);
+        if(!StringUtil.isNull(memberID)) {
+            md5MemberID = MD5.getMD5(MemberID);
+        }
     }
 
     public static void setNickName(String nickName) {

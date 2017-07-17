@@ -144,5 +144,7 @@
 
     <declare-styleable name="TipView">
         <attr name="isRound" format="boolean"></attr>
+        <attr name="marginBottom" format="dimension"></attr>
     </declare-styleable>
+
 </resources>

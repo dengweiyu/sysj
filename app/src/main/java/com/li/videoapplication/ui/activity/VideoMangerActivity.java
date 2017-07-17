@@ -48,7 +48,7 @@ import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.CustomViewPager;
-import com.ypy.eventbus.EventBus;
+import io.rong.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -272,13 +272,11 @@ public class VideoMangerActivity extends TBaseActivity implements
         setSystemBarBackgroundWhite();
         setAbTitle(R.string.videomanager_title);
 
-        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override

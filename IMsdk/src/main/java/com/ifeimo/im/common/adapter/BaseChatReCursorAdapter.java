@@ -17,7 +17,7 @@ import com.ifeimo.im.common.util.MatchUtil;
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
-import com.ifeimo.im.framwork.interface_im.IMWindow;
+import com.ifeimo.im.framwork.commander.IMWindow;
 import com.ifeimo.im.framwork.view.RoundedImageView;
 
 import java.util.HashMap;

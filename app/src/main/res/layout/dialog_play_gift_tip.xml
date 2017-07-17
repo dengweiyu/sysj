@@ -28,10 +28,8 @@
                 android:id="@+id/tv_dialog_play_gift"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:src="@drawable/play_gift"
                 android:layout_gravity="right"
-                app:isRound="true"
-                android:elevation="2dp"/>
+                app:isRound="true"/>
             <ImageView
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
