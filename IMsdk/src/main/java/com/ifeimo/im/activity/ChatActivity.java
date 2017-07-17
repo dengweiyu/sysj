@@ -46,6 +46,8 @@ import y.com.sqlitesdk.framework.sqliteinterface.Execute;
 
 public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapter> {
 
+    public static final int SHOW_FAST_REPLY = 1000;
+    public static final int SHOW_EFAULT = -200;
     private AccountBean receiverBean = new AccountBean();
     private PopupWindow addFriendPopupWindow;
 
@@ -53,23 +55,29 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
     private FashReplyListView id_fast_reply_lv;
     private boolean isShow = false;
 
+    private int show;
+
     @Override
     protected void init(Bundle savedInstanceState) {
-
+        show = getIntent().getIntExtra("show",SHOW_EFAULT);
         id_fast_reply_iv = (ImageView) findViewById(R.id.id_fast_reply_iv);
         id_fast_reply_lv = (FashReplyListView) findViewById(R.id.id_fast_reply_lv);
-        id_fast_reply_lv.setEditText(editeMsg);
-        id_fast_reply_iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isShow) {
-                    id_fast_reply_lv.setVisibility(View.GONE);
-                }else{
-                    id_fast_reply_lv.setVisibility(View.VISIBLE);
+        if(show == SHOW_FAST_REPLY) {
+            id_fast_reply_lv.setEditText(editeMsg);
+            id_fast_reply_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isShow) {
+                        id_fast_reply_lv.setVisibility(View.GONE);
+                    } else {
+                        id_fast_reply_lv.setVisibility(View.VISIBLE);
+                    }
+                    isShow = !isShow;
                 }
-                isShow = !isShow;
-            }
-        });
+            });
+        }else{
+            id_fast_reply_iv.setVisibility(View.GONE);
+        }
 
         if (savedInstanceState != null) {
             PManager.getCacheUser(getContext());
@@ -342,6 +350,7 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
 //                            log("-------------file = "+file.getAbsolutePath());
 //                            showTipToast(" 准备发送  "+file.getAbsolutePath());
 //                        }
+
 //
 //                        @Override
 //                        public void progress(final Double d) {

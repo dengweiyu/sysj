@@ -128,6 +128,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private TextView title;
     private LinearLayout search;
     private LinearLayout mPlayWith;
+    private TextView mOrderList;
     private View mPlayWithIndicator;
     private View mMatchIndicator;
     private TextView mPlayWithTitle;
@@ -283,7 +284,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private void getIntentValue() {
         if (getIntent() != null) {
             try {
+                //老版本
                 tab = getIntent().getIntExtra("tab", 0);
+                //新版本
                 mMainPosition = getIntent().getIntExtra("main_position",-1);
                 mMatchPosition = getIntent().getIntExtra("match_position",-1);
             } catch (Exception e) {
@@ -298,6 +301,13 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             if (viewPager != null) {
                 viewPager.setCurrentItem(tab - 1);
                 tab = 0;
+            }
+
+            //跳到赛事页面
+            if(tab == 4){
+                if (playWithFragment != null) {
+                    playWithFragment.setCurrentPage(1);
+                }
             }
         }
 
@@ -340,7 +350,15 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 if(leftCount == null){
                      return;
                 }
+                if (mUnReadMsg == null){
+                    mUnReadMsg = new UnReadMessageEvent(count);
+                }else {
+                    mUnReadMsg.setCount(mUnReadMsg.getCount()+count);
+                }
 
+                if (viewPager != null && viewPager.getCurrentItem() == 3){
+                    return;
+                }
                 if (count > 0) {
                     leftCount.setVisibility(View.VISIBLE);
                 } else {
@@ -475,8 +493,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         mPlayWithTitle = (TextView)background.findViewById(R.id.tv_play_with_title);
         mMatchTitle = (TextView)background.findViewById(R.id.tv_match_title);
         mMatchIndicator = background.findViewById(R.id.match_indicator);
+        mOrderList = (TextView)background.findViewById(R.id.tv_order_list);
 
-
+        mOrderList.setOnClickListener(this);
         mPlayWithTitle.setOnClickListener(this);
         mMatchTitle.setOnClickListener(this);
         search.setOnClickListener(this);
@@ -562,6 +581,23 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 if (playWithFragment != null){
                     playWithFragment.setCurrentPage(1);
                 }
+                break;
+            case R.id.tv_order_list:
+
+                if(PreferencesHepler.getInstance().isLogin()){
+                    Member member = PreferencesHepler.getInstance().getUserProfilePersonalInformation();
+                    if (member != null ){
+                        if (member.isCoach()){
+                            ActivityManager.startPlayWithOrderAndMatchActivity(MainActivity.this,0,1);
+                        }else {
+                            ActivityManager.startPlayWithOrderAndMatchActivity(MainActivity.this,0,0);
+                        }
+                    }
+
+                }else {
+                    DialogManager.showLogInDialog(MainActivity.this);
+                }
+
                 break;
         }
     }
@@ -889,11 +925,14 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     private void showPlayWidthTab(boolean isShow){
         if (isShow){
+            leftCount.setVisibility(View.GONE);
+            right.setVisibility(View.GONE);
             mPlayWith.setAlpha(1);
             mPlayWith.setVisibility(View.VISIBLE);
             search.setVisibility(View.GONE);
             mPlayWithBottom.setTextColor(getResources().getColor(R.color.ab_backdround_red));
             mDivider.setBackgroundColor(getResources().getColor(R.color.ab_backdround_red));
+            mOrderList.setVisibility(View.VISIBLE);
             switch(playWithFragment.getCurrentPage()){
                 case 0:
                     mPlayWithTitle.setTextColor(Color.parseColor("#fc3c2e"));
@@ -911,13 +950,17 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                     break;
             }
         }else {
+
+            leftCount.setVisibility(View.VISIBLE);
+
+            right.setVisibility(View.VISIBLE);
+            mOrderList.setVisibility(View.GONE);
             mPlayWithBottom.setTextColor(getResources().getColor(R.color.menu_main_gray));
             mDivider.setBackgroundColor(getResources().getColor(R.color.menu_main_gray));
             mPlayWith.setVisibility(View.GONE);
             search.setVisibility(View.VISIBLE);
             search.setAlpha(1);
         }
-
     }
 
     public void switchContent(Fragment from, Fragment to) {
@@ -1087,15 +1130,15 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
     }
 
+    private UnReadMessageEvent mUnReadMsg;
     /**
      *未读消息红点
      */
     public void updateUnReadMessage(UnReadMessageEvent event){
         if (event != null && leftCount != null){
-            if (event.getCount() > 0){
-                leftCount.setVisibility(View.VISIBLE);
-            }else {
-                leftCount.setVisibility(View.GONE);
+            mUnReadMsg = event;
+            if (viewPager != null && viewPager.getCurrentItem() == 3){
+                return;
             }
         }
     }

@@ -3,7 +3,6 @@ package com.ifeimo.im.framwork.message;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
-
 import com.ifeimo.im.IEmployee;
 import com.ifeimo.im.OnOutIM;
 import com.ifeimo.im.common.bean.UserBean;
@@ -12,18 +11,11 @@ import com.ifeimo.im.common.bean.xml.PresenceList;
 import com.ifeimo.im.common.util.XMLUtil;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.commander.PresenceObserver;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.jivesoftware.smack.PresenceListener;
 import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.packet.ExtensionElement;
 import org.jivesoftware.smack.packet.Presence;
-
-import de.measite.minidns.Record;
-import y.com.sqlitesdk.framework.Mode;
-import y.com.sqlitesdk.framework.sqliteinterface.Execute;
 
 /**
  * Created by lpds on 2017/6/15.
@@ -42,7 +34,6 @@ public final class PresenceMessageManager implements PresenceObserver, IEmployee
      unsubscribed--拒绝对方的添加请求
      error --当前状态packet有错误
      */
-
     /**
      *
      * affiliation = 岗位
@@ -75,12 +66,9 @@ public final class PresenceMessageManager implements PresenceObserver, IEmployee
      */
     private static final String TAG = "XMPP_Presencer";
     static PresenceMessageManager presenceMessageManager;
-
     static {
         presenceMessageManager = new PresenceMessageManager();
     }
-
-
     public static PresenceOperate getInstances(){return presenceMessageManager;}
     private PresenceMessageManager() {
 //        EventBus.getDefault().register(this);
@@ -89,12 +77,10 @@ public final class PresenceMessageManager implements PresenceObserver, IEmployee
         t.start();
         handler = new Handler(t.getLooper());
     }
-
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onPresence(){
 
     }
-
     @Override
     public void onMessage(Presence presence) {
 //        String to = presence.getTo();
@@ -111,7 +97,6 @@ public final class PresenceMessageManager implements PresenceObserver, IEmployee
 
         }
     }
-
     /**
      * 检查上线的用户是不是自己
      * @param presence
@@ -134,7 +119,6 @@ public final class PresenceMessageManager implements PresenceObserver, IEmployee
             }
         });
     }
-
     private void person(Presence presence) {
         switch (presence.getType()) {
             /**
@@ -190,10 +174,7 @@ public final class PresenceMessageManager implements PresenceObserver, IEmployee
                 Log.i(TAG, "this type is "+presence.getType());
                 break;
         }
-
-
     }
-
     /**
      * 群聊消息状态
      * @param presence
@@ -211,7 +192,6 @@ public final class PresenceMessageManager implements PresenceObserver, IEmployee
                 break;
         }
     }
-
     /**
      * 改变个人状态
      * @param t
@@ -226,17 +206,14 @@ public final class PresenceMessageManager implements PresenceObserver, IEmployee
             e.printStackTrace();
         }
     }
-
     @Override
     public PresenceList.Presence getSeftPresence() {
         return presenceEntity;
     }
-
     @Override
     public Config getConfig() {
         return config;
     }
-
     private void presenceMode(Presence.Mode m) {
         switch (m) {
             /**
@@ -276,13 +253,10 @@ public final class PresenceMessageManager implements PresenceObserver, IEmployee
 
 
     }
-
-
     @Override
     public boolean isInitialized() {
         return true;
     }
-
     @Override
     public void leaveIM() {
         handler.post(new Runnable() {
@@ -297,7 +271,6 @@ public final class PresenceMessageManager implements PresenceObserver, IEmployee
             }
         });
     }
-
     @Override
     public void leaveErrorIM() {
         handler.post(new Runnable() {
@@ -309,12 +282,8 @@ public final class PresenceMessageManager implements PresenceObserver, IEmployee
             }
         });
     }
-
     public static final class Config{
         public Presence.Type type = Presence.Type.available;
         public Presence.Mode mode = Presence.Mode.available;
     }
-
-
-
 }

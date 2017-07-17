@@ -155,10 +155,27 @@ public class IMSdk {
     public static void createChat(Context context, String receiverID,
                                   String receiverNickName, String receiverAvatarUrl) {
 
+        createChat(context,receiverID,receiverNickName,receiverAvatarUrl,ChatActivity.SHOW_EFAULT);
+
+
+    }
+
+    /**
+     * 进入单聊
+     *
+     * @param context
+     * @param receiverID        对方id
+     * @param receiverNickName  对方昵称
+     * @param receiverAvatarUrl 对方图片
+     */
+    public static void createChat(Context context, String receiverID,
+                                  String receiverNickName, String receiverAvatarUrl,int isFastReply) {
+
         Intent intent = new Intent(context, ChatActivity.class);
         intent.putExtra("receiverID", receiverID);
         intent.putExtra("receiverNickName", receiverNickName);
         intent.putExtra("receiverAvatarUrl", receiverAvatarUrl);
+        intent.putExtra("show", isFastReply);
         context.startActivity(intent);
         if (context instanceof Activity) {
             ((Activity) context).overridePendingTransition(R.anim.left_in, R.anim.left_out);

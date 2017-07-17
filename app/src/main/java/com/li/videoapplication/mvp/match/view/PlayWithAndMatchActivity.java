@@ -27,12 +27,16 @@ public class PlayWithAndMatchActivity extends TBaseAppCompatActivity implements 
 
     private int mPosition = 0;
 
+    private int mOrderPosition = 0;
+
     private List<Fragment> mFragments;
     @Override
     public void refreshIntent() {
         super.refreshIntent();
 
         mPosition = getIntent().getIntExtra("position",0);
+        mOrderPosition = getIntent().getIntExtra("order_position",0);
+
     }
 
     @Override
@@ -48,15 +52,17 @@ public class PlayWithAndMatchActivity extends TBaseAppCompatActivity implements 
         findViewById(R.id.tb_back).setOnClickListener(this);
         mFragments = new ArrayList<>();
 
-        mFragments.add(new PlayWithOrderListFragment());
+        mFragments.add(PlayWithOrderListFragment.newInstance(mOrderPosition));
         mFragments.add(new MyMatchFragment());
-        mAdapter = new ViewPagerAdapter(getSupportFragmentManager(),mFragments,new String[]{"陪玩","赛事"});
+        mAdapter = new ViewPagerAdapter(getSupportFragmentManager(),mFragments,new String[]{"陪练","赛事"});
         mPager.setAdapter(mAdapter);
         mPager.setOffscreenPageLimit(4);
         tabLayout.setupWithViewPager(mPager);
         mPager.setCurrentItem(mPosition);
 
         new HorizontalOverScrollBounceEffectDecorator(new ViewPagerOverScrollDecorAdapter(mPager));
+
+
     }
 
     @Override

@@ -111,7 +111,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             startLoginActivity();
             return;
         }
-        ActivityManager.startPlayWithOrderAndMatchActivity(getContext(),0);
+        ActivityManager.startPlayWithOrderAndMatchActivity(getContext(),0,0);
         UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "我的赛事");
     }
 

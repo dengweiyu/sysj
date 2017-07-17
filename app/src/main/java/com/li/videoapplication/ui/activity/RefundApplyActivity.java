@@ -11,8 +11,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.model.event.RefreshOrderDetailEvent;
+import com.li.videoapplication.data.model.response.CoachConfirmRefundEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderDetailEntity;
 import com.li.videoapplication.data.model.response.RefundApplyEntity;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.adapter.RefundReasonAdapter;
@@ -20,6 +23,7 @@ import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.ui.fragment.PlayWithOrderDetailFragment;
 import com.li.videoapplication.utils.StringUtil;
 
+import io.rong.eventbus.EventBus;
 import io.rong.imlib.filetransfer.Call;
 
 /**
@@ -141,16 +145,18 @@ public class RefundApplyActivity extends TBaseAppCompatActivity implements View.
 
         switch (mOrderDetail.getData().getStatusX()){
             case "10":
+                mAdapter.setApplyDone(true);
+                mInput.setVisibility(View.GONE);
+                mTip.setText(mOrderDetail.getData().getRefund_reason());
+                mTip.setVisibility(View.VISIBLE);
+                mCommit.setVisibility(View.VISIBLE);
+                mDivider.setVisibility(View.VISIBLE);
                 if (mRole == PlayWithOrderDetailActivity.ROLE_COACH){
-                    mAdapter.setApplyDone(true);
-                    mInput.setVisibility(View.GONE);
-                    mTip.setText(mOrderDetail.getData().getRefund_reason());
-                    mTip.setVisibility(View.VISIBLE);
-                    mCommit.setVisibility(View.VISIBLE);
-                    mDivider.setVisibility(View.VISIBLE);
+                    mCommit.setText("确认退款");
+                }else {
+                    mCommit.setVisibility(View.GONE);
                 }
                 mInputLayout.setVisibility(View.GONE);
-
                 break;
             case "11":
                 mAdapter.setApplyDone(true);
@@ -163,6 +169,7 @@ public class RefundApplyActivity extends TBaseAppCompatActivity implements View.
                     mDivider.setVisibility(View.VISIBLE);
                 }
                 break;
+
 
             default:
                 mAdapter.setApplyDone(false);
@@ -189,21 +196,34 @@ public class RefundApplyActivity extends TBaseAppCompatActivity implements View.
                 break;
             case R.id.tv_coach_selected:
 
-                //是否选择默认理由
-                if (mAdapter.getSelectPosition() == -1){
-                    ToastHelper.s("请选择退款原因哦~");
-                    return;
-                }
-                //是否输入原因
-                String reason = mInput.getEditableText().toString();
-                if (StringUtil.isNull(reason)){
-                    ToastHelper.s("请输入具体原因哦~");
-                    return;
+                if (mRole == PlayWithOrderDetailActivity.ROLE_COACH){
+                    if ("10".equals(mOrderDetail.getData().getStatusX())){
+                        mLoadingDialog.setProgressText("确认中..");
+                        mLoadingDialog.show();
+                        //确认退款
+                        DataManager.coachConfirmRefund(getMember_id(),mOrderId);
+                    }else {
+                        ToastHelper.s("当前订单不允许确认退款哦~");
+                        mCommit.setVisibility(View.GONE);
+                    }
+                }else {
+                    //是否选择默认理由
+                    if (mAdapter.getSelectPosition() == -1){
+                        ToastHelper.s("请选择退款原因哦~");
+                        return;
+                    }
+                    //是否输入原因
+                    String reason = mInput.getEditableText().toString();
+                    if (StringUtil.isNull(reason)){
+                        ToastHelper.s("请输入具体原因哦~");
+                        return;
+                    }
+
+                    mLoadingDialog.show();
+                    DataManager.refundApply(getMember_id(),mOrderDetail.getData().getOrder_id(),mOrderDetail.getDefaultReason().get(mAdapter.getSelectPosition()),reason);
+                    break;
                 }
 
-                mLoadingDialog.show();
-                DataManager.refundApply(getMember_id(),mOrderDetail.getData().getOrder_id(),mOrderDetail.getDefaultReason().get(mAdapter.getSelectPosition()),reason);
-                break;
         }
     }
 
@@ -248,5 +268,32 @@ public class RefundApplyActivity extends TBaseAppCompatActivity implements View.
         }
 
         mLoadingDialog.dismiss();
+    }
+
+
+    /**
+     * 确认退款结果
+     */
+
+    public void onEventMainThread(CoachConfirmRefundEntity entity){
+        if (entity.isResult()){
+            EventBus.getDefault().post(new RefreshOrderDetailEvent(
+                    mOrderDetail.getData().getOrder_id(),
+                    mOrderDetail.getData().getStatusX(),
+                    mOrderDetail.getData().getStatusText()));
+
+            UITask.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mLoadingDialog.dismiss();
+                    ToastHelper.s("您已成功确认退款~");
+                    mOrderDetail.getData().setStatusX("11");
+                    refreshContent();
+                }
+            },800);
+        }else {
+            ToastHelper.s(entity.getMsg());
+            mLoadingDialog.dismiss();
+        }
     }
 }

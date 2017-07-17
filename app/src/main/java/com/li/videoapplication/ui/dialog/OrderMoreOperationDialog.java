@@ -75,6 +75,8 @@ public class OrderMoreOperationDialog extends PopupWindow implements View.OnClic
 
         @Override
         public void onClick(View v) {
+
+            System.out.println("AAA:"+mRole+"  "+mOrderDetail.getData().getStatusX());
             switch (v.getId()){
                 case R.id.tv_refund_apply:
                     if (mOrderDetail == null){
@@ -89,6 +91,7 @@ public class OrderMoreOperationDialog extends PopupWindow implements View.OnClic
                         case "1":
                             ToastHelper.s("该订单支付失败哦~");
                             return;
+
                         case "10":
                             ToastHelper.s("该订单退款中哦~");
                             return;
@@ -105,6 +108,18 @@ public class OrderMoreOperationDialog extends PopupWindow implements View.OnClic
                             //接单了 允许教练退款
 
                         }else {
+                            ToastHelper.s("您无法对该订单进行退款了哦~如有需要请联系客服");
+                            return;
+                        }
+                    }else {
+                        int count = 0;
+                        try {
+                            Integer.parseInt(mOrderDetail.getData().getEvaluate_counter());
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                        //已经评价了 无法退款
+                        if (count > 0){
                             ToastHelper.s("您无法对该订单进行退款了哦~如有需要请联系客服");
                             return;
                         }

@@ -33,6 +33,14 @@ public class PlayWithFragment extends TBaseFragment {
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+
+        if (mFragments != null){
+            ((CoachListFragment)mFragments.get(0)).onUserVisibleHint(isVisibleToUser);
+        }
+    }
+
+    @Override
     protected void initContentView(View view) {
         mPager = (ViewPagerY1)view.findViewById(R.id.vp_play_with);
         mFragments = new ArrayList<>();

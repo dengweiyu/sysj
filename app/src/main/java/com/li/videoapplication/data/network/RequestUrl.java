@@ -2466,4 +2466,18 @@ public class RequestUrl {
     public final String getCustomerInfo(){
         return BaseSYSJ+"/Sysj222/TrainingCommunication/trainingCustomerService";
     }
+
+    /**
+     * 确认退款
+     */
+    public final String coachConfirmRefund(){
+        return BaseSYSJ+"/Sysj222/TrainingOrder/confirmRefund";
+    }
+
+    /**
+     * 获取教练状态
+     */
+    public final String getCoachStatus(){
+        return "http://op.17sysj.com:9090/plugins/coachPresence/status";
+    }
 }

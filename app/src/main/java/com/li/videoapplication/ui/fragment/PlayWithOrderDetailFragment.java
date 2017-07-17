@@ -231,10 +231,12 @@ public class PlayWithOrderDetailFragment extends TBaseFragment {
                 score.setVisibility(View.GONE);
                 placeNum.setText("下单数："+mOrderEntity.getUser().getOrderCount());
                 placeNum.setVisibility(View.VISIBLE);
+                nickName.setText(mOrderEntity.getUser().getNickname());
             }else {
                 ratingBar.setVisibility(View.VISIBLE);
                 score.setVisibility(View.VISIBLE);
                 placeNum.setVisibility(View.GONE);
+                nickName.setText(mOrderEntity.getCoach().getNickname());
             }
         }
     }

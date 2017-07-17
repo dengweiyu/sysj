@@ -1,5 +1,6 @@
 package com.li.videoapplication.ui.fragment;
 
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -21,6 +23,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.response.CoachListEntity;
+import com.li.videoapplication.data.model.response.CoachStatusEntity;
 import com.li.videoapplication.data.model.response.PackageInfo203Entity;
 import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.framework.TBaseFragment;
@@ -39,7 +42,7 @@ import java.util.List;
  */
 
 public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.RequestLoadMoreListener {
-
+    private final long TICK_DELAY = 30000;
     private SwipeRefreshLayout mRefresh;
     private RecyclerView mList;
     private CoachLisAdapter mAdapter;
@@ -79,6 +82,8 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
                 }
             }
         });
+
+        loadData(mPage);
     }
 
     @Override
@@ -86,16 +91,8 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
         return null;
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (isVisibleToUser){
-            if (mRefresh != null){
-                mRefresh.setRefreshing(true);
-            }
 
-            loadData(mPage);
-        }
-    }
+
 
     private void loadData(int page){
         DataManager.getCoachList(page);
@@ -107,10 +104,43 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
         loadData(mPage);
     }
 
+    /**
+     * 是否可见
+     */
+    public void onUserVisibleHint(boolean isVisibleToUser){
+        if (isVisibleToUser){
+            if (mData != null && mData.size() > 0){
+                mTickHandler.post(mTickStatusTask);
+            }
+        }else {
+            if (mTickHandler != null){
+                mTickHandler.removeCallbacks(mTickStatusTask);
+            }
+        }
+
+        System.out.println("UserVisible:"+isVisibleToUser);
+    }
+
+
     @Override
     public void onLoadMoreRequested() {
         loadData(mPage);
     }
+
+    final Handler mTickHandler = new Handler();
+
+
+    /**
+     * 更新教练状态任务
+     */
+    final Runnable mTickStatusTask = new Runnable() {
+        @Override
+        public void run() {
+            DataManager.getCoachStatus();
+            //30秒
+            mTickHandler.postDelayed(this,TICK_DELAY);
+        }
+    };
 
     /**
      *教练列表
@@ -131,6 +161,7 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
         }
         mRefresh.setRefreshing(false);
     }
+
 
     private void refreshData(List<CoachListEntity.DataBean.IncludeBean> data){
         if (mData == null){
@@ -158,9 +189,36 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
 
         mAdapter.setNewData(mData);
         mPage++;
-
-
     }
+
+    /**
+     * 教练状态
+     */
+    public void onEventMainThread(final CoachStatusEntity entity){
+        if (mData != null){
+            List<CoachListEntity.DataBean.IncludeBean> newData = new ArrayList<>();
+            for (CoachStatusEntity.DataBean data:
+                 entity.getData()) {
+                for (int i = 0; i < mData.size(); i++) {
+                    if (data.getMember_id() != null && data.getMember_id().equals(mData.get(i).getMember_id())){
+                        int status = 3;
+                        try {
+                            status = Integer.parseInt(data.getStatusX());
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                        mData.get(i).setStatusX(status);
+                        newData.add(mData.get(i));
+                    }
+                }
+            }
+
+            mData.clear();
+            mData.addAll(newData);
+            mAdapter.setNewData(mData);
+        }
+    }
+
 
     /**
      * 网络错误
@@ -168,8 +226,8 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
     public void onEventMainThread(NetworkError error){
         if (error.getUrl().equals(RequestUrl.getInstance().getCoachList())){
             mRefresh.setRefreshing(false);
-
-
         }
     }
+
+
 }

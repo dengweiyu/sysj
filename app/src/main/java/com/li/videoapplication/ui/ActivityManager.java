@@ -1515,10 +1515,11 @@ public class ActivityManager {
     /**
      * 陪玩订单与赛事
      */
-    public static void startPlayWithOrderAndMatchActivity(Context context,int position){
+    public static void startPlayWithOrderAndMatchActivity(Context context,int position,int orderPosition){
         Intent intent = new Intent();
         intent.setClass(context, PlayWithAndMatchActivity.class);
         intent.putExtra("position",position);
+        intent.putExtra("order_position",orderPosition);
         context.startActivity(intent);
     }
 

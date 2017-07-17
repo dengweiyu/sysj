@@ -60,8 +60,9 @@ public class AppStartService extends BaseIntentService{
 
     private static Handler mTokenHandler;
 
+    //FIXME
     //Access token 刷新
-    Runnable mRefreshTokenTask = new Runnable() {
+   /* Runnable mRefreshTokenTask = new Runnable() {
         @Override
         public void run() {
             if (PreferencesHepler.getInstance().isLogin()){
@@ -96,7 +97,7 @@ public class AppStartService extends BaseIntentService{
                 }
             }
         }
-    };
+    };*/
 
 
     /**
@@ -121,10 +122,11 @@ public class AppStartService extends BaseIntentService{
         super.onCreate();
 
         //刷新Token
-        if (PreferencesHepler.getInstance().isLogin()){
+        //FIXME
+   /*     if (PreferencesHepler.getInstance().isLogin()){
             mTokenHandler = new Handler();
             mTokenHandler.post(mRefreshTokenTask);
-        }
+        }*/
     }
 
     @Override
@@ -550,7 +552,9 @@ public class AppStartService extends BaseIntentService{
      * 回调:登录成功
      */
     public void onEventMainThread(LoginEntity event) {
-        if (event != null && event.isResult()){
+
+        //FIXME
+/*        if (event != null && event.isResult()){
             //
             Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
             if (member != null){
@@ -567,7 +571,7 @@ public class AppStartService extends BaseIntentService{
                 //55分钟后检查更新
                 mTokenHandler.postDelayed(mRefreshTokenTask,member.getSysj_token().getExpires_in()*1000 - 300000);
             }
-        }
+        }*/
 
 
     }
@@ -576,11 +580,12 @@ public class AppStartService extends BaseIntentService{
      *回调：退出
      */
     public void onEventMainThread(LogoutEvent event){
-        if (mTokenHandler != null){
+        //FIXME
+        /*if (mTokenHandler != null){
             mTokenHandler.removeCallbacks(mRefreshTokenTask);
             mTokenHandler = null;
         }
-
+*/
         //
         MainApplication app = (MainApplication) getApplication();
         app.setSubmitChannelId(true);
@@ -590,7 +595,8 @@ public class AppStartService extends BaseIntentService{
      *回调：刷新token
      */
     public void onEventMainThread(Token data){
-        if (data != null && data.isResult()){
+        //FIXME
+    /*    if (data != null && data.isResult()){
             //
             Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
             if (member != null){
@@ -615,20 +621,21 @@ public class AppStartService extends BaseIntentService{
         }else {
             //这里失败的话就是代码问题了~
             //退出当前登录
-            AppAccount.logout();
-        }
+           // AppAccount.logout();
+        }*/
     }
 
     /**
      * 接口时报Token失效
      */
     public void onEventMainThread(TokenErrorEntity error){
-        Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
+        //FIXME
+    /*    Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
 
         if (member != null){
             //刷新token
             DataManager.refreshAccessToken(member.getSysj_token().getRefresh_token());
-        }
+        }*/
     }
 
     /**

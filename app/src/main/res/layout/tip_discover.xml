@@ -2,6 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="fill_parent"
              android:layout_height="fill_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              tools:ignore="DuplicateIds,NestedWeights,ContentDescription">
 
     <LinearLayout
@@ -19,7 +20,7 @@
         <LinearLayout
             android:id="@+id/bottom"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/menu_main_height"
+            android:layout_height="60dp"
             android:layout_weight="0"
             android:orientation="horizontal">
 
@@ -43,6 +44,7 @@
             <com.li.videoapplication.views.TipView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:isRound="true"
                 android:layout_weight="1"/>
 
             <ImageView

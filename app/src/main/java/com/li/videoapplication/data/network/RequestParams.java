@@ -2305,4 +2305,12 @@ public class RequestParams {
         map.put("all", isAll);
         return map;
     }
+
+    public Map<String, Object>  coachConfirmRefund(String memberId,String orderId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("order_id",orderId);
+        map.put("access_token", AppAccount.getAccessToken());
+        return map;
+    }
 }

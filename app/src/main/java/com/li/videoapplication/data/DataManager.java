@@ -2248,7 +2248,7 @@ public class DataManager {
         Map<String, Object> params = RequestParams.getInstance().login(key);
 
         //增加参数
-        RequestParams.getInstance().addLoginParams(params,2,time, AppAccount.sign(appKey,time),"app_sysj","E!AHcLR%Pxyp*&d8","password");
+       // RequestParams.getInstance().addLoginParams(params,2,time, AppAccount.sign(appKey,time),"app_sysj","E!AHcLR%Pxyp*&d8","password");
 
         RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
         request.setEntity(new LoginEntity());
@@ -2264,7 +2264,7 @@ public class DataManager {
         String url = RequestUrl.getInstance().loginFm();
         Map<String, Object> params = RequestParams.getInstance().login(key);
         String time  = System.currentTimeMillis() / 1000+"";
-        RequestParams.getInstance().addLoginParams(params,2,time, AppAccount.sign(appKey,time),"app_sysj","E!AHcLR%Pxyp*&d8","password");
+    //    RequestParams.getInstance().addLoginParams(params,2,time, AppAccount.sign(appKey,time),"app_sysj","E!AHcLR%Pxyp*&d8","password");
 
         RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
         request.setEntity(new LoginEntity());
@@ -2289,7 +2289,7 @@ public class DataManager {
                 avatar,
                 AppConstant.SYSJ_ANDROID);
 
-        RequestParams.getInstance().addLoginParams(params,2,time, AppAccount.sign(appKey,time),"app_sysj","E!AHcLR%Pxyp*&d8","password");
+     //   RequestParams.getInstance().addLoginParams(params,2,time, AppAccount.sign(appKey,time),"app_sysj","E!AHcLR%Pxyp*&d8","password");
 
         RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
         request.setEntity(new LoginEntity());
@@ -4147,6 +4147,29 @@ public class DataManager {
         String url = RequestUrl.getInstance().getCustomerInfo();
         RequestObject request = new RequestObject(Contants.TYPE_GET, url,null, null);
         request.setEntity(new CustomerInfoEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 教练确认退款
+     */
+    public static void coachConfirmRefund(String memberId,String orderId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().coachConfirmRefund();
+        Map<String, Object> params = RequestParams.getInstance().coachConfirmRefund(memberId,orderId);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new CoachConfirmRefundEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     *  获取教练状态
+     */
+    public static void getCoachStatus(){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getCoachStatus();
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,null, null);
+        request.setEntity(new CoachStatusEntity());
         helper.doNetwork(request);
     }
 }

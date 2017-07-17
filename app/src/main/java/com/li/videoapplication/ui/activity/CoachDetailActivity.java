@@ -146,7 +146,11 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
             e.printStackTrace();
         }
 
-        mOrder.setText(data.getOrder_total());
+        try {
+            mOrder.setText(StringUtil.toUnitW(data.getOrder_total()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         mRank.setText(data.getGame_level());
 
         mWin.setText(data.getWin_num()+"胜");

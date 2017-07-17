@@ -34,9 +34,11 @@ public class ConfirmPlayWithDialog extends AlphaShadeDialog implements View.OnCl
     private CreatePlayWithOrderActivity mActivity;
 
 
-    public ConfirmPlayWithDialog(@NonNull Context context,float priceTotal,int currency) {
+    private int mPage;
+    public ConfirmPlayWithDialog(@NonNull Context context,float priceTotal,int currency,int page) {
         super(context);
 
+        mPage = page;
         mPriceTotal = priceTotal;
         mUserCurrency = currency;
         if (mUserCurrency >= mPriceTotal){
@@ -115,7 +117,7 @@ public class ConfirmPlayWithDialog extends AlphaShadeDialog implements View.OnCl
             case R.id.tv_confirm_order:
                 if (isEnough){
                     //立即支付
-                    EventBus.getDefault().post(new PayNowEvent());
+                    EventBus.getDefault().post(new PayNowEvent(mPage));
                 }else {
                     if (!PreferencesHepler.getInstance().isLogin()) {
                         DialogManager.showLogInDialog(mActivity);

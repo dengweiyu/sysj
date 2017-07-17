@@ -1,5 +1,6 @@
 package com.li.videoapplication.mvp.match.view;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -8,6 +9,7 @@ import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.ui.activity.PrivacyActivity;
+import com.li.videoapplication.ui.fragment.PlayWithOrderDetailFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.views.ViewPagerY1;
 
@@ -24,6 +26,16 @@ public class PlayWithOrderListFragment extends TBaseFragment {
     private ViewPagerAdapter mAdapter;
 
     private List<Fragment> mFragments;
+
+    private int mPosition = 0;
+    public static PlayWithOrderListFragment newInstance(int position){
+        Bundle bundle = new Bundle();
+        bundle.putInt("position",position);
+        PlayWithOrderListFragment fragment = new PlayWithOrderListFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     protected int getCreateView() {
         return R.layout.fragment_play_with_order;
@@ -31,6 +43,13 @@ public class PlayWithOrderListFragment extends TBaseFragment {
 
     @Override
     protected void initContentView(View view) {
+
+        Bundle bundle  = getArguments();
+        if (bundle != null){
+            mPosition = bundle.getInt("position");
+
+        }
+
         mPager = (ViewPagerY1)view.findViewById(R.id.vp_play_with_order);
         mFragments = new ArrayList<>();
         mFragments.add(new PlayWithPlaceOrderListFragment());
@@ -39,6 +58,8 @@ public class PlayWithOrderListFragment extends TBaseFragment {
         mAdapter = new ViewPagerAdapter(getFragmentManager(),mFragments,new String[]{"下单","接单"});
         mPager.setAdapter(mAdapter);
         tabLayout.setupWithViewPager(mPager);
+
+        mPager.setCurrentItem(mPosition);
     }
 
     @Override

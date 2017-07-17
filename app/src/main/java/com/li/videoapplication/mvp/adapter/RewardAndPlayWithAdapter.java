@@ -87,7 +87,7 @@ public class RewardAndPlayWithAdapter extends BaseArrayAdapter<RewardAndPlayWith
                                 break;
                             default:
                                 //跳转订单详情
-                                ActivityManager.startPlayWithOrderDetailActivity(mActivity,data.getRelation_id(),role,true);
+                                ActivityManager.startPlayWithOrderDetailActivity(mActivity,data.getRelation_id(),role,false);
                                 break;
 
                         }

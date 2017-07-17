@@ -75,10 +75,10 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
     private RewardAndPlayWithAdapter mRewardAdapter;
 
     private List<MyMessage> videoData = new ArrayList<>();
-    private List<GroupMessage> gameData = new ArrayList<>();
+    private static List<GroupMessage> gameData = new ArrayList<>();
     private List<SysMessage> systemData = new ArrayList<>();
 
-    private List<RewardAndPlayWithMsgEntity.DataBean.ListBean> mRewardData = new ArrayList<>();
+    private  List<RewardAndPlayWithMsgEntity.DataBean.ListBean> mRewardData = new ArrayList<>();
     @Override
     public void afterOnCreate() {
         super.afterOnCreate();
@@ -90,6 +90,9 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
     public void initView() {
         super.initView();
 
+        if (gameData == null){
+            gameData = new ArrayList<>();
+        }
         videoAdapter = new VideoMessageAdapter(this, videoData,mType);
         gameAdapter = new GameMessageAdapter(this, gameData,mType);
         systemAdapter = new SystemMessageAdapter(this, systemData);
@@ -100,9 +103,11 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
         TextView emptyText = (TextView) emptyView.findViewById(R.id.emptyview_text);
         listView.setEmptyView(emptyView);
 
+        abMessageClean.setVisibility(View.VISIBLE);
+        abMessageClean.setOnClickListener(this);
+
         if ("video".equals(mType)) {
-            abMessageClean.setVisibility(View.VISIBLE);
-            abMessageClean.setOnClickListener(this);
+
             setAdapter(videoAdapter);
             emptyText.setText("没有视频消息");
         } else if ("group".equals(mType)) {
@@ -111,6 +116,7 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
         } else if ("sysm".equals(mType)) {
             setAdapter(systemAdapter);
             emptyText.setText("没有系统消息");
+            abMessageClean.setVisibility(View.GONE);
         }else if ("training".equals(mType)){
             setAdapter(mRewardAdapter);
             emptyText.setText("没有陪练消息");
@@ -131,12 +137,14 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ab_message_clean:
-             //   DataManager.allRead(getMember_id(),mType);
+               // DataManager.allRead(getMember_id(),mType);
 
                 ReadMessageEntity entity = new ReadMessageEntity();
-                entity.setMsgId(mType);
-                entity.setAll(0);
+                entity.setSymbol(mType);
+                entity.setAll(1);
                 EventBus.getDefault().post(entity);
+
+                clearUnReadeMsg();
                 break;
         }
     }
@@ -158,6 +166,10 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
             // 视频图文消息
             DataManager.messageMyMessage(getMember_id(), page,mUrl);
         } else if ("group".equals(mType)) {
+            //还有本地缓存数据 将使用本地缓存
+            if (gameData != null && gameData.size() > 0){
+                return;
+            }
             // 圈子消息
             DataManager.messageGroupMessage(getMember_id(), page,mUrl);
         } else if ("sysm".equals(mType)) {
@@ -172,7 +184,45 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
         return getMember_id();
     }
 
+    public void clearUnReadeMsg(){
+        if(videoData != null){
+            for (int i = 0; i < videoData.size(); i++) {
+                videoData.get(i).setMark("0");
+            }
+            if (videoAdapter != null){
+                videoAdapter.notifyDataSetChanged();
+            }
+        }
 
+        if(gameData != null){
+            for (int i = 0; i < gameData.size(); i++) {
+                gameData.get(i).setNew_data_num("0");
+            }
+            if (gameAdapter != null){
+                gameAdapter.notifyDataSetChanged();
+            }
+        }
+
+        if(mRewardData != null){
+            for (int i = 0; i < mRewardData.size(); i++) {
+                mRewardData.get(i).setMark("0");
+            }
+            if (mRewardAdapter != null){
+                mRewardAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    /**
+     * 清除圈子本地缓存
+     */
+    public static void clearGameData(){
+        if (gameData != null){
+            gameData.clear();
+            gameData =  null;
+        }
+
+    }
 
     /**
      * 回调：清除视频图文消息

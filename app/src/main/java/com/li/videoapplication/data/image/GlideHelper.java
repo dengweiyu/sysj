@@ -22,6 +22,8 @@ import com.li.videoapplication.framework.AppManager;
 import java.io.File;
 import java.lang.ref.WeakReference;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 /**
  * 功能：Glider加载图片封装
  */
@@ -217,6 +219,30 @@ public class GlideHelper {
 
         Glide.with(context)
                 .load(uri)
+                .placeholder(R.drawable.default_video_211)
+                .error(R.drawable.default_video_211)
+                .centerCrop()
+                .into(view);
+    }
+
+
+    /**
+     * 加载圆形图片，sysj默认占位符
+     */
+    public static void displayRoundImage(Context context, String uri, ImageView view) {
+        Log.d(TAG, "imageUrl=" + uri);
+        if (context == null){
+            return;
+        }
+        if(context instanceof Activity){
+            if (((Activity)context).isDestroyed()){
+                return;
+            }
+        }
+
+        Glide.with(context)
+                .load(uri)
+                .bitmapTransform(new CropCircleTransformation(context))
                 .placeholder(R.drawable.default_video_211)
                 .error(R.drawable.default_video_211)
                 .centerCrop()

@@ -160,6 +160,12 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MessageListActivity.clearGameData();
+    }
+
     private void setEmptyView(){
         if (mRongCount+mFMCount == 0){
             mEmptyView.setVisibility(View.VISIBLE);
@@ -272,7 +278,7 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
             if (data.get(i).getSymbol().equals(symbol)){
                 //修改本地的未读数
                 if (isAll == 1){
-                    data.get(i).setMark_num("");
+                    data.get(i).setMark_num("0");
                 }else {
                     int num = 0;
                     try {
@@ -289,7 +295,7 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
             }
         }
 
-        if (StringUtil.isNull(msgId)){
+        if (!StringUtil.isNull(symbol)){
             //提交未读
             DataManager.readMessage(getMember_id(),msgId,symbol,msgType,isAll);
         }

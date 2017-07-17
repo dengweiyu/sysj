@@ -25,6 +25,7 @@ import com.li.videoapplication.data.model.response.PlayWithOrderPriceEntity;
 import com.li.videoapplication.data.model.response.PlayWithPlaceOrderEntity;
 import com.li.videoapplication.data.network.RequestParams;
 import com.li.videoapplication.data.network.RequestUrl;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.TimeHelper;
@@ -53,6 +54,8 @@ import static com.li.videoapplication.ui.dialog.SimpleChoiceDialog.TYPE_CHOICE_S
 
 public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implements View.OnClickListener {
 
+    public final static int PAGE_CREATE_ORDER = 1;
+    public final static int PAGE_ORDER_DETAIL = 2;
     private View mOperation;
 
     private LoadingDialog mLoadingDialog;
@@ -75,7 +78,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
     private List<String> mRankList = Lists.newArrayList();
 
-    private List<String> mGameCountList = Lists.newArrayList("1","2","3","4","5","6","7","8","9","10");
+    private List<String> mGameCountList = Lists.newArrayList("1","2","3","4","5");
 
     private List<String> mHourList = Lists.newArrayList();
 
@@ -96,7 +99,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
     private int mRankIndex = 0;
 
-    private int mGameCountIndex = 1;
+    private int mGameCountIndex = 0;
 
     private int mHourIndex = 0;
 
@@ -110,8 +113,6 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     @Override
     public void refreshIntent() {
         super.refreshIntent();
-
-
         try {
             mCoachId = getIntent().getStringExtra("coach_id");
             mCoachNickName = getIntent().getStringExtra("nick_name");
@@ -358,7 +359,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                 e.printStackTrace();
             }
         }
-        mConfirmDialog = new ConfirmPlayWithDialog(this, price, coin);
+        mConfirmDialog = new ConfirmPlayWithDialog(this, price, coin,PAGE_CREATE_ORDER);
         if (!mConfirmDialog.isShowing()){
             mConfirmDialog.show();
         }
@@ -512,7 +513,9 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
      *提交订单
      */
     public void onEventMainThread(PayNowEvent event){
-        createOrder();
+        if (event.getPage() == PAGE_CREATE_ORDER){
+            createOrder();
+        }
     }
 
     /**
@@ -572,6 +575,12 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                 mConfirmDialog.dismiss();
             }
 
+            //更新魔币余额
+            Member user =getUser();
+            if (user != null){
+                user.setCoin(entity.getResidue_coin()+"");
+            }
+            PreferencesHepler.getInstance().saveUserProfilePersonalInformation(user);
             ActivityManager.startPlayWithOrderDetailActivity(this,mOrderEntity.getOrder().getId()+"",PlayWithOrderDetailActivity.ROLE_OWNER,true);
         }else {
             ToastHelper.l("订单生成失败，请稍后再试哦~");

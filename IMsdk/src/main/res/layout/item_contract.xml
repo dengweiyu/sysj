@@ -72,7 +72,7 @@
                     android:layout_marginTop="10dp"
                     android:text="12:00123123123123"
                     android:textColor="#999999"
-                    android:textSize="13dp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -125,15 +125,15 @@
 
                 <TextView
                     android:id="@+id/id_unreandcount_tv"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/shape_item_cache"
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="1"
                     android:textColor="#fff"
-                    android:textSize="10dp" />
+                    android:textSize="10sp" />
 
             </LinearLayout>
 

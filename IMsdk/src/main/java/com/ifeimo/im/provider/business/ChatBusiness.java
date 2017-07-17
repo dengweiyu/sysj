@@ -69,6 +69,7 @@ public class ChatBusiness extends InformationBusiness implements IMsgBusiness<Ch
                             if (chatMsgModel.getSendType() == Fields.MsgFields.SEND_FINISH) {
                                 inserChatMsgModel.setSendType(Fields.MsgFields.SEND_FINISH);
                             }
+                            inserChatMsgModel.setId(chatMsgModel.getId());
                             if (Business.getInstances().modify(sqLiteDatabase, inserChatMsgModel) > 0) {
                                 Log.i(TAG, "onExecute: 插入单聊成功 " + inserChatMsgModel);
                             }

@@ -1,5 +1,7 @@
 package com.li.videoapplication.ui.activity;
 
+import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
@@ -10,18 +12,23 @@ import android.widget.TextView;
 import com.googlecode.mp4parser.boxes.mp4.objectdescriptors.AudioSpecificConfig;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
+import com.ifeimo.im.framwork.commander.IFileTransfer;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.cache.RequestCache;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.event.PayNowEvent;
 import com.li.videoapplication.data.model.event.RefreshOrderDetailEvent;
+import com.li.videoapplication.data.model.response.CoachConfirmRefundEntity;
 import com.li.videoapplication.data.model.response.ConfirmOrderDoneEntity;
 import com.li.videoapplication.data.model.response.ConfirmOrderEntity;
 import com.li.videoapplication.data.model.response.ConfirmTakeOrderEntity;
 import com.li.videoapplication.data.model.response.CustomerInfoEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderDetailEntity;
 import com.li.videoapplication.data.model.response.PlayWithTakeOrderEntity;
+import com.li.videoapplication.data.network.RequestParams;
+import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.FeiMoIMHelper;
@@ -40,7 +47,7 @@ import io.rong.eventbus.EventBus;
  * 陪练订单详情
  */
 
-public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity {
+public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     //以什么角色查看订单
     public final static int ROLE_OWNER = 0;              //下单者
@@ -61,6 +68,8 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity {
     private ConfirmPlayWithDialog mConfirmDialog;
 
     private LoadingDialog mLoadingDialog ;
+
+    private SwipeRefreshLayout mRefresh;
     private int mRole;
 
     private boolean mIsShowCoach = true;
@@ -91,12 +100,25 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mOrderId = getIntent().getStringExtra("order_id");
+        mRole = getIntent().getIntExtra("role",-1);
+        mIsShowCoach = getIntent().getBooleanExtra("is_show_coach",true);
+
+    }
+
+    @Override
     public void afterOnCreate() {
         super.afterOnCreate();
         initToolbar();
 
         mLoadingDialog = new LoadingDialog(this);
 
+        mRefresh = (SwipeRefreshLayout)findViewById(R.id.srl_coach_detail);
+        mRefresh.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        mRefresh.setOnRefreshListener(this);
     }
 
     @Override
@@ -107,6 +129,14 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity {
         DataManager.getPlayWithOrderDetail(getMember_id(),mOrderId);
         //获取客服信息
         DataManager.getCustomerInfo();
+    }
+
+    @Override
+    public void onRefresh() {
+        //清除缓存
+        RequestCache.save(RequestUrl.getInstance().getPlayWithOrderDetail(), RequestParams.getInstance().getPlayWithOrderDetail(getMember_id(),mOrderId),"");
+        //
+        DataManager.getPlayWithOrderDetail(getMember_id(),mOrderId);
     }
 
     private void  initToolbar(){
@@ -221,6 +251,14 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity {
                     }
                     break;
                 case "10":                          //退款中
+                    chat.setText("私聊");
+                    if (mRole == ROLE_OWNER){
+                        select.setText("再来一单");
+                    }else {
+                        select.setText("确认退款");
+                    }
+
+                    break;
                 case "11":                          //退款完成
                     chat.setText("私聊");
                     if (mRole == ROLE_OWNER){
@@ -293,7 +331,7 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity {
                             }
 
                             if (priceTotal != 0){
-                                mConfirmDialog = new ConfirmPlayWithDialog(PlayWithOrderDetailActivity.this,priceTotal,coin);
+                                mConfirmDialog = new ConfirmPlayWithDialog(PlayWithOrderDetailActivity.this,priceTotal,coin,CreatePlayWithOrderActivity.PAGE_ORDER_DETAIL);
                                 mConfirmDialog.show();
                             }
 
@@ -334,6 +372,15 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity {
                         }
                         break;
                     case "10":                          //退款中
+                        if (mRole == ROLE_COACH){
+                            mLoadingDialog.show();
+                            //确认退款
+                            DataManager.coachConfirmRefund(getMember_id(),mOrderId);
+                        }else {
+                            //再来一单
+                            startCreateOrderActivity();
+                        }
+                        break;
                     case "11":                          //退款完成
                         if (mRole == ROLE_OWNER){
                             //再来一单
@@ -484,13 +531,18 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity {
      *订单详情
      */
     public void onEventMainThread(PlayWithOrderDetailEntity entity){
+        mRefresh.setRefreshing(false);
+
         if (entity != null && entity.isResult()){
 
             if (mOrderDetail != null){
-                if (entity.getData().getStatusX().equals(mOrderDetail.getData().getStatusX()) && entity.getData().getOrder_id().equals(mOrderDetail.getData().getOrder_id())){
-                    return;
+                if (entity.getData().getOrder_id().equals(mOrderDetail.getData().getOrder_id())){
+                    if (entity.getData().getStatusX().equals(mOrderDetail.getData().getStatusX())){
+                        return;
+                    }
                 }
             }
+
             mOrderDetail = entity;
             showOrderFragment(entity);
             if (mLoadingDialog.isShowing()){
@@ -502,6 +554,8 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity {
                     mOrderDetail.getData().getStatusX(),
                     mOrderDetail.getData().getStatusText()));
         }
+
+
     }
 
 
@@ -540,9 +594,11 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity {
      * 立即支付
      */
     public void onEventMainThread(PayNowEvent event){
-        //支付订单
-        mLoadingDialog.show();
-        DataManager.confirmOrder(getMember_id(),mOrderDetail.getData().getOrder_id());
+        if (event.getPage() == CreatePlayWithOrderActivity.PAGE_ORDER_DETAIL){
+            //支付订单
+            mLoadingDialog.show();
+            DataManager.confirmOrder(getMember_id(),mOrderDetail.getData().getOrder_id());
+        }
     }
 
     /**
@@ -550,6 +606,9 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity {
      */
     public void onEventMainThread(ConfirmOrderEntity entity){
         if (entity.isResult()){
+
+            //更新订单ID
+            mOrderDetail.getData().setOrder_id(entity.getOrder_id());
 
             EventBus.getDefault().post(new RefreshOrderDetailEvent(
                     mOrderDetail.getData().getOrder_id(),
@@ -561,6 +620,30 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity {
                 public void run() {
                     mLoadingDialog.dismiss();
                     ToastHelper.s("支付成功~");
+                }
+            },800);
+        }else {
+            ToastHelper.s(entity.getMsg());
+            mLoadingDialog.dismiss();
+        }
+    }
+
+    /**
+     * 确认退款结果
+     */
+
+    public void onEventMainThread(CoachConfirmRefundEntity entity){
+        if (entity.isResult()){
+            EventBus.getDefault().post(new RefreshOrderDetailEvent(
+                    mOrderDetail.getData().getOrder_id(),
+                    mOrderDetail.getData().getStatusX(),
+                    mOrderDetail.getData().getStatusText()));
+
+            UITask.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mLoadingDialog.dismiss();
+                    ToastHelper.s("您已成功确认退款~");
                 }
             },800);
         }else {

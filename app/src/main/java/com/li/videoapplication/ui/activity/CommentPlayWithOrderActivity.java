@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.image.GlideHelper;
+import com.li.videoapplication.data.model.event.RefreshOrderDetailEvent;
 import com.li.videoapplication.data.model.response.CommentTagEntity;
 import com.li.videoapplication.data.model.response.CommitCommentEntity;
 import com.li.videoapplication.data.network.UITask;
@@ -26,6 +27,8 @@ import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 陪练订单评价
@@ -50,6 +53,8 @@ public class CommentPlayWithOrderActivity extends TBaseAppCompatActivity impleme
     private List<CommentTagEntity.DataBean> mData;
 
     private LoadingDialog mLoadingDialog;
+
+
     @Override
     public void refreshIntent() {
         super.refreshIntent();
@@ -164,6 +169,11 @@ public class CommentPlayWithOrderActivity extends TBaseAppCompatActivity impleme
     public void onEventMainThread(CommitCommentEntity entity){
         if (entity != null && entity.isResult()){
             ToastHelper.l("感谢您的评价~");
+            RefreshOrderDetailEvent event = new RefreshOrderDetailEvent(
+                    mOrderId,
+                    "",
+                    "");
+            EventBus.getDefault().post(event);
             finish();
         }else {
 

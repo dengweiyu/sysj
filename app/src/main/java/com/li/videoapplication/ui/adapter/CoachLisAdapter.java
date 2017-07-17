@@ -4,6 +4,7 @@ package com.li.videoapplication.ui.adapter;
 
 import android.content.Context;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -42,27 +43,26 @@ public class CoachLisAdapter extends BaseQuickAdapter<CoachListEntity.DataBean.I
             @Override
             public void run() {
                 GlideHelper.displayImage(mContext,includeBean.getAvatar(),icon);
-
                 GlideHelper.displayImage(mContext,includeBean.getGame_level_icon(),rankIcon);
             }
         },500);
 
 
+        TextView status = holder.getView(R.id.tv_coach_status);
 
-        int resId = 0;
         switch (includeBean.getStatusX()){
             case 1:                             //在线
-                resId = R.drawable.coach_on_line;
+                status.setText("在线");
+                status.setTextColor(mContext.getResources().getColor(R.color.green));
                 break;
             case 2:                             //游戏中
-                resId = R.drawable.coach_on_busy;
+                status.setText("陪练中");
+                status.setTextColor(mContext.getResources().getColor(R.color.green));
                 break;
             case 3:                             //离线
-                resId = R.drawable.coach_off_line;
+                status.setText("离线");
+                status.setTextColor(mContext.getResources().getColor(R.color.textcolor_french_gray));
                 break;
         }
-
-        holder.setImageResource(R.id.iv_coach_status,resId);
-
     }
 }
