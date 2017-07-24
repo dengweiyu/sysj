@@ -142,6 +142,9 @@ public final class IMSdk {
      * @param roomName 房间名字
      */
     public static void createMuccRoom(Context context, String roomJID, String roomName, String roomPicurl) {
+        if(Proxy.getAccountManger().isUserNull()){
+            return;
+        }
         Map<String, String> map = new HashMap<>();
         map.put("roomJID", roomJID);
         map.put("roomName", roomName);
@@ -177,7 +180,9 @@ public final class IMSdk {
      */
     public static void createChat(Context context, String receiverID,
                                   String receiverNickName, String receiverAvatarUrl,int isFastReply) {
-
+        if(Proxy.getAccountManger().isUserNull()){
+            return;
+        }
         Intent intent = new Intent(context, ChatActivity.class);
         intent.putExtra("receiverID", receiverID);
         intent.putExtra("receiverNickName", receiverNickName);

@@ -219,18 +219,22 @@ final class IMAccountManager implements IAccount {
 
     @Override
     public String getUserMemberId() {
-        return ACCOUNT.getMemberId();
+        synchronized (ACCOUNT) {
+            return ACCOUNT.getMemberId();
+        }
     }
 
     @Override
     public boolean isUserNull() {
-        return StringUtil.isNull(ACCOUNT.getMemberId());
+        synchronized (ACCOUNT) {
+            return StringUtil.isNull(ACCOUNT.getMemberId());
+        }
     }
 
     @Override
     public void clearUserSelf() {
         AccountModel.Build build = new AccountModel.Build();
-        ACCOUNT.setBuild(build);
+        this.setAccount(build);
     }
 
     @Override
