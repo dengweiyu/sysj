@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.ifeimo.im.R;
 import com.ifeimo.im.activity.ChatActivity;
-import com.ifeimo.im.common.bean.UserBean;
+import com.ifeimo.im.common.bean.model.AccountModel;
 import com.ifeimo.im.common.callback.LoginCallBack;
 import com.ifeimo.im.common.IntentManager;
 import com.ifeimo.im.common.callback.LogoutCallBack;
@@ -17,8 +17,6 @@ import com.ifeimo.im.common.util.ThreadUtil;
 import com.ifeimo.im.framwork.message.FileTransferImp;
 import com.ifeimo.im.framwork.message.IQMessageManager;
 import com.ifeimo.im.framwork.message.OnGroupItemOnClickListener;
-import com.ifeimo.im.framwork.message.OnChatMessageReceiver;
-import com.ifeimo.im.framwork.message.OnSimpleMessageListener;
 import com.ifeimo.im.framwork.message.PresenceMessageManager;
 import com.ifeimo.im.service.LoginService;
 
@@ -30,7 +28,7 @@ import y.com.sqlitesdk.framework.IfeimoSqliteSdk;
 /**
  * Created by lpds on 2017/1/12.
  */
-public class IMSdk {
+public final class IMSdk {
     private static final String TAG = "XMPP_IMSDK";
     public static Application CONTEXT;
     public static final int versionCode = 4;
@@ -43,7 +41,6 @@ public class IMSdk {
     public static void init(Application application) {
         CONTEXT = application;
         FileTransferImp.getInstances();
-        LockManager.getInstances();
         ChatWindowsManager.getInstances();
         IMConnectManager.getInstances();
         IMAccountManager.getInstances();
@@ -67,7 +64,7 @@ public class IMSdk {
      */
     public static void logout(Context context, boolean isClearCache) {
         Log.i(TAG, "Thread.currentThread() "+Thread.currentThread().getName());
-        UserBean.clear();
+        Proxy.getAccountManger().clearUserSelf();
         if (isClearCache) {
             PManager.clearCacheUser(context);
         }
@@ -91,7 +88,12 @@ public class IMSdk {
      * @param loginCallBack 回调
      */
     public static void Login(Context context, String myMemberID, String myNickName, String myAvatarUrl, LoginCallBack loginCallBack) {
-        UserBean.setLoginUser(myMemberID, myNickName, myAvatarUrl, null, null, null, null, null, null);
+
+        AccountModel.Build build = new AccountModel.Build();
+        build.memberId = myMemberID;
+        build.avatarUrl = myAvatarUrl;
+        build.member_nick_name = myNickName;
+        Proxy.getAccountManger().setAccount(build);
         PManager.saveUser(context);
         addLoginCallBack(loginCallBack);
         context.startService(new Intent(context, LoginService.class));
@@ -107,7 +109,11 @@ public class IMSdk {
      */
     @Deprecated
     public static void Login(Context context, String myMemberID, String myNickName, String myAvatarUrl) {
-        UserBean.setLoginUser(myMemberID, myNickName, myAvatarUrl, null, null, null, null, null, null);
+        AccountModel.Build build = new AccountModel.Build();
+        build.memberId = myMemberID;
+        build.avatarUrl = myAvatarUrl;
+        build.member_nick_name = myNickName;
+        Proxy.getAccountManger().setAccount(build);
         PManager.saveUser(context);
         context.startService(new Intent(context, LoginService.class));
     }
@@ -120,8 +126,9 @@ public class IMSdk {
      * @param myAvatarUrl         图片
      */
     public static void upDateUser(Context context, String myNickName, String myAvatarUrl) {
-        UserBean.setAvatarUrl(myAvatarUrl);
-        UserBean.setNickName(myNickName);
+        AccountModel accountModel = Proxy.getAccountManger().getAccount(false);
+        accountModel.setAvatarUrl(myAvatarUrl);
+        accountModel.setNickName(myNickName);
         PManager.saveUser(context);
         Proxy.getConnectManager().updateLogin();
     }

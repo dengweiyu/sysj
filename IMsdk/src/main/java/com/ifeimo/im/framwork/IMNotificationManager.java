@@ -2,12 +2,12 @@ package com.ifeimo.im.framwork;
 
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaExtractor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Vibrator;
@@ -15,9 +15,9 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
+import com.ifeimo.im.OnOutIM;
 import com.ifeimo.im.R;
 import com.ifeimo.im.activity.ChatActivity;
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.model.AccountModel;
 import com.ifeimo.im.common.bean.model.IMsg;
 import com.ifeimo.im.common.bean.response.MemberInfoRespones;
@@ -33,14 +33,11 @@ import com.ifeimo.im.framwork.setting.Builder;
 import com.ifeimo.im.provider.ChatProvider;
 import com.ifeimo.im.provider.InformationProvide;
 
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.Response;
 import y.com.sqlitesdk.framework.business.Business;
 import y.com.sqlitesdk.framework.db.Access;
 import y.com.sqlitesdk.framework.sqliteinterface.Execute;
@@ -50,7 +47,7 @@ import y.com.sqlitesdk.framework.sqliteinterface.Execute;
  * <p/>
  * 管理消息推送
  */
-final class IMNotificationManager implements NotificationManager<NotifyBean> {
+final class IMNotificationManager implements NotificationManager<NotifyBean> ,OnOutIM{
     private static final String TAG = "XMPP_Notification";
     private static IMNotificationManager notificationManager;
     private android.app.NotificationManager notificationManagerServier;
@@ -95,18 +92,22 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> {
         /**
          * 就算当前app在前端也显示
          */
-        if (!SettingsManager.getInstances().getBuilder().getNotificationSettings(false).getMode().equals(Builder.Notification.AUTO_MODE)) {
-            if (AppUtil.isAppInForeground(IMSdk.CONTEXT) && vibrator != null) {
+        switch (SettingsManager.getInstances().getBuilder().getNotificationSettings(false).getMode()) {
+            case Builder.NotificationMode.APP_NONE_MODE:
+                return -1;
+            case Builder.NotificationMode.APP_BACKGROUND_MODE:
                 ThreadUtil.getInstances().createThreadStartToCachedThreadPool(new Runnable() {
                     @Override
                     public void run() {
-                        vibrator.vibrate(2000);
-                        vibrator.cancel();
-
+                        vibrator.vibrate(500);
+//                        vibrator.cancel();
                     }
                 });
-                return -1;
-            }
+                if (AppUtil.isAppInForeground(IMSdk.CONTEXT) && vibrator != null) {
+                    return -1;
+                }
+            case Builder.NotificationMode.APP_AUTO_MODE:
+                break;
         }
         Bitmap bitmap = null;
         try {
@@ -202,12 +203,15 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> {
                     }
 
                     @Override
-                    public void onExternalError() {}
+                    public void onExternalError() {
+                    }
                 });
-                notifyMessageNotification(iMsg);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+        }
+        if (Proxy.getAccountManger().getUserMemberId() != null && !Proxy.getAccountManger().getUserMemberId().equals(iMsg.getMemberId())) {
+            notifyMessageNotification(iMsg);
         }
     }
 
@@ -259,7 +263,7 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> {
     }
 
     /**
-     * 清空所有notifycation
+     * 清空所有根据具体发送者的notifycation
      *
      * @return
      */
@@ -283,9 +287,17 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> {
         return false;
     }
 
+    /**
+     * 清空notifycation
+     */
     @Override
     public void clearNotifications() {
-
+        for(String key : messageNotifications.keySet()){
+            for(IMsg msgBean : messageNotifications.get(key)){
+                notificationManagerServier.cancel(new Integer(msgBean.getId() + ""));
+            }
+        }
+        messageNotifications.clear();
     }
 
     @Override
@@ -306,5 +318,15 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> {
     @Override
     public boolean isInitialized() {
         return true;
+    }
+
+    @Override
+    public void leaveIM() {
+        clearNotifications();
+    }
+
+    @Override
+    public void leaveErrorIM() {
+        leaveIM();
     }
 }

@@ -3,7 +3,6 @@ package com.ifeimo.im.provider.business;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.model.InformationModel;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
@@ -46,7 +45,7 @@ public abstract class InformationBuseness extends BaseSupport {
                                      int type,
                                      String name, boolean isme) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         InformationModel informationModel = new InformationModel();
-        informationModel.setMemberId(UserBean.getMemberID());
+        informationModel.setMemberId(Proxy.getAccountManger().getUserMemberId());
         informationModel.setOppositeId(opposite_id);
         informationModel.setMsgId(msgId);
         informationModel.setLastContent(last_content);
@@ -159,7 +158,7 @@ public abstract class InformationBuseness extends BaseSupport {
                                 Fields.InformationFields.UNREAD_COUNT,
                                 Fields.InformationFields.TB_NAME,
                                 String.format("%s = ?",Fields.InformationFields.MEMBER_ID),
-                                new String[]{UserBean.getMemberID()});
+                                new String[]{Proxy.getAccountManger().getUserMemberId()});
             }
 
             @Override

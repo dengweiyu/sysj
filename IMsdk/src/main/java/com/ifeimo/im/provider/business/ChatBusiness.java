@@ -3,12 +3,12 @@ package com.ifeimo.im.provider.business;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.model.ChatMsgModel;
 import com.ifeimo.im.common.bean.model.InformationModel;
 import com.ifeimo.im.common.bean.model.Model;
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.IMSdk;
+import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.provider.ChatProvider;
 import com.ifeimo.im.provider.InformationProvide;
@@ -85,7 +85,7 @@ public class ChatBusiness extends InformationBusiness implements IMsgBusiness<Ch
                  * 更新information
                  */
                 {
-                    if (inserChatMsgModel.getReceiverId().equals(UserBean.getMemberID())) {
+                    if (inserChatMsgModel.getReceiverId().equals(Proxy.getAccountManger().getUserMemberId())) {
                         insertInformation(sqLiteDatabase,
                                 inserChatMsgModel.getMemberId(),
                                 inserChatMsgModel.getMsgId(),

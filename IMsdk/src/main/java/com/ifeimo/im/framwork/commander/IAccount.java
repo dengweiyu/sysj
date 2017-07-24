@@ -3,6 +3,7 @@ package com.ifeimo.im.framwork.commander;
 import com.ifeimo.im.IEmployee;
 import com.ifeimo.im.OnUpdate;
 import com.ifeimo.im.common.bean.AccountBean;
+import com.ifeimo.im.common.bean.model.AccountModel;
 
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.roster.RosterEntry;
@@ -36,6 +37,16 @@ public interface IAccount extends OnUpdate, IEmployee,RosterLoadedListener,Roste
     void deleteFriend(RosterEntry rosterEntry);
 
     void setAccountState(Presence.Mode m);
+
+    AccountModel getAccount(boolean isClone);
+
+    void setAccount(AccountModel.Build build);
+
+    String getUserMemberId();
+
+    boolean isUserNull();
+
+    void clearUserSelf();
 
     RosterEntry getFriend(String memberid);
 }

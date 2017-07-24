@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
@@ -22,8 +21,8 @@ import com.ifeimo.im.common.adapter.InformationAdapter;
 import com.ifeimo.im.common.adapter.OnAdapterItemOnClickListener;
 import com.ifeimo.im.common.adapter.base.RecyclerViewCursorAdapter;
 import com.ifeimo.im.common.adapter.holder.InformationHolder;
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.util.ThreadUtil;
+import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.provider.InformationProvide;
 
@@ -104,7 +103,7 @@ public class InformationView extends FrameLayout implements OnInitialization,Loa
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(getContext(), InformationProvide.CONTENT_URI,null,
-                String.format("%s = ?", Fields.InformationFields.MEMBER_ID),new String[]{UserBean.getMemberID()},null);
+                String.format("%s = ?", Fields.InformationFields.MEMBER_ID),new String[]{Proxy.getAccountManger().getUserMemberId()},null);
     }
 
     @Override

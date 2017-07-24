@@ -16,6 +16,7 @@ import com.ifeimo.im.framwork.message.OnUnReadChange;
 
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.StanzaListener;
+import org.jivesoftware.smack.packet.Message;
 
 import java.util.Collection;
 import java.util.Set;
@@ -24,7 +25,7 @@ import java.util.Set;
  * 消息管理接口
  * Created by lpds on 2017/1/17.
  */
-public interface MessageObserver extends StanzaListener, MessageListener, IEmployee, OnUpdate,HandlerMessageLeader{
+public interface MessageObserver extends StanzaListener, MessageListener, IEmployee, OnUpdate,HandlerMessageLeader<Message>{
 
     int DEFAULT_CACHE_TIME = 2 * 60 * 1000;
     int WAITING_TIME = 5000;

@@ -50,10 +50,6 @@ public final class Proxy {
     @Deprecated
     public static Activitys getActivitys(){return Activitys.getInstances();}
 
-    public static ILockManager getLockManager(){
-        return LockManager.getInstances();
-    }
-
 
 
 }

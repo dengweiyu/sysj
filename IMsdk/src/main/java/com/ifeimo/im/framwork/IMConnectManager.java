@@ -1,7 +1,6 @@
 package com.ifeimo.im.framwork;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
@@ -11,7 +10,6 @@ import com.ifeimo.im.IEmployee;
 import com.ifeimo.im.OnOutIM;
 import com.ifeimo.im.common.bean.AccountBean;
 import com.ifeimo.im.common.bean.ConnectBean;
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.model.AccountModel;
 import com.ifeimo.im.common.callback.LoginCallBack;
 import com.ifeimo.im.common.callback.LogoutCallBack;
@@ -40,7 +38,6 @@ import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -54,7 +51,7 @@ import y.com.sqlitesdk.framework.business.CenterServer;
  * Created by lpds on 2017/1/11.
  * 管理IM连接
  */
-final class IMConnectManager implements IConnect{
+final class IMConnectManager implements IConnect {
     private static final String TAG = "XMPP_IMConnectManager";
     private static IMConnectManager connectManager;
     private XMPPTCPConnectionConfiguration connConfig = null;
@@ -73,6 +70,7 @@ final class IMConnectManager implements IConnect{
     private IConnectSupport iConnectSupport;
     private Set<MemberInfoObserver> memberInfoObservers;
     private AccountBean lastConnextAccount;
+
     public void setErrorListener(OnConnectErrorListener errorListener) {
         this.errorListener = errorListener;
     }
@@ -96,16 +94,18 @@ final class IMConnectManager implements IConnect{
             }
         }
     };
+
     static {
         connectManager = new IMConnectManager();
     }
+
     private IMConnectManager() {
         ManagerList.getInstances().addManager(this);
         connectHandlerthread = new HandlerThread(TAG);
         connectHandlerthread.start();
         handler = new Handler(connectHandlerthread.getLooper());
         iConnectSupport = new ConnectSupport(this);
-        memberInfoObservers = new HashSet<MemberInfoObserver>(){
+        memberInfoObservers = new HashSet<MemberInfoObserver>() {
             @Override
             public boolean add(MemberInfoObserver memberInfoObserver) {
                 synchronized (this) {
@@ -141,7 +141,7 @@ final class IMConnectManager implements IConnect{
                 .setDebuggerEnabled(true)
 //                .setSendPresence(true)
                 .setServiceName(connectBean.getServiceName())
-                .setResource("android"+ BuildConfig.VERSION_CODE)
+                .setResource("android" + BuildConfig.VERSION_CODE)
                 .build();
     }
 
@@ -163,9 +163,9 @@ final class IMConnectManager implements IConnect{
             return;
         }
 
-        if (StringUtil.isNull(UserBean.getMemberID())) {
+        if (StringUtil.isNull(Proxy.getAccountManger().getUserMemberId())) {
             PManager.getCacheUser(application);
-            if (StringUtil.isNull(UserBean.getMemberID())) {
+            if (StringUtil.isNull(Proxy.getAccountManger().getUserMemberId())) {
                 log("------ Error : This Acoount memberId is null ------");
                 return;
             }
@@ -194,16 +194,17 @@ final class IMConnectManager implements IConnect{
 
     /**
      * 提交信息到sysj
+     *
      * @return
      */
     private boolean sendSysjService2() {
-        if(!ConnectUtil.isConnect(IMSdk.CONTEXT)){
+        if (!ConnectUtil.isConnect(IMSdk.CONTEXT)) {
             return true;
         }
         Map<String, String> map = new HashMap<String, String>();
-        map.put("avatarUrl", UserBean.getAvatarUrl());
-        map.put("nickname", UserBean.getNickName());
-        map.put("memberId", UserBean.getMemberID());
+        map.put("avatarUrl", Proxy.getAccountManger().getAccount(false).getAvatarUrl());
+        map.put("nickname", Proxy.getAccountManger().getAccount(false).getNickName());
+        map.put("memberId", Proxy.getAccountManger().getUserMemberId());
         try {
             Response response = Account.sendMemberMsgToSYSJ(this, map);
             JSONObject jsonObject = new JSONObject(response.body().string());
@@ -217,12 +218,12 @@ final class IMConnectManager implements IConnect{
                 PManager.saveLogin(application);
                 log(" ------ Msg: Submit SYSJ information successfully ------ " + jsonObject);
                 CenterServer.getInstances().insert(new AccountModel(
-                        UserBean.getMemberID(),
-                        UserBean.getNickName(),
-                        UserBean.getAvatarUrl()));
+                        Proxy.getAccountManger().getUserMemberId(),
+                        Proxy.getAccountManger().getAccount(false).getNickName(),
+                        Proxy.getAccountManger().getAccount(false).getAvatarUrl()));
                 return true;
             } else {
-                throw  new Exception();
+                throw new Exception();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -299,13 +300,11 @@ final class IMConnectManager implements IConnect{
 
     /**
      * 登录im
-     *
-     *
      */
     private void login() {
         try {
             if (connection != null && connection.isConnected()) {
-                connection.login(UserBean.getMemberID(), UserBean.getMemberID());
+                connection.login(Proxy.getAccountManger().getUserMemberId(), Proxy.getAccountManger().getUserMemberId());
                 Presence presence = new Presence(PresenceMessageManager.getInstances().getConfig().type);
                 presence.setMode(PresenceMessageManager.getInstances().getConfig().mode);
                 connection.sendStanza(presence);
@@ -331,7 +330,7 @@ final class IMConnectManager implements IConnect{
                 public void run() {
                     login();
                 }
-            },5000);
+            }, 5000);
         }
     }
 
@@ -405,7 +404,8 @@ final class IMConnectManager implements IConnect{
     }
 
     @Override
-    public void reconnectingIn(int seconds) {}
+    public void reconnectingIn(int seconds) {
+    }
 
     @Override
     public void reconnectionFailed(Exception e) {
@@ -463,22 +463,22 @@ final class IMConnectManager implements IConnect{
 
     @Override
     public void addMemberInfoObserver(MemberInfoObserver memberInfoObserver) {
-        if(memberInfoObserver == null){
+        if (memberInfoObserver == null) {
             log("------ Msg: Add memberInfoObserver error , Because memberInfoObserver is null ------");
-        }else if(memberInfoObservers.add(memberInfoObserver)){
+        } else if (memberInfoObservers.add(memberInfoObserver)) {
             log("------ Msg: Add memberInfoObserver successfully ------");
-        }else{
+        } else {
             log("------ Msg: Add memberInfoObserver error , Because memberInfoObserver already exist ------");
         }
     }
 
     @Override
     public void removeMemberInfoObserver(MemberInfoObserver memberInfoObserver) {
-        if(memberInfoObserver == null){
+        if (memberInfoObserver == null) {
             log("------ Msg: Remove memberInfoObserver error , Because memberInfoObserver is null ------");
-        }else if(memberInfoObservers.remove(memberInfoObserver)){
+        } else if (memberInfoObservers.remove(memberInfoObserver)) {
             log("------ Msg: Remove memberInfoObserver successfully ------");
-        }else{
+        } else {
             log("------ Msg: Remove memberInfoObserver error , Because memberInfoObserver does not exist ------");
         }
     }

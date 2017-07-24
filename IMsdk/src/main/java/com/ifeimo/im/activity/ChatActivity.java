@@ -2,11 +2,8 @@ package com.ifeimo.im.activity;
 
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -15,30 +12,23 @@ import com.ifeimo.im.R;
 import com.ifeimo.im.common.MD5;
 import com.ifeimo.im.common.adapter.ChatReAdapter;
 import com.ifeimo.im.common.bean.AccountBean;
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.eventbus.ChatWindowEntity;
 import com.ifeimo.im.common.bean.model.ChatMsgModel;
 import com.ifeimo.im.common.bean.model.InformationModel;
 import com.ifeimo.im.common.bean.response.MemberInfoRespones;
 import com.ifeimo.im.common.bean.xml.PresenceList;
-import com.ifeimo.im.common.popupwindow.AddFriendPopupWindow;
 import com.ifeimo.im.common.util.ConnectUtil;
 import com.ifeimo.im.common.util.IMWindosThreadUtil;
 import com.ifeimo.im.common.util.PManager;
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
-import com.ifeimo.im.framwork.commander.IFileTransfer;
 import com.ifeimo.im.framwork.database.Fields;
-import com.ifeimo.im.framwork.message.FileTransferImp;
 import com.ifeimo.im.framwork.request.Account;
 import com.ifeimo.im.framwork.view.FashReplyListView;
 import com.ifeimo.im.provider.InformationProvide;
 
 import org.greenrobot.eventbus.EventBus;
-import org.jivesoftware.smack.roster.RosterEntry;
-
-import java.io.File;
 
 import y.com.sqlitesdk.framework.business.Business;
 import y.com.sqlitesdk.framework.db.Access;
@@ -62,6 +52,12 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
         show = getIntent().getIntExtra("show",SHOW_EFAULT);
         id_fast_reply_iv = (ImageView) findViewById(R.id.id_fast_reply_iv);
         id_fast_reply_lv = (FashReplyListView) findViewById(R.id.id_fast_reply_lv);
+        findViewById(R.id.btn_chat_send_txt).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendOnclick(v);
+            }
+        });
         if(show == SHOW_FAST_REPLY) {
             id_fast_reply_lv.setEditText(editeMsg);
             id_fast_reply_iv.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +169,7 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
 
     private ChatMsgModel initMsgBean() {
         ChatMsgModel chatMsgModel =  new ChatMsgModel();
-        chatMsgModel.setMemberId(UserBean.getMemberID());
+        chatMsgModel.setMemberId(Proxy.getAccountManger().getUserMemberId());
         chatMsgModel.setReceiverId(receiverBean.getMemeberid());
         return chatMsgModel;
     }
@@ -182,7 +178,7 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
      * 初始化 chat单聊
      */
     private void initChat() {
-        Proxy.getMessageManager().createChat(receiverBean.getMemeberid(), UserBean.getMemberID());
+        Proxy.getMessageManager().createChat(receiverBean.getMemeberid(), Proxy.getAccountManger().getUserMemberId());
     }
 
     public void sendOnclick(View v) {
@@ -221,7 +217,7 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
 
     @Override
     public String getKey() {
-        return UserBean.getMemberID() + receiverBean.getMemeberid();
+        return Proxy.getAccountManger().getUserMemberId() + receiverBean.getMemeberid();
     }
 
     @Override
@@ -276,8 +272,8 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
                     @Override
                     public void onExecute(SQLiteDatabase sqLiteDatabase) throws Exception {
                         long maxCount = Business.getInstances().getTableMaxCount(sqLiteDatabase, ChatMsgModel.class,
-                                        " (receiverId = '" + receiverBean.getMemeberid() + "' and memberId = '" + UserBean.getMemberID() + "') " +
-                                                "or (receiverId = '" + UserBean.getMemberID() + "' and memberId = '" + receiverBean.getMemeberid() + "')");
+                                        " (receiverId = '" + receiverBean.getMemeberid() + "' and memberId = '" + Proxy.getAccountManger().getUserMemberId() + "') " +
+                                                "or (receiverId = '" + Proxy.getAccountManger().getUserMemberId() + "' and memberId = '" + receiverBean.getMemeberid() + "')");
                         getAdapter().setMaxCount(Integer.parseInt(maxCount + ""));
                         if(!isFinishing()) {
                             runnable.run();
@@ -308,7 +304,7 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
                                         Fields.InformationFields.MEMBER_ID,
                                         Fields.InformationFields.OPPOSITE_ID,
                                         Fields.InformationFields.TYPE),
-                                new String[]{UserBean.getMemberID(), getReceiver(), InformationModel.CHAT + ""});
+                                new String[]{Proxy.getAccountManger().getUserMemberId(), getReceiver(), InformationModel.CHAT + ""});
                         if (informationModel != null) {
                             informationModel.setUnread(0);
                             if (Business.getInstances().modify(

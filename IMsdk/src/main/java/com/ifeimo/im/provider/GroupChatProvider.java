@@ -8,8 +8,8 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import com.ifeimo.im.common.adapter.BaseChatReCursorAdapter;
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.util.StringUtil;
+import com.ifeimo.im.framwork.Proxy;
 
 import y.com.sqlitesdk.framework.db.Access;
 import y.com.sqlitesdk.framework.sqliteinterface.Execute;
@@ -45,16 +45,16 @@ public class GroupChatProvider extends BaseProvider {
                                 String.format(
                                         "SELECT * " +
                                                 "FROM (" +
-                                                "SELECT tb_groupchat.* , tb_account.member_nick_name , tb_account.avatarUrl \n" +
-                                                "FROM tb_groupchat " +
-                                                "INNER JOIN tb_account ON tb_groupchat.memberId = tb_account.memberId \n" +
-                                                "WHERE tb_groupchat.roomid = ? AND ((tb_groupchat.memberId != ? AND tb_groupchat.send_type = 2001) or tb_groupchat.memberId = ?)\n" +
-                                                "ORDER BY tb_groupchat.create_time " +
-                                                "DESC " +
-                                                "LIMIT %s) " +
+                                                    "SELECT tb_groupchat.* , tb_account.member_nick_name , tb_account.avatarUrl \n" +
+                                                    "FROM tb_groupchat " +
+                                                    "INNER JOIN tb_account ON tb_groupchat.memberId = tb_account.memberId \n" +
+                                                    "WHERE tb_groupchat.roomid = ? AND ((tb_groupchat.memberId != ? AND tb_groupchat.send_type = 2001) or tb_groupchat.memberId = ?)\n" +
+                                                    "ORDER BY tb_groupchat.create_time " +
+                                                    "DESC " +
+                                                    "LIMIT %s) " +
                                                 "ORDER BY create_time",
                                         BaseChatReCursorAdapter.MAX_PAGE_COUNT * Integer.parseInt(StringUtil.isNull(selection) ? "5" : selection));
-                        cursor[0] = sqLiteDatabase.rawQuery(sql1, new String[]{selectionArgs[0], UserBean.getMemberID(), UserBean.getMemberID()});
+                        cursor[0] = sqLiteDatabase.rawQuery(sql1, new String[]{selectionArgs[0], Proxy.getAccountManger().getUserMemberId(), Proxy.getAccountManger().getUserMemberId()});
                         cursor[0].setNotificationUri(getContext().getContentResolver(), uri);
                     }
 

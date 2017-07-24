@@ -19,6 +19,17 @@ import y.com.sqlitesdk.framework.business.Business;
  * Created by lpds on 2017/1/11.
  */
 public class IMDataBaseHelper extends SQLiteOpenHelper {
+
+
+    /**
+     * SELECT name FROM sqlite_master
+     　　WHERE type='table'
+     　　ORDER BY name;
+
+     select count(*) as c from sqlite_master where type ='table' and name ='表名'
+
+     */
+
     public static final String TAG = "XMPP_DataBaseHelper";
     private Context context;
     /**

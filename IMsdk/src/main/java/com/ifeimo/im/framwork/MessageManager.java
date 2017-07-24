@@ -10,7 +10,6 @@ import android.util.Log;
 import com.ifeimo.im.common.bean.model.ChatMsgModel;
 import com.ifeimo.im.common.bean.model.GroupChatModel;
 import com.ifeimo.im.common.bean.model.IMsg;
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.chat.ChatBean;
 import com.ifeimo.im.common.bean.chat.GroupChatBean;
 import com.ifeimo.im.common.util.ConnectUtil;
@@ -238,7 +237,7 @@ final class MessageManager implements MessageObserver {
             } else {
                 try {
                     if (Proxy.getConnectManager().isConnect()) {
-                        groupChatBean = new GroupChatBean(UserBean.getMemberID(), roomid, null,
+                        groupChatBean = new GroupChatBean(Proxy.getAccountManger().getUserMemberId(), roomid, null,
                                 MultiUserChatManager.getInstanceFor(Proxy.getConnectManager().getConnection()).getMultiUserChat(Jid.getRoomJ(IMSdk.CONTEXT, roomid)));
                         joinRoom(groupChatBean.getMultiUserChat());
                         groupChatSet.put(roomid, groupChatBean);
@@ -269,7 +268,7 @@ final class MessageManager implements MessageObserver {
     private synchronized void joinRoom(MultiUserChat multiUserChat) {
         if (multiUserChat != null) {
             try {
-                multiUserChat.join(UserBean.getMemberID());
+                multiUserChat.join(Proxy.getAccountManger().getUserMemberId());
                 Log.i(TAG, "joinRoom: 进入房间 ");
             } catch (SmackException.NoResponseException e) {
                 e.printStackTrace();
@@ -321,12 +320,6 @@ final class MessageManager implements MessageObserver {
                     IMConnectManager.getInstances().
                             getConnection()).createChat(Jid.getJid(IMSdk.CONTEXT, chatBean.getAccount()));
             Log.i(TAG, "------- Join Chat Opposide ID = " + chatBean.getAccount() + "  --------");
-//            chat.addMessageListener(new ChatMessageListener() {
-//                @Override
-//                public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message message) {
-//                    System.err.print("123123 " + message);
-//                }
-//            });
         }
         chatBean.setChat(chat);
     }
@@ -740,6 +733,11 @@ final class MessageManager implements MessageObserver {
         return onChatMessageReceivers.remove(onChatMessageReceiver);
     }
 
+    @Override
+    public void onMessage(org.jivesoftware.smack.packet.Message stanza) {
+
+    }
+
     /**
      * 重发机制runnable
      */
@@ -813,10 +811,13 @@ final class MessageManager implements MessageObserver {
     }
 
     @Override
+    @Deprecated
     public void registerOnMessageReceiver(OnSimpleMessageListener onSimpleMessageListener) {
         this.onSimpleMessageListener = onSimpleMessageListener;
     }
 
+    @Override
+    @Deprecated
     public OnSimpleMessageListener getOnChatMessageReceiver() {
         return onSimpleMessageListener;
     }
@@ -828,7 +829,7 @@ final class MessageManager implements MessageObserver {
 
     private synchronized void checkUnRead() {
         Log.d(TAG, "checkUnRead: information update");
-        if (StringUtil.isNull(UserBean.getMemberID())) {
+        if (StringUtil.isNull(Proxy.getAccountManger().getUserMemberId())) {
             return;
         }
         if (onUnRead != null) {
@@ -848,21 +849,25 @@ final class MessageManager implements MessageObserver {
      * @param onGroupItemOnClickListener
      */
     @Override
+    @Deprecated
     public void setOnGroupItemOnClickListener(OnGroupItemOnClickListener onGroupItemOnClickListener) {
         this.onGroupItemOnClickListener = onGroupItemOnClickListener;
     }
 
     @Override
+    @Deprecated
     public OnGroupItemOnClickListener getOnGroupItemOnClickListener() {
         return onGroupItemOnClickListener;
     }
 
     @Override
+    @Deprecated
     public OnHtmlItemClickListener getOnHtmlItemClickListener() {
         return onHtmlItemClickListener;
     }
 
     @Override
+    @Deprecated
     public void setOnHtmlItemClickListener(OnHtmlItemClickListener onHtmlItemClickListener) {
         this.onHtmlItemClickListener = onHtmlItemClickListener;
     }

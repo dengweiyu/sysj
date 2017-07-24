@@ -12,7 +12,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.ifeimo.im.R;
 import com.ifeimo.im.common.adapter.holder.Holder;
 import com.ifeimo.im.common.bean.model.GroupChatModel;
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
@@ -44,7 +43,7 @@ public class MuccChatReAdapter extends BaseChatReCursorAdapter<Holder,GroupChatM
         holder.memberID = groupChatModel.getMemberId();
         holder.id_msgTime_layout.setVisibility(View.GONE);
         Spanned spanned = getSpanna(groupChatModel.getContent());
-        if (!UserBean.getMemberID().equals(groupChatModel.getMemberId())) {
+        if (!Proxy.getAccountManger().getUserMemberId().equals(groupChatModel.getMemberId())) {
             /// 如果是收到的消息，则显示左边的消息布局，将右边的消息布局隐藏
             holder.leftLayout.setVisibility(View.VISIBLE);
             holder.rightLayout.setVisibility(View.GONE);
