@@ -8,11 +8,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.ifeimo.im.common.bean.UserBean;
-import com.ifeimo.im.common.bean.model.InformationModel;
 import com.ifeimo.im.framwork.Proxy;
-import com.ifeimo.im.framwork.database.Fields;
-import com.ifeimo.im.framwork.database.IMDataBaseHelper;
 
 import y.com.sqlitesdk.framework.db.Access;
 import y.com.sqlitesdk.framework.sqliteinterface.Execute;
@@ -46,7 +42,7 @@ public class InformationProvide extends BaseProvider {
                 Access.runCustomThread(new Execute() {
                     @Override
                     public void onExecute(SQLiteDatabase sqLiteDatabase) throws Exception {
-                        String memberid = UserBean.getMemberID();
+                        String memberid = Proxy.getAccountManger().getUserMemberId();
                         String sql = "SELECT * FROM  \n" +
                                         "               (  SELECT tb_information.*,tb_account.member_nick_name as title,tb_account.avatarUrl as pic_url  \n" +
                                         "               FROM tb_information,tb_account  \n" +

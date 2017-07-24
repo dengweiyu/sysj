@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.LayoutRes;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -22,12 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ifeimo.im.R;
-import com.ifeimo.im.common.ILog;
 import com.ifeimo.im.common.adapter.BaseChatReCursorAdapter;
 import com.ifeimo.im.common.adapter.ChatReAdapter;
 import com.ifeimo.im.common.adapter.MuccChatReAdapter;
 import com.ifeimo.im.common.adapter.holder.Holder;
-import com.ifeimo.im.common.bean.UserBean;
+import com.ifeimo.im.common.bean.model.AccountModel;
 import com.ifeimo.im.common.util.IMWindosThreadUtil;
 import com.ifeimo.im.common.util.PManager;
 import com.ifeimo.im.common.util.ScreenUtil;
@@ -223,7 +221,7 @@ abstract class BaseIMCompatActivity
     }
 
     @Subscribe
-    public void nullE(UserBean userBean){
+    public void nullE(AccountModel userBean){
 
     }
 
@@ -299,7 +297,7 @@ abstract class BaseIMCompatActivity
 
     @Override
     public void loadCaheUser() {
-        if (UserBean.isMemberIdNull()) {
+        if (Proxy.getAccountManger().isUserNull()) {
             PManager.getCacheUser(getContext());
         }
     }
@@ -379,7 +377,7 @@ abstract class BaseIMCompatActivity
         switch (getType()) {
             case IMWindow.CHAT_TYPE:
                 return new CursorLoader(this, ChatProvider.CONTENT_URI, null, adapter.getPage() + "",
-                        new String[]{UserBean.getMemberID(), getReceiver()
+                        new String[]{Proxy.getAccountManger().getUserMemberId(), getReceiver()
                         }, null);
             case IMWindow.MUCCHAT_TYPE:
                 return new CursorLoader(this, GroupChatProvider.CONTENT_URI, null, adapter.getPage() + "",

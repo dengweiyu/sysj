@@ -63,7 +63,7 @@ public class Builder {
          */
         public static final String APP_AUTO_MODE = "0x1000";
         /**
-         *
+         * 不显示
          */
         public static final String APP_NONE_MODE = "0x1001";
         /**
@@ -81,7 +81,6 @@ public class Builder {
 
         public void setMode(String mode) {
             switch (mode) {
-                case APP_AUTO_MODE:
                 case APP_NONE_MODE:
                 case APP_BACKGROUND_MODE:
                     this.mode = mode;

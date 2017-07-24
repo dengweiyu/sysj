@@ -3,7 +3,6 @@ package com.ifeimo.im.provider.business;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.chat.GroupChatBean;
 import com.ifeimo.im.common.bean.model.GroupChatModel;
 import com.ifeimo.im.common.bean.model.InformationModel;
@@ -69,7 +68,7 @@ public final class GroupChatBusiness extends SubscriptionBusiness implements IMs
                  * 用户消息处理
                  */
                 {
-                    if(!groupModel.getMemberId().equals(UserBean.getMemberID())) {
+                    if(!groupModel.getMemberId().equals(Proxy.getAccountManger().getUserMemberId())) {
                         insertAccount(sqLiteDatabase, groupModel.getMemberId(), groupModel.getMemberNickName(), groupModel.getMemberAvatarUrl());
                     }
                 }
@@ -134,7 +133,7 @@ public final class GroupChatBusiness extends SubscriptionBusiness implements IMs
                  */
                 {
                     boolean flag = false;
-                    if(UserBean.getMemberID().equals(groupModel.getMemberId())) {
+                    if(Proxy.getAccountManger().getUserMemberId().equals(groupModel.getMemberId())) {
                         flag = true;
                     }
                     insertInformation(sqLiteDatabase,
@@ -205,14 +204,14 @@ public final class GroupChatBusiness extends SubscriptionBusiness implements IMs
     @Override
     public List<InformationModel> getAllSubscriptionByType(SQLiteDatabase sqLiteDatabase,int type) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
 
-        if(StringUtil.isNull(UserBean.getMemberID())){
+        if(StringUtil.isNull(Proxy.getAccountManger().getUserMemberId())){
             return null;
         }
 
         return Business.getInstances().queryAll(sqLiteDatabase,InformationModel.class,
                 String.format("%s = ? AND %s = ?",
                         Fields.AccounFields.MEMBER_ID,
-                        Fields.InformationFields.TYPE),new String[]{UserBean.getMemberID(),String.valueOf(type)});
+                        Fields.InformationFields.TYPE),new String[]{Proxy.getAccountManger().getUserMemberId(),String.valueOf(type)});
 
     }
 

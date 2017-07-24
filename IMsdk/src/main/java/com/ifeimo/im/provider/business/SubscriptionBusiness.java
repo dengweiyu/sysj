@@ -3,9 +3,9 @@ package com.ifeimo.im.provider.business;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.model.Account2SubscriptionModel;
 import com.ifeimo.im.common.bean.model.SubscriptionModel;
+import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
 
 import y.com.sqlitesdk.framework.business.Business;
@@ -61,7 +61,7 @@ abstract class SubscriptionBusiness extends InformationBusiness {
             boolean flag) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         Account2SubscriptionModel account2SubscriptionModel = new Account2SubscriptionModel();
         account2SubscriptionModel.setCreate_time(System.currentTimeMillis()+"");
-        account2SubscriptionModel.setMemberId(UserBean.getMemberID());
+        account2SubscriptionModel.setMemberId(Proxy.getAccountManger().getUserMemberId());
         account2SubscriptionModel.setSubscription_id(subscriptionLineId);
         insertAccount2Subscription(sqLiteDatabase,account2SubscriptionModel,flag);
         return account2SubscriptionModel;
@@ -91,7 +91,7 @@ abstract class SubscriptionBusiness extends InformationBusiness {
     public void cancelAccount2Subscription(SQLiteDatabase sqLiteDatabase,long Id) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
 
         Account2SubscriptionModel account2SubscriptionModel = new Account2SubscriptionModel();
-        account2SubscriptionModel.setMemberId(UserBean.getMemberID());
+        account2SubscriptionModel.setMemberId(Proxy.getAccountManger().getUserMemberId());
         account2SubscriptionModel.setSubscription_id(Id);
         cancelAccount2Subscription(sqLiteDatabase,account2SubscriptionModel);
     }

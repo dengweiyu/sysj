@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.callback.LoginCallBack;
 import com.ifeimo.im.common.util.AppUtil;
 import com.ifeimo.im.framwork.commander.IHierarchy;
@@ -60,7 +59,7 @@ final class ChatWindowsManager implements IHierarchy, LoginCallBack, ILife{
             }
             imMain.getIMWindow().cancelInformation();
             chats.add(imMain.getIMWindow().getKey());
-            Log.i(TGA, "------ This account " + UserBean.getMemberID() + " join " + im + "------ size = " + windowses.size());
+            Log.i(TGA, "------ This account " + Proxy.getAccountManger().getUserMemberId() + " join " + im + "------ size = " + windowses.size());
         }
     }
 

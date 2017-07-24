@@ -10,7 +10,6 @@ import android.util.Log;
 import com.ifeimo.im.common.bean.model.ChatMsgModel;
 import com.ifeimo.im.common.bean.model.GroupChatModel;
 import com.ifeimo.im.common.bean.model.IMsg;
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.chat.ChatBean;
 import com.ifeimo.im.common.bean.chat.GroupChatBean;
 import com.ifeimo.im.common.util.ConnectUtil;
@@ -238,7 +237,7 @@ final class MessageManager implements MessageObserver {
             } else {
                 try {
                     if (Proxy.getConnectManager().isConnect()) {
-                        groupChatBean = new GroupChatBean(UserBean.getMemberID(), roomid, null,
+                        groupChatBean = new GroupChatBean(Proxy.getAccountManger().getUserMemberId(), roomid, null,
                                 MultiUserChatManager.getInstanceFor(Proxy.getConnectManager().getConnection()).getMultiUserChat(Jid.getRoomJ(IMSdk.CONTEXT, roomid)));
                         joinRoom(groupChatBean.getMultiUserChat());
                         groupChatSet.put(roomid, groupChatBean);
@@ -269,7 +268,7 @@ final class MessageManager implements MessageObserver {
     private synchronized void joinRoom(MultiUserChat multiUserChat) {
         if (multiUserChat != null) {
             try {
-                multiUserChat.join(UserBean.getMemberID());
+                multiUserChat.join(Proxy.getAccountManger().getUserMemberId());
                 Log.i(TAG, "joinRoom: 进入房间 ");
             } catch (SmackException.NoResponseException e) {
                 e.printStackTrace();
@@ -830,7 +829,7 @@ final class MessageManager implements MessageObserver {
 
     private synchronized void checkUnRead() {
         Log.d(TAG, "checkUnRead: information update");
-        if (StringUtil.isNull(UserBean.getMemberID())) {
+        if (StringUtil.isNull(Proxy.getAccountManger().getUserMemberId())) {
             return;
         }
         if (onUnRead != null) {

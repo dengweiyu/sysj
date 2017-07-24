@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaExtractor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Vibrator;
@@ -14,9 +15,9 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
+import com.ifeimo.im.OnOutIM;
 import com.ifeimo.im.R;
 import com.ifeimo.im.activity.ChatActivity;
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.model.AccountModel;
 import com.ifeimo.im.common.bean.model.IMsg;
 import com.ifeimo.im.common.bean.response.MemberInfoRespones;
@@ -46,7 +47,7 @@ import y.com.sqlitesdk.framework.sqliteinterface.Execute;
  * <p/>
  * 管理消息推送
  */
-final class IMNotificationManager implements NotificationManager<NotifyBean> {
+final class IMNotificationManager implements NotificationManager<NotifyBean> ,OnOutIM{
     private static final String TAG = "XMPP_Notification";
     private static IMNotificationManager notificationManager;
     private android.app.NotificationManager notificationManagerServier;
@@ -209,7 +210,8 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> {
                 ex.printStackTrace();
             }
         }
-        if (UserBean.getMemberID() != null && !UserBean.getMemberID().equals(iMsg.getMemberId())) {
+
+        if (Proxy.getAccountManger().getUserMemberId() != null && !Proxy.getAccountManger().getUserMemberId().equals(iMsg.getMemberId())) {
             notifyMessageNotification(iMsg);
         }
     }
@@ -262,7 +264,7 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> {
     }
 
     /**
-     * 清空所有notifycation
+     * 清空所有根据具体发送者的notifycation
      *
      * @return
      */
@@ -286,9 +288,17 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> {
         return false;
     }
 
+    /**
+     * 清空notifycation
+     */
     @Override
     public void clearNotifications() {
-
+        for(String key : messageNotifications.keySet()){
+            for(IMsg msgBean : messageNotifications.get(key)){
+                notificationManagerServier.cancel(new Integer(msgBean.getId() + ""));
+            }
+        }
+        messageNotifications.clear();
     }
 
     @Override
@@ -309,5 +319,15 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> {
     @Override
     public boolean isInitialized() {
         return true;
+    }
+
+    @Override
+    public void leaveIM() {
+        clearNotifications();
+    }
+
+    @Override
+    public void leaveErrorIM() {
+        leaveIM();
     }
 }

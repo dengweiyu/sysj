@@ -3,7 +3,9 @@ package com.ifeimo.im.framwork;
 import android.util.Log;
 
 import com.ifeimo.im.common.bean.AccountBean;
+import com.ifeimo.im.common.bean.model.AccountModel;
 import com.ifeimo.im.common.util.Jid;
+import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.commander.IAccount;
 import com.ifeimo.im.framwork.message.PresenceMessageManager;
 import com.ifeimo.im.framwork.message.PresenceOperate;
@@ -23,17 +25,19 @@ import java.util.Set;
 
 /**
  * Created by lpds on 2017/1/17.
- *
+ * <p>
  * 此类管理个人的一些状态
  * 接收好友的状态
- *
  */
 final class IMAccountManager implements IAccount {
     public static final String TAG = "XMPP_IMAccountManager";
     private static IMAccountManager accountManager;
     private boolean isinit = false;
     private Roster roster;
-    public String MYFRIEND = "我的好友";
+    private String MYFRIEND = "我的好友";
+
+    private final AccountModel ACCOUNT = new AccountModel();
+    private List<AccountBean> listBeans;
 
     static {
         accountManager = new IMAccountManager();
@@ -44,21 +48,20 @@ final class IMAccountManager implements IAccount {
         ManagerList.getInstances().addManager(this);
     }
 
-    List<AccountBean> listBeans;
 
     public static IMAccountManager getInstances() {
         return accountManager;
     }
 
     private void init() {
-        if(roster != null) {
+        if (roster != null) {
             roster.removeRosterListener(this);
             roster.removeRosterLoadedListener(this);
         }
         roster = Roster.getInstanceFor(IMConnectManager.getInstances().getConnection());
         roster.addRosterLoadedListener(this);
         roster.addRosterListener(this);
-        if(roster.getGroupCount() < 1){
+        if (roster.getGroupCount() < 1) {
             roster.createGroup(MYFRIEND);
         }
         isinit = true;
@@ -103,6 +106,10 @@ final class IMAccountManager implements IAccount {
         }
     }
 
+    /**
+     * 添加好友
+     * @param accountBean
+     */
     public void addFriend(AccountBean accountBean) {
         try {
             roster.createEntry(
@@ -121,7 +128,7 @@ final class IMAccountManager implements IAccount {
 
         try {
             roster.removeEntry(rosterEntry);
-            Log.i(TAG, "deleteFriend: 删除用户 "+rosterEntry.getName()+"  memebrid = "+rosterEntry.getUser());
+            Log.i(TAG, "deleteFriend: 删除用户 " + rosterEntry.getName() + "  memebrid = " + rosterEntry.getUser());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -140,59 +147,96 @@ final class IMAccountManager implements IAccount {
 
     /**
      * 加添好友成功   memberid+@op.17sysj.com;
+     *
      * @param addresses
      */
     @Override
     public void entriesAdded(Collection<String> addresses) {
-        for(String s : addresses){
-            Log.i(TAG, "entriesAdded: "+s);
+        for (String s : addresses) {
+            Log.i(TAG, "entriesAdded: " + s);
         }
     }
 
     /**
      * 好友列表更新（新增的时候）  memberid+@op.17sysj.com;
+     *
      * @param addresses
      */
     @Override
     public void entriesUpdated(Collection<String> addresses) {
-        for(String s : addresses){
-            Log.i(TAG, "entriesUpdated: "+s);
+        for (String s : addresses) {
+            Log.i(TAG, "entriesUpdated: " + s);
         }
     }
 
     /**
      * 删除好友 memberid+@op.17sysj.com;
+     *
      * @param addresses
      */
     @Override
     public void entriesDeleted(Collection<String> addresses) {
-        for(String s : addresses){
-            Log.i(TAG, "entriesDeleted: "+s);
+        for (String s : addresses) {
+            Log.i(TAG, "entriesDeleted: " + s);
         }
     }
 
     @Override
     public void presenceChanged(Presence presence) {
-        Log.i(TAG, "presenceChanged: "+presence);
+        Log.i(TAG, "presenceChanged: " + presence);
     }
 
     @Override
     public void onRosterLoaded(Roster roster) {
-        Log.i(TAG, "onRosterLoaded: "+roster);
+        Log.i(TAG, "onRosterLoaded: " + roster);
     }
 
 
 //    public void get
 
     @Override
-    public void setAccountState(Presence.Mode m){
+    public void setAccountState(Presence.Mode m) {
         PresenceMessageManager.getInstances().modiPresenceStatus(m);
+    }
+
+    @Override
+    public AccountModel getAccount(boolean isClone) {
+        synchronized (ACCOUNT) {
+            if (isClone) {
+                return ACCOUNT.clone();
+            } else {
+                return ACCOUNT;
+            }
+        }
+    }
+
+    @Override
+    public void setAccount(AccountModel.Build build) {
+        synchronized (ACCOUNT) {
+            ACCOUNT.setBuild(build);
+        }
+    }
+
+    @Override
+    public String getUserMemberId() {
+        return ACCOUNT.getMemberId();
+    }
+
+    @Override
+    public boolean isUserNull() {
+        return StringUtil.isNull(ACCOUNT.getMemberId());
+    }
+
+    @Override
+    public void clearUserSelf() {
+        AccountModel.Build build = new AccountModel.Build();
+        ACCOUNT.setBuild(build);
     }
 
     @Override
     public RosterEntry getFriend(String memberid) {
 
-        for(RosterEntry r : roster.getEntries()){
+        for (RosterEntry r : roster.getEntries()) {
 
             r.getUser().contains(memberid);
 

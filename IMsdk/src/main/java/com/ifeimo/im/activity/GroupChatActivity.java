@@ -17,7 +17,6 @@ import com.ifeimo.im.common.adapter.MuccChatReAdapter;
 import com.ifeimo.im.common.bean.model.GroupChatModel;
 import com.ifeimo.im.common.bean.model.InformationModel;
 import com.ifeimo.im.common.bean.model.SubscriptionModel;
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.util.IMWindosThreadUtil;
 import com.ifeimo.im.common.util.PManager;
 import com.ifeimo.im.common.util.StringUtil;
@@ -131,9 +130,9 @@ public class GroupChatActivity extends BaseIMCompatActivity<GroupChatModel,MuccC
     private GroupChatModel createBean(String sendMsg) {
         GroupChatModel msgBean = new GroupChatModel();
         msgBean.setRoomid(roomJID);
-        msgBean.setMemberId(UserBean.getMemberID());
-        msgBean.setMemberAvatarUrl(UserBean.getAvatarUrl());
-        msgBean.setMemberNickName(UserBean.getNickName());
+        msgBean.setMemberId(Proxy.getAccountManger().getUserMemberId());
+        msgBean.setMemberAvatarUrl(Proxy.getAccountManger().getAccount(true).getAvatarUrl());
+        msgBean.setMemberNickName(Proxy.getAccountManger().getAccount(true).getNickName());
         msgBean.setCreateTime(System.currentTimeMillis() + "");
         msgBean.setContent(sendMsg);
         return msgBean;
@@ -265,7 +264,7 @@ public class GroupChatActivity extends BaseIMCompatActivity<GroupChatModel,MuccC
                                         sqLiteDatabase,
                                         InformationModel.class,
                                         sqlStr,
-                                        new String[]{UserBean.getMemberID(), getKey(), InformationModel.ROOM + ""});
+                                        new String[]{Proxy.getAccountManger().getUserMemberId(), getKey(), InformationModel.ROOM + ""});
                         if (informationModel != null) {
                             informationModel.setUnread(0);
                             if (Business.getInstances().modify(

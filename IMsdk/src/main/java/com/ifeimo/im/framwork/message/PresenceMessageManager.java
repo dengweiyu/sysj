@@ -5,7 +5,6 @@ import android.os.HandlerThread;
 import android.util.Log;
 import com.ifeimo.im.IEmployee;
 import com.ifeimo.im.OnOutIM;
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.message.PresenceEntity;
 import com.ifeimo.im.common.bean.xml.PresenceList;
 import com.ifeimo.im.common.util.XMLUtil;
@@ -102,10 +101,10 @@ public final class PresenceMessageManager implements PresenceObserver, IEmployee
      * @param presence
      */
     private void checkPreson(final Presence presence) {
-        if(UserBean.getMemberID() == null){
+        if(Proxy.getAccountManger().getUserMemberId() == null){
             return;
         }
-        if(!UserBean.getMemberID().contains(presence.getTo())){
+        if(!Proxy.getAccountManger().getUserMemberId().contains(presence.getTo())){
             return;
         }
         final Presence.Mode m = presence.getMode();
@@ -125,7 +124,7 @@ public final class PresenceMessageManager implements PresenceObserver, IEmployee
              * 在线状态
              */
             case available:
-                if (presence.getFrom().startsWith(UserBean.getMemberID())) {
+                if (presence.getFrom().startsWith(Proxy.getAccountManger().getUserMemberId())) {
                     Log.i(TAG, "available: 你已经上线了！ " + presence.getTo());
                 } else {
                     Log.i(TAG, "available: 你的好友上线了！" + presence.getTo()+" 状态为 :" + XMLUtil.simpleXML(presence.toString(),"show"));
@@ -136,7 +135,7 @@ public final class PresenceMessageManager implements PresenceObserver, IEmployee
              * 不接收消息状态，离线隐身
              */
             case unavailable:
-                if (presence.getFrom().startsWith(UserBean.getMemberID())) {
+                if (presence.getFrom().startsWith(Proxy.getAccountManger().getUserMemberId())) {
                     Log.i(TAG, "unavailable: 你离线了 " + presence.getTo());
                 } else {
                     Log.i(TAG, "unavailable: 你的好友离线了！ " + presence.getTo());
@@ -164,7 +163,7 @@ public final class PresenceMessageManager implements PresenceObserver, IEmployee
              * 仅当你订阅伙伴，被伙伴取消之后才会收到次消息
              */
             case unsubscribed:
-                if (presence.getFrom().startsWith(UserBean.getMemberID())) {
+                if (presence.getFrom().startsWith(Proxy.getAccountManger().getUserMemberId())) {
                     Log.i(TAG, "unsubscribed: 1 解除好友关系！ " + presence.getTo());
                 } else {
                     Log.i(TAG, "unsubscribed: 2 解除好友关系！ " + presence.getTo());

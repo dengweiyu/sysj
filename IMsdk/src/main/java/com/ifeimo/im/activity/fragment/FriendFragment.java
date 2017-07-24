@@ -7,7 +7,6 @@ import com.ifeimo.im.R;
 import com.ifeimo.im.common.adapter.base.CommonAdapter;
 import com.ifeimo.im.common.adapter.base.ViewHolder;
 import com.ifeimo.im.common.bean.AccountBean;
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.framwork.Proxy;
 
 import org.jivesoftware.smack.roster.RosterEntry;
@@ -49,7 +48,7 @@ public class FriendFragment extends BaseFragment {
 
                 for (RosterEntry rosterEntry : Proxy.getAccountManger().getAllFriend()) {
                     log(" ------- RosterEntry --------" + rosterEntry);
-                    if(UserBean.getMemberID().equals(rosterEntry.getUser())){
+                    if(Proxy.getAccountManger().getUserMemberId().equals(rosterEntry.getUser())){
                         try {
                             rosterEntry.setName("自己");
                         } catch (Exception e) {

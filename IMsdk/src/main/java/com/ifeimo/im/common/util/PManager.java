@@ -2,14 +2,13 @@ package com.ifeimo.im.common.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
-import com.ifeimo.im.common.MD5;
 import com.ifeimo.im.common.bean.ConnectBean;
-import com.ifeimo.im.common.bean.UserBean;
+import com.ifeimo.im.common.bean.model.AccountModel;
 import com.ifeimo.im.framwork.Proxy;
-import com.ifeimo.im.framwork.commander.ILock;
 import com.ifeimo.im.framwork.lock.LockSupport;
+import com.ifeimo.im.framwork.request.Account;
+
 
 /**
  * Created by lpds on 2017/1/11.
@@ -30,7 +29,7 @@ public final class PManager {
 
     public static ConnectBean getConnectConfig(Context context) {
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences(CONNECT_CONFIG, Context.MODE_PRIVATE);
+//        SharedPreferences sharedPreferences = context.getSharedPreferences(CONNECT_CONFIG, Context.MODE_PRIVATE);
 //        ConnectBean connectBean = new ConnectBean(
 //                sharedPreferences.getString("HOST", "op.17sysj.com"),
 //                sharedPreferences.getInt("PROT", 5222),
@@ -43,32 +42,30 @@ public final class PManager {
     }
 
     public static void saveUser(Context context) {
+        AccountModel accountModel = Proxy.getAccountManger().getAccount(true);
         SharedPreferences sharedPreferences = context.getSharedPreferences(USER, Context.MODE_PRIVATE);
-        String $memberid = sharedPreferences.getString("MEMBER_ID", "-1");
-        String $avatarurl = sharedPreferences.getString("AVATARURL", "-1");
-        String $nickname = sharedPreferences.getString("NICK_NAME", "-1");
-        String saveL = MD5.getMD5($memberid + $nickname + $avatarurl);
-        String saveT = MD5.getMD5(UserBean.getMemberID() + UserBean.getNickName() + UserBean.getAvatarUrl());
-        sharedPreferences.edit().putString("MEMBER_ID", UserBean.getMemberID())
-                .putString("AVATARURL", UserBean.getAvatarUrl())
-                .putString("NICK_NAME", UserBean.getNickName()).putString("T_MD5", saveT).putString("L_MD5", saveL).commit();
+        sharedPreferences.edit().putString("MEMBER_ID", accountModel.getMemberId())
+                .putString("AVATARURL", accountModel.getAvatarUrl())
+                .putString("NICK_NAME", accountModel.getNickName()).commit();
     }
 
     public static void saveLogin(Context context) {
+        AccountModel accountModel = Proxy.getAccountManger().getAccount(true);
         SharedPreferences sharedPreferences = context.getSharedPreferences(USER_1, Context.MODE_PRIVATE);
-        sharedPreferences.edit().putString("LAST_MEMBER_ID", UserBean.getMemberID())
-                .putString("LAST_AVATARURL", UserBean.getAvatarUrl())
-                .putString("LAST_NICK_NAME", UserBean.getNickName()).commit();
+        sharedPreferences.edit().putString("LAST_MEMBER_ID", accountModel.getMemberId())
+                .putString("LAST_AVATARURL", accountModel.getAvatarUrl())
+                .putString("LAST_NICK_NAME", accountModel.getNickName()).commit();
     }
 
     public static boolean isOldAcoount(Context context) {
+        AccountModel accountModel = Proxy.getAccountManger().getAccount(true);
         SharedPreferences sharedPreferences = context.getSharedPreferences(USER_1, Context.MODE_PRIVATE);
         String LAST_MEMBER_ID = sharedPreferences.getString("LAST_MEMBER_ID", "-1");
         String LAST_AVATARURL = sharedPreferences.getString("LAST_AVATARURL", "-1");
         String LAST_NICK_NAME = sharedPreferences.getString("LAST_NICK_NAME", "-1");
-        if (!UserBean.getMemberID().equals(LAST_MEMBER_ID)) {
+        if (! accountModel.getMemberId().equals(LAST_MEMBER_ID)) {
             return false;
-        } else if (!UserBean.getAvatarUrl().equals(LAST_AVATARURL) || !UserBean.getNickName().equals(LAST_NICK_NAME)) {
+        } else if (!accountModel.getAvatarUrl().equals(LAST_AVATARURL) || !accountModel.getNickName().equals(LAST_NICK_NAME)) {
             return false;
         } else {
             return true;
@@ -76,14 +73,15 @@ public final class PManager {
     }
 
     public static void getCacheUser(Context context) {
+        AccountModel accountModel = Proxy.getAccountManger().getAccount(false);
         synchronized (LockSupport.USER_LOCK) {
             if (context == null) {
                 return;
             }
             SharedPreferences sharedPreferences = context.getSharedPreferences(USER, Context.MODE_PRIVATE);
-            UserBean.setMemberID(sharedPreferences.getString("MEMBER_ID", UserBean.getMemberID()));
-            UserBean.setAvatarUrl(sharedPreferences.getString("AVATARURL", UserBean.getAvatarUrl()));
-            UserBean.setNickName(sharedPreferences.getString("NICK_NAME", UserBean.getNickName()));
+            accountModel.setMemberId(sharedPreferences.getString("MEMBER_ID", accountModel.getMemberId()));
+            accountModel.setAvatarUrl(sharedPreferences.getString("AVATARURL", accountModel.getAvatarUrl()));
+            accountModel.setNickName(sharedPreferences.getString("NICK_NAME", accountModel.getNickName()));
         }
     }
 
@@ -91,6 +89,8 @@ public final class PManager {
         synchronized (LockSupport.USER_LOCK) {
             SharedPreferences sharedPreferences = context.getSharedPreferences(USER, Context.MODE_PRIVATE);
             sharedPreferences.edit().clear().commit();
+//            sharedPreferences = context.getSharedPreferences(USER_1, Context.MODE_PRIVATE);
+//            sharedPreferences.edit().clear().commit();
         }
     }
 

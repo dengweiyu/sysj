@@ -8,8 +8,8 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import com.ifeimo.im.common.adapter.BaseChatReCursorAdapter;
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.util.StringUtil;
+import com.ifeimo.im.framwork.Proxy;
 
 import y.com.sqlitesdk.framework.db.Access;
 import y.com.sqlitesdk.framework.sqliteinterface.Execute;
@@ -54,7 +54,7 @@ public class GroupChatProvider extends BaseProvider {
                                                     "LIMIT %s) " +
                                                 "ORDER BY create_time",
                                         BaseChatReCursorAdapter.MAX_PAGE_COUNT * Integer.parseInt(StringUtil.isNull(selection) ? "5" : selection));
-                        cursor[0] = sqLiteDatabase.rawQuery(sql1, new String[]{selectionArgs[0], UserBean.getMemberID(), UserBean.getMemberID()});
+                        cursor[0] = sqLiteDatabase.rawQuery(sql1, new String[]{selectionArgs[0], Proxy.getAccountManger().getUserMemberId(), Proxy.getAccountManger().getUserMemberId()});
                         cursor[0].setNotificationUri(getContext().getContentResolver(), uri);
                     }
 

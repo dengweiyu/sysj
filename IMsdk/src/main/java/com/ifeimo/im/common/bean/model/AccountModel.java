@@ -102,4 +102,32 @@ public class AccountModel extends Model<AccountModel> {
                 ", avatarUrl='" + avatarUrl + '\'' +
                 '}';
     }
+
+    public AccountModel(Build build){
+        setBuild(build);
+    }
+
+    public void setBuild(Build build){
+        id = build.id;
+        memberId = build.memberId;
+        member_nick_name = build.member_nick_name;
+        avatarUrl = build.avatarUrl;
+        update_time = build.update_time;
+    }
+
+    public static class Build {
+
+        public long id;
+
+        public String memberId;
+
+        public String member_nick_name;
+
+        public String avatarUrl;
+
+        public String update_time;
+
+
+    }
+
 }

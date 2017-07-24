@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide;
 import com.ifeimo.im.R;
 import com.ifeimo.im.common.adapter.holder.Holder;
 import com.ifeimo.im.common.bean.AccountBean;
-import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.common.bean.model.ChatMsgModel;
 import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.framwork.Proxy;
@@ -45,7 +44,7 @@ public class ChatReAdapter extends BaseChatReCursorAdapter<Holder,ChatMsgModel> 
 
         Spanned spanned = getSpanna(msgBean.getContent());
 
-        if (!UserBean.getMemberID().equals(msgBean.getMemberId())) {
+        if (!Proxy.getAccountManger().getUserMemberId().equals(msgBean.getMemberId())) {
             /// 如果是收到的消息，则显示左边的消息布局，将右边的消息布局隐藏
             holder.leftLayout.setVisibility(View.VISIBLE);
             holder.rightLayout.setVisibility(View.GONE);
@@ -73,7 +72,7 @@ public class ChatReAdapter extends BaseChatReCursorAdapter<Holder,ChatMsgModel> 
             holder.rightLayout.setVisibility(View.VISIBLE);
             holder.leftLayout.setVisibility(View.GONE);
             holder.rightMsg.setText(spanned);
-            String url = UserBean.getAvatarUrl();
+            String url = Proxy.getAccountManger().getAccount(false).getAvatarUrl();
             holder.leftFace.setTag(R.id.image_url, url);
             Glide.with(activity.getContext())
                     .load(url)
