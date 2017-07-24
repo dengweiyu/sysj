@@ -18,6 +18,7 @@ import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.LPDSStorageUtil;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.SRTHelper;
 import com.li.videoapplication.tools.ToastHelper;
@@ -163,6 +164,10 @@ public class VideoEditorActivity2 extends TBaseActivity {
 
         playingView.init(this, entity);
 
+        //关闭自动播放
+        playingView.setAutoPlay(false);
+        //关闭循环播放
+        playingView.setLooping(false);
         bottomView.init(this, new BottomView.EditModelable() {
 
             @Override
@@ -483,8 +488,11 @@ public class VideoEditorActivity2 extends TBaseActivity {
                     @Override
                     public void run() {
                         if (playingView != null) {
+
+                            playingView.updatePlayer(4);
                             playingView.updateDuration(duration);
                             playingView.loadCover(coverBitmap);
+
                         }
                         if (backgroundView != null)
                             backgroundView.displayImage(firstBitmap, secondBitmap, thirdBitmap, fourthBitmap);

@@ -2,6 +2,7 @@ package com.li.videoapplication.ui.popupwindows;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,11 +63,12 @@ public class MoreTypePopupWindow extends PopupWindow implements OnClickListener 
         int authorH = 0;
         if (this.isHideLift) {
             life.setVisibility(View.GONE);
-            authorH = ScreenUtil.dp2px(40);
+           // authorH = ScreenUtil.dp2px(40);
         } else {
             life.setVisibility(View.VISIBLE);
-            authorH = ScreenUtil.dp2px(80);
+
         }
+        authorH = ScreenUtil.dp2px(40*2+20)+1;
         int h = activity.getWindowManager().getDefaultDisplay().getHeight();
         int w = activity.getWindowManager().getDefaultDisplay().getWidth();
 
@@ -82,7 +84,7 @@ public class MoreTypePopupWindow extends PopupWindow implements OnClickListener 
         // 刷新状态
         this.update();
         // 实例化一个ColorDrawable颜色为半透明
-        ColorDrawable dw = new ColorDrawable(0000000000);
+        ColorDrawable dw = new ColorDrawable(Color.TRANSPARENT);
         this.setBackgroundDrawable(dw);
         // 消失监听
         this.setOnDismissListener(new OnDismissListener() {

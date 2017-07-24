@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -26,6 +27,7 @@ import com.li.videoapplication.ui.fragment.AudioFragment;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.ControllerView2;
 import com.li.videoapplication.ui.view.VideoPlayer;
+import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
 
 import java.io.File;
@@ -39,8 +41,10 @@ public class PlayingView extends RelativeLayout {
     public final String tag = this.getClass().getSimpleName();
 
     private View view;
-    private FrameLayout container;
-    private StartView startView;
+    private RelativeLayout container;
+    private StartView startView;        //以前的写法 但是没起作用
+    private ImageView mStatView;
+    private ImageView mCover;
     public SRTEditView srtEditView;
     private ControllerView2 controllerView;
     public TimedTextView timedTextView;
@@ -102,6 +106,9 @@ public class PlayingView extends RelativeLayout {
                 startView.loadCover(bitmap);
                 startView.showCover();
             }
+
+            mCover.setVisibility(VISIBLE);
+            mCover.setImageBitmap(bitmap);
         }
     }
 
@@ -127,8 +134,10 @@ public class PlayingView extends RelativeLayout {
     private void initContentView() {
 
         view = inflater.inflate(R.layout.view_playing, this);
-        container = (FrameLayout) view.findViewById(R.id.container);
+        container = (RelativeLayout) view.findViewById(R.id.container);
         startView = (StartView) view.findViewById(R.id.playing_start);
+        mStatView = (ImageView)view.findViewById(R.id.iv_start_play);
+        mCover = (ImageView)view.findViewById(R.id.iv_video_cover);
         srtEditView = (SRTEditView) view.findViewById(R.id.playing_srtedit);
         controllerView = (ControllerView2) view.findViewById(R.id.playing_controller);
         timedTextView = (TimedTextView) view.findViewById(R.id.playing_timedtext);
@@ -157,10 +166,21 @@ public class PlayingView extends RelativeLayout {
             }
         });
 
+        mStatView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 播放视频
+                updatePlayer(1);
+            }
+        });
+
+
+
         // 封面
         updatePlayer(5);
         // 载入视频
         updatePlayer(3);
+
     }
 
     private void logLayoutParams(ViewGroup.LayoutParams params) {
@@ -185,7 +205,35 @@ public class PlayingView extends RelativeLayout {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             videoPlayer.setOnInfoListener(onInfoListener);
         }
+
     }
+
+    /**
+     * 是否自动播放
+     */
+    public void setAutoPlay(boolean isAuto){
+        if (videoPlayer == null){
+            return;
+        }
+        AVOptions options = videoPlayer.getAVOptions();
+
+        if (isAuto){
+            options.setInteger(AVOptions.KEY_START_ON_PREPARED, 1);
+        }else {
+            options.setInteger(AVOptions.KEY_START_ON_PREPARED, 0);
+        }
+    }
+
+    /**
+     * 是否循环播放
+     */
+    public void setLooping(boolean isLooop){
+        if (videoPlayer == null){
+            return;
+        }
+        videoPlayer.setLooping(isLooop);
+    }
+
 
     private PLMediaPlayer.OnCompletionListener onCompletionListener = new PLMediaPlayer.OnCompletionListener() {
         @Override
@@ -226,7 +274,7 @@ public class PlayingView extends RelativeLayout {
         @Override
         public void onPrepared(PLMediaPlayer plMediaPlayer) {
             Log.d(tag, "onPrepared: // --------------------------------------------------------");
-            PlayingView.this.mediaPlayer = mediaPlayer;
+            PlayingView.this.mediaPlayer = plMediaPlayer;
             isPrepared = true;
             onErrorFlag = true;
             setVideoRatio(mediaPlayer);
@@ -407,6 +455,12 @@ public class PlayingView extends RelativeLayout {
                 controllerView.updatePlay(videoPlayer.isPlayingVideo());
                 controllerView.updateProgress();
                 controllerView.updateDuration();
+                //暂停后还是会回调一下
+                if (videoPlayer.isPlayingVideo()){
+                    mStatView.setVisibility(GONE);
+                }else {
+                    mStatView.setVisibility(VISIBLE);
+                }
             }
             if (activity != null &&
                     activity.isAudioRecording == true &&
@@ -415,6 +469,7 @@ public class PlayingView extends RelativeLayout {
                 long duration = videoPlayer.getVideoDuration();
                 int progress = (int) (position * 100 / duration);
                 audioFragment.updateProgress(progress);
+
             }
             if (activity != null) {
                 long position = videoPlayer.getCurrentPosition();
@@ -436,30 +491,41 @@ public class PlayingView extends RelativeLayout {
      *              4：停止
      *              5：封面
      */
-    public void updatePlayer(int state) {
+    public void  updatePlayer(int state) {
 
         if (state == 1 && !StringUtil.isNull(entity.getVideo_path())) {// 开始, 继续播放
             startView.hideCover();
+            mCover.setVisibility(GONE);
             startView.hidePlay();
+            mStatView.setVisibility(GONE);
             if (isPrepared)
                 startPlayer();
             else
                 startPlayer(entity.getVideo_path(), 0);
         } else if (state == 2) {// 暂停播放
             startView.hideCover();
+            mCover.setVisibility(GONE);
             startView.showPlay();
+            mStatView.setVisibility(VISIBLE);
             pausePlayer();
         }  else if (state == 3) {// 载入视频
             startView.hideCover();
+            mCover.setVisibility(GONE);
             startView.showPlay();
+            mStatView.setVisibility(VISIBLE);
             startPlayer(entity.getVideo_path());
         } else if (state == 4) {// 停止播放
             startView.hideCover();
+            mCover.setVisibility(GONE);
             startView.showPlay();
+            mStatView.setVisibility(VISIBLE);
+            isPrepared = false;
             stopPlayer();
         } else if (state == 5) {// 封面
             startView.showCover();
+            mCover.setVisibility(VISIBLE);
             startView.showPlay();
+            mStatView.setVisibility(VISIBLE);
             startView.loadCover(bitmap);
         }
     }

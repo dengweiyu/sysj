@@ -247,7 +247,7 @@ public class VideoActivity extends TBaseActivity {
 	@Override
 	public void initView() {
 		super.initView();
-		showLoadingDialog("提示","视频正在加载中",false);
+	//	showLoadingDialog("提示","视频正在加载中",false);
 		initPlayer();
 	}
 

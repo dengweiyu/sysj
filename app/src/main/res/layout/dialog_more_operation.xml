@@ -39,5 +39,5 @@
         android:paddingRight="20dp"
         android:background="@drawable/background_press"
         android:textColor="@color/text_color"
-        android:text="咨询客服"/>
+        android:text="陪练客服"/>
 </LinearLayout>

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.ui.activity.ImageViewPagerActivity;
 
@@ -21,24 +22,26 @@ public class ImageDetailAdapter extends BaseArrayAdapter<String> {
 	/**
 	 * 跳转：图片浏览
 	 */
-	public void startImageViewPagerActivity(List<String> data, int position) {
+	public void startImageViewPagerActivity(View source,List<String> data, int position) {
 		String[] urls = (String[]) data.toArray(new String[data.size()]);
 		if (urls != null && urls.length > 0) {
-			ImageViewPagerActivity.startImageViewPagerActivity(getContext(), position, urls);
+			ImageViewPagerActivity.startImageViewPagerActivity(getContext(),source, position, urls);
 		}
 	}
 	
 	private List<String> data;
 
+	private Context mContext ;
 	public ImageDetailAdapter(Context context, List<String> data) {
 		super(context, R.layout.adapter_groupdetail_image, data);
 		this.data = data;
+		mContext = context;
 	}
 
 	@Override
 	public View getView(final int position, View view, ViewGroup parent) {
 		final String record = getItem(position);
-		ViewHolder holder = null;
+		final ViewHolder holder;
 		if (view == null) {
 			holder = new ViewHolder();
 			view = inflater.inflate(R.layout.adapter_groupdetail_image, null);
@@ -49,14 +52,15 @@ public class ImageDetailAdapter extends BaseArrayAdapter<String> {
 		}
 		
 		setLayoutParams(holder.pic);
-		
-		setImageViewImageNet(holder.pic, record);
+
+
+		GlideHelper.displayImage(mContext,record,holder.pic);
 		
 		view.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				startImageViewPagerActivity(data, position);
+				startImageViewPagerActivity(holder.pic,data, position);
 			}
 		});
 		

@@ -15,6 +15,8 @@ public class VideoPlayer extends PLVideoView implements IVideoPlayer {
     public final static int MEDIA_CODEC_HW_DECODE = 1;
     public final static int MEDIA_CODEC_AUTO = 2;
 
+
+    private AVOptions mAVOptions;
     public VideoPlayer(Context context) {
         super(context);
         initListener(context);
@@ -33,7 +35,8 @@ public class VideoPlayer extends PLVideoView implements IVideoPlayer {
 
     @Override
     public void initListener(Context context) {
-       /* AVOptions options = new AVOptions();
+        mAVOptions = new AVOptions();
+       /*
         // 解码方式:
         // codec＝AVOptions.MEDIA_CODEC_HW_DECODE，硬解
         // codec=AVOptions.MEDIA_CODEC_SW_DECODE, 软解
@@ -82,4 +85,15 @@ public class VideoPlayer extends PLVideoView implements IVideoPlayer {
         start();
     }
 
+
+    public AVOptions getAVOptions() {
+        return mAVOptions;
+    }
+
+    @Override
+    public void setAVOptions(AVOptions AVOptions) {
+        super.setAVOptions(AVOptions);
+        mAVOptions = AVOptions;
+
+    }
 }

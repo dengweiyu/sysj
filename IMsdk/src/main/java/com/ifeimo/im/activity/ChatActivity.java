@@ -62,8 +62,15 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
         show = getIntent().getIntExtra("show",SHOW_EFAULT);
         id_fast_reply_iv = (ImageView) findViewById(R.id.id_fast_reply_iv);
         id_fast_reply_lv = (FashReplyListView) findViewById(R.id.id_fast_reply_lv);
+        findViewById(R.id.btn_chat_send_txt).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendOnclick(v);
+            }
+        });
         if(show == SHOW_FAST_REPLY) {
             id_fast_reply_lv.setEditText(editeMsg);
+            id_fast_reply_iv.setVisibility(View.VISIBLE);
             id_fast_reply_iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.ifeimo.im.activity.ChatActivity;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.li.videoapplication.R;
@@ -223,6 +224,6 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
             return;
         }
 
-        IMSdk.createChat(mContext,memberId,nickName,avatar);
+        IMSdk.createChat(mContext,memberId,nickName,avatar, ChatActivity.SHOW_FAST_REPLY);
     }
 }

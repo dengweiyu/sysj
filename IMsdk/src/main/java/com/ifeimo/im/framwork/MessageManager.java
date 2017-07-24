@@ -321,12 +321,6 @@ final class MessageManager implements MessageObserver {
                     IMConnectManager.getInstances().
                             getConnection()).createChat(Jid.getJid(IMSdk.CONTEXT, chatBean.getAccount()));
             Log.i(TAG, "------- Join Chat Opposide ID = " + chatBean.getAccount() + "  --------");
-//            chat.addMessageListener(new ChatMessageListener() {
-//                @Override
-//                public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message message) {
-//                    System.err.print("123123 " + message);
-//                }
-//            });
         }
         chatBean.setChat(chat);
     }
@@ -740,6 +734,11 @@ final class MessageManager implements MessageObserver {
         return onChatMessageReceivers.remove(onChatMessageReceiver);
     }
 
+    @Override
+    public void onMessage(org.jivesoftware.smack.packet.Message stanza) {
+
+    }
+
     /**
      * 重发机制runnable
      */
@@ -813,10 +812,13 @@ final class MessageManager implements MessageObserver {
     }
 
     @Override
+    @Deprecated
     public void registerOnMessageReceiver(OnSimpleMessageListener onSimpleMessageListener) {
         this.onSimpleMessageListener = onSimpleMessageListener;
     }
 
+    @Override
+    @Deprecated
     public OnSimpleMessageListener getOnChatMessageReceiver() {
         return onSimpleMessageListener;
     }
@@ -848,21 +850,25 @@ final class MessageManager implements MessageObserver {
      * @param onGroupItemOnClickListener
      */
     @Override
+    @Deprecated
     public void setOnGroupItemOnClickListener(OnGroupItemOnClickListener onGroupItemOnClickListener) {
         this.onGroupItemOnClickListener = onGroupItemOnClickListener;
     }
 
     @Override
+    @Deprecated
     public OnGroupItemOnClickListener getOnGroupItemOnClickListener() {
         return onGroupItemOnClickListener;
     }
 
     @Override
+    @Deprecated
     public OnHtmlItemClickListener getOnHtmlItemClickListener() {
         return onHtmlItemClickListener;
     }
 
     @Override
+    @Deprecated
     public void setOnHtmlItemClickListener(OnHtmlItemClickListener onHtmlItemClickListener) {
         this.onHtmlItemClickListener = onHtmlItemClickListener;
     }

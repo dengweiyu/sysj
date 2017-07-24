@@ -569,7 +569,7 @@
             android:name=".ui.activity.ImageViewPagerActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent" />
+            android:theme="@android:style/Theme.Translucent"/>
         <activity
             android:name=".ui.activity.WebActivity"
             android:launchMode="singleTask"

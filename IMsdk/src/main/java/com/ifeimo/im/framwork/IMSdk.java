@@ -30,7 +30,7 @@ import y.com.sqlitesdk.framework.IfeimoSqliteSdk;
 /**
  * Created by lpds on 2017/1/12.
  */
-public class IMSdk {
+public final class IMSdk {
     private static final String TAG = "XMPP_IMSDK";
     public static Application CONTEXT;
     public static final int versionCode = 4;
@@ -43,7 +43,6 @@ public class IMSdk {
     public static void init(Application application) {
         CONTEXT = application;
         FileTransferImp.getInstances();
-        LockManager.getInstances();
         ChatWindowsManager.getInstances();
         IMConnectManager.getInstances();
         IMAccountManager.getInstances();

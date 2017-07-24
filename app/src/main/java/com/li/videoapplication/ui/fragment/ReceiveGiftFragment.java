@@ -98,7 +98,7 @@ public class ReceiveGiftFragment extends TBaseFragment implements View.OnClickLi
 
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rv_my_bill_recycler_view);
         mData = new ArrayList<>();
-        mAdapter = new MyGiftBillAdapter(mData);
+        mAdapter = new MyGiftBillAdapter(mData,mMode);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.addItemDecoration(new SimpleItemDecoration(getActivity(),false,false,false,true));

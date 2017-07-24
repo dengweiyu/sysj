@@ -98,6 +98,7 @@ public class MyPushMessageReceiver extends PushMessageReceiver {
         String messageString = "透传消息 onMessage=\"" + message
                 + "\" customContentString=" + customContentString;
         Log.i(TAG, messageString);
+
     }
 
     /**

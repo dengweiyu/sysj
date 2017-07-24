@@ -258,9 +258,16 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
         //注册IM 未读消息监听
         Proxy.getMessageManager().onUnReadChange(new OnUnReadChange() {
             @Override
-            public void change(int count) {
-                totalXMPP = count;
-                refreshRedCount(totalRong+totalXMPP);
+            public void change(final int count) {
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        totalXMPP = count;
+                        refreshRedCount(totalRong+totalXMPP);
+                    }
+                });
+
             }
         });
     }
@@ -456,7 +463,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
 
             try {
                 b = Integer.valueOf(groupNum);
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

@@ -7,17 +7,24 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.widget.LinearLayout;
 
 import com.li.videoapplication.framework.AppManager;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 前置摄像头管理
  */
-public class FrontCameraManager {
+public class FrontCameraManager implements FrontCameraView.OnScreenRotation {
 
 	public static final String TAG = FrontCameraManager.class.getSimpleName();
+
+	private int HORIZONTAL = LinearLayout.HORIZONTAL;
+	private int VERTICAL = LinearLayout.VERTICAL;
+
+	private AtomicInteger orientation= new AtomicInteger();
 
 	private static FrontCameraManager manager;
 
@@ -52,6 +59,12 @@ public class FrontCameraManager {
 
 		displayWidth = windowManager.getDefaultDisplay().getWidth();
 		displayHeight = windowManager.getDefaultDisplay().getHeight();
+
+		if (displayHeight > displayWidth){
+			orientation.set(LinearLayout.VERTICAL);
+		}else {
+			orientation.set(LinearLayout.HORIZONTAL);
+		}
 	}
 
 	private void printParams() {
@@ -70,9 +83,16 @@ public class FrontCameraManager {
 		Log.d(TAG, "toLandscape: // -------------------------------------------------------------");
 		printParams();
 
+		int tempHeight = displayHeight;
+		int tempWidth = displayWidth;
 		displayWidth = windowManager.getDefaultDisplay().getWidth();
 		displayHeight = windowManager.getDefaultDisplay().getHeight();
-
+		if(tempWidth < tempHeight){
+			orientation.set(HORIZONTAL);
+			dismiss();
+			cameraView = null;
+			show();
+		}
 		// updateCurrentView();
 		printParams();
 	}
@@ -84,11 +104,20 @@ public class FrontCameraManager {
 		Log.d(TAG, "toPortrait: // -------------------------------------------------------------");
 		printParams();
 
+		int tempHeight = displayHeight;
+		int tempWidth = displayWidth;
+
 		displayWidth = windowManager.getDefaultDisplay().getWidth();
 		displayHeight = windowManager.getDefaultDisplay().getHeight();
-
+		if(tempWidth > tempHeight){
+			orientation.set(VERTICAL);
+			dismiss();
+			cameraView = null;
+			show();
+		}
 		// updateCurrentView();
 		printParams();
+
 	}
 
 	/**
@@ -109,6 +138,7 @@ public class FrontCameraManager {
 		Log.d(TAG, "show: // -------------------------------------------------------------");
 		if (getContentView() != null &&
 				getContentView().getParent() == null) {
+			cameraView.measureScreen();
 			windowManager.addView(getContentView(), paramsContent);
 			isOpen.set(true);
 			printParams();
@@ -121,22 +151,25 @@ public class FrontCameraManager {
 	public FrontCameraView getContentView() {
 		Log.d(TAG, "getContentView: // -------------------------------------------------------------");
 		if (cameraView == null) {
-			cameraView = new FrontCameraView();
+			cameraView = new FrontCameraView(this);
 		}
 		if (paramsContent == null) {
 			paramsContent = new LayoutParams();
-			paramsContent.type = LayoutParams.TYPE_PHONE;
+
+			paramsContent.type = LayoutParams.TYPE_TOAST;
 			paramsContent.format = PixelFormat.RGBA_8888;
 			paramsContent.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL |
 					LayoutParams.FLAG_NOT_FOCUSABLE;
 			paramsContent.gravity = Gravity.LEFT |
 					Gravity.TOP;
-			paramsContent.width = cameraView.mWidth;
-			paramsContent.height = cameraView.mHeight;
+
 
 			paramsContent.x = (displayWidth - cameraView.mWidth);
 			paramsContent.y = 0;
 		}
+		paramsContent.width = cameraView.mWidth;
+		paramsContent.height = cameraView.mHeight;
+
 		printParams();
 		return cameraView;
 	}
@@ -179,5 +212,30 @@ public class FrontCameraManager {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int getRotation() {
+		return windowManager.getDefaultDisplay().getRotation();
+	}
+
+	@Override
+	public int getHeight() {
+		return displayHeight;
+	}
+
+	@Override
+	public int getWidth() {
+		return displayWidth;
+	}
+
+	@Override
+	public WindowManager getWindowManager() {
+		return windowManager;
+	}
+
+	@Override
+	public int getOrientation() {
+		return orientation.get();
 	}
 }

@@ -163,6 +163,9 @@ public class PlayWithTakeOrderListFragment extends TBaseFragment implements View
      */
     public void onEventMainThread(PlayWithTakeOrderEntity entity){
         if (entity != null && entity.isResult()){
+            //更新教练状态
+            mStatus = entity.getCoachStatus();
+            refreshStatus();
             if (mPage == 1){
                 mData.clear();
             }

@@ -1,6 +1,6 @@
 package com.li.videoapplication.data.model.response;
 
-import com.google.gson.annotations.SerializedName;
+
 import com.li.videoapplication.framework.BaseResponseEntity;
 
 import java.util.List;
@@ -21,7 +21,24 @@ public class PlayWithOrderOptionsEntity extends BaseResponseEntity {
     private List<GameLevelMapBean> gameLevelMap;
     private List<GameAreaMapBean> gameAreaMap;
     private List<GameModeMapBean> gameModeMap;
+    private int maxInning;
+    private int defaultInning;
 
+    public int getMaxInning() {
+        return maxInning;
+    }
+
+    public void setMaxInning(int maxInning) {
+        this.maxInning = maxInning;
+    }
+
+    public int getDefaultInning() {
+        return defaultInning;
+    }
+
+    public void setDefaultInning(int defaultInning) {
+        this.defaultInning = defaultInning;
+    }
 
     public List<GameLevelMapBean> getGameLevelMap() {
         return gameLevelMap;

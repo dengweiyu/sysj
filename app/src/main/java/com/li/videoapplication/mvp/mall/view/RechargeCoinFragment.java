@@ -45,7 +45,7 @@ public class RechargeCoinFragment  extends TBaseFragment implements MallContract
     private TextView mCoin;
     private TextView mBeans;
     private List<Integer> mOptions;
-    private int mRateInt;
+    private float mRateFloat;
     public static RechargeCoinFragment newInstance() {
         RechargeCoinFragment fragment = new RechargeCoinFragment();
         Bundle bundle = new Bundle();
@@ -97,9 +97,10 @@ public class RechargeCoinFragment  extends TBaseFragment implements MallContract
                 mAdapter.setNewData(mOptions);
             }
             mRecyclerView.setAdapter(mAdapter);
-            mRateInt = entity.getExchangeRate();
+            mRateFloat = entity.getExchangeRate();
+
             setPrice(2);
-            setTextViewText(mRate, "(1人民币=" + StringUtil.formatNum(mRateInt+"") + "魔币)");
+            setTextViewText(mRate, "(1人民币=" + mRateFloat + "魔币)");
         }
     }
 
@@ -125,11 +126,14 @@ public class RechargeCoinFragment  extends TBaseFragment implements MallContract
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.rl_payment_now:
-                    if (getNumber() >= 1){
-                        startPaymentWayActivity();
-                    }else {
-                        ToastHelper.s("充值魔币数量不低于1哦~");
+                    if (mAdapter != null){
+                        if (getNumber() >= 1){
+                            startPaymentWayActivity();
+                        }else {
+                            ToastHelper.s("充值魔币数量不低于1哦~");
+                        }
                     }
+
                 break;
         }
     }
@@ -144,9 +148,9 @@ public class RechargeCoinFragment  extends TBaseFragment implements MallContract
         Double priceDouble = 0D;
         try {
             if (pos != mOptions.size() - 1) {
-                priceDouble = Double.valueOf(mOptions.get(pos)) / Double.valueOf(mRateInt);
+                priceDouble = Double.valueOf(mOptions.get(pos)) / Double.valueOf(mRateFloat);
             } else {
-                priceDouble = mAdapter.getInputNumber() / Double.valueOf(mRateInt);
+                priceDouble = mAdapter.getInputNumber() / Double.valueOf(mRateFloat);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -155,8 +159,12 @@ public class RechargeCoinFragment  extends TBaseFragment implements MallContract
     }
 
     private int getNumber(){
-        int position = mAdapter.getSelectPrice();
         int number = 0;
+        if (mAdapter == null){
+            return number;
+        }
+        int position = mAdapter.getSelectPrice();
+
         if (position != mOptions.size() - 1){
             number = mOptions.get(position);
         }else {

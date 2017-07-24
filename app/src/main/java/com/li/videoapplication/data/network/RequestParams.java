@@ -2269,6 +2269,7 @@ public class RequestParams {
     public Map<String, Object>  getMessageList(String memberId) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", memberId);
+        map.put("version","v23");
         return map;
     }
 

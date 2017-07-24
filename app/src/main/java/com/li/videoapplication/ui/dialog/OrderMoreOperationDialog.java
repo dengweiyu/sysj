@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;
 
+import com.ifeimo.im.activity.ChatActivity;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.li.videoapplication.R;
@@ -154,7 +155,7 @@ public class OrderMoreOperationDialog extends PopupWindow implements View.OnClic
             return;
         }
 
-        IMSdk.createChat(mContext,mCustomerEntity.getData().getMember_id(),mCustomerEntity.getData().getMember_name(),mCustomerEntity.getData().getIcon());
+        IMSdk.createChat(mContext,mCustomerEntity.getData().getMember_id(),mCustomerEntity.getData().getMember_name(),mCustomerEntity.getData().getIcon(),ChatActivity.SHOW_FAST_REPLY);
     }
 
 

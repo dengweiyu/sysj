@@ -1,7 +1,11 @@
 package com.li.videoapplication.ui.adapter;
 
 
+import android.text.Html;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.common.base.Predicate;
@@ -12,6 +16,9 @@ import com.google.common.collect.PeekingIterator;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.response.MyGiftBillEntity;
+import com.li.videoapplication.ui.fragment.ReceiveGiftFragment;
+import com.li.videoapplication.utils.TextUtil;
+
 import java.util.List;
 
 /**
@@ -20,8 +27,11 @@ import java.util.List;
 
 public class MyGiftBillAdapter extends BaseSectionQuickAdapter<MyGiftBillEntity.SectionBill,BaseViewHolder> {
 
-    public MyGiftBillAdapter( List<MyGiftBillEntity.SectionBill> data) {
+    private int mMode;
+
+    public MyGiftBillAdapter( List<MyGiftBillEntity.SectionBill> data,int mode) {
         super(R.layout.my_gift_bill_list_item, R.layout.bill_list_item_header, data);
+        mMode = mode;
     }
 
     @Override
@@ -36,9 +46,31 @@ public class MyGiftBillAdapter extends BaseSectionQuickAdapter<MyGiftBillEntity.
         holder.setText(R.id.tv_my_gift_name,data.getGift_name())
                 .setText(R.id.tv_my_gift_number,"x"+data.getNumber())
                 .setText(R.id.tv_my_gift_time,data.getTime())
-                .setText(R.id.tv_my_gift_price,data.getReward_price())
-                .setText(R.id.tv_my_gift_nick_name,data.getNickname())
-                .setText(R.id.tv_my_gift_video_name,data.getVideo_name());
+                .setText(R.id.tv_my_gift_price,data.getReward_price());
+        TextView tipOne = (TextView) holder.getView(R.id.tv_my_gift_tip_one);
+        TextView tipTwo = (TextView) holder.getView(R.id.tv_my_gift_tip_two);
+        TextView tipThree = (TextView) holder.getView(R.id.tv_my_gift_tip_three);
+        if (mMode == ReceiveGiftFragment.MODE_RECEIVE){
+
+            holder.setText(R.id.tv_my_gift_nick_name,data.getNickname())
+                    .setText(R.id.tv_my_gift_video_name,data.getVideo_name());
+
+            tipTwo.setText("在");
+            tipThree.setText("打赏");
+
+            tipOne.setVisibility(View.GONE);
+            tipThree.setVisibility(View.VISIBLE);
+        }else {
+            holder.setText(R.id.tv_my_gift_nick_name,data.getNickname())
+                    .setText(R.id.tv_my_gift_video_name,data.getVideo_name());
+
+
+            tipOne.setText("打赏给");
+            tipTwo.setText("的");
+            tipOne.setVisibility(View.VISIBLE);
+            tipThree.setVisibility(View.GONE);
+        }
+
 
         holder.addOnClickListener(R.id.tv_my_gift_nick_name)
                 .addOnClickListener(R.id.tv_my_gift_video_name);
