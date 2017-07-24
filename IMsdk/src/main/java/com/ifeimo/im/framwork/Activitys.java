@@ -12,7 +12,7 @@ import java.util.LinkedList;
 /**
  * Created by lpds on 2017/2/16.
  */
-class Activitys implements ILife,IEmployee {
+final class Activitys implements ILife,IEmployee {
 
     private final String TAG = "XMPP_Activitys";
 

@@ -367,9 +367,14 @@ public class ImageDetailActivity extends TBaseActivity implements
 				item.setFlower_tick(1);
 				item.setFlower_count(Integer.valueOf(item.getFlower_count()) + 1 + "");
 			} else {
+				int count = Integer.valueOf(item.getFlower_count()) - 1;
 				good.setChecked(false);
 				item.setFlower_tick(0);
-				item.setFlower_count(Integer.valueOf(item.getFlower_count()) - 1 + "");
+
+				if (count < 0){
+					count = 0;
+				}
+				item.setFlower_count(count + "");
 			}
 			setTextViewText(goodCount, item.getFlower_count());
 			// 图文献花
@@ -405,6 +410,8 @@ public class ImageDetailActivity extends TBaseActivity implements
 			setGood(good, item);
 			setStar(star, item);
 			setUptime(item);
+
+
 			setTextViewText(goodCount, item.getFlower_count());
 			setTextViewText(starCount, item.getCollection_count());
 		}

@@ -108,8 +108,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
         // 20170104,2.1.4   test:20161122, 2.1.2
-        versionCode 20170717
-        versionName "2.2.2"
+        versionCode 20170722
+        versionName "2.2.3.1"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
         multiDexEnabled true
@@ -252,7 +252,7 @@ dependencies {
    // compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'jp.wasabeef:glide-transformations:2.0.1'
     //阿里百川用户反馈
-    compile(name: 'alisdk-feedback-2.5.0.1', ext: 'aar')
+    compile(name: 'alisdk-feedback-2.3.0', ext: 'aar')
     compile(name: 'securityguardaar3-5.1.81', ext: 'aar')
     compile files('libs/app-monitor-sdk-2.5.1.1_for_bc_proguard.jar')
     compile files('libs/utdid4all-1.1.5.3_proguard.jar')
@@ -271,4 +271,7 @@ dependencies {
     //Guava collection
     compile 'com.google.guava:guava-collections:r03'
   /*  compile 'com.android.support.constraint:constraint-layout:1.0.2'*/
+
+    //PhotoView
+    compile 'com.github.chrisbanes:PhotoView:2.0.0'
 }

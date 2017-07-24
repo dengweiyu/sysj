@@ -64,8 +64,12 @@ public class SystemMessageAdapter extends BaseArrayAdapter<SysMessage> {
                 }
             });
         }
-        holder.count.setVisibility(View.GONE);
-        holder.go.setVisibility(View.VISIBLE);
+        if ("1".equals(record.getMark())){
+            holder.go.setVisibility(View.VISIBLE);
+        }else {
+            holder.go.setVisibility(View.GONE);
+        }
+
         // 60
         setListViewLayoutParams(view, 60);
 

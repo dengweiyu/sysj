@@ -158,7 +158,11 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
                             comment.setContent(record.getContent());
                             commentView.replyComment(comment);
                         }else {
-                            startVideoPlayActivity(record);
+                            if (record.getVideo_id() != null && !record.getVideo_id().equals("0")) {
+                                startVideoPlayActivity(record);
+                            }else {
+                                ActivityManager.startImageDetailActivity(getContext(),record);
+                            }
                         }
 
                         break;

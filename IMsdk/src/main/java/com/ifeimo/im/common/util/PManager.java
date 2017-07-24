@@ -9,6 +9,7 @@ import com.ifeimo.im.common.bean.ConnectBean;
 import com.ifeimo.im.common.bean.UserBean;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.commander.ILock;
+import com.ifeimo.im.framwork.lock.LockSupport;
 
 /**
  * Created by lpds on 2017/1/11.
@@ -75,7 +76,7 @@ public final class PManager {
     }
 
     public static void getCacheUser(Context context) {
-        synchronized (Proxy.getLockManager().getLock(ILock.USER_LOCK)) {
+        synchronized (LockSupport.USER_LOCK) {
             if (context == null) {
                 return;
             }
@@ -87,7 +88,7 @@ public final class PManager {
     }
 
     public static void clearCacheUser(Context context) {
-        synchronized (Proxy.getLockManager().getLock(ILock.USER_LOCK)) {
+        synchronized (LockSupport.USER_LOCK) {
             SharedPreferences sharedPreferences = context.getSharedPreferences(USER, Context.MODE_PRIVATE);
             sharedPreferences.edit().clear().commit();
         }

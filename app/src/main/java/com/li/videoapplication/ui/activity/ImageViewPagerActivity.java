@@ -1,60 +1,63 @@
 package com.li.videoapplication.ui.activity;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Looper;
+import android.os.Build;
+
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.network.RequestExecutor;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.framework.TBaseActivity;
-import com.li.videoapplication.views.ZoomableImageView;
+import com.li.videoapplication.framework.TBaseAppCompatActivity;
+
 /**
  * 活动：图片浏览
  */
 public class ImageViewPagerActivity extends TBaseActivity implements ViewPager.OnPageChangeListener {
 
+	public static final int REQUEST_CODE = 11;
+	public static final  String SHARED_TRANSITION = "shared_transition";
 	private static final String TAG = ImageViewPagerActivity.class.getSimpleName();
 
 	/**
 	 * 图片浏览
 	 */
-	public synchronized final static void startImageViewPagerActivity(Context context, int position, String[] urls) {
+	public synchronized final static void startImageViewPagerActivity(Context context, View source,int position, String[] urls) {
 		if (context == null) {
 			return;
 		}
-		if (position <= 0) {
-			return;
-		}
+
 		if (urls == null || urls.length == 0) {
 			return;
 		}
+
+		Activity activity = null;
+		if(context instanceof Activity){
+			activity = (Activity)context;
+		}
+
 		Intent intent = new Intent();
 		intent.putExtra("checkPosition", position);
 		intent.putExtra("urls", urls);
@@ -85,10 +88,6 @@ public class ImageViewPagerActivity extends TBaseActivity implements ViewPager.O
 		return R.layout.swi_viewpager;
 	}
 
-	@Override
-	public int inflateActionBar() {
-		return 0;
-	}
 
 	private int position = 0;
 	private String[] urls;
@@ -101,6 +100,7 @@ public class ImageViewPagerActivity extends TBaseActivity implements ViewPager.O
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setSystemBar(false);
 		getWindow().setBackgroundDrawable(TRANSPARENT);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class ImageViewPagerActivity extends TBaseActivity implements ViewPager.O
 	@Override
 	public void finish() {
 		super.finish();
-		overridePendingTransition(R.anim.activity_hold , android.R.anim.fade_out);;
+		overridePendingTransition(R.anim.activity_hold , android.R.anim.fade_out);
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class ImageViewPagerActivity extends TBaseActivity implements ViewPager.O
 	}
 	
 	private ViewPager viewPager;
-	private List<ZoomableImageView> zoomables;
+	private List<ImageView> zoomables;
 	private List<ImageView> points;
 	private ImageView point;
 	private PageAdapter adapter;
@@ -152,15 +152,25 @@ public class ImageViewPagerActivity extends TBaseActivity implements ViewPager.O
 		
 		viewPager = (ViewPager) findViewById(R.id.swi_viewpager_viewpager);
 
-		zoomables = new ArrayList<ZoomableImageView>();
+
+		zoomables = new ArrayList<ImageView>();
 		for (int i = 0; i < urls.length; i++) {
-			ZoomableImageView zoomable = (ZoomableImageView) View.inflate(this, R.layout.swi_zoomable, null);
+			final ImageView zoom = (ImageView) View.inflate(this, R.layout.swi_zoomable, null);
+			GlideHelper.displayImage(ImageViewPagerActivity.this,urls[i],zoom);
+			zoom.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					finish();
+				}
+			});
+
 			ViewPager.LayoutParams params = new ViewPager.LayoutParams();
 			params.width = ViewPager.LayoutParams.MATCH_PARENT;
 			params.height = ViewPager.LayoutParams.MATCH_PARENT;
-			zoomable.setLayoutParams(params);
-			zoomables.add(zoomable);
+			zoom.setLayoutParams(params);
+			zoomables.add(zoom);
 		}
+
 
 		container = (LinearLayout) findViewById(R.id.swi_viewpager_point);
 		points = new ArrayList<ImageView>();
@@ -211,16 +221,16 @@ public class ImageViewPagerActivity extends TBaseActivity implements ViewPager.O
 			}
 		}
 		if (zoomables.get(position) != null && urls.length > position) {
-//			myBitmapUtils.displayText(zoomables.get(checkPosition), urls[checkPosition]);
-			load(zoomables.get(position), urls[position]);
+
+		//	GlideHelper.displayImageWhite(ImageViewPagerActivity.this,urls[position],zoomables.get(position));
 		}
 	}
 
 	private class PageAdapter extends PagerAdapter {
 		
-		private List<ZoomableImageView> list;
+		private List<ImageView> list;
 
-		public PageAdapter(List<ZoomableImageView> list) {
+		public PageAdapter(List<ImageView> list) {
 			this.list = list;
 		}
 
@@ -245,71 +255,7 @@ public class ImageViewPagerActivity extends TBaseActivity implements ViewPager.O
 			return view == object;
 		}
 	}
-	
-	/*#####################################*/
-	
-	protected void load(ZoomableImageView image, String url) {
-		Task task = new Task(image, url);
-		RequestExecutor.execute(task);
-	}
-	
-	private static class Task implements Runnable {
-		
-		private Handler handler = new Handler(Looper.getMainLooper());
 
-		private ZoomableImageView image;
-		private String url;
-		
-		public Task(ZoomableImageView image, String url) {
-			super();
-			this.image = image;
-			this.url = url;
-			image.setTag(url);
-		}
-
-		@Override
-		public void run() {
-			final Bitmap bitmap = download(url);
-			if (bitmap != null) {
-				if (url.equals(image.getTag())) {
-					handler.post(new Runnable() {
-						
-						@Override
-						public void run() {
-							image.setImageBitmap(bitmap);
-						}
-					});
-				}
-			}
-		}
-	}
-	
-    private static Bitmap download(String url) {
-    	
-        Bitmap bitmap = null;
-        HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost(url);
-        HttpResponse response = null;
-        try {
-            response = client.execute(post);
-            if (response.getStatusLine().getStatusCode() == 200) {
-                InputStream inputStream = response.getEntity().getContent();
-                bitmap = BitmapFactory.decodeStream(inputStream);
-                if (inputStream != null) {
-                    inputStream.close();
-				}
-            }
-        } catch (ClientProtocolException e2) {
-            e2.printStackTrace();
-        } catch (IOException e3) {
-            e3.printStackTrace();
-        } finally {
-        	if (response != null) {
-        		
-        	}
-        }
-        return bitmap;
-    }
 	
 	/*#####################################*/
     

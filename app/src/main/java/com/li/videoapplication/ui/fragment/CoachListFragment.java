@@ -1,5 +1,7 @@
 package com.li.videoapplication.ui.fragment;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,6 +51,8 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
     private List<CoachListEntity.DataBean.IncludeBean> mData;
     private int mPage = 1;
 
+    private TextView mDiscount;
+
     @Override
     protected int getCreateView() {
         return R.layout.fragment_coach_list;
@@ -57,6 +61,7 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
     @Override
     protected void initContentView(View view) {
         mList = (RecyclerView) view.findViewById(R.id.rv_coach_list);
+        mDiscount = (TextView) view.findViewById(R.id.tv_discount_top);
         mRefresh = (SwipeRefreshLayout)view.findViewById(R.id.srl_coach_refresh_layout);
         mRefresh.setOnRefreshListener(this);
         mRefresh.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_light,

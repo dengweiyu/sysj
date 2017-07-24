@@ -10,6 +10,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.googlecode.mp4parser.boxes.mp4.objectdescriptors.AudioSpecificConfig;
+import com.ifeimo.im.activity.ChatActivity;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.commander.IFileTransfer;
@@ -443,7 +444,7 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
         }
 
 
-        IMSdk.createChat(this,memberId,nickName,avatar);
+        IMSdk.createChat(this,memberId,nickName,avatar, ChatActivity.SHOW_FAST_REPLY);
     }
 
     /**

@@ -5,6 +5,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -130,11 +132,12 @@ public class TimeHelper {
         return false;
     }
 
-    public static Calendar getCurrentCalendar(){
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date(System.currentTimeMillis()));
-        return c;
+    public static  Calendar getCurrentCalendar(long second){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date(second*1000L));
+        return calendar;
     }
+
 
 
     /**

@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#88000000">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/start_cover"
@@ -17,7 +16,7 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center_vertical"
         android:background="@drawable/videoplay_center_play"
-        android:visibility="gone" />
+ />
 
     <ImageView
         android:id="@+id/activity_goback"

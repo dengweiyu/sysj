@@ -2480,4 +2480,11 @@ public class RequestUrl {
     public final String getCoachStatus(){
         return "http://op.17sysj.com:9090/plugins/coachPresence/status";
     }
+
+    /**
+     * 获取订单开始时间
+     */
+    public final String getOrderTime(){
+        return BaseSYSJ+"/Sysj222/TrainingOrder/timeMenu";
+    }
 }

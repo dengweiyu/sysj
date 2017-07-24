@@ -14,10 +14,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
 import com.ifeimo.screenrecordlib.RecordingManager;
 
+import com.ifeimo.screenrecordlib.util.PermissionUtil;
 import com.ifeimo.screenrecordlib.util.Utils;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
@@ -256,11 +258,22 @@ public class FloatContentView2 extends RelativeLayout implements
 		} else if (v == leftTop) {// 停止
 			stopScreenRecord();
 		} else if (v == leftBottom) {// 截屏
-			startScreenCapture();
+			if (!RecordingManager.getInstance().isRecording())
+				startScreenCapture();
+			else
+				Toast.makeText(context, "录屏时不能截屏，否则可能会导致视频出错", Toast.LENGTH_LONG).show();
 		} else if (v == rightBottom) {// 主页
 			main();
 		} else if (v == rightTop) {// 主播
-			toogleFrontCamera();
+			if (Build.VERSION.SDK_INT >= 19) {
+				if (PermissionUtil.isOpAllowed(context, PermissionUtil.OP_CAMERA)) {
+					toogleFrontCamera();
+				} else {
+					Toast.makeText(context, "开启主播模式需要让手游视界获取到相机权限，请打开 应用管理 - 权限管理 的相机权限再试", Toast.LENGTH_SHORT).show();
+				}
+			} else {
+				toogleFrontCamera();
+			}
 		} else if (v == top) {// 暂停
 			toogleScreenRecord();
 		}

@@ -1,42 +1,63 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_white"
-                tools:ignore="RtlSymmetry,HardcodedText,RtlHardcoded">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:id="@+id/root"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/imageshare_type_btn"
-        android:gravity="center_vertical"
-        android:paddingRight="15dp">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/join_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@id/root"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="12dp"
-            android:layout_toLeftOf="@+id/join_check"
-            android:singleLine="true"
-            android:text="活动"
-            android:textColor="#88333333"
-            android:textSize="12sp"/>
+            android:orientation="horizontal"
+            android:background="#ffffff"
+            android:gravity="center_vertical"
 
-        <CheckBox
-            android:id="@+id/join_check"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/join_check"
-            android:button="@null"
-            android:checked="true"
-            android:gravity="center_vertical"/>
-    </RelativeLayout>
+            android:paddingTop="@dimen/kaka_0"
+            android:paddingBottom="@dimen/kaka_0"
+            android:paddingLeft="@dimen/kaka_8"
+            android:paddingRight="@dimen/kaka_8">
 
-</RelativeLayout>
+            <!--#不会经常打#-->
+
+            <TextView
+                android:id="@+id/join_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:lines="1"
+                android:ellipsize="end"
+                android:text="#不会经常打#"
+                android:textColor="#888888"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/join_detail"
+                android:layout_width="@dimen/kaka_72"
+                android:layout_height="@dimen/kaka_38"
+                android:layout_weight="0"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:lines="1"
+                android:ellipsize="end"
+                android:text="查看详情"
+                android:textColor="#bb40a8fe"
+                android:textSize="12sp"/>
+
+            <ImageView
+                android:visibility="visible"
+                android:id="@+id/join_check"
+                android:layout_width="@dimen/kaka_38"
+                android:layout_height="@dimen/kaka_38"
+                android:padding="@dimen/kaka_11"
+                android:src="@drawable/tag_tick"
+                android:scaleType="fitCenter"
+
+                android:layout_marginLeft="@dimen/kaka_2"/>
+
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>

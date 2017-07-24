@@ -40,11 +40,19 @@ public class SimpleChoiceAdapter extends WheelRecyclerView.WheelRecyclerViewAdap
             return;
         }
 
+        SimpleViewHolder mHolder = (SimpleViewHolder)holder;
+
+
         int dataIndex = position-mList.getItemHolder();
-        if (holder.itemView.getVisibility() == View.VISIBLE ){
-            TextView content  = ((TextView)holder.itemView.findViewById(R.id.tv_item_content));
-            content.setText(mData.get(dataIndex));
-            content.setTextColor(mContext.getResources().getColor(R.color.textcolor_french_gray));
+        if (mHolder.itemView.getVisibility() == View.VISIBLE ){
+            mHolder.content.setText(mData.get(dataIndex));
+            if (holder.getAdapterPosition() == mList.getCurrentPosition()){
+                mHolder.content.setTextColor(mContext.getResources().getColor(R.color.black));
+
+            }else {
+                mHolder.content.setTextColor(mContext.getResources().getColor(R.color.textcolor_french_gray));
+            }
+
         }
     }
 
@@ -59,8 +67,12 @@ public class SimpleChoiceAdapter extends WheelRecyclerView.WheelRecyclerViewAdap
     }
 
     class SimpleViewHolder extends RecyclerView.ViewHolder{
+        public TextView content;
         public SimpleViewHolder(View itemView) {
             super(itemView);
+            if (itemView != null){
+                content = (TextView) itemView.findViewById(R.id.tv_item_content);
+            }
         }
     }
 }

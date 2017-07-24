@@ -1,6 +1,7 @@
 package com.li.videoapplication.ui.activity;
 
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.zxing.client.result.CalendarParsedResult;
+import com.ifeimo.im.activity.ChatActivity;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.li.videoapplication.R;
@@ -18,6 +20,7 @@ import com.li.videoapplication.data.cache.RequestCache;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.event.PayNowEvent;
 import com.li.videoapplication.data.model.response.ConfirmOrderEntity;
+import com.li.videoapplication.data.model.response.OrderTimeEntity;
 import com.li.videoapplication.data.model.response.PlayGiftTypeEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderOptionsEntity;
@@ -25,6 +28,7 @@ import com.li.videoapplication.data.model.response.PlayWithOrderPriceEntity;
 import com.li.videoapplication.data.model.response.PlayWithPlaceOrderEntity;
 import com.li.videoapplication.data.network.RequestParams;
 import com.li.videoapplication.data.network.RequestUrl;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.FeiMoIMHelper;
@@ -78,11 +82,13 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
     private List<String> mRankList = Lists.newArrayList();
 
-    private List<String> mGameCountList = Lists.newArrayList("1","2","3","4","5");
+    private List<String> mGameCountList = Lists.newArrayList();
 
     private List<String> mHourList = Lists.newArrayList();
 
-    private List<String> mMinuteList = Lists.newArrayList("00","05","10","15","20","25","30","35","40","45","50","55");
+    private List<String> mMinuteList = Lists.newArrayList();
+
+    private List<Long> mHourSecond = Lists.newArrayList();
     private TextView mServerName;
     private TextView mGameModeName;
     private TextView mRankName;
@@ -90,6 +96,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     private TextView mGameTime;
     private TextView mPrice;
     private TextView mPriceTotal;
+    private TextView mOriginalPrice;
 
     private PlayWithOrderOptionsEntity mOptions;
 
@@ -110,6 +117,12 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     private String mCoachNickName;
 
     private String mCoachAvatar;
+
+    private long mStartSecond;
+
+    private long mEndSecond;
+
+    private long mIntervalTime;
     @Override
     public void refreshIntent() {
         super.refreshIntent();
@@ -153,6 +166,9 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         mGameTime = (TextView)findViewById(R.id.tv_start_time);
         mPrice = (TextView)findViewById(R.id.tv_single_price);
         mPriceTotal = (TextView)findViewById(R.id.tv_price_total) ;
+        mOriginalPrice = (TextView)findViewById(R.id.tv_original_price);
+        //添加横线
+        mOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
 
         findViewById(R.id.ll_choice_server).setOnClickListener(this);
         findViewById(R.id.ll_choice_game_mode).setOnClickListener(this);
@@ -182,8 +198,10 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     public void loadData() {
         super.loadData();
         setOptionsByCache();
-        //load data
+        //load options
         DataManager.getPlayWithOrderOptions(mCoachId);
+        //load time
+        DataManager.getOrderTime();
     }
 
     //use cache first
@@ -203,10 +221,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     }
 
     private void refreshOptions(){
-        reCalculationTime();
-
-        mGameTime.setText(mHourList.get(mHourIndex)+":"+mMinuteList.get(mMinuteIndex));
-
+        refreshTimeText();
         if (mOptions == null){
             return;
         }
@@ -228,6 +243,15 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                 mOptions.getGameLevelMap()) {
             mRankList.add(level.getText());
         }
+
+        mGameCountList.clear();
+        for (int i = 1; i <= mOptions.getMaxInning(); i++) {
+            mGameCountList.add(i+"");
+            if (i == mOptions.getDefaultInning()){
+                mGameCountIndex = i;
+            }
+        }
+
         if (mServerList.size() > mServerIndex){
             mServerName.setText(mServerList.get(mServerIndex));
         }
@@ -272,6 +296,13 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                 showGameCountDialog();
                 break;
             case R.id.ll_choice_start_time:                         //选择时间
+                DataManager.getOrderTime();
+                if (mHourSecond.size() == 0){
+                    mLoadingDialog.show();
+                    return;
+                }
+
+                reCalculationMinute(mIntervalTime,mHourIndex);
                 showGameTimeDialog();
                 break;
             case R.id.tv_coach_selected:                            //立即下单
@@ -338,7 +369,9 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
 
     public void showGameTimeDialog(){
-        reCalculationTime();
+
+        reCalculationMinute(mIntervalTime,mHourIndex);
+        reCalculationHour(mStartSecond,mEndSecond);
         if (mGameTimeDialog == null){
             mGameTimeDialog = new SimpleDoubleChoiceDialog(this,mHourList,mMinuteList);
             mGameTimeDialog.setHourPosition(mHourIndex);
@@ -365,14 +398,136 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         }
     }
 
-    private void reCalculationTime(){
-        Calendar c = TimeHelper.getCurrentCalendar();
-        if (c != null){
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            mHourList.clear();
-            mHourList.add(hour+1+"");
-            mHourList.add(hour+2+"");
+    /**
+     * 更新时间显示
+     */
+    private void refreshTimeText(){
+        if (mHourList.size() > 0 && mMinuteList.size() > 0){
+            mGameTime.setText(mHourList.get(mHourIndex)+":"+mMinuteList.get(mMinuteIndex));
         }
+    }
+
+    /**
+     *小时发生改变了
+     */
+    public void onCurrentHourChange(int position){
+
+        reCalculationMinute(mIntervalTime,position);
+
+        if (mGameTimeDialog != null){
+            //分钟列表发生改变 滚动到初始位置
+        //    mGameTimeDialog.smoothScrollStartMinute();
+
+            //更新分钟
+            mGameTimeDialog.notifyMinuteDataSetChange();
+
+        }
+    }
+
+    /**
+     * 生成分钟数据
+     * @param duration
+     *                     间隔
+     */
+    private void reCalculationMinute(long duration,int hourIndex){
+        mMinuteList.clear();
+        boolean isStart = true;
+        long second = mStartSecond;
+
+        if (hourIndex >= mHourSecond.size()){
+            return;
+        }
+
+        if (duration == 0){
+            return;
+        }
+
+        second = mHourSecond.get(hourIndex);
+
+        if (hourIndex == mHourSecond.size() -1 ){
+            isStart = false;
+        }
+
+        System.out.println("reCalculationMinute second:"+second);
+        if (isStart){
+            int startMinute = TimeHelper.getCurrentCalendar(second).get(Calendar.MINUTE);
+            int lastMinute = startMinute;
+
+            while(lastMinute < 60){
+                System.out.println("reCalculationMinute A "+lastMinute+" "+startMinute);
+                mMinuteList.add(formatMinute(lastMinute));
+                lastMinute += duration/60;
+            }
+        }else {
+            int endMinute = TimeHelper.getCurrentCalendar(second).get(Calendar.MINUTE);
+            int minute = 0;
+
+            while(minute <= endMinute){
+                System.out.println("reCalculationMinute B "+minute+" "+endMinute);
+                mMinuteList.add(formatMinute(minute));
+                minute += duration/60;
+            }
+        }
+
+    }
+
+    /**
+     *生成小时
+     */
+    private void reCalculationHour(long startSecond,long endSecond){
+        mHourList.clear();
+        mHourSecond.clear();
+        int startHour = TimeHelper.getCurrentCalendar(startSecond).get(Calendar.HOUR_OF_DAY);
+        int endHour = TimeHelper.getCurrentCalendar(endSecond).get(Calendar.HOUR_OF_DAY);
+
+        for (int i = startHour; i <= endHour; i++) {
+            mHourList.add(formatHour(i));
+            if (i == startHour){            //开始值
+                mHourSecond.add(startSecond);
+            }else if (i == endHour){        //结束值
+                mHourSecond.add(endSecond);
+            }else {                         //中间值
+                //使用起始时间构造整时 时间戳
+                Calendar  interCalendar= TimeHelper.getCurrentCalendar(startSecond);
+                //设置小时
+                interCalendar.set(Calendar.HOUR_OF_DAY,i);
+                //设置分钟
+                interCalendar.set(Calendar.MINUTE,0);
+                //设置秒
+                interCalendar.set(Calendar.SECOND,0);
+                mHourSecond.add(interCalendar.getTime().getTime());
+            }
+        }
+
+    }
+
+
+    /**
+     *格式化小时
+     */
+    private String formatHour(int hour){
+        if (hour >= 24){
+            hour = hour % 24;
+        }
+
+        if (hour < 10){
+            return "0"+hour;
+        }
+        return hour+"";
+    }
+
+    /**
+     * 格式化分钟
+     */
+    private String formatMinute(int minute){
+        if (minute >= 60){
+            minute = minute % 60;
+        }
+
+        if (minute < 10){
+            return "0"+minute;
+        }
+        return minute+"";
     }
 
 
@@ -416,11 +571,19 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                     break;
                 case SimpleChoiceDialog.TYPE_CHOICE_HOUR:
                     mHourIndex = position;
-                    mGameTime.setText(mHourList.get(mHourIndex)+":"+mMinuteList.get(mMinuteIndex));
+                    //选择后 根据当前的小时 重新计算分钟列表
+
+                    reCalculationMinute(mIntervalTime,mHourIndex);
+
+                    refreshTimeText();
+
                     break;
                 case SimpleChoiceDialog.TYPE_CHOICE_MINUTE:
                     mMinuteIndex = position;
-                    mGameTime.setText(mHourList.get(mHourIndex)+":"+mMinuteList.get(mMinuteIndex));
+                    //选择后 根据当前的小时 重新计算分钟列表
+                    reCalculationMinute(mIntervalTime,mHourIndex);
+
+                    refreshTimeText();
                     break;
             }
         }
@@ -467,7 +630,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
         try {
 
-            String year = TimeHelper.getSysMessageTime(System.currentTimeMillis()/1000+"");
+            String year = TimeHelper.getSysMessageTime(mHourSecond.get(mHourIndex)+"");
             //转换成秒的时间戳
             startTime = TimeHelper.getSecondTime(year+" "+mHourList.get(mHourIndex)+":"+mMinuteList.get(mMinuteIndex))/1000;
         } catch (Exception e) {
@@ -506,7 +669,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             FeiMoIMHelper.Login(user.getMember_id(), user.getNickname(), user.getAvatar());
         }
 
-        IMSdk.createChat(this,mCoachId,mCoachNickName,mCoachAvatar);
+        IMSdk.createChat(this,mCoachId,mCoachNickName,mCoachAvatar, ChatActivity.SHOW_FAST_REPLY);
     }
 
     /**
@@ -534,6 +697,40 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             }
         }
         mLoadingDialog.dismiss();
+    }
+
+    /**
+     *订单时间选项
+     */
+    public void onEventMainThread(OrderTimeEntity entity){
+        if (mLoadingDialog.isShowing()){
+            mLoadingDialog.dismiss();
+        }
+
+        //时间真的发生改变
+        if (entity.isResult() && mStartSecond != entity.getStartTime() && mEndSecond != entity.getEndTime()){
+            mStartSecond = entity.getStartTime();
+            mEndSecond = entity.getEndTime();
+            mIntervalTime = entity.getIntervalTime();
+
+            reCalculationHour(mStartSecond,mEndSecond);
+
+            reCalculationMinute(mIntervalTime,mHourIndex);
+
+            //数据更新了 重新默认选择第一个
+            if (mGameTimeDialog != null){
+                mGameTimeDialog.setMinutePosition(0);
+                mGameTimeDialog.setHourPosition(0);
+                mGameTimeDialog.notifyDataSetChange();
+            }
+
+            mHourIndex = 0;
+            mMinuteIndex = 0;
+
+            refreshTimeText();
+        }else {
+            ToastHelper.s(entity.getMsg());
+        }
     }
 
     /**

@@ -4172,4 +4172,15 @@ public class DataManager {
         request.setEntity(new CoachStatusEntity());
         helper.doNetwork(request);
     }
+
+    /**
+     * 获取订单开始时间
+     */
+    public static void getOrderTime(){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getOrderTime();
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,null, null);
+        request.setEntity(new OrderTimeEntity());
+        helper.doNetwork(request);
+    }
 }

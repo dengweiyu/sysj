@@ -294,6 +294,8 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
             }
             // 标签
             ActivityManager.startTagActivity(this);
+        }else if(v.getId() == R.id.videoshare_privacy){
+            ActivityManager.startPrivacyActivity(this);
         }
     }
 
@@ -376,6 +378,8 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
         join = findViewById(R.id.videoshare_join);
         join.setVisibility(View.GONE);
         activityListview = (ListViewY1) findViewById(R.id.activity_listview);
+
+        findViewById(R.id.videoshare_privacy).setOnClickListener(this);
     }
 
     private void refresAdapterView() {
@@ -832,7 +836,7 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
         if (event.isResult()) {
             if (event.getData() != null && event.getData().size() > 0) {
                 data.addAll(event.getData());
-                adapter = new JoinAdapter(this, data, R.layout.adapter_join);
+                adapter = new JoinAdapter(this, data);
                 activityListview.setAdapter(adapter);
             }
         }

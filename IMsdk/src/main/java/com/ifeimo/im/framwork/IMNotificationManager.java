@@ -2,7 +2,6 @@ package com.ifeimo.im.framwork;
 
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -33,14 +32,11 @@ import com.ifeimo.im.framwork.setting.Builder;
 import com.ifeimo.im.provider.ChatProvider;
 import com.ifeimo.im.provider.InformationProvide;
 
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.Response;
 import y.com.sqlitesdk.framework.business.Business;
 import y.com.sqlitesdk.framework.db.Access;
 import y.com.sqlitesdk.framework.sqliteinterface.Execute;
@@ -95,18 +91,22 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> {
         /**
          * 就算当前app在前端也显示
          */
-        if (!SettingsManager.getInstances().getBuilder().getNotificationSettings(false).getMode().equals(Builder.Notification.AUTO_MODE)) {
-            if (AppUtil.isAppInForeground(IMSdk.CONTEXT) && vibrator != null) {
+        switch (SettingsManager.getInstances().getBuilder().getNotificationSettings(false).getMode()) {
+            case Builder.NotificationMode.APP_NONE_MODE:
+                return -1;
+            case Builder.NotificationMode.APP_BACKGROUND_MODE:
                 ThreadUtil.getInstances().createThreadStartToCachedThreadPool(new Runnable() {
                     @Override
                     public void run() {
-                        vibrator.vibrate(2000);
-                        vibrator.cancel();
-
+                        vibrator.vibrate(500);
+//                        vibrator.cancel();
                     }
                 });
-                return -1;
-            }
+                if (AppUtil.isAppInForeground(IMSdk.CONTEXT) && vibrator != null) {
+                    return -1;
+                }
+            case Builder.NotificationMode.APP_AUTO_MODE:
+                break;
         }
         Bitmap bitmap = null;
         try {
@@ -202,12 +202,15 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> {
                     }
 
                     @Override
-                    public void onExternalError() {}
+                    public void onExternalError() {
+                    }
                 });
-                notifyMessageNotification(iMsg);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+        }
+        if (UserBean.getMemberID() != null && !UserBean.getMemberID().equals(iMsg.getMemberId())) {
+            notifyMessageNotification(iMsg);
         }
     }
 

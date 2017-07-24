@@ -273,14 +273,26 @@ public class MyMatchBettleActivity extends TBaseAppCompatActivity implements Vie
     //我方输赢
     private void setResult() {
         int is_win = match.getTeam_a().getIs_win();
+        int enemyWin = match.getTeam_b().getIs_win();
         if (is_win == 0) {//输
             myresult_text.setBackgroundColor(Color.parseColor("#ababab"));
             myresult_text.setText("我方败");
-            enemyresult_text.setText("敌方胜");
+
             uploadImage.setText("失败");
             uploadImage.setBackgroundResource(R.drawable.button_gray);
             my_bgLine.setBackgroundResource(R.drawable.match_userinfo_lose);
             setImageViewImageRes(result_signet, R.drawable.matchresult_lose_signet);
+        }else {
+            myresult_text.setBackgroundColor(Color.parseColor("#ff3d2e"));
+            myresult_text.setText("我方胜");
+        }
+
+        if(enemyWin == 0){  //输
+            enemyresult_text.setText("敌方败");
+            enemyresult_text.setBackgroundColor(Color.parseColor("#ababab"));
+        }else {
+            enemyresult_text.setText("敌方胜");
+            enemyresult_text.setBackgroundColor(Color.parseColor("#ff3d2e"));
         }
     }
 

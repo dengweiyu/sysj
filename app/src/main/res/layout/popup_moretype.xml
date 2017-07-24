@@ -6,10 +6,25 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#f6f6f6"
+            android:background="@color/transparent_background"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="请正确选择视频所属游戏或类别，有助于视频展示"
+                android:textSize="12sp"
+                android:textColor="#f9f9f9"
+                android:background="@drawable/moretype_text_bg"
+                />
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1px"
@@ -19,7 +34,7 @@
                 android:id="@+id/moretype_game"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
-                android:background="@drawable/imageshare_type_btn"
+                android:background="@drawable/background_press"
                 android:orientation="horizontal">
 
                 <TextView
@@ -50,7 +65,7 @@
                 android:id="@+id/moretype_life"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
-                android:background="@drawable/imageshare_type_btn"
+                android:background="@drawable/background_press"
                 android:orientation="horizontal"
                 android:visibility="visible">
 

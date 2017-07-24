@@ -45,13 +45,13 @@ public class GroupChatProvider extends BaseProvider {
                                 String.format(
                                         "SELECT * " +
                                                 "FROM (" +
-                                                "SELECT tb_groupchat.* , tb_account.member_nick_name , tb_account.avatarUrl \n" +
-                                                "FROM tb_groupchat " +
-                                                "INNER JOIN tb_account ON tb_groupchat.memberId = tb_account.memberId \n" +
-                                                "WHERE tb_groupchat.roomid = ? AND ((tb_groupchat.memberId != ? AND tb_groupchat.send_type = 2001) or tb_groupchat.memberId = ?)\n" +
-                                                "ORDER BY tb_groupchat.create_time " +
-                                                "DESC " +
-                                                "LIMIT %s) " +
+                                                    "SELECT tb_groupchat.* , tb_account.member_nick_name , tb_account.avatarUrl \n" +
+                                                    "FROM tb_groupchat " +
+                                                    "INNER JOIN tb_account ON tb_groupchat.memberId = tb_account.memberId \n" +
+                                                    "WHERE tb_groupchat.roomid = ? AND ((tb_groupchat.memberId != ? AND tb_groupchat.send_type = 2001) or tb_groupchat.memberId = ?)\n" +
+                                                    "ORDER BY tb_groupchat.create_time " +
+                                                    "DESC " +
+                                                    "LIMIT %s) " +
                                                 "ORDER BY create_time",
                                         BaseChatReCursorAdapter.MAX_PAGE_COUNT * Integer.parseInt(StringUtil.isNull(selection) ? "5" : selection));
                         cursor[0] = sqLiteDatabase.rawQuery(sql1, new String[]{selectionArgs[0], UserBean.getMemberID(), UserBean.getMemberID()});

@@ -119,10 +119,12 @@ public class SimpleChoiceDialog extends WheelBottomDialog {
     private void scrollByPosition(){
         //回到当前选中的值
         if (mAdapter != null){
-            //还原一下字体颜色
-            mAdapter.notifyDataSetChanged();
             //应该加上 占位
-            mAdapter.smoothScrollByPosition(mSelectPosition + mList.getItemHolder(),false);
+            mAdapter.smoothScrollByPosition(mSelectPosition + mList.getItemHolder(),true);
+            //还原一下值
+            mList.setSelectPosition(mSelectPosition);
+            //还原一下颜色
+           // mAdapter.notifyDataSetChanged();
         }
     }
 
