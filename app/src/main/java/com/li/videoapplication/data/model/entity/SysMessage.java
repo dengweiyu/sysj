@@ -10,6 +10,15 @@ public class SysMessage extends Message {
 	private String member_id;
     private int explain;//当为1时，关联的ID 为推荐位的系统消息
     private String cover;
+    private String mark;
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
 
     public String getRelation_id() {
         return relation_id;

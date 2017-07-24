@@ -210,6 +210,7 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> ,On
                 ex.printStackTrace();
             }
         }
+
         if (Proxy.getAccountManger().getUserMemberId() != null && !Proxy.getAccountManger().getUserMemberId().equals(iMsg.getMemberId())) {
             notifyMessageNotification(iMsg);
         }

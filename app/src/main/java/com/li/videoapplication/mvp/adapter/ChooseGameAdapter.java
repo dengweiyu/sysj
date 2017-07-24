@@ -26,9 +26,9 @@ public class ChooseGameAdapter extends BaseQuickAdapter<Associate, BaseViewHolde
     @Override
     protected void convert(BaseViewHolder holder, Associate associate) {
         holder.setText(R.id.searchgame_title, associate.getGame_name())
-                .setVisible(R.id.searchgame_pic,true);
+                .setVisible(R.id.searchgame_pic,false);
 
-        ImageView pic = holder.getView(R.id.searchgame_pic);
-        helper.setImageViewImageNet(pic, associate.getFlag());
+      //  ImageView pic = holder.getView(R.id.searchgame_pic);
+      //  helper.setImageViewImageNet(pic, associate.getFlag());
     }
 }

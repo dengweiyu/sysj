@@ -51,10 +51,19 @@ public class VideoImage extends BaseEntity {
 	public List<Tag> game_tag;
 	private boolean isAD;
 	private String orderId;
+	private String rewardCount;
 	private String buttonText;
 	private int jumpStatus;
 
 	private String isRecommend;
+
+	public String getRewardCount() {
+		return rewardCount;
+	}
+
+	public void setRewardCount(String rewardCount) {
+		this.rewardCount = rewardCount;
+	}
 
 	public String getFrequency() {
 		return frequency;

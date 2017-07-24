@@ -24,11 +24,11 @@ public class WheelRecyclerView extends RecyclerView {
 
     private boolean isScrolling;
 
-    private int mSelectPosition;
+    private int mSelectPosition = 0;
 
     private OnMeasureChild mMeasureChild;
 
-    private int mScrollState;
+    private onCurrentChangeListener mOnCurrentChangeListener;
 
     private float mStartOffset;
 
@@ -92,7 +92,6 @@ public class WheelRecyclerView extends RecyclerView {
                 if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
                     isScrolling = false;
                 }
-                mScrollState = newState;
             }
 
             @Override
@@ -105,23 +104,21 @@ public class WheelRecyclerView extends RecyclerView {
                 int currentOffset = computeVerticalScrollOffset();
                 float scale = (currentOffset % mItemHeight) / (float) mItemHeight;
 
-                System.out.println("mItemHeight:"+mItemHeight);
                 if (currentOffset % mItemHeight == 0){
                     if (!isScrolling){
                         mStartOffset = currentOffset;
                     }
                     entryAnimator(getChildAt(mCurrentPosition),1);
+                    if (mOnCurrentChangeListener != null){
+                        mOnCurrentChangeListener.onChange((currentOffset / mItemHeight));
+                    }
                 }else {
                     if (currentOffset > mStartOffset){
-
                         exitAnimator(getChildAt(mCurrentPosition),scale);
                         entryAnimator(getChildAt(mCurrentPosition+mItemHolder),scale);
-                        System.out.println("BB  mCurrentPosition:"+(mCurrentPosition+1)+" "+" mCurrentPosition:"+mCurrentPosition+"  scale:"+scale+" mStartOffset:"+mStartOffset+" offset:"+currentOffset);
                     }else  {
-
                         exitAnimator(getChildAt(mCurrentPosition),scale);
                         entryAnimator(getChildAt(mCurrentPosition+mItemHolder),scale);
-                        System.out.println("AA  mCurrentPosition:"+(mCurrentPosition-1)+" "+" mCurrentPosition:"+mCurrentPosition+"  scale:"+scale+" mStartOffset:"+mStartOffset+" offset:"+currentOffset);
                     }
                 }
             }
@@ -138,6 +135,9 @@ public class WheelRecyclerView extends RecyclerView {
         return position + mItemHolder;
     }
 
+    public int getCurrentPosition(){
+        return mCurrentPosition;
+    }
 
     /**
      * 当前选中position 注意了 这里已经去除了 占位的实际位置 对应数据的位置
@@ -148,16 +148,28 @@ public class WheelRecyclerView extends RecyclerView {
         return mSelectPosition;
     }
 
+
+    public void setSelectPosition(int selectPosition){
+        mSelectPosition = selectPosition;
+        View selected = getChildAt(selectPosition+mItemHolder);
+        if (selected != null){
+            entryAnimator(selected,1);
+        }
+    }
+
     /**
      * child view 绘制完成监听回调 可以绘制分割线
      *
      * @param measureChild
      */
-
     public void setMeasureChild(OnMeasureChild measureChild) {
         mMeasureChild = measureChild;
     }
 
+
+    public void setOnCurrentChangeListener(onCurrentChangeListener onCurrentChangeListener) {
+        mOnCurrentChangeListener = onCurrentChangeListener;
+    }
 
     public int getItemHolder() {
         return mItemHolder;
@@ -229,6 +241,7 @@ public class WheelRecyclerView extends RecyclerView {
                 } else {
                     holder.itemView.setVisibility(VISIBLE);
                 }
+
                 mRootId = getRootViewId();
                 if (mRootId != 0) {
                     View root = holder.itemView.findViewById(mRootId);
@@ -255,14 +268,11 @@ public class WheelRecyclerView extends RecyclerView {
              * 滚动到对应 position
              */
             public void smoothScrollByPosition(int position, boolean animator) {
-
                 if (animator) {
                     mList.smoothScrollBy(0, (position - mList.getItemHolder()) * mList.getItemHeight() - mList.computeVerticalScrollOffset());
                 } else {
                     mList.scrollBy(0, (position - mList.getItemHolder()) * mList.getItemHeight() - mList.computeVerticalScrollOffset());
                 }
-
-
             }
 
             /**
@@ -279,5 +289,11 @@ public class WheelRecyclerView extends RecyclerView {
         void onChildView(View child);
     }
 
+    /**
+     * 滚动值改变监听
+     */
+    public interface onCurrentChangeListener{
+        void onChange(int position);
+    }
 
 }

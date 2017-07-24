@@ -1006,11 +1006,8 @@ public class RecordingService extends BaseService implements
                             public void run() {
 
                                 if (PreferencesHepler.getInstance().isLogin()) {
-                                    //录屏后跳转分享
-                                    VideoCaptureEntity videoCaptureEntity = VideoCaptureManager.findByPath(p);
-
-                                    ActivityManager.startVideoShareActivity210NewTask(AppManager.getInstance().getContext(),
-                                            videoCaptureEntity);
+                                    //录屏后跳转视频管理
+                                    ActivityManager.startVideoMangerActivityNewTask(AppManager.getInstance().getContext());
                                 }
 
                             }

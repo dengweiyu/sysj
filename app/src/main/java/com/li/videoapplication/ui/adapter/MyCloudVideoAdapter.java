@@ -1,6 +1,7 @@
 package com.li.videoapplication.ui.adapter;
 
 import android.content.Context;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.SpanUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.utils.TextUtil;
 
 import java.util.List;
 
@@ -116,8 +118,7 @@ public class MyCloudVideoAdapter extends BaseAdapter {
             holder.titleAndCountView = convertView.findViewById(R.id.mycloudvideo_titleandcountview);
             holder.playTime = (TextView) convertView.findViewById(R.id.mycloudvideo_playTime);
             holder.commentTime = (TextView) convertView.findViewById(R.id.mycloudvideo_commentTime);
-            holder.likeTime = (TextView) convertView.findViewById(R.id.mycloudvideo_likeTime);
-            holder.shareTime = (TextView) convertView.findViewById(R.id.mycloudvideo_shareTime);
+            holder.rewardTime = (TextView)convertView.findViewById(R.id.tv_reward_time);
             holder.deleteButton = (TextView) convertView.findViewById(R.id.mycloudvideo_deleteButton);
             holder.deleteState = (CheckBox) convertView.findViewById(R.id.mycloudvideo_deleteState);
             holder.play = (ImageView) convertView.findViewById(R.id.mycloudvideo_play);
@@ -144,10 +145,9 @@ public class MyCloudVideoAdapter extends BaseAdapter {
 
         GlideHelper.displayImageWhite(context, record.getFlag(), holder.cover);
 
-        setLikeTime(record, holder.likeTime);
         setCommentTime(record, holder.commentTime);
         setPlayTime(record, holder.playTime);
-        setShareTime(record, holder.shareTime);
+        setRewardTime(record,holder.rewardTime);
         setState(record, holder.state);
 
         // 如果处于批量删除状态
@@ -272,61 +272,53 @@ public class MyCloudVideoAdapter extends BaseAdapter {
         });
     }
 
-    /**
-     * 点赞
-     */
-    private void setLikeTime(final VideoImage record, TextView view) {
-        String s;
-        try {
-            s = "点赞 " + numberTransform(record.getFlower_count());
-        } catch (Exception e) {
-            e.printStackTrace();
-            s = "点赞 0";
-        }
-        view.setText(s);
-    }
 
     /**
      * 评论
      */
     private void setCommentTime(final VideoImage record, TextView view) {
-        String s;
+        int count = 0;
+
         try {
-            s = "评论 " + numberTransform(record.getComment_count());
+            count = Integer.parseInt(record.getComment_count());
         } catch (Exception e) {
             e.printStackTrace();
-            s = "评论 0";
+
         }
-        view.setText(s);
+        view.setText(Html.fromHtml("评论 "+ TextUtil.toColor(StringUtil.toUnitW(count+""),"#40a7ff")));
     }
 
     /**
      * 播放
      */
     private void setPlayTime(final VideoImage record, TextView view) {
-        String s;
+        int count = 0;
+
         try {
-            s = "播放 " + numberTransform(record.getClick_count());
+            count = Integer.parseInt(record.getClick_count());
         } catch (Exception e) {
             e.printStackTrace();
-            s = "播放 0";
+
         }
-        view.setText(s);
+        view.setText(Html.fromHtml("播放 "+ TextUtil.toColor(StringUtil.toUnitW(count+""),"#40a7ff")));
     }
 
     /**
-     * 分享
+     * 打赏数
      */
-    private void setShareTime(final VideoImage record, TextView view) {
-        String s;
+    private void setRewardTime(final VideoImage record, TextView view){
+        int count = 0;
+
         try {
-            s = "收藏 " + numberTransform(record.getCollection_count());
+            count = Integer.parseInt(record.getRewardCount());
         } catch (Exception e) {
             e.printStackTrace();
-            s = "收藏 0";
+
         }
-        view.setText(s);
+        view.setText(Html.fromHtml("打赏 "+ TextUtil.toColor(StringUtil.toUnitW(count+""),"#40a7ff")));
     }
+
+
 
     /**
      * 数据转换 10万以下，数字全显 10万或以上，万为单位，如12.12万
@@ -383,7 +375,7 @@ public class MyCloudVideoAdapter extends BaseAdapter {
         // 标题+点赞播放评论分享View
         View titleAndCountView;
         // 点赞，播放，评论，分享
-        TextView likeTime, playTime, commentTime, shareTime;
+        TextView  playTime, commentTime,rewardTime;
         //播放
         ImageView play;
         //批量选择勾选按键

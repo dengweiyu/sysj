@@ -1,4 +1,4 @@
-<com.li.videoapplication.views.ZoomableImageView android:id="@+id/swi_zoomable"
+<com.github.chrisbanes.photoview.PhotoView android:id="@+id/pv_zoom_image"
                                                  xmlns:android="http://schemas.android.com/apk/res/android"
                                                  android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"/>
+                                                 android:layout_height="wrap_content"/>

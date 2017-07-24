@@ -15,14 +15,14 @@ public class RechargeCoinEntity extends BaseResponseEntity{
      * exchangeRate : 10
      */
 
-    private int exchangeRate;
+    private float exchangeRate;
     private List<Integer> option;
 
-    public int getExchangeRate() {
+    public float getExchangeRate() {
         return exchangeRate;
     }
 
-    public void setExchangeRate(int exchangeRate) {
+    public void setExchangeRate(float exchangeRate) {
         this.exchangeRate = exchangeRate;
     }
 

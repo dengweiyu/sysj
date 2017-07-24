@@ -219,7 +219,7 @@ public class MP4parserHelper {
             // }
 
             // 有效
-            Movie newMovie = muxVideoAndAudio_3(videoPath, audioPath);
+            Movie newMovie = muxVideoAndAudio_2(videoPath, audioPath);
             if (newMovie != null) {
                 writeMovie_1(dstPath, newMovie);
             }

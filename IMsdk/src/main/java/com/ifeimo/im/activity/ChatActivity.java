@@ -60,6 +60,7 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
         });
         if(show == SHOW_FAST_REPLY) {
             id_fast_reply_lv.setEditText(editeMsg);
+            id_fast_reply_iv.setVisibility(View.VISIBLE);
             id_fast_reply_iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

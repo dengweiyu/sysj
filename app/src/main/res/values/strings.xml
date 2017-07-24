@@ -516,6 +516,7 @@
     <string name="help_question9">录制的时候耗电情况如何</string>
     <string name="help_question10">在哪里看我录制的视频</string>
     <string name="help_question11">如何上传网上找的别人的视频</string>
+    <string name="videoshare_deal2">视频分享需要审核过后才能正常在线观看，分享完成后，请耐心等待审核完成，若上传违法涉政视频，将会将个人信息同步到网警处，希望广大玩家支持，共同创造良好的手游视频环境</string>
 
     <string name="privacy_title">飞磨科技隐私及免责条款声明</string>
     <string name="privacy_content">1. 飞磨科技服务协议的接受\n

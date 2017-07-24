@@ -1,6 +1,7 @@
 package com.fmsysj.screeclibinvoke.logic.frontcamera;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -40,6 +41,7 @@ public class FrontCameraView extends LinearLayout implements
 
     public static final String TAG = FrontCameraView.class.getSimpleName();
 
+    public OnScreenRotation onScreenRotation ;
     public int mWidth;
     public int mHeight;
     private LayoutInflater inflater;
@@ -67,7 +69,6 @@ public class FrontCameraView extends LinearLayout implements
 
     public Context context = AppManager.getInstance().getContext();
     private boolean isInitialized = false, isPreviewed = false;
-    private WindowManager windowManager;
 
     /**
      * 图片线程
@@ -98,29 +99,30 @@ public class FrontCameraView extends LinearLayout implements
             }
     }
 
-    public FrontCameraView() {
+    public FrontCameraView(OnScreenRotation onScreenRotation) {
         super(AppManager.getInstance().getContext(), null);
 
         h = new Handler(Looper.myLooper());
+
+        this.onScreenRotation = onScreenRotation;
 
         initLooperThread();
         initExecutorService();
 
         inflater = LayoutInflater.from(context);
-        windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-
         inflater.inflate(R.layout.view_camera, this);
         root = (FrameLayout) findViewById(R.id.root);
 
         ViewGroup.LayoutParams params = root.getLayoutParams();
-        mWidth = params.width;
-        mHeight = params.height;
+        measureScreen();
 
         surfaceView = (SurfaceView) findViewById(R.id.surfaceview);
         surfaceView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
-        length = ScreenUtil.dp2px(75);
+
+
+        length = ScreenUtil.dp2px(mHeight);
 
         surfaceTexture = new SurfaceTexture(10);
     }
@@ -219,9 +221,13 @@ public class FrontCameraView extends LinearLayout implements
                 e.printStackTrace();
             }*/
             try {
-                camera.setDisplayOrientation(90);
+                if (onScreenRotation.getOrientation() == LinearLayout.VERTICAL){
+                    camera.setDisplayOrientation(90);
+                }
+
                 camera.setPreviewTexture(surfaceTexture);
-                camera.setPreviewCallback(this);
+                camera.setPreviewCallback(null);
+
                 camera.getParameters().setPictureSize(mWidth,mHeight);
                 Log.d(TAG, "configCamera: 2");
             } catch (IOException e) {
@@ -275,7 +281,7 @@ public class FrontCameraView extends LinearLayout implements
             public void run() {
                 if (camera != null) {
                     try {
-                        // camera.setPreviewDisplay(surfaceHolder);
+                        camera.setPreviewDisplay(surfaceHolder);
                         camera.startPreview();
                         isPreviewed = true;
                         isInitialized = true;
@@ -523,8 +529,43 @@ public class FrontCameraView extends LinearLayout implements
         @Override
         public void run() {
             // 屏幕方向 0,1,2,3
-            screenRotation = windowManager.getDefaultDisplay().getRotation();
+            screenRotation = onScreenRotation.getRotation();
             Log.d(TAG, "command: screenRotation=" + screenRotation);
         }
     };
+
+
+    public void measureScreen(){
+        if(onScreenRotation != null) {
+            if (onScreenRotation.getHeight() > onScreenRotation.getWidth()) {
+
+                /**
+                 * 宽 占 高 大概 1.7
+                 */
+                mHeight = onScreenRotation.getHeight() / 5;
+                mWidth = Math.round(onScreenRotation.getHeight() / 5 / 1.7f);
+            } else {
+                /**
+                 * 宽 占 高 大概 1.7
+                 */
+                mWidth = onScreenRotation.getWidth() / 5;
+                mHeight = Math.round(onScreenRotation.getWidth() / 5 / 1.7f);
+
+            }
+        }
+    }
+
+    public interface  OnScreenRotation{
+
+        int getRotation();
+
+        int getHeight();
+
+        int getWidth();
+
+        WindowManager getWindowManager();
+
+        int getOrientation();
+
+    }
 }

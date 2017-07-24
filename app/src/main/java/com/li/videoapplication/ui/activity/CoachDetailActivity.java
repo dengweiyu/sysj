@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.ifeimo.im.activity.ChatActivity;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.li.videoapplication.R;
@@ -235,7 +236,7 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
             FeiMoIMHelper.Login(user.getMember_id(), user.getNickname(), user.getAvatar());
         }
 
-        IMSdk.createChat(this,mMemberId,mCoachNickName,mCoachAvatar);
+        IMSdk.createChat(this,mMemberId,mCoachNickName,mCoachAvatar, ChatActivity.SHOW_FAST_REPLY);
     }
 
     /**

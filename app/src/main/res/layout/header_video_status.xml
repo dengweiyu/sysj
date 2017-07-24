@@ -13,6 +13,7 @@
     android:paddingBottom="8dp"
     android:background="@color/white">
         <LinearLayout
+            android:id="@+id/ll_video_play_good"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:gravity="center"
@@ -48,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center"
+        android:id="@+id/ll_video_play_status_gift"
         android:orientation="horizontal">
 
         <ImageView
@@ -74,6 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center"
+        android:id="@+id/ll_video_play_shared"
         android:orientation="horizontal">
 
         <ImageView
@@ -98,6 +101,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:id="@+id/ll_video_play_start"
         android:layout_gravity="center_vertical"
         android:gravity="center"
         android:orientation="horizontal">

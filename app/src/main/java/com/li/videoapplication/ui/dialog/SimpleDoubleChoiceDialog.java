@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.network.UITask;
+import com.li.videoapplication.ui.activity.CreatePlayWithOrderActivity;
 import com.li.videoapplication.ui.adapter.SimpleChoiceAdapter;
 import com.li.videoapplication.ui.view.WheelRecyclerView;
 
@@ -40,9 +41,13 @@ public class SimpleDoubleChoiceDialog extends WheelBottomDialog {
 
     private SimpleChoiceDialog.OnSelectedListener mListener;
 
+    private CreatePlayWithOrderActivity mActivity;
     public SimpleDoubleChoiceDialog(@NonNull Context context, List<String> firstColumn, List<String> secondColumn) {
         super(context);
 
+        if (context instanceof  CreatePlayWithOrderActivity){
+            mActivity = (CreatePlayWithOrderActivity)context;
+        }
         mDataHour = firstColumn;
         mDataMinute = secondColumn;
     }
@@ -53,29 +58,40 @@ public class SimpleDoubleChoiceDialog extends WheelBottomDialog {
         //回到当前选中的值
         if (mAdapterHour != null){
             //应该加上 占位
-            mAdapterHour.smoothScrollByPosition(mHourPosition + mHour.getItemHolder(),false);
+            mAdapterHour.smoothScrollByPosition(mHourPosition + mHour.getItemHolder(),true);
+
+            //更新值
+            mHour.setSelectPosition(mHourPosition);
+
         }
 
         if (mAdapterMinute != null){
             //应该加上 占位
-            mAdapterMinute.smoothScrollByPosition(mMinutePosition + mMinute.getItemHolder(),false);
+            mAdapterMinute.smoothScrollByPosition(mMinutePosition + mMinute.getItemHolder(),true);
+            //更新值
+            mMinute.setSelectPosition(mMinutePosition);
+
         }
     }
 
-    public int getHourPosition() {
-        return mHourPosition;
-    }
 
     public void setHourPosition(int hourPosition) {
         mHourPosition = hourPosition;
+        //更新值
+        if(mHour != null){
+            mHour.setSelectPosition(hourPosition);
+        }
+
     }
 
-    public int getMinutePosition() {
-        return mMinutePosition;
-    }
 
     public void setMinutePosition(int minutePosition) {
         mMinutePosition = minutePosition;
+        //更新值
+        if (mMinute != null){
+            mMinute.setSelectPosition(mMinutePosition);
+        }
+
     }
 
     @Override
@@ -119,9 +135,17 @@ public class SimpleDoubleChoiceDialog extends WheelBottomDialog {
             mHour.setMeasureChild(this);
 
             mHour.setAdapter(mAdapterHour);
-
-
         }
+
+        //滚动发生改变
+        mHour.setOnCurrentChangeListener(new WheelRecyclerView.onCurrentChangeListener() {
+            @Override
+            public void onChange(int position) {
+                if (mActivity != null){
+                    mActivity.onCurrentHourChange(position);
+                }
+            }
+        });
 
         if (mDataMinute != null && mDataMinute.size() > 0 ){
             mAdapterMinute = new SimpleChoiceAdapter(getContext(),mMinute,mDataMinute);
@@ -144,6 +168,21 @@ public class SimpleDoubleChoiceDialog extends WheelBottomDialog {
                 }
             }
         });
+    }
+
+    public void notifyDataSetChange(){
+        mAdapterHour = new SimpleChoiceAdapter(getContext(),mHour,mDataHour);
+        mHour.setAdapter(mAdapterHour);
+        notifyMinuteDataSetChange();
+
+
+    }
+
+    public void notifyMinuteDataSetChange(){
+        mAdapterMinute = new SimpleChoiceAdapter(getContext(),mMinute,mDataMinute);
+        mMinute.setAdapter(mAdapterMinute);
+
+        mMinute.setSelectPosition(0);
     }
 
     public SimpleChoiceDialog.OnSelectedListener getListener() {

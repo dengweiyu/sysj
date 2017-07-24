@@ -255,11 +255,16 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         mStart = (SparkButton) findViewById(R.id.sb_video_play_start);
         mStartCount = (TextView)findViewById(R.id.tv_video_play_start_count);
 
-        mGoodBtn.setOnClickListener(this);
-        mGift.setOnClickListener(this);
-        mShared.setOnClickListener(this);
-        mStart.setOnClickListener(this);
-        mGiftCount.setOnClickListener(this);
+        findViewById(R.id.ll_video_play_good).setOnClickListener(this);
+        findViewById(R.id.ll_video_play_status_gift).setOnClickListener(this);
+        findViewById(R.id.ll_video_play_shared).setOnClickListener(this);
+        findViewById(R.id.ll_video_play_start).setOnClickListener(this);
+
+     //   mGoodBtn.setOnClickListener(this);
+     //   mGift.setOnClickListener(this);
+     //   mShared.setOnClickListener(this);
+     //   mStart.setOnClickListener(this);
+      //  mGiftCount.setOnClickListener(this);
     }
 
     @Override
@@ -1310,7 +1315,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
                     commentView.hideFaceView();
                 }
                 break;
-            case R.id.sb_video_play_good:           //点赞
+            case R.id.ll_video_play_good:           //点赞
                 if (item.getFlower_tick() == 0) {
                     mGoodBtn.setChecked(true);
                     mGoodBtn.playAnimation();
@@ -1331,7 +1336,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
                 videoPlayView.controllerViewLand.refreshIconView(item);
                 mGoodCount.setText(StringUtil.toUnitW(item.getFlower_count()));
                 break;
-            case R.id.sb_video_play_start:
+            case R.id.ll_video_play_start:
                 if (!isLogin()) {
                     DialogManager.showLogInDialog(VideoPlayActivity.this);
                     return;
@@ -1358,14 +1363,14 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
                 mStartCount.setText(StringUtil.toUnitW(item.getCollection_count()));
                 break;
 
-            case R.id.iv_video_play_status_gift:
+            case R.id.ll_video_play_status_gift:
                 if (comment != null){
                     if (!comment.showRankDialog()){
                         setGiftFragmentState(true);
                     }
                 }
                 break;
-            case R.id.iv_video_play_shared:
+            case R.id.ll_video_play_shared:
                 startShareActivity();
                 break;
         }

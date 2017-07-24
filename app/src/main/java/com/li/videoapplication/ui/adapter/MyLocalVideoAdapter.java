@@ -326,12 +326,35 @@ public class MyLocalVideoAdapter extends BaseAdapter implements
                     return;
                 }
 
-                if (!edit(record.getVideo_path())) {
+                // 检查文件是否存在
+                File file = new File(record.getVideo_path());
+                if (!file.exists()) {
+                    ToastHelper.s("视频文件不存在");
+                    // 删除该视频
+                    VideoCaptureManager.deleteByPath(record.getVideo_path());
                     return;
                 }
+                String duration;
+                try {
+                    duration = VideoDuration.getDuration(record.getVideo_path());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ToastHelper.s("视频存在错误，不能编辑");
+                    return;
+                }
+                long secs = 0;
+                try {
+                    secs = Integer.valueOf(duration);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
 
-                ActivityManager.startVideoEditorActivity(context, record);
-                UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "本地视频-编辑");
+                if (secs < 10 * 1000) {// 少于10秒 直接播放
+                    startPlayerActivity(record);
+                } else {
+                    ActivityManager.startVideoEditorActivity(context, record);
+                    UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "本地视频-编辑");
+                }
             }
         });
 
