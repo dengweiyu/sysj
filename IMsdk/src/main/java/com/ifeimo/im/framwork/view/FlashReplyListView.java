@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Created by lpds on 2017/7/12.
  */
-public class FashReplyListView extends ListView {
+public class FlashReplyListView extends ListView {
     private List<String> datas = new ArrayList<>();
     private CommonAdapter<String> adapter;
     private EditText editText;
@@ -44,17 +44,17 @@ public class FashReplyListView extends ListView {
         }
     };
 
-    public FashReplyListView(Context context) {
+    public FlashReplyListView(Context context) {
         super(context);
         init();
     }
 
-    public FashReplyListView(Context context, AttributeSet attrs) {
+    public FlashReplyListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public FashReplyListView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FlashReplyListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
