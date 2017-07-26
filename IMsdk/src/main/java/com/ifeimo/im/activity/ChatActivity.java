@@ -128,13 +128,13 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel, ChatReAdapt
     private void checkQQShow(Intent intent) {
         showQQ = intent.getStringExtra("showQQ");
         if (StringUtil.isNull(showQQ)) {
-            id_qq_tv.setVisibility(View.GONE);
+//            id_qq_tv.setVisibility(View.GONE);
             id_qq_tip_tv.setVisibility(View.GONE);
         } else {
-            id_qq_tv.setVisibility(View.VISIBLE);
+//            id_qq_tv.setVisibility(View.VISIBLE);
             id_qq_tip_tv.setVisibility(View.VISIBLE);
             id_qq_tip_tv.setText(Html.fromHtml("如陪练不回复，可QQ联系,对方QQ：<font color=#10a3e2>" + showQQ + "</font>"));
-            id_qq_tv.setText(Html.fromHtml("QQ: <font color=#10a3e2>" + showQQ + "</font>"));
+//            id_qq_tv.setText(Html.fromHtml("QQ: <font color=#10a3e2>" + showQQ + "</font>"));
         }
     }
 

@@ -16,6 +16,7 @@
             android:id="@+id/id_back"
             android:layout_width="42dp"
             android:layout_height="42dp"
+            android:background="?android:attr/selectableItemBackground"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:padding="13dp"
@@ -51,6 +52,7 @@
                 android:layout_marginTop="4dp"
                 android:text="QQ: 45456464"
                 android:textColor="#666666"
+                android:visibility="gone"
                 android:textSize="11sp" />
 
 
@@ -72,9 +74,8 @@
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-
-            android:layout_marginRight="16dp">
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_centerVertical="true">
 
             <ImageView
                 android:id="@+id/id_top_right_iv"

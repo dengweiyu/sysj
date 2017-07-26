@@ -16,6 +16,7 @@
         android:layout_centerVertical="true"
         android:padding="13dp"
         android:scaleType="fitXY"
+        android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/ab_goback_gray"
         android:visibility="visible" />
 
