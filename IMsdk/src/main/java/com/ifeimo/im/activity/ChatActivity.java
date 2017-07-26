@@ -196,6 +196,7 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel, ChatReAdapt
             instances();
             laterInit();
         }
+        setTopRightBar();
         super.onNewIntent(intent);
     }
 
