@@ -13,6 +13,7 @@ import com.ifeimo.im.common.callback.LoginCallBack;
 import com.ifeimo.im.common.IntentManager;
 import com.ifeimo.im.common.callback.LogoutCallBack;
 import com.ifeimo.im.common.util.PManager;
+import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.common.util.ThreadUtil;
 import com.ifeimo.im.framwork.message.FileTransferImp;
 import com.ifeimo.im.framwork.message.IQMessageManager;
@@ -188,7 +189,7 @@ public final class IMSdk {
         intent.putExtra("receiverNickName", receiverNickName);
         intent.putExtra("receiverAvatarUrl", receiverAvatarUrl);
         intent.putExtra("show", isFastReply);
-        if(showqq != null) {
+        if(!StringUtil.isNull(showqq) && StringUtil.isNumber(showqq)) {
             intent.putExtra("showQQ", showqq);
         }
         context.startActivity(intent);
