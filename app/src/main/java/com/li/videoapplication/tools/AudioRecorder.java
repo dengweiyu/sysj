@@ -1,5 +1,8 @@
 package com.li.videoapplication.tools;
 
+import android.media.AudioFormat;
+import android.media.AudioRecord;
+import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.util.Log;
 
@@ -12,7 +15,6 @@ public class AudioRecorder {
     // ---------------------------------------------------------------------------------
 
     private MediaRecorder mediaRecorder;
-
     /**
      * 开始录音
      */
@@ -26,6 +28,7 @@ public class AudioRecorder {
             mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
             mediaRecorder.setAudioChannels(2);
+
             // 128, 192, 256, 320
             try {
                 mediaRecorder.setAudioEncodingBitRate(256 * 1000);
@@ -38,8 +41,8 @@ public class AudioRecorder {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            /*
-            CamcorderProfile camcorderProfile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
+
+    /*        CamcorderProfile camcorderProfile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
             mediaRecorder.setProfile(camcorderProfile);*/
             try {
                 mediaRecorder.setOutputFile(path);

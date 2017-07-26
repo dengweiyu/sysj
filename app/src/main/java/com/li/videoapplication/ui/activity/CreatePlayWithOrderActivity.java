@@ -97,6 +97,9 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     private TextView mPrice;
     private TextView mPriceTotal;
     private TextView mOriginalPrice;
+    private TextView mNotice;
+    private View mLayoutDiscount;
+    private TextView mDiscountMessage;
 
     private PlayWithOrderOptionsEntity mOptions;
 
@@ -159,6 +162,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         mOperation = findViewById(R.id.ll_coach_operation);
         mOperation.setVisibility(View.VISIBLE);
 
+        mNotice = (TextView)findViewById(R.id.tv_order_create_notice);
         mServerName = (TextView)findViewById(R.id.tv_server_name);
         mGameModeName = (TextView)findViewById(R.id.tv_mode_name);
         mRankName = (TextView)findViewById(R.id.tv_rank_name);
@@ -167,6 +171,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         mPrice = (TextView)findViewById(R.id.tv_single_price);
         mPriceTotal = (TextView)findViewById(R.id.tv_price_total) ;
         mOriginalPrice = (TextView)findViewById(R.id.tv_original_price);
+        mLayoutDiscount = findViewById(R.id.ll_discount_message);
+        mDiscountMessage = (TextView)findViewById(R.id.tv_discount_message);
         //添加横线
         mOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
 
@@ -266,6 +272,10 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
         if (mGameCountList.size() > mGameCountIndex){
             mGameCount.setText(mGameCountList.get(mGameCountIndex));
+        }
+
+        if (mOptions.getNotice() != null){
+            mNotice.setText(mOptions.getNotice());
         }
 
         //更新订单价格
@@ -448,13 +458,11 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             isStart = false;
         }
 
-        System.out.println("reCalculationMinute second:"+second);
         if (isStart){
             int startMinute = TimeHelper.getCurrentCalendar(second).get(Calendar.MINUTE);
             int lastMinute = startMinute;
 
             while(lastMinute < 60){
-                System.out.println("reCalculationMinute A "+lastMinute+" "+startMinute);
                 mMinuteList.add(formatMinute(lastMinute));
                 lastMinute += duration/60;
             }
@@ -463,7 +471,6 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             int minute = 0;
 
             while(minute <= endMinute){
-                System.out.println("reCalculationMinute B "+minute+" "+endMinute);
                 mMinuteList.add(formatMinute(minute));
                 minute += duration/60;
             }
@@ -688,13 +695,30 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     public void onEventMainThread(PlayWithOrderPriceEntity entity){
         if (entity != null){
             mPrice.setText(entity.getPrice()+" 魔币");
+            int count = 1;
             try {
-                int count = Integer.parseInt(mGameCountList.get(mGameCountIndex));
+                try {
+                    count = Integer.parseInt(mGameCountList.get(mGameCountIndex));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 mPriceTotal.setText(Html.fromHtml(TextUtil.toColor(entity.getPrice()*count+"","#fc3c2e")+" 魔币"));
                 mTotal = entity.getPrice()*count;
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
+
+            if (entity.isDiscount()){
+                mLayoutDiscount.setVisibility(View.VISIBLE);
+                mDiscountMessage.setText(entity.getPromotionMsg());
+                mOriginalPrice.setText("  "+entity.getOriginal_price() * count+"魔币  ");
+                mOriginalPrice.setVisibility(View.VISIBLE);
+            }else {
+                mLayoutDiscount.setVisibility(View.GONE);
+                mOriginalPrice.setVisibility(View.GONE);
+                mOriginalPrice.setVisibility(View.GONE);
+            }
+
         }
         mLoadingDialog.dismiss();
     }

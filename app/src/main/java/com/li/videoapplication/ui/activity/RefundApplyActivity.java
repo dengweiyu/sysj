@@ -248,9 +248,7 @@ public class RefundApplyActivity extends TBaseAppCompatActivity implements View.
             DataManager.getPlayWithOrderDetail(getMember_id(),mOrderId);
         }else {
             if (entity != null){
-                if (entity.getCode() == 20022){
-                    ToastHelper.s("您已申请成功，无需重复申请");
-                }
+                    ToastHelper.s(entity.getMsg());
             }
         }
     }

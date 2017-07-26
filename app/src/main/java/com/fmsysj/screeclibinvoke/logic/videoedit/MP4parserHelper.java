@@ -207,10 +207,12 @@ public class MP4parserHelper {
      * @return 是否视频音频合成成功
      */
     public static boolean muxVideoAndAudio(String videoPath, String audioPath, String dstPath) {
-        Log.d(TAG, "----------------------------------[muxVideoAndAudio]----------------------------------");
-        Log.d(TAG, "muxVideoAndAudio: videoPath=" + videoPath);
-        Log.d(TAG, "muxVideoAndAudio: audioPath=" + audioPath);
-        Log.d(TAG, "muxVideoAndAudio: dstPath=" + dstPath);
+        Log.e(TAG, "----------------------------------[muxVideoAndAudio]----------------------------------");
+        System.out.println("muxVideoAndAudio videoPath="+videoPath + " audioPath="+audioPath+" dstPath="+dstPath);
+
+        Log.e(TAG, "muxVideoAndAudio: videoPath=" + videoPath);
+        Log.e(TAG, "muxVideoAndAudio: audioPath=" + audioPath);
+        Log.e(TAG, "muxVideoAndAudio: dstPath=" + dstPath);
         try {
             // 有效
             // Movie newMovie = muxVideoAndAudio_2(new File(videoPath), new File(audioPath), new File(dstPath));
@@ -227,7 +229,7 @@ public class MP4parserHelper {
             Log.d(TAG, "muxVideoAndAudio: true");
             printMovie(newMovie);
             return true;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }

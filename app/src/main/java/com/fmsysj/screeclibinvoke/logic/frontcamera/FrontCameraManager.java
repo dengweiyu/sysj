@@ -87,7 +87,7 @@ public class FrontCameraManager implements FrontCameraView.OnScreenRotation {
 		int tempWidth = displayWidth;
 		displayWidth = windowManager.getDefaultDisplay().getWidth();
 		displayHeight = windowManager.getDefaultDisplay().getHeight();
-		if(tempWidth < tempHeight){
+		if(tempWidth < tempHeight && isOpen()){
 			orientation.set(HORIZONTAL);
 			dismiss();
 			cameraView = null;
@@ -109,7 +109,7 @@ public class FrontCameraManager implements FrontCameraView.OnScreenRotation {
 
 		displayWidth = windowManager.getDefaultDisplay().getWidth();
 		displayHeight = windowManager.getDefaultDisplay().getHeight();
-		if(tempWidth > tempHeight){
+		if(tempWidth > tempHeight && isOpen()){
 			orientation.set(VERTICAL);
 			dismiss();
 			cameraView = null;

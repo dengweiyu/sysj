@@ -23,6 +23,15 @@ public class PlayWithOrderOptionsEntity extends BaseResponseEntity {
     private List<GameModeMapBean> gameModeMap;
     private int maxInning;
     private int defaultInning;
+    private String notice;
+
+    public String getNotice() {
+        return notice;
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice;
+    }
 
     public int getMaxInning() {
         return maxInning;

@@ -32,6 +32,7 @@ import com.li.videoapplication.data.network.RequestParams;
 import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
+import com.li.videoapplication.interfaces.IShowDialogListener;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
@@ -40,6 +41,7 @@ import com.li.videoapplication.ui.dialog.ConfirmPlayWithDialog;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.ui.dialog.OrderMoreOperationDialog;
 import com.li.videoapplication.ui.fragment.PlayWithOrderDetailFragment;
+import com.li.videoapplication.ui.view.OrderOperationView;
 import com.li.videoapplication.utils.StringUtil;
 
 import io.rong.eventbus.EventBus;
@@ -71,6 +73,8 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
     private LoadingDialog mLoadingDialog ;
 
     private SwipeRefreshLayout mRefresh;
+
+    private OrderOperationView mOperationView;
     private int mRole;
 
     private boolean mIsShowCoach = true;
@@ -115,7 +119,7 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
         initToolbar();
 
         mLoadingDialog = new LoadingDialog(this);
-
+        mOperationView = (OrderOperationView) findViewById(R.id.oov_order_operation);
         mRefresh = (SwipeRefreshLayout)findViewById(R.id.srl_coach_detail);
         mRefresh.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_light,
                 android.R.color.holo_orange_light, android.R.color.holo_red_light);
@@ -158,117 +162,17 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
 
     private void initOperationView(PlayWithOrderDetailEntity entity){
         if (entity != null && entity.isResult()){
-            findViewById(R.id.ll_coach_operation).setVisibility(View.VISIBLE);
-            TextView chat = (TextView)findViewById(R.id.tv_chat_with_coach);
-            TextView select = (TextView)findViewById(R.id.tv_coach_selected);
-            chat.setOnClickListener(mListener);
-            select.setOnClickListener(mListener);
-
-            mOrderDetail = entity;
-
-            chat.setVisibility(View.VISIBLE);
-            select.setVisibility(View.VISIBLE);
-            switch (entity.getData().getStatusX()){
-                case "0":
-                    chat.setText("私聊");                                             //待支付
-                    if (mRole == ROLE_OWNER  ){
-                        select.setText("立即支付");
+            mOperationView.refreshOrder(entity,mRole);
+            mOperationView.setListener(new IShowDialogListener() {
+                @Override
+                public void onShowDialog(boolean isShow) {
+                    if (isShow){
+                        mLoadingDialog.show();
                     }else {
-                        select.setVisibility(View.GONE);
+                        mLoadingDialog.dismiss();
                     }
-                    break;
-                case "1":
-                    chat.setText("支付失败");
-                    if (mRole == ROLE_OWNER  ){
-                        select.setText("再来一单");
-                    }else {
-                        select.setVisibility(View.GONE);
-                    }
-                    break;
-                case "2":
-                    chat.setText("私聊");                                               //待接单
-                    if (mRole == ROLE_COACH ){                                          //只允许教练接单
-                        select.setText("确认接单");
-                    }else {
-                        select.setVisibility(View.GONE);
-                    }
-                    break;
-                case "3":
-                    if (mRole == ROLE_COACH){
-                        if ("0".equals(entity.getData().getHas_result())){              //客户已确认
-                            chat.setText("私聊");
-                            select.setText("提交结果");
-                        }else {                                                         //客户未确认 理论上不会出现
-                            chat.setText("私聊");
-                            select.setVisibility(View.GONE);
-                        }
-                    }else {
-                        chat.setText("私聊");
-                        select.setVisibility(View.GONE);
-                    }
-                    break;
-
-                case "4":
-                    if (mRole == ROLE_OWNER){
-                        if ("1".equals(entity.getData().getHas_result())){              //教练已提交结果  等待客户确认
-                            chat.setText("确认完成");
-                            select.setText("再来一单");
-                            chat.setBackgroundResource(R.drawable.background_press_red);
-                            select.setBackgroundResource(R.drawable.background_press);
-                            chat.setTextColor(getResources().getColor(R.color.white));
-                            select.setTextColor(getResources().getColor(R.color.text_color));
-                        }else {
-                            chat.setText("评价");                                       //已确认  理论上不会出现
-                            select.setText("再来一单");
-                        }
-                     }else {
-                        chat.setText("私聊");
-                        select.setVisibility(View.GONE);
-                    }
-                     break;
-                case "5":                                                           //完成订单
-                    if (mRole == ROLE_OWNER){
-                        chat.setText("评价");
-                        select.setText("再来一单");
-                        chat.setBackgroundResource(R.drawable.background_press);
-                        select.setBackgroundResource(R.drawable.background_press_red);
-                        chat.setTextColor(getResources().getColor(R.color.text_color));
-                        select.setTextColor(getResources().getColor(R.color.white));
-                        try {
-                            mCommentCount = Integer.parseInt(entity.getData().getEvaluate_counter());
-                            if (mCommentCount == 1){
-                                chat.setText("修改评价");
-                                select.setText("再来一单");
-                            }else if (mCommentCount > 1){
-                                chat.setVisibility(View.GONE);
-                                select.setText("再来一单");
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }else {
-                        chat.setText("私聊");
-                        select.setVisibility(View.GONE);
-                    }
-                    break;
-                case "10":                          //退款中
-                    chat.setText("私聊");
-                    if (mRole == ROLE_OWNER){
-                        select.setText("再来一单");
-                    }else {
-                        select.setText("确认退款");
-                    }
-
-                    break;
-                case "11":                          //退款完成
-                    chat.setText("私聊");
-                    if (mRole == ROLE_OWNER){
-                        select.setText("再来一单");
-                    }else {
-                        select.setVisibility(View.GONE);
-                    }
-                    break;
                 }
+            });
         }
     }
 
@@ -276,119 +180,8 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.tv_chat_with_coach){
-                //左边灰色背景按钮
-                switch (mOrderDetail.getData().getStatusX()){
-                    case "0":
-                            chatWith();
-                        break;
-                    case "1":
 
-                        break;
-                    case "2":
-
-                        chatWith();
-                        break;
-                    case "3":
-                        chatWith();
-
-                        break;
-
-                    case "4":
-                        if (mRole == ROLE_OWNER){
-                            //执行确认完成操作
-                            confirmOrderDone();
-                        }else {
-                            chatWith();
-                        }
-                        break;
-
-                    case "5":                                                           //完成订单
-                        if (mRole == ROLE_OWNER ){
-                            //跳转评价
-                            startCommentActivity();
-                        }else {
-                            chatWith();
-                        }
-                        break;
-                    case "10":                                                           //退款中
-                    case "11":                                                          //退款完成
-                        chatWith();
-                        break;
-                }
             }else if(v.getId() == R.id.tv_coach_selected){
-                //右边红色背景按钮
-                switch (mOrderDetail.getData().getStatusX()){
-                    case "0":
-                        if (mRole == ROLE_OWNER  ){
-                           //重新支付
-                            int coin = 0;
-                            float priceTotal = 0;
-
-                            try {
-                                coin = Integer.parseInt(getUser().getCoin());
-                                priceTotal = Float.parseFloat(mOrderDetail.getData().getPrice_total());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                            if (priceTotal != 0){
-                                mConfirmDialog = new ConfirmPlayWithDialog(PlayWithOrderDetailActivity.this,priceTotal,coin,CreatePlayWithOrderActivity.PAGE_ORDER_DETAIL);
-                                mConfirmDialog.show();
-                            }
-
-                        }
-                        break;
-                    case "1":
-                        if (mRole == ROLE_OWNER  ){
-                            //跳转下单页
-                            startCreateOrderActivity();
-                        }
-                        break;
-                    case "2":
-                        if (mRole == ROLE_COACH ){
-                            //教练确认接单
-                            mLoadingDialog.setProgressText("接单中...");
-                            mLoadingDialog.show();
-                            DataManager.confirmTakeOrder(getMember_id(),mOrderDetail.getData().getOrder_id());
-                        }
-                        break;
-                    case "3":
-                        if (mRole == ROLE_COACH) {
-                            //教练提交结果
-                            if ("0".equals(mOrderDetail.getData().getHas_result())) {
-                                startSubmitResultActivity();
-                            }
-                        }
-                        break;
-                    case "4":                                                           //完成订单
-                        if (mRole == ROLE_OWNER){
-                            //再来一单
-                            startCreateOrderActivity();
-                        }
-                        break;
-                    case "5":
-                        if (mRole == ROLE_OWNER){
-                            //再来一单
-                            startCreateOrderActivity();
-                        }
-                        break;
-                    case "10":                          //退款中
-                        if (mRole == ROLE_COACH){
-                            mLoadingDialog.show();
-                            //确认退款
-                            DataManager.coachConfirmRefund(getMember_id(),mOrderId);
-                        }else {
-                            //再来一单
-                            startCreateOrderActivity();
-                        }
-                        break;
-                    case "11":                          //退款完成
-                        if (mRole == ROLE_OWNER){
-                            //再来一单
-                            startCreateOrderActivity();
-                        }
-                        break;
-                }
 
             }else if (v.getId() == R.id.tb_back){
                 finish();
@@ -404,93 +197,12 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
                     });
                 }
                 mMoreDialog.setCustomerEntity(mCustomerEntity);
+                mMoreDialog.setOrderDetail(mOrderDetail);
                 mMoreDialog.show();
                 changeWindowAlpha(0.5f);
             }
         }
     };
-
-    /**
-     * 私聊
-     */
-    private void chatWith(){
-        Member user = getUser();
-
-        if (user == null || StringUtil.isNull(getMember_id())){
-            DialogManager.showLogInDialog(this);
-            return;
-        }
-
-        if (!Proxy.getConnectManager().isConnect()) {
-            FeiMoIMHelper.Login(user.getMember_id(), user.getNickname(), user.getAvatar());
-        }
-
-        String memberId;
-        String nickName;
-        String avatar;
-        if (mRole == ROLE_OWNER){
-            memberId = mOrderDetail.getCoach().getMember_id();
-            nickName = mOrderDetail.getCoach().getNickname();
-            avatar = mOrderDetail.getCoach().getAvatar();
-        }else {
-            memberId = mOrderDetail.getUser().getMember_id();
-            nickName = mOrderDetail.getUser().getNickname();
-            avatar = mOrderDetail.getUser().getAvatar();
-        }
-
-        if (getMember_id().equals(memberId)){
-            ToastHelper.s("不能和自己聊天哦~");
-            return;
-        }
-
-
-        IMSdk.createChat(this,memberId,nickName,avatar, ChatActivity.SHOW_FAST_REPLY);
-    }
-
-    /**
-     * 确认完成订单
-     */
-    private void confirmOrderDone(){
-        mLoadingDialog.show();
-        DataManager.confirmOrderDone(getMember_id(),mOrderDetail.getData().getOrder_id());
-    }
-
-    /**
-     *跳转评论页
-     */
-    private void startCommentActivity(){
-
-        ActivityManager.startPlayWithOrderCommentActivity(PlayWithOrderDetailActivity.this,
-                mOrderDetail.getCoach().getMember_id(),
-                mOrderDetail.getCoach().getNickname(),
-                mOrderDetail.getCoach().getAvatar(),
-                mOrderDetail.getCoach().getScore(),
-                mOrderDetail.getData().getOrder_id());
-
-    }
-
-    /**
-     *教练提交结果
-     */
-    private void startSubmitResultActivity(){
-        ActivityManager.startConfirmOrderDoneActivity(
-                PlayWithOrderDetailActivity.this,
-                mOrderDetail.getCoach().getNickname(),
-                mOrderDetail.getCoach().getAvatar(),
-                mOrderDetail.getData().getOrder_id(),
-                mOrderDetail.getData().getInning(),
-                mOrderDetail.getUser().getOrderCount());
-    }
-
-    /**
-     *再来一单  跳转订单生成页面
-     */
-    private void startCreateOrderActivity(){
-        ActivityManager.startCreatePlayWithOrderActivity(this,
-                mOrderDetail.getCoach().getMember_id(),
-                mOrderDetail.getCoach().getNickname(),
-                mOrderDetail.getCoach().getAvatar());
-    }
 
 
     private void changeWindowAlpha(float scale){
@@ -533,9 +245,11 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
      */
     public void onEventMainThread(PlayWithOrderDetailEntity entity){
         mRefresh.setRefreshing(false);
-
+        if (mLoadingDialog.isShowing()){
+            mLoadingDialog.dismiss();
+        }
         if (entity != null && entity.isResult()){
-
+            showOrderFragment(entity);
             if (mOrderDetail != null){
                 if (entity.getData().getOrder_id().equals(mOrderDetail.getData().getOrder_id())){
                     if (entity.getData().getStatusX().equals(mOrderDetail.getData().getStatusX())){
@@ -545,18 +259,12 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
             }
 
             mOrderDetail = entity;
-            showOrderFragment(entity);
-            if (mLoadingDialog.isShowing()){
-                mLoadingDialog.dismiss();
-            }
 
             EventBus.getDefault().post(new RefreshOrderDetailEvent(
                     mOrderDetail.getData().getOrder_id(),
                     mOrderDetail.getData().getStatusX(),
                     mOrderDetail.getData().getStatusText()));
         }
-
-
     }
 
 

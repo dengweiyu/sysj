@@ -3895,10 +3895,13 @@ public class DataManager {
      * 教练列表
      */
 
-    public static void getCoachList(int page){
+    public static void getCoachList(int page,boolean isTest){
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().getCoachList();
         Map<String, Object> params = RequestParams.getInstance().getCoachList(page);
+        if (isTest){
+            params.put("is_test",1);
+        }
         RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
         request.setEntity(new CoachListEntity());
         helper.doNetwork(request);

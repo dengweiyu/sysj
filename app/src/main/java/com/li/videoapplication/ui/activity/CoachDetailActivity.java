@@ -232,10 +232,7 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
             return;
         }
 
-        if (!Proxy.getConnectManager().isConnect()) {
-            FeiMoIMHelper.Login(user.getMember_id(), user.getNickname(), user.getAvatar());
-        }
-
+        FeiMoIMHelper.Login(user.getMember_id(), user.getNickname(), user.getAvatar());
         IMSdk.createChat(this,mMemberId,mCoachNickName,mCoachAvatar, ChatActivity.SHOW_FAST_REPLY);
     }
 

@@ -16,6 +16,24 @@ public class PlayWithOrderPriceEntity  extends BaseResponseEntity{
     private float price;
     private String orderNumber;
     private String promotionMsg;
+    private float original_price;
+    private boolean isDiscount;
+
+    public boolean isDiscount() {
+        return isDiscount;
+    }
+
+    public void setDiscount(boolean discount) {
+        isDiscount = discount;
+    }
+
+    public float getOriginal_price() {
+        return original_price;
+    }
+
+    public void setOriginal_price(float original_price) {
+        this.original_price = original_price;
+    }
 
     public String getOrderNumber() {
         return orderNumber;

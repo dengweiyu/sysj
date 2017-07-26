@@ -118,10 +118,10 @@
     <string name="editor_cut_tip_success">剪辑成功</string>
     <string name="editor_cut_tip_failed">剪辑失败</string>
 
-    <string name="audio_text">录音中...</string>
+    <string name="audio_text">录音中...需要正常放完视频才能完成配音工作，不能提前结束</string>
     <string name="audio_original">原声</string>
     <string name="audio_recording_start">开始</string>
-    <string name="audio_recording_stop">停止</string>
+    <string name="audio_recording_stop">取消</string>
     <string name="audio_mux_tip_success">配音成功</string>
     <string name="audio_mux_tip_failed">配音失败</string>
 

@@ -92,7 +92,9 @@ public class OrderMoreOperationDialog extends PopupWindow implements View.OnClic
                         case "1":
                             ToastHelper.s("该订单支付失败哦~");
                             return;
-
+                        case "5":
+                            ToastHelper.s("您无法对该订单进行退款了哦~如有需要请联系客服");
+                            return;
                         case "10":
                             ToastHelper.s("该订单退款中哦~");
                             return;
@@ -161,5 +163,9 @@ public class OrderMoreOperationDialog extends PopupWindow implements View.OnClic
 
     public void setCustomerEntity(CustomerInfoEntity customerEntity) {
         mCustomerEntity = customerEntity;
+    }
+
+    public void setOrderDetail(PlayWithOrderDetailEntity orderDetail) {
+        mOrderDetail = orderDetail;
     }
 }

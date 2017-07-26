@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.ifeimo.im.R;
 import com.ifeimo.im.activity.ChatActivity;
@@ -180,9 +181,12 @@ public final class IMSdk {
      */
     public static void createChat(Context context, String receiverID,
                                   String receiverNickName, String receiverAvatarUrl,int isFastReply) {
+
+
         if(Proxy.getAccountManger().isUserNull()){
             return;
         }
+
         Intent intent = new Intent(context, ChatActivity.class);
         intent.putExtra("receiverID", receiverID);
         intent.putExtra("receiverNickName", receiverNickName);

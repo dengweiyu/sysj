@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.tools.SubtitleHelper;
 import com.li.videoapplication.tools.SubtitleHelper2;
 import com.li.videoapplication.ui.activity.VideoEditorActivity2;
@@ -242,6 +243,18 @@ public class PlayingView extends RelativeLayout {
             if (activity != null &&
                     activity.isAudioRecording == true &&
                     audioFragment != null) {
+                //音视频不同步会导致合成失败 因此计算一下偏差 延迟录音结束时间
+     /*           long delay = audioFragment.getVideoDuration();
+
+                if (delay <= 0){
+                    delay = 0;
+                }
+                UITask.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        audioFragment.performClickRecord();
+                    }
+                },(delay/1000)*1000);*/
                 audioFragment.performClickRecord();
             }
             lastPosition = 0l;

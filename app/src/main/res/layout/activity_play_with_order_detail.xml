@@ -38,6 +38,10 @@
             ></RelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <include
-        layout="@layout/layout_coach_operation"></include>
+    <com.li.videoapplication.ui.view.OrderOperationView
+        android:id="@+id/oov_order_operation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+    </com.li.videoapplication.ui.view.OrderOperationView>
 </RelativeLayout>

@@ -35,6 +35,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.li.videoapplication.data.network.UITask.postDelayed;
+
 /**
  * 碎片：配音
  */
@@ -169,15 +171,15 @@ public class AudioFragment extends TBaseFragment {
                     if (activity != null) {
                         activity.setDrag(true);
                         activity.pauseVideo();
-                        activity.showProgressDialogCancelable(LoadingDialog.MUXING);
+                       // activity.showProgressDialogCancelable(LoadingDialog.MUXING);
                     }
                     // 视频音频合成
-                    UITask.postDelayed(new Runnable() {
+                   /* UITask.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             muxVideoAndAudio();
                         }
-                    }, 1200);
+                    }, 1200);*/
                     Log.d(tag, "onClick: stopAudioRecord");
                 }
             }
@@ -214,7 +216,27 @@ public class AudioFragment extends TBaseFragment {
 
     public void performClickRecord() {
         if (record != null) {
-            record.performClick();
+            //            record.performClick();
+            SoundHelper.playSystem();
+            updateText(false);
+            updateProgress(0);
+            updateRecord(false);
+            audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+            activity.isAudioRecording = false;
+            // 停止录音
+            stopAudioRecord();
+            if (activity != null) {
+                activity.setDrag(true);
+                activity.pauseVideo();
+                activity.showProgressDialogCancelable(LoadingDialog.MUXING);
+            }
+            // 视频音频合成
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    muxVideoAndAudio();
+                }
+            }, 1200);
             Log.d(tag, "performClickRecord: true");
         }
     }
@@ -245,6 +267,28 @@ public class AudioFragment extends TBaseFragment {
     }
 
     /**
+     * 获取音频长度
+     */
+    public long getVideoDuration(){
+        long difference = -1;
+        try {
+            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+            String allTime;
+            retriever.setDataSource(videoPath);
+            allTime = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            videoDuration = Integer.valueOf(allTime);
+            retriever.setDataSource(audioPath);
+            allTime = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            audioDuration = Integer.valueOf(allTime);
+            difference = videoDuration - audioDuration;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return difference;
+    }
+
+
+    /**
      * 视频音频合成
      */
     private void muxVideoAndAudio() {
@@ -254,6 +298,8 @@ public class AudioFragment extends TBaseFragment {
                 videoPath = entity.getVideo_path();
                 MediaMetadataRetriever retriever = new MediaMetadataRetriever();
                 File dstFile = LPDSStorageUtil.createTmpRecPath();
+
+                Log.e(tag, "run: file is exists" + dstFile.exists());
                 if (dstFile != null) {
                     long difference = 1000 * 1000;
                     try {
@@ -269,19 +315,21 @@ public class AudioFragment extends TBaseFragment {
                     } catch (IllegalArgumentException e) {
                         e.printStackTrace();
                     }
-                    Log.d(tag, "run: videoDuration=" + videoDuration);
-                    Log.d(tag, "run: audioDuration=" + audioDuration);
-                    Log.d(tag, "run: difference=" + difference);
+                    Log.e(tag, "run: videoDuration=" + videoDuration);
+                    Log.e(tag, "run: audioDuration=" + audioDuration);
+                    Log.e(tag, "run: difference=" + difference);
                     if (videoDuration >= 10 * 1000 &&
                             audioDuration >= 10 * 1000 &&
                             difference <= 2 * 1000) {
                         // 视频音频合成
                         boolean flag = MP4parserHelper.muxVideoAndAudio(videoPath, audioPath, dstPath);
-
+                        Log.e(tag, "run: flag="+flag);
                         if (flag == true && FileUtil.isFile(dstPath)) {
                             VideoCaptureEntity a = EditorFragment.generateVideoCaptureEntity(dstPath);
                             if (a == null)
                                 return;
+                            Log.e(tag, "run: A = ");
+
                             if (a != null) {
                                 showToastShort(R.string.audio_mux_tip_success);
                                 getActivity().finish();
