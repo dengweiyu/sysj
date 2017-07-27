@@ -19,7 +19,9 @@ import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.ui.activity.CreatePlayWithOrderActivity;
 import com.li.videoapplication.ui.activity.PlayWithOrderDetailActivity;
+import com.li.videoapplication.ui.dialog.ConfirmPlayWithDialog;
 import com.li.videoapplication.utils.StringUtil;
 
 /**
@@ -49,7 +51,7 @@ public abstract class OrderStrategy implements IOrderStrategy {
         }
 
         if (!Proxy.getConnectManager().isConnect()) {
-            FeiMoIMHelper.Login(user.getMember_id(), user.getNickname(), user.getAvatar());
+            FeiMoIMHelper.Login(user.getId(), user.getNickname(), user.getAvatar());
         }
 
         String memberId;
@@ -70,13 +72,17 @@ public abstract class OrderStrategy implements IOrderStrategy {
             return;
         }
 
+        String qq = null;
+        if (isOwner()){
+            qq = mOrderDetail.getCoach().getQq();
+        }
 
         IMSdk.createChat(
                 AppManager.getInstance().currentActivity(),
                 memberId,
                 nickName,
                 avatar,
-                ChatActivity.SHOW_FAST_REPLY);
+                ChatActivity.SHOW_FAST_REPLY,qq);
     }
 
     protected void setText(TextView text,String content,boolean isPositive){
@@ -94,8 +100,16 @@ public abstract class OrderStrategy implements IOrderStrategy {
     //立即支付
     protected void payNow(){
         Member user = PreferencesHepler.getInstance().getUserProfilePersonalInformation();
-        DataManager.confirmOrder(user.getId(),mOrderDetail.getData().getOrder_id());
-        invokeListener();
+        int coin = 0;
+        float priceTotal = 0;
+
+        try {
+            coin = Integer.parseInt(user.getCoin());
+            priceTotal = Float.parseFloat(mOrderDetail.getData().getPrice_total());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        new ConfirmPlayWithDialog(AppManager.getInstance().currentActivity(),priceTotal,coin, CreatePlayWithOrderActivity.PAGE_ORDER_DETAIL).show();
     }
 
     //再来一单
@@ -104,7 +118,8 @@ public abstract class OrderStrategy implements IOrderStrategy {
                 AppManager.getInstance().currentActivity(),
                 mOrderDetail.getCoach().getMember_id(),
                 mOrderDetail.getCoach().getNickname(),
-                mOrderDetail.getCoach().getAvatar());
+                mOrderDetail.getCoach().getAvatar(),
+                mOrderDetail.getCoach().getQq());
     }
 
     //确认接单

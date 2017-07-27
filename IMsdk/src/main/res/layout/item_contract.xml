@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/main_view"
         android:layout_width="match_parent"
-        android:layout_height="58dp"
+        android:layout_height="wrap_content"
 
         android:orientation="vertical">
 
@@ -19,6 +19,8 @@
             android:id="@+id/muc_left_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="2dp"
+            android:paddingBottom="6dp"
             android:background="@drawable/information_select">
 
 
@@ -143,7 +145,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="#e5e5e5" />
+            android:background="#dfdcdc" />
     </LinearLayout>
 
 

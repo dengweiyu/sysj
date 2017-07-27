@@ -30,8 +30,12 @@ public class OkHttpClient272 implements AbsRequestClient {
 
 	private OkHttpClient272() {
 		super();
-		if (okHttpClient == null)
+		if (okHttpClient == null){
 			okHttpClient = new com.squareup.okhttp.OkHttpClient();
+			okHttpClient.interceptors().add(new RefreshTokenInterceptor());
+		}
+
+
 	}
 
 	public com.squareup.okhttp.OkHttpClient getOkHttpClient() {

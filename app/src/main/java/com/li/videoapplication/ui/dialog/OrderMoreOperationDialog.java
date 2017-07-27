@@ -149,7 +149,7 @@ public class OrderMoreOperationDialog extends PopupWindow implements View.OnClic
         }
 
         if (!Proxy.getConnectManager().isConnect()) {
-            FeiMoIMHelper.Login(user.getMember_id(), user.getNickname(), user.getAvatar());
+            FeiMoIMHelper.Login(user.getId(), user.getNickname(), user.getAvatar());
         }
 
         if (mCustomerEntity.getData().getMember_id().equals(user.getId())){
@@ -157,7 +157,13 @@ public class OrderMoreOperationDialog extends PopupWindow implements View.OnClic
             return;
         }
 
-        IMSdk.createChat(mContext,mCustomerEntity.getData().getMember_id(),mCustomerEntity.getData().getMember_name(),mCustomerEntity.getData().getIcon(),ChatActivity.SHOW_FAST_REPLY);
+        IMSdk.createChat(
+                mContext,
+                mCustomerEntity.getData().getMember_id(),
+                mCustomerEntity.getData().getMember_name(),
+                mCustomerEntity.getData().getIcon(),
+                ChatActivity.SHOW_FAST_REPLY,
+                null);
     }
 
 

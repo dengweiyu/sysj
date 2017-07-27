@@ -18,6 +18,38 @@
         <include layout="@layout/toolbar_white" />
 
     </android.support.v7.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ll_discount_top_msg"
+                android:background="@color/white"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/lightgrey"></View>
+                <TextView
+                    android:id="@+id/tv_discount_top_msg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/textcolor_french_gray"
+                    android:padding="8dp"
+                    android:text="本周首单立减10魔币，不满10魔币免单"
+                    android:gravity="center"
+                    android:elevation="1dp"
+                    android:layout_alignParentTop="true"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/lightgrey"></View>
+            </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -270,7 +302,9 @@
                     android:layout_weight="1"
                     android:textColor="@color/text_color"
                     android:textSize="14sp"
-                    android:padding="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
                     android:text="总价"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -281,22 +315,23 @@
                         android:id="@+id/ll_discount_message"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
+
                         android:orientation="horizontal">
                     <TextView
                         android:id="@+id/tv_discount_message"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_color"
+                        android:textSize="12sp"
+                        android:textColor="@color/ab_backdround_red"
                         android:text="首单免费"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/text_color"
-                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/ab_backdround_red"
+                        android:layout_marginLeft="4dp"
                         android:layout_marginRight="2dp"
+                        android:textSize="12sp"
                         android:text="原价"/>
                     </LinearLayout>
                     <TextView
@@ -304,7 +339,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="  4魔币  "
-                        android:textColor="@color/text_color"
+                        android:textSize="12sp"
+                        android:textColor="@color/ab_backdround_red"
                         android:layout_marginRight="10dp"
                         android:visibility="gone"
                         />
@@ -342,6 +378,9 @@
         </LinearLayout>
     </LinearLayout>
     </ScrollView>
+
+
+        </LinearLayout>
     </LinearLayout>
     <include
         layout="@layout/layout_coach_operation"></include>

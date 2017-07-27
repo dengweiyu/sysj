@@ -3,10 +3,14 @@ package com.ifeimo.im.activity;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ifeimo.im.R;
 import com.ifeimo.im.common.MD5;
@@ -25,7 +29,7 @@ import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.framwork.request.Account;
-import com.ifeimo.im.framwork.view.FashReplyListView;
+import com.ifeimo.im.framwork.view.FlashReplyListView;
 import com.ifeimo.im.provider.InformationProvide;
 
 import org.greenrobot.eventbus.EventBus;
@@ -34,48 +38,51 @@ import y.com.sqlitesdk.framework.business.Business;
 import y.com.sqlitesdk.framework.db.Access;
 import y.com.sqlitesdk.framework.sqliteinterface.Execute;
 
-public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapter> {
+public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel, ChatReAdapter> {
 
     public static final int SHOW_FAST_REPLY = 1000;
     public static final int SHOW_EFAULT = -200;
     private AccountBean receiverBean = new AccountBean();
     private PopupWindow addFriendPopupWindow;
 
-    private ImageView id_fast_reply_iv ;
-    private FashReplyListView id_fast_reply_lv;
+    private ImageView id_fast_reply_iv;
+    private TextView id_qq_tv;
+    private TextView id_qq_tip_tv;
+    private FlashReplyListView id_fast_reply_lv;
     private boolean isShow = false;
 
     private int show;
+    private String showQQ;
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        show = getIntent().getIntExtra("show",SHOW_EFAULT);
+
+        id_qq_tv = (TextView) findViewById(R.id.id_qq_tv);
         id_fast_reply_iv = (ImageView) findViewById(R.id.id_fast_reply_iv);
-        id_fast_reply_lv = (FashReplyListView) findViewById(R.id.id_fast_reply_lv);
+        id_fast_reply_lv = (FlashReplyListView) findViewById(R.id.id_fast_reply_lv);
+        id_qq_tip_tv = (TextView) findViewById(R.id.id_qq_tip_tv);
+
+        id_qq_tip_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 直接打开qq某个人（可以是陌生人）
+                String qqUrl = "mqqwpa://im/chat?chat_type=wpa&uin=" + showQQ+ "&version=1";
+                try {
+                    ChatActivity.this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(qqUrl)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(ChatActivity.this,"未安装手Q或安装的版本不支持",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         findViewById(R.id.btn_chat_send_txt).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendOnclick(v);
             }
         });
-        if(show == SHOW_FAST_REPLY) {
-            id_fast_reply_lv.setEditText(editeMsg);
-            id_fast_reply_iv.setVisibility(View.VISIBLE);
-            id_fast_reply_iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isShow) {
-                        id_fast_reply_lv.setVisibility(View.GONE);
-                    } else {
-                        id_fast_reply_lv.setVisibility(View.VISIBLE);
-                    }
-                    isShow = !isShow;
-                }
-            });
-        }else{
-            id_fast_reply_iv.setVisibility(View.GONE);
-        }
-
+        checkShowFast(getIntent());
         if (savedInstanceState != null) {
             PManager.getCacheUser(getContext());
             receiverBean = (AccountBean) savedInstanceState.getSerializable("receiver");
@@ -102,10 +109,50 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
         id_top_right_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChatWindowEntity c = new ChatWindowEntity(receiverBean.getMemeberid(),v.getId());
+                ChatWindowEntity c = new ChatWindowEntity(receiverBean.getMemeberid(), v.getId());
                 EventBus.getDefault().post(c);
             }
         });
+    }
+
+    /**
+     * 是否显示快捷回复
+     *
+     * @param intent
+     */
+    private void checkShowFast(Intent intent) {
+        show = intent.getIntExtra("show", SHOW_EFAULT);
+        if (show == SHOW_FAST_REPLY) {
+            id_fast_reply_lv.setEditText(editeMsg);
+            id_fast_reply_iv.setVisibility(View.VISIBLE);
+            id_fast_reply_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isShow) {
+                        id_fast_reply_lv.setVisibility(View.GONE);
+                    } else {
+                        id_fast_reply_lv.setVisibility(View.VISIBLE);
+                    }
+                    isShow = !isShow;
+                }
+            });
+        } else {
+            id_fast_reply_iv.setVisibility(View.GONE);
+        }
+        checkQQShow(intent);
+    }
+
+    private void checkQQShow(Intent intent) {
+        showQQ = intent.getStringExtra("showQQ");
+        if (StringUtil.isNull(showQQ)) {
+//            id_qq_tv.setVisibility(View.GONE);
+            id_qq_tip_tv.setVisibility(View.GONE);
+        } else {
+//            id_qq_tv.setVisibility(View.VISIBLE);
+            id_qq_tip_tv.setVisibility(View.VISIBLE);
+            id_qq_tip_tv.setText(Html.fromHtml("如陪练不回复，可QQ联系,对方QQ：<font color=#10a3e2>" + showQQ + "</font>"));
+//            id_qq_tv.setText(Html.fromHtml("QQ: <font color=#10a3e2>" + showQQ + "</font>"));
+        }
     }
 
     @Override
@@ -113,9 +160,9 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
         IMWindosThreadUtil.getInstances().run(getKey(), new Runnable() {
             @Override
             public void run() {
-                PresenceList  presenceList = null;
-                if(null != (presenceList = Account.getCoachPresence())){
-                    for(PresenceList.Presence presence: presenceList.getPresences()){
+                PresenceList presenceList = null;
+                if (null != (presenceList = Account.getCoachPresence())) {
+                    for (PresenceList.Presence presence : presenceList.getPresences()) {
                         System.out.print("id = " + presence.getId());
                         System.out.print(" ,from = " + presence.getFrom());
                         System.out.print(" ,show = " + presence.getShow());
@@ -162,6 +209,7 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
             receiverBean.setMemeberid(intent.getStringExtra("receiverID"));
             receiverBean.setNickName(intent.getStringExtra("receiverNickName"));
             receiverBean.setAvatarUrl(intent.getStringExtra("receiverAvatarUrl"));
+            checkShowFast(intent);
             instances();
             laterInit();
         }
@@ -169,7 +217,7 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
     }
 
     private ChatMsgModel initMsgBean() {
-        ChatMsgModel chatMsgModel =  new ChatMsgModel();
+        ChatMsgModel chatMsgModel = new ChatMsgModel();
         chatMsgModel.setMemberId(Proxy.getAccountManger().getUserMemberId());
         chatMsgModel.setReceiverId(receiverBean.getMemeberid());
         return chatMsgModel;
@@ -273,24 +321,27 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
                     @Override
                     public void onExecute(SQLiteDatabase sqLiteDatabase) throws Exception {
                         long maxCount = Business.getInstances().getTableMaxCount(sqLiteDatabase, ChatMsgModel.class,
-                                        " (receiverId = '" + receiverBean.getMemeberid() + "' and memberId = '" + Proxy.getAccountManger().getUserMemberId() + "') " +
-                                                "or (receiverId = '" + Proxy.getAccountManger().getUserMemberId() + "' and memberId = '" + receiverBean.getMemeberid() + "')");
+                                " (receiverId = '" + receiverBean.getMemeberid() + "' and memberId = '" + Proxy.getAccountManger().getUserMemberId() + "') " +
+                                        "or (receiverId = '" + Proxy.getAccountManger().getUserMemberId() + "' and memberId = '" + receiverBean.getMemeberid() + "')");
                         getAdapter().setMaxCount(Integer.parseInt(maxCount + ""));
-                        if(!isFinishing()) {
+                        if (!isFinishing()) {
                             runnable.run();
                         }
                     }
 
                     @Override
-                    public void onExternalError() {}
+                    public void onExternalError() {
+                    }
                 });
             }
         });
     }
+
     @Override
     protected void onBeforeLoad(Runnable runnable) {
         runnable.run();
     }
+
     @Override
     public void cancelInformation() {
         IMWindosThreadUtil.getInstances().run(getKey(), new Runnable() {
@@ -315,8 +366,10 @@ public class ChatActivity extends BaseIMCompatActivity<ChatMsgModel,ChatReAdapte
                             }
                         }
                     }
+
                     @Override
-                    public void onExternalError() {}
+                    public void onExternalError() {
+                    }
                 });
             }
         });

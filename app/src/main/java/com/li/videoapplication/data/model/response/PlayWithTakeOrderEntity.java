@@ -21,6 +21,15 @@ public class PlayWithTakeOrderEntity extends BaseResponseEntity {
     private int page_count;
     private List<DataBean> data;
     private int coachStatus;
+    private String coachQQ;
+
+    public String getCoachQQ() {
+        return coachQQ;
+    }
+
+    public void setCoachQQ(String coachQQ) {
+        this.coachQQ = coachQQ;
+    }
 
     public int getCoachStatus() {
         return coachStatus;

@@ -41,7 +41,7 @@ public class HomeContract {
         //通栏广告
         void adImage208(int localtion_id, boolean isLoad, final onloadHomeDataListener listener);
 
-        void adClick(long ad_id, int ad_click_state, String hardwarecode, final onloadHomeDataListener listener);
+        void adClick(long ad_id, int ad_click_state, String hardwarecode,String imeifinal,onloadHomeDataListener listener);
 
         void adImageDownload(List<String> downloadList, final OnLoadDataListener<Boolean> listener);
     }
@@ -89,7 +89,7 @@ public class HomeContract {
         //通栏广告
         void adImage208(int localtion_id, boolean isLoad);
 
-        void adClick(long ad_id, int ad_click_state, String hardwarecode);
+        void adClick(long ad_id, int ad_click_state, String hardwarecode ,String imei);
 
     }
 

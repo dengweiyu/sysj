@@ -16,7 +16,17 @@ public class CoachListEntity extends BaseResponseEntity {
      * data : {"page_count":2,"link":{"order_num_icon":"http://img.17sysj.com/testOrder.jpg","win_rate_icon":"http://img.17sysj.com/testWinRate.jpg"},"include":[{"member_id":"54","game_level":"永恒钻石","win_rate":"4%","order_total":"48","avatar":"http://apps.ifeimo.com/Public/Uploads/Member/Avatar/568cc7b4cfe62.jpg","nickname":"胖哥","score":"5.0","status":1,"game_level_icon":"http://img.17sysj.com/testzuiqiang.jpg"},{"member_id":"1201867","game_level":"永恒钻石","win_rate":"56%","order_total":"89","avatar":"http://apps.ifeimo.com/Public/Uploads/Member/Avatar/default21.JPG","nickname":"Zmjie","score":"5.0","status":3,"game_level_icon":"http://img.17sysj.com/testzuiqiang.jpg"},{"member_id":"60","game_level":"最强王者","win_rate":"88%","order_total":"48","avatar":"http://apps.ifeimo.com/Public/Uploads/Member/Avatar/56f8a34a68ff6.jpg","nickname":"小小舞","score":"5.0","status":3,"game_level_icon":"http://img.17sysj.com/testzuiqiang.jpg"},{"member_id":"10026","game_level":"荣耀王者","win_rate":"23%","order_total":"123","avatar":"http://apps.ifeimo.com/Public/Uploads/Member/Avatar/default.png","nickname":"玩家10026","score":"3.0","status":3,"game_level_icon":"http://img.17sysj.com/testzuiqiang.jpg"}]}
      */
 
+    private String notice;
+
     private DataBean data;
+
+    public String getNotice() {
+        return notice;
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice;
+    }
 
     public DataBean getData() {
         return data;

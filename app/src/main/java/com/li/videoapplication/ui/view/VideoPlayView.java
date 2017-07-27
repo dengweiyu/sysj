@@ -77,7 +77,7 @@ public class VideoPlayView extends RelativeLayout implements
     public static final int STATE_ERROR = 9;// 错误
     public static final int STATE_UNVETIFY = -1;    //视频未审核
 
-    private int state = STATE_PREPARE;
+    public int state = STATE_PREPARE;
 
     private View view;
     private ImageView mUnVerifyView;

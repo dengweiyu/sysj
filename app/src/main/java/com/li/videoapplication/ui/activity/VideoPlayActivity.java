@@ -31,13 +31,13 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Bullet;
 import com.li.videoapplication.data.model.entity.VideoImage;
-import com.li.videoapplication.data.model.event.PlayGiftSuccessEvent;
 import com.li.videoapplication.data.model.event.SharedSuccessEvent;
 import com.li.videoapplication.data.model.response.BulletDo203Bullet2VideoEntity;
 import com.li.videoapplication.data.model.response.BulletList203Entity;
 import com.li.videoapplication.data.model.response.ChangeVideo208Entity;
 import com.li.videoapplication.data.model.response.FndownClick203Entity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
+import com.li.videoapplication.data.model.response.PlayGiftResultEntity;
 import com.li.videoapplication.data.model.response.SrtList203Entity;
 import com.li.videoapplication.data.model.response.VideoCollect2Entity;
 import com.li.videoapplication.data.model.response.VideoCommentLike2Entity;
@@ -55,8 +55,6 @@ import com.li.videoapplication.tools.ShareSDKShareHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
-import com.li.videoapplication.ui.dialog.GameTipDialog;
-import com.li.videoapplication.ui.dialog.PlayGiftTipDialog;
 import com.li.videoapplication.ui.fragment.AuthorVideoListFragment;
 import com.li.videoapplication.ui.fragment.GiftTimeLineFragment;
 import com.li.videoapplication.ui.fragment.VideoPlayCommentFragment;
@@ -790,22 +788,14 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
     }
 
 
-    private int mPlatGiftCount = 0;
+
     /**
      * 回调：打赏成功
      */
-    public void onEventMainThread(PlayGiftSuccessEvent event) {
+    public void onEventMainThread(PlayGiftResultEntity entity) {
         if (mGiftCount != null){
-            mPlatGiftCount++;
-            int count = 0;
-            if (item != null && !StringUtil.isNull(item.getFrequency())){
-                try {
-                    count = Integer.parseInt(item.getFrequency());
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                }
-            }
-            mGiftCount.setText(StringUtil.toUnitW((count+mPlatGiftCount)+""));
+            // 视频详情
+            mGiftCount.setText(StringUtil.toUnitW(entity.getData().getRewardedPrice()));
         }
     }
 

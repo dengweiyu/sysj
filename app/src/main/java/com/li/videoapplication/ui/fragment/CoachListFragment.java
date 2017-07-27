@@ -26,6 +26,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.response.CoachListEntity;
 import com.li.videoapplication.data.model.response.CoachStatusEntity;
+import com.li.videoapplication.data.model.response.ConfirmOrderEntity;
 import com.li.videoapplication.data.model.response.PackageInfo203Entity;
 import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.framework.TBaseFragment;
@@ -33,11 +34,15 @@ import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.adapter.CoachLisAdapter;
 import com.li.videoapplication.ui.view.SpanItemDecoration;
+import com.li.videoapplication.ui.view.SpanSingleDecoration;
 import com.li.videoapplication.utils.ScreenUtil;
+import com.li.videoapplication.utils.StringUtil;
 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 教练列表
@@ -45,14 +50,20 @@ import java.util.List;
 
 public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.RequestLoadMoreListener {
     private final long TICK_DELAY = 30000;
+    private Timer mTimer = null;
+
     private SwipeRefreshLayout mRefresh;
     private RecyclerView mList;
     private CoachLisAdapter mAdapter;
+
     private List<CoachListEntity.DataBean.IncludeBean> mData;
     private int mPage = 1;
 
     private TextView mDiscount;
 
+    private RecyclerView.ItemDecoration mItemDecoration;
+
+    private RecyclerView.ItemDecoration mBottomDecoration;
     @Override
     protected int getCreateView() {
         return R.layout.fragment_coach_list;
@@ -69,7 +80,9 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
         mData = new ArrayList<>();
         mAdapter = new CoachLisAdapter(getActivity(),mData);
         mList.setLayoutManager(new LinearLayoutManager(getContext()));
-        mList.addItemDecoration(new SpanItemDecoration(ScreenUtil.dp2px(10),true,true,true,false));
+
+       // mItemDecoration = new SpanItemDecoration(ScreenUtil.dp2px(10),true,true,true,false);
+     //   mList.addItemDecoration(mItemDecoration);
 
         mList.setAdapter(mAdapter);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
@@ -100,7 +113,7 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
 
 
     private void loadData(int page){
-        DataManager.getCoachList(page,true);
+        DataManager.getCoachList(page,false);
     }
 
     @Override
@@ -109,21 +122,49 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
         loadData(mPage);
     }
 
+    final  Handler mHandler = new Handler();
+
+    private boolean mIsVisibleToUser = false;
+
+    private long mLastTimeRefresh = 0L;
+
+    final Runnable mRefreshTask = new Runnable() {
+        @Override
+        public void run() {
+
+            if (System.currentTimeMillis() - mLastTimeRefresh < TICK_DELAY - 5000){
+                mHandler.removeCallbacks(this);
+                return;
+            }
+
+            mLastTimeRefresh = System.currentTimeMillis();
+
+            if (mIsVisibleToUser){
+                mHandler.removeCallbacks(this);
+                mHandler.postDelayed(this,TICK_DELAY);
+            }else {
+                mHandler.removeCallbacks(this);
+            }
+            DataManager.getCoachStatus();
+        }
+    };
+
+
     /**
      * 是否可见
      */
     public void onUserVisibleHint(boolean isVisibleToUser){
-        if (isVisibleToUser){
-            if (mData != null && mData.size() > 0){
-                mTickHandler.post(mTickStatusTask);
-            }
-        }else {
-            if (mTickHandler != null){
-                mTickHandler.removeCallbacks(mTickStatusTask);
-            }
+        if (mIsVisibleToUser == isVisibleToUser){
+            return;
         }
+        mIsVisibleToUser = isVisibleToUser;
 
-        System.out.println("UserVisible:"+isVisibleToUser);
+        if (isVisibleToUser){
+            mHandler.removeCallbacks(mRefreshTask);
+            mHandler.postDelayed(mRefreshTask,TICK_DELAY);
+        }else {
+            mHandler.removeCallbacks(mRefreshTask);
+        }
     }
 
 
@@ -131,21 +172,6 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
     public void onLoadMoreRequested() {
         loadData(mPage);
     }
-
-    final Handler mTickHandler = new Handler();
-
-
-    /**
-     * 更新教练状态任务
-     */
-    final Runnable mTickStatusTask = new Runnable() {
-        @Override
-        public void run() {
-            DataManager.getCoachStatus();
-            //30秒
-            mTickHandler.postDelayed(this,TICK_DELAY);
-        }
-    };
 
     /**
      *教练列表
@@ -160,6 +186,25 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
             }else {
                 mAdapter.setEnableLoadMore(false);
                 mAdapter.setOnLoadMoreListener(null);
+            }
+
+            if (StringUtil.isNull(entity.getNotice())){
+                mDiscount.setVisibility(View.GONE);
+
+                mList.removeItemDecoration(mBottomDecoration);
+                mList.removeItemDecoration(mItemDecoration);
+                mItemDecoration = new SpanItemDecoration(ScreenUtil.dp2px(10),true,true,true,false);
+                mBottomDecoration = new SpanSingleDecoration(ScreenUtil.dp2px(10),false,false,false,true,entity.getData().getInclude().size() -1);
+                mList.addItemDecoration(mItemDecoration);
+                mList.addItemDecoration(mBottomDecoration);
+            }else {
+                mDiscount.setVisibility(View.VISIBLE);
+                mDiscount.setText(entity.getNotice());
+
+                mList.removeItemDecoration(mBottomDecoration);
+                mList.removeItemDecoration(mItemDecoration);
+                mItemDecoration = new SpanItemDecoration(ScreenUtil.dp2px(10),true,true,false,true);
+                mList.addItemDecoration(mItemDecoration);
             }
         }else {
             ToastHelper.s("暂无陪练大神哦~");
@@ -234,5 +279,16 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
         }
     }
 
+
+    /**
+     *订单支付结果
+     */
+    public void onEventMainThread(ConfirmOrderEntity entity){
+        if (entity.isResult()){
+            //更新优惠信息
+            mPage = 1;
+            loadData(mPage);
+        }
+    }
 
 }

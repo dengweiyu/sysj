@@ -333,8 +333,11 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                                 break;
                         }
                         // 广告点击统计+1
-                        presenter.adClick(launchImage.getAd_id(), AdvertisementDto.AD_CLICK_STATUS_11,
-                                HareWareUtil.getHardwareCode());
+                        presenter.adClick(
+                                launchImage.getAd_id(),
+                                AdvertisementDto.AD_CLICK_STATUS_11,
+                                HareWareUtil.getHardwareCode(),
+                                HareWareUtil.getIMEI());
                         break;
                 }
             }

@@ -82,8 +82,11 @@ public class BannerFragment extends TBaseFragment {
             }
 
             // 广告点击统计+1
-            presenter.adClick(launchImage.getAd_id(), AdvertisementDto.AD_CLICK_STATUS_23,
-                    HareWareUtil.getHardwareCode());
+            presenter.adClick(
+                    launchImage.getAd_id(),
+                    AdvertisementDto.AD_CLICK_STATUS_23,
+                    HareWareUtil.getHardwareCode(),
+                    HareWareUtil.getIMEI());
         }
     }
 

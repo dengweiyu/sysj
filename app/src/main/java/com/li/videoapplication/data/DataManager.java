@@ -3936,13 +3936,13 @@ public class DataManager {
     /**
      * 预览订单价格
      */
-    public static void getPreviewOrderPrice(String memberId,int rank,int mode){
+    public static void getPreviewOrderPrice(String memberId,int rank,int mode,int gameCount){
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().getPreviewOrderPrice();
         if (memberId == null){
             memberId = "";
         }
-        Map<String, Object> params = RequestParams.getInstance().getPreviewOrderPrice(memberId,rank,mode);
+        Map<String, Object> params = RequestParams.getInstance().getPreviewOrderPrice(memberId,rank,mode,gameCount);
         RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
         request.setEntity(new PlayWithOrderPriceEntity());
         helper.doNetwork(request);

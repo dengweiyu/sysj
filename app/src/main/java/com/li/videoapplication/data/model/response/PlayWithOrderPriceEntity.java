@@ -18,6 +18,24 @@ public class PlayWithOrderPriceEntity  extends BaseResponseEntity{
     private String promotionMsg;
     private float original_price;
     private boolean isDiscount;
+    private float sign_price;
+    private String topMsg;
+
+    public String getTopMsg() {
+        return topMsg;
+    }
+
+    public void setTopMsg(String topMsg) {
+        this.topMsg = topMsg;
+    }
+
+    public float getSign_price() {
+        return sign_price;
+    }
+
+    public void setSign_price(float sign_price) {
+        this.sign_price = sign_price;
+    }
 
     public boolean isDiscount() {
         return isDiscount;

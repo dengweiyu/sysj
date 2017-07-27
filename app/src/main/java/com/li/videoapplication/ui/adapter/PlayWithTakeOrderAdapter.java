@@ -209,6 +209,7 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
      * 聊天
      */
     private void chatWithCustomer(String memberId,String nickName,String avatar){
+
         if (memberId == null){
             ToastHelper.s("对不起，暂时无法与客户聊天~");
             return;
@@ -224,6 +225,7 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
             return;
         }
 
-        IMSdk.createChat(mContext,memberId,nickName,avatar, ChatActivity.SHOW_FAST_REPLY);
+
+        IMSdk.createChat(mContext,memberId,nickName,avatar, ChatActivity.SHOW_FAST_REPLY,null);
     }
 }

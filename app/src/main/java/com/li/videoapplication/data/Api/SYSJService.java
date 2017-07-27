@@ -71,8 +71,8 @@ public interface SYSJService {
     Observable<ChangeGuessEntity> changeGuessSecond(@Query("video_ids") String video_ids);
 
     //获取启动图广告
-    @GET("/sysj208/ad/adverImage")
-    Observable<AdvertisementDto> adverImage(@QueryMap Map<String, Object> options);
+    @GET
+    Observable<AdvertisementDto> adverImage(@Url String url, @QueryMap Map<String, Object> options);
 
     //获取启动图中游戏下载详情
     @GET("/sysj204/DownloadApp/getDownloadOther")
@@ -83,14 +83,15 @@ public interface SYSJService {
     Observable<BaseHttpResult<List<Download>>> getGameDownloadInfo(@QueryMap Map<String, Object> options);
 
     //获取广告
-    @GET("/sysj208/ad/adImage")
-    Observable<AdvertisementDto> adImage208(@QueryMap Map<String, Object> options);
+    @GET
+    Observable<AdvertisementDto> adImage208(@Url String url,@QueryMap Map<String, Object> options);
 
     //广告点击统计
     @GET("/Sysj204/Advertisement/adClick")
     Observable<BaseHttpResult> adClick(@Query("ad_id") long ad_id,
                                        @Query("ad_click_state") int ad_click_state,
-                                       @Query("hardwarecode") String hardwarecode);
+                                       @Query("hardwarecode") String hardwarecode,
+                                       @Query("imei") String imei);
 
     @Streaming
     @GET

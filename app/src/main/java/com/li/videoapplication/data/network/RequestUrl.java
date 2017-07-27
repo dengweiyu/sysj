@@ -130,7 +130,7 @@ public class RequestUrl {
      * 启动图广告
      */
     public final String adverImage() {
-        return BaseSYSJ + "/sysj208/ad/adverImage";
+        return "http://ad.17sysj.com" + "/Advertisement/adSysjImage";
     }
 
     /**

@@ -85,9 +85,9 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
     }
 
     @Override
-    public void adClick(long ad_id, int ad_click_state, String hardwarecode) {
+    public void adClick(long ad_id, int ad_click_state, String imei,String hardwarecode) {
         Log.d(TAG, "adClick: ad_id == " + ad_id + ", state == " + ad_click_state + ", hardwarecode == " + hardwarecode);
-        homeModel.adClick(ad_id, ad_click_state, hardwarecode, this);
+        homeModel.adClick(ad_id, ad_click_state, hardwarecode,imei, this);
     }
 
     //加载首页成功，通知view更新界面

@@ -2,7 +2,12 @@ package com.li.videoapplication.data.Retrofit;
 
 import com.li.videoapplication.framework.AppConstant;
 
+import java.io.IOException;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -26,7 +31,6 @@ public abstract class RetrofitUtils {
 
             if (null == mOkHttpClient) {
                 mOkHttpClient = OkHttp3Utils.getOkHttpClient();
-
             }
 
             //Retrofit2后使用build设计模式

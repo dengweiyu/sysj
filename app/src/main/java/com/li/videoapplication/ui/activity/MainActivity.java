@@ -809,7 +809,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     @Override
     public void onPageScrolled(int arg0, float arg1, int arg2) {
-        System.out.println("scale:"+arg1 +" currentItem:"+viewPager.getCurrentItem());
         if (mPreviousPosition == 3 && arg1 == 0){
             return;
         }
@@ -819,14 +818,12 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 if (mLastOffset != 0){
                     showShade(arg1);
                     hideShade(1-arg1);
-                    System.out.println("A");
                 }
             }
         }else {                                   //1-0
             if (mPreviousPosition == 3 && viewPager.getCurrentItem() == 3){
                 showShade(arg1);
                 hideShade(1-arg1);
-                System.out.println("B");
             }
         }
         mLastOffset = arg1;

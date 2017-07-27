@@ -392,8 +392,8 @@ public class HomeModel implements IHomeModel {
     }
 
     @Override
-    public void adClick(long ad_id, int ad_click_state, String hardwarecode, final onloadHomeDataListener listener) {
-        HttpManager.getInstance().adClick(ad_id, ad_click_state, hardwarecode, new Observer<BaseHttpResult>() {
+    public void adClick(long ad_id, int ad_click_state, String hardwarecode,String imei, final onloadHomeDataListener listener) {
+        HttpManager.getInstance().adClick(ad_id, ad_click_state, hardwarecode,imei, new Observer<BaseHttpResult>() {
 
             @Override
             public void onCompleted() {

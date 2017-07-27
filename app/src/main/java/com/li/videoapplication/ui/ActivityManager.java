@@ -1502,13 +1502,14 @@ public class ActivityManager {
     /**
      * 生成陪玩订单
      */
-    public static void startCreatePlayWithOrderActivity(Context context,String memberId,String nickName,String avatar) {
+    public static void startCreatePlayWithOrderActivity(Context context,String memberId,String nickName,String avatar,String QQ) {
 
         Intent intent = new Intent();
         intent.setClass(context, CreatePlayWithOrderActivity.class);
         intent.putExtra("coach_id",memberId);
         intent.putExtra("nick_name",nickName);
         intent.putExtra("avatar",avatar);
+        intent.putExtra("qq",QQ);
         context.startActivity(intent);
     }
 

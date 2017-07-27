@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -118,6 +119,7 @@ public class ConfirmPlayWithDialog extends AlphaShadeDialog implements View.OnCl
                 if (isEnough){
                     //立即支付
                     EventBus.getDefault().post(new PayNowEvent(mPage));
+
                 }else {
                     if (!PreferencesHepler.getInstance().isLogin()) {
                         DialogManager.showLogInDialog(mActivity);

@@ -70,6 +70,15 @@ public class PlayWithOrderDetailEntity extends BaseResponseEntity {
         private String nickname;
         private String avatar;
         private String score;
+        private String qq;
+
+        public String getQq() {
+            return qq;
+        }
+
+        public void setQq(String qq) {
+            this.qq = qq;
+        }
 
         public String getMember_id() {
             return member_id;

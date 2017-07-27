@@ -102,10 +102,17 @@ public class BaiduPush{
         }
     }
 
+    void customContent(String content){
+        if(this.mOnSucceed!=null){
+            this.mOnSucceed.customContent(content);
+        }
+    }
+
     public interface OnSucceed{
 
         void succeed(BaiduEntity b);
 
+        void customContent(String content);
     }
 
     public void onResume(Context context){

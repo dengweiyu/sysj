@@ -38,6 +38,7 @@ public class CoachDetailEntity extends BaseResponseEntity {
          * game_level_icon : http://img.17sysj.com/app_coach_strongest_king.png
          * game_name : 王者荣耀
          * status : 3
+         * qq:
          */
 
         private String member_id;
@@ -51,8 +52,17 @@ public class CoachDetailEntity extends BaseResponseEntity {
         private String score;
         private String game_level_icon;
         private String game_name;
+        private String qq;
         @SerializedName("status")
         private int statusX;
+
+        public String getQq() {
+            return qq;
+        }
+
+        public void setQq(String qq) {
+            this.qq = qq;
+        }
 
         public String getMember_id() {
             return member_id;

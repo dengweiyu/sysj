@@ -13,6 +13,7 @@
         android:textSize="12sp"
         android:gravity="center"
         android:visibility="gone"
+        android:textColor="@color/textcolor_french_gray"
         android:text="本周首单，免费第二单半价。"/>
 <android.support.v4.widget.SwipeRefreshLayout
 

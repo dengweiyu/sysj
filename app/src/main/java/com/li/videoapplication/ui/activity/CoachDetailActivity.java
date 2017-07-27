@@ -34,6 +34,7 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
     private String mMemberId;
     private String mCoachNickName;
     private String mCoachAvatar;
+    private String mCoachQQ;
 
     private View mDetailInfo;
     private View mGameInfo;
@@ -125,6 +126,9 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
         if (data == null){
             return;
         }
+
+        mCoachQQ = data.getQq();
+
         mDetailInfo.setVisibility(View.VISIBLE);
         mGameInfo.setVisibility(View.VISIBLE);
         mOperation.setVisibility(View.VISIBLE);
@@ -208,7 +212,7 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
                     ToastHelper.l("不能为自己下单哦~");
                     return;
                 }
-                ActivityManager.startCreatePlayWithOrderActivity(CoachDetailActivity.this,mMemberId,mCoachNickName,mCoachAvatar);
+                ActivityManager.startCreatePlayWithOrderActivity(CoachDetailActivity.this,mMemberId,mCoachNickName,mCoachAvatar,mCoachQQ);
                 break;
             case R.id.rv_coach_info_header:                 //个人中心
                 startPersonCenterActivity();
@@ -232,8 +236,14 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
             return;
         }
 
-        FeiMoIMHelper.Login(user.getMember_id(), user.getNickname(), user.getAvatar());
-        IMSdk.createChat(this,mMemberId,mCoachNickName,mCoachAvatar, ChatActivity.SHOW_FAST_REPLY);
+        FeiMoIMHelper.Login(user.getId(), user.getNickname(), user.getAvatar());
+        IMSdk.createChat(
+                this,
+                mMemberId,
+                mCoachNickName,
+                mCoachAvatar,
+                ChatActivity.SHOW_FAST_REPLY,
+                mCoachQQ);
     }
 
     /**

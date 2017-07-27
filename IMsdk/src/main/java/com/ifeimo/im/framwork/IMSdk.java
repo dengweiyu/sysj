@@ -166,7 +166,7 @@ public final class IMSdk {
     public static void createChat(Context context, String receiverID,
                                   String receiverNickName, String receiverAvatarUrl) {
 
-        createChat(context,receiverID,receiverNickName,receiverAvatarUrl,ChatActivity.SHOW_EFAULT);
+        createChat(context,receiverID,receiverNickName,receiverAvatarUrl,ChatActivity.SHOW_EFAULT,null);
 
 
     }
@@ -179,10 +179,7 @@ public final class IMSdk {
      * @param receiverNickName  对方昵称
      * @param receiverAvatarUrl 对方图片
      */
-    public static void createChat(Context context, String receiverID,
-                                  String receiverNickName, String receiverAvatarUrl,int isFastReply) {
-
-
+    public static void createChat(Context context, String receiverID,String receiverNickName, String receiverAvatarUrl,int isFastReply,String showqq) {
         if(Proxy.getAccountManger().isUserNull()){
             return;
         }
@@ -192,6 +189,9 @@ public final class IMSdk {
         intent.putExtra("receiverNickName", receiverNickName);
         intent.putExtra("receiverAvatarUrl", receiverAvatarUrl);
         intent.putExtra("show", isFastReply);
+        if(showqq != null) {
+            intent.putExtra("showQQ", showqq);
+        }
         context.startActivity(intent);
         if (context instanceof Activity) {
             ((Activity) context).overridePendingTransition(R.anim.left_in, R.anim.left_out);

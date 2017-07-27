@@ -173,7 +173,7 @@ public class HttpManager extends RetrofitUtils {
     // TODO: ############### 广告 ###############
     public void adverImage(int location_id, Observer<AdvertisementDto> observer) {
         Map<String, Object> params = RequestParams.getInstance().adverImage(location_id);
-        Observable<AdvertisementDto> observable = service.adverImage(params);
+        Observable<AdvertisementDto> observable = service.adverImage("http://ad.17sysj.com/Advertisement/adSysjImage",params);
         setSubscribe(observable, observer);
     }
 
@@ -193,20 +193,20 @@ public class HttpManager extends RetrofitUtils {
     }
 
     /**
-     * @param localtion_id 不要怀疑自己的英语，后台做接口拼错的，就得这么写。
+     * @param location_id
      */
-    public void adImage208(int localtion_id, boolean isLoad, Observer<AdvertisementDto> observer) {
-        Map<String, Object> params = RequestParams.getInstance().adImage208(localtion_id);
-        Observable<AdvertisementDto> observable = service.adImage208(params);
+    public void adImage208(int location_id, boolean isLoad, Observer<AdvertisementDto> observer) {
+        Map<String, Object> params = RequestParams.getInstance().adImage208(location_id);
+        Observable<AdvertisementDto> observable = service.adImage208("http://ad.17sysj.com/Advertisement/adSysjImage",params);
         Observable<AdvertisementDto> observableCache = providers.adImage208(observable,
-                new DynamicKey("Ad&" + localtion_id),
+                new DynamicKey("Ad&" + location_id),
                 new EvictDynamicKey(isLoad)).map(new HttpResultFuncCache<AdvertisementDto>());
         setSubscribe(observableCache, observer);
     }
 
     //广告点击统计
-    public void adClick(long ad_id, int ad_click_state, String hardwarecode, Observer<BaseHttpResult> observer) {
-        Observable<BaseHttpResult> observable = service.adClick(ad_id, ad_click_state, hardwarecode);
+    public void adClick(long ad_id, int ad_click_state, String hardwarecode, String imei,Observer<BaseHttpResult> observer) {
+        Observable<BaseHttpResult> observable = service.adClick(ad_id, ad_click_state, hardwarecode,imei);
         setSubscribe(observable, observer);
     }
 

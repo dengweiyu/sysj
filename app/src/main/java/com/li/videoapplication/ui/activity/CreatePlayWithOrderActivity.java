@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.cache.RequestCache;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.event.PayNowEvent;
 import com.li.videoapplication.data.model.response.ConfirmOrderEntity;
 import com.li.videoapplication.data.model.response.OrderTimeEntity;
@@ -40,6 +42,7 @@ import com.li.videoapplication.ui.dialog.ConfirmPlayWithDialog;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.ui.dialog.SimpleChoiceDialog;
 import com.li.videoapplication.ui.dialog.SimpleDoubleChoiceDialog;
+import com.li.videoapplication.utils.MD5Util;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 
@@ -98,6 +101,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     private TextView mPriceTotal;
     private TextView mOriginalPrice;
     private TextView mNotice;
+    private View mTopLayoutDiscount;
+    private TextView mTopDiscountMessage;
     private View mLayoutDiscount;
     private TextView mDiscountMessage;
 
@@ -121,6 +126,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
     private String mCoachAvatar;
 
+    private String mCoachQQ;
+
     private long mStartSecond;
 
     private long mEndSecond;
@@ -133,6 +140,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             mCoachId = getIntent().getStringExtra("coach_id");
             mCoachNickName = getIntent().getStringExtra("nick_name");
             mCoachAvatar = getIntent().getStringExtra("avatar");
+            mCoachQQ = getIntent().getStringExtra("qq");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -173,6 +181,9 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         mOriginalPrice = (TextView)findViewById(R.id.tv_original_price);
         mLayoutDiscount = findViewById(R.id.ll_discount_message);
         mDiscountMessage = (TextView)findViewById(R.id.tv_discount_message);
+
+        mTopLayoutDiscount = findViewById(R.id.ll_discount_top_msg);
+        mTopDiscountMessage = (TextView)findViewById(R.id.tv_discount_top_msg);
         //添加横线
         mOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
 
@@ -611,15 +622,30 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             modeValue = mOptions.getGameModeMap().get(mGameModeIndex).getValue();
         }
         if (rankValue != -1 && modeValue != -1){
-            //更新订单价格
-            DataManager.getPreviewOrderPrice(getMember_id(),rankValue,modeValue);
+            if (mGameCountList.size() > mGameCountIndex){
+                //更新订单价格
+                DataManager.getPreviewOrderPrice(getMember_id(),rankValue,modeValue,Integer.parseInt(mGameCountList.get(mGameCountIndex)));
+            }
+
         }
     }
 
+
+    private String mOrderMD5;
     /**
      * 下单
      */
     public void createOrder(){
+        //
+        if (mHourSecond.size() == 0){
+            ToastHelper.s("请选择陪练开始时间");
+            return;
+        }
+
+        if(mGameCountList.size() == 0){
+            ToastHelper.s("请选择陪练局数");
+        }
+
         if (mLoadingDialog == null){
             mLoadingDialog = new LoadingDialog(this);
             mLoadingDialog.setProgressText("加载中...");
@@ -647,6 +673,23 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         if (startTime == 0){
             return;
         }
+
+        //生成MD5  避免重复提交
+        String orderMD5 = MD5Util.string2MD5(
+                        mCoachId+
+                        mOptions.getGameAreaMap().get(mServerIndex).getValue()+
+                        mOptions.getGameLevelMap().get(mRankIndex).getValue()+
+                        mOptions.getGameModeMap().get(mGameModeIndex).getValue()+
+                        startTime+
+                        Integer.parseInt(mGameCountList.get(mGameCountIndex)));
+
+        if (orderMD5.equals(mOrderMD5)){
+            ToastHelper.s("您已提交订单，请勿重复提交");
+            return;
+        }
+
+        mOrderMD5 = orderMD5;
+
         try {
             DataManager.createPlayWithOrder(getMember_id(),
                     mCoachId,
@@ -673,10 +716,11 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             return;
         }
         if (!Proxy.getConnectManager().isConnect()) {
-            FeiMoIMHelper.Login(user.getMember_id(), user.getNickname(), user.getAvatar());
+            FeiMoIMHelper.Login(user.getId(), user.getNickname(), user.getAvatar());
         }
 
-        IMSdk.createChat(this,mCoachId,mCoachNickName,mCoachAvatar, ChatActivity.SHOW_FAST_REPLY);
+        FeiMoIMHelper.Login(user.getId(), user.getNickname(), user.getAvatar());
+        IMSdk.createChat(this,mCoachId,mCoachNickName,mCoachAvatar, ChatActivity.SHOW_FAST_REPLY,mCoachQQ);
     }
 
     /**
@@ -694,30 +738,31 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     private float mTotal;
     public void onEventMainThread(PlayWithOrderPriceEntity entity){
         if (entity != null){
-            mPrice.setText(entity.getPrice()+" 魔币");
-            int count = 1;
-            try {
-                try {
-                    count = Integer.parseInt(mGameCountList.get(mGameCountIndex));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                mPriceTotal.setText(Html.fromHtml(TextUtil.toColor(entity.getPrice()*count+"","#fc3c2e")+" 魔币"));
-                mTotal = entity.getPrice()*count;
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
+
+            mPrice.setText(entity.getSign_price()+" 魔币");
+
+            mPriceTotal.setText(Html.fromHtml(TextUtil.toColor(entity.getPrice()+"","#fc3c2e")+" 魔币"));
+            mTotal = entity.getPrice();
 
             if (entity.isDiscount()){
                 mLayoutDiscount.setVisibility(View.VISIBLE);
                 mDiscountMessage.setText(entity.getPromotionMsg());
-                mOriginalPrice.setText("  "+entity.getOriginal_price() * count+"魔币  ");
+                mOriginalPrice.setText("  "+entity.getOriginal_price()+"魔币  ");
                 mOriginalPrice.setVisibility(View.VISIBLE);
+
+                if (StringUtil.isNull(entity.getTopMsg())){
+                    mTopLayoutDiscount.setVisibility(View.GONE);
+                }else {
+                    mTopLayoutDiscount.setVisibility(View.VISIBLE);
+                    mTopDiscountMessage.setText(entity.getTopMsg());
+                }
+
             }else {
                 mLayoutDiscount.setVisibility(View.GONE);
                 mOriginalPrice.setVisibility(View.GONE);
                 mOriginalPrice.setVisibility(View.GONE);
             }
+
 
         }
         mLoadingDialog.dismiss();
@@ -777,12 +822,16 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             //支付订单
             DataManager.confirmOrder(getMember_id(),entity.getOrder().getId()+"");
         }else {
-            ToastHelper.l("订单生成失败，请稍后再试哦~");
+            ToastHelper.s("下单失败啦，请稍后再试哦");
+
+
             if (mConfirmDialog != null && mConfirmDialog.isShowing()){
                 mConfirmDialog.dismiss();
             }
             mLoadingDialog.dismiss();
         }
+
+        mOrderMD5 = null;
     }
 
 
@@ -791,7 +840,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
      */
     public void onEventMainThread(ConfirmOrderEntity entity){
         if (entity != null && entity.isResult()){
-            ToastHelper.l("下单成功啦~");
+            ToastHelper.s("下单成功啦~");
             if (mConfirmDialog != null && mConfirmDialog.isShowing()){
                 mConfirmDialog.dismiss();
             }
@@ -803,12 +852,27 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             }
             PreferencesHepler.getInstance().saveUserProfilePersonalInformation(user);
             ActivityManager.startPlayWithOrderDetailActivity(this,mOrderEntity.getOrder().getId()+"",PlayWithOrderDetailActivity.ROLE_OWNER,true);
+
+            //更新优惠信息
+            refreshOptions();
+
         }else {
-            ToastHelper.l("订单生成失败，请稍后再试哦~");
+            if (entity != null){
+                ToastHelper.s(entity.getMsg());
+            }else {
+                ToastHelper.s("订单生成失败，请稍后再试哦~");
+            }
             if (mConfirmDialog != null && mConfirmDialog.isShowing()){
                 mConfirmDialog.dismiss();
             }
         }
         mLoadingDialog.dismiss();
+    }
+
+    /**
+     *网络错误
+     */
+    public void onEventMainThread(NetworkError error){
+        mOrderMD5 = null;
     }
 }

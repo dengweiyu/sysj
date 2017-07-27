@@ -9,7 +9,6 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -18,16 +17,13 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.data.cache.BaseUtils;
 import com.li.videoapplication.data.cache.RequestCache;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.event.InputNumberEvent;
-import com.li.videoapplication.data.model.event.PlayGiftSuccessEvent;
 import com.li.videoapplication.data.model.event.RefreshCommendEvent;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.response.PlayGiftResultEntity;
@@ -36,7 +32,6 @@ import com.li.videoapplication.data.model.response.ServiceTimeEntity;
 import com.li.videoapplication.data.model.response.TimeLineGiftEntity;
 import com.li.videoapplication.data.network.RequestParams;
 import com.li.videoapplication.data.network.RequestUrl;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.TBaseFragment;
@@ -52,10 +47,7 @@ import com.li.videoapplication.ui.dialog.PlayGiftDialog;
 import com.li.videoapplication.ui.view.GiftItemDecoration;
 import com.li.videoapplication.ui.view.SimpleItemDecoration;
 import com.li.videoapplication.utils.StringUtil;
-import com.pnikosis.materialishprogress.ProgressWheel;
-import io.rong.eventbus.EventBus;
 
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -411,8 +403,7 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
                 }
                 //更新视频评论列表
                 io.rong.eventbus.EventBus.getDefault().post(new RefreshCommendEvent());
-                //更新视频收获的礼物数
-                io.rong.eventbus.EventBus.getDefault().post(new PlayGiftSuccessEvent());
+
             }else if (entity.getCode() == 20001){
                 ToastHelper.l(entity.getMsg());
             } else {

@@ -6,16 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<FrameLayout-->
-    <!--android:id="@+id/muc_title"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:elevation="10dp"-->
-    <!--android:orientation="vertical">-->
-
-    <include layout="@layout/top_layout" />
-
-    <!--</FrameLayout>-->
+    <include layout="@layout/top_layout_chat" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,8 +42,6 @@
 
         </FrameLayout>
 
-
-
     </LinearLayout>
 
     <LinearLayout
@@ -60,8 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#F6F6F6"
-        android:focusable="true"
         android:elevation="2dp"
+        android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -74,6 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
+            android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_fast_reply" />
 
         <com.ifeimo.im.framwork.view.IMEditTex
@@ -81,8 +71,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="5dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="#ffffff"
             android:hint=" 请输入消息内容"
@@ -97,11 +87,11 @@
             android:textSize="15sp" />
 
         <!--<ImageView-->
-            <!--android:id="@+id/et_chat_add"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:src="@drawable/ic_add_circle_outline_blue_400_36dp"-->
-            <!--android:visibility="gone" />-->
+        <!--android:id="@+id/et_chat_add"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/ic_add_circle_outline_blue_400_36dp"-->
+        <!--android:visibility="gone" />-->
 
         <LinearLayout
             android:id="@+id/ll_chat_send_toolbox"
@@ -118,25 +108,23 @@
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="8dp"
                 android:background="@null"
-                android:gravity="center"
                 android:clickable="true"
+                android:gravity="center"
                 android:text="发送"
                 android:textColor="#2979FF"
                 android:textSize="15sp" />
         </LinearLayout>
 
 
-
-
     </LinearLayout>
 
-    <com.ifeimo.im.framwork.view.FashReplyListView
+    <com.ifeimo.im.framwork.view.FlashReplyListView
         android:id="@+id/id_fast_reply_lv"
         android:layout_width="match_parent"
-        android:scrollbars="none"
+        android:layout_height="0dp"
+        android:background="#ffffff"
         android:divider="#999999"
         android:dividerHeight="1px"
-        android:background="#ffffff"
-        android:layout_height="0dp"/>
+        android:scrollbars="none" />
 
 </LinearLayout>

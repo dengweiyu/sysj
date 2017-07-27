@@ -17,7 +17,7 @@ public class MD5Util {
 	 * @param string
 	 * @return
 	 */
-	private static String string2MD5(String string){
+	public static String string2MD5(String string){
 		MessageDigest md = null;
 		try{
 			md = MessageDigest.getInstance("MD5");

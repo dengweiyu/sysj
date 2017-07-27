@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/id_top_layout"
     android:layout_width="match_parent"
-    android:layout_height="42dp"
+    android:layout_height="44dp"
     android:background="#ffffff"
     android:elevation="6dp"
     android:orientation="vertical">
@@ -16,6 +16,7 @@
         android:layout_centerVertical="true"
         android:padding="13dp"
         android:scaleType="fitXY"
+        android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/ab_goback_gray"
         android:visibility="visible" />
 

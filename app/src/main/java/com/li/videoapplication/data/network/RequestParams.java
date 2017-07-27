@@ -1680,9 +1680,9 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> adImage208(int localtion_id) {
+    public Map<String, Object> adImage208(int location_id) {
         Map<String, Object> map = new HashMap<>();
-        map.put("localtion_id", localtion_id);
+        map.put("location_id", location_id);
         map.put("platform", "android");
         return map;
     }
@@ -2164,11 +2164,13 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> getPreviewOrderPrice(String memberId,int  rank,int mode) {
+    public Map<String, Object> getPreviewOrderPrice(String memberId,int  rank,int mode,int gameCount) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", memberId);
         map.put("training_level",rank);
         map.put("game_mode",mode);
+        map.put("version","233");
+        map.put("inning",gameCount);
         return map;
     }
 

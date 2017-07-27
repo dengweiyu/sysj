@@ -108,8 +108,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
         // 20170104,2.1.4   test:20161122, 2.1.2
-        versionCode 20170722
-        versionName "2.2.3.1"
+        versionCode 20170726
+        versionName "2.2.3.2"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
         multiDexEnabled true
