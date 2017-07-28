@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.li.videoapplication.BuildConfig;
 import com.li.videoapplication.data.model.entity.Tag;
+import com.li.videoapplication.data.network.NewAddVersionParamInterceptor;
 import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
@@ -49,16 +50,7 @@ public class OkHttp3Utils {
                     .writeTimeout(30, TimeUnit.SECONDS)
                     .readTimeout(30, TimeUnit.SECONDS)
              //       .addNetworkInterceptor(interceptor)          // 这里只要加入 首页的加载就出问题
-                    .addInterceptor(new Interceptor() {
-                        @Override
-                        public Response intercept(Chain chain) throws IOException {
-                            Request request = chain.request();
-                            Request newRequest = request.newBuilder()
-                                    .addHeader("Connection","Keep-Alive")
-                                    .build();
-                            return chain.proceed(newRequest);
-                        }
-                    })
+                    .addInterceptor(new NewAddVersionParamInterceptor())             //默认添加请求参
                     .build();
 
         }

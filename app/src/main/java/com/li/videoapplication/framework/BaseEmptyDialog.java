@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.view.Display;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -31,15 +32,14 @@ public abstract class BaseEmptyDialog extends Dialog {
 		window.setWindowAnimations(R.style.emptyAnim); // 设置窗口弹出动画
 		window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 		setCanceledOnTouchOutside(true);
-		
 		setContentView(getContentView());
-		
 		WindowManager manager = ((Activity) context).getWindowManager();
 		Display display = manager.getDefaultDisplay();
 		WindowManager.LayoutParams params = window.getAttributes();
 		params.width = (display.getWidth()); // 设置宽度
 
 		window.setAttributes(params);
+
 	
 	}
 	

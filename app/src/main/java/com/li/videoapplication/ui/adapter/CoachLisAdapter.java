@@ -35,17 +35,17 @@ public class CoachLisAdapter extends BaseQuickAdapter<CoachListEntity.DataBean.I
                 .setText(R.id.tv_coach_order_number,"订单数"+includeBean.getOrder_total())
                 .setText(R.id.tv_coach_score,includeBean.getScore()+"分");
         final  ImageView icon = (ImageView) holder.getView(R.id.civ_coach_icon);
-        GlideHelper.displayImage(mContext,includeBean.getAvatar(),icon);
+        GlideHelper.displayRoundImage(mContext,includeBean.getAvatar(),icon);
 
         final ImageView rankIcon = holder.getView(R.id.iv_coach_rank_icon);
-        GlideHelper.displayImage(mContext,includeBean.getGame_level_icon(),rankIcon);
-        UITask.postDelayed(new Runnable() {
+        GlideHelper.displayRoundImage(mContext,includeBean.getGame_level_icon(),rankIcon);
+     /*   UITask.postDelayed(new Runnable() {
             @Override
             public void run() {
                 GlideHelper.displayImage(mContext,includeBean.getAvatar(),icon);
                 GlideHelper.displayImage(mContext,includeBean.getGame_level_icon(),rankIcon);
             }
-        },500);
+        },500);*/
 
 
         TextView status = holder.getView(R.id.tv_coach_status);

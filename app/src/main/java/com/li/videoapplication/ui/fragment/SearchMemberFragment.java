@@ -190,7 +190,7 @@ public class SearchMemberFragment extends TBaseChildFragment implements OnRefres
 					public boolean apply(Member input) {
 						for (Member m:
 								data) {
-							if (m.getId().equals(input.getId())){
+							if (m.getMember_id().equals(input.getMember_id())){
 								return false;
 							}
 						}
@@ -198,7 +198,7 @@ public class SearchMemberFragment extends TBaseChildFragment implements OnRefres
 					}
 				})));
 
-				++ page;
+				page++;
 			}else {
 				EventBus.getDefault().post(new SearchResultEvent(2,false));
 

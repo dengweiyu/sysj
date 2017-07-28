@@ -265,7 +265,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         for (int i = 1; i <= mOptions.getMaxInning(); i++) {
             mGameCountList.add(i+"");
             if (i == mOptions.getDefaultInning()){
-                mGameCountIndex = i;
+                mGameCountIndex = i - 1;
             }
         }
 

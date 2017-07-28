@@ -236,6 +236,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         setContentView(R.layout.activity_main);
         setActionBar(inflateActionBar());
 
+
         initMenu();
         initFragment();
 

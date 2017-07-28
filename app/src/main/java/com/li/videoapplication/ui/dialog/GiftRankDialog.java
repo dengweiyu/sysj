@@ -60,7 +60,7 @@ public class GiftRankDialog extends BaseOverShootDialog implements View.OnClickL
 
         if (memberId != null){
             boolean isInRank = false;
-            int distance = 0;
+            float distance = 0;
             int mRank = 0;
             for (int i = 0; i < datas.size(); i++) {
                 if (memberId.equals(datas.get(i).getMember_id())){
@@ -69,7 +69,7 @@ public class GiftRankDialog extends BaseOverShootDialog implements View.OnClickL
                     mRank = i+1;
                     if (i >= 1){
                         try {
-                            distance = Integer.parseInt(datas.get(i-1).getCoin_sum()) - Integer.parseInt(datas.get(i).getCoin_sum());
+                            distance = datas.get(i-1).getCoin_sum() - datas.get(i).getCoin_sum();
                         } catch (NumberFormatException e) {
                             e.printStackTrace();
                         }

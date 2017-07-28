@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
@@ -229,7 +231,7 @@ public class GlideHelper {
     /**
      * 加载圆形图片，sysj默认占位符
      */
-    public static void displayRoundImage(Context context, String uri, ImageView view) {
+    public static void displayRoundImage(Context context, String uri,final ImageView view) {
         Log.d(TAG, "imageUrl=" + uri);
         if (context == null){
             return;
@@ -242,11 +244,18 @@ public class GlideHelper {
 
         Glide.with(context)
                 .load(uri)
-                .bitmapTransform(new CropCircleTransformation(context))
+                //.bitmapTransform(new CropCircleTransformation(context))
                 .placeholder(R.drawable.default_video_211)
                 .error(R.drawable.default_video_211)
+
                 .centerCrop()
-                .into(view);
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        Drawable drawable = resource.getCurrent();
+                        view.setImageDrawable(drawable);
+                    }
+                });
     }
 
 

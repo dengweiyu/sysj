@@ -64,7 +64,7 @@ public class GiftRankAdapter extends BaseQuickAdapter<VideoPlayGiftEntity.DataBe
         },1000);
 
         holder.setText(R.id.tv_player_nick_name, includesBean.getName())
-                .setText(R.id.tv_play_currency,StringUtil.formatNum(includesBean.getCoin_sum()))
+                .setText(R.id.tv_play_currency,StringUtil.formatNum(includesBean.getCoin_sum()+""))
                 .setText(R.id.tv_play_beans,StringUtil.formatNum(includesBean.getCurrency_sum()));
 
         View root  = holder.getView(R.id.ll_rank_root);

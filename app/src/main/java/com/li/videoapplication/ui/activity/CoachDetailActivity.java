@@ -134,13 +134,8 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
         mOperation.setVisibility(View.VISIBLE);
 
         //头像这个控件和 Glide一起用 有问题
-        GlideHelper.displayImage(this,data.getAvatar(),mIcon);
-        UITask.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                GlideHelper.displayImage(CoachDetailActivity.this,data.getAvatar(),mIcon);
-            }
-        },500);
+        GlideHelper.displayRoundImage(this,data.getAvatar(),mIcon);
+
         mNickName.setText(data.getName());
         mGame.setText(data.getGame_name());
 

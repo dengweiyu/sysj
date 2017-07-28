@@ -31,15 +31,15 @@ public class VideoPlayGiftEntity extends BaseResponseEntity {
          * includes : [{"avatar":"http://apps.ifeimo.com/Public/Uploads/Member/Avatar/default21.JPG","name":"13710318457","currency_sum":"166","coin_sum":"6000","member_id":"2713296"},{"avatar":"http://apps.ifeimo.com/Public/Uploads/Member/Avatar/qq_1473229998368.jpg","name":"隔壁老王","currency_sum":"0","coin_sum":"6000","member_id":"969106"},{"avatar":"http://apps.ifeimo.com/Public/Uploads/Member/Avatar/qq_1488781498450.jpg","name":"゛枫 ҉凝҉ゞ","currency_sum":"0","coin_sum":"24","member_id":"2373726"}]
          */
 
-        private int coin;
+        private float coin;
         private int currency;
         private List<IncludesBean> includes;
 
-        public int getCoin() {
+        public float getCoin() {
             return coin;
         }
 
-        public void setCoin(int coin) {
+        public void setCoin(float coin) {
             this.coin = coin;
         }
 
@@ -71,7 +71,7 @@ public class VideoPlayGiftEntity extends BaseResponseEntity {
             private String avatar;
             private String name;
             private String currency_sum;
-            private String coin_sum;
+            private float coin_sum;
             private String member_id;
 
             public String getAvatar() {
@@ -98,11 +98,11 @@ public class VideoPlayGiftEntity extends BaseResponseEntity {
                 this.currency_sum = currency_sum;
             }
 
-            public String getCoin_sum() {
+            public float getCoin_sum() {
                 return coin_sum;
             }
 
-            public void setCoin_sum(String coin_sum) {
+            public void setCoin_sum(float coin_sum) {
                 this.coin_sum = coin_sum;
             }
 

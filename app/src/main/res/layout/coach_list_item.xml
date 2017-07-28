@@ -12,9 +12,8 @@
         android:id="@+id/civ_coach_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:border_color="#DCDCDC"
-        app:border_width="1px"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"

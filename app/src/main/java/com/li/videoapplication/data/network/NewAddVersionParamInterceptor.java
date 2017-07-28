@@ -3,27 +3,27 @@ package com.li.videoapplication.data.network;
 
 
 import com.li.videoapplication.BuildConfig;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-
+import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
- * 拦截器中为接口增加 current_version 的请求参数
+ * 所有接口默认添加请求参
  */
 
-public class AddVersionParamInterceptor implements Interceptor {
+public class NewAddVersionParamInterceptor implements Interceptor {
+
     public static final String VERSION = BuildConfig.VERSION_NAME;
     public static final  String CURRENT_VERSION = "current_version";
+
     @Override
     public Response intercept(Chain chain) throws IOException {
-
         Request request = chain.request();
 
-        String url = request.urlString();
+        String url = request.url().toString();
 
         if (url.indexOf("?") > 0){
             url += "&"+CURRENT_VERSION+"="+VERSION;
@@ -32,9 +32,10 @@ public class AddVersionParamInterceptor implements Interceptor {
         }
 
         request = request
-                    .newBuilder()
-                    .url(url+"")
-                    .build();
+                .newBuilder()
+                .addHeader("Connection","Keep-Alive")
+                .url(url+"")
+                .build();
         return chain.proceed(request);
     }
 }
