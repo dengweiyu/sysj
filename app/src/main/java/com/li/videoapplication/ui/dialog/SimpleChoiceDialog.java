@@ -12,6 +12,7 @@ import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.ui.adapter.SimpleChoiceAdapter;
 import com.li.videoapplication.ui.view.WheelRecyclerView;
 
@@ -71,7 +72,12 @@ public class SimpleChoiceDialog extends WheelBottomDialog {
                 @Override
                 public void onGlobalLayout() {
                     //滚动到默认项
-                    scrollByPosition();
+                    UITask.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollByPosition();
+                        }
+                    },100);
                     mList.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
             });

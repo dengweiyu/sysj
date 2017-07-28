@@ -32,7 +32,9 @@ public class OkHttpClient272 implements AbsRequestClient {
 		super();
 		if (okHttpClient == null){
 			okHttpClient = new com.squareup.okhttp.OkHttpClient();
-			okHttpClient.interceptors().add(new RefreshTokenInterceptor());
+			//okHttpClient.interceptors().add(new RefreshTokenInterceptor());
+			//默认每个接口带参 current_version
+			okHttpClient.interceptors().add(new AddVersionParamInterceptor());
 		}
 
 

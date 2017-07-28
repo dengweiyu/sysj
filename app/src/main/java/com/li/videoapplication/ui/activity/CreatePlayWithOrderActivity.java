@@ -223,7 +223,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
     //use cache first
     private void setOptionsByCache(){
-        String data =  RequestCache.get(RequestUrl.getInstance().getPlayWithOrderOptions(), null);
+        String data =  RequestCache.get(RequestUrl.getInstance().getPlayWithOrderOptions(), RequestParams.getInstance().getPlayWithOrderOptions(mCoachId));
         if (!StringUtil.isNull(data)){
             Gson gson = new Gson();
             try {

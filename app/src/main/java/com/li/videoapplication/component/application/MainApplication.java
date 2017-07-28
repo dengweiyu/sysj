@@ -1,12 +1,6 @@
 package com.li.videoapplication.component.application;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.os.Debug;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.os.Process;
 import android.support.multidex.MultiDex;
 import android.util.Log;
@@ -17,17 +11,13 @@ import com.baidu.push.example.entity.BaiduEntity;
 import com.google.gson.Gson;
 import com.happly.link.util.LogCat;
 import com.ifeimo.im.framwork.IMSdk;
-import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.cache.CacheManager;
-import com.li.videoapplication.data.model.entity.BaiduCustomEntity;
-import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.entity.BaiduMessageEntity;
 import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.network.RequestService;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
-import com.li.videoapplication.data.preferences.SharedPreferencesUtils;
 import com.li.videoapplication.framework.BaseApplication;
 import com.li.videoapplication.tools.AppExceptionHandler;
 import com.li.videoapplication.tools.JPushHelper;
@@ -126,14 +116,17 @@ public class MainApplication extends BaseApplication {
             public void customContent(String content) {
                 try {
                     Gson gson = new Gson();
-                    BaiduCustomEntity entity = gson.fromJson(content, BaiduCustomEntity.class);
-                    if ("training".equals(entity.getType())){
-                        //更新一下个人资料
-                        String memberId = PreferencesHepler.getInstance().getMember_id();
-                        if (!StringUtil.isNull(memberId)){
-                            DataManager.userProfilePersonalInformation(memberId, memberId);
+                    BaiduMessageEntity entity = gson.fromJson(content, BaiduMessageEntity.class);
+                    if (entity != null && entity.getCustom_content() != null){
+                        if ("training".equals(entity.getCustom_content().getType())){
+                            //更新一下个人资料
+                            String memberId = PreferencesHepler.getInstance().getMember_id();
+                            if (!StringUtil.isNull(memberId)){
+                                DataManager.userProfilePersonalInformation(memberId, memberId);
+                            }
                         }
                     }
+
                 }catch (Exception e){
                     e.printStackTrace();
                 }

@@ -18,7 +18,6 @@ public class RefreshTokenInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        request = request.newBuilder().addHeader("version","233").build();
         Log.e("RefreshTokenInterceptor",request.urlString());
         Response response = chain.proceed(request);
 

@@ -49,8 +49,8 @@ import java.util.TimerTask;
  */
 
 public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.RequestLoadMoreListener {
-    private final long TICK_DELAY = 30000;
-    private Timer mTimer = null;
+    private final long TICK_DELAY = 40000;
+
 
     private SwipeRefreshLayout mRefresh;
     private RecyclerView mList;
