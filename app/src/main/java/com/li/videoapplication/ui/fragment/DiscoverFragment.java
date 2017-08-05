@@ -15,6 +15,7 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.mvp.billboard.view.BillboardActivity;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.WebActivity;
@@ -67,6 +68,7 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
         view.findViewById(R.id.discover_dynamic).setOnClickListener(this);
         view.findViewById(R.id.discover_activity).setOnClickListener(this);
         view.findViewById(R.id.discover_gift).setOnClickListener(this);
+        view.findViewById(R.id.ll_reward).setOnClickListener(this);
         draw.setOnClickListener(this);
 
 
@@ -176,6 +178,10 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
 
             case R.id.discover_dynamic:
                 startDynamicActivity();
+                break;
+            case R.id.ll_reward:
+                ToastHelper.l("请等待补丁更新~");
+               // ActivityManager.startRewardRankActivity(getActivity());
                 break;
         }
     }

@@ -10,7 +10,7 @@ import com.li.videoapplication.interfaces.IStrategyController;
 
 
 /**
- *
+ *订单状态不能本地维护 因此没用状态机
  */
 
 public class OrderContext implements IStrategyController ,IOrderStrategy  {

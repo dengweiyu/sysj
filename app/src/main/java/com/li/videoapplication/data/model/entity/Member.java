@@ -113,8 +113,17 @@ public class Member extends BaseEntity {
 
 	public static class VIPInfo implements Serializable {
 		private String level;
-		private String memeber;
+		private String member_id;
 		private String end_time;
+		private String valid;
+
+		public String getValid() {
+			return valid;
+		}
+
+		public void setValid(String valid) {
+			this.valid = valid;
+		}
 
 		public String getLevel() {
 			return level;
@@ -124,12 +133,12 @@ public class Member extends BaseEntity {
 			this.level = level;
 		}
 
-		public String getMemeber() {
-			return memeber;
+		public String getMember_id() {
+			return member_id;
 		}
 
-		public void setMemeber(String memeber) {
-			this.memeber = memeber;
+		public void setMember_id(String member_id) {
+			this.member_id = member_id;
 		}
 
 		public String getEnd_time() {

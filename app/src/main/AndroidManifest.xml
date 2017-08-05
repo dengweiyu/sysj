@@ -58,7 +58,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" />
 
     <application
-        android:name=".component.application.MainApplication"
+        android:name=".component.MainApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo_round"
         android:label="@string/app_name"
@@ -286,6 +286,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".ui.activity.RewardRankActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/MyTheme.NoActionBar"></activity>
+
         <!-- ################################# 2.1.7 支付宝  ######################### -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -436,6 +441,12 @@
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="stateHidden|adjustPan"
                   android:theme="@style/MyTheme.NoActionBar"/>
+
+        <activity android:name=".ui.activity.CoachCommentDetailsActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/MyTheme.NoActionBar"></activity>
+
         <!--单聊界面，包括客服-->
         <activity
             android:name=".ui.activity.ConversationActivity"
@@ -530,14 +541,19 @@
         <!--网络请求服务-->
         <service android:name="com.li.videoapplication.data.network.RequestService" />
         <!--初始化数据服务-->
-        <service android:name="com.li.videoapplication.component.service.AppStartService" />
+        <service android:name="com.li.videoapplication.component.service.AppStartService"
+
+                 android:exported="true"/>
+        <service
+            android:name="com.li.videoapplication.component.service.DaemonServer"
+            android:exported="true"
+            android:process=":guardService"></service>
         <!--更新下载apk服务-->
         <service android:name="com.li.videoapplication.component.service.UpdateService" />
         <!--下载服务-->
         <service android:name="com.li.videoapplication.component.service.DownloadService" />
 
-        <!--sdk 初始化服务-->
-        <service android:name=".component.service.AppSdkInitIntentService"/>
+
 
         <!-- ################################# 录屏部分   ######################### -->
 

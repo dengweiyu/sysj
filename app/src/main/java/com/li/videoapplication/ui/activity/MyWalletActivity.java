@@ -12,6 +12,8 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
+
+import com.li.videoapplication.mvp.mall.view.MyVipInfoFragment;
 import com.li.videoapplication.tools.TabLayoutHelper;
 import com.li.videoapplication.ui.fragment.MyBeansFragment;
 import com.li.videoapplication.ui.fragment.MyWalletTaskFragment;
@@ -61,8 +63,9 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
 
         mFragments.add(MyBeansFragment.newInsatnce(MyBeansFragment.MY_BEANS));              //魔豆
         mFragments.add(MyBeansFragment.newInsatnce(MyBeansFragment.MY_CURRENCY));           //魔币
+        mFragments.add(new MyVipInfoFragment());                                            //VIP详情
         mFragments.add(new MyWalletTaskFragment());
-        mPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(),mFragments,new String[]{"魔豆","魔币","任务"}));
+        mPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(),mFragments,new String[]{"魔豆","魔币","VIP","任务"}));
         mPager.setOffscreenPageLimit(3);
         if (page >= mFragments.size()){
             page = mFragments.size() - 1;
@@ -78,7 +81,7 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
         UITask.postDelayed(new Runnable() {
             @Override
             public void run() {
-                int margin = ScreenUtil.dp2px(35);
+                int margin = ScreenUtil.dp2px(20);
                 TabLayoutHelper.setIndicator(tabLayout,margin,margin);
             }
         },100);

@@ -88,6 +88,7 @@ import com.li.videoapplication.ui.activity.RecommendActivity;
 import com.li.videoapplication.ui.activity.RefundApplyActivity;
 import com.li.videoapplication.ui.activity.ReportActivity;
 import com.li.videoapplication.ui.activity.ReportResultActivity;
+import com.li.videoapplication.ui.activity.RewardRankActivity;
 import com.li.videoapplication.ui.activity.ScanQRCodeActivity;
 import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.activity.SearchGameActivity;
@@ -924,8 +925,9 @@ public class ActivityManager {
      *              用于魔豆充值还是会员开通
      * @param level
      *              需要开通的VIP等级
+     *
      */
-    public static void startPaymentWayActivity(Context context,float money,int number,int entry,int use,int level) {
+    public static void startPaymentWayActivity(Context context,float money,int number,int entry,int use,int level,int key) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
@@ -936,6 +938,7 @@ public class ActivityManager {
         intent.putExtra(PaymentWayActivity.NUMBER,number);
         intent.putExtra(PaymentWayActivity.USE,use);
         intent.putExtra(PaymentWayActivity.LEVEL,level);
+        intent.putExtra(PaymentWayActivity.KEY,key);
         intent.setClass(context, PaymentWayActivity.class);
         context.startActivity(intent);
     }
@@ -1583,6 +1586,14 @@ public class ActivityManager {
      */
     public static void startFeedbackActivity(Context context){
         Intent intent = new Intent(context, FeedbackActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 打赏榜
+     */
+    public static void startRewardRankActivity(Context context){
+        Intent intent = new Intent(context, RewardRankActivity.class);
         context.startActivity(intent);
     }
 }

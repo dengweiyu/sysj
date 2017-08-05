@@ -1,6 +1,10 @@
 package com.li.videoapplication.component.application;
 
+import android.annotation.TargetApi;
+import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Process;
 import android.support.multidex.MultiDex;
 import android.util.Log;
@@ -15,18 +19,30 @@ import com.ifeimo.screenrecordlib.RecordingManager;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.cache.CacheManager;
 import com.li.videoapplication.data.model.entity.BaiduMessageEntity;
+import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.network.RequestService;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
+import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseApplication;
 import com.li.videoapplication.tools.AppExceptionHandler;
 import com.li.videoapplication.tools.JPushHelper;
+import com.li.videoapplication.tools.MyLogImp;
+import com.li.videoapplication.tools.TinkerManager;
 import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.meituan.android.walle.WalleChannelReader;
+import com.tencent.tinker.anno.DefaultLifeCycle;
+import com.tencent.tinker.lib.tinker.Tinker;
+import com.tencent.tinker.lib.tinker.TinkerInstaller;
+import com.tencent.tinker.loader.app.DefaultApplicationLike;
+import com.tencent.tinker.loader.shareutil.ShareConstants;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
+
+import java.lang.reflect.Field;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
@@ -34,34 +50,62 @@ import io.rong.imlib.RongIMClient;
 /**
  * 应用:主应用程序
  */
-public class MainApplication extends BaseApplication {
+@SuppressWarnings("unused")
+@DefaultLifeCycle(application = "com.li.videoapplication.component.MainApplication",
+        flags = ShareConstants.TINKER_ENABLE_ALL,
+        loadVerifyFlag = false)
+public class MainApplicationLike extends DefaultApplicationLike {
 
     private static final boolean DEBUG = false;
     private static final String FEEDBACK_KEY = "23590443";
 
-    private BaiduEntity mBaiduEntity;
+    private static BaiduEntity mBaiduEntity;
 
-    private boolean isSubmitChannelId = true;
+
+    public MainApplicationLike(Application application, int tinkerFlags, boolean tinkerLoadVerifyFlag,
+                               long applicationStartElapsedTime, long applicationStartMillisTime, Intent tinkerResultIntent) {
+        super(application, tinkerFlags, tinkerLoadVerifyFlag, applicationStartElapsedTime, applicationStartMillisTime, tinkerResultIntent);
+    }
+
+
     @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
+    public void  onBaseContextAttached(Context base) {
+        super.onBaseContextAttached(base);
+        MultiDex.install(base);
+        TinkerManager.setTinkerApplicationLike(this);
+
+        TinkerManager.initFastCrashProtect();
+        //should set before tinker is installed
+        TinkerManager.setUpgradeRetryEnable(true);
+
+        //optional set logIml, or you can use default debug log
+        TinkerInstaller.setLogIml(new MyLogImp());
+
+        //installTinker after load multiDex
+        //or you can put com.tencent.tinker.** to main dex
+        TinkerManager.installTinker(this);
+        Tinker tinker = Tinker.with(getApplication());
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        final Application application = getApplication();
+
+        AppManager.getInstance().setApplication(application);
+
         //异常处理
         AppExceptionHandler.getInstance().init();
-
         //乐播debug
         LogCat.setNotDebug(true);
+
         // 初始化主进程
-        if (getApplicationInfo().packageName.equals(AppUtil.getCurrentProcessName(getApplicationContext()))) {
+        if (getApplication().getApplicationInfo().packageName.equals(AppUtil.getCurrentProcessName(application.getApplicationContext()))) {
             // 初始化融云
-            if (getApplicationInfo().packageName.equals(AppUtil.getCurrentProcessName(getApplicationContext())) ||
-                    "io.rong.push".equals(AppUtil.getCurrentProcessName(getApplicationContext()))) {
-                RongIM.init(MainApplication.this);
+            if (application.getApplicationInfo().packageName.equals(AppUtil.getCurrentProcessName(application.getApplicationContext())) ||
+                    "io.rong.push".equals(AppUtil.getCurrentProcessName(application.getApplicationContext()))) {
+                RongIM.init(application);
             }
           //  new Handler().postDelayed(new Runnable() {
            //     @Override
@@ -74,42 +118,46 @@ public class MainApplication extends BaseApplication {
                             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
                             CacheManager.getInstance().initCache();
 
-                            RecordingManager.getInstance().initialize(MainApplication.this);
+                            RecordingManager.getInstance().initialize(application);
 
                             // 极光推送
-                            JPushHelper.initUPush(MainApplication.this, DEBUG);
+                            JPushHelper.initUPush(application, DEBUG);
 
                             if (PreferencesHepler.getInstance().isLogin()) {
                                 JPushHelper.setAlias(PreferencesHepler.getInstance().getMember_id());
                             }
 
+
                             //友盟统计
                             MobclickAgent.setDebugMode(DEBUG);
 
                             //阿里百川反馈
-                            FeedbackAPI.init(MainApplication.this, FEEDBACK_KEY);
+                            FeedbackAPI.init(application, FEEDBACK_KEY);
 
-                            //版本审核
-                            DataManager.checkAndroidStatus(AppUtil.getVersionCode(getApplicationContext()),
-                                    AnalyticsConfig.getChannel(getApplicationContext()));
                         }
                     });
             //    }
         //    }, 1500);
         }
         //只能同步启动
-        x.Ext.init(MainApplication.this);
+        x.Ext.init(application);
         x.Ext.setDebug(DEBUG);
 
         //feimo im sdk
-        IMSdk.init(MainApplication.this);
+        IMSdk.init(application);
 
         //Baidu push
-        BaiduPush.getInstances().init(this, new BaiduPush.OnSucceed() {
+        BaiduPush.getInstances().init(application, new BaiduPush.OnSucceed() {
             @Override
             public void succeed(BaiduEntity b) {
-                mBaiduEntity = b;
 
+                mBaiduEntity = b;
+                Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
+                if (PreferencesHepler.getInstance().isLogin()){
+                        if (mBaiduEntity != null && !StringUtil.isNull(mBaiduEntity.getChannelId())) {
+                            DataManager.submitChannelId(member.getId(),mBaiduEntity.getChannelId());
+                    }
+                }
             }
 
             @Override
@@ -136,7 +184,10 @@ public class MainApplication extends BaseApplication {
 
     }
 
-
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    public void registerActivityLifecycleCallbacks(Application.ActivityLifecycleCallbacks callback) {
+        getApplication().registerActivityLifecycleCallbacks(callback);
+    }
 
     @Override
     public void onLowMemory() {
@@ -163,15 +214,8 @@ public class MainApplication extends BaseApplication {
         }
     };
 
-    public BaiduEntity getBaiduEntity() {
+    public static BaiduEntity getBaiduEntity() {
         return mBaiduEntity;
     }
 
-    public boolean isSubmitChannelId() {
-        return isSubmitChannelId;
-    }
-
-    public void setSubmitChannelId(boolean submitChannelId) {
-        isSubmitChannelId = submitChannelId;
-    }
 }

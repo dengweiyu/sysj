@@ -20,17 +20,29 @@
             android:textColor="@color/lpds_blue"
             android:textSize="12sp"/>
 
-        <TextView
-            android:id="@+id/top_second"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:orientation="horizontal"
             android:gravity="center"
-            android:layout_centerInParent="true"
-            android:text="@string/videomanager_mycloudvideo"
-            android:textColor="@color/menu_videomanager_gray"
-            android:textSize="12sp"/>
-
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/top_second"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:text="@string/videomanager_mycloudvideo"
+                android:textColor="@color/menu_videomanager_gray"
+                android:textSize="12sp"/>
+            <ImageView
+                android:id="@+id/iv_top_vip_level"
+                android:layout_width="wrap_content"
+                android:layout_height="12dp"
+                android:layout_marginLeft="2dp"
+                android:visibility="gone"
+                android:src="@drawable/no_vip"/>
+        </LinearLayout>
         <TextView
             android:id="@+id/top_third"
             android:layout_width="match_parent"

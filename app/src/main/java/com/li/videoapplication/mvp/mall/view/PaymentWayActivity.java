@@ -38,6 +38,7 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
     public final static String NUMBER = "number";      //魔豆数量
     public final static String USE = "use";            //支付用途
     public final static String LEVEL = "level";        //VIP 等级
+    public final static String KEY = "key";             //套餐包
     private MallContract.IMallPresenter presenter;
 
     private ListView mPaymentList;
@@ -52,6 +53,7 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
     private int mNumber = 0;
     private int mUse;
     private int mLevel;
+    private int mKey;
 
     private String mTitle ;
     private IPayment mPayment;
@@ -102,6 +104,7 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
         mNumber = intent.getIntExtra(NUMBER,0);
         mUse = intent.getIntExtra(USE,-1);
         mLevel = intent.getIntExtra(LEVEL,-1);
+        mKey = intent.getIntExtra(KEY,-1);
         switch (mUse){
             case  MallModel.USE_RECHARGE_VIP:
                 mTitle = "充值会员";
@@ -191,14 +194,14 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
             case R.id.rl_payment_now:
                 if (mUse == MallModel.USE_RECHARGE_MONEY){
                     if (mNumber >= 100){
-                        presenter.payment(mUse,getMember_id(),mLevel,mNumber+"",Integer.valueOf(mAdapter.getSelectedPayId()),entry);
+                        presenter.payment(mUse,getMember_id(),mLevel,mKey,mNumber+"",Integer.valueOf(mAdapter.getSelectedPayId()),entry);
                     }else {
                         ToastHelper.l("值数量最低为100");
                     }
                 }else if(mUse == MallModel.USE_RECHARGE_VIP){
-                    presenter.payment(mUse,getMember_id(),mLevel,mNumber+"",Integer.valueOf(mAdapter.getSelectedPayId()),entry);
+                    presenter.payment(mUse,getMember_id(),mLevel,mKey,mNumber+"",Integer.valueOf(mAdapter.getSelectedPayId()),entry);
                 }else if(mUse == MallModel.USE_RECHARGE_COIN){
-                    presenter.payment(mUse,getMember_id(),mLevel,mNumber+"",Integer.valueOf(mAdapter.getSelectedPayId()),entry);
+                    presenter.payment(mUse,getMember_id(),mLevel,mKey,mNumber+"",Integer.valueOf(mAdapter.getSelectedPayId()),entry);
                 }
                 break;
         }

@@ -147,12 +147,6 @@ public class ResponseHandler {
         }
         Log.i(tag, "entity=" + entity);
 
-        if (entity instanceof BaseResponseEntity){
-            //Token 失效
-            if (((BaseResponseEntity)entity).getCode() == 30100){
-                postTokenError();
-            }
-        }
 
         try {
             // 回调网络访问结果
@@ -218,12 +212,6 @@ public class ResponseHandler {
         EventBus.getDefault().post(new NetworkError(code,url));
     }
 
-    /**
-     * Token 失效
-     */
-    private void postTokenError(){
-        EventBus.getDefault().post(new TokenErrorEntity());
-    }
 
 
     /**

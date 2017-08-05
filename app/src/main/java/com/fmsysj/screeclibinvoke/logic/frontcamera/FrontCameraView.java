@@ -221,8 +221,10 @@ public class FrontCameraView extends LinearLayout implements
                 e.printStackTrace();
             }*/
             try {
-                if (onScreenRotation.getOrientation() == LinearLayout.VERTICAL){
+                if(onScreenRotation.getOrientation() ==  1 && mHeight > mWidth) {
                     camera.setDisplayOrientation(90);
+                }else if(onScreenRotation.getOrientation() == 3){
+                    camera.setDisplayOrientation(180);
                 }
 
                 camera.setPreviewTexture(surfaceTexture);

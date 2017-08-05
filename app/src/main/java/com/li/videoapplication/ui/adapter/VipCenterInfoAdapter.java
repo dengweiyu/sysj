@@ -1,6 +1,7 @@
 package com.li.videoapplication.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,36 +33,43 @@ public class VipCenterInfoAdapter extends BaseQuickAdapter<VipRechargeEntity.Dat
         this.fragment = fragment;
     }
 
-    public VipCenterInfoAdapter(List<VipRechargeEntity.DataBean> data) {
-        super(data);
-    }
 
     @Override
     protected void convert(BaseViewHolder holder, VipRechargeEntity.DataBean dataBean) {
-        ImageView vip = (ImageView)holder.getView(R.id.iv_vip_center_vip_icon);
+
         ImageView level = (ImageView)holder.getView(R.id.iv_vip_center_level_icon);
         ImageView select = (ImageView)holder.getView(R.id.iv_vip_center_select);
-        TextView price = (TextView)holder.getView(R.id.iv_vip_center_money);
         View border = holder.getView(R.id.rl_vip_center_item_root);
-        int resVip = 0;
+
+        TextView vipText = (TextView)holder.getView(R.id.tv_vip_text);
+        TextView vipLevel = (TextView)holder.getView(R.id.tv_vip_level);
+        TextView vipPrice = (TextView)holder.getView(R.id.tv_vip_level_price);
+
+        vipLevel.setText(dataBean.getLevel()+"");
+        vipPrice.setText(dataBean.getPrice()+"元/月");
+
+        String color ="#fc3c2e";
         int resLevel = 0;
         switch (dataBean.getLevel()){
             case  1:
-                resVip = R.drawable.vip_1;
                 resLevel = R.drawable.vip_level_1;
+                color="#609a8d";
                 break;
             case  2:
-                resVip = R.drawable.vip_2;
                 resLevel = R.drawable.vip_level_2;
+                color="#f89312";
                 break;
             case  3:
-                resVip = R.drawable.vip_3;
                 resLevel = R.drawable.vip_level_3;
+                color="#ff3995";
                 break;
         }
 
-        vip.setImageResource(resVip);
         level.setImageResource(resLevel);
+
+        vipText.setTextColor(Color.parseColor(color));
+        vipLevel.setTextColor(Color.parseColor(color));
+        vipPrice.setTextColor(Color.parseColor(color));
 
         if (dataBean.isChoice()){
             border.setBackgroundResource(R.drawable.vip_center_selected);
@@ -71,9 +79,6 @@ public class VipCenterInfoAdapter extends BaseQuickAdapter<VipRechargeEntity.Dat
             select.setVisibility(View.GONE);
             border.setBackgroundResource(R.drawable.vip_center_unselected);
         }
-
-        String priceStr =  TextUtil.toColor(dataBean.getPrice()+"", "#ff3d2e") + " 元/月";
-        price.setText(Html.fromHtml(priceStr));
 
         ListView privileges = holder.getView(R.id.lv_vip_privileges);
         privileges.setAdapter(new VipPrivilegeAdapter(this.mContext,dataBean.getDescription()));

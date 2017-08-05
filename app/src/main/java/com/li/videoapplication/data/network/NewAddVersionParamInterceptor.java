@@ -11,7 +11,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * 所有接口默认添加请求参
+ * okhttp3 所有接口默认添加请求参
  */
 
 public class NewAddVersionParamInterceptor implements Interceptor {
@@ -36,6 +36,8 @@ public class NewAddVersionParamInterceptor implements Interceptor {
                 .addHeader("Connection","Keep-Alive")
                 .url(url+"")
                 .build();
+
+
         return chain.proceed(request);
     }
 }

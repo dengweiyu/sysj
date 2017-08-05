@@ -2248,7 +2248,7 @@ public class DataManager {
         Map<String, Object> params = RequestParams.getInstance().login(key);
 
         //增加参数
-       // RequestParams.getInstance().addLoginParams(params,2,time, AppAccount.sign(appKey,time),"app_sysj","E!AHcLR%Pxyp*&d8","password");
+        RequestParams.getInstance().addLoginParams(params,2,time, AppAccount.sign(appKey,time),"app_sysj","E!AHcLR%Pxyp*&d8","password");
 
         RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
         request.setEntity(new LoginEntity());
@@ -2264,7 +2264,7 @@ public class DataManager {
         String url = RequestUrl.getInstance().loginFm();
         Map<String, Object> params = RequestParams.getInstance().login(key);
         String time  = System.currentTimeMillis() / 1000+"";
-    //    RequestParams.getInstance().addLoginParams(params,2,time, AppAccount.sign(appKey,time),"app_sysj","E!AHcLR%Pxyp*&d8","password");
+        RequestParams.getInstance().addLoginParams(params,2,time, AppAccount.sign(appKey,time),"app_sysj","E!AHcLR%Pxyp*&d8","password");
 
         RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
         request.setEntity(new LoginEntity());
@@ -2289,7 +2289,7 @@ public class DataManager {
                 avatar,
                 AppConstant.SYSJ_ANDROID);
 
-     //   RequestParams.getInstance().addLoginParams(params,2,time, AppAccount.sign(appKey,time),"app_sysj","E!AHcLR%Pxyp*&d8","password");
+        RequestParams.getInstance().addLoginParams(params,2,time, AppAccount.sign(appKey,time),"app_sysj","E!AHcLR%Pxyp*&d8","password");
 
         RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
         request.setEntity(new LoginEntity());
@@ -4001,10 +4001,11 @@ public class DataManager {
     /**
      *刷新Token
      */
-    public static void refreshAccessToken(String refreshToken){
+    @Deprecated
+    public static void refreshAccessToken(String refreshToken,String memberId){
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().refreshAccessToken();
-        Map<String, Object> params = RequestParams.getInstance().refreshToken("E!AHcLR%Pxyp*&d8","refresh_token",refreshToken);
+        Map<String, Object> params = RequestParams.getInstance().refreshToken("E!AHcLR%Pxyp*&d8","refresh_token",refreshToken,memberId);
         RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
         request.setEntity(new Token());
         helper.doNetwork(request);
@@ -4184,6 +4185,39 @@ public class DataManager {
         String url = RequestUrl.getInstance().getOrderTime();
         RequestObject request = new RequestObject(Contants.TYPE_GET, url,null, null);
         request.setEntity(new OrderTimeEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 拉取补丁
+     */
+    public static void fetchPatch(String channelId,String version){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().fetchPatch();
+        Map<String, Object> params = RequestParams.getInstance().fetchPatch(channelId,version);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new PatchEntity() );
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 下载补丁包
+     */
+    public static void downloadPatch(String url){
+        RequestHelper helper = new RequestHelper();
+        RequestObject request = new RequestObject(Contants.TYPE_DOWNLOAD, url,null, null);
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 获取会员信息
+     */
+    public static void getUserVipInfo(String memberId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getUserVipInfo();
+        Map<String, Object> params = RequestParams.getInstance().getUserVipInfo(memberId);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new UserVipInfoEntity() );
         helper.doNetwork(request);
     }
 }

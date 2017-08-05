@@ -84,7 +84,7 @@ public class RechargeCurrencyFragment extends TBaseFragment implements MallContr
      * 跳转：支付方式选择
      */
     private void startPaymentWayActivity(int number,int entry) {
-        ActivityManager.startPaymentWayActivity(mActivity,Float.parseFloat(getPrice(selectedPos)),number,entry, MallModel.USE_RECHARGE_MONEY,-1);
+        ActivityManager.startPaymentWayActivity(mActivity,Float.parseFloat(getPrice(selectedPos)),number,entry, MallModel.USE_RECHARGE_MONEY,-1,-1);
     }
 
     @Override

@@ -24,7 +24,9 @@ public class AppConstant {
 	public final static String TOKEN = "token";
 	public final static String DOWNLOAD_LENGHT = "downloadLength";
 	public final static String PERCENT = "PERCENT";
-    
+
+
+	public final  static  String PATCH_MD5 = "patch_md5";
     /**
      * 七牛视频播放地址
      * @return

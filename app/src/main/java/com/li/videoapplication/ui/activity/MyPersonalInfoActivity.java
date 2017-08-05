@@ -31,6 +31,7 @@ import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.BitmapLoader;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.PhotoHelper;
+import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.MyPersonalInfoAdapter;
@@ -88,6 +89,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
     private CircleImageView head;
     private ImageView isV;
     private ImageView mVip;
+    private TextView mVipEndTime;
     private TextView horizonId, name;
     private TextView gender;
     private TextView introduce;
@@ -156,6 +158,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         head = (CircleImageView) findViewById(R.id.mypersonnalinfo_head);
         isV = (ImageView) findViewById(R.id.mypersonnalinfo_isv);
         mVip = (ImageView)findViewById(R.id.iv_person_info_vip);
+        mVipEndTime = (TextView)findViewById(R.id.tv_vip_end_time);
         horizonId = (TextView) findViewById(R.id.mypersonnalinfo_horizonid);
         name = (TextView) findViewById(R.id.mypersonnalinfo_name);
         gender = (TextView) findViewById(R.id.mypersonnalinfo_gender);
@@ -178,7 +181,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         findViewById(R.id.ll_beans).setOnClickListener(this);
         findViewById(R.id.ll_currency).setOnClickListener(this);
         findViewById(R.id.ll_personal_info_vip_center).setOnClickListener(this);
-
+        findViewById(R.id.ll_vip).setOnClickListener(this);
         findViewById(R.id.ll_mypersonnalinfo_horizonid).setOnLongClickListener(mLongClickListener);
 
         mHorizontalListView = (HorizontalListView) findViewById(R.id.horizontallistvierw);
@@ -279,6 +282,9 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 FeiMoIMHelper.LogOut(this, true);
                 finish();
                 break;
+            case R.id.ll_vip:
+                ActivityManager.startTopUpActivity(MyPersonalInfoActivity.this, Constant.TOPUP_ENTRY_INFO,2);
+                break;
 
             default:
                 break;
@@ -332,6 +338,18 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 gender.setText("男");
             } else {
                 gender.setText("女");
+            }
+
+            if (member.getVipInfo() != null){
+                if ("1".equals(member.getVipInfo().getValid())){
+                    try {
+                        mVipEndTime.setText(Html.fromHtml(TextUtil.toColor(TimeHelper.getTimeFormat(member.getVipInfo().getEnd_time()), "#fc3c2e")+"到期"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else {
+
+                }
             }
         }
     }

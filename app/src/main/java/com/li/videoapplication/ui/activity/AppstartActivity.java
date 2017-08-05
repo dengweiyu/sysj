@@ -1,10 +1,14 @@
 package com.li.videoapplication.ui.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+
+import com.baidu.push.example.BaiduPush;
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.network.RequestService;
@@ -20,9 +24,14 @@ import com.li.videoapplication.ui.fragment.BannerFragment;
 import com.li.videoapplication.ui.fragment.SplashFragment;
 import com.li.videoapplication.ui.fragment.WelcomeFragment;
 import com.li.videoapplication.component.service.AppStartService;
+import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.meituan.android.walle.WalleChannelReader;
+import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * 活动：启动
@@ -36,6 +45,13 @@ public class AppstartActivity extends TBaseActivity {
         super.onCreate(savedInstanceState);
         //申请读写权限
         requestPermission();
+
+        //设置友盟channel id
+        setUmengChannelId(getApplicationContext());
+
+        //版本审核
+        DataManager.checkAndroidStatus(AppUtil.getVersionCode(getApplicationContext()),
+                AnalyticsConfig.getChannel(getApplicationContext()));
     }
 
     /**
@@ -54,6 +70,10 @@ public class AppstartActivity extends TBaseActivity {
     public void afterOnCreate() {
         super.afterOnCreate();
         MobclickAgent.setDebugMode(true);
+
+        //
+        BaiduPush.getInstances().onCreate(getApplicationContext());
+
     }
 
     @Override
@@ -70,7 +90,7 @@ public class AppstartActivity extends TBaseActivity {
         } else {
             if (firstSetup) {
                 // 启动-欢迎
-                replaceFragment(new WelcomeFragment());
+                 replaceFragment(new WelcomeFragment());
                  NormalPreferences.getInstance().putBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, false);
             }
         }
@@ -93,6 +113,8 @@ public class AppstartActivity extends TBaseActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+        BaiduPush.getInstances().onResume(getApplicationContext());
 
 
        /* RequestExecutor.execute(new Runnable() {
@@ -172,4 +194,34 @@ public class AppstartActivity extends TBaseActivity {
         super.checkPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE});
     }
 
+
+    /**
+     * 反射设置Umeng channel id
+     */
+    private void setUmengChannelId(Context context){
+        Class<?> configClass = AnalyticsConfig.class;
+
+        try {
+            String channel = WalleChannelReader.getChannel(context);
+
+            if (StringUtil.isNull(channel)){
+                channel="default_channel";
+            }
+            //channel id
+            Object configObject = configClass.newInstance();
+            Method setChannelId = configClass.getDeclaredMethod("setChannel",String.class);
+            setChannelId.setAccessible(true);
+            setChannelId.invoke(configObject,channel);
+            //key
+            Method setAppKey = configClass.getDeclaredMethod("setAppkey",new Class[]{Context.class,String.class});
+            setAppKey.setAccessible(true);
+            setAppKey.invoke(configObject,new Object[]{this,"5450f180fd98c5a66902c674"});
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }catch (IllegalAccessException e){
+            e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

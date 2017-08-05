@@ -37,12 +37,7 @@ public class PlayWithPlaceOrderAdapter extends BaseSectionQuickAdapter<PlayWithP
         } catch (Exception e) {
             e.printStackTrace();
         }
-        GlideHelper.displayImage(mContext,data.getAvatar(),(ImageView) holder.getView(R.id.civ_user_icon));
-        UITask.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                GlideHelper.displayImage(mContext,data.getAvatar(),(ImageView) holder.getView(R.id.civ_user_icon));
-            }
-        },1000);
+        GlideHelper.displayRoundImage(mContext,data.getAvatar(),(ImageView) holder.getView(R.id.civ_user_icon));
+
     }
 }

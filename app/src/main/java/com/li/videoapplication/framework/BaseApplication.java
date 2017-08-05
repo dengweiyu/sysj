@@ -9,6 +9,7 @@ import android.util.Log;
 /**
  * 基本应用程序
  */
+@Deprecated
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public abstract class BaseApplication extends Application {
 

@@ -100,11 +100,10 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/discover_rewardbillboard"
+        android:id="@+id/ll_reward"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_marginTop="6dp"
-        android:visibility="gone"
+        android:layout_marginTop="1dp"
         android:background="@drawable/button_main">
 
         <ImageView
@@ -115,7 +114,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/discover_rewardbillboard" />
+            android:src="@drawable/discover_reward" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -123,7 +122,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="13dp"
             android:layout_toRightOf="@+id/left"
-            android:text="赛事奖金榜"
+            android:text="打赏榜"
             android:textColor="#bb000000"
             android:textSize="14sp" />
 
@@ -136,6 +135,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/go_discover" />
     </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/discover_playerbillboard"
@@ -198,6 +198,44 @@
             android:layout_marginLeft="13dp"
             android:layout_toRightOf="@+id/left"
             android:text="视频榜"
+            android:textColor="#bb000000"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="6dp"
+            android:layout_height="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/go_discover" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/discover_rewardbillboard"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginTop="6dp"
+        android:visibility="gone"
+        android:background="@drawable/button_main">
+
+        <ImageView
+            android:id="@+id/left"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/discover_rewardbillboard" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="13dp"
+            android:layout_toRightOf="@+id/left"
+            android:text="赛事奖金榜"
             android:textColor="#bb000000"
             android:textSize="14sp" />
 

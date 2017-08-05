@@ -11,7 +11,9 @@ import com.chad.library.adapter.base.listener.SimpleClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.response.PlayWithPlaceOrderEntity;
+import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.adapter.PlayWithPlaceOrderAdapter;
 import com.li.videoapplication.ui.ActivityManager;
@@ -77,6 +79,7 @@ public class PlayWithPlaceOrderListFragment extends TBaseFragment implements Bas
         });
 
         mRefresh.setRefreshing(true);
+
         DataManager.getPlayWithPlaceOrder(getMember_id(),mPage);
     }
 
@@ -113,6 +116,7 @@ public class PlayWithPlaceOrderListFragment extends TBaseFragment implements Bas
      * 下单列表
      */
     public void onEventMainThread(PlayWithPlaceOrderEntity entity){
+        mRefresh.setRefreshing(false);
         if (entity != null && entity.isResult()){
             if (mPage == 1){
                 mData.clear();
@@ -137,7 +141,6 @@ public class PlayWithPlaceOrderListFragment extends TBaseFragment implements Bas
             }
             mPage++;
             mAdapter.setNewData(mData);
-            mRefresh.setRefreshing(false);
             if (mData.size() == 0){
                 mEmptyView.setVisibility(View.VISIBLE);
             }else {
@@ -145,6 +148,15 @@ public class PlayWithPlaceOrderListFragment extends TBaseFragment implements Bas
             }
         }else {
             mEmptyView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * 网络错误
+     */
+    public void onEventMainThread(NetworkError error){
+        if (error.getUrl().equals(RequestUrl.getInstance().getPlayWithTakeOrder())){
+            mRefresh.setRefreshing(false);
         }
     }
 }

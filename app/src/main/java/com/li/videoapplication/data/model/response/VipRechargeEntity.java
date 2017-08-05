@@ -17,6 +17,16 @@ public class VipRechargeEntity extends BaseResponseEntity {
         return data;
     }
 
+    private List<PackageMemuBean> packageMemu;
+
+    public List<PackageMemuBean> getPackageMemu() {
+        return packageMemu;
+    }
+
+    public void setPackageMemu(List<PackageMemuBean> packageMemu) {
+        this.packageMemu = packageMemu;
+    }
+
     public void setData(List<DataBean> data) {
         this.data = data;
     }
@@ -86,4 +96,49 @@ public class VipRechargeEntity extends BaseResponseEntity {
             isChoice = choice;
         }
     }
+
+
+    public static class PackageMemuBean {
+            /**
+             * key : 1
+             * text : 一个月
+             * discount : 1
+             */
+            private boolean isChoice;    //自定义字段  是否在列表中选中c
+            private int key;
+            private String text;
+            private float discount;
+
+        public boolean isChoice() {
+            return isChoice;
+        }
+
+        public void setChoice(boolean choice) {
+            isChoice = choice;
+        }
+
+        public int getKey() {
+                return key;
+            }
+
+            public void setKey(int key) {
+                this.key = key;
+            }
+
+            public String getText() {
+                return text;
+            }
+
+            public void setText(String text) {
+                this.text = text;
+            }
+
+            public float getDiscount() {
+                return discount;
+            }
+
+            public void setDiscount(float discount) {
+                this.discount = discount;
+            }
+        }
 }

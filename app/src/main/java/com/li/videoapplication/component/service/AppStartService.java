@@ -1,14 +1,15 @@
 package com.li.videoapplication.component.service;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
-import com.baidu.push.example.entity.BaiduEntity;
+import com.baidu.push.example.BaiduPush;
+import com.coolerfall.daemon.Daemon;
 import com.fmsysj.screeclibinvoke.data.preferences.Utils_Preferens;
-import com.li.videoapplication.component.application.MainApplication;
 import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.HttpManager;
 import com.li.videoapplication.data.database.FileDownloaderEntity;
@@ -17,7 +18,6 @@ import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.entity.Member;
-import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.event.LogoutEvent;
 import com.li.videoapplication.data.model.event.TokenErrorEntity;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import cn.jpush.android.service.DaemonService;
 import rx.Observer;
 
 /**
@@ -60,44 +61,24 @@ public class AppStartService extends BaseIntentService{
 
     private static Handler mTokenHandler;
 
-    //FIXME
-    //Access token 刷新
-   /* Runnable mRefreshTokenTask = new Runnable() {
+    //
+    Runnable mRefreshTokenTask = new Runnable() {
         @Override
         public void run() {
-            if (PreferencesHepler.getInstance().isLogin()){
-                Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
+            if (PreferencesHepler.getInstance().isLogin()) {
+                Member member = PreferencesHepler.getInstance().getUserProfilePersonalInformation();
                 //无token
-                if (member.getSysj_token() == null){
+                if (member.getSysj_token() == null) {
                     //退出当前登录
                     AppAccount.logout();
-                }else {
-                    Member.Token token = member.getSysj_token();
-                    //refresh token > 28天 无效执行退出操作
-                    if (System.currentTimeMillis() - token.getRefreshTokenTime() > 2419200000L){
-                        AppAccount.logout();
-                    }else {
-                        //有效期为 55分钟  提前5分钟
-                        long duration = System.currentTimeMillis() - token.getAccessTokenTime();
-                        if (duration >  member.getSysj_token().getExpires_in()*1000 - 300000){
-                            //刷新token
-                            DataManager.refreshAccessToken(member.getSysj_token().getRefresh_token());
-                        }else {
-                            if (mTokenHandler == null){
-                                mTokenHandler = new Handler();
-                            }
-                            mTokenHandler.postDelayed(this,member.getSysj_token().getExpires_in()*1000 - 300000 - duration);
-                        }
-                    }
-                }
-            }else {
-                if (mTokenHandler != null){
-                    mTokenHandler.removeCallbacks(this);
-                    mTokenHandler = null;
                 }
             }
+            if (mTokenHandler != null) {
+                mTokenHandler.removeCallbacks(this);
+                mTokenHandler = null;
+            }
         }
-    };*/
+    };
 
 
     /**
@@ -121,12 +102,17 @@ public class AppStartService extends BaseIntentService{
     public void onCreate() {
         super.onCreate();
 
-        //刷新Token
-        //FIXME
-   /*     if (PreferencesHepler.getInstance().isLogin()){
+        //检查Token是否存在  针对版本更新的用户
+        if (PreferencesHepler.getInstance().isLogin()){
             mTokenHandler = new Handler();
             mTokenHandler.post(mRefreshTokenTask);
-        }*/
+        }
+
+        //
+        BaiduPush.getInstances().onCreate(getApplicationContext());
+
+        //守护
+        Daemon.run(this, AppStartService.class, Daemon.INTERVAL_ONE_MINUTE*2);
     }
 
     @Override
@@ -152,6 +138,22 @@ public class AppStartService extends BaseIntentService{
         // 飞磨下载应用信息
         feimo();
     }
+
+    @Override
+    public void onDestroy() {
+        //重启服务
+     //   reStartService();
+        super.onDestroy();
+    }
+
+    private void reStartService(){
+        Intent intent = new Intent(getApplicationContext(), DaemonServer.class);
+        PendingIntent pi = PendingIntent.getService(this,0,intent,0);
+
+        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        manager.setRepeating(AlarmManager.ELAPSED_REALTIME,System.currentTimeMillis()+10*1000,10*1000,pi);
+    }
+
 
     /**
      * 统计被邀请用户打开app的次数
@@ -554,7 +556,7 @@ public class AppStartService extends BaseIntentService{
     public void onEventMainThread(LoginEntity event) {
 
         //FIXME
-/*        if (event != null && event.isResult()){
+     /*   if (event != null && event.isResult()){
             //
             Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
             if (member != null){
@@ -565,15 +567,14 @@ public class AppStartService extends BaseIntentService{
                 member.getSysj_token().setRefreshTokenTime(System.currentTimeMillis());
                 //更新时间
                 PreferencesHepler.getInstance().saveUserProfilePersonalInformation(member);
-            }
-            if(mTokenHandler == null){
+            }*/
+         /*   if(mTokenHandler == null){
                 mTokenHandler = new Handler();
                 //55分钟后检查更新
                 mTokenHandler.postDelayed(mRefreshTokenTask,member.getSysj_token().getExpires_in()*1000 - 300000);
-            }
-        }*/
-
-
+            }*/
+        //}
+        BaiduPush.getInstances().onCreate(getApplicationContext());
     }
 
     /**
@@ -581,14 +582,12 @@ public class AppStartService extends BaseIntentService{
      */
     public void onEventMainThread(LogoutEvent event){
         //FIXME
-        /*if (mTokenHandler != null){
+      /*  if (mTokenHandler != null){
             mTokenHandler.removeCallbacks(mRefreshTokenTask);
             mTokenHandler = null;
-        }
-*/
+        }*/
         //
-        MainApplication app = (MainApplication) getApplication();
-        app.setSubmitChannelId(true);
+        BaiduPush.getInstances().onStop(getApplicationContext());
     }
 
     /**
@@ -596,7 +595,7 @@ public class AppStartService extends BaseIntentService{
      */
     public void onEventMainThread(Token data){
         //FIXME
-    /*    if (data != null && data.isResult()){
+      /*  if (data != null && data.isResult()){
             //
             Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
             if (member != null){
@@ -612,16 +611,16 @@ public class AppStartService extends BaseIntentService{
                 //更新时间
                 PreferencesHepler.getInstance().saveUserProfilePersonalInformation(member);
 
-                if (mTokenHandler != null){
+           *//*     if (mTokenHandler != null){
                     mTokenHandler.removeCallbacks(mRefreshTokenTask);
                     //55分钟后更新
                     mTokenHandler.postDelayed(mRefreshTokenTask,member.getSysj_token().getExpires_in()*1000 - 300000);
-                }
+                }*//*
             }
         }else {
             //这里失败的话就是代码问题了~
             //退出当前登录
-           // AppAccount.logout();
+            AppAccount.logout();
         }*/
     }
 
@@ -643,30 +642,31 @@ public class AppStartService extends BaseIntentService{
      */
     public void onEventMainThread(UserInfomationEvent event) {
         //上传Baidu Push 的channel_id
-        if (getApplication() instanceof MainApplication){
-            MainApplication app = (MainApplication) getApplication();
-            Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
-            if (PreferencesHepler.getInstance().isLogin()){
-                if (app.isSubmitChannelId()){
-                    BaiduEntity entity = app.getBaiduEntity();
-                    if (entity != null && !StringUtil.isNull(entity.getChannelId())) {
-                        DataManager.submitChannelId(member.getId(),entity.getChannelId());
-                        app.setSubmitChannelId(false);
-                    }
+       /* Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
+        if (PreferencesHepler.getInstance().isLogin()){
+            if (MainApplicationLike.isSubmitChannelId()){
+                BaiduEntity entity = MainApplicationLike.getBaiduEntity();
+                if (entity != null && !StringUtil.isNull(entity.getChannelId())) {
+                    DataManager.submitChannelId(member.getId(),entity.getChannelId());
+                    MainApplicationLike.setSubmitChannelId(false);
                 }
             }
-        }
+        }*/
     }
 
     /**
      * channel id 提交结果
      */
     public void onEventMainThread(SubmitChannelIdEntity entity){
-        if (entity != null){
-              if (!entity.isResult()){
-                  MainApplication app = (MainApplication) getApplication();
-                  app.setSubmitChannelId(true);
-              }
+        if (entity == null || !entity.isResult()){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    BaiduPush.getInstances().onCreate(getApplicationContext());
+                }
+            },120000);
+        }else {
+
         }
     }
 }

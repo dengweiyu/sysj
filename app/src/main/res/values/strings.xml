@@ -940,7 +940,7 @@
     <string name="square_tip_video_uploading">视频正在上传中...</string>
     <string name="square_tip_video_is_private">上传完成前仅自己可见</string>
     
-    <string name="vip_center_recharge_vip">充值会员</string>
+    <string name="vip_center_recharge_vip">选择等级</string>
 
     <string name="my_wallet_beans_over">魔豆余额</string>
     <string name="my_wallet_coin_over">魔币余额</string>

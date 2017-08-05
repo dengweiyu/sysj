@@ -28,6 +28,7 @@ import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.data.local.StorageUtil;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Match;
+import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.SearchGame2VideoShareEvent;
 import com.li.videoapplication.data.model.event.SharedSuccessEvent;
@@ -129,6 +130,7 @@ public class VideoMangerActivity extends TBaseActivity implements
     //动画图片
     private ImageView cursor;
     private TextView first, second, third;
+    private ImageView mVipLevel;
     private List<Fragment> views;// Tab页面列表
     private int offset = 0;// 动画图片偏移量
     private int bmpW;// 动画图片宽度
@@ -498,6 +500,8 @@ public class VideoMangerActivity extends TBaseActivity implements
         first = (TextView) findViewById(R.id.top_first);
         second = (TextView) findViewById(R.id.top_second);
         third = (TextView) findViewById(R.id.top_third);
+        mVipLevel = (ImageView)findViewById(R.id.iv_top_vip_level);
+        mVipLevel.setVisibility(View.VISIBLE);
 
         first.setOnClickListener(new ClickListener(0));
         second.setOnClickListener(new ClickListener(1));
@@ -520,6 +524,43 @@ public class VideoMangerActivity extends TBaseActivity implements
         viewPager.setOffscreenPageLimit(2);
         viewPager.addOnPageChangeListener(new PagerChangeListener());
         viewPager.setCurrentItem(0);
+
+
+        //VIP
+        if (isLogin()){
+            Member member = getUser();
+            if (member.getVipInfo() != null){
+                int resLevel = 0;
+                if ("1".equals(member.getVipInfo().getValid())){
+                    switch (member.getVipInfo().getLevel()){
+                        case  "1":
+                            resLevel = R.drawable.vip1;
+                            break;
+                        case  "2":
+                            resLevel = R.drawable.vip2;
+                            break;
+                        case  "3":
+                            resLevel = R.drawable.vip3;
+                            break;
+                    }
+                }else {
+                    switch (member.getVipInfo().getLevel()){
+                        case  "1":
+                            resLevel = R.drawable.vip1_overdue;
+                            break;
+                        case  "2":
+                            resLevel = R.drawable.vip2_overdue;
+                            break;
+                        case  "3":
+                            resLevel = R.drawable.vip3_overdue;
+                            break;
+                    }
+                }
+                if (resLevel != 0){
+                    mVipLevel.setImageResource(resLevel);
+                }
+            }
+        }
     }
 
     public void setImporting(boolean importing){

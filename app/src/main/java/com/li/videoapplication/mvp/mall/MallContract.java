@@ -37,7 +37,7 @@ public class MallContract {
         void getRechargeRule(final OnLoadDataListener<TopUpOptionEntity> listener);
 
         //支付
-        void payment(int use,String member_id,int level, String currency_num, int pay_type, int ingress, final OnLoadDataListener<PaymentEntity> listener);
+        void payment(int use,String member_id,int level,int pakageKey, String currency_num, int pay_type, int ingress, final OnLoadDataListener<PaymentEntity> listener);
 
         //充值记录
         void getTopUpRecordList(String member_id, final OnLoadDataListener<List<TopUp>> listener);
@@ -148,7 +148,7 @@ public class MallContract {
 
         void getRechargeRule();
 
-        void payment(int use,String member_id,int level, String currency_num, int pay_type, int ingress);
+        void payment(int use,String member_id,int level,int packageKey, String currency_num, int pay_type, int ingress);
 
         void getTopUpRecordList(String member_id);
 

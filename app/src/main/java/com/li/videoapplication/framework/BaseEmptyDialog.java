@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.view.Display;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -26,7 +27,7 @@ public abstract class BaseEmptyDialog extends Dialog {
 
 	public BaseEmptyDialog(Context context) {
 		super(context, R.style.AppTranslucentDialog);
-		
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		Window window = getWindow();
 		window.setWindowAnimations(R.style.emptyAnim); // 设置窗口弹出动画
@@ -40,7 +41,7 @@ public abstract class BaseEmptyDialog extends Dialog {
 
 		window.setAttributes(params);
 
-	
+
 	}
 	
 	protected abstract int getContentView();

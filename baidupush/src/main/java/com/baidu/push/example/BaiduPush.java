@@ -42,10 +42,12 @@ public class BaiduPush{
     public void init(Application app,OnSucceed mOnSucceed ) {
         this.mOnSucceed = mOnSucceed;
         application = app;
+      //  PushManager.stopWork(application);
+
         application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
+              //  onCreate(application);
             }
 
             @Override
@@ -55,7 +57,7 @@ public class BaiduPush{
 
             @Override
             public void onActivityResumed(Activity activity) {
-                onResume(activity);
+                //onResume(activity);
             }
 
             @Override
@@ -77,11 +79,10 @@ public class BaiduPush{
             public void onActivityDestroyed(Activity activity) {
 
             }
+
+
         });
-        PushManager.startWork(
-                application,
-                PushConstants.LOGIN_TYPE_API_KEY,
-                APP_KEY);
+
     }
 
     public static BaiduPush getInstances() {
@@ -91,7 +92,7 @@ public class BaiduPush{
     private BaiduPush() {
     }
 
-    BaiduEntity getBaiduEntity(){
+    public BaiduEntity getBaiduEntity(){
         return baiduEntity;
     }
 
@@ -115,6 +116,13 @@ public class BaiduPush{
         void customContent(String content);
     }
 
+    public void onCreate(Context context){
+        PushManager.startWork(
+                context,
+                PushConstants.LOGIN_TYPE_API_KEY,
+                APP_KEY);
+    }
+
     public void onResume(Context context){
 //        if(!PushManager.isPushEnabled(context)) {
             Log.i(TAG, "onResume: resumeWork");
@@ -127,6 +135,10 @@ public class BaiduPush{
             Log.i(TAG, "onStop: stopWork");
 //            PushManager.stopWork(context);
 //        }
+    }
+
+    public boolean isPushEnable(Context context){
+        return PushManager.isPushEnabled(context);
     }
 
 }

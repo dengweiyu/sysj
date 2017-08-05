@@ -13,9 +13,11 @@ import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.event.RefreshOrderDetailEvent;
 import com.li.videoapplication.data.model.response.CoachSignEntity;
 import com.li.videoapplication.data.model.response.PlayWithTakeOrderEntity;
+import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
@@ -223,6 +225,15 @@ public class PlayWithTakeOrderListFragment extends TBaseFragment implements View
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * 网络错误
+     */
+    public void onEventMainThread(NetworkError error){
+        if (error.getUrl().equals(RequestUrl.getInstance().getPlayWithPlaceOrder())){
+            mRefresh.setRefreshing(false);
         }
     }
 }

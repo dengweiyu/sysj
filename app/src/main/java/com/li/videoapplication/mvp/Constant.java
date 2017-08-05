@@ -20,12 +20,13 @@ public class Constant {
     public static final int ALIPAY = 1;
     //微信支付
     public static final int WXPAY = 2;
-    //APP内进入充值页面的入口：1=>我的钱包，2=>申请推荐位，3=>抽奖，4=>个人信息，5=>陪玩
+    //APP内进入充值页面的入口：1=>我的钱包，2=>申请推荐位，3=>抽奖，4=>个人信息，5=>陪玩 6=>侧滑菜单
     public static final int TOPUP_ENTRY_MYWALLEY = 1;
     public static final int TOPUP_ENTRY_RECOMMEND = 2;
     public static final int TOPUP_ENTRY_SWEEP = 3;
     public static final int TOPUP_ENTRY_INFO = 4;
     public static final int TOPUP_ENTRY_PLAY_WITH = 5;
+    public static final int TOPUP_ENTRY_HOME_MENU= 6;
     //商品详情显示：0=>默认，1=>富文本页面底部无按钮，2=>富文本页面底部有按钮
     public static final int PRODUCTSDETAIL_DEFAULT = 0;
     public static final int PRODUCTSDETAIL_RICHTEXT_NOBTN = 1;

@@ -1,5 +1,6 @@
 package com.li.videoapplication.framework;
 
+import android.app.Application;
 import android.app.Service;
 import android.content.Context;
 import android.content.res.Resources;
@@ -53,16 +54,16 @@ public class AppManager {
 	
 	/*############ 应用程序 ##############*/
 	
-	private BaseApplication application;
+	private Application application;
 	
 	private Context context;
 
-	public void setApplication(BaseApplication application) {
+	public void setApplication(Application application) {
 		this.application = application;
 		setContext(application.getApplicationContext());
 	}
 
-	public BaseApplication getApplication() {
+	public Application getApplication() {
 		return application;
 	}
 	

@@ -115,11 +115,12 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> payment(String member_id, int level,int pay_type) {
+    public Map<String, Object> payment(String member_id, int level,int packageKey,int pay_type) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("level", level);
         map.put("pay_type", pay_type);
+        map.put("package_key",packageKey);
         map.put("target", SYSJ);
         return map;
     }
@@ -2213,12 +2214,13 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object>  refreshToken(String secret,String grantType,String refreshToken) {
+    public Map<String, Object>  refreshToken(String secret,String grantType,String refreshToken,String memberId) {
         Map<String, Object> map = new HashMap<>();
         map.put("client_id", "app_sysj");
         map.put("client_secret", secret);
         map.put("grant_type", grantType);
         map.put("refresh_token", refreshToken);
+        map.put("member_id",memberId);
         return map;
     }
 
@@ -2314,6 +2316,21 @@ public class RequestParams {
         map.put("member_id", memberId);
         map.put("order_id",orderId);
         map.put("access_token", AppAccount.getAccessToken());
+        return map;
+    }
+
+
+    public Map<String, Object>  fetchPatch(String channelId,String version) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("channel_id", channelId);
+        map.put("app_version",version);
+        return map;
+    }
+
+    public Map<String, Object>  getUserVipInfo(String memberId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+
         return map;
     }
 }

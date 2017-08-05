@@ -57,14 +57,7 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
         });
 
         final ImageView icon = (ImageView)holder.getView(R.id.civ_user_icon);
-        GlideHelper.displayImage(mContext,data.getAvatar(),icon);
-
-        UITask.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                GlideHelper.displayImage(mContext,data.getAvatar(),icon);
-            }
-        },500);
+        GlideHelper.displayRoundImage(mContext,data.getAvatar(),icon);
 
         TextView server = (TextView)holder.getView(R.id.tv_game_server);
         server.setText(data.getGameArea());

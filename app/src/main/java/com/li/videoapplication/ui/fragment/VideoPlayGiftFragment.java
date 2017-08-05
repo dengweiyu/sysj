@@ -48,6 +48,8 @@ import com.li.videoapplication.ui.view.GiftItemDecoration;
 import com.li.videoapplication.ui.view.SimpleItemDecoration;
 import com.li.videoapplication.utils.StringUtil;
 
+import org.apache.commons.io.filefilter.FalseFileFilter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -406,6 +408,7 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
 
             }else if (entity.getCode() == 20001){
                 ToastHelper.l(entity.getMsg());
+
             } else {
                 ToastHelper.l("哎呀~出现问题打赏失败了~");
             }

@@ -58,7 +58,7 @@ public class RechargeCoinFragment  extends TBaseFragment implements MallContract
      * 跳转：支付方式选择
      */
     private void startPaymentWayActivity() {
-        ActivityManager.startPaymentWayActivity(getActivity(),Float.parseFloat(getPrice(mAdapter.getSelectPrice())),getNumber(), Constant.TOPUP_ENTRY_MYWALLEY,MallModel.USE_RECHARGE_COIN,-1);
+        ActivityManager.startPaymentWayActivity(getActivity(),Float.parseFloat(getPrice(mAdapter.getSelectPrice())),getNumber(), Constant.TOPUP_ENTRY_MYWALLEY,MallModel.USE_RECHARGE_COIN,-1,-1);
     }
 
     @Override

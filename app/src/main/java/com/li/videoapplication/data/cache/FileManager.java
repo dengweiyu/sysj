@@ -31,7 +31,7 @@ public class FileManager {
         return instance;
     }
 
-    public static void saveStream(String url, InputStream is) {
+    public static void   saveStream(String url, InputStream is) {
         getInstance().saveFile(url, is);
     }
 

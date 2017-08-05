@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -29,17 +31,20 @@ import com.ifeimo.im.common.util.StatusBarBlackTextHelper;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.message.OnHtmlItemClickListener;
 import com.ifeimo.screenrecordlib.RecordingManager;
+import com.ifeimo.screenrecordlib.constant.Constant;
 import com.ifeimo.screenrecordlib.util.TaskUtil;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnCloseListener;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnClosedListener;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenListener;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenedListener;
+import com.li.videoapplication.BuildConfig;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.Utils_Data;
 import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.image.GlideHelper;
+import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.data.model.entity.VideoImage;
@@ -47,13 +52,17 @@ import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
 import com.li.videoapplication.data.model.event.UnReadMessageEvent;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
+import com.li.videoapplication.data.model.response.DownloadSuccessEntity;
 import com.li.videoapplication.data.model.response.GetRongCloudToken204Entity;
 import com.li.videoapplication.data.model.response.ParseResultEntity;
+import com.li.videoapplication.data.model.response.PatchEntity;
 import com.li.videoapplication.data.model.response.UpdateVersionEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
+import com.li.videoapplication.data.preferences.SharedPreferencesUtils;
+import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseSlidingActivity;
 import com.li.videoapplication.mvp.home.view.HomeFragment;
@@ -71,15 +80,20 @@ import com.li.videoapplication.ui.pageradapter.WelfarePagerAdapter;
 import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.HareWareUtil;
 import com.li.videoapplication.utils.LogHelper;
+import com.li.videoapplication.utils.MD5Util;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 import com.li.videoapplication.views.ViewPagerY4;
+import com.meituan.android.walle.WalleChannelReader;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.tencent.tinker.lib.tinker.TinkerInstaller;
+import com.umeng.analytics.AnalyticsConfig;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -222,6 +236,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), Environment.getExternalStorageDirectory().getAbsolutePath() + "/patch_signed_7zip.apk");
+
         initSystemBar(this);
         setSystemBarBackgroundResource(R.color.menu_main_red);
 
@@ -235,7 +251,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
         setContentView(R.layout.activity_main);
         setActionBar(inflateActionBar());
-
 
         initMenu();
         initFragment();
@@ -269,6 +284,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         registerIMClickListener();
         //注册EventBus 3.0
         org.greenrobot.eventbus.EventBus.getDefault().register(this);
+
     }
 
     @Override
@@ -333,6 +349,16 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
     }
 
+    final Handler mHandler = new Handler();
+
+    Runnable mFetchPatchTask = new Runnable() {
+        @Override
+        public void run() {
+            DataManager.fetchPatch(AnalyticsConfig.getChannel(MainActivity.this),BuildConfig.VERSION_NAME);
+            mHandler.postDelayed(this,1800000);
+        }
+    };
+
     @Override
     public void onResume() {
         super.onResume();
@@ -368,7 +394,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             }
         });
 
-
+        //检查补丁包  补丁包一定不要使用7zip的，在百度加固下出现崩溃
+        mHandler.post(mFetchPatchTask);
     }
 
     @Override
@@ -387,6 +414,10 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             // Utils_Data.finishApp();
 
             System.gc();
+        }
+
+        if (mHandler != null){
+            mHandler.removeCallbacks(mFetchPatchTask);
         }
     }
 
@@ -1119,7 +1150,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
      * 回调：版本更新
      */
     public void onEventMainThread(UpdateVersionEntity event) {
-
         if (event != null && event.isResult()) {
             Update update = event.getData().get(0);
             if (update != null && !isShowedUpdate) {
@@ -1127,6 +1157,46 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             }
         }
     }
+
+    /**
+     * 补丁文件
+     */
+    public void  onEventMainThread(PatchEntity entity){
+        if (entity.isResult()){
+            PatchEntity.DataBean data = entity.getData();
+            if (data.getChannel_id() != null && data.getChannel_id().equals(AnalyticsConfig.getChannel(MainActivity.this))){
+                if (BuildConfig.VERSION_NAME.equals(data.getApp_version()) && !StringUtil.isNull(data.getDownload_url())){
+                    File patchFile = SYSJStorageUtil.createFilecachePath(data.getDownload_url());
+                    //生成MD5
+                    String md5 = MD5Util.string2MD5(data.getApp_version()+data.getPatch_version()+data.getChannel_id()+data.getDownload_url());
+                    if (patchFile != null && patchFile.exists() && md5.equals(SharedPreferencesUtils.getPreference(this, AppConstant.PATCH_MD5))){
+                        //Tinker是线性覆盖 重复加载补丁没有影响
+                        TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), patchFile.getAbsolutePath());
+                        return;
+                    }
+                    SharedPreferencesUtils.setPreference(this, AppConstant.PATCH_MD5,md5);
+                    //拉取补丁
+                    if (!StringUtil.isNull(data.getDownload_url())){
+                        DataManager.downloadPatch(data.getDownload_url());
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 补丁下载成功
+     */
+    public void onEventMainThread(DownloadSuccessEntity entity){
+        if (!StringUtil.isNull(entity.getUrl())){
+            File patchFile = SYSJStorageUtil.createFilecachePath(entity.getUrl());
+            if (patchFile != null && patchFile.exists()){
+                TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), patchFile.getAbsolutePath());
+            }
+        }
+    }
+
+
 
     private UnReadMessageEvent mUnReadMsg;
     /**

@@ -470,8 +470,8 @@ public class HttpManager extends RetrofitUtils {
     }
 
     //开通会员
-    public void payment(String member_id, int  level, int pay_type, Observer<PaymentEntity> observer) {
-        Map<String, Object> params = RequestParams.getInstance().payment(member_id, level, pay_type);
+    public void payment(String member_id, int  level,int packageKey, int pay_type, Observer<PaymentEntity> observer) {
+        Map<String, Object> params = RequestParams.getInstance().payment(member_id, level, packageKey,pay_type);
         Observable<PaymentEntity> observable = service.rechargeVip(params);
         setSubscribe(observable, observer);
     }

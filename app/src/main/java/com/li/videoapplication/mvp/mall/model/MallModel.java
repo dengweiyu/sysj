@@ -138,7 +138,7 @@ public class MallModel implements IMallModel {
     }
 
     @Override
-    public void payment(int use,String member_id,int level, String num, int pay_type, int ingress, final OnLoadDataListener<PaymentEntity> listener) {
+    public void payment(int use,String member_id,int level,int packageKey, String num, int pay_type, int ingress, final OnLoadDataListener<PaymentEntity> listener) {
         Observer<PaymentEntity> observer =  new Observer<PaymentEntity>() {
 
             @Override
@@ -162,7 +162,7 @@ public class MallModel implements IMallModel {
                 HttpManager.getInstance().payment(member_id, num, pay_type, ingress,observer);
                 break;
             case USE_RECHARGE_VIP:          //开通VIP
-                HttpManager.getInstance().payment(member_id,level, pay_type,observer);
+                HttpManager.getInstance().payment(member_id,level, packageKey,pay_type,observer);
                 break;
             case USE_RECHARGE_COIN:         //充值魔币
                 HttpManager.getInstance().paymentCoin(member_id,num,pay_type,ingress,observer);

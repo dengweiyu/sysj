@@ -20,6 +20,7 @@ import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.response.MessageMsgRedEntity;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.TBaseFragment;
+import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.ShareSDKLoginHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -240,6 +241,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
         view.findViewById(R.id.slider_collection).setOnClickListener(this);
         view.findViewById(R.id.slider_setting).setOnClickListener(this);
         view.findViewById(R.id.slider_customer).setOnClickListener(this);
+        view.findViewById(R.id.ll_slider_vip).setOnClickListener(this);
 
         view.findViewById(R.id.slider_qq).setOnClickListener(this);
         view.findViewById(R.id.slider_wx).setOnClickListener(this);
@@ -435,6 +437,9 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
                 break;
             case R.id.slider_customer:
                 new ServiceDialog(getContext()).show();
+                break;
+            case R.id.ll_slider_vip:
+                ActivityManager.startTopUpActivity(getContext(), Constant.TOPUP_ENTRY_HOME_MENU,2);
                 break;
         }
     }

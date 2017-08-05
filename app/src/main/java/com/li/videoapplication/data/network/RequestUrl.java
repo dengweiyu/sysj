@@ -2266,7 +2266,7 @@ public class RequestUrl {
      *会员开通信息
      */
     public final String vipInfo(){
-        return BaseSYSJ+"/Sysj220/VIP/getVIPRechargeInfo";
+        return BaseSYSJ+"/Lpds227/VIP/getVIPRechargeInfo";
     }
 
     /**
@@ -2486,5 +2486,19 @@ public class RequestUrl {
      */
     public final String getOrderTime(){
         return BaseSYSJ+"/Sysj222/TrainingOrder/timeMenu";
+    }
+
+    /**
+     * 拉取补丁文件
+     */
+    public final String fetchPatch(){
+        return BaseSYSJ+"/Sysj224/SysjVersionUpdate/versionHotUpdate";
+    }
+
+    /**
+     * 获取vip信息
+     */
+    public final String getUserVipInfo(){
+        return BaseSYSJ+"/Lpds227/VIP/getMemberVIPInfo";
     }
 }

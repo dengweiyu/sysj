@@ -1,6 +1,7 @@
 package com.li.videoapplication.ui.activity;
 
 
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -45,6 +46,7 @@ import com.li.videoapplication.ui.dialog.SimpleDoubleChoiceDialog;
 import com.li.videoapplication.utils.MD5Util;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.Calendar;
 import java.util.List;
@@ -165,6 +167,14 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     @Override
     public void initView() {
         super.initView();
+
+        // create our manager instance after the content view is set
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        // enable status bar tint
+        tintManager.setStatusBarTintEnabled(true);
+        // enable navigation bar tint
+        //tintManager.setNavigationBarTintEnabled(true);
+        tintManager.setTintColor(Color.parseColor("#FFFFFF"));
         initToolbar();
 
         mOperation = findViewById(R.id.ll_coach_operation);
@@ -424,7 +434,17 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
      */
     private void refreshTimeText(){
         if (mHourList.size() > 0 && mMinuteList.size() > 0){
-            mGameTime.setText(mHourList.get(mHourIndex)+":"+mMinuteList.get(mMinuteIndex));
+
+            String timeStr = "";
+
+            if (mHourList.size() > 0 && mHourIndex < mHourList.size() ){
+                timeStr +=  mHourList.get(mHourIndex);
+            }
+
+            if (mMinuteList.size() > 0 && mMinuteIndex < mMinuteList.size()){
+                timeStr += ":"+mMinuteList.get(mMinuteIndex);
+            }
+            mGameTime.setText(timeStr);
         }
     }
 
@@ -495,28 +515,26 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     private void reCalculationHour(long startSecond,long endSecond){
         mHourList.clear();
         mHourSecond.clear();
-        int startHour = TimeHelper.getCurrentCalendar(startSecond).get(Calendar.HOUR_OF_DAY);
+        long second = startSecond;
+
         int endHour = TimeHelper.getCurrentCalendar(endSecond).get(Calendar.HOUR_OF_DAY);
+        while(second <= endSecond){
+            int hour = TimeHelper.getCurrentCalendar(second).get(Calendar.HOUR_OF_DAY);
+            mHourList.add(formatHour(hour));
+            Calendar ca = TimeHelper.getCurrentCalendar(second);
 
-        for (int i = startHour; i <= endHour; i++) {
-            mHourList.add(formatHour(i));
-            if (i == startHour){            //开始值
-                mHourSecond.add(startSecond);
-            }else if (i == endHour){        //结束值
+            //中间值都从0分开始
+            if (second == startSecond ){
+                mHourSecond.add(second);
+            }else if (ca.get(Calendar.HOUR_OF_DAY) == endHour){
                 mHourSecond.add(endSecond);
-            }else {                         //中间值
-                //使用起始时间构造整时 时间戳
-                Calendar  interCalendar= TimeHelper.getCurrentCalendar(startSecond);
-                //设置小时
-                interCalendar.set(Calendar.HOUR_OF_DAY,i);
-                //设置分钟
-                interCalendar.set(Calendar.MINUTE,0);
-                //设置秒
-                interCalendar.set(Calendar.SECOND,0);
-                mHourSecond.add(interCalendar.getTime().getTime());
+            }else{
+                ca.set(Calendar.MINUTE,0);
+                mHourSecond.add(ca.getTime().getTime()/1000);
             }
-        }
 
+            second += 3600;
+        }
     }
 
 
@@ -780,6 +798,10 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         if (entity.isResult() && mStartSecond != entity.getStartTime() && mEndSecond != entity.getEndTime()){
             mStartSecond = entity.getStartTime();
             mEndSecond = entity.getEndTime();
+
+           // mStartSecond = 1501510200L;
+           // mEndSecond = 1501525200L;
+
             mIntervalTime = entity.getIntervalTime();
 
             reCalculationHour(mStartSecond,mEndSecond);
