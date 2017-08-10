@@ -1,6 +1,7 @@
 package com.ifeimo.im.framwork.request;
 
 import com.google.gson.Gson;
+import com.ifeimo.im.BuildConfig;
 import com.ifeimo.im.common.bean.xml.CoachRosterList;
 import com.ifeimo.im.common.bean.xml.PresenceList;
 import com.ifeimo.im.common.bean.response.MemberInfoRespones;
@@ -38,20 +39,25 @@ public class Account {
      * @throws IOException
      */
     public static Response sendMemberMsgToSYSJ(Object object, Map<String, String> para) throws IOException {
-        GetBuilder builder = OkHttpUtils.get().url(RequestUrl.REQUEST_SEND_SYSJ).tag(RequestManager.getKey(object));
+        GetBuilder builder;
+        if(IMSdk.Debug) {
+            builder = OkHttpUtils.get().url(RequestUrl.REQUEST_SEND_SYSJ_DEBUG).tag(RequestManager.getKey(object));
+        }else{
+            builder = OkHttpUtils.get().url(RequestUrl.REQUEST_SEND_SYSJ).tag(RequestManager.getKey(object));
+        }
         RequestManager.getInstances().convertParameter(para, builder);
         RequestCall requestCall = builder.build();
         RequestManager.getInstances().getRequestQueue().get(RequestManager.getKey(object)).put(RequestUrl.REQUEST_SEND_SYSJ,requestCall);
         return requestCall.execute();
     }
 
-    public static void sendMemberMsgToSYSJ(Object object, Map<String, String> para,Callback callback){
-        GetBuilder builder = OkHttpUtils.get().url(RequestUrl.REQUEST_SEND_SYSJ).tag(RequestManager.getKey(object));
-        RequestManager.getInstances().convertParameter(para, builder);
-        RequestCall requestCall = builder.build();
-        RequestManager.getInstances().getRequestQueue().get(RequestManager.getKey(object)).put(RequestUrl.REQUEST_SEND_SYSJ,requestCall);
-        requestCall.execute(callback);
-    }
+//    public static void sendMemberMsgToSYSJ(Object object, Map<String, String> para,Callback callback){
+//        GetBuilder builder = OkHttpUtils.get().url(RequestUrl.REQUEST_SEND_SYSJ).tag(RequestManager.getKey(object));
+//        RequestManager.getInstances().convertParameter(para, builder);
+//        RequestCall requestCall = builder.build();
+//        RequestManager.getInstances().getRequestQueue().get(RequestManager.getKey(object)).put(RequestUrl.REQUEST_SEND_SYSJ,requestCall);
+//        requestCall.execute(callback);
+//    }
 
     /**
      * 获得用户消息
@@ -61,7 +67,12 @@ public class Account {
      * @throws IOException
      */
     public static MemberInfoRespones getMemberInfo(Object object, String memberid) throws IOException {
-        GetBuilder builder = OkHttpUtils.get().url(RequestUrl.REQUEST_GET_SYSJ).tag(RequestManager.getKey(object));
+        GetBuilder builder;
+        if(IMSdk.Debug) {
+            builder = OkHttpUtils.get().url(RequestUrl.REQUEST_GET_SYSJ_DEBUG).tag(RequestManager.getKey(object));
+        }else{
+            builder = OkHttpUtils.get().url(RequestUrl.REQUEST_GET_SYSJ).tag(RequestManager.getKey(object));
+        }
         builder.addParams("memberId",memberid);
         RequestCall requestCall = builder.build();
         if(!StringUtil.isNull(RequestManager.getKey(object))) {

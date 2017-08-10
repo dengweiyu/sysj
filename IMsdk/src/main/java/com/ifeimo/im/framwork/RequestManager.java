@@ -11,12 +11,15 @@ import com.ifeimo.im.framwork.request.Account;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.HasParamsable;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
 
 /**
  * Created by lpds on 2017/2/9.
@@ -33,6 +36,7 @@ public final class RequestManager implements IMRequest,ILife{
     private Map<String,RequestTag> requestQueue;
 
     private RequestManager(){
+        init();
         ManagerList.getInstances().addManager(this);
         requestQueue = new HashMap<>();
         saveToQueue(getKey(IMSdk.CONTEXT));
@@ -49,6 +53,13 @@ public final class RequestManager implements IMRequest,ILife{
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)
                 .readTimeout(10000L, TimeUnit.MILLISECONDS)
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Log.i(TAG, "intercept: uri = "+chain.request().url()+"  body = "+chain.request().body());
+                        return chain.proceed(chain.request());
+                    }
+                })
                 //其他配置
                 .build();
         OkHttpUtils.initClient(okHttpClient);

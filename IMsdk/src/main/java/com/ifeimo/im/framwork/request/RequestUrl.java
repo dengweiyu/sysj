@@ -10,9 +10,17 @@ public final class RequestUrl {
      */
     public static final String REQUEST_SEND_SYSJ = "http://im.17sysj.com:8080/IM/SetMemberInfo";
     /**
+     * 提交用户消息到imDebug
+     */
+    public static final String REQUEST_SEND_SYSJ_DEBUG = "http://192.168.48.54:9090/plugins/imservlet/setmemberinfo";
+    /**
      * 获取用户消息
      */
     public static final String REQUEST_GET_SYSJ = "http://im.17sysj.com:8080/IM/GetMemberInfo";
+    /**
+     * 获取用户消息Debug
+     */
+    public static final String REQUEST_GET_SYSJ_DEBUG = "http://192.168.48.54:9090/plugins/imservlet/getmemberinfo";
     /**
      * 获取陪练名单
      */

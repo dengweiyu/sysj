@@ -1,13 +1,7 @@
 package com.ifeimo.im.common.bean.message;
 
-import com.ifeimo.im.common.MD5;
-import com.ifeimo.im.common.bean.model.IMsg;
-import com.ifeimo.im.framwork.IMSdk;
-
-import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smackx.filetransfer.OutgoingFileTransfer;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,11 +1,9 @@
 package com.ifeimo.im.common.bean.model;
 
-import java.io.Serializable;
-
 /**
- * Created by lpds on 2017/4/21.
+ * Created by linhui on 2017/8/9.
  */
-public interface IMsg extends IAccountModel{
+public interface Msg {
     String getContent();
     String getMsgId();
     int getSendType();

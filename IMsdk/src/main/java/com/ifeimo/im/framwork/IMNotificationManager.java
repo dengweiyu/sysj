@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaExtractor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Vibrator;
@@ -19,7 +18,8 @@ import com.ifeimo.im.OnOutIM;
 import com.ifeimo.im.R;
 import com.ifeimo.im.activity.ChatActivity;
 import com.ifeimo.im.common.bean.model.AccountModel;
-import com.ifeimo.im.common.bean.model.IMsg;
+import com.ifeimo.im.common.bean.model.HeadLineModel;
+import com.ifeimo.im.common.bean.model.IChatMsg;
 import com.ifeimo.im.common.bean.response.MemberInfoRespones;
 import com.ifeimo.im.common.util.AppUtil;
 import com.ifeimo.im.common.util.StringUtil;
@@ -27,7 +27,7 @@ import com.ifeimo.im.common.util.ThreadUtil;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.framwork.commander.IMWindow;
 import com.ifeimo.im.framwork.notification.NotificationManager;
-import com.ifeimo.im.framwork.notification.NotifyBean;
+import com.ifeimo.im.framwork.notification.NotifyObservable;
 import com.ifeimo.im.framwork.request.Account;
 import com.ifeimo.im.framwork.setting.Builder;
 import com.ifeimo.im.provider.ChatProvider;
@@ -47,13 +47,28 @@ import y.com.sqlitesdk.framework.sqliteinterface.Execute;
  * <p/>
  * 管理消息推送
  */
-final class IMNotificationManager implements NotificationManager<NotifyBean> ,OnOutIM{
+final class IMNotificationManager implements NotificationManager, OnOutIM {
     private static final String TAG = "XMPP_Notification";
     private static IMNotificationManager notificationManager;
     private android.app.NotificationManager notificationManagerServier;
     private static final long VIBRATION_DURATION = 500;
-    private Map<String, List<IMsg>> messageNotifications;
+    /**
+     * 推送的消息
+     */
+    private Map<String, List<IChatMsg>> messageNotifications;
+    /**
+     * 震动
+     */
     private Vibrator vibrator;
+
+    /**
+     * 系统IM消息集合
+     */
+    private Map<Integer,HeadLineModel> headLineMsgArray;
+    /**
+     * 系统IM消息监听
+     */
+    private NotifyObservable notifyObservableSet;
 
     static {
         notificationManager = new IMNotificationManager();
@@ -63,6 +78,7 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> ,On
     private IMNotificationManager() {
         ManagerList.getInstances().addManager(this);
         messageNotifications = new HashMap<>();
+        headLineMsgArray = new HashMap<>();
         vibrator = (Vibrator) IMSdk.CONTEXT.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
@@ -75,7 +91,7 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> ,On
      *
      * @return
      */
-    private int notifyMessageNotification(IMsg iMsg) {
+    private int notifyChatMessageNotification(IChatMsg iMsg) {
         {
             switch (IMSdk.versionCode) {
                 case 1:
@@ -114,7 +130,7 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> ,On
             bitmap = Glide.with(IMSdk.CONTEXT)
                     .load(iMsg.getMemberAvatarUrl())
                     .asBitmap() //必须
-                    .fitCenter()
+                    .centerCrop()
                     .into(300, 300)
                     .get();
         } catch (Exception e) {
@@ -157,7 +173,7 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> ,On
     }
 
     @Override
-    public void notifyMessageNotification2(final IMsg iMsg) {
+    public void notifyMessageNotification2(final IChatMsg iMsg) {
         final AccountModel[] accountModels = {null};
 
         Access.runCustomThread(new Execute() {
@@ -212,8 +228,63 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> ,On
         }
 
         if (Proxy.getAccountManger().getUserMemberId() != null && !Proxy.getAccountManger().getUserMemberId().equals(iMsg.getMemberId())) {
-            notifyMessageNotification(iMsg);
+            notifyChatMessageNotification(iMsg);
         }
+    }
+
+    /**
+     * im系统简单的通知
+     *
+     * @param headLineModel
+     */
+    @Override
+    public void notifyHeadLineNotifycation(HeadLineModel headLineModel) {
+
+        if (notifyObservableSet != null) {
+            final Intent intent = notifyObservableSet.subscribe(headLineModel);
+
+            if (intent == null) {
+                return;
+            }
+
+            while (true) {
+                int id = (int) (Math.random() * 1_000_000) + 100_000;
+                if (headLineMsgArray.get(id) == null){
+                    headLineModel.setId(id);
+                    headLineMsgArray.put(id,headLineModel.clone());
+                    break;
+                }
+            }
+
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(IMSdk.CONTEXT);
+            notificationBuilder.setContentTitle("手游视界");
+            notificationBuilder.setContentText(headLineModel.getContent());
+            notificationBuilder.setAutoCancel(true);
+            notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(IMSdk.CONTEXT.getResources(), getIcon()));
+            notificationBuilder.setWhen(System.currentTimeMillis());
+            notificationBuilder.setDefaults(Notification.DEFAULT_ALL);
+            notificationBuilder.setTicker("简讯");
+            notificationBuilder.setSmallIcon(getIcon());
+            notificationBuilder.setVibrate(new long[]{0, VIBRATION_DURATION});
+            notificationBuilder.setSound(getSound());
+            notificationBuilder.setLights(0xFF0000, 3000, 3000);
+            notificationBuilder.setCategory(NotificationCompat.CATEGORY_MESSAGE);
+            notificationBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
+            PendingIntent contentIntent = PendingIntent.getActivity(IMSdk.CONTEXT, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            notificationBuilder.setContentIntent(contentIntent);
+            Notification notification = notificationBuilder.build();
+            notificationManagerServier.notify(new Integer(headLineModel.getId() + ""), notification);
+        }
+    }
+
+    @Override
+    public void setNotifyObservable(NotifyObservable notifyObservable) {
+        notifyObservableSet = notifyObservable;
+    }
+
+    @Override
+    public void removeNotifyObservable() {
+        notifyObservableSet = null;
     }
 
     /**
@@ -222,7 +293,7 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> ,On
      * @param m
      * @return
      */
-    private boolean cheackShowNotification(IMsg m) {
+    private boolean cheackShowNotification(IChatMsg m) {
         final IMWindow imWindow = ChatWindowsManager.getInstances().getLastWindow();
         if (imWindow != null && AppUtil.isAppInForeground(imWindow.getContext())) {
             switch (imWindow.getType()) {
@@ -246,12 +317,12 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> ,On
      * @param msgBean
      */
     @Deprecated
-    private void addNotifycation(IMsg msgBean) {
+    private void addNotifycation(IChatMsg msgBean) {
         if (messageNotifications.containsKey(msgBean.getMemberId())) {
-            List<IMsg> list = messageNotifications.get(msgBean.getMemberId());
+            List<IChatMsg> list = messageNotifications.get(msgBean.getMemberId());
             list.add(msgBean);
         } else {
-            final LinkedList<IMsg> list = new LinkedList<>();
+            final LinkedList<IChatMsg> list = new LinkedList<>();
             messageNotifications.put(msgBean.getMemberId(), list);
             list.add(msgBean);
         }
@@ -274,9 +345,9 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> ,On
         final IMWindow imWindow = ChatWindowsManager.getInstances().getAllIMWindows().getLast();
         switch (imWindow.getType()) {
             case IMWindow.CHAT_TYPE:
-                List<IMsg> linkedList = messageNotifications.get(imWindow.getReceiver());
+                List<IChatMsg> linkedList = messageNotifications.get(imWindow.getReceiver());
                 if (linkedList != null) {
-                    for (IMsg msgBean : linkedList) {
+                    for (IChatMsg msgBean : linkedList) {
                         notificationManagerServier.cancel(new Integer(msgBean.getId() + ""));
                     }
                     linkedList.clear();
@@ -293,12 +364,16 @@ final class IMNotificationManager implements NotificationManager<NotifyBean> ,On
      */
     @Override
     public void clearNotifications() {
-        for(String key : messageNotifications.keySet()){
-            for(IMsg msgBean : messageNotifications.get(key)){
+        for (String key : messageNotifications.keySet()) {
+            for (IChatMsg msgBean : messageNotifications.get(key)) {
                 notificationManagerServier.cancel(new Integer(msgBean.getId() + ""));
             }
         }
         messageNotifications.clear();
+        for(Integer integer : headLineMsgArray.keySet()){
+            notificationManagerServier.cancel(integer);
+        }
+        headLineMsgArray.clear();
     }
 
     @Override

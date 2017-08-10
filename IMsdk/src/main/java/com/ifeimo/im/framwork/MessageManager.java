@@ -9,7 +9,8 @@ import android.util.Log;
 
 import com.ifeimo.im.common.bean.model.ChatMsgModel;
 import com.ifeimo.im.common.bean.model.GroupChatModel;
-import com.ifeimo.im.common.bean.model.IMsg;
+import com.ifeimo.im.common.bean.model.HeadLineModel;
+import com.ifeimo.im.common.bean.model.IChatMsg;
 import com.ifeimo.im.common.bean.chat.ChatBean;
 import com.ifeimo.im.common.bean.chat.GroupChatBean;
 import com.ifeimo.im.common.util.ConnectUtil;
@@ -56,6 +57,10 @@ final class MessageManager implements MessageObserver {
     private static final int RECEIVER_MSG = 2;
     private static final int SEND_MSG = 4;
     private static final int RESEN_MSG = 8;
+    /**
+     * 简单通知
+     */
+    private static final int HEADLINE_TYPE = 64;
     static MessageManager messageManager;
 
     /**
@@ -92,7 +97,7 @@ final class MessageManager implements MessageObserver {
                             switch (msg.what) {
                                 case IMWindow.CHAT_TYPE:
                                     if (msg.arg1 == RECEIVER_MSG) {
-                                        ChatMsgModel chatMsgModel = ChatMsgModel.buildChatBean((org.jivesoftware.smack.packet.Message) msg.obj);
+                                        ChatMsgModel chatMsgModel = ChatMsgModel.buildChatModel((org.jivesoftware.smack.packet.Message) msg.obj);
                                         if (chatMsgModel != null) {
                                             ChatBusiness.getInstances().insert(chatMsgModel);
                                             messageManager.handlerNotifycationChatMsg(chatMsgModel);
@@ -106,7 +111,7 @@ final class MessageManager implements MessageObserver {
                                     break;
                                 case IMWindow.MUCCHAT_TYPE:
                                     if (msg.arg1 == RECEIVER_MSG) {
-                                        GroupChatModel groupChatModel = GroupChatModel.buildMuccBean((org.jivesoftware.smack.packet.Message) msg.obj);
+                                        GroupChatModel groupChatModel = GroupChatModel.buildMuccModel((org.jivesoftware.smack.packet.Message) msg.obj);
                                         if (groupChatModel != null) {
                                             GroupChatBusiness.getInstances().insert(groupChatModel);
                                         }
@@ -115,6 +120,12 @@ final class MessageManager implements MessageObserver {
                                         }
                                     } else if (msg.arg1 == SEND_MSG) {
                                         GroupChatBusiness.getInstances().insert((GroupChatModel) msg.obj);
+                                    }
+                                    break;
+                                case HEADLINE_TYPE:
+                                    if (msg.arg1 == RECEIVER_MSG) {
+                                        HeadLineModel h = HeadLineModel.buildHeadLineModel((org.jivesoftware.smack.packet.Message) msg.obj);
+                                        IMNotificationManager.getInstances().notifyHeadLineNotifycation(h);
                                     }
                                     break;
                             }
@@ -211,7 +222,7 @@ final class MessageManager implements MessageObserver {
 //     * 无响应队列
 //     */
 //    @Deprecated
-//    private Map<String, Map<String, IMsg>> unMessageList = new HashMap<>();
+//    private Map<String, Map<String, IChatMsg>> unMessageList = new HashMap<>();
 
     private Set<OnChatMessageReceiver> onChatMessageReceivers;
     private OnSimpleMessageListener onSimpleMessageListener;
@@ -231,23 +242,23 @@ final class MessageManager implements MessageObserver {
      */
     @Override
     public GroupChatBean createGruopChat(String roomid) {
-            GroupChatBean groupChatBean = null;
-            if (groupChatSet.containsKey(roomid)) {
-                groupChatBean = groupChatSet.get(roomid);
-            } else {
-                try {
-                    if (Proxy.getConnectManager().isConnect()) {
-                        groupChatBean = new GroupChatBean(Proxy.getAccountManger().getUserMemberId(), roomid, null,
-                                MultiUserChatManager.getInstanceFor(Proxy.getConnectManager().getConnection()).getMultiUserChat(Jid.getRoomJ(IMSdk.CONTEXT, roomid)));
-                        joinRoom(groupChatBean.getMultiUserChat());
-                        groupChatSet.put(roomid, groupChatBean);
-                        Log.i(TAG, "createMucc: 创建房间 " + roomid);
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+        GroupChatBean groupChatBean = null;
+        if (groupChatSet.containsKey(roomid)) {
+            groupChatBean = groupChatSet.get(roomid);
+        } else {
+            try {
+                if (Proxy.getConnectManager().isConnect()) {
+                    groupChatBean = new GroupChatBean(Proxy.getAccountManger().getUserMemberId(), roomid, null,
+                            MultiUserChatManager.getInstanceFor(Proxy.getConnectManager().getConnection()).getMultiUserChat(Jid.getRoomJ(IMSdk.CONTEXT, roomid)));
+                    joinRoom(groupChatBean.getMultiUserChat());
+                    groupChatSet.put(roomid, groupChatBean);
+                    Log.i(TAG, "createMucc: 创建房间 " + roomid);
                 }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-            return groupChatBean;
+        }
+        return groupChatBean;
     }
 
     @Override
@@ -500,7 +511,7 @@ final class MessageManager implements MessageObserver {
      * @param msgBean
      * @return
      */
-    private org.jivesoftware.smack.packet.Message createMessage(IMsg msgBean) {
+    private org.jivesoftware.smack.packet.Message createMessage(IChatMsg msgBean) {
         org.jivesoftware.smack.packet.Message message =
                 new org.jivesoftware.smack.packet.Message();
         message.setBody(msgBean.getContent());
@@ -516,7 +527,7 @@ final class MessageManager implements MessageObserver {
      * @param arg2
      * @param obj
      */
-    private void sendMessageToHandler(int what, int arg1, int arg2, Object obj) {
+    private final void sendMessageToHandler(int what, int arg1, int arg2, Object obj) {
         Message message = handler.obtainMessage();
         message.what = what;
         message.arg1 = arg1;
@@ -580,11 +591,11 @@ final class MessageManager implements MessageObserver {
                     }
                 }
             }
-        }else{
+        } else {
             groupChatSet.clear();
         }
-        Log.i(TAG, "--------------- 清空群聊 groupChatSet.size = "+groupChatSet.size()+"，" +
-                "单聊 singleChatSet.size = "+ singleChatSet.size()+"-----------------");
+        Log.i(TAG, "--------------- 清空群聊 groupChatSet.size = " + groupChatSet.size() + "，" +
+                "单聊 singleChatSet.size = " + singleChatSet.size() + "-----------------");
     }
 
 
@@ -669,12 +680,17 @@ final class MessageManager implements MessageObserver {
             switch (t) {
                 case groupchat: {
                     Log.i(TAG, " ------ Receiver Group Chat Messages ------- \n" + message);
-                    sendMessageToHandler(IMWindow.MUCCHAT_TYPE, RECEIVER_MSG, 0, message, 300);
+                    sendMessageToHandler(IMWindow.MUCCHAT_TYPE, RECEIVER_MSG, 0, message, 200);
                 }
                 break;
                 case chat: {
                     Log.i(TAG, " ------- Receiver Single Chat Messages  ------- \n" + message);
                     sendMessageToHandler(IMWindow.CHAT_TYPE, RECEIVER_MSG, 0, message);
+                }
+                break;
+                case headline: {
+                    Log.i(TAG, " ------- Receiver Single headline Messages  ------- \n" + message);
+                    sendMessageToHandler(MessageManager.HEADLINE_TYPE, RECEIVER_MSG, 0, message);
                 }
                 break;
                 case error:
@@ -778,9 +794,9 @@ final class MessageManager implements MessageObserver {
                             return;
                         }
                         GroupChatBean groupChatBean = createGruopChat(imWindow.getKey());
-                        if(groupChatBean != null) {
+                        if (groupChatBean != null) {
                             groupChatBean.getMultiUserChat().sendMessage(message);
-                        }else{
+                        } else {
                             runnable.run();
                             handler.removeCallbacks(runnable);
                             return;
