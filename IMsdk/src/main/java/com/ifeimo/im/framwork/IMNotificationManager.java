@@ -27,7 +27,7 @@ import com.ifeimo.im.common.util.ThreadUtil;
 import com.ifeimo.im.framwork.database.Fields;
 import com.ifeimo.im.framwork.commander.IMWindow;
 import com.ifeimo.im.framwork.notification.NotificationManager;
-import com.ifeimo.im.framwork.notification.NotifyObservable;
+import com.ifeimo.im.framwork.notification.NotifyHeadLineObservable;
 import com.ifeimo.im.framwork.request.Account;
 import com.ifeimo.im.framwork.setting.Builder;
 import com.ifeimo.im.provider.ChatProvider;
@@ -68,7 +68,7 @@ final class IMNotificationManager implements NotificationManager, OnOutIM {
     /**
      * 系统IM消息监听
      */
-    private NotifyObservable notifyObservableSet;
+    private NotifyHeadLineObservable notifyHeadLineObservableSet;
 
     static {
         notificationManager = new IMNotificationManager();
@@ -239,8 +239,8 @@ final class IMNotificationManager implements NotificationManager, OnOutIM {
     @Override
     public void notifyHeadLineNotifycation(HeadLineModel headLineModel) {
 
-        if (notifyObservableSet != null) {
-            final Intent intent = notifyObservableSet.subscribe(headLineModel);
+        if (notifyHeadLineObservableSet != null) {
+            final Intent intent = notifyHeadLineObservableSet.subscribe(headLineModel);
 
             if (intent == null) {
                 return;
@@ -280,13 +280,13 @@ final class IMNotificationManager implements NotificationManager, OnOutIM {
     }
 
     @Override
-    public void setNotifyObservable(NotifyObservable notifyObservable) {
-        notifyObservableSet = notifyObservable;
+    public void setNotifyObservable(NotifyHeadLineObservable notifyHeadLineObservable) {
+        notifyHeadLineObservableSet = notifyHeadLineObservable;
     }
 
     @Override
     public void removeNotifyObservable() {
-        notifyObservableSet = null;
+        notifyHeadLineObservableSet = null;
     }
 
     /**

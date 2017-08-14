@@ -130,8 +130,6 @@ public class GroupChatModel extends Model<GroupChatModel> implements IChatMsg {
     }
 
     public static GroupChatModel buildMuccModel(Message message) {
-
-
         if (!StringUtil.isNull(message.getBody())) {
             GroupChatModel muccMsgBean = new GroupChatModel();
             String msgid = message.getStanzaId();
@@ -166,7 +164,6 @@ public class GroupChatModel extends Model<GroupChatModel> implements IChatMsg {
         } else {
             return null;
         }
-
     }
 
 

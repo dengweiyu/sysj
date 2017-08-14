@@ -7,11 +7,12 @@ import org.jivesoftware.smack.packet.ExtensionElement;
 import org.jivesoftware.smack.packet.Message;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by linhui on 2017/8/8.
  */
-public class HeadLineModel extends Model<HeadLineModel> implements Msg{
+public class HeadLineModel extends Model<HeadLineModel> implements Msg {
 
     private long id;
 
@@ -97,9 +98,13 @@ public class HeadLineModel extends Model<HeadLineModel> implements Msg{
         this.createTime = createTime;
     }
 
-
-    public static final HeadLineModel buildHeadLineModel(Message message){
-
+    /**
+     * 根据 xmpp返回的msg解析构建成model
+     *
+     * @param message
+     * @return
+     */
+    public static final HeadLineModel buildHeadLineModel(Message message) {
         String content = message.getBody();
         String Opposite_memberId = message.getFrom().split("@")[0];//发送者
         String msgid = message.getStanzaId();
@@ -109,23 +114,22 @@ public class HeadLineModel extends Model<HeadLineModel> implements Msg{
         headLineModel.setMsgId(msgid);
         List<ExtensionElement> list = message.getExtensions();
         headLineModel.setCreateTime(System.currentTimeMillis() + "");
-        for (ExtensionElement d : list) {
-            if(d instanceof DefaultExtensionElement) {
-                String time = ((DefaultExtensionElement) d).getValue("time");
-                if (time != null) {
-                    headLineModel.setCreateTime(time);
-                    break;
+        for (ExtensionElement extensionElement : list) {
+            if (extensionElement instanceof DefaultExtensionElement) {
+                DefaultExtensionElement defaultExtensionElement = ((DefaultExtensionElement) extensionElement);
+                switch (defaultExtensionElement.getElementName()) {
+                    case "mode":
+                        headLineModel.setMode(defaultExtensionElement.getValue("mode"));
+                        break;
+                    case "extras":
+                        headLineModel.setExtras(defaultExtensionElement.getValue("extras"));
+                        break;
+                    case "time":
+                        headLineModel.setCreateTime(defaultExtensionElement.getValue("time"));
+                        break;
                 }
             }
         }
-
-        ExtensionElement extensionElement = message.getExtension("msginfo:extend ");
-        if(extensionElement instanceof DefaultExtensionElement){
-            DefaultExtensionElement defaultExtensionElement = ((DefaultExtensionElement)extensionElement);
-            headLineModel.setMode(defaultExtensionElement.getValue("mode"));
-            headLineModel.setExtras(defaultExtensionElement.getValue("extras"));
-        }
-
         return headLineModel;
     }
 

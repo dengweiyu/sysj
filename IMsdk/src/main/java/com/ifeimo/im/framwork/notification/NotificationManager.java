@@ -76,9 +76,9 @@ public interface NotificationManager extends IEmployee {
 
     /**
      * 添加检测系统通知
-     * @param notifyObservable
+     * @param notifyHeadLineObservable
      */
-    void  setNotifyObservable(NotifyObservable notifyObservable);
+    void  setNotifyObservable(NotifyHeadLineObservable notifyHeadLineObservable);
 
     /**
      * 移除检测系统通知
