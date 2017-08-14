@@ -15,7 +15,7 @@ import y.com.sqlitesdk.framework.sqliteinterface.Execute;
 /**
  * Created by lpds on 2017/4/10.
  */
-public final class Access{
+public final class Access {
     private final String TAG = "ifeimo_sqlite_Access";
     private static Access access;
     private SQLiteDatabase sqLiteDatabase;
@@ -23,9 +23,9 @@ public final class Access{
     private static Handler handler;
     private List<String> triggers;
 
-    static{
+    static {
         access = new Access();
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 Looper.prepare();
@@ -35,15 +35,15 @@ public final class Access{
         }.start();
     }
 
-    private Access(){
+    private Access() {
         triggers = new ArrayList<>();
     }
 
     private void switchMode(int mode) {
-        if(sqLiteDatabase != null && sqLiteDatabase.isOpen()){
-            return ;
+        if (sqLiteDatabase != null && sqLiteDatabase.isOpen()) {
+            return;
         }
-        switch (mode){
+        switch (mode) {
             case Mode.AUTO_LIVE:
                 break;
             case Mode.KEEP_LIVE:
@@ -54,13 +54,13 @@ public final class Access{
     }
 
     @Deprecated
-    public void init(){
+    public void init() {
         access.switchMode(Mode.KEEP_LIVE);
     }
 
 
-    public void setSqLiteDatabase(SQLiteDatabase sqLiteDatabase){
-        synchronized (this){
+    public void setSqLiteDatabase(SQLiteDatabase sqLiteDatabase) {
+        synchronized (this) {
             if (this.sqLiteDatabase != null && this.sqLiteDatabase.isOpen()) {
                 return;
             }
@@ -70,21 +70,22 @@ public final class Access{
         }
     }
 
-    private void getAllTriggers(){
+    private void getAllTriggers() {
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT name FROM sqlite_master\n" +
-                " WHERE type = 'trigger'",null);
-        if(cursor.moveToFirst()) {
+                " WHERE type = 'trigger'", null);
+        if (cursor.moveToFirst()) {
             do {
                 triggers.add(cursor.getString(0));
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
     }
 
     /**
      * 无轮询执行
+     *
      * @param execute
      */
-    public void execute(Execute execute){
+    public void execute(Execute execute) {
         synchronized (this) {
             try {
                 if (execute == null) {
@@ -105,15 +106,16 @@ public final class Access{
         }
     }
 
-    private void post(Runnable runnable){
+    private void post(Runnable runnable) {
         handler.post(runnable);
     }
 
     /**
      * 内部轮询
+     *
      * @param execute
      */
-    public void execute2(final Execute execute){
+    public void execute2(final Execute execute) {
         post(new Runnable() {
             @Override
             public void run() {
@@ -122,33 +124,31 @@ public final class Access{
         });
     }
 
-    public static void runCustomThread(Execute execute){
+    public static void runCustomThread(Execute execute) {
         access.execute(execute);
     }
 
-    public static void run(Execute execute){
+    public static void run(Execute execute) {
         access.execute2(execute);
     }
 
-    public static void setSqliteDB(SQLiteDatabase sqliteDB){
+    public static void setSqliteDB(SQLiteDatabase sqliteDB) {
         access.setSqLiteDatabase(sqliteDB);
     }
 
-    public static List<String> getAlltriggers(){
+    public static List<String> getAlltriggers() {
         return access.triggers;
     }
 
 
-    public static SQLiteDatabase get(){
-        synchronized (access){
-            return access.getSqLiteDatabase();
-        }
+    public static SQLiteDatabase get() {
+        return access.getSqLiteDatabase();
     }
 
     public SQLiteDatabase getSqLiteDatabase() {
-        synchronized (this){
+        synchronized (this) {
             if (sqLiteDatabase == null) {
-                if(IfeimoSqliteSdk.IPMAIN != null){
+                if (IfeimoSqliteSdk.IPMAIN != null) {
                     sqLiteDatabase = IfeimoSqliteSdk.IPMAIN.getSQLiteDatabase();
                 }
             }
