@@ -152,7 +152,6 @@ final class IMNotificationManager implements NotificationManager, OnOutIM {
         notificationBuilder.setWhen(System.currentTimeMillis());
         notificationBuilder.setDefaults(Notification.DEFAULT_ALL);
         notificationBuilder.setTicker("手游视界");
-//        notificationBuilder.setContentTitle("")
         notificationBuilder.setSmallIcon(getIcon());
         notificationBuilder.setVibrate(new long[]{0, VIBRATION_DURATION});
         notificationBuilder.setSound(getSound());
@@ -254,6 +253,9 @@ final class IMNotificationManager implements NotificationManager, OnOutIM {
                     headLineMsgArray.put(id,headLineModel.clone());
                     break;
                 }
+            }
+            if(!AppUtil.isAppInForeground(IMSdk.CONTEXT)){
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(IMSdk.CONTEXT);

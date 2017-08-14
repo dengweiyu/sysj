@@ -36,7 +36,7 @@ public final class IMSdk {
     private static final String TAG = "XMPP_IMSDK";
     public static Application CONTEXT;
     public static final int versionCode = 4;
-    public static boolean Debug = true;
+    public static boolean Debug = false;
     /**
      * 初始化 application
      *

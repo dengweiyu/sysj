@@ -1,7 +1,5 @@
 package com.ifeimo.im.common.bean.model;
 
-import android.content.Intent;
-
 import com.ifeimo.im.framwork.Proxy;
 
 import org.jivesoftware.smack.packet.DefaultExtensionElement;
@@ -9,7 +7,6 @@ import org.jivesoftware.smack.packet.ExtensionElement;
 import org.jivesoftware.smack.packet.Message;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by linhui on 2017/8/8.
@@ -24,9 +21,9 @@ public class HeadLineModel extends Model<HeadLineModel> implements Msg{
 
     private String body;
 
-    private String open_type;
+    private String mode;
 
-    private String open_id;
+    private String extras;
 
     private String opposite_memberId;
 
@@ -48,12 +45,12 @@ public class HeadLineModel extends Model<HeadLineModel> implements Msg{
         this.memberId = memberId;
     }
 
-    public String getOpen_id() {
-        return open_id;
+    public String getExtras() {
+        return extras;
     }
 
-    public void setOpen_id(String open_id) {
-        this.open_id = open_id;
+    public void setExtras(String extras) {
+        this.extras = extras;
     }
 
     public void setContent(String body) {
@@ -68,12 +65,12 @@ public class HeadLineModel extends Model<HeadLineModel> implements Msg{
         this.opposite_memberId = opposite_memberId;
     }
 
-    public String getOpen_type() {
-        return open_type;
+    public String getMode() {
+        return mode;
     }
 
-    public void setOpen_type(String open_type) {
-        this.open_type = open_type;
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 
     @Override
@@ -105,11 +102,11 @@ public class HeadLineModel extends Model<HeadLineModel> implements Msg{
 
         String content = message.getBody();
         String Opposite_memberId = message.getFrom().split("@")[0];//发送者
-
+        String msgid = message.getStanzaId();
         HeadLineModel headLineModel = new HeadLineModel();
         headLineModel.setContent(content);
         headLineModel.setOpposite_memberId(Opposite_memberId);
-
+        headLineModel.setMsgId(msgid);
         List<ExtensionElement> list = message.getExtensions();
         headLineModel.setCreateTime(System.currentTimeMillis() + "");
         for (ExtensionElement d : list) {
@@ -125,8 +122,8 @@ public class HeadLineModel extends Model<HeadLineModel> implements Msg{
         ExtensionElement extensionElement = message.getExtension("msginfo:extend ");
         if(extensionElement instanceof DefaultExtensionElement){
             DefaultExtensionElement defaultExtensionElement = ((DefaultExtensionElement)extensionElement);
-            headLineModel.setOpen_type(defaultExtensionElement.getValue("open_type"));
-            headLineModel.setOpen_id(defaultExtensionElement.getValue("open_id"));
+            headLineModel.setMode(defaultExtensionElement.getValue("mode"));
+            headLineModel.setExtras(defaultExtensionElement.getValue("extras"));
         }
 
         return headLineModel;
@@ -139,8 +136,8 @@ public class HeadLineModel extends Model<HeadLineModel> implements Msg{
                 "id=" + id +
                 ", createTime='" + createTime + '\'' +
                 ", body='" + body + '\'' +
-                ", open_type='" + open_type + '\'' +
-                ", open_id='" + open_id + '\'' +
+                ", mode='" + mode + '\'' +
+                ", extras='" + extras + '\'' +
                 ", opposite_memberId='" + opposite_memberId + '\'' +
                 ", memberId='" + memberId + '\'' +
                 '}';
