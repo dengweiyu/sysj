@@ -35,7 +35,7 @@ public final class IMSdk {
     private static final String TAG = "XMPP_IMSDK";
     public static Application CONTEXT;
     public static final int versionCode = 4;
-    public static boolean Debug = true;
+    public static boolean Debug = false;
     /**
      * 初始化 application
      *
@@ -58,20 +58,6 @@ public final class IMSdk {
         ProviderManager.getInstances();
         IfeimoSqliteSdk.init(SqliteMain.getInstances());
         //application.registerActivityLifecycleCallbacks( IMConnectManager.getInstances().getConnectSupport());
-
-
-        IMSdk.setHeadLineMeesageListener(new NotifyHeadLineObservable() {
-            @Override
-            public Intent subscribe(HeadLineModel headLineModel) {
-
-
-                Log.i(TAG, "subscribe: "+headLineModel);
-
-
-                return null;
-            }
-        });
-
     }
 
     /**
