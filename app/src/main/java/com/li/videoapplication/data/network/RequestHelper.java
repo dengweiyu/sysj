@@ -1,5 +1,6 @@
 package com.li.videoapplication.data.network;
 
+import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
@@ -84,7 +85,7 @@ public class RequestHelper<T extends BaseEntity> {
     /**
      * 功能：Java线程池ExecutorService执行Http网络访问任务
      */
-    public void doExecutor(FragmentActivity activity, RequestObject request) {
+    public void doExecutor(Activity activity, RequestObject request) {
         if (request == null || activity == null)
             return;
         RequestRunnable runnable = null;
@@ -92,6 +93,9 @@ public class RequestHelper<T extends BaseEntity> {
             runnable = ((BaseActivity) activity).requestManager.createTask(request);
         if (activity instanceof BaseAppCompatActivity)
             runnable = ((BaseAppCompatActivity) activity).requestManager.createTask(request);
+        if (runnable == null){
+            runnable = new RequestManager().createTask(request);
+        }
         if (runnable != null)
             RequestExecutor.execute(runnable);
 

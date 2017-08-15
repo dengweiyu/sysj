@@ -38,6 +38,7 @@ import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.ShareSDKShareHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.ui.ActivityManager;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.ImageDetailAdapter;
 import com.li.videoapplication.ui.adapter.VideoPlayCommentAdapter;
 import com.li.videoapplication.ui.adapter.VideoPlayVideoAdapter;
@@ -304,6 +305,11 @@ public class ImageDetailActivity extends TBaseActivity implements
 
 	@Override
 	public boolean comment(boolean isSecondComment, String text) {
+		if (!isLogin()){
+			DialogManager.showLogInDialog(this);
+			return false;
+		}
+
 		// 图文发布评论
 		DataManager.photoSendComment(item.getPic_id(), getMember_id(), text);
 		return true;
@@ -332,7 +338,19 @@ public class ImageDetailActivity extends TBaseActivity implements
 
 		case R.id.imagedetail_focus:// 关注
 			if (item.getMember_tick() == 0) {
-				item.setMember_tick(1);
+				DialogManager.showConfirmDialog(ImageDetailActivity.this, "确认取消关注该玩家?", new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						switch (v.getId()){
+							case R.id.tv_confirm_dialog_yes:
+								item.setMember_tick(1);
+								refreshContentView(item);
+								// 玩家关注
+								DataManager.memberAttention201(item.getMember_id(), getMember_id());
+								break;
+						}
+					}
+				});
 			} else {
 				item.setMember_tick(0);
 			}

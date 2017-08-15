@@ -111,9 +111,8 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
 
 
 
-
     private void loadData(int page){
-        DataManager.getCoachList(page,false);
+        DataManager.getCoachList(page,true);
     }
 
     @Override

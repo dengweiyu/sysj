@@ -3,6 +3,8 @@ package com.li.videoapplication.data.model.response;
 import com.google.gson.annotations.SerializedName;
 import com.li.videoapplication.framework.BaseResponseEntity;
 
+import java.util.List;
+
 /**
  * 教练详情
  */
@@ -55,6 +57,25 @@ public class CoachDetailEntity extends BaseResponseEntity {
         private String qq;
         @SerializedName("status")
         private int statusX;
+        private List<String> picture;
+        private String description;
+
+
+        public List<String> getPicture() {
+            return picture;
+        }
+
+        public void setPicture(List<String> picture) {
+            this.picture = picture;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
 
         public String getQq() {
             return qq;

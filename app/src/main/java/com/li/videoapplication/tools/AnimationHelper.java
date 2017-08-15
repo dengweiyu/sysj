@@ -26,10 +26,11 @@ import com.li.videoapplication.framework.AppManager;
 public class AnimationHelper {
 
     private Context context;
-
+    private Animation shake;
     public AnimationHelper() {
         super();
         context = AppManager.getInstance().getApplication();
+        shake = AnimationUtils.loadAnimation(context, R.anim.anim_shake_7);
     }
 
     public void startAnimationShake(View view) {
@@ -157,5 +158,9 @@ public class AnimationHelper {
         ObjectAnimator animator = ObjectAnimator.ofFloat(view, "rotation", -135, 20, 0);
         animator.setDuration(600);
         animator.start();
+    }
+
+    public void startShake7(View view) {
+        view.startAnimation(shake);
     }
 }

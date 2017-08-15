@@ -228,36 +228,6 @@ public class GlideHelper {
     }
 
 
-    /**
-     * 加载圆形图片，sysj默认占位符
-     */
-    public static void displayRoundImage(Context context, String uri,final ImageView view) {
-        Log.d(TAG, "imageUrl=" + uri);
-        if (context == null){
-            return;
-        }
-        if(context instanceof Activity){
-            if (((Activity)context).isDestroyed()){
-                return;
-            }
-        }
-
-        Glide.with(context)
-                .load(uri)
-                //.bitmapTransform(new CropCircleTransformation(context))
-                .placeholder(R.drawable.default_video_211)
-                .error(R.drawable.default_video_211)
-
-                .centerCrop()
-                .into(new SimpleTarget<GlideDrawable>() {
-                    @Override
-                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                        Drawable drawable = resource.getCurrent();
-                        view.setImageDrawable(drawable);
-                    }
-                });
-    }
-
 
 
     /**
@@ -297,6 +267,26 @@ public class GlideHelper {
         }
         Glide.with(context)
                 .load(resId)
+                .dontAnimate()
+                .into(view);
+    }
+
+
+    /**
+     */
+    public static void displayImageNoFade(Context context,String url,ImageView view){
+        if (context == null){
+            return;
+        }
+
+        if(context instanceof Activity){
+            if (((Activity)context).isDestroyed()){
+                return;
+            }
+        }
+        Glide.with(context)
+                .load(url)
+                .placeholder(R.drawable.default_video_211)
                 .dontAnimate()
                 .into(view);
     }

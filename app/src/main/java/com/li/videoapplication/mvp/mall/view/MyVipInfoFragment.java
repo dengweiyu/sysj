@@ -132,14 +132,18 @@ public class MyVipInfoFragment extends TBaseFragment implements View.OnClickList
                 switch (entity.getData().getLevel()){
                     case  "1":
                         resLevel = R.drawable.vip_level_gray_1;
+                        color = "#b8b8b8";
                         break;
                     case  "2":
                         resLevel = R.drawable.vip_level_gray_2;
+                        color = "#b8b8b8";
                         break;
                     case  "3":
                         resLevel = R.drawable.vip_level_gray_3;
+                        color = "#b8b8b8";
                         break;
                 }
+                ((TextView)mRoot.findViewById(R.id.tv_show_vip_detail)).setTextColor(Color.parseColor(color));
             }
             mVipIcon.setImageResource(resLevel);
             mVipText.setTextColor(Color.parseColor(color));
@@ -147,7 +151,7 @@ public class MyVipInfoFragment extends TBaseFragment implements View.OnClickList
         }else {
             //show empty view
             mRoot.findViewById(R.id.tv_payment_vip_now).setVisibility(View.GONE);
-            mRoot.findViewById(R.id.ll_my_vip_info).setVisibility(View.GONE);
+            mRoot.findViewById(R.id.ll_my_vip_info).setVisibility(View.INVISIBLE);
             mEmptyView.setVisibility(View.VISIBLE);
         }
     }

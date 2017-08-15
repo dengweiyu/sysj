@@ -11,13 +11,17 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
+import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.GroupListActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.RoundedImageView;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 适配器：圈子
@@ -107,6 +111,7 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
                 view.setBackgroundResource(R.drawable.player_focus_gray);
                 view.setTextColor(resources.getColorStateList(R.color.groupdetail_player_white));
                 setTextViewText(view, R.string.dynamic_focused);
+                view.setEnabled(true);
             } else {
                 view.setBackgroundResource(R.drawable.player_focus_red);
                 view.setTextColor(resources.getColorStateList(R.color.groupdetail_player_red));
@@ -123,8 +128,19 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
                     return;
                 }
                 if (record.getTick() == 1) {
-                    record.setAttention_num(Integer.valueOf(record.getAttention_num()) - 1 + "");
-                    record.setTick(0);
+
+                    DialogManager.showConfirmDialog(getContext(), "确认取消关注该玩家?", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            switch (v.getId()){
+                                case R.id.tv_confirm_dialog_yes:
+                                    record.setAttention_num(Integer.valueOf(record.getAttention_num()) - 1 + "");
+                                    record.setTick(0);
+                                    break;
+                            }
+                        }
+                    });
+
                 } else {
                     record.setAttention_num(Integer.valueOf(record.getAttention_num()) + 1 + "");
                     record.setTick(1);

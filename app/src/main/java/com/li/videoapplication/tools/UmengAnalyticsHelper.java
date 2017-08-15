@@ -436,4 +436,16 @@ public class UmengAnalyticsHelper {
         }
         return isSingle;
     }
+
+
+    /**
+     *
+     * @param context
+     * @param id
+     * @param map
+     * @param duration
+     */
+    public static void onEventValue(Context context,String id,Map<String,String> map,int duration){
+        MobclickAgent.onEventValue(context,id,map,duration);
+    }
 }

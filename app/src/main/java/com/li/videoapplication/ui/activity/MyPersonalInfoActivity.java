@@ -184,6 +184,11 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         findViewById(R.id.ll_vip).setOnClickListener(this);
         findViewById(R.id.ll_mypersonnalinfo_horizonid).setOnLongClickListener(mLongClickListener);
 
+        if (getUser().isCoach()){
+            findViewById(R.id.rl_edit_coach_info).setVisibility(View.VISIBLE);
+            findViewById(R.id.tv_edit_coach_info).setOnClickListener(this);
+        }
+
         mHorizontalListView = (HorizontalListView) findViewById(R.id.horizontallistvierw);
         adapter = new MyPersonalInfoAdapter(this, data);
         mHorizontalListView.setAdapter(adapter);
@@ -286,6 +291,10 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 ActivityManager.startTopUpActivity(MyPersonalInfoActivity.this, Constant.TOPUP_ENTRY_INFO,2);
                 break;
 
+            case R.id.tv_edit_coach_info:
+                //
+                ActivityManager.startCoachInfoEditActivity(MyPersonalInfoActivity.this);
+                break;
             default:
                 break;
         }

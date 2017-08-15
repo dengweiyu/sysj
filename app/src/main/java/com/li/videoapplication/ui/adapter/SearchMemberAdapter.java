@@ -16,11 +16,14 @@ import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.CircleImageView;
 
 import java.util.List;
+
+import io.rong.imlib.filetransfer.Call;
 
 /**
  * 适配器：搜索玩家, 关注粉丝
@@ -126,11 +129,24 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 					}
 				} else if (page == PAGE_MYFANS) {
 					if (record.getTick() == 1) {// 已关注状态
-						flag = false;
-						record.setFans(Integer.valueOf(record.getFans()) - 1 + "");
-						record.setTick(0);
+						DialogManager.showConfirmDialog(getContext(), "确认取消关注该玩家?", new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								switch (v.getId()){
+									case R.id.tv_confirm_dialog_yes:
+										record.setFans(Integer.valueOf(record.getFans()) - 1 + "");
+										record.setTick(0);
+										if (page == PAGE_MYFANS || page == PAGE_SEARCHMEMBER) {
+											notifyDataSetChanged();
+											// 玩家关注
+											DataManager.memberAttention201(record.getMember_id(), getMember_id());
+										}
+										break;
+								}
+							}
+						});
 					} else {// 未关注状态
-						flag = true;
+
 						record.setFans(Integer.valueOf(record.getFans()) + 1 + "");
 						record.setTick(1);
 					}

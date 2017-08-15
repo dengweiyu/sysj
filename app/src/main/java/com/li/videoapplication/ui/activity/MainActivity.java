@@ -43,6 +43,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.Utils_Data;
 import com.li.videoapplication.data.download.DownLoadManager;
+import com.li.videoapplication.data.download.FileDownloadRequest;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.entity.Member;
@@ -94,7 +95,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -168,6 +171,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private boolean isShowedUpdate = false;
     private SlidingMenu.CanvasTransformer mTransformer;
 
+    private String mValidation;
 
     private TextView mPlayWithBottom;
     private View mDivider;
@@ -236,7 +240,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), Environment.getExternalStorageDirectory().getAbsolutePath() + "/patch_signed_7zip.apk");
+//        TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), Environment.getExternalStorageDirectory().getAbsolutePath() + "/patch_signed_7zip.apk");
 
         initSystemBar(this);
         setSystemBarBackgroundResource(R.color.menu_main_red);
@@ -1163,10 +1167,11 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
      */
     public void  onEventMainThread(PatchEntity entity){
         if (entity.isResult()){
+            mValidation = entity.getData().getValidation();
             PatchEntity.DataBean data = entity.getData();
             if (data.getChannel_id() != null && data.getChannel_id().equals(AnalyticsConfig.getChannel(MainActivity.this))){
+               final File patchFile = SYSJStorageUtil.createFilecachePath(data.getDownload_url());
                 if (BuildConfig.VERSION_NAME.equals(data.getApp_version()) && !StringUtil.isNull(data.getDownload_url())){
-                    File patchFile = SYSJStorageUtil.createFilecachePath(data.getDownload_url());
                     //生成MD5
                     String md5 = MD5Util.string2MD5(data.getApp_version()+data.getPatch_version()+data.getChannel_id()+data.getDownload_url());
                     if (patchFile != null && patchFile.exists() && md5.equals(SharedPreferencesUtils.getPreference(this, AppConstant.PATCH_MD5))){
@@ -1177,7 +1182,30 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                     SharedPreferencesUtils.setPreference(this, AppConstant.PATCH_MD5,md5);
                     //拉取补丁
                     if (!StringUtil.isNull(data.getDownload_url())){
-                        DataManager.downloadPatch(data.getDownload_url());
+                       new FileDownloadRequest().download(data.getDownload_url(),patchFile.getAbsolutePath(),0,new FileDownloadRequest.DownloadListener(){
+                           @Override
+                           public void progress(long totalBytesRead, long contentLength, boolean isDone) {
+                             //  Log.d("FileDownloadRequest","totalBytesRead:"+totalBytesRead+" contentLength:"+contentLength+" isDone:"+isDone);
+                               if (isDone){
+                                   String validation= "";
+                                   try {
+                                       validation = MD5Util.getFileMD5(patchFile);
+                                   } catch (NoSuchAlgorithmException e) {
+                                       e.printStackTrace();
+                                   } catch (IOException e) {
+                                       e.printStackTrace();
+                                   }
+                                   if (mValidation.equals(validation)){
+                                       TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), patchFile.getAbsolutePath());
+                                   }
+                               }
+                           }
+
+                           @Override
+                           public void finish() {
+
+                           }
+                       });
                     }
                 }
             }
@@ -1187,14 +1215,27 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     /**
      * 补丁下载成功
      */
-    public void onEventMainThread(DownloadSuccessEntity entity){
-        if (!StringUtil.isNull(entity.getUrl())){
+   /* public void onEventMainThread(DownloadSuccessEntity entity){
+        if (!StringUtil.isNull(entity.getUrl()) && !StringUtil.isNull(mValidation)){
             File patchFile = SYSJStorageUtil.createFilecachePath(entity.getUrl());
             if (patchFile != null && patchFile.exists()){
-                TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), patchFile.getAbsolutePath());
+
+                String validation= "";
+
+                try {
+                    validation = MD5Util.getFileMD5(patchFile);
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (mValidation.equals(validation)){
+                    TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), patchFile.getAbsolutePath());
+                }
             }
         }
-    }
+    }*/
 
 
 

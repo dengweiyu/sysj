@@ -419,6 +419,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar" />
 
+        <activity android:name=".ui.activity.CoachInfoEditActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/MyTheme.NoActionBar" ></activity>
+
         <activity android:name=".mvp.match.view.PlayWithAndMatchActivity"
                   android:launchMode="singleTask"
                   android:screenOrientation="portrait"
@@ -447,6 +452,15 @@
                   android:screenOrientation="portrait"
                   android:theme="@style/MyTheme.NoActionBar"></activity>
 
+        <activity android:name=".ui.activity.ProxyActivity1"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/MyTheme.NoActionBar"></activity>
+
+        <activity android:name=".ui.activity.ProxyActivity2"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/MyTheme.NoActionBar"></activity>
         <!--单聊界面，包括客服-->
         <activity
             android:name=".ui.activity.ConversationActivity"
@@ -544,10 +558,6 @@
         <service android:name="com.li.videoapplication.component.service.AppStartService"
 
                  android:exported="true"/>
-        <service
-            android:name="com.li.videoapplication.component.service.DaemonServer"
-            android:exported="true"
-            android:process=":guardService"></service>
         <!--更新下载apk服务-->
         <service android:name="com.li.videoapplication.component.service.UpdateService" />
         <!--下载服务-->
@@ -585,7 +595,13 @@
             android:name=".ui.activity.ImageViewPagerActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent"/>
+            android:theme="@style/MyTheme.NoActionBar"/>
+
+        <activity
+            android:name=".ui.activity.ImageDetailSceneActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTheme.Translucent"/>
         <activity
             android:name=".ui.activity.WebActivity"
             android:launchMode="singleTask"

@@ -38,8 +38,10 @@
             <ImageView
                 android:id="@+id/iv_top_vip_level"
                 android:layout_width="wrap_content"
-                android:layout_height="12dp"
+                android:layout_height="32dp"
                 android:layout_marginLeft="2dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:visibility="gone"
                 android:src="@drawable/no_vip"/>
         </LinearLayout>

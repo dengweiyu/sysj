@@ -41,7 +41,9 @@ import com.li.videoapplication.ui.activity.ActivityImageUploadActivity;
 import com.li.videoapplication.ui.activity.ActivityListActivity;
 import com.li.videoapplication.ui.activity.CameraRecoedActivity;
 import com.li.videoapplication.ui.activity.CameraRecoedActivity50;
+import com.li.videoapplication.ui.activity.CoachCommentDetailsActivity;
 import com.li.videoapplication.ui.activity.CoachDetailActivity;
+import com.li.videoapplication.ui.activity.CoachInfoEditActivity;
 import com.li.videoapplication.ui.activity.CollectionActivity;
 import com.li.videoapplication.ui.activity.CommentPlayWithOrderActivity;
 import com.li.videoapplication.ui.activity.ConfirmOrderDoneActivity;
@@ -1594,6 +1596,23 @@ public class ActivityManager {
      */
     public static void startRewardRankActivity(Context context){
         Intent intent = new Intent(context, RewardRankActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 编辑陪练信息
+     */
+    public static void startCoachInfoEditActivity(Context context){
+        Intent intent = new Intent(context, CoachInfoEditActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 陪练全部评价
+     */
+    public static void startCoachAllCommentActivity(Context context,String coachId){
+        Intent intent = new Intent(context, CoachCommentDetailsActivity.class);
+        intent.putExtra("coach_id",coachId);
         context.startActivity(intent);
     }
 }

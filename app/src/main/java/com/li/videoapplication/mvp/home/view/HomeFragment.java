@@ -70,7 +70,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     RecyclerView recyclerView;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.home_task)
+
     HomeTaskView taskView;
 
     private int page = 1;
@@ -167,6 +167,9 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
     @Override
     protected void initContentView(View view) {
+
+        taskView = (HomeTaskView) view.findViewById(R.id.home_task);
+
         initRecyclerView();
 
         initAdapter();

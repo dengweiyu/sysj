@@ -1,11 +1,8 @@
 package com.li.videoapplication.ui.dialog;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,7 +10,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.event.PayNowEvent;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.mvp.Constant;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.CreatePlayWithOrderActivity;

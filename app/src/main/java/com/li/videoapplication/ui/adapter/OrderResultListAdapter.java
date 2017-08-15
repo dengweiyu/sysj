@@ -24,6 +24,7 @@ public class OrderResultListAdapter extends RecyclerView.Adapter {
     private int mCount;
     private Context mContext;
     private List<Integer> mSelectedList;
+    private boolean isChoiceDone;
     public OrderResultListAdapter(Context context,int count) {
         super();
         mCount = count;
@@ -89,6 +90,10 @@ public class OrderResultListAdapter extends RecyclerView.Adapter {
                     }
                 }
             });
+
+            if (isChoiceDone){
+                holder.itemView.findViewById(R.id.rl_order_result_root).setOnClickListener(null);
+            }
         }
     }
 
@@ -102,6 +107,14 @@ public class OrderResultListAdapter extends RecyclerView.Adapter {
             mSelectedList.set(index,position);
             notifyDataSetChanged();
         }
+    }
+
+    public boolean isChoiceDone() {
+        return isChoiceDone;
+    }
+
+    public void setChoiceDone(boolean choiceDone) {
+        isChoiceDone = choiceDone;
     }
 
     public List<Integer> getOrderResult(){

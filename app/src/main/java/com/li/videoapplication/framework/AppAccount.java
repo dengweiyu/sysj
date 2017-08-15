@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.StringRes;
 import android.util.Base64;
 
+import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.cache.BaseUtils;
 import com.li.videoapplication.data.model.entity.Member;
@@ -35,10 +36,14 @@ public class AppAccount {
 	 * 功能：应用全局注销
 	 */
 	public static void logout() {
-		
+
+		//解除Baidu Push 绑定
+		DataManager.unBindBaiduPush(PreferencesHepler.getInstance().getMember_id());
+
 		PreferencesHepler.getInstance().clearAll();
 		ShareSDKLoginHelper.removeAllAccount();
 		EventManager.postLogoutEvent();
+
 
 		// 设置友盟推送别名
 		JPushHelper.removeAlias();

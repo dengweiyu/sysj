@@ -73,9 +73,12 @@ import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
 import com.li.videoapplication.views.ViewPagerY4;
 import com.li.videoapplication.views.sparkbutton.SparkButton;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
@@ -131,6 +134,8 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
 
     public VideoImage item;
 
+    private long mEntryTime;                //用于统计播放页停留时长
+
     public void setItem(VideoImage item) {
         if (!StringUtil.isNull(item.getVideo_id())) {
             String video_id = item.getVideo_id();
@@ -183,6 +188,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
     @Override
     public void afterOnCreate() {
         super.afterOnCreate();
+
 
        /// actionBar.hide();
 
@@ -1011,6 +1017,13 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
                 videoPlayView.pause();
         }
 
+        Map<String,String > map = new HashMap<>();
+        map.put("video_id",item.getVideo_id());
+        map.put("id",item.getId());
+        map.put("video_name",item.getVideo_name());
+        map.put("member_id",item.getMember_id());
+        //统计播放页停留时长事件
+        UmengAnalyticsHelper.onEventValue(this,"video_page_stay_duration",map,(int) (System.currentTimeMillis()/1000-mEntryTime));
     }
 
     @SuppressWarnings("deprecation")
@@ -1042,6 +1055,9 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
             // 推荐视频详情
             DataManager.changeVideo208(getVideoIdsRandom(videoIds));
         }
+
+
+        mEntryTime = System.currentTimeMillis()/1000;
     }
 
     private String getVideoIdsRandom(List<String> videoIds) {
@@ -1063,6 +1079,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         if (videoPlayView != null)
             videoPlayView.pause();
     }
+
 
 
     /**

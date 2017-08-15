@@ -1,5 +1,6 @@
 package com.li.videoapplication.framework;
 
+import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 import android.content.Context;
@@ -100,12 +101,12 @@ public class AppManager {
 
     /*################ 活动 #############*/
 
-	private Stack<FragmentActivity> activities;
+	private Stack<Activity> activities;
 	
 	/**
 	 * 功能：添加Activity到堆
 	 */
-	public void addActivity(final FragmentActivity activity) {
+	public void addActivity(final Activity activity) {
 		synchronized (instance) {
 			Log.i(tag, "[addActivity]" + activity);
 			activities.push(activity);
@@ -116,9 +117,9 @@ public class AppManager {
 	/**
 	 * 功能：获取当前Activity，堆栈中后一个压入的
 	 */
-	public FragmentActivity currentActivity() {
+	public Activity currentActivity() {
 		synchronized (instance) {
-            FragmentActivity activity = null;
+           Activity activity = null;
             if (!activities.isEmpty())
 			    activity = activities.peek();
 			Log.i(tag, "[currentActivity]" + activity);
@@ -132,7 +133,7 @@ public class AppManager {
 	 */
 	public void removeCurrentActivity() {
 		synchronized (instance) {
-            FragmentActivity activity = null;
+            Activity activity = null;
             if (!activities.isEmpty())
                 activity = activities.pop();
 			Log.i(tag, "[finishActivity]" + activity);
@@ -144,7 +145,7 @@ public class AppManager {
 	/**
 	 * 功能：结束指定的Activity
 	 */
-	public void removeActivity(FragmentActivity activity) {
+	public void removeActivity(Activity activity) {
 		synchronized (instance) {
 			Log.i(tag, "[finishActivity]" + activity);
 			if (activity != null) {
@@ -166,9 +167,9 @@ public class AppManager {
 					removeActivity(activity);
 				}
 			}*/
-			Iterator<FragmentActivity> iterator = activities.iterator();
+			Iterator<Activity> iterator = activities.iterator();
             while (iterator.hasNext()){
-                FragmentActivity activity  = iterator.next();
+                Activity activity  = iterator.next();
                 if (activity.getClass().equals(cls)){
                     activity.finish();
                     iterator.remove();
@@ -205,7 +206,7 @@ public class AppManager {
 	public boolean isActivityAliive(final Class<?> cls) {
 		synchronized (instance) {
 			Log.i(tag, "[isActivityAliive]" + cls.getSimpleName());
-			for (FragmentActivity activity : activities) {
+			for (Activity activity : activities) {
 				if (activity.getClass().equals(cls)) {
 					return true;
 				}
@@ -217,10 +218,10 @@ public class AppManager {
 	/**
 	 * 功能：获得对应的activity
 	 */
-	public FragmentActivity getActivity(final Class<?> cls) {
+	public Activity getActivity(final Class<?> cls) {
 		synchronized (instance) {
 			Log.i(tag, "[getActivity]" + cls.getSimpleName());
-			for (FragmentActivity activity : activities) {
+			for (Activity activity : activities) {
 				if (activity.getClass().equals(cls)) {
 					return activity;
 				}

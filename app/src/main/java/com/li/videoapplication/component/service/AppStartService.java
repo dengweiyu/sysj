@@ -141,18 +141,9 @@ public class AppStartService extends BaseIntentService{
 
     @Override
     public void onDestroy() {
-        //重启服务
-     //   reStartService();
         super.onDestroy();
     }
 
-    private void reStartService(){
-        Intent intent = new Intent(getApplicationContext(), DaemonServer.class);
-        PendingIntent pi = PendingIntent.getService(this,0,intent,0);
-
-        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        manager.setRepeating(AlarmManager.ELAPSED_REALTIME,System.currentTimeMillis()+10*1000,10*1000,pi);
-    }
 
 
     /**

@@ -19,6 +19,7 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.GameCateEntity;
 import com.li.videoapplication.data.model.response.RecommendedLocationEntity;
 import com.li.videoapplication.framework.AppManager;
+import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.mvp.match.view.GameMatchDetailActivity;
 import com.li.videoapplication.ui.activity.SignUpActivity;
@@ -61,6 +62,7 @@ import com.li.videoapplication.ui.dialog.SubtitleDialog;
 import com.li.videoapplication.ui.dialog.UpdateDialog;
 import com.li.videoapplication.ui.dialog.UploadPicDialog;
 import com.li.videoapplication.ui.dialog.UploadVideoDialog;
+import com.li.videoapplication.ui.dialog.UploadVideoPhoneDialog;
 import com.li.videoapplication.ui.dialog.VictoryDialog;
 import com.li.videoapplication.ui.dialog.VideoManagerCopyDialog;
 import com.li.videoapplication.ui.dialog.VideoManagerImportDialog;
@@ -509,6 +511,15 @@ public class DialogManager {
      */
     public static void showCountDownDialog(Context context){
         Dialog dialog = new CountDownDialog(context);
+        dialog.show();
+    }
+
+
+    /**
+     * 绑定手机号码弹窗
+     */
+    public static void showUploadVideoPhoneDialog(Activity activity, UploadVideoPhoneDialog.Callback callback){
+        Dialog dialog = new UploadVideoPhoneDialog(activity, callback);
         dialog.show();
     }
 }

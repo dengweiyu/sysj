@@ -12,7 +12,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
 
 public class FileUtil {
@@ -155,6 +157,32 @@ public class FileUtil {
             }
         }
         return false;
+    }
+
+    /**
+     *
+     * @param path
+     * @return
+     * @throws IOException
+     */
+    public static File createFile(String path) throws IOException {
+        File file = new File(path);
+        if (file.exists() && file.isFile()){
+            return file;
+        }else {
+            file.createNewFile();
+        }
+        return file;
+    }
+
+    public static RandomAccessFile getRandomFile(String path) {
+        try {
+            RandomAccessFile randomAccessFile = new RandomAccessFile(path,"rwd");
+            return randomAccessFile;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

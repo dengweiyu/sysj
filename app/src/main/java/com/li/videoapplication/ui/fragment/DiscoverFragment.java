@@ -180,8 +180,8 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
                 startDynamicActivity();
                 break;
             case R.id.ll_reward:
-                ToastHelper.l("请等待补丁更新~");
-               // ActivityManager.startRewardRankActivity(getActivity());
+
+                ActivityManager.startRewardRankActivity(getActivity());
                 break;
         }
     }

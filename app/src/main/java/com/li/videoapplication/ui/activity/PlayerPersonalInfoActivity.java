@@ -157,18 +157,33 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
         switch (v.getId()) {
             case R.id.playerpersonalinfo_focus:
                 if (member.getIsAttent() == 1) {
-                    member.setIsAttent(0);
+                    DialogManager.showConfirmDialog(PlayerPersonalInfoActivity.this, "确认取消关注该玩家?", new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            switch (v.getId()){
+                                case R.id.tv_confirm_dialog_yes:
+                                    member.setIsAttent(0);
+                                    // 修改玩家关注
+                                    DataManager.memberAttention201(member.getId(), getMember_id());
+
+                                    //刷新玩家动态页面关注按钮状态
+                                    PlayerDynamicActivity playerDynamicActivity = (PlayerDynamicActivity) AppManager.getInstance().getActivity(PlayerDynamicActivity.class);
+                                    if (playerDynamicActivity != null) {
+                                        playerDynamicActivity.setFocus(member);
+                                    }
+                                    break;
+                            }
+                        }
+                    });
                 } else {
                     member.setIsAttent(1);
+                    //刷新玩家动态页面关注按钮状态
+                    PlayerDynamicActivity playerDynamicActivity = (PlayerDynamicActivity) AppManager.getInstance().getActivity(PlayerDynamicActivity.class);
+                    if (playerDynamicActivity != null) {
+                        playerDynamicActivity.setFocus(member);
+                    }
                 }
-                // 修改玩家关注
-                DataManager.memberAttention201(member.getId(), getMember_id());
 
-                //刷新玩家动态页面关注按钮状态
-                PlayerDynamicActivity playerDynamicActivity = (PlayerDynamicActivity) AppManager.getInstance().getActivity(PlayerDynamicActivity.class);
-                if (playerDynamicActivity != null) {
-                    playerDynamicActivity.setFocus(member);
-                }
                 break;
             case R.id.playerpersonalinfo_sendmessage:
                 if (entity.isPrivateIM()){

@@ -2243,12 +2243,13 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object>  commitOrderResult(String memberId, String orderId, String data) {
+    public Map<String, Object>  commitOrderResult(String memberId, String orderId, String data,String picKey) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", memberId);
         map.put("order_id", orderId);
         map.put("data",data);
         map.put("access_token", AppAccount.getAccessToken());
+        map.put("pic_keys",picKey);
         return map;
     }
 
@@ -2330,7 +2331,50 @@ public class RequestParams {
     public Map<String, Object>  getUserVipInfo(String memberId) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", memberId);
+        return map;
+    }
 
+    public Map<String, Object>  getUploadKey(String memberId,int size) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("size",size);
+        return map;
+    }
+
+
+    public Map<String, Object>  commitSign(String memberId,String sign,String key) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("description", sign);
+        map.put("pic_keys",key);
+        return map;
+    }
+
+    public Map<String, Object>  getSign(String memberId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        return map;
+    }
+
+    public Map<String, Object>  unBindBaiduPush(String memberId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        return map;
+    }
+
+    public Map<String, Object>  rewardRank(String memberId,int page,String type) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("page", page);
+        map.put("type", type);
+        return map;
+    }
+
+    public Map<String, Object>  getCoachComment(String coachId,String mark,int page) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("coach_id", coachId);
+        map.put("page", page);
+        map.put("mark", mark);
         return map;
     }
 }

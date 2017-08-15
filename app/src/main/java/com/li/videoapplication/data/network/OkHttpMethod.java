@@ -137,6 +137,8 @@ public class OkHttpMethod implements AbsRequestMethod {
 
 	/**
 	 * Get方式下載文件
+	 *
+	 * FIXME 此文件下载存在问题 请使用  FileDownloadRequest
 	 */
 	private void download() {
 		Log.d(tag, "download");

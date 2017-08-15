@@ -31,12 +31,9 @@ public class AddVersionParamInterceptor implements Interceptor {
     public static final String VERSION = BuildConfig.VERSION_NAME;
     public static final  String CURRENT_VERSION = "current_version";
 
-    //30秒 只能刷新一次 access_token
-    private static final long mRefreshDuration = 30000;
     //重入锁 避免出现并发刷新access_token的情况
     private final ReentrantLock mReentrantLock = new ReentrantLock();
-    //上次刷新access_token的时间  这个只保存在内存 意味着kill process后 时间判断会被重置
-    private static long mLastRefreshTime;
+
     private static boolean mAccessTokenIsOverDue = true;
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -73,15 +70,16 @@ public class AddVersionParamInterceptor implements Interceptor {
 
             //同步刷新token
             if (isOverdue(res)){
-                //由于并发的时候，接口返回结果的时间并不一定 因此 仍会可能多次刷新的情况
-                if (System.currentTimeMillis() - mLastRefreshTime >= mRefreshDuration && mReentrantLock.tryLock()) {
+                mAccessTokenIsOverDue = true;
+                //由于并发请求的时候，接口返回结果的时间并不一定 因此会出现 请求是并发 返回结果时不是并发，导致出现多次刷新的情况
+                if (mReentrantLock.tryLock()) {
                         try {
-                            //30秒内只能刷新一次
+                            //
                             Response refreshResponse = RequestClient.getOkHttpClient().newCall(refreshAccessToken()).execute();
                             if (refreshResponse.code() == 200) {
                                 //如果token刷新成功 重复请求接口
                                 if (isRefreshSuccess(refreshResponse.body().string())) {
-                                    mLastRefreshTime = System.currentTimeMillis();
+                                 //   mLastRefreshTime = System.currentTimeMillis();
                                     mAccessTokenIsOverDue = false;
                                     response = retryRequest(chain, request);
                                     mReentrantLock.newCondition().signalAll();
@@ -103,11 +101,11 @@ public class AddVersionParamInterceptor implements Interceptor {
                     }finally {
                         mReentrantLock.unlock();
                     }
-
                     response =  retryRequest(chain,request);
                 }
             }else {
-                mAccessTokenIsOverDue = true;
+                mAccessTokenIsOverDue = false;
+
             }
         }
         return response;

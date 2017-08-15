@@ -15,12 +15,11 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_gray"
             android:gravity="center"
-            android:minHeight="30dp"
-            android:minWidth="75dp"
-            android:padding="11dp"
-            android:text="六个月"
+            android:padding="10dp"
+            android:hint="十二个月"
+            android:text="A"
             android:textColor="#666666"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
     <ImageView
         android:id="@+id/iv_duration_discount"
         android:layout_width="wrap_content"

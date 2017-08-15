@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/button_main_round"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    >
+
+    <LinearLayout
+        android:id="@+id/layout_upload_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="22dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/tv_bind_phone_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/phone_upload_video"
+            android:textColor="#565656"
+            android:textSize="14sp"/>
+
+        <EditText
+            android:id="@+id/phone_upload_video"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/kaka_30"
+            android:layout_marginTop="@dimen/kaka_20"
+            android:paddingLeft="@dimen/kaka_10"
+            android:paddingRight="@dimen/kaka_10"
+            android:background="@drawable/phone_edit_bg"
+            android:cursorVisible="true"
+            android:hint="@string/phone_hint_phone"
+            android:inputType="number"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#787878"
+            android:textColorHint="#88afafaf"
+            android:textCursorDrawable="@null"
+            android:textSize="12sp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/kaka_16">
+
+            <EditText
+                android:id="@+id/phone_code_upload_video"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/kaka_30"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/kaka_10"
+                android:background="@drawable/phone_edit_bg"
+                android:cursorVisible="true"
+                android:hint="@string/phone_hint_code"
+                android:inputType="number"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#787878"
+                android:textColorHint="#88afafaf"
+                android:textCursorDrawable="@null"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/phone_get_upload_video"
+                android:layout_width="@dimen/kaka_72"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/kaka_6"
+                android:background="@drawable/upload_video_phone_bg"
+                android:gravity="center"
+                android:text="@string/phone_get"
+                android:textColor="#ffffff"
+                android:textSize="11sp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/phone_submit_upload_video"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/kaka_30"
+            android:layout_marginTop="@dimen/kaka_16"
+            android:background="@drawable/upload_video_phone_bg"
+            android:gravity="center"
+            android:text="@string/phone_submit"
+            android:textColor="#ffffff"
+            android:textSize="11sp"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/cancel_upload_video"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:padding="5dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/home_close"
+        />
+
+</RelativeLayout>

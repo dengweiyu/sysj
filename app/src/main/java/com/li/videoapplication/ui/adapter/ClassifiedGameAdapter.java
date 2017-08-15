@@ -138,19 +138,35 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
                     return;
                 }
                 if (record.getTick() == 1) {
-                    record.setAttention_num(Integer.valueOf(record.getAttention_num()) - 1 + "");
-                    record.setTick(0);
-                } else {
+                    DialogManager.showConfirmDialog(getContext(), "确认取消关注该游戏圈?", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            switch (v.getId()){
+                                case R.id.tv_confirm_dialog_yes:
+                                    record.setAttention_num(Integer.valueOf(record.getAttention_num()) - 1 + "");
+                                    record.setTick(0);
+                                    // 关注圈子201
+                                    DataManager.groupAttentionGroup(record.getGroup_id(), getMember_id());
+                                    notifyDataSetChanged();
+                                    UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "找游戏-关注");
+
+                                    //
+                                    EventBus.getDefault().post(new GroupAttentionGroupEntity());
+                                    break;
+                            }
+                        }
+                    });
+                }else {
                     record.setAttention_num(Integer.valueOf(record.getAttention_num()) + 1 + "");
                     record.setTick(1);
-                }
-                // 关注圈子201
-                DataManager.groupAttentionGroup(record.getGroup_id(), getMember_id());
-                notifyDataSetChanged();
-                UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "找游戏-关注");
 
-                //
-                EventBus.getDefault().post(new GroupAttentionGroupEntity());
+                    DataManager.groupAttentionGroup(record.getGroup_id(), getMember_id());
+                    notifyDataSetChanged();
+                    UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "找游戏-关注");
+
+                    //
+                    EventBus.getDefault().post(new GroupAttentionGroupEntity());
+                }
             }
         });
     }

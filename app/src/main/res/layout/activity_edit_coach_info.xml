@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:fitsSystemWindows="true"
+    android:background="@color/white">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white">
+
+        <include layout="@layout/toolbar_white" />
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/lightgrey"></View>
+
+    <LinearLayout
+        android:id="@+id/ll_edit_coach_info_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+        <EditText
+            android:id="@+id/et_input_introduce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
+            android:background="@null"
+            android:cursorVisible="true"
+            android:drawableBottom="@drawable/edittext_normal"
+            android:gravity="center_vertical"
+            android:hint="描述自己的游戏实力更容易吸引客户哟~"
+            android:paddingEnd="18dp"
+            android:maxLength="60"
+            android:text=""
+            android:textColor="@color/textcolor_gray"
+            android:textColorHint="#b9b9b9"
+            android:textCursorDrawable="@drawable/cursor_red"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tv_input_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="6dp"
+            android:text="60"
+            android:textColor="@color/textcolor_french_gray"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:text="点击上传你的个人展示图片"
+        android:textColor="@color/textcolor_french_gray"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="14sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_coach_show_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:text="默认第一张作为陪练列表封面，图片需要通过审核才会更新"
+        android:textColor="@color/textcolor_french_gray"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textSize="12sp" />
+    </LinearLayout>
+</LinearLayout>

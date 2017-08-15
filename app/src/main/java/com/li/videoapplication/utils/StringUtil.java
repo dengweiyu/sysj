@@ -321,4 +321,11 @@ public class StringUtil {
         mMapChinese.put("10","十");
         mMapChinese.put("100","百");
     }
+
+    public static boolean isMatchMobile(String s) {
+//        String telRegex = "13\\d{9}|14[57]\\d{8}|15[012356789]\\d{8}|18[012356789]\\d{8}|17[0678]\\d{8}";
+        String telRegex = "1\\d{10}";
+
+        return Pattern.matches(telRegex, s);
+    }
 }

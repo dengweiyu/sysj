@@ -39,7 +39,9 @@ import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.AsyncTask;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.ui.dialog.SharedSuccessDialog;
 import com.li.videoapplication.ui.fragment.MyCloudVideoFragment;
@@ -477,6 +479,12 @@ public class VideoMangerActivity extends TBaseActivity implements
                 allSelected.setText("全选");
             }
         }
+
+        /**VIP**/
+        if(view == mVipLevel){
+            //
+            ActivityManager.startTopUpActivity(VideoMangerActivity.this, Constant.TOPUP_ENTRY_VIDEO_MANAGER,2);
+        }
     }
 
     /**
@@ -525,6 +533,7 @@ public class VideoMangerActivity extends TBaseActivity implements
         viewPager.addOnPageChangeListener(new PagerChangeListener());
         viewPager.setCurrentItem(0);
 
+        mVipLevel.setOnClickListener(this);
 
         //VIP
         if (isLogin()){

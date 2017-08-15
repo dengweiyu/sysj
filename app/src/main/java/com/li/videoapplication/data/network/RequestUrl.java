@@ -2501,4 +2501,39 @@ public class RequestUrl {
     public final String getUserVipInfo(){
         return BaseSYSJ+"/Lpds227/VIP/getMemberVIPInfo";
     }
+
+    /**
+     * 获取图片上传的七牛key token
+     */
+    public final String getUploadKey(){
+        return BaseSYSJ+"/Sysj224/Coach/getPicUploadParam";
+    }
+
+    /**
+     * 上传个性签名
+     */
+    public final String commitSign(){
+        return BaseSYSJ+"/Sysj224/Coach/saveInfo";
+    }
+
+    /**
+     * 获取个性签名
+     */
+    public final String getSign(){
+        return BaseSYSJ+"/Sysj224/Coach/psersonalizedSign";
+    }
+
+    /**
+     * 打赏榜
+     */
+    public final String rewardRank(){
+        return BaseSYSJ+"/Sysj224/RewardVideo/ranking";
+    }
+
+    /**
+     * 对教练的评价
+     */
+    public final String getCoachComment(){
+        return BaseSYSJ+"/Sysj224/TrainingAppraise/getTrainingAppraise";
+    }
 }

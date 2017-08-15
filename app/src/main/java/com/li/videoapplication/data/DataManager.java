@@ -1,5 +1,6 @@
 package com.li.videoapplication.data;
 
+import android.content.SyncAdapterType;
 import android.util.Log;
 
 import com.li.videoapplication.data.database.VideoCaptureEntity;
@@ -3911,7 +3912,7 @@ public class DataManager {
      * 教练详情
      */
 
-    public static void getCoachList(String memberId){
+    public static void getCoachDetail(String memberId){
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().getCoachDetail();
         Map<String, Object> params = RequestParams.getInstance().getCoachDetail(memberId);
@@ -4050,10 +4051,10 @@ public class DataManager {
     /**
      * 订单完成结果提交
      */
-    public static void confirmOrderResult(String memberId,String orderId, String data){
+    public static void confirmOrderResult(String memberId,String orderId, String data,String picKey){
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().commitOrderResult();
-        Map<String, Object> params = RequestParams.getInstance().commitOrderResult(memberId,orderId,data);
+        Map<String, Object> params = RequestParams.getInstance().commitOrderResult(memberId,orderId,data,picKey);
         RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
         request.setEntity(new OrderResultCommitEntity());
         helper.doNetwork(request);
@@ -4206,6 +4207,7 @@ public class DataManager {
     public static void downloadPatch(String url){
         RequestHelper helper = new RequestHelper();
         RequestObject request = new RequestObject(Contants.TYPE_DOWNLOAD, url,null, null);
+        request.setEntity(null);
         helper.doNetwork(request);
     }
 
@@ -4218,6 +4220,82 @@ public class DataManager {
         Map<String, Object> params = RequestParams.getInstance().getUserVipInfo(memberId);
         RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
         request.setEntity(new UserVipInfoEntity() );
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 获取图片上传的七牛key、token
+     */
+    public static void getUploadKey(String memberId,int size){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getUploadKey();
+        Map<String, Object> params = RequestParams.getInstance().getUploadKey(memberId,size);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new UploadKeyEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 上传教练个性签名
+     */
+    public static void commitSign(String sign,String memberId,String key){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().commitSign();
+        Map<String, Object> params = RequestParams.getInstance().commitSign(memberId,sign,key);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new CommitSignEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 获取教练个性签名
+     */
+    public static void getCoachSign(String memberId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getSign();
+        Map<String, Object> params = RequestParams.getInstance().getSign(memberId);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new CoachEditSignEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 解除Baidu Push绑定
+     */
+    public static void unBindBaiduPush(String memberId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getSign();
+        Map<String, Object> params = RequestParams.getInstance().unBindBaiduPush(memberId);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        helper.doNetwork(request);
+    }
+
+    /**
+     *土豪榜、人气榜
+     */
+    public static void getSendRewardRank(String memberId,int page,String type){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().rewardRank();
+        Map<String, Object> params = RequestParams.getInstance().rewardRank(memberId,page,type);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        if ("videoGiftRanking".equals(type)){
+            request.setEntity(new VideoRewardRankEntity());
+        }else {
+            request.setEntity(new SendRewardRankEntity());
+        }
+
+        helper.doNetwork(request);
+    }
+
+    /**
+     *获取用户对教练的评论
+     */
+    public static void getCoachComment(String coachId,String mark,int page){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getCoachComment();
+        Map<String, Object> params = RequestParams.getInstance().getCoachComment(coachId,mark,page);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new CoachCommentEntity());
         helper.doNetwork(request);
     }
 }

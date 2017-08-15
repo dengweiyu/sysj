@@ -34,6 +34,7 @@ public class PatchEntity extends BaseResponseEntity {
         private String app_version;
         private String download_url;
         private String patch_version;
+        private String validation;
 
         public String getPatch_version() {
             return patch_version;
@@ -65,6 +66,14 @@ public class PatchEntity extends BaseResponseEntity {
 
         public void setDownload_url(String download_url) {
             this.download_url = download_url;
+        }
+
+        public String getValidation() {
+            return validation;
+        }
+
+        public void setValidation(String validation) {
+            this.validation = validation;
         }
     }
 }

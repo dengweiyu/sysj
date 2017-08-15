@@ -1,19 +1,31 @@
 package com.li.videoapplication.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.SharedElementCallback;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.common.collect.Lists;
 import com.ifeimo.im.activity.ChatActivity;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.image.GlideHelper;
+import com.li.videoapplication.data.model.entity.Banner;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.response.CoachCommentEntity;
 import com.li.videoapplication.data.model.response.CoachDetailEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
@@ -21,15 +33,26 @@ import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.ui.adapter.BannerAdapter;
+import com.li.videoapplication.ui.adapter.CoachBannerAdapter;
+import com.li.videoapplication.ui.adapter.CoachCommentAdapter;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
+import com.li.videoapplication.ui.view.SimpleItemDecoration;
+import com.li.videoapplication.ui.view.SpanItemDecoration;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.views.CircleFlowIndicator;
+import com.li.videoapplication.views.ViewFlow;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 教练信息详情
  */
 
-public class CoachDetailActivity extends TBaseAppCompatActivity implements View.OnClickListener {
+public class CoachDetailActivity extends TBaseAppCompatActivity implements View.OnClickListener,ViewFlow.ViewSwitchListener {
 
     private String mMemberId;
     private String mCoachNickName;
@@ -39,6 +62,8 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
     private View mDetailInfo;
     private View mGameInfo;
     private View mOperation;
+    private View mCommentLayout;
+    private RecyclerView mComment;
     private ImageView mIcon;
     private TextView mNickName;
     private TextView mScore;
@@ -47,12 +72,17 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
     private TextView mOrder;
     private TextView mRank;
     private ImageView mRankIcon;
+    private TextView mDescription;
 
     private TextView mWin;
     private TextView mLose;
     private TextView mRate;
 
     private LoadingDialog mLoadingDialog;
+
+    private CoachCommentAdapter mCommentAdapter;
+    private ViewFlow mBannerFlow;
+    private List<String> mUrls = new ArrayList<>();
 
     @Override
     public void refreshIntent() {
@@ -73,10 +103,14 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
         return R.layout.activity_coach_detail;
     }
 
+
     @Override
     public void initView() {
         super.initView();
         initToolbar();
+
+        mCommentLayout = findViewById(R.id.cv_coach_detail_comment);
+        mComment = (RecyclerView) findViewById(R.id.rv_coach_comment);
         mIcon = (ImageView)findViewById(R.id.civ_coach_detail_icon);
         mNickName = (TextView)findViewById(R.id.tv_coach_detail_nick_name);
         mScore = (TextView)findViewById(R.id.tv_coach_detail_score);
@@ -96,9 +130,12 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
         mLose = (TextView)findViewById(R.id.tv_coach_detail_lose_num);
 
         mRate = (TextView)findViewById(R.id.tv_coach_detail_rate);
+        mDescription = (TextView)findViewById(R.id.tv_coach_description);
+
 
         findViewById(R.id.tv_chat_with_coach).setOnClickListener(this);
         findViewById(R.id.tv_coach_selected).setOnClickListener(this);
+        findViewById(R.id.tv_coach_all_comment).setOnClickListener(this);
 
         View view = findViewById(R.id.rv_coach_info_header);
 
@@ -106,6 +143,17 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
         view.setBackgroundResource(R.drawable.background_press);
         mLoadingDialog = new LoadingDialog(this);
         mLoadingDialog.setProgressText("加载中..");
+
+
+        mComment.setLayoutManager(new LinearLayoutManager(this));
+        mComment.addItemDecoration(new SimpleItemDecoration(this,false,false,false,true));
+
+        mComment.addItemDecoration(new SpanItemDecoration(ScreenUtil.dp2px(15),true,true,true,false));
+
+
+        List<CoachCommentEntity.ADataBean> data = new ArrayList<>();
+        mCommentAdapter = new CoachCommentAdapter(data);
+        mComment.setAdapter(mCommentAdapter);
     }
 
     private void initToolbar(){
@@ -133,8 +181,8 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
         mGameInfo.setVisibility(View.VISIBLE);
         mOperation.setVisibility(View.VISIBLE);
 
-        //头像这个控件和 Glide一起用 有问题
-        GlideHelper.displayRoundImage(this,data.getAvatar(),mIcon);
+
+        GlideHelper.displayImageWhite(this,data.getAvatar(),mIcon);
 
         mNickName.setText(data.getName());
         mGame.setText(data.getGame_name());
@@ -162,8 +210,67 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
         }else {
             findViewById(R.id.tv_tip_playing).setVisibility(View.GONE);
         }
+
+        if (StringUtil.isNull(data.getDescription())){
+            findViewById(R.id.v_divider_description).setVisibility(View.GONE);
+        }else {
+            mDescription.setVisibility(View.VISIBLE);
+            mDescription.setText(data.getDescription());
+        }
+
+        mUrls = data.getPicture();
+        setBannerView(mUrls);
+
     }
 
+
+    private void setBannerView(List<String> urls) {
+        mBannerFlow = (ViewFlow)findViewById(R.id.viewflow);
+        CircleFlowIndicator bannerIndicator = (CircleFlowIndicator)findViewById(R.id.circleflowindicator);
+
+        if (mUrls == null || mUrls.size() ==0){
+            findViewById(R.id.rv_coach_banner).setVisibility(View.GONE);
+        }else {
+            findViewById(R.id.rv_coach_banner).setVisibility(View.VISIBLE);
+            setBannerViewSize(mBannerFlow);
+            mBannerFlow.setSideBuffer(urls.size()); // 初始化轮播图张数
+            mBannerFlow.setFlowIndicator(bannerIndicator);
+            mBannerFlow.setTimeSpan(4000);
+            mBannerFlow.setSelection(0); // 设置初始位置
+
+            mBannerFlow.setAdapter(new CoachBannerAdapter(this, urls,mBannerFlow));
+            mBannerFlow.setOnViewSwitchListener(this);
+        }
+    }
+
+    private void setBannerViewSize(View view) {
+        //750:350 = 15:7
+        int w = srceenWidth;
+        int h = w * 7 / 15;
+
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.height = h;
+        params.width = w;
+        view.setLayoutParams(params);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startAutoFlowTimer();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopAutoFlowTimer();
+    }
+
+    @Override
+    public void onSwitched(View view, int position) {
+        startAutoFlowTimer();
+    }
 
     @Override
     public void loadData() {
@@ -172,7 +279,22 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
             mLoadingDialog.show();
         }
         if (mMemberId != null){
-            DataManager.getCoachList(mMemberId);
+            DataManager.getCoachDetail(mMemberId);
+            DataManager.getCoachComment(mMemberId,"alone",1);
+        }
+    }
+
+    public synchronized void startAutoFlowTimer() {
+        if (mBannerFlow != null && !mBannerFlow.isAutoFlowTimer()) {
+            // 自动播放
+            mBannerFlow.startAutoFlowTimer();
+        }
+    }
+
+    public synchronized void stopAutoFlowTimer() {
+        if (mBannerFlow != null && mBannerFlow.isAutoFlowTimer()) {
+            // 暂停播放
+            mBannerFlow.stopAutoFlowTimer();
         }
     }
 
@@ -212,6 +334,10 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
             case R.id.rv_coach_info_header:                 //个人中心
                 startPersonCenterActivity();
                 break;
+            case R.id.tv_coach_all_comment:                 //全部评价
+                ActivityManager.startCoachAllCommentActivity(CoachDetailActivity.this,mMemberId);
+                break;
+
         }
     }
 
@@ -249,5 +375,23 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
         member.setMember_id(mMemberId);
         member.setId(mMemberId);
         ActivityManager.startPlayerDynamicActivity(this,member);
+    }
+
+
+    public void onEventMainThread(CoachCommentEntity entity){
+        if (entity.isResult()){
+            if ( mCommentAdapter.getData().size() >0 ){
+                return;
+            }
+            if(entity.getAData() != null && entity.getAData().size() > 0){
+                mCommentAdapter.setNewData(entity.getAData());
+                mCommentLayout.setVisibility(View.VISIBLE);
+            }else {
+                mCommentLayout.setVisibility(View.GONE);
+            }
+
+        }else{
+
+        }
     }
 }

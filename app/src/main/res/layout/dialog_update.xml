@@ -69,6 +69,7 @@
             android:textSize="14sp" />
 
         <View
+            android:id="@+id/v_divider_mid"
             android:layout_width="@dimen/kaka_16"
             android:layout_height="match_parent" />
 

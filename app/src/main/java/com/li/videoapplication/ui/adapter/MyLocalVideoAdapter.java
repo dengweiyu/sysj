@@ -29,14 +29,19 @@ import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.LPDSStorageUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.local.VideoCaptureHelper;
+import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.event.CloudVideoEvent;
 import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.network.UITask;
+import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
+import com.li.videoapplication.data.preferences.SharedPreferencesUtils;
+import com.li.videoapplication.data.preferences.UserPreferences;
 import com.li.videoapplication.data.upload.Contants;
 import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.tools.IntentHelper;
+import com.li.videoapplication.tools.JSONHelper;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -45,6 +50,7 @@ import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoActivity;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
+import com.li.videoapplication.ui.dialog.UploadVideoPhoneDialog;
 import com.li.videoapplication.ui.dialog.VideoManagerCopyDialog;
 import com.li.videoapplication.ui.dialog.VideoManagerRenameDialog;
 import com.li.videoapplication.utils.NetUtil;
@@ -285,8 +291,27 @@ public class MyLocalVideoAdapter extends BaseAdapter implements
                     return;
                 }
 
+                // 验证是否绑定手机
+                final Member member = PreferencesHepler.getInstance().getUserProfilePersonalInformation();
+                // 手机号码为空
+                if (StringUtil.isNull(member.getMobile())){
+                    DialogManager.showUploadVideoPhoneDialog(activity, new UploadVideoPhoneDialog.Callback() {
+                        @Override
+                        public void onCall(String phone) {
+                            member.setMobile(phone);
+                            DataManager.userProfileFinishMemberInfo(member);
+                            // 保存数据到Preference
+                            PreferencesHepler.getInstance().saveUserProfilePersonalInformation(member);
+                            videoShare(record);
+                        }
+                    });
+                    return;
+                }
+                videoShare(record);
+
+
                 // 获取当前网络环境
-                int netType = NetUtil.getNetworkType(context);
+             /*   int netType = NetUtil.getNetworkType(context);
                 if (netType == 0) {
                     ToastHelper.s(R.string.net_disable);
                 } else if (netType == 1) {// wifi
@@ -301,7 +326,7 @@ public class MyLocalVideoAdapter extends BaseAdapter implements
                         }
                     });
                 }
-                UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "本地视频-分享");
+                UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "本地视频-分享");*/
             }
         });
 
@@ -480,6 +505,27 @@ public class MyLocalVideoAdapter extends BaseAdapter implements
 
         return convertView;
     }
+
+    private void videoShare(final VideoCaptureEntity record){
+        // 获取当前网络环境
+        int netType = NetUtil.getNetworkType(context);
+        if (netType == 0) {
+            ToastHelper.s(R.string.net_disable);
+        } else if (netType == 1) {// wifi
+            startVideoShareActivity210(record);
+        } else {
+            // 上传视频
+            DialogManager.showUploadVideoDialog(context, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startVideoShareActivity210(record);
+                }
+            });
+        }
+        UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "本地视频-分享");
+    }
+
 
     /**
      * 刷新删除状态

@@ -1,5 +1,6 @@
 package com.li.videoapplication.tools;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -127,7 +128,7 @@ public class JPushHelper {
                 Log.d(TAG, "onReceive: notify");
                 if (!StringUtil.isNull(push_msg_key) && !StringUtil.isNull(push_msg_value)) {
                     if (push_msg_key.equals(PK_SUCCESS)) {
-                        FragmentActivity currentActivity = AppManager.getInstance().currentActivity();
+                        Activity currentActivity = AppManager.getInstance().currentActivity();
                         if (currentActivity instanceof GameMatchDetailActivity) {
                             GameMatchDetailActivity activity = (GameMatchDetailActivity) currentActivity;
                             activity.loadData();

@@ -1,5 +1,6 @@
 package com.li.videoapplication.data.network;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
@@ -72,7 +73,7 @@ public class RequestService extends BaseService {
      */
     public void onEventMainThread(RequestObject event) {
         if (event != null) {
-            FragmentActivity activity = AppManager.getInstance().currentActivity();
+            Activity activity = AppManager.getInstance().currentActivity();
             RequestHelper helper = new RequestHelper();
             if (activity != null && event.getA() == 0) {
                 helper.doExecutor(activity, event);

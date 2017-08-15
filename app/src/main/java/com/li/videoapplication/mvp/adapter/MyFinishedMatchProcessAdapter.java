@@ -1,5 +1,6 @@
 package com.li.videoapplication.mvp.adapter;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -87,7 +88,7 @@ public class MyFinishedMatchProcessAdapter extends BaseQuickAdapter<Match, BaseV
             @Override
             public void onClick(View v) {
                 if (!StringUtil.isNull(event_id)) {
-                    FragmentActivity activity = AppManager.getInstance().currentActivity();
+                    Activity activity = AppManager.getInstance().currentActivity();
                     ActivityManager.startMyMatchBettleActivity(activity,
                             event_id, record.getSchedule_id(), v, "finishmatch",
                             tranView2, "signet");

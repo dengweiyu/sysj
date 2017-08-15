@@ -33,7 +33,7 @@ public abstract class BaseSlidingActivity extends SlidingFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(tag, "onCreate");
 		super.onCreate(savedInstanceState);
-
+		AppManager.getInstance().addActivity(this);
 		inflater = LayoutInflater.from(this);
 		manager = getSupportFragmentManager();
 		resources = getResources();
@@ -57,6 +57,8 @@ public abstract class BaseSlidingActivity extends SlidingFragmentActivity {
 	public void onDestroy() {
 		Log.d(tag, "onDestroy");
 		super.onDestroy();
+
+		AppManager.getInstance().removeActivity(this);
 	}
 
 	@Override

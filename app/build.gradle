@@ -112,7 +112,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
         // 20170104,2.1.4   test:20161122, 2.1.2
-        versionCode 20170805
+        versionCode 20170815
         versionName "2.2.4.3"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
@@ -301,6 +301,8 @@ dependencies {
     //进程守护
     compile 'com.coolerfall:android-app-daemon:1.2.0'
 
+    //图片压缩  包含了RXjava
+    compile 'id.zelory:compressor:1.0.3'
     //use to test multiDex
 //    compile group: 'com.google.guava', name: 'guava', version: '19.0'
 //    compile "org.scala-lang:scala-library:2.11.7"
@@ -323,6 +325,7 @@ def gitSha() {
         if (gitRev == null) {
             throw new GradleException("can't get git rev, you should add git to system path or just input test value, such as 'testTinkerId'")
         }
+        //使用git commit 的版本号作为tinkerId  tinkerId一致的话才会加载补丁，所以也要注意本地开发中的tinkerId不能与线上的一致
         return gitRev
     } catch (Exception e) {
         throw new GradleException("can't get git rev, you should add git to system path or just input test value, such as 'testTinkerId'")
@@ -344,11 +347,11 @@ ext {
 
     //for normal build
     //old apk file to build patch apk
-    tinkerOldApkPath = "${bakPath}/VideoApplication_2.2.4.2_build_20170805_1.apk"
+    tinkerOldApkPath = "${bakPath}/VideoApplication_2.2.4.2_build_20170807_2442.apk"
     //proguard mapping file to build patch apk
     tinkerApplyMappingPath = "${bakPath}/app-release-0805-14-05-12-mapping.txt"
     //resource R.txt to build patch apk, must input if there is resource changed
-    tinkerApplyResourcePath = "${bakPath}/app-release-2242-0805-14-05-12-R.txt"
+    tinkerApplyResourcePath = "${bakPath}/app-release-2242-0807-14-04-23-R.txt"
 
     //only use for build all flavor, if not, just ignore this field
     tinkerBuildFlavorDirectory = "${bakPath}/app-1018-17-32-47"

@@ -19,6 +19,15 @@ public class OrderTimeEntity extends BaseResponseEntity {
     private long endTime;
     private long intervalTime;
     private long nowTime;
+    private long secondTime;
+
+    public long getSecondTime() {
+        return secondTime;
+    }
+
+    public void setSecondTime(long secondTime) {
+        this.secondTime = secondTime;
+    }
 
     public long getNowTime() {
         return nowTime;

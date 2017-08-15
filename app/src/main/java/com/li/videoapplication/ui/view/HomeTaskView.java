@@ -1,6 +1,7 @@
 package com.li.videoapplication.ui.view;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -29,10 +30,16 @@ public class HomeTaskView extends LinearLayout implements
 
     public HomeTaskView(Context context) {
         super(context);
+        initContentView();
     }
 
-    public HomeTaskView(Context context, AttributeSet attrs) {
+    public HomeTaskView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        initContentView();
+    }
+
+    public HomeTaskView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         initContentView();
     }
 

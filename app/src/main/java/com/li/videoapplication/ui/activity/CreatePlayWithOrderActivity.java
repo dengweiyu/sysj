@@ -4,12 +4,16 @@ package com.li.videoapplication.ui.activity;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.zxing.client.result.CalendarParsedResult;
@@ -34,6 +38,7 @@ import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
+import com.li.videoapplication.mvp.adapter.ChoiceOptionAdapter;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
@@ -43,7 +48,10 @@ import com.li.videoapplication.ui.dialog.ConfirmPlayWithDialog;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.ui.dialog.SimpleChoiceDialog;
 import com.li.videoapplication.ui.dialog.SimpleDoubleChoiceDialog;
+import com.li.videoapplication.ui.dialog.UploadVideoPhoneDialog;
+import com.li.videoapplication.ui.view.SpanItemDecoration;
 import com.li.videoapplication.utils.MD5Util;
+import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -69,10 +77,6 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
     private LoadingDialog mLoadingDialog;
 
-    private SimpleChoiceDialog mServerDialog;
-
-    private SimpleChoiceDialog mGameModeDialog;
-
     private SimpleChoiceDialog mGameRankDialog;
 
     private SimpleChoiceDialog mGameCountDialog;
@@ -80,6 +84,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     private SimpleDoubleChoiceDialog mGameTimeDialog;
 
     private ConfirmPlayWithDialog mConfirmDialog;
+
+    private UploadVideoPhoneDialog mBindPhoneDialog;
 
     private List<String> mServerList = Lists.newArrayList();
 
@@ -107,6 +113,11 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     private TextView mTopDiscountMessage;
     private View mLayoutDiscount;
     private TextView mDiscountMessage;
+    private RecyclerView mServerNameList;
+    private RecyclerView mModeNameList;
+
+    private ChoiceOptionAdapter mServerNameAdapter;
+    private ChoiceOptionAdapter mModeNameAdapter;
 
     private PlayWithOrderOptionsEntity mOptions;
 
@@ -131,6 +142,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     private String mCoachQQ;
 
     private long mStartSecond;
+
+    private long mSecondTime;   //对开始时间取整5后
 
     private long mEndSecond;
 
@@ -168,13 +181,6 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     public void initView() {
         super.initView();
 
-        // create our manager instance after the content view is set
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        // enable status bar tint
-        tintManager.setStatusBarTintEnabled(true);
-        // enable navigation bar tint
-        //tintManager.setNavigationBarTintEnabled(true);
-        tintManager.setTintColor(Color.parseColor("#FFFFFF"));
         initToolbar();
 
         mOperation = findViewById(R.id.ll_coach_operation);
@@ -197,8 +203,15 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         //添加横线
         mOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
 
-        findViewById(R.id.ll_choice_server).setOnClickListener(this);
-        findViewById(R.id.ll_choice_game_mode).setOnClickListener(this);
+        mServerNameList = (RecyclerView)findViewById(R.id.rv_server_name_list);
+        mModeNameList = (RecyclerView)findViewById(R.id.rv_mode_name_list);
+
+        mServerNameList.setLayoutManager(new GridLayoutManager(this,2));
+        mModeNameList.setLayoutManager(new GridLayoutManager(this,2));
+
+        mServerNameList.addItemDecoration(new SpanItemDecoration(ScreenUtil.dp2px(this,12),false,true,false,false));
+        mModeNameList.addItemDecoration(new SpanItemDecoration(ScreenUtil.dp2px(this,12),false,true,false,false));
+
         findViewById(R.id.ll_choice_my_rank).setOnClickListener(this);
         findViewById(R.id.ll_choice_game_count).setOnClickListener(this);
         findViewById(R.id.ll_choice_start_time).setOnClickListener(this);
@@ -210,6 +223,24 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         createOrder.setOnClickListener(this);
 
         mLoadingDialog = new LoadingDialog(this);
+
+        mServerNameList.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                mServerNameAdapter.setIsSelected(i);
+                mServerNameAdapter.notifyDataSetChanged();
+                mServerIndex = i;
+            }
+        });
+
+        mModeNameList.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                mModeNameAdapter.setIsSelected(i);
+                mModeNameAdapter.notifyDataSetChanged();
+                mGameModeIndex = i;
+            }
+        });
     }
 
 
@@ -218,7 +249,6 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         findViewById(R.id.tb_back).setOnClickListener(this);
         ((TextView)findViewById(R.id.tb_title)).setText("订单信息");
         setSupportActionBar(((Toolbar)findViewById(R.id.toolbar)));
-
     }
 
     @Override
@@ -279,14 +309,19 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             }
         }
 
-        if (mServerList.size() > mServerIndex){
+        mServerNameAdapter = new ChoiceOptionAdapter(mServerList);
+        mModeNameAdapter = new ChoiceOptionAdapter(mGameModeList);
+        mServerNameList.setAdapter(mServerNameAdapter);
+        mModeNameList.setAdapter(mModeNameAdapter);
+
+      /*  if (mServerList.size() > mServerIndex){
             mServerName.setText(mServerList.get(mServerIndex));
         }
 
         if (mGameModeList.size() > mGameModeIndex){
             mGameModeName.setText(mGameModeList.get(mGameModeIndex));
         }
-
+*/
         if (mRankList.size() > mRankIndex){
             mRankName.setText(mRankList.get(mRankIndex));
         }
@@ -313,13 +348,6 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             case R.id.tb_back:
                 finish();
                 break;
-            case R.id.ll_choice_server:                             //选择大区
-                showServerDialog();
-                break;
-
-            case R.id.ll_choice_game_mode:                         //选择游戏模式
-                showGameModeDialog();
-                break;
             case R.id.ll_choice_my_rank:                            //选择分段
                 showGameRankDialog();
                 break;
@@ -337,6 +365,22 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                 showGameTimeDialog();
                 break;
             case R.id.tv_coach_selected:                            //立即下单
+
+                if (mIsDiscount){
+                    if (!isLogin()){
+                        DialogManager.showLogInDialog(CreatePlayWithOrderActivity.this);
+                        return;
+                    }
+
+                    final Member member = getUser();
+                    // 验证是否绑定手机
+                    if (StringUtil.isNull(member.getMobile())){
+                        showBindPhoneDialog();
+                        return;
+                    }
+                }
+
+                //立即下单对话框
                 showConfirmDialog(mTotal);
                 break;
             case R.id.tv_chat_with_coach:                           //私聊
@@ -345,34 +389,6 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         }
     }
 
-
-    public void showServerDialog(){
-        if (mServerDialog == null){
-            mServerDialog  =  new SimpleChoiceDialog(CreatePlayWithOrderActivity.this,mServerList , TYPE_CHOICE_SERVER);
-            mServerDialog.setSelectPosition(mServerIndex);
-            mServerDialog.setListener(mListener);
-        }else {
-            mServerDialog.notifyDataSetChanged();
-        }
-        if (!mServerDialog.isShowing()){
-            mServerDialog.show();
-        }
-    }
-
-
-    public void showGameModeDialog(){
-        if ( mGameModeDialog == null){
-            mGameModeDialog  =  new SimpleChoiceDialog(CreatePlayWithOrderActivity.this,mGameModeList,SimpleChoiceDialog.TYPE_CHOICE_MODE);
-            mGameModeDialog.setSelectPosition(mGameModeIndex);
-            mGameModeDialog.setListener(mListener);
-        }else {
-            mGameModeDialog.notifyDataSetChanged();
-        }
-
-        if (!mGameModeDialog.isShowing()){
-            mGameModeDialog.show();
-        }
-    }
 
     public void showGameRankDialog(){
         if (mGameRankDialog == null){
@@ -427,6 +443,28 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         if (!mConfirmDialog.isShowing()){
             mConfirmDialog.show();
         }
+    }
+
+    public void showBindPhoneDialog(){
+        final Member member = getUser();
+
+        if (mBindPhoneDialog == null){
+            mBindPhoneDialog = new UploadVideoPhoneDialog(CreatePlayWithOrderActivity.this,new UploadVideoPhoneDialog.Callback() {
+                @Override
+                public void onCall(String phone) {
+                    member.setMobile(phone);
+                    DataManager.userProfileFinishMemberInfo(member);
+                    // 保存数据到Preference
+                    PreferencesHepler.getInstance().saveUserProfilePersonalInformation(member);
+
+                    //立即下单对话框
+                    showConfirmDialog(mTotal);
+                }
+            });
+            ((TextView) mBindPhoneDialog.findViewById(R.id.tv_bind_phone_tip)).setText("为了保障您更好的享受优惠，需要绑定手机");
+        }
+
+        mBindPhoneDialog.show();
     }
 
     /**
@@ -495,6 +533,14 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
             while(lastMinute < 60){
                 mMinuteList.add(formatMinute(lastMinute));
+                if (lastMinute == startMinute){         //
+                    int secondMinute = TimeHelper.getCurrentCalendar(mSecondTime).get(Calendar.MINUTE);
+                    if (secondMinute > startMinute  && startMinute %(duration/60) !=0){
+                        mMinuteList.add(formatMinute(secondMinute));
+                        lastMinute = secondMinute;
+                    }
+                }
+
                 lastMinute += duration/60;
             }
         }else {
@@ -754,6 +800,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
      *价格回调
      */
     private float mTotal;
+    private boolean mIsDiscount = false;
     public void onEventMainThread(PlayWithOrderPriceEntity entity){
         if (entity != null){
 
@@ -761,6 +808,10 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
             mPriceTotal.setText(Html.fromHtml(TextUtil.toColor(entity.getPrice()+"","#fc3c2e")+" 魔币"));
             mTotal = entity.getPrice();
+
+            if (mTotal == entity.getOriginal_price()){
+                mIsDiscount = false;
+            }
 
             if (entity.isDiscount()){
                 mLayoutDiscount.setVisibility(View.VISIBLE);
@@ -798,6 +849,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         if (entity.isResult() && mStartSecond != entity.getStartTime() && mEndSecond != entity.getEndTime()){
             mStartSecond = entity.getStartTime();
             mEndSecond = entity.getEndTime();
+            mSecondTime = entity.getSecondTime();
 
            // mStartSecond = 1501510200L;
            // mEndSecond = 1501525200L;

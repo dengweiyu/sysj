@@ -316,14 +316,28 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
                     DialogManager.showLogInDialog(this);
                     return;
                 }
+
                 if (item.getIsAttent() == 1) {
-                    item.setIsAttent(0);
+                    DialogManager.showConfirmDialog(PlayerDynamicActivity.this, "确认取消关注该玩家?", new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            switch (v.getId()){
+                                case R.id.tv_confirm_dialog_yes:
+                                    item.setIsAttent(0);
+                                    // 玩家关注
+                                    DataManager.memberAttention201(item.getMember_id(), getMember_id());
+                                    setFocus(item);
+                                    break;
+                            }
+                        }
+                    });
                 } else {
                     item.setIsAttent(1);
+                    // 玩家关注
+                    DataManager.memberAttention201(item.getMember_id(), getMember_id());
+                    setFocus(item);
                 }
-                // 玩家关注
-                DataManager.memberAttention201(item.getMember_id(), getMember_id());
-                setFocus(item);
+
                 break;
             case R.id.dynamic_fans:
                 if (!isLogin()) {

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+  >
+
+    <com.li.videoapplication.views.CircleImageView
+        android:id="@+id/civ_coach_detail_user_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:scaleType="centerCrop"
+        app:border_color="#DCDCDC"
+        app:border_width="1px"
+        android:layout_centerVertical="true"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_user_nick_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="12sp"
+            android:textColor="@color/text_color"
+            android:layout_margin="2dp"
+            android:text="霸道总裁"/>
+
+        <TextView
+            android:id="@+id/tv_comment_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="10sp"
+            android:layout_margin="2dp"
+            android:textColor="@color/textcolor_french_gray"
+            android:text="2017-8-11"/>
+
+        <TextView
+            android:id="@+id/tv_comment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="10sp"
+            android:layout_margin="2dp"
+            android:textColor="@color/textcolor_french_gray"
+            android:text="大神技术很好"/>
+
+    </LinearLayout>
+
+    <RatingBar
+        android:id="@+id/rb_comment_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ScoreStar"
+        android:numStars="5"
+        android:rating="5"/>
+</LinearLayout>

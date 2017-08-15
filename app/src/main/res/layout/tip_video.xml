@@ -40,10 +40,9 @@
         android:orientation="vertical">
     <com.li.videoapplication.views.TipView
             android:id="@+id/topRight"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
             app:isRound="true"
-            app:marginBottom="1dp"
             />
         <ImageView
             android:layout_width="match_parent"

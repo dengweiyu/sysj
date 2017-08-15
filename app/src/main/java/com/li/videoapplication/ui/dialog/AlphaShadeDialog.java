@@ -1,10 +1,13 @@
 package com.li.videoapplication.ui.dialog;
 
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.FrameLayout;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.network.UITask;
+import com.li.videoapplication.ui.activity.PlayWithOrderDetailActivity;
 import com.li.videoapplication.utils.ScreenUtil;
 
 import java.lang.reflect.Field;
@@ -28,9 +32,11 @@ import java.text.DecimalFormat;
 public class AlphaShadeDialog extends BottomSheetDialog{
     protected BottomSheetBehavior<FrameLayout> mBehavior;
     private int mBehaviorState;
+
+    protected Activity mActivity;
     public AlphaShadeDialog(@NonNull Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     @Override
@@ -54,11 +60,14 @@ public class AlphaShadeDialog extends BottomSheetDialog{
             params.width = ScreenUtil.getScreenWidth();
             window.setAttributes(params);
 
+
             if ( mBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED){
                 mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
         }
+
     }
+
 
     /**
      * must behind in setContentView invoke
@@ -95,11 +104,13 @@ public class AlphaShadeDialog extends BottomSheetDialog{
                     public void onStateChanged(@NonNull View bottomSheet, int newState) {
                         if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                             cancel();
+
                         }else if (newState == BottomSheetBehavior.STATE_SETTLING){
 
                         }else if (newState == BottomSheetBehavior.STATE_EXPANDED){
                             params.dimAmount = 0.5f;
                             window.setAttributes(params);
+
                         }
                         mBehaviorState = newState;
                     }
@@ -118,7 +129,7 @@ public class AlphaShadeDialog extends BottomSheetDialog{
                         //slideOffset -1=>0
 
                         //0.5 is default value
-                        float scale = (float) (0.5f+0.5*(slideOffset-0.2f));
+                       float scale = (float) (0.5f+0.7*(slideOffset));
                         DecimalFormat decimalFormat=new DecimalFormat("##0.0");
                         scale = Float.parseFloat(decimalFormat.format(scale));
                         if (scale < 0){
@@ -131,6 +142,7 @@ public class AlphaShadeDialog extends BottomSheetDialog{
 
                         params.dimAmount = scale;
                         window.setAttributes(params);
+
                     }
                 });
             }
@@ -141,9 +153,10 @@ public class AlphaShadeDialog extends BottomSheetDialog{
         }
     }
 
-    private void init(){
+    private void init(Context context){
         final Window window = getWindow();
+
         //支持阴影
-        window.addFlags( WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
 }

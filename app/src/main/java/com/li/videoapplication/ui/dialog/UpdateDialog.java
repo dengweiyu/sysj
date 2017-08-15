@@ -13,6 +13,7 @@
 package com.li.videoapplication.ui.dialog;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
@@ -24,9 +25,11 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.component.service.UpdateService;
 import com.li.videoapplication.data.model.entity.Update;
+import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseDialog;
 import com.li.videoapplication.tools.DownloadHelper;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.ScreenUtil;
@@ -42,6 +45,8 @@ public class UpdateDialog extends BaseDialog implements View.OnClickListener {
 
     private TextView confirm;
     private Update update;
+    private Activity mActivity;
+
 
     @Override
     protected int getContentView() {
@@ -50,6 +55,10 @@ public class UpdateDialog extends BaseDialog implements View.OnClickListener {
 
     public UpdateDialog(Context context, Update update) {
         super(context);
+        if (context instanceof Activity){
+            mActivity = (Activity) context;
+        }
+
         setCanceledOnTouchOutside(false);
 
         this.update = update;
@@ -80,6 +89,8 @@ public class UpdateDialog extends BaseDialog implements View.OnClickListener {
         } else if ("A".equals(update.getUpdate_flag())) {// 强制升级
             String message = "手游视界" + update.getVersion_str() + "\n更新日志：\n" + changelog;
             content.setText(message);
+            cancel.setVisibility(View.GONE);
+            findViewById(R.id.v_divider_mid).setVisibility(View.GONE);
         }
     }
 
@@ -89,6 +100,24 @@ public class UpdateDialog extends BaseDialog implements View.OnClickListener {
             downloadAPK();
         }
         dismiss();
+    }
+
+    private long mLastPress;
+
+    @Override
+    public void onBackPressed() {
+        if (mActivity != null && "A".equals(update.getUpdate_flag())) {// 强制升级
+            if (mLastPress > 0 && System.currentTimeMillis() - mLastPress <1500){
+                dismiss();
+                AppManager.getInstance().removeAllActivity();
+            }else {
+                mLastPress = System.currentTimeMillis();
+                ToastHelper.s("再按一次将退出手游视界");
+            }
+        }else {
+            super.onBackPressed();
+        }
+
     }
 
     private void downloadAPK() {

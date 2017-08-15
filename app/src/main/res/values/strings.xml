@@ -949,4 +949,11 @@
     <string name="no_send_gift_description">主人有点懒，还没送礼哦~</string>
 
     <string name="play_gift_sign_key">293c8f7f66b1c8f4cef872f6371c9020237329a2</string>
+
+    <string name="phone_title">添加手机号码</string>
+    <string name="phone_upload_video">账号安全等级太低，请绑定手机后再分享</string>
+    <string name="phone_hint_phone">请输入手机号</string>
+    <string name="phone_hint_code">请输入验证码</string>
+    <string name="phone_get">获取验证码</string>
+    <string name="phone_submit">立即验证</string>
 </resources>
