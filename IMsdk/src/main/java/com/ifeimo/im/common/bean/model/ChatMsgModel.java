@@ -5,15 +5,13 @@ import com.ifeimo.im.framwork.database.Fields;
 import org.jivesoftware.smack.packet.Message;
 
 import y.com.sqlitesdk.framework.annotation.TBColumn;
-import y.com.sqlitesdk.framework.annotation.TBForeign;
 import y.com.sqlitesdk.framework.annotation.TBPrimarykey;
-import y.com.sqlitesdk.framework.interface_model.IModel;
 
 /**
  * Created by lpds on 2017/4/19.
  * 单聊模型
  */
-public class ChatMsgModel extends Model<ChatMsgModel> implements IMsg {
+public class ChatMsgModel extends Model<ChatMsgModel> implements IChatMsg {
 
     public static final String TB_NAME = Fields.ChatFields.TB_NAME;
 
@@ -127,7 +125,7 @@ public class ChatMsgModel extends Model<ChatMsgModel> implements IMsg {
         return create_time;
     }
 
-    public static ChatMsgModel buildChatBean(Message message) {
+    public static ChatMsgModel buildChatModel(Message message) {
         if (message.getBody() != null && !message.getBody().equals("")) {
             ChatMsgModel msgBean = new ChatMsgModel();
             String content = message.getBody();

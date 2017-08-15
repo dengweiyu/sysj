@@ -10,13 +10,12 @@ import org.jivesoftware.smack.packet.Message;
 import java.util.List;
 
 import y.com.sqlitesdk.framework.annotation.TBColumn;
-import y.com.sqlitesdk.framework.annotation.TBForeign;
 import y.com.sqlitesdk.framework.annotation.TBPrimarykey;
 
 /**
  * Created by lpds on 2017/4/20.
  */
-public class GroupChatModel extends Model<GroupChatModel> implements IMsg{
+public class GroupChatModel extends Model<GroupChatModel> implements IChatMsg {
 
     public static final String TB_NAME = Fields.GroupChatFields.TB_NAME;
 
@@ -130,9 +129,7 @@ public class GroupChatModel extends Model<GroupChatModel> implements IMsg{
         return create_time;
     }
 
-    public static GroupChatModel buildMuccBean(Message message) {
-
-
+    public static GroupChatModel buildMuccModel(Message message) {
         if (!StringUtil.isNull(message.getBody())) {
             GroupChatModel muccMsgBean = new GroupChatModel();
             String msgid = message.getStanzaId();
@@ -167,7 +164,6 @@ public class GroupChatModel extends Model<GroupChatModel> implements IMsg{
         } else {
             return null;
         }
-
     }
 
 

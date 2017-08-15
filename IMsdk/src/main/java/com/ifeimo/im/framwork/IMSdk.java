@@ -5,20 +5,22 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.ifeimo.im.R;
 import com.ifeimo.im.activity.ChatActivity;
 import com.ifeimo.im.common.bean.model.AccountModel;
+import com.ifeimo.im.common.bean.model.HeadLineModel;
 import com.ifeimo.im.common.callback.LoginCallBack;
 import com.ifeimo.im.common.IntentManager;
 import com.ifeimo.im.common.callback.LogoutCallBack;
 import com.ifeimo.im.common.util.PManager;
+import com.ifeimo.im.common.util.StringUtil;
 import com.ifeimo.im.common.util.ThreadUtil;
 import com.ifeimo.im.framwork.message.FileTransferImp;
 import com.ifeimo.im.framwork.message.IQMessageManager;
 import com.ifeimo.im.framwork.message.OnGroupItemOnClickListener;
 import com.ifeimo.im.framwork.message.PresenceMessageManager;
+import com.ifeimo.im.framwork.notification.NotifyHeadLineObservable;
 import com.ifeimo.im.service.LoginService;
 
 import java.util.HashMap;
@@ -33,7 +35,7 @@ public final class IMSdk {
     private static final String TAG = "XMPP_IMSDK";
     public static Application CONTEXT;
     public static final int versionCode = 4;
-
+    public static boolean Debug = false;
     /**
      * 初始化 application
      *
@@ -91,7 +93,11 @@ public final class IMSdk {
     public static void Login(Context context, String myMemberID, String myNickName, String myAvatarUrl, LoginCallBack loginCallBack) {
 
         AccountModel.Build build = new AccountModel.Build();
-        build.memberId = myMemberID;
+        if(Debug){
+            build.memberId = "10004";
+        }else {
+            build.memberId = myMemberID;
+        }
         build.avatarUrl = myAvatarUrl;
         build.member_nick_name = myNickName;
         Proxy.getAccountManger().setAccount(build);
@@ -189,7 +195,7 @@ public final class IMSdk {
         intent.putExtra("receiverNickName", receiverNickName);
         intent.putExtra("receiverAvatarUrl", receiverAvatarUrl);
         intent.putExtra("show", isFastReply);
-        if(showqq != null) {
+        if(!StringUtil.isNull(showqq) && StringUtil.isNumber(showqq)) {
             intent.putExtra("showQQ", showqq);
         }
         context.startActivity(intent);
@@ -204,6 +210,14 @@ public final class IMSdk {
     }
     public static void setOnGroupItemOnClick(OnGroupItemOnClickListener onGroupItemOnClick) {
         Proxy.getMessageManager().setOnGroupItemOnClickListener(onGroupItemOnClick);
+    }
+
+    public static void setHeadLineMeesageListener(NotifyHeadLineObservable notifyHeadLineObservable){
+        Proxy.getIMNotificationManager().setNotifyObservable(notifyHeadLineObservable);
+    }
+
+    public static void removeHeadLineMeesageListener(){
+        Proxy.getIMNotificationManager().removeNotifyObservable();
     }
 
 }

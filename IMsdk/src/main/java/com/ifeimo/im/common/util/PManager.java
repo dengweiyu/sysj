@@ -2,9 +2,13 @@ package com.ifeimo.im.common.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.Debug;
 
+import com.ifeimo.im.BuildConfig;
 import com.ifeimo.im.common.bean.ConnectBean;
 import com.ifeimo.im.common.bean.model.AccountModel;
+import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.lock.LockSupport;
 import com.ifeimo.im.framwork.request.Account;
@@ -28,16 +32,15 @@ public final class PManager {
     }
 
     public static ConnectBean getConnectConfig(Context context) {
+        ConnectBean connectBean;
+        if(!IMSdk.Debug) {
+            connectBean = new ConnectBean("op.17sysj.com", 5222, "op.17sysj.com");
+        }else{
+            connectBean = new ConnectBean("192.168.48.54", 5222, "192.168.48.54");
+        }
 
-//        SharedPreferences sharedPreferences = context.getSharedPreferences(CONNECT_CONFIG, Context.MODE_PRIVATE);
-//        ConnectBean connectBean = new ConnectBean(
-//                sharedPreferences.getString("HOST", "op.17sysj.com"),
-//                sharedPreferences.getInt("PROT", 5222),
-//                sharedPreferences.getString("SERVICE_NAME", "op.17sysj.com"));
-//                sharedPreferences.getString("HOST", "192.168.48.185"),
-//                sharedPreferences.getInt("PROT", 5222),
-//                sharedPreferences.getString("SERVICE_NAME", "192.168.48.185"));
-        ConnectBean connectBean = new ConnectBean("op.17sysj.com", 5222, "op.17sysj.com");
+
+
         return connectBean;
     }
 

@@ -19,7 +19,8 @@ import java.util.Map;
 import android.net.Uri;
 
 import com.ifeimo.im.IEmployee;
-import com.ifeimo.im.common.bean.model.IMsg;
+import com.ifeimo.im.common.bean.model.HeadLineModel;
+import com.ifeimo.im.common.bean.model.IChatMsg;
 
 /**
  * Provides list of notifications first of which should be shown.
@@ -27,7 +28,7 @@ import com.ifeimo.im.common.bean.model.IMsg;
  * @param <T>
  * @author alexander.ivanov
  */
-public interface NotificationManager<T extends NotificationItem> extends IEmployee {
+public interface NotificationManager extends IEmployee {
 
     /**
      * @return List of notifications.
@@ -65,5 +66,23 @@ public interface NotificationManager<T extends NotificationItem> extends IEmploy
      * 单聊 推送
      * @param msgBean
      */
-    void notifyMessageNotification2(IMsg msgBean);
+    void notifyMessageNotification2(IChatMsg msgBean);
+
+    /**
+     * im系统简单的通知headline 推送
+     * @param msg
+     */
+    void notifyHeadLineNotifycation(HeadLineModel msg);
+
+    /**
+     * 添加检测系统通知
+     * @param notifyHeadLineObservable
+     */
+    void  setNotifyObservable(NotifyHeadLineObservable notifyHeadLineObservable);
+
+    /**
+     * 移除检测系统通知
+     */
+    void removeNotifyObservable();
+
 }
