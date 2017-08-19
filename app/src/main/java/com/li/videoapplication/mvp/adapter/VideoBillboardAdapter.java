@@ -160,6 +160,15 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
                 }
             }
         });
+
+        holder.getView(R.id.root).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!StringUtil.isNull(videoImage.getVideo_id())) {// 视频
+                    startVideoPlayActivity(videoImage);
+                }
+            }
+        });
     }
 
     /**

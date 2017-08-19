@@ -56,6 +56,33 @@ public class StringUtil {
     }
 
     /**
+     * 格式化金额
+     * 不带小数点
+     */
+    public static String formatMoney(float money){
+        String  format ="";
+        DecimalFormat decimalFormat=new DecimalFormat("##0");
+        int m = (int)money;
+        format = StringUtil.formatNum(m+"");
+        String value = decimalFormat.format(money - (float) m)+"";
+        format += value.substring(1,value.length());
+        return format;
+    }
+    /**
+     * 格式化金额
+     * 一位小数点
+     */
+    public static String formatMoneyOnePoint(float money){
+        String  format ="";
+        DecimalFormat decimalFormat=new DecimalFormat("##0.0");
+        int m = (int)money;
+        format = StringUtil.formatNum(m+"");
+        String value = decimalFormat.format(money - (float) m)+"";
+        format += value.substring(1,value.length());
+        return format;
+    }
+
+    /**
      * 字符串转整数
      */
     public static int toInt(String str, int defValue) {

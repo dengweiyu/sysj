@@ -71,7 +71,7 @@
         android:id="@+id/rl_my_wallet_bill"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/background_press"
         android:padding="10dp"
         android:layout_marginTop="12dp">
         <LinearLayout

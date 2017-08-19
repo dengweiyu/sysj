@@ -23,9 +23,11 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.response.CoachEditSignEntity;
 import com.li.videoapplication.data.model.response.CommitSignEntity;
 import com.li.videoapplication.data.model.response.UploadKeyEntity;
+import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.data.qiniu.http.ResponseInfo;
 import com.li.videoapplication.data.qiniu.storage.UpCancellationSignal;
 import com.li.videoapplication.data.qiniu.storage.UpCompletionHandler;
@@ -377,7 +379,7 @@ public class CoachInfoEditActivity extends TBaseAppCompatActivity implements Vie
             mSignEntity = entity;
             mRoot.setVisibility(View.VISIBLE);
             findViewById(R.id.tb_topup_record).setVisibility(View.VISIBLE);
-            mInput.setText(entity.getOData().getDescription());
+            mInput.setText(entity.getOData().getIndividuality_signature());
             if (entity.getOData().getPic() != null){
                 for (String key:
                         entity.getOData().getPic()) {
@@ -405,5 +407,15 @@ public class CoachInfoEditActivity extends TBaseAppCompatActivity implements Vie
             ToastHelper.s("编辑失败");
         }
         mLoadingDialog.dismiss();
+    }
+
+    /**
+     *
+     */
+    public void onEventMainThread(NetworkError error){
+        if (RequestUrl.getInstance().commitSign().equals(error.getUrl())){
+            mLoadingDialog.dismiss();
+            ToastHelper.s("当前网络不可用，请检查后重试");
+        }
     }
 }

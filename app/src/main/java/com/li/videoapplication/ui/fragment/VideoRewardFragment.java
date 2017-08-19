@@ -3,7 +3,10 @@ package com.li.videoapplication.ui.fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
@@ -14,6 +17,7 @@ import com.li.videoapplication.data.model.response.VideoRewardRankEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.ui.adapter.VideoRewardAdapter;
 import com.li.videoapplication.ui.view.SimpleItemDecoration;
+import com.li.videoapplication.utils.TextUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +32,7 @@ public class VideoRewardFragment extends TBaseFragment implements SwipeRefreshLa
     private List<VideoRewardRankEntity.ADataBean.IncludeBean> mData;
     private int mPage = 1;
     private SwipeRefreshLayout mRefresh;
+    private TextView mMyRankMsg;
     @Override
     protected int getCreateView() {
         return R.layout.fragment_video_reward;
@@ -85,21 +90,36 @@ public class VideoRewardFragment extends TBaseFragment implements SwipeRefreshLa
         return null;
     }
 
+    private View getHeaderView(){
+        View root = LayoutInflater.from(getActivity()).inflate(R.layout.header_playerbillboard, null);
+        mMyRankMsg =  (TextView)root.findViewById(R.id.playerbillboard_rank);
+        return root;
+    }
 
     public void onEventMainThread(VideoRewardRankEntity entity){
+        mRefresh.setRefreshing(false);
+        mAdapter.loadMoreComplete();
         if (entity.isResult()){
             if (mPage == 1){
                 mData.clear();
             }
-
             enableLoadMore(entity.getAData().getPage_count() > mPage);
-
             mData.addAll(entity.getAData().getInclude());
+
+            if (entity.getAData().getPosition() == 0){
+                if (mMyRankMsg != null){
+                    mMyRankMsg.setText("");
+                }
+            }else {
+                if (mMyRankMsg == null){
+                    mAdapter.addHeaderView(getHeaderView());
+                }
+                mMyRankMsg.setText(Html.fromHtml("您当前在打赏视频榜排名为："+ TextUtil.toColor(entity.getAData().getPosition()+"","#fc3c2e")));
+                if (entity.getAData().getPosition() > 1000){
+                    mMyRankMsg.setText(Html.fromHtml("您当前的排名是：第"+ TextUtil.toColor("1000","#fc3c2e")+"名之外，赶紧发布精彩视频提高排名吧~"));
+                }
+            }
             mAdapter.notifyDataSetChanged();
-            mAdapter.loadMoreComplete();
-
         }
-
-        mRefresh.setRefreshing(false);
     }
 }

@@ -319,8 +319,12 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
             if (StringUtil.isNull(item.getCurrency())){
                 item.setCurrency("0");
             }
-            setTextViewText(beanNum, StringUtil.formatNum(item.getCurrency()));
-            setTextViewText(coinNum,StringUtil.formatNum(item.getCoin()));
+            try {
+                setTextViewText(beanNum, StringUtil.formatMoney(Float.parseFloat(item.getCurrency())));
+                setTextViewText(coinNum,StringUtil.formatMoneyOnePoint(Float.parseFloat(item.getCoin())));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             if (item.isV()){        //主播加V
                 isV.setVisibility(View.VISIBLE);
             }else {                 //VIP

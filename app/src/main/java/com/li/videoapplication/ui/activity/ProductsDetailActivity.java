@@ -140,7 +140,7 @@ public class ProductsDetailActivity extends TBaseActivity implements View.OnClic
                         case "6"://战网兑换类
                             if (Integer.valueOf(data.getInventory()) > 0) {
                                 if (isLogin()) {
-                                    int myCurrency = Integer.valueOf(getUser().getCurrency());
+                                    float myCurrency = Float.parseFloat((getUser().getCurrency()));
 
                                     if (myCurrency >= Integer.valueOf(data.getCurrency_num())) {
                                         DialogManager.showPaymentDialog(this, data);

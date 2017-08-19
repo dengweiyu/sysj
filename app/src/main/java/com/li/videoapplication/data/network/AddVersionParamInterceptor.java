@@ -29,7 +29,9 @@ import okio.Buffer;
 
 public class AddVersionParamInterceptor implements Interceptor {
     public static final String VERSION = BuildConfig.VERSION_NAME;
-    public static final  String CURRENT_VERSION = "current_version";
+    public static final String TYPE = "android";
+    public static final String CURRENT_VERSION = "current_version";
+    public static final String CURRENT_CLIENT_TYPE = "clientType";
 
     //重入锁 避免出现并发刷新access_token的情况
     private final ReentrantLock mReentrantLock = new ReentrantLock();
@@ -43,9 +45,9 @@ public class AddVersionParamInterceptor implements Interceptor {
         String url = request.urlString();
 
         if (url.indexOf("?") > 0){
-            url += "&"+CURRENT_VERSION+"="+VERSION;
+            url += "&"+CURRENT_VERSION+"="+VERSION+"&"+CURRENT_CLIENT_TYPE+"="+TYPE;
         }else {
-            url += "?"+CURRENT_VERSION+"="+VERSION;
+            url += "?"+CURRENT_VERSION+"="+VERSION+"&"+CURRENT_CLIENT_TYPE+"="+TYPE;
         }
 
         request = request
@@ -53,7 +55,12 @@ public class AddVersionParamInterceptor implements Interceptor {
                     .url(url+"")
                     .addHeader("Connection","Keep-Alive")
                     .build();
-        Response response = chain.proceed(request);
+        Response response = null;
+        try {
+            response = chain.proceed(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if(response.code() == 200){
             //.body().string()只能调用一次 ，因为是输入流 所以克隆一个新的response
@@ -101,7 +108,11 @@ public class AddVersionParamInterceptor implements Interceptor {
                     }finally {
                         mReentrantLock.unlock();
                     }
-                    response =  retryRequest(chain,request);
+                    try {
+                        response =  retryRequest(chain,request);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }else {
                 mAccessTokenIsOverDue = false;

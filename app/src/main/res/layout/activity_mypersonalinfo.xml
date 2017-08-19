@@ -415,7 +415,7 @@
         android:layout_marginLeft="19dp"
         android:background="#e2e2e2" />
     <RelativeLayout
-        android:id="@+id/ll_vip"
+        android:id="@+id/rl_vip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -698,30 +698,6 @@
     </RelativeLayout>
 
 
-    <LinearLayout
-        android:id="@+id/ll_personal_info_vip_center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:clickable="true"
-        android:background="?android:attr/selectableItemBackground"
-        android:paddingBottom="9dp"
-        android:paddingLeft="19dp"
-        android:paddingRight="19dp"
-        android:paddingTop="9dp">
-
-        <TextView
-            android:id="@+id/left"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="@string/mypersonalinfo_vip_center"
-            android:textColor="#6d6d6d"
-            android:textSize="12sp" />
-    </LinearLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
@@ -730,11 +706,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="19dp"
+
         android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/rl_edit_coach_info"
         android:layout_width="match_parent"
+        android:paddingLeft="19dp"
+        android:visibility="gone"
         android:layout_height="wrap_content">
 
         <TextView

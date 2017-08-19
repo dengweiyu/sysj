@@ -1,7 +1,6 @@
 package com.li.videoapplication.component.service;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -10,6 +9,7 @@ import android.util.Log;
 import com.baidu.push.example.BaiduPush;
 import com.coolerfall.daemon.Daemon;
 import com.fmsysj.screeclibinvoke.data.preferences.Utils_Preferens;
+import com.ifeimo.im.framwork.IMSdk;
 import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.HttpManager;
 import com.li.videoapplication.data.database.FileDownloaderEntity;
@@ -19,8 +19,6 @@ import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.event.LogoutEvent;
-import com.li.videoapplication.data.model.event.TokenErrorEntity;
-import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.response.GetDownloadAppEntity;
@@ -30,6 +28,7 @@ import com.li.videoapplication.data.model.response.SubmitChannelIdEntity;
 import com.li.videoapplication.data.model.response.Token;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.AppConstant;
+import com.li.videoapplication.impl.SimpleHeadLineObservable;
 import com.li.videoapplication.mvp.home.HomeContract;
 import com.li.videoapplication.mvp.home.presenter.HomePresenter;
 import com.li.videoapplication.data.DataManager;
@@ -113,6 +112,12 @@ public class AppStartService extends BaseIntentService{
 
         //守护
         Daemon.run(this, AppStartService.class, Daemon.INTERVAL_ONE_MINUTE*2);
+
+        //feimo im sdk
+        IMSdk.init(getApplication());
+
+        //IM推送
+        IMSdk.setHeadLineMeesageListener(new SimpleHeadLineObservable(this));
     }
 
     @Override
@@ -544,106 +549,17 @@ public class AppStartService extends BaseIntentService{
     /**
      * 回调:登录成功
      */
-    public void onEventMainThread(LoginEntity event) {
-
-        //FIXME
-     /*   if (event != null && event.isResult()){
-            //
-            Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
-            if (member != null){
-                if (member.getSysj_token() == null){
-                    member.setSysj_token(event.getData().getSysj_token());
-                }
-                member.getSysj_token().setAccessTokenTime(System.currentTimeMillis());
-                member.getSysj_token().setRefreshTokenTime(System.currentTimeMillis());
-                //更新时间
-                PreferencesHepler.getInstance().saveUserProfilePersonalInformation(member);
-            }*/
-         /*   if(mTokenHandler == null){
-                mTokenHandler = new Handler();
-                //55分钟后检查更新
-                mTokenHandler.postDelayed(mRefreshTokenTask,member.getSysj_token().getExpires_in()*1000 - 300000);
-            }*/
-        //}
+    public synchronized void onEventMainThread(LoginEntity event) {
         BaiduPush.getInstances().onCreate(getApplicationContext());
     }
 
     /**
      *回调：退出
      */
-    public void onEventMainThread(LogoutEvent event){
-        //FIXME
-      /*  if (mTokenHandler != null){
-            mTokenHandler.removeCallbacks(mRefreshTokenTask);
-            mTokenHandler = null;
-        }*/
-        //
+    public  void onEventMainThread(LogoutEvent event){
         BaiduPush.getInstances().onStop(getApplicationContext());
     }
 
-    /**
-     *回调：刷新token
-     */
-    public void onEventMainThread(Token data){
-        //FIXME
-      /*  if (data != null && data.isResult()){
-            //
-            Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
-            if (member != null){
-                if(member.getSysj_token() == null){
-                    member.setSysj_token(new Member.Token());
-                }
-                member.getSysj_token().setAccessTokenTime(System.currentTimeMillis());
-                member.getSysj_token().setRefreshTokenTime(System.currentTimeMillis());
-                member.getSysj_token().setAccess_token(data.getData().getAccess_token());
-                member.getSysj_token().setRefresh_token(data.getData().getRefresh_token());
-                member.getSysj_token().setExpires_in(data.getData().getExpires_in());
-                member.getSysj_token().setToken_type(data.getData().getToken_type());
-                //更新时间
-                PreferencesHepler.getInstance().saveUserProfilePersonalInformation(member);
-
-           *//*     if (mTokenHandler != null){
-                    mTokenHandler.removeCallbacks(mRefreshTokenTask);
-                    //55分钟后更新
-                    mTokenHandler.postDelayed(mRefreshTokenTask,member.getSysj_token().getExpires_in()*1000 - 300000);
-                }*//*
-            }
-        }else {
-            //这里失败的话就是代码问题了~
-            //退出当前登录
-            AppAccount.logout();
-        }*/
-    }
-
-    /**
-     * 接口时报Token失效
-     */
-    public void onEventMainThread(TokenErrorEntity error){
-        //FIXME
-    /*    Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
-
-        if (member != null){
-            //刷新token
-            DataManager.refreshAccessToken(member.getSysj_token().getRefresh_token());
-        }*/
-    }
-
-    /**
-     * 个人资料刷新事件
-     */
-    public void onEventMainThread(UserInfomationEvent event) {
-        //上传Baidu Push 的channel_id
-       /* Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
-        if (PreferencesHepler.getInstance().isLogin()){
-            if (MainApplicationLike.isSubmitChannelId()){
-                BaiduEntity entity = MainApplicationLike.getBaiduEntity();
-                if (entity != null && !StringUtil.isNull(entity.getChannelId())) {
-                    DataManager.submitChannelId(member.getId(),entity.getChannelId());
-                    MainApplicationLike.setSubmitChannelId(false);
-                }
-            }
-        }*/
-    }
 
     /**
      * channel id 提交结果

@@ -13,7 +13,7 @@
             android:id="@+id/tv_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_gray"
+            android:background="@drawable/shape_gray_1"
             android:gravity="center"
             android:padding="10dp"
             android:hint="十二个月"

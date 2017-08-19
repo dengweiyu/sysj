@@ -34,10 +34,8 @@ public class RecordDialogNew extends AlphaShadeDialog implements View.OnClickLis
 
     private Activity mActivity;
 
-    private int mShadow = 0x90000000;
-    private ColorDrawable mColorDrawable;
+
     public RecordDialogNew(@NonNull Activity activity) {
-       // super(activity,R.style.homeTranslucentDialog);
         super(activity);
         mActivity = activity;
     }
@@ -58,8 +56,6 @@ public class RecordDialogNew extends AlphaShadeDialog implements View.OnClickLis
         params.width = ScreenUtil.getScreenWidth();
         params.alpha = 0.9f;
 
-    //    mColorDrawable = new ColorDrawable(mShadow);
-   //     window.setBackgroundDrawable(mColorDrawable);
 
         findViewById(R.id.record_close).setOnClickListener(this);
         findViewById(R.id.ll_popup_square_layout).setOnClickListener(this);

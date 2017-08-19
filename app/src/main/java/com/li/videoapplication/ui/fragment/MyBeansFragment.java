@@ -66,11 +66,11 @@ public class MyBeansFragment extends TBaseFragment implements View.OnClickListen
             if (mMode == MY_BEANS){
                 mOverTile.setText(R.string.my_wallet_beans_over);
                 mExchange.setText("兑换");
-                mOver.setText(StringUtil.formatNum(member.getCurrency()));
+                mOver.setText(StringUtil.formatMoney(Float.parseFloat(member.getCurrency())));
             }else if (mMode == MY_CURRENCY){
                 mOverTile.setText(R.string.my_wallet_coin_over);
                 mExchange.setText("提现");
-                mOver.setText(StringUtil.formatNum(member.getCoin()));
+                mOver.setText(StringUtil.formatMoneyOnePoint(Float.parseFloat(member.getCoin())));
             }
         }
     }

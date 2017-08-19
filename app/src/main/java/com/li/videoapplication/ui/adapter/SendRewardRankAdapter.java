@@ -3,18 +3,18 @@ package com.li.videoapplication.ui.adapter;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.image.GlideHelper;
+import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.SendRewardRankEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.StringUtil;
-import java.text.DecimalFormat;
 import java.util.List;
 
 
@@ -28,45 +28,71 @@ public class SendRewardRankAdapter extends BaseQuickAdapter<SendRewardRankEntity
     }
 
     @Override
-    protected void convert(BaseViewHolder holder, SendRewardRankEntity.ADataBean.IncludeBean includeBean) {
+    protected void convert(BaseViewHolder holder, final SendRewardRankEntity.ADataBean.IncludeBean includeBean) {
         int position = holder.getAdapterPosition();
+
         ImageView rankIcon = (ImageView) holder.getView(R.id.iv_rank);
         TextView rankText = (TextView) holder.getView(R.id.tv_rank);
-        if (position < 4){
-            int redId = 0;
-            switch (position){
-                case 1:
+        rankText.setVisibility(View.VISIBLE);
+        rankIcon.setVisibility(View.GONE);
+        rankText.setText(position+"");
+        int redId = 0;
+
+            switch (position-getHeaderLayoutCount()){
+                case 0:
                     redId = R.drawable.playerbillboard_one;
+                    rankIcon.setVisibility(View.VISIBLE);
+                    rankText.setVisibility(View.GONE);
+                    rankIcon.setImageResource(redId);
+                    break;
+                case 1:
+                    redId = R.drawable.playerbillboard_two;
+                    rankIcon.setVisibility(View.VISIBLE);
+                    rankText.setVisibility(View.GONE);
+                    rankIcon.setImageResource(redId);
                     break;
                 case 2:
-                    redId = R.drawable.playerbillboard_two;
-                    break;
-                case 3:
                     redId = R.drawable.playerbillboard_three;
+                    rankIcon.setVisibility(View.VISIBLE);
+                    rankText.setVisibility(View.GONE);
+                    rankIcon.setImageResource(redId);
                     break;
+
             }
-            rankIcon.setVisibility(View.VISIBLE);
-            rankText.setVisibility(View.GONE);
-            rankIcon.setImageResource(redId);
-        }else {
-            rankText.setVisibility(View.VISIBLE);
-            rankIcon.setVisibility(View.GONE);
-            rankText.setText(position+"");
-        }
+
+
 
         GlideHelper.displayImageWhite(mContext,includeBean.getAvatar(),(ImageView) holder.getView(R.id.civ_player_icon));
 
         holder.setText(R.id.tv_user_nick_name,includeBean.getNickname());
 
+
+
         try {
-            holder.setText(R.id.tv_currency_coin,format(Float.parseFloat(includeBean.getCoin())));
-            holder.setText(R.id.tv_currency_beans,format(Float.parseFloat(includeBean.getCurrency())));
+            holder.setText(R.id.tv_currency_coin,StringUtil.formatMoneyOnePoint(Float.parseFloat(includeBean.getCoin())));
+            holder.setText(R.id.tv_currency_beans,StringUtil.formatMoney(Float.parseFloat(includeBean.getCurrency())));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
         setFocus((TextView) holder.getView(R.id.tv_send_reward_focus),includeBean);
+
+        holder.getView(R.id.ll_reward_rank).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Member member = new Member();
+                member.setId(includeBean.getMember_id());
+                member.setMember_id(includeBean.getMember_id());
+                startDynamicActivity(member);
+            }
+        });
+    }
+
+
+
+    private void startDynamicActivity(Member member) {
+        ActivityManager.startPlayerDynamicActivity(mContext, member);
     }
 
     /**
@@ -125,16 +151,4 @@ public class SendRewardRankAdapter extends BaseQuickAdapter<SendRewardRankEntity
         });
     }
 
-    /**
-     * 格式化金额
-     */
-    public static String format(float money){
-        String  format ="";
-        DecimalFormat decimalFormat=new DecimalFormat("##0.00");
-        int m = (int)money;
-        format = StringUtil.formatNum(m+"");
-        String value = decimalFormat.format(money - (float) m)+"";
-        format += value.substring(1,value.length());
-        return format;
-    }
 }

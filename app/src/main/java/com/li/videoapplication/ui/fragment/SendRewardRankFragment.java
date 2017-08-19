@@ -138,6 +138,7 @@ public class SendRewardRankFragment extends TBaseFragment implements SwipeRefres
 
     public void onEventMainThread(SendRewardRankEntity entity){
         mRefresh.setRefreshing(false);
+        mAdapter.loadMoreComplete();
         if (entity.isResult()){
             //
             if (!getTypeByIndex(mType).equals(entity.getType())){
@@ -156,7 +157,6 @@ public class SendRewardRankFragment extends TBaseFragment implements SwipeRefres
                 if (mMyRankMsg != null){
                     mMyRankMsg.setText("");
                 }
-
             }else {
                 if (mMyRankMsg == null){
                     mAdapter.addHeaderView(getHeaderView());
@@ -164,11 +164,18 @@ public class SendRewardRankFragment extends TBaseFragment implements SwipeRefres
 
                 if (mType == TYPE_SEND){
                     mMyRankMsg.setText(Html.fromHtml("您当前在打赏土豪榜排名为："+ TextUtil.toColor(entity.getAData().getPosition()+"","#fc3c2e")));
+                    if (entity.getAData().getPosition() > 1000){
+                        mMyRankMsg.setText(Html.fromHtml("您当前的排名是：第"+ TextUtil.toColor("1000","#fc3c2e")+"名之外，赶紧给关注的主播打赏礼物吧~"));
+                    }
+
                 }else {
                     mMyRankMsg.setText(Html.fromHtml("您当前在打赏人气榜排名为："+ TextUtil.toColor(entity.getAData().getPosition()+"","#fc3c2e")));
+                    if(entity.getAData().getPosition() > 1000){
+                        mMyRankMsg.setText(Html.fromHtml("您当前的排名是：第"+ TextUtil.toColor("1000","#fc3c2e")+"名之外，赶紧发布精彩视频提高排名吧~"));
+                    }
                 }
             }
-            mAdapter.loadMoreComplete();
+
             mAdapter.notifyDataSetChanged();
 
         }else {

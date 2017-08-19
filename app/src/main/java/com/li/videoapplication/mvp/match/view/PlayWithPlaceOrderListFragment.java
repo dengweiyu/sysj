@@ -99,6 +99,7 @@ public class PlayWithPlaceOrderListFragment extends TBaseFragment implements Bas
 
     @Override
     public void onLoadMoreRequested() {
+        mPage++;
         DataManager.getPlayWithPlaceOrder(getMember_id(),mPage);
     }
 
@@ -117,6 +118,7 @@ public class PlayWithPlaceOrderListFragment extends TBaseFragment implements Bas
      */
     public void onEventMainThread(PlayWithPlaceOrderEntity entity){
         mRefresh.setRefreshing(false);
+        mAdapter.loadMoreComplete();
         if (entity != null && entity.isResult()){
             if (mPage == 1){
                 mData.clear();
@@ -139,7 +141,7 @@ public class PlayWithPlaceOrderListFragment extends TBaseFragment implements Bas
                 mAdapter.setEnableLoadMore(false);
                 mAdapter.setOnLoadMoreListener(null);
             }
-            mPage++;
+
             mAdapter.setNewData(mData);
             if (mData.size() == 0){
                 mEmptyView.setVisibility(View.VISIBLE);
@@ -157,6 +159,7 @@ public class PlayWithPlaceOrderListFragment extends TBaseFragment implements Bas
     public void onEventMainThread(NetworkError error){
         if (error.getUrl().equals(RequestUrl.getInstance().getPlayWithTakeOrder())){
             mRefresh.setRefreshing(false);
+            mAdapter.loadMoreComplete();
         }
     }
 }

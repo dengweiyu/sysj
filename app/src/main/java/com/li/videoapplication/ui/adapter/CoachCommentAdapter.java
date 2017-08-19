@@ -1,7 +1,12 @@
 package com.li.videoapplication.ui.adapter;
 
+import android.text.Layout;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -39,5 +44,80 @@ public class CoachCommentAdapter extends BaseQuickAdapter<CoachCommentEntity.ADa
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        final TextView open = holder.getView(R.id.tv_open_all_comment);
+        final TextView content = holder.getView(R.id.tv_comment_content);
+
+        open.setVisibility(View.GONE);
+        content.setSingleLine(true);
+        content.setEllipsize(TextUtils.TruncateAt.END);
+
+        if (content.getLayout() != null){
+            if (content.getLayout().getLineCount() > 0){
+                open.setVisibility(View.VISIBLE);
+                if (content.getLayout().getLineCount() > 1){
+                    open.setText("收起");
+                }else {
+                    if (content.getLayout().getEllipsisCount(content.getLayout().getLineCount()-1) > 0){
+                        open.setText("查看全部");
+                    }else {
+                        open.setVisibility(View.GONE);
+                    }
+                }
+            }else {
+                open.setVisibility(View.GONE);
+            }
+        }
+
+        content.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                final Layout layout = content.getLayout();
+                final int line = layout.getLineCount();
+                if (layout == null){
+                    return ;
+                }
+                if (line > 0){
+                    open.setVisibility(View.VISIBLE);
+                    if (line > 1){
+                        open.setText("收起");
+                    }else {
+                        if (layout.getEllipsisCount(line-1) > 0){
+                            open.setText("查看全部");
+                        }else {
+                            open.setVisibility(View.GONE);
+                        }
+                    }
+                }else {
+                    open.setVisibility(View.GONE);
+                }
+                content.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                return ;
+            }
+        });
+
+        open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Layout l = content.getLayout();
+                if (l == null){
+                    return;
+                }
+                if (l.getLineCount() == 1){
+                    content.setSingleLine(false);
+                    content.setEllipsize(null);
+                    open.setText("收起");
+                } else if (l.getLineCount() > 1){
+                    content.setSingleLine(true);
+                    content.setEllipsize(TextUtils.TruncateAt.END);
+                    open.setText("查看全部");
+                }
+
+                content.invalidate();
+            }
+        });
+
     }
 }

@@ -4264,7 +4264,7 @@ public class DataManager {
      */
     public static void unBindBaiduPush(String memberId){
         RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().getSign();
+        String url = RequestUrl.getInstance().unBindBaiduPush();
         Map<String, Object> params = RequestParams.getInstance().unBindBaiduPush(memberId);
         RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
         helper.doNetwork(request);
@@ -4296,6 +4296,18 @@ public class DataManager {
         Map<String, Object> params = RequestParams.getInstance().getCoachComment(coachId,mark,page);
         RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
         request.setEntity(new CoachCommentEntity());
+        helper.doNetwork(request);
+    }
+
+
+    /**
+     * 统计播放页面停留时长
+     */
+    public static void commitStayDuration(String memberId,String videoId,int duration){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().commitStayDuration();
+        Map<String, Object> params = RequestParams.getInstance().commitStayDuration(memberId,videoId,duration);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
         helper.doNetwork(request);
     }
 }

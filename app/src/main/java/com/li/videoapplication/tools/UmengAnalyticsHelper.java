@@ -51,6 +51,10 @@ public class UmengAnalyticsHelper {
 
     public static final String SHARE = "210_share";
 
+    // ##########  视频播放停留时长  ##########
+
+    public static final String VIDEO_PLAY_DURATION = "210_play_duration";
+
 
     // -----------------------------------------------------------------------------
 

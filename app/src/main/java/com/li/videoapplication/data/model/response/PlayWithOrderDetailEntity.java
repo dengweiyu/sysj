@@ -200,6 +200,15 @@ public class PlayWithOrderDetailEntity extends BaseResponseEntity {
         private String statusText;
         private String orderNum;
         private String gameName;
+        private Evaluate evaluate;
+
+        public Evaluate getEvaluate() {
+            return evaluate;
+        }
+
+        public void setEvaluate(Evaluate evaluate) {
+            this.evaluate = evaluate;
+        }
 
         public String getOrder_id() {
             return order_id;
@@ -343,6 +352,36 @@ public class PlayWithOrderDetailEntity extends BaseResponseEntity {
 
         public void setGameName(String gameName) {
             this.gameName = gameName;
+        }
+    }
+
+    public static class Evaluate implements Serializable{
+        private String score;
+        private String add_time;
+        private String content;
+
+        public String getScore() {
+            return score;
+        }
+
+        public void setScore(String score) {
+            this.score = score;
+        }
+
+        public String getAdd_time() {
+            return add_time;
+        }
+
+        public void setAdd_time(String add_time) {
+            this.add_time = add_time;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
         }
     }
 }

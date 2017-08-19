@@ -34,7 +34,7 @@ public class VipRechargeEntity extends BaseResponseEntity {
     public static class DataBean {
         /**
          * level : 1
-         * name : VIP1
+         * name :
          * icon :
          * price : 1
          * description : ["录制时长60分钟"]

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
                 android:background="@color/activity_main_bg"
@@ -29,13 +30,91 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_coach_detail"
         android:layout_width="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_height="match_parent"
+        android:layout_above="@+id/oov_order_operation"
+
         android:layout_below="@+id/toolbar">
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
         <RelativeLayout
             android:id="@+id/rl_play_with_detail_fragment"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"></RelativeLayout>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_order_comment"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ></RelativeLayout>
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="1dp"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="20dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_color"
+                        android:text="玩家评论"/>
+                    <TextView
+                        android:id="@+id/tv_order_comment_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="top"
+                        android:text="2017-8-17"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/lightgrey"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"></View>
+
+                <RatingBar
+                    android:id="@+id/rb_order_comment_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    style="@style/ScoreStar"
+                    android:numStars="5"
+                    android:rating="4"/>
+
+                <TextView
+                    android:id="@+id/tv_order_comment_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="16dp"
+                    />
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <com.li.videoapplication.ui.view.OrderOperationView

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/ll_reward_rank"
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:background="@drawable/background_press"
     android:padding="10dp">
     <TextView
         android:id="@+id/tv_rank"
@@ -66,7 +68,7 @@
                 android:id="@+id/tv_currency_coin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#f7b500"
+                android:textColor="#828282"
                 android:layout_marginLeft="2dp"
                 android:hint="00000000"
                 android:text="0"
@@ -84,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:hint="00000000"
-                android:textColor="#f7b500"
+                android:textColor="#828282"
                 android:layout_marginLeft="2dp"
                 android:textSize="10sp"/>
         </LinearLayout>

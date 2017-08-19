@@ -28,6 +28,7 @@ public class TipView extends View {
 	private final int color;
 
 	private boolean isRound;
+	private boolean isRect;
 	private float marginBottom = 0;
 	public TipView(Context context) {
 		this(context, null);
@@ -37,6 +38,7 @@ public class TipView extends View {
 		super(context, attrs);
 		TypedArray array = context.obtainStyledAttributes(attrs,R.styleable.TipView);
 		isRound = array.getBoolean(R.styleable.TipView_isRound,false);
+		isRect = array.getBoolean(R.styleable.TipView_isRect,false);
 		marginBottom = array.getDimension(R.styleable.TipView_marginBottom,0f);
 		this.context = context;
 		this.paint = new Paint();
@@ -64,6 +66,14 @@ public class TipView extends View {
 		int t = cy - a;
 		int r = cx + a;
 		int b = cy + a;
+
+		if (isRect){
+			l = cx - getWidth()/2;
+			t = cy - getHeight()/2;
+			r = cx + getWidth()/2;
+			b = cy + getHeight()/2;
+		}
+
 		if (isRound){
 			l = 0;
 			t = 0;

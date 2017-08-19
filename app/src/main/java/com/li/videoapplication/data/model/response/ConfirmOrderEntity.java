@@ -10,9 +10,9 @@ public class ConfirmOrderEntity extends BaseResponseEntity {
 
     private String order_id;
 
-    private int residue_coin;
+    private float residue_coin;
 
-    public int getResidue_coin() {
+    public float getResidue_coin() {
         return residue_coin;
     }
 

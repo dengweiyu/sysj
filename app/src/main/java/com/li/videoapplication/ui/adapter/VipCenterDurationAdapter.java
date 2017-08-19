@@ -35,7 +35,7 @@ public class VipCenterDurationAdapter extends BaseQuickAdapter<VipRechargeEntity
         if (packageMemuBean.isChoice()){
             holder.getView(R.id.tv_duration).setBackgroundResource(R.drawable.vip_center_selected);
         }else {
-            holder.getView(R.id.tv_duration).setBackgroundResource(R.drawable.shape_gray);
+            holder.getView(R.id.tv_duration).setBackgroundResource(R.drawable.shape_gray_1);
         }
     }
 }

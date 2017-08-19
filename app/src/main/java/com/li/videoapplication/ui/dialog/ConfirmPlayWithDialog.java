@@ -32,7 +32,7 @@ public class ConfirmPlayWithDialog extends AlphaShadeDialog implements View.OnCl
 
 
     private int mPage;
-    public ConfirmPlayWithDialog(@NonNull Context context,float priceTotal,int currency,int page) {
+    public ConfirmPlayWithDialog(@NonNull Context context,float priceTotal,float currency,int page) {
         super(context);
 
         mPage = page;

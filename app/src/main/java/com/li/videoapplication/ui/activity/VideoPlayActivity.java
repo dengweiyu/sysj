@@ -1023,7 +1023,9 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         map.put("video_name",item.getVideo_name());
         map.put("member_id",item.getMember_id());
         //统计播放页停留时长事件
-        UmengAnalyticsHelper.onEventValue(this,"video_page_stay_duration",map,(int) (System.currentTimeMillis()/1000-mEntryTime));
+        UmengAnalyticsHelper.onEventValue(this,UmengAnalyticsHelper.VIDEO_PLAY_DURATION,map,(int) (System.currentTimeMillis()/1000-mEntryTime/1000));
+        //上传到后台
+        DataManager.commitStayDuration(getMember_id(),item.video_id,(int)(System.currentTimeMillis()-mEntryTime));
     }
 
     @SuppressWarnings("deprecation")
@@ -1057,7 +1059,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         }
 
 
-        mEntryTime = System.currentTimeMillis()/1000;
+        mEntryTime = System.currentTimeMillis();
     }
 
     private String getVideoIdsRandom(List<String> videoIds) {

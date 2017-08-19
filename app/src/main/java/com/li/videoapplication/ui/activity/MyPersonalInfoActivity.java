@@ -180,13 +180,14 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         findViewById(R.id.mypersonnalinfo_qq_btn).setOnClickListener(this);
         findViewById(R.id.ll_beans).setOnClickListener(this);
         findViewById(R.id.ll_currency).setOnClickListener(this);
-        findViewById(R.id.ll_personal_info_vip_center).setOnClickListener(this);
-        findViewById(R.id.ll_vip).setOnClickListener(this);
+        findViewById(R.id.rl_vip).setOnClickListener(this);
         findViewById(R.id.ll_mypersonnalinfo_horizonid).setOnLongClickListener(mLongClickListener);
 
         if (getUser().isCoach()){
             findViewById(R.id.rl_edit_coach_info).setVisibility(View.VISIBLE);
             findViewById(R.id.tv_edit_coach_info).setOnClickListener(this);
+        }else {
+            findViewById(R.id.rl_edit_coach_info).setVisibility(View.GONE);
         }
 
         mHorizontalListView = (HorizontalListView) findViewById(R.id.horizontallistvierw);
@@ -277,9 +278,6 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 takePhoto();
                 break;
 
-            case  R.id.ll_personal_info_vip_center: //会员中心
-                ActivityManager.startTopUpActivity(this,Constant.TOPUP_ENTRY_INFO,2);
-                break;
 
             case R.id.mypersonnalinfo_logout_btn://注销
                 AppAccount.logout();
@@ -287,7 +285,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 FeiMoIMHelper.LogOut(this, true);
                 finish();
                 break;
-            case R.id.ll_vip:
+            case R.id.rl_vip:
                 ActivityManager.startTopUpActivity(MyPersonalInfoActivity.this, Constant.TOPUP_ENTRY_INFO,2);
                 break;
 
@@ -335,8 +333,8 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
             }
 
             setTextViewText(qq, item.getQq());
-            setTextViewText(beanNum, StringUtil.formatNum(item.getCurrency()));
-            setTextViewText(currencyNum, StringUtil.formatNum(item.getCoin()));
+            setTextViewText(beanNum, StringUtil.formatMoney(Float.parseFloat(item.getCurrency())));
+            setTextViewText(currencyNum, StringUtil.formatMoneyOnePoint(Float.parseFloat(item.getCoin())));
             setTextViewText(mobile, item.getMobile());
             //红色：#ff3d2e，蓝色：#48c5ff
             String record = TextUtil.toColor(item.getWin(), "#ff3d2e")

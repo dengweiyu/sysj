@@ -111,7 +111,11 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
     private void refreshHeaderView() {
         Member member = getUser();
         setTextViewText(name, member.getNickname());
-        setTextViewText(beanNum, StringUtil.formatNum(member.getCurrency()));
+        try {
+            setTextViewText(beanNum, StringUtil.formatMoney(Float.parseFloat(member.getCurrency())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         setImageViewImageNet(pic, member.getAvatar());
         if (member.isV()) isV.setVisibility(View.VISIBLE);
     }

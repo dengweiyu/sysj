@@ -96,13 +96,8 @@ public class CommentPlayWithOrderActivity extends TBaseAppCompatActivity impleme
         findViewById(R.id.iv_coach_info_go).setVisibility(View.GONE);
         findViewById(R.id.tv_commit_comment).setOnClickListener(this);
         final ImageView icon = (ImageView)findViewById(R.id.civ_coach_detail_icon);
-        GlideHelper.displayImage(this,mAvatar,icon);
-        UITask.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                GlideHelper.displayImage(CommentPlayWithOrderActivity.this,mAvatar,icon);
-            }
-        },500);
+        GlideHelper.displayImageWhite(this,mAvatar,icon);
+
 
         TextView nickName = (TextView)findViewById(R.id.tv_coach_detail_nick_name);
         nickName.setText(mNickName);

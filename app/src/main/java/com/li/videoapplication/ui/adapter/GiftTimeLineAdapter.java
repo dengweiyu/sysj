@@ -32,20 +32,9 @@ public class GiftTimeLineAdapter extends BaseQuickAdapter<TimeLineGiftEntity.Dat
     protected void convert(final BaseViewHolder holder,final TimeLineGiftEntity.DataBean dataBean) {
         holder.setText(R.id.tv_player_name,dataBean.getName())
                 .setText(R.id.tv_play_gift_name,"送"+dataBean.getGift_name());
-        GlideHelper.displayImage(mContext,dataBean.getAvatar(),(ImageView)holder.getView(R.id.rv_play_gift_icon));
-        GlideHelper.displayImage(mContext,dataBean.getGift_icon(),(ImageView)holder.getView(R.id.iv_play_gift_icon));
-        UITask.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mContext instanceof Activity){
-                    Activity activity = (Activity) mContext;
-                    if (!activity.isDestroyed()){
-                        GlideHelper.displayImage(mContext,dataBean.getAvatar(),(ImageView)holder.getView(R.id.rv_play_gift_icon));
-                        GlideHelper.displayImage(mContext,dataBean.getGift_icon(),(ImageView)holder.getView(R.id.iv_play_gift_icon));
-                    }
-                }
-            }
-        },1000);
+        GlideHelper.displayImageWhite(mContext,dataBean.getAvatar(),(ImageView)holder.getView(R.id.rv_play_gift_icon));
+        GlideHelper.displayImageWhite(mContext,dataBean.getGift_icon(),(ImageView)holder.getView(R.id.iv_play_gift_icon));
+
 
         TextView number = holder.getView(R.id.tv_play_gift_num);
         PlayGiftDialog.replaceIcon("X"+dataBean.getNum(),mContext,number);

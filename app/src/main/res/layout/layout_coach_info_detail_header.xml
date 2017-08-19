@@ -5,7 +5,10 @@
     android:layout_height="wrap_content"
     android:id="@+id/rv_coach_info_header"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="20dp">
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="20dp">
     <com.li.videoapplication.views.CircleImageView
         android:id="@+id/civ_coach_detail_icon"
         android:layout_width="56dp"
@@ -13,8 +16,7 @@
         android:scaleType="centerCrop"
         app:border_color="#DCDCDC"
         app:border_width="1px"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"/>
+        android:layout_centerVertical="true"/>
 
     <TextView
         android:id="@+id/tv_coach_detail_nick_name"

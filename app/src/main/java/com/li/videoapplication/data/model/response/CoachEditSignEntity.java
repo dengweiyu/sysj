@@ -41,16 +41,16 @@ public class CoachEditSignEntity extends BaseResponseEntity {
          * imgUrl : http://img.17sysj.com/
          */
 
-        private String description;
+        private String individuality_signature;
         private String imgUrl;
         private List<String> pic;
 
-        public String getDescription() {
-            return description;
+        public String getIndividuality_signature() {
+            return individuality_signature;
         }
 
-        public void setDescription(String description) {
-            this.description = description;
+        public void setIndividuality_signature(String individuality_signature) {
+            this.individuality_signature = individuality_signature;
         }
 
         public String getImgUrl() {

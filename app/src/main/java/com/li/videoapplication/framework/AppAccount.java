@@ -1,18 +1,17 @@
 package com.li.videoapplication.framework;
 
-import android.content.Context;
-import android.support.annotation.StringRes;
-import android.util.Base64;
 
+import android.util.Base64;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.cache.BaseUtils;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.Token;
+import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
+import com.li.videoapplication.data.preferences.UserPreferences;
 import com.li.videoapplication.tools.JPushHelper;
 import com.li.videoapplication.tools.ShareSDKLoginHelper;
-import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 
 /**
@@ -39,11 +38,12 @@ public class AppAccount {
 
 		//解除Baidu Push 绑定
 		DataManager.unBindBaiduPush(PreferencesHepler.getInstance().getMember_id());
-
+		//
+		UserPreferences.getInstance().putString(Constants.USER_PROFILE_PERSONAL_INFORMATION, "");
+		//
 		PreferencesHepler.getInstance().clearAll();
 		ShareSDKLoginHelper.removeAllAccount();
 		EventManager.postLogoutEvent();
-
 
 		// 设置友盟推送别名
 		JPushHelper.removeAlias();

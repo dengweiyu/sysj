@@ -125,8 +125,8 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
         mBeans =  (TextView)view.findViewById(R.id.tv_my_currency_beans);
         mNum =  (TextView)view.findViewById(R.id.tv_video_play_num);
         try {
-            mCoin.setText(StringUtil.formatNum(getUser().getCoin()));
-            mBeans.setText(StringUtil.formatNum(getUser().getCurrency()));
+            mCoin.setText(StringUtil.formatMoneyOnePoint(Float.parseFloat(getUser().getCoin())));
+            mBeans.setText(StringUtil.formatMoney(Float.parseFloat(getUser().getCurrency())));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -390,10 +390,18 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
                 PreferencesHepler.getInstance().saveUserProfilePersonalInformation(member);
 
                 if (mCoin != null){
-                    mCoin.setText(StringUtil.formatNum(getUser().getCoin()));
+                    try {
+                        mCoin.setText(StringUtil.formatMoneyOnePoint(Float.parseFloat(getUser().getCoin())));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 if (mBeans != null){
-                    mBeans.setText(StringUtil.formatNum(getUser().getCurrency()));
+                    try {
+                        mBeans.setText(StringUtil.formatMoney(Float.parseFloat(getUser().getCurrency())));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 //更新打赏榜
@@ -425,10 +433,18 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
 
         if (event != null) {
             if (mCoin != null){
-                mCoin.setText(StringUtil.formatNum(getUser().getCoin()));
+                try {
+                    mCoin.setText(StringUtil.formatMoneyOnePoint(Float.parseFloat(getUser().getCoin())));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             if (mBeans != null){
-                mBeans.setText(StringUtil.formatNum(getUser().getCurrency()));
+                try {
+                    mBeans.setText(StringUtil.formatMoney(Float.parseFloat(getUser().getCurrency())));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

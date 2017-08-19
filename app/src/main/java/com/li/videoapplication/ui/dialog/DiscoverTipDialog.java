@@ -14,11 +14,16 @@ package com.li.videoapplication.ui.dialog;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.BaseEmptyDialog;
+import com.li.videoapplication.utils.ScreenUtil;
+
 /**
  * 弹框：发现遮罩
  */
@@ -34,19 +39,24 @@ public class DiscoverTipDialog extends BaseEmptyDialog implements View.OnClickLi
 	
 	public DiscoverTipDialog(Context context) {
 		super(context);
-		
-		known = (ImageView) findViewById(R.id.tip_known);
-		known.setOnClickListener(this);
+
+		Window window = getWindow();
+		WindowManager.LayoutParams params = window.getAttributes();
+
+
+		params.height = (ScreenUtil.getScreenHeight()); // 设置宽度
+
+		window.setAttributes(params);
+
+		findViewById(R.id.ll_discover_tip_root).setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
-		
-		switch (v.getId()) {
-		
-		case R.id.tip_known:
-			dismiss();
-			break;
+		switch (v.getId()){
+			case R.id.ll_discover_tip_root:
+				dismiss();
+				break;
 		}
 	}
 }

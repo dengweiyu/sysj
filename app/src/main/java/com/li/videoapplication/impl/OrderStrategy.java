@@ -100,11 +100,11 @@ public abstract class OrderStrategy implements IOrderStrategy {
     //立即支付
     protected void payNow(){
         Member user = PreferencesHepler.getInstance().getUserProfilePersonalInformation();
-        int coin = 0;
+        float coin = 0;
         float priceTotal = 0;
 
         try {
-            coin = Integer.parseInt(user.getCoin());
+            coin = Float.parseFloat((user.getCoin()));
             priceTotal = Float.parseFloat(mOrderDetail.getData().getPrice_total());
         } catch (Exception e) {
             e.printStackTrace();

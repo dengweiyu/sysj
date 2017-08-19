@@ -119,10 +119,10 @@ public class RechargeCurrencyFragment extends TBaseFragment implements MallContr
 
         setImageViewImageNet(head, member.getAvatar());
         setTextViewText(name, member.getNickname());
-        setTextViewText(currency, StringUtil.formatNum(member.getCurrency()));
+        setTextViewText(currency, StringUtil.formatMoney(Float.parseFloat(member.getCurrency())));
 
-        setTextViewText(coin, StringUtil.formatNum(member.getCoin()));
-        setTextViewText(beans, StringUtil.formatNum(member.getCurrency()));
+        setTextViewText(coin, StringUtil.formatMoneyOnePoint(Float.parseFloat(member.getCoin())));
+        setTextViewText(beans, StringUtil.formatMoney(Float.parseFloat(member.getCurrency())));
         paymentNow.setOnClickListener(this);
     }
 
@@ -253,10 +253,18 @@ public class RechargeCurrencyFragment extends TBaseFragment implements MallContr
 
         if (event != null) {
             if (coin != null){
-                coin.setText(StringUtil.formatNum(getUser().getCoin()));
+                try {
+                    coin.setText(StringUtil.formatMoneyOnePoint(Float.parseFloat(getUser().getCoin())));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             if (beans != null){
-                beans.setText(StringUtil.formatNum(getUser().getCurrency()));
+                try {
+                    beans.setText(StringUtil.formatMoney(Float.parseFloat(getUser().getCurrency())));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

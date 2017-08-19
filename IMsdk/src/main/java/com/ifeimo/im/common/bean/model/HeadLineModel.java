@@ -32,6 +32,25 @@ public class HeadLineModel extends Model<HeadLineModel> implements Msg{
 
     private int send_type;
 
+    private String  imageUrl;
+
+    private String subject;
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public HeadLineModel() {
         memberId = Proxy.getAccountManger().getUserMemberId();
@@ -74,6 +93,14 @@ public class HeadLineModel extends Model<HeadLineModel> implements Msg{
         this.mode = mode;
     }
 
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
     @Override
     public String getTableName() {
         return null;
@@ -101,13 +128,15 @@ public class HeadLineModel extends Model<HeadLineModel> implements Msg{
 
     public static final HeadLineModel buildHeadLineModel(Message message){
 
-        String content = message.getBody();
+        String body = message.getBody();
         String Opposite_memberId = message.getFrom().split("@")[0];//发送者
         String msgid = message.getStanzaId();
+        String subject = message.getSubject();
         HeadLineModel headLineModel = new HeadLineModel();
-        headLineModel.setContent(content);
+        headLineModel.setBody(body);
         headLineModel.setOpposite_memberId(Opposite_memberId);
         headLineModel.setMsgId(msgid);
+        headLineModel.setSubject(subject);
         List<ExtensionElement> list = message.getExtensions();
         headLineModel.setCreateTime(System.currentTimeMillis() + "");
         for (ExtensionElement extensionElement : list) {
@@ -116,6 +145,7 @@ public class HeadLineModel extends Model<HeadLineModel> implements Msg{
                 String time = defaultExtensionElement.getValue("time");
                 String mode = defaultExtensionElement.getValue("mode");
                 String extras = defaultExtensionElement.getValue("extras");
+                String imageUrl = defaultExtensionElement.getValue("imageUrl");
                 if (!StringUtil.isNull(time)) {
                     headLineModel.setCreateTime(time);
                 }
@@ -124,6 +154,10 @@ public class HeadLineModel extends Model<HeadLineModel> implements Msg{
                 }
                 if (!StringUtil.isNull(extras)) {
                     headLineModel.setExtras(extras);
+                }
+
+                if (!StringUtil.isNull(imageUrl)){
+                    headLineModel.setImageUrl(imageUrl);
                 }
 
             }
@@ -146,6 +180,7 @@ public class HeadLineModel extends Model<HeadLineModel> implements Msg{
     }
 
     @Override
+    @Deprecated
     public String getContent() {
         return body;
     }

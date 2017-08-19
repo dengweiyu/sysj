@@ -140,6 +140,7 @@ public class PlayWithTakeOrderListFragment extends TBaseFragment implements View
 
     @Override
     public void onLoadMoreRequested() {
+        mPage++;
         DataManager.getPlayWithTakeOrder(getMember_id(),mPage);
     }
 
@@ -179,9 +180,9 @@ public class PlayWithTakeOrderListFragment extends TBaseFragment implements View
                 mAdapter.setEnableLoadMore(false);
                 mAdapter.setOnLoadMoreListener(null);
             }
-            mData = entity.getData();
+            mData.addAll(entity.getData());
             mAdapter.setNewData(mData);
-            mPage++;
+
             if (mData.size() == 0){
                 mEmptyView.setVisibility(View.VISIBLE);
             }else {
@@ -190,6 +191,7 @@ public class PlayWithTakeOrderListFragment extends TBaseFragment implements View
         }else {
             mEmptyView.setVisibility(View.VISIBLE);
         }
+        mAdapter.loadMoreComplete();
         mRefresh.setRefreshing(false);
     }
 
@@ -234,6 +236,7 @@ public class PlayWithTakeOrderListFragment extends TBaseFragment implements View
     public void onEventMainThread(NetworkError error){
         if (error.getUrl().equals(RequestUrl.getInstance().getPlayWithPlaceOrder())){
             mRefresh.setRefreshing(false);
+            mAdapter.loadMoreComplete();
         }
     }
 }

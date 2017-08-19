@@ -151,12 +151,12 @@ public class MallExpListViewAdapter extends BaseExpandableListAdapter {
                         case "3"://Q币类
                         case "4"://京东卡类
                         case "6"://战网兑换类
-                            if (Integer.valueOf(childList.getInventory()) > 0) {
+                            if (Float.parseFloat(childList.getInventory()) > 0) {
                                 if (PreferencesHepler.getInstance().isLogin()) {
-                                    int myCurrency = Integer.valueOf(PreferencesHepler.getInstance()
+                                    float myCurrency = Float.parseFloat(PreferencesHepler.getInstance()
                                             .getUserProfilePersonalInformation().getCurrency());
 
-                                    if (myCurrency >= Integer.valueOf(childList.getCurrency_num())) {
+                                    if (myCurrency >= Float.parseFloat(childList.getCurrency_num())) {
                                         DialogManager.showPaymentDialog(context, childList);
                                     } else {
                                         ToastHelper.s("魔豆不足");

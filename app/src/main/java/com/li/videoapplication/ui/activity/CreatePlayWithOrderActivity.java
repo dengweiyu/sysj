@@ -366,12 +366,11 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                 break;
             case R.id.tv_coach_selected:                            //立即下单
 
+                if (!isLogin()){
+                    DialogManager.showLogInDialog(CreatePlayWithOrderActivity.this);
+                    return;
+                }
                 if (mIsDiscount){
-                    if (!isLogin()){
-                        DialogManager.showLogInDialog(CreatePlayWithOrderActivity.this);
-                        return;
-                    }
-
                     final Member member = getUser();
                     // 验证是否绑定手机
                     if (StringUtil.isNull(member.getMobile())){
@@ -431,11 +430,11 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     }
 
     public void showConfirmDialog(float price){
-        int coin  = 0;
+        float coin  = 0;
         if (getUser() != null){
             try {
-                coin = Integer.parseInt(getUser().getCoin());
-            } catch (NumberFormatException e) {
+                coin = Float.parseFloat(getUser().getCoin());
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -811,6 +810,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
             if (mTotal == entity.getOriginal_price()){
                 mIsDiscount = false;
+            }else {
+                mIsDiscount = true;
             }
 
             if (entity.isDiscount()){
@@ -851,8 +852,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             mEndSecond = entity.getEndTime();
             mSecondTime = entity.getSecondTime();
 
-           // mStartSecond = 1501510200L;
-           // mEndSecond = 1501525200L;
+          /*  mStartSecond = 1503106275L;
+            mEndSecond = 1503117075L;*/
 
             mIntervalTime = entity.getIntervalTime();
 

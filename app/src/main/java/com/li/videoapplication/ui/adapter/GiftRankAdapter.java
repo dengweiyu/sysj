@@ -54,14 +54,9 @@ public class GiftRankAdapter extends BaseQuickAdapter<VideoPlayGiftEntity.DataBe
             holder.setText(R.id.tv_rank,position+1+"");
         }
 
-        GlideHelper.displayImage(mContext,includesBean.getAvatar(),(ImageView)holder.getView(R.id.civ_player_icon));
+        GlideHelper.displayImageWhite(mContext,includesBean.getAvatar(),(ImageView)holder.getView(R.id.civ_player_icon));
 
-        UITask.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                GlideHelper.displayImage(mContext,includesBean.getAvatar(),(ImageView)holder.getView(R.id.civ_player_icon));
-            }
-        },1000);
+
 
         holder.setText(R.id.tv_player_nick_name, includesBean.getName())
                 .setText(R.id.tv_play_currency,StringUtil.formatNum(includesBean.getCoin_sum()+""))

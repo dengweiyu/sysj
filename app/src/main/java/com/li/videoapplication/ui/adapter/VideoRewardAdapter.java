@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
+import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.VideoRewardRankEntity;
 import com.li.videoapplication.tools.TimeHelper;
@@ -46,8 +47,8 @@ public class VideoRewardAdapter extends BaseQuickAdapter<VideoRewardRankEntity.A
          GlideHelper.displayImageWhite(mContext,includeBean.getFlag(),cover);
         try {
             holder.setText(R.id.groupdetail_allTime, TimeHelper.getVideoPlayTime(includeBean.getTime_length()));
-            holder.setText(R.id.tv_currency_coin,SendRewardRankAdapter.format(Float.parseFloat(includeBean.getCoin())));
-            holder.setText(R.id.tv_currency_beans,SendRewardRankAdapter.format(Float.parseFloat(includeBean.getCurrency())));
+            holder.setText(R.id.tv_currency_coin,StringUtil.formatMoney(Float.parseFloat(includeBean.getCoin())));
+            holder.setText(R.id.tv_currency_beans,StringUtil.formatMoney(Float.parseFloat(includeBean.getCurrency())));
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
@@ -67,5 +68,29 @@ public class VideoRewardAdapter extends BaseQuickAdapter<VideoRewardRankEntity.A
                 }
             }
         });
+
+        holder.getView(R.id.root).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!StringUtil.isNull(includeBean.getVideo_id())) {// 视频
+                    VideoImage item = new VideoImage();
+                    item.setVideo_id(includeBean.getVideo_id());
+                    ActivityManager.startVideoPlayActivity(mContext, item);
+                }
+            }
+        });
+
+        holder.getView(R.id.groupdetail_head).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Member member = new Member();
+                member.setId(includeBean.getMember_id());
+                member.setMember_id(includeBean.getMember_id());
+                startDynamicActivity(member);
+            }
+        });
+    }
+    private void startDynamicActivity(Member member) {
+        ActivityManager.startPlayerDynamicActivity(mContext, member);
     }
 }

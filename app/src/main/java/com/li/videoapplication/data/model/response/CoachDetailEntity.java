@@ -58,7 +58,7 @@ public class CoachDetailEntity extends BaseResponseEntity {
         @SerializedName("status")
         private int statusX;
         private List<String> picture;
-        private String description;
+        private String individuality_signature;
 
 
         public List<String> getPicture() {
@@ -69,12 +69,12 @@ public class CoachDetailEntity extends BaseResponseEntity {
             this.picture = picture;
         }
 
-        public String getDescription() {
-            return description;
+        public String getIndividuality_signature() {
+            return individuality_signature;
         }
 
-        public void setDescription(String description) {
-            this.description = description;
+        public void setIndividuality_signature(String individuality_signature) {
+            this.individuality_signature = individuality_signature;
         }
 
         public String getQq() {

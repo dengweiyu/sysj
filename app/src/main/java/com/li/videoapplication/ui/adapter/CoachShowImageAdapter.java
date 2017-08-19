@@ -22,10 +22,12 @@ public class CoachShowImageAdapter extends BaseQuickAdapter<String,BaseViewHolde
     private OnOperation mOperation;
     private int mMaxSize;
     private boolean isUploadDone;
+    private List<String> mData;
     public CoachShowImageAdapter(OnOperation operation,List<String> data,int maxSize) {
         super(R.layout.adapter_coach_show_image,data);
         mOperation = operation;
         mMaxSize = maxSize;
+        mData = data;
     }
 
     @Override
@@ -35,28 +37,28 @@ public class CoachShowImageAdapter extends BaseQuickAdapter<String,BaseViewHolde
         View delete = holder.getView(R.id.iv_delete_image);
         delete.setVisibility(View.VISIBLE);
 
-
-
         try {
-            int id = Integer.parseInt(s);
-            icon.setImageResource(id);
-            icon.setBackgroundResource(R.drawable.ab_add);
-            int pad = ScreenUtil.dp2px(mContext,10);
-            icon.setPadding(pad,pad,pad,pad);
-            icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-
-            if (holder.getAdapterPosition() == mMaxSize){
-                icon.setVisibility(View.GONE);
+            if (holder.getAdapterPosition() == mData.size()-1){
+                int id = Integer.parseInt(s);
+                icon.setImageResource(id);
+                icon.setBackgroundResource(R.drawable.ab_add);
+                int pad = ScreenUtil.dp2px(mContext,16);
+                icon.setPadding(pad,pad,pad,pad);
+                icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                delete.setVisibility(View.GONE);
+            }else {
+                GlideHelper.displayImage(mContext,s,icon);
+                icon.setBackgroundResource(0);
+                icon.setPadding(0,0,0,0);
+                icon.setScaleType(ImageView.ScaleType.FIT_XY);
             }
-            delete.setVisibility(View.GONE);
         } catch (Exception e) {
             e.printStackTrace();
-            GlideHelper.displayImage(mContext,s,icon);
-            icon.setBackgroundResource(0);
-            icon.setPadding(0,0,0,0);
-            icon.setScaleType(ImageView.ScaleType.FIT_XY);
         }
 
+        if (holder.getAdapterPosition() == mMaxSize){
+            icon.setVisibility(View.GONE);
+        }
 
 
         delete.setOnClickListener(new View.OnClickListener() {

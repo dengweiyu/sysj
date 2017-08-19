@@ -2345,7 +2345,7 @@ public class RequestParams {
     public Map<String, Object>  commitSign(String memberId,String sign,String key) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", memberId);
-        map.put("description", sign);
+        map.put("individuality_signature", sign);
         map.put("pic_keys",key);
         return map;
     }
@@ -2375,6 +2375,15 @@ public class RequestParams {
         map.put("coach_id", coachId);
         map.put("page", page);
         map.put("mark", mark);
+        return map;
+    }
+
+    public Map<String, Object>  commitStayDuration(String memberId,String videoId,int duration) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("video_id", videoId);
+        map.put("stay_time", duration);
+        map.put("target",SYSJ);
         return map;
     }
 }

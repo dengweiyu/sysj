@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="6dp"
-        android:background="@drawable/button_main">
+        android:background="@drawable/background_press">
 
         <ImageView
             android:id="@+id/left"
@@ -67,7 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="1dp"
-        android:background="@drawable/button_main">
+        android:background="@drawable/background_press">
 
         <ImageView
             android:id="@+id/left"
@@ -103,8 +103,8 @@
         android:id="@+id/ll_reward"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/button_main">
+        android:layout_marginTop="6dp"
+        android:background="@drawable/background_press">
 
         <ImageView
             android:id="@+id/left"
@@ -142,7 +142,7 @@
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="1dp"
-        android:background="@drawable/button_main">
+        android:background="@drawable/background_press">
 
         <ImageView
             android:id="@+id/left"
@@ -179,7 +179,7 @@
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="1dp"
-        android:background="@drawable/button_main">
+        android:background="@drawable/background_press">
 
         <ImageView
             android:id="@+id/left"
@@ -215,9 +215,9 @@
         android:id="@+id/discover_rewardbillboard"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="1dp"
         android:visibility="gone"
-        android:background="@drawable/button_main">
+        android:background="@drawable/background_press">
 
         <ImageView
             android:id="@+id/left"
@@ -254,7 +254,7 @@
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginTop="6dp"
-        android:background="@drawable/button_main">
+        android:background="@drawable/background_press">
 
         <ImageView
             android:id="@+id/left"
@@ -304,7 +304,7 @@
         android:layout_height="42dp"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="6dp"
-        android:background="@drawable/button_main">
+        android:background="@drawable/background_press">
 
         <ImageView
             android:id="@+id/left"
@@ -341,7 +341,7 @@
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginBottom="1dp"
-        android:background="@drawable/button_main"
+        android:background="@drawable/background_press"
         android:visibility="gone">
 
         <ImageView
@@ -379,7 +379,7 @@
         android:id="@+id/discover_gift"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:background="@drawable/button_main">
+        android:background="@drawable/background_press">
 
         <ImageView
             android:id="@+id/left"

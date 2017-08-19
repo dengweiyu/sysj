@@ -82,8 +82,8 @@ public class RechargeCoinFragment  extends TBaseFragment implements MallContract
         presenter.getCoinList();
 
         Member member = getUser();
-        setTextViewText(mCoin, StringUtil.formatNum(member.getCoin()));
-        setTextViewText(mBeans, StringUtil.formatNum(member.getCurrency()));
+        setTextViewText(mCoin, StringUtil.formatMoneyOnePoint(Float.parseFloat(member.getCoin())));
+        setTextViewText(mBeans, StringUtil.formatMoney(Float.parseFloat(member.getCurrency())));
     }
 
     @Override
@@ -180,10 +180,10 @@ public class RechargeCoinFragment  extends TBaseFragment implements MallContract
 
         if (event != null) {
             if (mCoin != null){
-                mCoin.setText(StringUtil.formatNum(getUser().getCoin()));
+                mCoin.setText(StringUtil.formatMoneyOnePoint(Float.parseFloat(getUser().getCoin())));
             }
             if (mBeans != null){
-                mBeans.setText(StringUtil.formatNum(getUser().getCurrency()));
+                mBeans.setText(StringUtil.formatMoney(Float.parseFloat(getUser().getCurrency())));
             }
         }
     }

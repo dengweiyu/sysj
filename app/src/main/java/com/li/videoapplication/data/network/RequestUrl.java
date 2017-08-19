@@ -2524,6 +2524,13 @@ public class RequestUrl {
     }
 
     /**
+     * 解绑定百度推送
+     */
+    public final String unBindBaiduPush(){
+        return BaseSYSJ+"Sysj222/BindingChannel/removeBindingChannel";
+    }
+
+    /**
      * 打赏榜
      */
     public final String rewardRank(){
@@ -2535,5 +2542,12 @@ public class RequestUrl {
      */
     public final String getCoachComment(){
         return BaseSYSJ+"/Sysj224/TrainingAppraise/getTrainingAppraise";
+    }
+
+    /**
+     * 统计播放页停留时间
+     */
+    public final String commitStayDuration(){
+        return BaseSYSJ+"/Sysj224/Statistics/stayTimeRecord";
     }
 }

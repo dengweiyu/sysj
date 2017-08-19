@@ -857,12 +857,15 @@ public class ScreenRecordActivity extends TBaseActivity implements
     private void refreshFloatWindow(){
         if (portraitParams != null) {
             if (portraitParams.height > height - ScreenUtil.dp2px(15)) {
+                close.setImageResource(R.drawable.close_blue);
                 float_window_text.setTextColor(0xff40a7ff);
+
                 if (PreferencesHepler.getInstance().getRecordingSetting().isFloatingWindiws())
                     float_window_toggle.setImageResource(R.drawable.main_white_bg_open);
                 else
                     float_window_toggle.setImageResource(R.drawable.main_white_bg_close);
             } else {
+                close.setImageResource(R.drawable.close_white);
                 float_window_text.setTextColor(0xffffffff);
                 if (PreferencesHepler.getInstance().getRecordingSetting().isFloatingWindiws())
                     float_window_toggle.setImageResource(R.drawable.main_blue_bg_open);

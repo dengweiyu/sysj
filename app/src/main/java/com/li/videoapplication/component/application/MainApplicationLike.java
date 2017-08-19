@@ -143,8 +143,6 @@ public class MainApplicationLike extends DefaultApplicationLike {
         x.Ext.init(application);
         x.Ext.setDebug(DEBUG);
 
-        //feimo im sdk
-        IMSdk.init(application);
 
         //Baidu push
         BaiduPush.getInstances().init(application, new BaiduPush.OnSucceed() {

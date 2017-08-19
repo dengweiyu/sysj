@@ -1,39 +1,27 @@
 package com.li.videoapplication.ui.activity;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.v4.app.SharedElementCallback;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.google.common.collect.Lists;
 import com.ifeimo.im.activity.ChatActivity;
 import com.ifeimo.im.framwork.IMSdk;
-import com.ifeimo.im.framwork.Proxy;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.image.GlideHelper;
-import com.li.videoapplication.data.model.entity.Banner;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.CoachCommentEntity;
 import com.li.videoapplication.data.model.response.CoachDetailEntity;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
-import com.li.videoapplication.ui.adapter.BannerAdapter;
 import com.li.videoapplication.ui.adapter.CoachBannerAdapter;
 import com.li.videoapplication.ui.adapter.CoachCommentAdapter;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
@@ -43,10 +31,8 @@ import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleFlowIndicator;
 import com.li.videoapplication.views.ViewFlow;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 教练信息详情
@@ -135,7 +121,7 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
 
         findViewById(R.id.tv_chat_with_coach).setOnClickListener(this);
         findViewById(R.id.tv_coach_selected).setOnClickListener(this);
-        findViewById(R.id.tv_coach_all_comment).setOnClickListener(this);
+        findViewById(R.id.ll_coach_all_comment).setOnClickListener(this);
 
         View view = findViewById(R.id.rv_coach_info_header);
 
@@ -175,6 +161,8 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
             return;
         }
 
+        findViewById(R.id.sv_coach_detail).setVisibility(View.VISIBLE);
+
         mCoachQQ = data.getQq();
 
         mDetailInfo.setVisibility(View.VISIBLE);
@@ -211,11 +199,11 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
             findViewById(R.id.tv_tip_playing).setVisibility(View.GONE);
         }
 
-        if (StringUtil.isNull(data.getDescription())){
+        if (StringUtil.isNull(data.getIndividuality_signature())){
             findViewById(R.id.v_divider_description).setVisibility(View.GONE);
         }else {
             mDescription.setVisibility(View.VISIBLE);
-            mDescription.setText(data.getDescription());
+            mDescription.setText(data.getIndividuality_signature());
         }
 
         mUrls = data.getPicture();
@@ -231,6 +219,8 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
         if (mUrls == null || mUrls.size() ==0){
             findViewById(R.id.rv_coach_banner).setVisibility(View.GONE);
         }else {
+
+
             findViewById(R.id.rv_coach_banner).setVisibility(View.VISIBLE);
             setBannerViewSize(mBannerFlow);
             mBannerFlow.setSideBuffer(urls.size()); // 初始化轮播图张数
@@ -240,6 +230,13 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
 
             mBannerFlow.setAdapter(new CoachBannerAdapter(this, urls,mBannerFlow));
             mBannerFlow.setOnViewSwitchListener(this);
+
+
+            if (mUrls.size() <= 1){
+                bannerIndicator.setVisibility(View.GONE);
+            }else {
+                bannerIndicator.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -334,7 +331,7 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
             case R.id.rv_coach_info_header:                 //个人中心
                 startPersonCenterActivity();
                 break;
-            case R.id.tv_coach_all_comment:                 //全部评价
+            case R.id.ll_coach_all_comment:                 //全部评价
                 ActivityManager.startCoachAllCommentActivity(CoachDetailActivity.this,mMemberId);
                 break;
 

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.googlecode.mp4parser.boxes.mp4.objectdescriptors.AudioSpecificConfig;
@@ -34,6 +35,7 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.interfaces.IShowDialogListener;
 import com.li.videoapplication.tools.FeiMoIMHelper;
+import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
@@ -158,6 +160,7 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
                 .replace(R.id.rl_play_with_detail_fragment,mFragment)
                 .commitAllowingStateLoss();
         initOperationView(entity);
+        initComment(entity);
     }
 
     private void initOperationView(PlayWithOrderDetailEntity entity){
@@ -173,6 +176,26 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
                     }
                 }
             });
+        }
+    }
+
+    private void initComment(PlayWithOrderDetailEntity entity){
+        if(mRole == ROLE_COACH){
+            if (entity.getData() != null && entity.getData().getEvaluate() != null){
+                findViewById(R.id.cv_order_comment).setVisibility(View.VISIBLE);
+                ((TextView)findViewById(R.id.tv_order_comment_content)).setText(entity.getData().getEvaluate().getContent());
+                try {
+                    ((TextView)findViewById(R.id.tv_order_comment_time)).setText(TimeHelper.getWholeTimeFormat(entity.getData().getEvaluate().getAdd_time()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    ((RatingBar)findViewById(R.id.rb_order_comment_score)).setRating(Float.parseFloat(entity.getData().getEvaluate().getScore()));
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

@@ -90,6 +90,7 @@ public class CoachCommentDetailsActivity extends TBaseAppCompatActivity implemen
     };
 
     private synchronized void enableLoadMore(boolean isEnable){
+
         if (isEnable){
             mCommentAdapter.setOnLoadMoreListener(mLoadMoreListener);
             mCommentAdapter.setEnableLoadMore(true);
@@ -102,11 +103,11 @@ public class CoachCommentDetailsActivity extends TBaseAppCompatActivity implemen
     }
 
     public void onEventMainThread(CoachCommentEntity entity){
+        mCommentAdapter.loadMoreComplete();
         if (entity.isResult()){
             if(mPage == 1){
                 mData.clear();
             }
-
             if (entity.getAData() != null && entity.getAData().size() > 0) {
                 findViewById(R.id.cv_coach_detail_all_comment).setVisibility(View.VISIBLE);
                 mData.addAll(entity.getAData());
@@ -116,5 +117,7 @@ public class CoachCommentDetailsActivity extends TBaseAppCompatActivity implemen
         }else{
 
         }
+
+
     }
 }

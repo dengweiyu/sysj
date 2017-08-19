@@ -69,7 +69,6 @@ public class AppstartActivity extends TBaseActivity {
     @Override
     public void afterOnCreate() {
         super.afterOnCreate();
-        MobclickAgent.setDebugMode(true);
 
         //
         BaiduPush.getInstances().onCreate(getApplicationContext());

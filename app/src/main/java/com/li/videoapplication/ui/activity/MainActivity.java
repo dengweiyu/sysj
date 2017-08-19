@@ -289,6 +289,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         //注册EventBus 3.0
         org.greenrobot.eventbus.EventBus.getDefault().register(this);
 
+        //检查补丁包  补丁包一定不要使用7zip的，在百度加固下出现崩溃
+        mHandler.post(mFetchPatchTask);
     }
 
     @Override
@@ -359,7 +361,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         @Override
         public void run() {
             DataManager.fetchPatch(AnalyticsConfig.getChannel(MainActivity.this),BuildConfig.VERSION_NAME);
-            mHandler.postDelayed(this,1800000);
+
         }
     };
 
@@ -398,8 +400,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             }
         });
 
-        //检查补丁包  补丁包一定不要使用7zip的，在百度加固下出现崩溃
-        mHandler.post(mFetchPatchTask);
+
     }
 
     @Override
@@ -453,7 +454,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     @Override
     public void onBackPressed() {
         if (isExit) {
-            FeiMoIMHelper.LogOut(this, false);
+
             if (RecordingManager.getInstance().isRecording()) {
                 TaskUtil.clearTaskAndAffinity(this);
             } else {
@@ -1059,7 +1060,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private void showVideoTipDialog() {
 
         boolean tip = NormalPreferences.getInstance().getBoolean(Constants.TIP_VEDIO, true);
-        if (tip) {
+        if (true) {
             UITask.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -1185,7 +1186,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                        new FileDownloadRequest().download(data.getDownload_url(),patchFile.getAbsolutePath(),0,new FileDownloadRequest.DownloadListener(){
                            @Override
                            public void progress(long totalBytesRead, long contentLength, boolean isDone) {
-                             //  Log.d("FileDownloadRequest","totalBytesRead:"+totalBytesRead+" contentLength:"+contentLength+" isDone:"+isDone);
+                               Log.d("FileDownloadRequest","totalBytesRead:"+totalBytesRead+" contentLength:"+contentLength+" isDone:"+isDone);
                                if (isDone){
                                    String validation= "";
                                    try {
@@ -1212,30 +1213,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
     }
 
-    /**
-     * 补丁下载成功
-     */
-   /* public void onEventMainThread(DownloadSuccessEntity entity){
-        if (!StringUtil.isNull(entity.getUrl()) && !StringUtil.isNull(mValidation)){
-            File patchFile = SYSJStorageUtil.createFilecachePath(entity.getUrl());
-            if (patchFile != null && patchFile.exists()){
-
-                String validation= "";
-
-                try {
-                    validation = MD5Util.getFileMD5(patchFile);
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                if (mValidation.equals(validation)){
-                    TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), patchFile.getAbsolutePath());
-                }
-            }
-        }
-    }*/
 
 
 

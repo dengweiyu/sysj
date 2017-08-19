@@ -41,9 +41,6 @@ import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
  * 教练列表
  */
@@ -81,8 +78,6 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
         mAdapter = new CoachLisAdapter(getActivity(),mData);
         mList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-       // mItemDecoration = new SpanItemDecoration(ScreenUtil.dp2px(10),true,true,true,false);
-     //   mList.addItemDecoration(mItemDecoration);
 
         mList.setAdapter(mAdapter);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
@@ -112,7 +107,7 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
 
 
     private void loadData(int page){
-        DataManager.getCoachList(page,true);
+        DataManager.getCoachList(page,false);
     }
 
     @Override

@@ -12,20 +12,20 @@
         android:scaleType="fitXY"/>
     <!--20-->
     <LinearLayout
-        android:id="@+id/ll_popup_record_layout"
+
         android:orientation="horizontal"
         android:layout_width="match_parent"
-
         android:layout_height="185dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white">
 
         <LinearLayout
-            android:id="@+id/record_video"
+            android:id="@+id/ll_popup_record_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:clickable="true"
             android:layout_marginTop="30dp"
             android:orientation="vertical">
 
@@ -52,8 +52,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:layout_marginTop="30dp"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="50dp"
@@ -94,6 +93,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="5dp"
             android:scaleType="fitXY"
+
             android:src="@drawable/home_close"/>
     </RelativeLayout>
 
