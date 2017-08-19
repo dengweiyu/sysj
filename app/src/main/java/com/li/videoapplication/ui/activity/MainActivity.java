@@ -1060,7 +1060,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private void showVideoTipDialog() {
 
         boolean tip = NormalPreferences.getInstance().getBoolean(Constants.TIP_VEDIO, true);
-        if (true) {
+        if (tip) {
             UITask.postDelayed(new Runnable() {
                 @Override
                 public void run() {
