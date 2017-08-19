@@ -2386,4 +2386,12 @@ public class RequestParams {
         map.put("target",SYSJ);
         return map;
     }
+
+
+    public Map<String, Object>  clearToken(String accessToken,String refreshToken) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("access_token", accessToken);
+        map.put("refresh_token", refreshToken);
+        return map;
+    }
 }

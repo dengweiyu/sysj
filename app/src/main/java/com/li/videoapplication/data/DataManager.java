@@ -4310,4 +4310,15 @@ public class DataManager {
         RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
         helper.doNetwork(request);
     }
+
+    /**
+     * clear token
+     */
+    public static void clearToken(String accessToken,String refreshToken){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().clearToken();
+        Map<String, Object> params = RequestParams.getInstance().clearToken(accessToken,refreshToken);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        helper.doNetwork(request);
+    }
 }

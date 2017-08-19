@@ -2550,4 +2550,11 @@ public class RequestUrl {
     public final String commitStayDuration(){
         return BaseSYSJ+"/Sysj224/Statistics/stayTimeRecord";
     }
+
+    /**
+     *clear token
+     */
+    public final String clearToken(){
+        return BaseSYSJ+"/Sysj224/member/logout";
+    }
 }

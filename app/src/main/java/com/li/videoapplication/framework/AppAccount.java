@@ -2,6 +2,8 @@ package com.li.videoapplication.framework;
 
 
 import android.util.Base64;
+
+import com.google.gson.Gson;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.cache.BaseUtils;
@@ -36,10 +38,13 @@ public class AppAccount {
 	 */
 	public static void logout() {
 
+		//
+		DataManager.clearToken(getAccessToken(),getRefreshToken());
+
 		//解除Baidu Push 绑定
 		DataManager.unBindBaiduPush(PreferencesHepler.getInstance().getMember_id());
 		//
-		UserPreferences.getInstance().putString(Constants.USER_PROFILE_PERSONAL_INFORMATION, "");
+		sAccessToken = null;
 		//
 		PreferencesHepler.getInstance().clearAll();
 		ShareSDKLoginHelper.removeAllAccount();
