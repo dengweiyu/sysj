@@ -723,17 +723,21 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         }
 
         long startTime = 0L;
-
+        String startTimeStr="";
         try {
 
             String year = TimeHelper.getSysMessageTime(mHourSecond.get(mHourIndex)+"");
             //转换成秒的时间戳
-            startTime = TimeHelper.getSecondTime(year+" "+mHourList.get(mHourIndex)+":"+mMinuteList.get(mMinuteIndex))/1000;
+            startTime = TimeHelper.getSecondTime(year+" "+mHourList.get(mHourIndex)+":"+mMinuteList.get(mMinuteIndex));
+            startTimeStr = ""+startTime;
+            startTimeStr = startTimeStr.substring(0,startTimeStr.length()-3);
         } catch (Exception e) {
             e.printStackTrace();
+
+            return;
         }
 
-        if (startTime == 0){
+        if (startTime == 0L || StringUtil.isNull(startTimeStr)){
             return;
         }
 
@@ -743,7 +747,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                         mOptions.getGameAreaMap().get(mServerIndex).getValue()+
                         mOptions.getGameLevelMap().get(mRankIndex).getValue()+
                         mOptions.getGameModeMap().get(mGameModeIndex).getValue()+
-                        startTime+
+                        startTimeStr+
                         Integer.parseInt(mGameCountList.get(mGameCountIndex)));
 
         if (orderMD5.equals(mOrderMD5)){
@@ -759,7 +763,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                     mOptions.getGameAreaMap().get(mServerIndex).getValue(),
                     mOptions.getGameLevelMap().get(mRankIndex).getValue(),
                     mOptions.getGameModeMap().get(mGameModeIndex).getValue(),
-                    startTime,
+                    startTimeStr,
                     Integer.parseInt(mGameCountList.get(mGameCountIndex)));
         } catch (Exception e) {
             e.printStackTrace();
@@ -852,8 +856,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             mEndSecond = entity.getEndTime();
             mSecondTime = entity.getSecondTime();
 
-          /*  mStartSecond = 1503106275L;
-            mEndSecond = 1503117075L;*/
+            mStartSecond = 1503129600L;
+            mEndSecond = 1503140400L;
 
             mIntervalTime = entity.getIntervalTime();
 

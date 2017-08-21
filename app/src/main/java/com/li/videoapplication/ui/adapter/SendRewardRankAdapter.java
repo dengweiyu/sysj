@@ -14,6 +14,7 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.ui.fragment.SendRewardRankFragment;
 import com.li.videoapplication.utils.StringUtil;
 import java.util.List;
 
@@ -23,8 +24,10 @@ import java.util.List;
  */
 
 public class SendRewardRankAdapter extends BaseQuickAdapter<SendRewardRankEntity.ADataBean.IncludeBean,BaseViewHolder> {
-    public SendRewardRankAdapter(List<SendRewardRankEntity.ADataBean.IncludeBean> data) {
+    private int mType;
+    public SendRewardRankAdapter(List<SendRewardRankEntity.ADataBean.IncludeBean> data,int type) {
         super(R.layout.adapter_send_reward_rank,data);
+        mType = type;
     }
 
     @Override
@@ -60,13 +63,15 @@ public class SendRewardRankAdapter extends BaseQuickAdapter<SendRewardRankEntity
 
             }
 
-
+        String type= "送出：" ;
+        if (mType == SendRewardRankFragment.TYPE_RECEIVED){
+            type="收到：";
+        }
+        holder.setText(R.id.tv_reward_type,type);
 
         GlideHelper.displayImageWhite(mContext,includeBean.getAvatar(),(ImageView) holder.getView(R.id.civ_player_icon));
 
         holder.setText(R.id.tv_user_nick_name,includeBean.getNickname());
-
-
 
         try {
             holder.setText(R.id.tv_currency_coin,StringUtil.formatMoneyOnePoint(Float.parseFloat(includeBean.getCoin())));

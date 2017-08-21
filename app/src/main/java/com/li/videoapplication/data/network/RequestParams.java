@@ -2175,7 +2175,7 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> createPlayWithOrder(String memberId,String coachId,int server,int rank,int mode,long time,int count) {
+    public Map<String, Object> createPlayWithOrder(String memberId,String coachId,int server,int rank,int mode,String time,int count) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", memberId);
         map.put("coach_id",coachId);

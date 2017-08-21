@@ -274,14 +274,13 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
 
             case R.id.videoplay_focus:// 关注
                 if (isLogin()) {
-
-                        if (videoImage.getMember_tick() == 0) {
+                        if (videoImage.getMember_tick() == 1) {
                             DialogManager.showConfirmDialog(getContext(), "确认取消关注该玩家?", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     switch (v.getId()){
                                         case R.id.tv_confirm_dialog_yes:
-                                            videoImage.setMember_tick(1);
+                                            videoImage.setMember_tick(0);
                                             refreshContentView(videoImage);
                                             // 玩家关注
                                             DataManager.memberAttention201(videoImage.getMember_id(), getMember_id());
@@ -291,7 +290,7 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
                                 }
                             });
                         } else {
-                            videoImage.setMember_tick(0);
+                            videoImage.setMember_tick(1);
                         }
                         refreshContentView(videoImage);
                         // 玩家关注

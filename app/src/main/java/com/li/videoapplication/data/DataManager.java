@@ -3953,7 +3953,7 @@ public class DataManager {
     /**
      * 生成陪玩订单
      */
-    public static void createPlayWithOrder(String memberId,String coachId,int server,int rank,int mode,long time,int count){
+    public static void createPlayWithOrder(String memberId,String coachId,int server,int rank,int mode,String time,int count){
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().createPlayWithOrder();
         Map<String, Object> params = RequestParams.getInstance().createPlayWithOrder(memberId,coachId,server,rank,mode,time,count);

@@ -1,5 +1,6 @@
 package com.li.videoapplication.data.database;
 
+import android.database.sqlite.SQLiteFullException;
 import android.util.Log;
 
 import com.li.videoapplication.utils.URLUtil;
@@ -289,6 +290,8 @@ public class FileDownloaderManager {
                 return 1;
             } catch (DbException ex) {
                 ex.printStackTrace();
+            }catch (SQLiteFullException e){
+                e.printStackTrace();
             }
         }
         return -1;

@@ -71,7 +71,7 @@ public class SendRewardRankFragment extends TBaseFragment implements SwipeRefres
         mRankList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRankList.addItemDecoration(new SimpleItemDecoration(getActivity(),false,false,false,true));
         mData = new ArrayList<>();
-        mAdapter = new SendRewardRankAdapter(mData);
+        mAdapter = new SendRewardRankAdapter(mData,mType);
         mAdapter.openLoadAnimation(new RecyclerViewAnim());
         mRefresh.setRefreshing(true);
         mRankList.setAdapter(mAdapter);
