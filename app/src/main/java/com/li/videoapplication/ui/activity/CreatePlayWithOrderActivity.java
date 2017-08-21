@@ -856,8 +856,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             mEndSecond = entity.getEndTime();
             mSecondTime = entity.getSecondTime();
 
-            mStartSecond = 1503129600L;
-            mEndSecond = 1503140400L;
+/*            mStartSecond = 1503129600L;
+            mEndSecond = 1503140400L;*/
 
             mIntervalTime = entity.getIntervalTime();
 
