@@ -31,10 +31,10 @@
         android:layout_weight="0"
         android:background="#dddddd"/>
 
-    <include
-        android:id="@+id/menu"
-        layout="@layout/menu_main">
-    </include>
+        <include
+            android:id="@+id/menu"
+            layout="@layout/menu_main">
+        </include>
 </LinearLayout>
 
     <ImageView

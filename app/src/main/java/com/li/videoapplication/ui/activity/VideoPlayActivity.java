@@ -264,11 +264,11 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         findViewById(R.id.ll_video_play_shared).setOnClickListener(this);
         findViewById(R.id.ll_video_play_start).setOnClickListener(this);
 
-     //   mGoodBtn.setOnClickListener(this);
-     //   mGift.setOnClickListener(this);
-     //   mShared.setOnClickListener(this);
-     //   mStart.setOnClickListener(this);
-      //  mGiftCount.setOnClickListener(this);
+        mGoodBtn.setOnClickListener(this);
+        mGift.setOnClickListener(this);
+        mShared.setOnClickListener(this);
+        mStart.setOnClickListener(this);
+        mGiftCount.setOnClickListener(this);
     }
 
     @Override
@@ -1017,15 +1017,6 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
                 videoPlayView.pause();
         }
 
-        Map<String,String > map = new HashMap<>();
-        map.put("video_id",item.getVideo_id());
-        map.put("id",item.getId());
-        map.put("video_name",item.getVideo_name());
-        map.put("member_id",item.getMember_id());
-        //统计播放页停留时长事件
-        UmengAnalyticsHelper.onEventValue(this,UmengAnalyticsHelper.VIDEO_PLAY_DURATION,map,(int) (System.currentTimeMillis()/1000-mEntryTime/1000));
-        //上传到后台
-        DataManager.commitStayDuration(getMember_id(),item.video_id,(int)(System.currentTimeMillis()-mEntryTime));
     }
 
     @SuppressWarnings("deprecation")
@@ -1060,6 +1051,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
 
 
         mEntryTime = System.currentTimeMillis();
+
     }
 
     private String getVideoIdsRandom(List<String> videoIds) {
@@ -1077,6 +1069,14 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
     @Override
     public void onPause() {
         //onDestroyFragment();
+        Map<String,String > map = new HashMap<>();
+        map.put("video_id",item.getVideo_id());
+        map.put("member_id",item.getMember_id());
+        //统计播放页停留时长事件
+        UmengAnalyticsHelper.onEventValue(this,UmengAnalyticsHelper.VIDEO_PLAY_DURATION,map,(int) (System.currentTimeMillis()/1000-mEntryTime/1000));
+        //上传到后台
+        DataManager.commitStayDuration(getMember_id(),item.video_id,(int)(System.currentTimeMillis()-mEntryTime));
+
         super.onPause();
         if (videoPlayView != null)
             videoPlayView.pause();
@@ -1325,6 +1325,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
                 }
                 break;
             case R.id.ll_video_play_good:           //点赞
+            case R.id.sb_video_play_good:
                 if (item.getFlower_tick() == 0) {
                     mGoodBtn.setChecked(true);
                     mGoodBtn.playAnimation();
@@ -1346,6 +1347,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
                 mGoodCount.setText(StringUtil.toUnitW(item.getFlower_count()));
                 break;
             case R.id.ll_video_play_start:
+            case R.id.sb_video_play_start:
                 if (!isLogin()) {
                     DialogManager.showLogInDialog(VideoPlayActivity.this);
                     return;

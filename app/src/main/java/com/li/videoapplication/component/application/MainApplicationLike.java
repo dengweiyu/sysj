@@ -135,7 +135,7 @@ public class MainApplicationLike extends DefaultApplicationLike {
                             FeedbackAPI.init(application, FEEDBACK_KEY);
 
                         }
-                    });
+                    }) ;
             //    }
         //    }, 1500);
         }

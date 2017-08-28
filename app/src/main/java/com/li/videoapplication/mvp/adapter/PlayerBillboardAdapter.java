@@ -77,6 +77,7 @@ public class PlayerBillboardAdapter extends BaseQuickAdapter<Member, BaseViewHol
             holder.setVisible(R.id.playerbillboard_left, true)
                     .setVisible(R.id.playerbillboard_middle, false)
                     .setVisible(R.id.playerbillboard_right, false);
+            holder.getView(R.id.iv_beans).setVisibility(View.VISIBLE);
         } else if (tab == PlayerBillboardFragment.PLAYERBILLBOARD_VIDEO) {
             holder.setVisible(R.id.playerbillboard_left, false)
                     .setVisible(R.id.playerbillboard_middle, true)
@@ -145,7 +146,7 @@ public class PlayerBillboardAdapter extends BaseQuickAdapter<Member, BaseViewHol
     private void setCurrency(BaseViewHolder holder, final Member record) {
 
         if (!StringUtil.isNull(record.getCurrency())) {
-            holder.setText(R.id.playerbillboard_left, "魔豆\t" + StringUtil.formatMoney(Float.parseFloat(record.getCurrency())));
+            holder.setText(R.id.playerbillboard_left,StringUtil.formatMoney(Float.parseFloat(record.getCurrency())));
         }
     }
 

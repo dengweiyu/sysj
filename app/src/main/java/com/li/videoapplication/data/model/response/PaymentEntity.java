@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import com.li.videoapplication.framework.BaseResponseEntity;
 
 /**
- * Created by liuwei on 2016/10/28.
+ *
  */
 
 public class PaymentEntity extends BaseResponseEntity {

@@ -107,7 +107,7 @@ public class SendRewardRankAdapter extends BaseQuickAdapter<SendRewardRankEntity
 
         if (includeBean.getMember_tick() == 1) { // 已关注状态
             focus.setBackground(null);
-            focus.setTextColor(mContext.getResources().getColorStateList(R.color.darkgray));
+            focus.setTextColor(mContext.getResources().getColorStateList(R.color.textcolor_french_gray));
             focus.setText(R.string.dynamic_focused);
             focus.setEnabled(false);
         } else { // 未关注状态

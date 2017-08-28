@@ -50,6 +50,7 @@ import com.li.videoapplication.views.CircleFlowIndicator;
 import com.li.videoapplication.views.DynamicHeightImageView;
 import com.li.videoapplication.views.ViewFlow;
 import com.li.videoapplication.views.ViewFlow.ViewSwitchListener;
+import com.meituan.android.walle.WalleChannelReader;
 import com.qq.e.ads.nativ.NativeADDataRef;
 
 import java.util.ArrayList;
@@ -610,6 +611,10 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
      *                  点击换一换后的猜你喜欢数据如加载不到广告则将新数据更新上
      */
     private void replaseGDT(List<VideoImage> guessList, final int location) {
+        if (isInterceptAD()){
+            return;
+        }
+
         newGuessList.clear();
         newGuessList.addAll(guessList);
         GDTUtil.nativeAD(getActivity(), GDTUtil.POS_ID_GUESSYOURLIKE, new GDTUtil.GDTonLoaded() {
@@ -652,6 +657,31 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                 isClickLike = false;
             }
         }
+    }
+
+
+    /**
+     * 是否拦截广告展示
+     * OPPO 渠道默认不显示广告
+     * 其他渠道根据VIP 判断
+     */
+    private boolean isInterceptAD(){
+        boolean isIntercept = false;
+        //以Walle渠道号为准
+        String channel = WalleChannelReader.getChannel(getActivity());
+
+        if (StringUtil.isNull(channel)){
+            channel="default_channel";
+        }
+
+        //oppo渠道默认不展示广告
+        if ("oppo".equals(channel)){
+            isIntercept = true;
+        }
+
+        //VIP3不展示广告
+
+        return isIntercept;
     }
 
     @Override

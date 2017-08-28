@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.baidu.push.example.BaiduPush;
-import com.coolerfall.daemon.Daemon;
 import com.fmsysj.screeclibinvoke.data.preferences.Utils_Preferens;
 import com.ifeimo.im.framwork.IMSdk;
 import com.li.videoapplication.data.EventManager;
@@ -109,9 +108,6 @@ public class AppStartService extends BaseIntentService{
 
         //
         BaiduPush.getInstances().onCreate(getApplicationContext());
-
-        //守护
-        Daemon.run(this, AppStartService.class, Daemon.INTERVAL_ONE_MINUTE*2);
 
         //feimo im sdk
         IMSdk.init(getApplication());

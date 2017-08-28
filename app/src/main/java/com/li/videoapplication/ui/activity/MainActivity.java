@@ -15,10 +15,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -132,6 +135,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     }
 
     private View menu;
+    private View mBottomRecord;
     private View root;
     private List<LinearLayout> bottomButtons;
     private List<ImageView> bottomIcon;
@@ -542,7 +546,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         left.setOnClickListener(this);
         right.setOnClickListener(this);
 
-        findViewById(R.id.iv_bottom_record).setOnClickListener(this);
+        mBottomRecord = findViewById(R.id.iv_bottom_record);
+        mBottomRecord.setOnClickListener(this);
         root = findViewById(R.id.rl_main_root);
         return background;
     }
@@ -836,11 +841,15 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         if (mScrollState == SCROLL_STATE_IDLE){
             if (viewPager.getCurrentItem() == 3){
                 showPlayWidthTab(true);
+
             }else {
                 showPlayWidthTab(false);
+                //底部 menu
+                refreshBottomMenu(true);
             }
             mPreviousPosition = viewPager.getCurrentItem();
             mLastOffset = 0;
+
         }
     }
 
@@ -890,7 +899,12 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
         @Override
         public void onPageScrollStateChanged(int state) {
+            if (state == SCROLL_STATE_IDLE){
+                if (playWithFragment.getCurrentPage() == 1){
+                    refreshBottomMenu(true);
+                }
 
+            }
         }
     };
 
@@ -957,6 +971,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
     }
 
+    /**
+     *显示/隐藏顶部陪练赛事标题
+     */
     private void showPlayWidthTab(boolean isShow){
         if (isShow){
             leftCount.setVisibility(View.GONE);
@@ -1007,6 +1024,38 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 transaction.hide(from).show(to).commit();
             }
         }
+    }
+
+    /**
+     * 显示/隐藏底部菜单
+     */
+    private boolean mMenuIsShowing = true;
+    public void refreshBottomMenu(boolean isShow){
+        if (menu == null || mBottomRecord == null){
+            return;
+        }
+
+        if (isShow == mMenuIsShowing){
+            return;
+        }
+
+        if (isShow){
+            Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,0f,Animation.RELATIVE_TO_SELF,0f,Animation.RELATIVE_TO_SELF,2f,Animation.RELATIVE_TO_SELF,0f);
+            animation.setDuration(300);
+            animation.setFillAfter(true);
+            menu.startAnimation(animation);
+            mBottomRecord.startAnimation(animation);
+            System.out.println("menu showing");
+        }else if (mMenuIsShowing){
+            Animation animation = new  TranslateAnimation(Animation.RELATIVE_TO_SELF,0f,Animation.RELATIVE_TO_SELF,0f,Animation.RELATIVE_TO_SELF,0f,Animation.RELATIVE_TO_SELF,2f);
+            animation.setDuration(300);
+            animation.setFillAfter(true);
+            menu.startAnimation(animation);
+            mBottomRecord.startAnimation(animation);
+            System.out.println("menu hiding");
+        }
+
+        mMenuIsShowing = isShow;
     }
 
 

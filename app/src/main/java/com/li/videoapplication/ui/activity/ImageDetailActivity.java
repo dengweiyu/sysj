@@ -337,13 +337,13 @@ public class ImageDetailActivity extends TBaseActivity implements
 			break;
 
 		case R.id.imagedetail_focus:// 关注
-			if (item.getMember_tick() == 0) {
+			if (item.getMember_tick() == 1) {
 				DialogManager.showConfirmDialog(ImageDetailActivity.this, "确认取消关注该玩家?", new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						switch (v.getId()){
 							case R.id.tv_confirm_dialog_yes:
-								item.setMember_tick(1);
+								item.setMember_tick(0);
 								refreshContentView(item);
 								// 玩家关注
 								DataManager.memberAttention201(item.getMember_id(), getMember_id());
@@ -352,7 +352,7 @@ public class ImageDetailActivity extends TBaseActivity implements
 					}
 				});
 			} else {
-				item.setMember_tick(0);
+				item.setMember_tick(1);
 			}
 			refreshContentView(item);
 			// 玩家关注
@@ -454,7 +454,7 @@ public class ImageDetailActivity extends TBaseActivity implements
 	private void setFocus(TextView view, VideoImage item) {
 		if (item != null) {
 			if (item.getMember_tick() == 1) {// 已关注状态
-				view.setBackgroundResource(R.drawable.focus_videoplay_gray);
+				view.setBackground(null);
 				view.setText(R.string.videoplay_focused);
 			} else {// 未关注状态
 				view.setBackgroundResource(R.drawable.focus_videoplay_red);

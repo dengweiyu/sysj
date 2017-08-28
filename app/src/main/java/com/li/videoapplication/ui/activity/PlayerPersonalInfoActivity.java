@@ -166,6 +166,7 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
                                     // 修改玩家关注
                                     DataManager.memberAttention201(member.getId(), getMember_id());
 
+
                                     //刷新玩家动态页面关注按钮状态
                                     PlayerDynamicActivity playerDynamicActivity = (PlayerDynamicActivity) AppManager.getInstance().getActivity(PlayerDynamicActivity.class);
                                     if (playerDynamicActivity != null) {
@@ -177,6 +178,8 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
                     });
                 } else {
                     member.setIsAttent(1);
+                    // 修改玩家关注
+                    DataManager.memberAttention201(member.getId(), getMember_id());
                     //刷新玩家动态页面关注按钮状态
                     PlayerDynamicActivity playerDynamicActivity = (PlayerDynamicActivity) AppManager.getInstance().getActivity(PlayerDynamicActivity.class);
                     if (playerDynamicActivity != null) {
@@ -319,11 +322,8 @@ public class PlayerPersonalInfoActivity extends TBaseActivity implements OnClick
     public void onEventMainThread(MemberAttention201Entity event) {
 
         if (event != null) {
-            if (event.isResult()) {
-                refreshFocus(member);
-            } else {
-                showToastShort(event.getMsg());
-            }
+            showToastShort(event.getMsg());
+            refreshFocus(member);
         }
     }
 

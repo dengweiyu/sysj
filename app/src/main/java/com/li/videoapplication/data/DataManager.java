@@ -4181,11 +4181,17 @@ public class DataManager {
     /**
      * 获取订单开始时间
      */
-    public static void getOrderTime(){
+    public static void getOrderTime(String startTime){
         RequestHelper helper = new RequestHelper();
+        Map<String,Object> param = new HashMap<>();
+        if (!StringUtil.isNull(startTime)){
+
+            param.put("start_time",startTime);
+        }
         String url = RequestUrl.getInstance().getOrderTime();
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url,null, null);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,param, null);
         request.setEntity(new OrderTimeEntity());
+
         helper.doNetwork(request);
     }
 

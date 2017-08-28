@@ -173,7 +173,7 @@ public class FloatViewManager {
 			// TYPE_TOAST
 
 			// 4.3以下版本不能用TYPE_TOAST作为悬浮窗属性
-			if (Build.VERSION.SDK_INT <= 18){
+			if (Build.VERSION.SDK_INT <= 18 ||Build.VERSION.SDK_INT >= 23){
 				params.type = LayoutParams.TYPE_SYSTEM_ALERT;
 			} else {
 				params.type = LayoutParams.TYPE_TOAST;
@@ -216,7 +216,7 @@ public class FloatViewManager {
 		if (params == null) {
 			params = new LayoutParams();
 			// 4.3以下版本不能用TYPE_TOAST作为悬浮窗属性
-			if (Build.VERSION.SDK_INT <= 18) {
+			if (Build.VERSION.SDK_INT <= 18 || Build.VERSION.SDK_INT >= 23) {
 				params.type = LayoutParams.TYPE_SYSTEM_ALERT;
 			} else {
 				params.type = LayoutParams.TYPE_TOAST;
@@ -259,7 +259,7 @@ public class FloatViewManager {
 		if (paramsContent == null) {
 			paramsContent = new LayoutParams();
 			// 4.3以下版本不能用TYPE_TOAST作为悬浮窗属性
-			if (Build.VERSION.SDK_INT <= 18) {
+			if (Build.VERSION.SDK_INT <= 18 || Build.VERSION.SDK_INT >= 23) {
 				paramsContent.type = LayoutParams.TYPE_SYSTEM_ALERT;
 			} else {
 				paramsContent.type = LayoutParams.TYPE_TOAST;
@@ -284,7 +284,7 @@ public class FloatViewManager {
 		if (paramsContent == null) {
 			paramsContent = new LayoutParams();
 			// 4.3以下版本不能用TYPE_TOAST作为悬浮窗属性
-			if (Build.VERSION.SDK_INT <= 18) {
+			if (Build.VERSION.SDK_INT <= 18 || Build.VERSION.SDK_INT >= 23) {
 				paramsContent.type = LayoutParams.TYPE_SYSTEM_ALERT;
 			} else {
 				paramsContent.type = LayoutParams.TYPE_TOAST;

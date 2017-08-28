@@ -276,7 +276,8 @@ dependencies {
     //飞磨IM
     compile project(':IMsdk')
     //友盟分析
-    compile files('libs/umeng-analytics-v6.0.9.jar')
+
+    compile 'com.umeng.analytics:analytics:6.1.2'
     //QQ支付
     compile files('libs/mqqopenpay.jar')
     //微信支付在Shared SDk中进行了依赖  因为支付结果的回调需要在WxEntryActivity中处理
@@ -298,10 +299,7 @@ dependencies {
     //Walle 多渠道
     compile 'com.meituan.android.walle:library:1.1.4'
 
-    //进程守护
-    compile 'com.coolerfall:android-app-daemon:1.2.0'
 
-    //图片压缩  包含了RXjava
     compile 'id.zelory:compressor:1.0.3'
     //use to test multiDex
 //    compile group: 'com.google.guava', name: 'guava', version: '19.0'
@@ -326,6 +324,7 @@ def gitSha() {
             throw new GradleException("can't get git rev, you should add git to system path or just input test value, such as 'testTinkerId'")
         }
         //使用git commit 的版本号作为tinkerId  tinkerId一致的话才会加载补丁，所以也要注意本地开发中的tinkerId不能与线上的一致
+       // return gitRev
         return "9cff953"
     } catch (Exception e) {
         throw new GradleException("can't get git rev, you should add git to system path or just input test value, such as 'testTinkerId'")

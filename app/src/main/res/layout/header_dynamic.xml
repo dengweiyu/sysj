@@ -150,7 +150,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/dynamic_fans"
+            android:id="@+id/dynamic_attention"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/dynamic_name"
@@ -159,7 +159,7 @@
             android:layout_toRightOf="@+id/dynamic_head_layout"
             android:background="@drawable/personalheader_fans_bg"
             android:paddingRight="6dp"
-            android:text="粉丝：0"
+            android:text="关注：0"
             android:textColor="#aaffffff"
             android:textSize="10sp" />
 
@@ -167,12 +167,12 @@
             android:id="@+id/divider"
             android:layout_width="1px"
             android:layout_height="11dp"
-            android:layout_alignBottom="@+id/dynamic_fans"
-            android:layout_toRightOf="@+id/dynamic_fans"
+            android:layout_alignBottom="@+id/dynamic_attention"
+            android:layout_toRightOf="@+id/dynamic_attention"
             android:background="#bbbcbd" />
 
         <TextView
-            android:id="@+id/dynamic_attention"
+            android:id="@+id/dynamic_fans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/dynamic_name"
@@ -181,7 +181,7 @@
             android:background="@drawable/personalheader_fans_bg"
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
-            android:text="关注：0"
+            android:text="粉丝：0"
             android:textColor="#aaffffff"
             android:textSize="10sp" />
 

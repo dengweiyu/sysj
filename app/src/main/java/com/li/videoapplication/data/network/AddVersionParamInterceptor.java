@@ -21,8 +21,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import okio.Buffer;
-
-
 /**
  * okhttp2 拦截器中为接口增加 current_version 的请求参数
  */
@@ -37,6 +35,7 @@ public class AddVersionParamInterceptor implements Interceptor {
     private final ReentrantLock mReentrantLock = new ReentrantLock();
 
     private static boolean mAccessTokenIsOverDue = true;
+
     @Override
     public Response intercept(Chain chain) throws IOException {
 

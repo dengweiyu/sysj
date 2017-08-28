@@ -1,6 +1,5 @@
 package com.li.videoapplication.ui.activity;
 
-import android.graphics.Color;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -279,7 +278,7 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
     public void setFocus(Member item) {
         if (item != null) {
             if (item.getIsAttent() == 1) {// 已关注
-                focusView.setBackgroundColor(Color.parseColor("#e2e2e2"));
+                focusView.setBackground(null);
                 setTextViewText(focus, R.string.dynamic_focused);
             } else { // 未关注
                 focusView.setBackgroundResource(R.drawable.gamematch_cs_bg);

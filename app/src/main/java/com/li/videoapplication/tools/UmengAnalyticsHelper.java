@@ -450,6 +450,10 @@ public class UmengAnalyticsHelper {
      * @param duration
      */
     public static void onEventValue(Context context,String id,Map<String,String> map,int duration){
-        MobclickAgent.onEventValue(context,id,map,duration);
+        if (map == null){
+            map = new HashMap<>();
+        }
+
+        MobclickAgent.onEventValue(context, id , map, duration);
     }
 }

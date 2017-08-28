@@ -22,7 +22,7 @@ public class PaymentFactory {
                 Log.d("PaymentFactory","create alipay");
                 break;
             case TYPE_TENCENT:
-                payment = new TenPayment(context);
+                payment = new TencentPayment(context);
                 Log.d("PaymentFactory","create TenPayment");
                 break;
             default:

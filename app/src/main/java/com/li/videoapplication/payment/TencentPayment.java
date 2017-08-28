@@ -23,14 +23,14 @@ import javax.crypto.spec.SecretKeySpec;
  * QQ支付
  */
 
-public class TenPayment implements IPayment {
+public class TencentPayment implements IPayment {
     private IOpenApi mOpenApi;
     private final static String APP_ID = "1103189341";
 
     private final static String TAG = "TenPayment";
 
     private IPayment.Callback mCallback;
-    public TenPayment(Context context) {
+    public TencentPayment(Context context) {
             init(context);
     }
 

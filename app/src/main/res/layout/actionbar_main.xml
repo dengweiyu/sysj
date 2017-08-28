@@ -82,6 +82,7 @@
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:visibility="gone"
+        android:background="@drawable/background_press"
         android:text="订单"/>
 
     <LinearLayout

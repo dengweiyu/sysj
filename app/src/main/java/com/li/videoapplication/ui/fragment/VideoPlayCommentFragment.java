@@ -486,8 +486,8 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
     public void setFocus(VideoImage item) {
         if (item != null) {
             if (item.getMember_tick() == 1) {// 已关注状态
-                focus.setBackgroundResource(R.drawable.player_focus_gray);
-                focus.setTextColor(resources.getColorStateList(R.color.groupdetail_player_white));
+                focus.setBackground(null);
+                focus.setTextColor(resources.getColorStateList(R.color.textcolor_french_gray));
                 focus.setText(R.string.videoplay_focused);
             } else {// 未关注状态
                 focus.setBackgroundResource(R.drawable.player_focus_red);

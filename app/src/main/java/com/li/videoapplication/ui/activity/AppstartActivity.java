@@ -72,7 +72,8 @@ public class AppstartActivity extends TBaseActivity {
 
         //
         BaiduPush.getInstances().onCreate(getApplicationContext());
-
+        //FIXME 上线必关闭
+       // MobclickAgent.setDebugMode(true);
     }
 
     @Override

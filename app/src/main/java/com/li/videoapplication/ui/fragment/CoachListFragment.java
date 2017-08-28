@@ -1,7 +1,6 @@
 package com.li.videoapplication.ui.fragment;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,7 +30,9 @@ import com.li.videoapplication.data.model.response.PackageInfo203Entity;
 import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
+import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.adapter.CoachLisAdapter;
 import com.li.videoapplication.ui.view.SpanItemDecoration;
 import com.li.videoapplication.ui.view.SpanSingleDecoration;
@@ -61,6 +62,22 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
     private RecyclerView.ItemDecoration mItemDecoration;
 
     private RecyclerView.ItemDecoration mBottomDecoration;
+
+    private MainActivity mActivity;
+
+    /*private float mOffset = 0f;
+    private float mStartOffset = 0f;
+    private float mLastDy = 0f;
+    private boolean mIsShowMenu = true;*/
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof MainActivity){
+            mActivity  = (MainActivity) activity;
+        }
+    }
+
     @Override
     protected int getCreateView() {
         return R.layout.fragment_coach_list;
@@ -77,8 +94,7 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
         mData = new ArrayList<>();
         mAdapter = new CoachLisAdapter(getActivity(),mData);
         mList.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
+       // mList.addItemDecoration(new SpanSingleDecoration(ScreenUtil.dp2px(52),false,false,true,false,0));
         mList.setAdapter(mAdapter);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         mAdapter.setEnableLoadMore(false);
@@ -95,6 +111,44 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
                 }
             }
         });
+
+
+    /*    mList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE){
+                    mStartOffset = mOffset;
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                System.out.println("dy:"+dy+" mOffset:"+mOffset+" mStartOffset:"+mStartOffset+" mIsShowMenu:"+mIsShowMenu);
+                if (mLastDy > 0 && dy < 0 || mLastDy < 0 && dy >0){
+                    mStartOffset = mOffset;
+                }
+                mLastDy = dy;
+
+                mOffset += dy;
+                if (mOffset - mStartOffset > ScreenUtil.dp2px(5) && mIsShowMenu){
+                    if (mActivity != null){
+                        mIsShowMenu = false;
+                        mActivity.refreshBottomMenu(false);
+
+                        mStartOffset = mOffset;
+                    }
+                } else if (mOffset - mStartOffset < -ScreenUtil.dp2px(5) && !mIsShowMenu) {
+                    if (mActivity != null){
+                        mIsShowMenu = true;
+                        mActivity.refreshBottomMenu(true);
+                        mStartOffset = mOffset;
+
+                    }
+                }
+            }
+        });*/
 
         loadData(mPage);
     }
@@ -138,6 +192,7 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
                 mHandler.postDelayed(this,TICK_DELAY);
             }else {
                 mHandler.removeCallbacks(this);
+
             }
             DataManager.getCoachStatus();
         }
@@ -156,6 +211,8 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
         if (isVisibleToUser){
             mHandler.removeCallbacks(mRefreshTask);
             mHandler.postDelayed(mRefreshTask,TICK_DELAY);
+            UmengAnalyticsHelper.onEvent(getActivity(),UmengAnalyticsHelper.MAIN,"陪练列表");
+
         }else {
             mHandler.removeCallbacks(mRefreshTask);
         }

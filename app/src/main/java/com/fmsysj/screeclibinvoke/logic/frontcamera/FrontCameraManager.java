@@ -2,6 +2,7 @@ package com.fmsysj.screeclibinvoke.logic.frontcamera;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -156,7 +157,12 @@ public class FrontCameraManager implements FrontCameraView.OnScreenRotation {
 		if (paramsContent == null) {
 			paramsContent = new LayoutParams();
 
-			paramsContent.type = LayoutParams.TYPE_TOAST;
+			if (Build.VERSION.SDK_INT <= 18 || Build.VERSION.SDK_INT >= 23) {
+				paramsContent.type = LayoutParams.TYPE_SYSTEM_ALERT;
+			} else {
+				paramsContent.type = LayoutParams.TYPE_TOAST;
+			}
+			//paramsContent.type = LayoutParams.TYPE_TOAST;
 			paramsContent.format = PixelFormat.RGBA_8888;
 			paramsContent.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL |
 					LayoutParams.FLAG_NOT_FOCUSABLE;

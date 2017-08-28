@@ -108,8 +108,8 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
         view.setVisibility(View.VISIBLE);
         if (record != null) {
             if (record.getTick() == 1) {
-                view.setBackgroundResource(R.drawable.player_focus_gray);
-                view.setTextColor(resources.getColorStateList(R.color.groupdetail_player_white));
+                view.setBackground(null);
+                view.setTextColor(resources.getColorStateList(R.color.textcolor_french_gray));
                 setTextViewText(view, R.string.dynamic_focused);
                 view.setEnabled(true);
             } else {

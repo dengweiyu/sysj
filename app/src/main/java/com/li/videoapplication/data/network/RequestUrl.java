@@ -2527,7 +2527,7 @@ public class RequestUrl {
      * 解绑定百度推送
      */
     public final String unBindBaiduPush(){
-        return BaseSYSJ+"Sysj222/BindingChannel/removeBindingChannel";
+        return BaseSYSJ+"/Sysj222/BindingChannel/removeBindingChannel";
     }
 
     /**

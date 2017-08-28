@@ -3,6 +3,7 @@ package com.li.videoapplication.data.model.response;
 import com.google.gson.annotations.SerializedName;
 import com.li.videoapplication.framework.BaseResponseEntity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -97,7 +98,7 @@ public class CoachListEntity extends BaseResponseEntity {
             }
         }
 
-        public static class IncludeBean {
+        public static class IncludeBean implements Serializable {
             /**
              * member_id : 54
              * game_level : 永恒钻石

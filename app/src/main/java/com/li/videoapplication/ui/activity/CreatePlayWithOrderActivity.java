@@ -1,14 +1,13 @@
 package com.li.videoapplication.ui.activity;
 
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,7 +15,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
-import com.google.zxing.client.result.CalendarParsedResult;
 import com.ifeimo.im.activity.ChatActivity;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
@@ -26,9 +24,9 @@ import com.li.videoapplication.data.cache.RequestCache;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.event.PayNowEvent;
+import com.li.videoapplication.data.model.response.CoachListEntity;
 import com.li.videoapplication.data.model.response.ConfirmOrderEntity;
 import com.li.videoapplication.data.model.response.OrderTimeEntity;
-import com.li.videoapplication.data.model.response.PlayGiftTypeEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderOptionsEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderPriceEntity;
@@ -58,12 +56,6 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import io.rong.eventbus.EventBus;
-
-import static com.li.videoapplication.ui.dialog.SimpleChoiceDialog.TYPE_CHOICE_SERVER;
 
 /**
  * 创建陪玩订单
@@ -73,6 +65,11 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
     public final static int PAGE_CREATE_ORDER = 1;
     public final static int PAGE_ORDER_DETAIL = 2;
+
+    public final static int MODE_ORDER_NORMAL= 10;          //普通模式
+    public final static int MODE_ORDER_GRAB= 11;            //抢单模式
+    public final static int MODE_ORDER_AGAIN = 12;          //抢单模式订单结束后，点击"继续找TA"。仍为抢单模式只是UI显示有区别
+
     private View mOperation;
 
     private LoadingDialog mLoadingDialog;
@@ -141,6 +138,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
     private String mCoachQQ;
 
+    private CoachListEntity.DataBean.IncludeBean mCoachEntity;
+
     private long mStartSecond;
 
     private long mSecondTime;   //对开始时间取整5后
@@ -148,14 +147,19 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     private long mEndSecond;
 
     private long mIntervalTime;
+
+    private int mCurrentOrderMode = MODE_ORDER_NORMAL;      //当前订单模式
     @Override
     public void refreshIntent() {
         super.refreshIntent();
         try {
-            mCoachId = getIntent().getStringExtra("coach_id");
-            mCoachNickName = getIntent().getStringExtra("nick_name");
-            mCoachAvatar = getIntent().getStringExtra("avatar");
-            mCoachQQ = getIntent().getStringExtra("qq");
+            Intent intent = getIntent();
+            mCoachId = intent.getStringExtra("coach_id");
+            mCoachNickName = intent.getStringExtra("nick_name");
+            mCoachAvatar = intent.getStringExtra("avatar");
+            mCoachQQ = intent.getStringExtra("qq");
+
+          //  mCoachEntity = getIntent()
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -241,14 +245,24 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                 mGameModeIndex = i;
             }
         });
-    }
 
+    }
 
 
     private void initToolbar(){
         findViewById(R.id.tb_back).setOnClickListener(this);
         ((TextView)findViewById(R.id.tb_title)).setText("订单信息");
         setSupportActionBar(((Toolbar)findViewById(R.id.toolbar)));
+    }
+
+    /**
+     * 根据模式重新渲染UI
+     */
+    private void refreshViewByMode(){
+        switch (mCurrentOrderMode){
+            case MODE_ORDER_AGAIN:
+                break;
+        }
     }
 
     @Override
@@ -258,7 +272,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         //load options
         DataManager.getPlayWithOrderOptions(mCoachId);
         //load time
-        DataManager.getOrderTime();
+        DataManager.getOrderTime(null);
     }
 
     //use cache first
@@ -355,7 +369,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                 showGameCountDialog();
                 break;
             case R.id.ll_choice_start_time:                         //选择时间
-                DataManager.getOrderTime();
+                DataManager.getOrderTime(null);
                 if (mHourSecond.size() == 0){
                     mLoadingDialog.show();
                     return;
@@ -493,9 +507,6 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         reCalculationMinute(mIntervalTime,position);
 
         if (mGameTimeDialog != null){
-            //分钟列表发生改变 滚动到初始位置
-        //    mGameTimeDialog.smoothScrollStartMinute();
-
             //更新分钟
             mGameTimeDialog.notifyMinuteDataSetChange();
 
@@ -540,6 +551,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                     }
                 }
 
+                //根据间隔 生成分钟
                 lastMinute += duration/60;
             }
         }else {
@@ -568,16 +580,21 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             mHourList.add(formatHour(hour));
             Calendar ca = TimeHelper.getCurrentCalendar(second);
 
-            //中间值都从0分开始
+
             if (second == startSecond ){
+                //当前时间
                 mHourSecond.add(second);
+
+                //取整到整5倍数的开始时间
+                second = mSecondTime;
             }else if (ca.get(Calendar.HOUR_OF_DAY) == endHour){
                 mHourSecond.add(endSecond);
             }else{
                 ca.set(Calendar.MINUTE,0);
+                //保存时间戳
                 mHourSecond.add(ca.getTime().getTime()/1000);
             }
-
+            //直接增加一个小时
             second += 3600;
         }
     }
@@ -856,8 +873,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             mEndSecond = entity.getEndTime();
             mSecondTime = entity.getSecondTime();
 
-/*            mStartSecond = 1503129600L;
-            mEndSecond = 1503140400L;*/
+/*            mStartSecond = 1503367080L;
+            mEndSecond = 1503377880L;*/
 
             mIntervalTime = entity.getIntervalTime();
 

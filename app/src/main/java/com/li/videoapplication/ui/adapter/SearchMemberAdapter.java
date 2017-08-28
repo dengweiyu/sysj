@@ -36,6 +36,7 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 	public static final int PAGE_MYFOCUS = 3;
 
 	private int page;
+	private List<Member> mData;
 
 	/**
 	 * 跳转：玩家动态
@@ -52,6 +53,7 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 	public SearchMemberAdapter(Context context, int page, List<Member> data) {
 		super(context, R.layout.adapter_searchmember, data);
 		this.page = page;
+		mData  = data;
 	}
 
 	@Override
@@ -106,7 +108,7 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 	/**
 	 * 关注
 	 */
-	private void setFocus(final Member record, TextView focus, ImageView go) {
+	private void setFocus(final Member record, final TextView focus, final ImageView go) {
 		focus.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -120,12 +122,32 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 					UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.MAIN, "搜索-相关主播-点击任何主播关注次数");
 					if (record.getMember_tick() == 1) {// 已关注状态
 						flag = false;
-						record.setFans(Integer.valueOf(record.getFans()) - 1 + "");
-						record.setMember_tick(0);
+						DialogManager.showConfirmDialog(getContext(), "确认取消关注该玩家?", new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								switch (v.getId()){
+									case R.id.tv_confirm_dialog_yes:
+										record.setFans(Integer.valueOf(record.getFans()) - 1 + "");
+										record.setMember_tick(0);
+
+
+										if (page == PAGE_MYFANS || page == PAGE_SEARCHMEMBER) {
+											notifyDataSetChanged();
+											// 玩家关注
+											DataManager.memberAttention201(record.getMember_id(), getMember_id());
+										}
+								}
+							}
+						});
 					} else {// 未关注状态
 						flag = true;
 						record.setFans(Integer.valueOf(record.getFans()) + 1 + "");
 						record.setMember_tick(1);
+						if (page == PAGE_MYFANS || page == PAGE_SEARCHMEMBER) {
+							notifyDataSetChanged();
+							// 玩家关注
+							DataManager.memberAttention201(record.getMember_id(), getMember_id());
+						}
 					}
 				} else if (page == PAGE_MYFANS) {
 					if (record.getTick() == 1) {// 已关注状态
@@ -141,7 +163,6 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 											// 玩家关注
 											DataManager.memberAttention201(record.getMember_id(), getMember_id());
 										}
-										break;
 								}
 							}
 						});
@@ -149,23 +170,26 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 
 						record.setFans(Integer.valueOf(record.getFans()) + 1 + "");
 						record.setTick(1);
+						if (page == PAGE_MYFANS || page == PAGE_SEARCHMEMBER) {
+							notifyDataSetChanged();
+							// 玩家关注
+							DataManager.memberAttention201(record.getMember_id(), getMember_id());
+						}
 					}
 				}
-				if (page == PAGE_MYFANS || page == PAGE_SEARCHMEMBER) {
-					notifyDataSetChanged();
-					// 玩家关注
-					DataManager.memberAttention201(record.getMember_id(), getMember_id());
-				}
+
 			}
 		});
 		if (page == PAGE_SEARCHMEMBER) {
 			go.setVisibility(View.GONE);
 			if (record.getMember_tick() == 1) {
-				focus.setBackgroundResource(R.drawable.player_focus_gray);
-				focus.setTextColor(resources.getColorStateList(R.color.groupdetail_player_white));
+				focus.setBackground(null);
+				focus.setTextColor(resources.getColorStateList(R.color.textcolor_french_gray));
+				focus.setText("已关注");
 			} else {
 				focus.setBackgroundResource(R.drawable.player_focus_red);
 				focus.setTextColor(resources.getColorStateList(R.color.groupdetail_player_red));
+				focus.setText("关注");
 			}
 		} else if (page == PAGE_MYFOCUS) {
 			focus.setVisibility(View.GONE);
@@ -173,11 +197,13 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 		} else if (page == PAGE_MYFANS) {
 			go.setVisibility(View.GONE);
 			if (record.getTick() == 1) {
-				focus.setBackgroundResource(R.drawable.player_focus_gray);
-				focus.setTextColor(resources.getColorStateList(R.color.groupdetail_player_white));
+				focus.setText("已关注");
+				focus.setBackground(null);
+				focus.setTextColor(resources.getColorStateList(R.color.textcolor_french_gray));
 			} else {
 				focus.setBackgroundResource(R.drawable.player_focus_red);
 				focus.setTextColor(resources.getColorStateList(R.color.groupdetail_player_red));
+				focus.setText("关注");
 			}
 		} else {
 			focus.setVisibility(View.GONE);
