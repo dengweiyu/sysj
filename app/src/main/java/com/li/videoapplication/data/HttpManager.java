@@ -173,7 +173,7 @@ public class HttpManager extends RetrofitUtils {
     // TODO: ############### 广告 ###############
     public void adverImage(int location_id, Observer<AdvertisementDto> observer) {
         Map<String, Object> params = RequestParams.getInstance().adverImage(location_id);
-        Observable<AdvertisementDto> observable = service.adverImage("http://ad.17sysj.com/Advertisement/adSysjImage",params);
+        Observable<AdvertisementDto> observable = service.adverImage("http://ad.17sysj.com/Advertisement/adverSysjImage",params);
         setSubscribe(observable, observer);
     }
 
@@ -197,7 +197,7 @@ public class HttpManager extends RetrofitUtils {
      */
     public void adImage208(int location_id, boolean isLoad, Observer<AdvertisementDto> observer) {
         Map<String, Object> params = RequestParams.getInstance().adImage208(location_id);
-        Observable<AdvertisementDto> observable = service.adImage208("http://ad.17sysj.com/Advertisement/adSysjImage",params);
+        Observable<AdvertisementDto> observable = service.adImage208("http://ad.17sysj.com/Advertisement/adverSysjImage",params);
         Observable<AdvertisementDto> observableCache = providers.adImage208(observable,
                 new DynamicKey("Ad&" + location_id),
                 new EvictDynamicKey(isLoad)).map(new HttpResultFuncCache<AdvertisementDto>());

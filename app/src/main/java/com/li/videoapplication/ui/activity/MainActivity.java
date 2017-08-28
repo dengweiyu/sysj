@@ -341,6 +341,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         if (mMainPosition > 0 && mMainPosition < 4){
             if (viewPager != null) {
                 viewPager.setCurrentItem(mMainPosition);
+                if(mMainPosition == 3){
+                    showPlayWidthTab(true);
+                }
                 mMainPosition = -1;
             }
         }

@@ -38,7 +38,7 @@ public class CoachShowImageAdapter extends BaseQuickAdapter<String,BaseViewHolde
         delete.setVisibility(View.VISIBLE);
 
         try {
-            if (holder.getAdapterPosition() == mData.size()-1){
+            if (holder.getAdapterPosition() == mData.size()-1 && !isUploadDone){
                 int id = Integer.parseInt(s);
                 icon.setImageResource(id);
                 icon.setBackgroundResource(R.drawable.ab_add);

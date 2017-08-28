@@ -78,6 +78,12 @@ public class BannerFragment extends TBaseFragment {
                                 break;
                         }
                     }
+
+                    if (!StringUtil.isNull(launchImage.getModule())){
+                        if ("training".equals(launchImage.getModule())){
+                            ActivityManager.startMainActivity(getActivity(),3,0);
+                        }
+                    }
                     break;
             }
 

@@ -180,7 +180,6 @@ public class AppstartActivity extends TBaseActivity {
 
 
 
-
     public void replaceBanner() {
         try {
             FragmentTransaction transaction = manager.beginTransaction();

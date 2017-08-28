@@ -54,8 +54,8 @@
 
         <ImageView
             android:id="@+id/iv_video_play_status_gift"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_gravity="center"
             android:src="@drawable/gift_unselected"/>
 
@@ -81,9 +81,10 @@
 
         <ImageView
             android:id="@+id/iv_video_play_shared"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_gravity="center_vertical"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="1dp"
             android:src="@drawable/ab_share_gray"/>
 
         <TextView

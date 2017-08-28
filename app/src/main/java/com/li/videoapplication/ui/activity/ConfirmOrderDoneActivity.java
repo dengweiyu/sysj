@@ -59,6 +59,7 @@ public class ConfirmOrderDoneActivity extends TBaseAppCompatActivity implements 
     private String mOrderCount;
     private int mCount = 0;
     private int mImageSize = 0;
+    private int mChoiceMaxSize = MAX_IMAGE_SIZE ;
     private ExpandUtil mExpandUtil = new ExpandUtil();
     private RecyclerView mResultList;
     private RecyclerView mResultImage;
@@ -79,6 +80,8 @@ public class ConfirmOrderDoneActivity extends TBaseAppCompatActivity implements 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        mChoiceMaxSize = mCount >=4 ? mCount:MAX_IMAGE_SIZE;
         mOrderCount = intent.getStringExtra("order_count");
     }
 
@@ -102,10 +105,10 @@ public class ConfirmOrderDoneActivity extends TBaseAppCompatActivity implements 
 
         mImages = new ArrayList<>();
         mImages.add(R.drawable.add_big+"");
-        mImageAdapter = new CoachShowImageAdapter(this,mImages,MAX_IMAGE_SIZE);
-        mResultImage.setLayoutManager(new GridLayoutManager(this,MAX_IMAGE_SIZE));
+        mImageAdapter = new CoachShowImageAdapter(this,mImages,mChoiceMaxSize);
+        mResultImage.setLayoutManager(new GridLayoutManager(this,4));
         mResultImage.setAdapter(mImageAdapter);
-
+        mResultImage.addItemDecoration(new SpanItemDecoration(ScreenUtil.dp2px(10),true,false,false,true));
 
         mLoadingDialog = new LoadingDialog(this);
         mLoadingDialog.setProgressText("提交中...");
@@ -150,7 +153,7 @@ public class ConfirmOrderDoneActivity extends TBaseAppCompatActivity implements 
 
     @Override
     public void onClickImage(View view, int index) {
-        if (mImageSize == MAX_IMAGE_SIZE){
+        if (mImageSize == mChoiceMaxSize){
             //show detail
             ImageDetailSceneActivity.startImageDetailActivity(this,view,0,new String[]{mImages.get(index)},true);
         }else {

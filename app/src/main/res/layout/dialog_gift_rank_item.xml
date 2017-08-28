@@ -49,40 +49,42 @@
         android:layout_height="match_parent"
         android:gravity="right"
         android:layout_weight="1"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="4dp"
         android:orientation="horizontal">
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/currency"/>
         <TextView
             android:id="@+id/tv_play_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
             android:textColor="#e39200"
-            android:gravity="right"
+            android:gravity="left"
+            android:layout_marginLeft="1dp"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="2dp"
-            android:hint="2,00000"
+            android:hint="2,0000"
             android:textSize="12sp"/>
         <ImageView
             android:layout_width="14dp"
             android:layout_height="14dp"
+            android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/currency"/>
-
+            android:src="@drawable/slider_bean"/>
         <TextView
             android:id="@+id/tv_play_beans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
             android:textColor="#e39200"
-            android:gravity="right"
-            android:hint="2,00000"
+            android:gravity="left"
+            android:layout_marginLeft="1dp"
+            android:hint="2,0000"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="2dp"
             android:textSize="12sp"/>
-        <ImageView
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/slider_bean"/>
     </LinearLayout>
 </LinearLayout>
