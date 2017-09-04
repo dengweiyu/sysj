@@ -35,8 +35,8 @@ public class WelcomeFragment extends TBaseChildFragment implements OnPageChangeL
     /**
      * 跳转：主页
      */
-    public void startMainActivity() {
-        ActivityManager.startMainActivity(getActivity());
+    public void startChoiceFocusGameActivity() {
+        ActivityManager.startChoiceFocusGameActivity(getActivity());
     }
 
     private List<View> views;
@@ -163,13 +163,13 @@ public class WelcomeFragment extends TBaseChildFragment implements OnPageChangeL
         switch (v.getId()) {
 
             case R.id.welcome_gointo:
-                if (getGroupIds() != null && getGroupIds().size() > 0) {
+                /*if (getGroupIds() != null && getGroupIds().size() > 0) {
                     // 保存问卷
                     PreferencesHepler.getInstance().saveGroupIds(getGroupIds());
                     // 问卷
                     DataManager.indexDoSurvey(getMember_id(), PreferencesHepler.getInstance().getGroupIds2());
-                }
-                startMainActivity();
+                }*/
+                startChoiceFocusGameActivity();
                 break;
 
             case R.id.welcome_male:
@@ -248,6 +248,8 @@ public class WelcomeFragment extends TBaseChildFragment implements OnPageChangeL
         if (position == radios.size() - 1) {// 第4页
             gointo.setVisibility(View.VISIBLE);
             radioGroup.setVisibility(View.GONE);
+
+
         } else {
             gointo.setVisibility(View.GONE);
             radioGroup.setVisibility(View.VISIBLE);

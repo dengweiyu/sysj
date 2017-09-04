@@ -121,6 +121,15 @@ public class CoachListEntity extends BaseResponseEntity {
             @SerializedName("status")
             private int statusX;
             private String game_level_icon;
+            private String flag;
+
+            public String getFlag() {
+                return flag;
+            }
+
+            public void setFlag(String flag) {
+                this.flag = flag;
+            }
 
             public String getMember_id() {
                 return member_id;

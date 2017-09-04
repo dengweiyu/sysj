@@ -156,10 +156,22 @@ public class SearchResultFragment extends TBaseFragment{
     public void refreshSearchResult(String content) {
 
         mResults = Lists.newArrayList();
-        video.setContent(content);
-        game.setContent(content);
-        member.setContent(content);
-        gift.setContent(content);
+        if (video != null){
+            video.setContent(content);
+        }
+        if (game != null){
+            game.setContent(content);
+        }
+
+        if (member != null){
+            member.setContent(content);
+        }
+
+        if (gift != null){
+            gift.setContent(content);
+        }
+
+
 
     }
 

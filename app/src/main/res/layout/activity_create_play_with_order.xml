@@ -60,6 +60,18 @@
               android:layout_height="match_parent">
     <include
          layout="@layout/layout_play_with_order_status"></include>
+
+        <RelativeLayout
+            android:id="@+id/rl_create_header_coach_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            android:background="@drawable/background_press">
+            <include
+                layout="@layout/layout_coach_info_detail_header"></include>
+        </RelativeLayout>
+
     <android.support.v7.widget.CardView
         android:id="@+id/cv_order_info"
         android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package com.li.videoapplication.ui.fragment;
 
+
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -9,13 +10,13 @@ import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.response.PlayWithOrderDetailEntity;
-import com.li.videoapplication.data.model.response.PlayWithTakeOrderEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.ui.activity.CreatePlayWithOrderActivity;
+import com.li.videoapplication.ui.activity.PlayWithOrderDetailActivity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 
@@ -26,7 +27,7 @@ import java.util.List;
  * 陪练订单详情
  */
 
-public class PlayWithOrderDetailFragment extends TBaseFragment {
+public class PlayWithOrderDetailFragment extends TBaseFragment implements View.OnClickListener {
 
     private PlayWithOrderDetailEntity  mOrderEntity;
 
@@ -69,11 +70,11 @@ public class PlayWithOrderDetailFragment extends TBaseFragment {
         if (mOrderEntity != null){
             final PlayWithOrderDetailEntity.DataBean data = mOrderEntity.getData();
             view.findViewById(R.id.ll_coach_info_header_game_type).setVisibility(View.GONE);
-            view.findViewById(R.id.iv_coach_info_go).setVisibility(View.GONE);
+
 
             final ImageView icon = (ImageView)view.findViewById(R.id.civ_coach_detail_icon);
 
-            if (mIsShowCoach){
+            if (mIsShowCoach && mOrderEntity.getCoach() != null){
                 GlideHelper.displayImage(getContext(),mOrderEntity.getCoach().getAvatar(),icon);
 
                 UITask.postDelayed(new Runnable() {
@@ -98,9 +99,9 @@ public class PlayWithOrderDetailFragment extends TBaseFragment {
             TextView createOrder = (TextView) view.findViewById(R.id.tv_order_creating);
             TextView playingOrder = (TextView) view.findViewById(R.id.tv_order_playing);
             TextView doneOrder = (TextView) view.findViewById(R.id.tv_order_done);
-
+            View choiceAgain = view.findViewById(R.id.tv_choice_again);
             ImageView statusIcon = (ImageView)view.findViewById(R.id.iv_order_status);
-
+            choiceAgain.setVisibility(View.GONE);
             TextView gameName = (TextView)view.findViewById(R.id.tv_game_name);
             gameName.setText("陪练游戏："+mOrderEntity.getData().getGameName());
 
@@ -161,24 +162,30 @@ public class PlayWithOrderDetailFragment extends TBaseFragment {
                     doneOrder.setTextColor(getResources().getColor(R.color.ab_backdround_red));
                     statusIcon.setImageResource(R.drawable.order_done);
 
+
+                    if (PlayWithOrderDetailActivity.getRole(getMember_id(),mOrderEntity.getUser().getMember_id(),mOrderEntity.getCoach().getMember_id()) == PlayWithOrderDetailActivity.ROLE_OWNER){
+                        choiceAgain.setVisibility(View.VISIBLE);
+                        choiceAgain.setOnClickListener(this);
+                    }
+
                     break;
             }
 
             TextView nickName = (TextView)view.findViewById(R.id.tv_coach_detail_nick_name);
-            nickName.setText(mOrderEntity.getCoach().getNickname());
-
             TextView score = (TextView)view.findViewById(R.id.tv_coach_detail_score);
-            score.setText(mOrderEntity.getCoach().getScore()+"分");
-
             TextView status = (TextView)view.findViewById(R.id.tv_order_status);
             status.setText(data.getStatusText());
-
             RatingBar ratingBar = (RatingBar)view.findViewById(R.id.rb_coach_detail_score);
 
-            try {
-                ratingBar.setRating(Float.parseFloat(mOrderEntity.getCoach().getScore()));
-            } catch (Exception e) {
-                e.printStackTrace();
+
+            if (mOrderEntity.getCoach() != null) {
+                score.setText(mOrderEntity.getCoach().getScore()+"分");
+                nickName.setText(mOrderEntity.getCoach().getNickname());
+                try {
+                    ratingBar.setRating(Float.parseFloat(mOrderEntity.getCoach().getScore()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             TextView server = (TextView)view.findViewById(R.id.tv_game_server);
@@ -236,18 +243,36 @@ public class PlayWithOrderDetailFragment extends TBaseFragment {
                 ratingBar.setVisibility(View.VISIBLE);
                 score.setVisibility(View.VISIBLE);
                 placeNum.setVisibility(View.GONE);
-                nickName.setText(mOrderEntity.getCoach().getNickname());
+
+                if (mOrderEntity.getCoach() != null) {
+                    nickName.setText(mOrderEntity.getCoach().getNickname());
+                }
+
             }
         }
     }
 
     public void addViewGone(int id){
-
         mGoneView.add(id);
     }
+
 
     @Override
     protected IPullToRefresh getPullToRefresh() {
         return null;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_choice_again:
+                PlayWithOrderDetailActivity detailActivity;
+                if (getActivity() instanceof PlayWithOrderDetailActivity){
+                    detailActivity = (PlayWithOrderDetailActivity)getActivity();
+                    detailActivity.choiceAgain(mRootView.findViewById(R.id.rv_coach_info_header));
+                }
+                break;
+        }
     }
 }

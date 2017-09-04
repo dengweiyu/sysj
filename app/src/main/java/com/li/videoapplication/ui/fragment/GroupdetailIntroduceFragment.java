@@ -126,7 +126,7 @@ public class GroupdetailIntroduceFragment extends TBaseFragment{
     private void install() {
         if (activity.game != null &&activity.game.getGame_id() != null) {
             //
-            ActivityManager.startDownloadManagerActivity(getContext(),activity.game.getGame_id());
+            ActivityManager.startDownloadManagerActivity(getContext(),activity.game.getGame_id(),"1",activity.game.getGame_id());
             // 游戏下载数+1
             DataManager.downloadClick217(activity.game.getGame_id(), getMember_id(),
                     Constant.DOWNLOAD_LOCATION_GROUP, activity.group_id);

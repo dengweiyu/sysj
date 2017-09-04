@@ -67,7 +67,8 @@
         android:background="@drawable/welcome_gointo"
         android:gravity="center"
         android:text="@string/welcome_gointo"
-        android:textColor="@drawable/welcome_gointo_text"
+        android:visibility="gone"
+        android:textColor="@color/white"
         android:textSize="13sp" />
 
 </RelativeLayout>

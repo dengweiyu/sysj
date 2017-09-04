@@ -1,9 +1,16 @@
 package com.li.videoapplication.framework;
 
+import com.li.videoapplication.BuildConfig;
+
 /**
  * 功能：应用程序常量
  */
 public class AppConstant {
+
+	public final static String IP = BuildConfig.ip.equals("")?"":BuildConfig.ip;
+	public final static String PORT = BuildConfig.port.equals("")?"":":"+BuildConfig.port;
+	public final static String ROOT_DIR = BuildConfig.rootDir.equals("")?"":"/"+BuildConfig.rootDir;
+	public final static String FORMAT = "http://%s%s%s";
 
 	public static boolean SHOW_DOWNLOAD_AD = true;
 
@@ -12,7 +19,7 @@ public class AppConstant {
 
 	//https://sapp.17sysj.com
 	//http://apps.ifeimo.com
-	public static final String API_SERVER = "http://apps.ifeimo.com";//服务器域名
+	public static final String API_SERVER = String.format(FORMAT,IP,PORT,ROOT_DIR);//服务器域名
 
 	public static final boolean DEBUG = true;
 	public static final boolean isFeiMo = false;//飞磨快速登录版

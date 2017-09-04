@@ -41,6 +41,7 @@ import com.li.videoapplication.ui.activity.ActivityImageUploadActivity;
 import com.li.videoapplication.ui.activity.ActivityListActivity;
 import com.li.videoapplication.ui.activity.CameraRecoedActivity;
 import com.li.videoapplication.ui.activity.CameraRecoedActivity50;
+import com.li.videoapplication.ui.activity.ChoiceFocusGameActivity;
 import com.li.videoapplication.ui.activity.CoachCommentDetailsActivity;
 import com.li.videoapplication.ui.activity.CoachDetailActivity;
 import com.li.videoapplication.ui.activity.CoachInfoEditActivity;
@@ -134,9 +135,11 @@ public class ActivityManager {
     /**
      * 下载管理
      */
-    public synchronized static void startDownloadManagerActivity(Context context, String gameId) {
+    public synchronized static void startDownloadManagerActivity(Context context, String gameId,String location,String involveId) {
         Intent intent = new Intent();
         intent.putExtra("game_id",gameId);
+        intent.putExtra("location",location);
+        intent.putExtra("involve_Id",involveId);
         intent.setClass(context, DownloadManagerActivity.class);
         context.startActivity(intent);
     }
@@ -1518,6 +1521,35 @@ public class ActivityManager {
         context.startActivity(intent);
     }
 
+
+    /**
+     * 生成陪玩订单(抢单模式)
+     */
+    public static void startCreatePlayWithOrderActivity(Context context,int mode,String memberId,String nickName,String avatar,String QQ) {
+        Intent intent = new Intent();
+        intent.setClass(context, CreatePlayWithOrderActivity.class);
+        intent.putExtra("order_mode",mode);
+
+        if (!StringUtil.isNull(memberId)){
+            intent.putExtra("coach_id",memberId);
+        }
+
+        if (!StringUtil.isNull(nickName)){
+            intent.putExtra("nick_name",nickName);
+        }
+
+        if (!StringUtil.isNull(avatar)){
+            intent.putExtra("avatar",avatar);
+        }
+
+        if (!StringUtil.isNull(QQ)){
+            intent.putExtra("qq",QQ);
+        }
+
+        context.startActivity(intent);
+    }
+
+
     /**
      * 陪玩订单与赛事
      */
@@ -1613,6 +1645,12 @@ public class ActivityManager {
     public static void startCoachAllCommentActivity(Context context,String coachId){
         Intent intent = new Intent(context, CoachCommentDetailsActivity.class);
         intent.putExtra("coach_id",coachId);
+        context.startActivity(intent);
+    }
+
+    public static void startChoiceFocusGameActivity(Context context){
+        Intent intent = new Intent(context, ChoiceFocusGameActivity.class);
+
         context.startActivity(intent);
     }
 }

@@ -26,13 +26,16 @@ public class OrderContext implements IStrategyController ,IOrderStrategy  {
         if (orderEntity != null){
             switch (orderEntity.getData().getStatusX()){
                 case "0":           //待支付
+
                     strategy = new OrderPayingStrategy(orderEntity,role);
                     break;
                 case "1":           //支付失败
                     strategy = new OrderPayFailStrategy(orderEntity,role);
                     break;
-                case "2":           //待接单
-                    strategy = new OrderTakingStrategy(orderEntity,role);
+                case "2":           //待接单   不处于抢单模式下
+                    if (orderEntity.getCoach() != null){
+                        strategy = new OrderTakingStrategy(orderEntity,role);
+                    }
                     break;
                 case "3":           //陪练开始
                     strategy = new OrderPlayingStrategy(orderEntity,role);
@@ -48,6 +51,13 @@ public class OrderContext implements IStrategyController ,IOrderStrategy  {
                     break;
                 case "11":          //退款完成
                     strategy = new OrderRefundDoneStrategy(orderEntity,role);
+                    break;
+
+                case "14":         //派单失败
+                    strategy = new AutoSendOderFailed(orderEntity,role);
+                    break;
+                default:            //12:拒绝退款 13：订单被取消
+
                     break;
             }
         }

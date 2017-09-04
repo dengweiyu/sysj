@@ -90,6 +90,15 @@ public class PlayWithTakeOrderEntity extends BaseResponseEntity {
         private String statusText;
         private String gameName;
         private String user_id;
+        private String coach_id;
+
+        public String getCoach_id() {
+            return coach_id;
+        }
+
+        public void setCoach_id(String coach_id) {
+            this.coach_id = coach_id;
+        }
 
         public String getUser_id() {
             return user_id;

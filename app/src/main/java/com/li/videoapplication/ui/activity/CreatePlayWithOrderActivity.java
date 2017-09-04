@@ -3,12 +3,16 @@ package com.li.videoapplication.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -21,12 +25,14 @@ import com.ifeimo.im.framwork.Proxy;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.cache.RequestCache;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.event.PayNowEvent;
 import com.li.videoapplication.data.model.response.CoachListEntity;
 import com.li.videoapplication.data.model.response.ConfirmOrderEntity;
 import com.li.videoapplication.data.model.response.OrderTimeEntity;
+import com.li.videoapplication.data.model.response.PlayWithOrderDetailEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderOptionsEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderPriceEntity;
@@ -138,6 +144,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
     private String mCoachQQ;
 
+    private PlayWithOrderDetailEntity.CoachBean mCoachBean;
+
     private CoachListEntity.DataBean.IncludeBean mCoachEntity;
 
     private long mStartSecond;
@@ -158,8 +166,9 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             mCoachNickName = intent.getStringExtra("nick_name");
             mCoachAvatar = intent.getStringExtra("avatar");
             mCoachQQ = intent.getStringExtra("qq");
-
-          //  mCoachEntity = getIntent()
+            mCurrentOrderMode = intent.getIntExtra("order_mode",MODE_ORDER_NORMAL);
+            //只有在点击【继续选择TA】后会传递教练所有信息过来
+            mCoachBean  = (PlayWithOrderDetailEntity.CoachBean)intent.getSerializableExtra("coach_bean");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -246,6 +255,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             }
         });
 
+
+        refreshViewByMode();
     }
 
 
@@ -259,9 +270,35 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
      * 根据模式重新渲染UI
      */
     private void refreshViewByMode(){
+
         switch (mCurrentOrderMode){
             case MODE_ORDER_AGAIN:
+                if (mCoachBean == null){
+                    return;
+                }
+                findViewById(R.id.ll_order_status_root).setVisibility(View.GONE);
+                View layout = findViewById(R.id.rl_create_header_coach_info);
+                layout.setVisibility(View.VISIBLE);
+
+                final ImageView icon = (ImageView)layout.findViewById(R.id.civ_coach_detail_icon);
+                TextView nickName = (TextView)layout.findViewById(R.id.tv_coach_detail_nick_name);
+                TextView score = (TextView)layout.findViewById(R.id.tv_coach_detail_score);
+                RatingBar ratingBar = (RatingBar)layout.findViewById(R.id.rb_coach_detail_score);
+                score.setText(mCoachBean.getScore()+"分");
+                nickName.setText(mCoachBean.getNickname());
+
+                GlideHelper.displayImage(CreatePlayWithOrderActivity.this,mCoachBean.getAvatar(),icon);
+                try {
+                    ratingBar.setRating(Float.parseFloat(mCoachBean.getScore()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
+            case MODE_ORDER_GRAB:
+                TextView chat = (TextView) findViewById(R.id.tv_chat_with_coach);
+                chat.setVisibility(View.GONE);
+                break;
+
         }
     }
 
@@ -283,7 +320,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             try {
                 mOptions = gson.fromJson(data,PlayWithOrderOptionsEntity.class);
                 if (mOptions != null){
-                    refreshOptions();
+                    refreshOptions(true);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -291,7 +328,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         }
     }
 
-    private void refreshOptions(){
+    private void refreshOptions(boolean isByCache){
         refreshTimeText();
         if (mOptions == null){
             return;
@@ -348,8 +385,12 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             mNotice.setText(mOptions.getNotice());
         }
 
-        //更新订单价格
-        refreshOrderPrice();
+        //缓存数据 则不更新价格显示
+        if (!isByCache){
+            //更新订单价格
+            refreshOrderPrice();
+        }
+
     }
 
     @Override
@@ -781,7 +822,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                     mOptions.getGameLevelMap().get(mRankIndex).getValue(),
                     mOptions.getGameModeMap().get(mGameModeIndex).getValue(),
                     startTimeStr,
-                    Integer.parseInt(mGameCountList.get(mGameCountIndex)));
+                    Integer.parseInt(mGameCountList.get(mGameCountIndex)),
+                    mCurrentOrderMode == MODE_ORDER_GRAB ? 2:1);        //1 => 普通模式 2 => 抢单模式
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -904,7 +946,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     public void onEventMainThread(PlayWithOrderOptionsEntity entity){
         if (entity != null){
             mOptions = entity;
-            refreshOptions();
+            refreshOptions(false);
         }
     }
 
@@ -950,7 +992,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             ActivityManager.startPlayWithOrderDetailActivity(this,mOrderEntity.getOrder().getId()+"",PlayWithOrderDetailActivity.ROLE_OWNER,true);
 
             //更新优惠信息
-            refreshOptions();
+            refreshOptions(false);
 
         }else {
             if (entity != null){

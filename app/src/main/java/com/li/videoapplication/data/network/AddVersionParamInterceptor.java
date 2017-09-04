@@ -61,7 +61,7 @@ public class AddVersionParamInterceptor implements Interceptor {
             e.printStackTrace();
         }
 
-        if(response.code() == 200){
+        if(response !=  null && response.code() == 200){
             //.body().string()只能调用一次 ，因为是输入流 所以克隆一个新的response
             Response cloneResponse = response.newBuilder().build();
             ResponseBody cloneBody = cloneResponse.body();
@@ -115,7 +115,6 @@ public class AddVersionParamInterceptor implements Interceptor {
                 }
             }else {
                 mAccessTokenIsOverDue = false;
-
             }
         }
         return response;

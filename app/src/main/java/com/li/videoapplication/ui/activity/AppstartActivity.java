@@ -19,6 +19,7 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.fragment.BannerFragment;
 import com.li.videoapplication.ui.fragment.SplashFragment;
@@ -84,6 +85,8 @@ public class AppstartActivity extends TBaseActivity {
         MainActivity mainActivity = AppManager.getInstance().getMainActivity();
         firstSetup = NormalPreferences.getInstance().getBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, true);
 
+        //FIXME
+        firstSetup = true;
 
         if (mainActivity != null) {
             ActivityManager.startMainActivityBottom(this);
@@ -206,7 +209,10 @@ public class AppstartActivity extends TBaseActivity {
             if (StringUtil.isNull(channel)){
                 channel="default_channel";
             }
-            //channel id
+
+            MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(this,"5450f180fd98c5a66902c674",channel);
+            MobclickAgent.startWithConfigure(config);
+          /*  //channel id
             Object configObject = configClass.newInstance();
             Method setChannelId = configClass.getDeclaredMethod("setChannel",String.class);
             setChannelId.setAccessible(true);
@@ -214,11 +220,13 @@ public class AppstartActivity extends TBaseActivity {
             //key
             Method setAppKey = configClass.getDeclaredMethod("setAppkey",new Class[]{Context.class,String.class});
             setAppKey.setAccessible(true);
-            setAppKey.invoke(configObject,new Object[]{this,"5450f180fd98c5a66902c674"});
-        } catch (NoSuchMethodException e) {
+            setAppKey.invoke(configObject,new Object[]{this,"5450f180fd98c5a66902c674"});*/
+       /* } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }catch (IllegalAccessException e){
-            e.printStackTrace();
+            e.printStackTrace();*/
+          //  ToastHelper.l(AnalyticsConfig.getChannel(this));
+
         }catch (Exception e){
             e.printStackTrace();
         }

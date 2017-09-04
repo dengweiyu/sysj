@@ -16,6 +16,7 @@ import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.event.RefreshOrderDetailEvent;
 import com.li.videoapplication.data.model.response.CoachSignEntity;
+import com.li.videoapplication.data.model.response.GrabPlayWithOrderEntity;
 import com.li.videoapplication.data.model.response.PlayWithTakeOrderEntity;
 import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.framework.TBaseFragment;
@@ -23,6 +24,7 @@ import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.WebActivityJS;
 import com.li.videoapplication.ui.adapter.PlayWithTakeOrderAdapter;
+import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.ui.view.SimpleItemDecoration;
 import com.li.videoapplication.ui.view.SpanItemDecoration;
 import com.li.videoapplication.utils.ScreenUtil;
@@ -50,6 +52,8 @@ public class PlayWithTakeOrderListFragment extends TBaseFragment implements View
     private int mPage = 1;
 
     private static int mStatus = 3;     //1=>在线  2=>游戏中 3=>离线
+
+    private LoadingDialog mLoadingDialog ;
     @Override
     protected int getCreateView() {
         return R.layout.fragment_play_with_take_order;
@@ -85,7 +89,9 @@ public class PlayWithTakeOrderListFragment extends TBaseFragment implements View
         mList = (RecyclerView)view.findViewById(R.id.rv_play_with_take_order);
         mData = new ArrayList<>();
         //接单列表都是自己的订单 因此角色的教练
-        mAdapter = new PlayWithTakeOrderAdapter(getMember_id(),"",getMember_id(),mData);
+        mLoadingDialog = new LoadingDialog(getActivity());
+        mLoadingDialog.setProgressText("抢单中..");
+        mAdapter = new PlayWithTakeOrderAdapter(getMember_id(),mData,mLoadingDialog);
         mAdapter.setEnableLoadMore(false);
 
 
@@ -229,6 +235,29 @@ public class PlayWithTakeOrderListFragment extends TBaseFragment implements View
             }
         }
     }
+
+    /**
+     * 抢单结果
+     */
+    public void onEventMainThread(GrabPlayWithOrderEntity entity){
+        if (mLoadingDialog != null){
+            mLoadingDialog.dismiss();
+        }
+        if (entity.isResult()){
+            ToastHelper.l("恭喜您！抢单成功啦~");
+        }else {
+            if (entity.getCode() == 20003){
+                ToastHelper.l("哎呀，订单已被抢~");
+            }else {
+                ToastHelper.l("出现错误~请重试");
+            }
+        }
+
+        mRefresh.setRefreshing(true);
+        onRefresh();
+    }
+
+
 
     /**
      * 网络错误

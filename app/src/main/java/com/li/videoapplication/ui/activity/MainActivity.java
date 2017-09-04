@@ -164,7 +164,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private HomeFragment home;
     private DiscoverFragment discover;
     private GameFragment game;
-    private PlayWithFragment playWithFragment;
+    public PlayWithFragment playWithFragment;
 
     private Fragment context;
     private SliderFragment slider;
@@ -785,7 +785,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         fragments.add(playWithFragment);
         viewPager = (ViewPagerY4) findViewById(R.id.pager);
         viewPager.setScrollable(true);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(1);
         adapter = new WelfarePagerAdapter(manager, fragments);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(this);

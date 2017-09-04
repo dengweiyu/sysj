@@ -93,7 +93,7 @@ public class CommentPlayWithOrderActivity extends TBaseAppCompatActivity impleme
             }
         });
 
-        findViewById(R.id.iv_coach_info_go).setVisibility(View.GONE);
+
         findViewById(R.id.tv_commit_comment).setOnClickListener(this);
         final ImageView icon = (ImageView)findViewById(R.id.civ_coach_detail_icon);
         GlideHelper.displayImageWhite(this,mAvatar,icon);

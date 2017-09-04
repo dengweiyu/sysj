@@ -25,13 +25,13 @@ public class ConfirmDoneDialog extends BaseDialog implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        findViewById(R.id.tv_confirm).setOnClickListener(this);
+        findViewById(R.id.ll_confirm).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.tv_confirm:
+            case R.id.ll_confirm:
                 dismiss();
                 break;
         }

@@ -54,6 +54,8 @@ public class DownloadManagerActivity extends TBaseAppCompatActivity implements V
     private LaunchImage entity;
 
     private String gameId;
+    private String mLocation;
+    private String mInvolveId;
     @Override
     public void refreshIntent() {
         super.refreshIntent();
@@ -63,6 +65,8 @@ public class DownloadManagerActivity extends TBaseAppCompatActivity implements V
             entity = (LaunchImage)intent.getSerializableExtra("entity");
             gameId = intent.getStringExtra("game_id");
 
+            mLocation = intent.getStringExtra("location");
+            mInvolveId = intent.getStringExtra("involve_Id");
             getGameDownloadInfo();
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,6 +89,9 @@ public class DownloadManagerActivity extends TBaseAppCompatActivity implements V
         super.onNewIntent(intent);
         setIntent(intent);
         gameId = getIntent().getStringExtra("game_id");
+
+        mLocation = intent.getStringExtra("location");
+        mInvolveId = intent.getStringExtra("involve_Id");
         getGameDownloadInfo();
     }
 
@@ -111,10 +118,10 @@ public class DownloadManagerActivity extends TBaseAppCompatActivity implements V
         //从数据库还原游戏下载列表
         data1st.addAll(FileDownloaderManager.findByMark("1"));
 
-        adapter1st = new DownloadManagerAdapter(data1st);
+        adapter1st = new DownloadManagerAdapter(getMember_id(),data1st);
         recyclerView1st.setAdapter(adapter1st);
 
-        adapter2nd = new DownloadManagerAdapter(data2nd);
+        adapter2nd = new DownloadManagerAdapter(getMember_id(),data2nd);
         recyclerView2nd.setAdapter(adapter2nd);
 
     }
@@ -207,6 +214,10 @@ public class DownloadManagerActivity extends TBaseAppCompatActivity implements V
         entity.setFileUrl(info.getA_download_url());
         entity.setMark(info.getMark());
         entity.setDownloadSize(0L);
+
+        //用于下载统计
+        entity.setLocation(mLocation);
+        entity.setInvolve_Id(mInvolveId);
         if (data1st != null){
             //加入数据库 并开始下载
             try {
@@ -224,7 +235,15 @@ public class DownloadManagerActivity extends TBaseAppCompatActivity implements V
                         Log.e("DownloadManager","下载信息保存失败");
                     }
                 }else {
-                    entity = dbEntity;
+                    if (!StringUtil.isNull(entity.getA_download_url()) && !StringUtil.isNull(dbEntity.getA_download_url())){
+                        //url 不一致会导致重新下载
+                        if (entity.getA_download_url().equals(dbEntity.getA_download_url())){
+                            entity = dbEntity;
+                        }else {
+                            //删除旧的下载
+                            FileDownloaderManager.deleteByFileUrl(dbEntity.getA_download_url());
+                        }
+                    }
                 }
                 DownLoadManager.getInstance().addDownloader(entity,true,adapter1st);
             } catch (Exception e) {

@@ -1,10 +1,13 @@
 package com.li.videoapplication.ui.fragment;
 
 import android.app.Activity;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -32,6 +35,7 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
+import com.li.videoapplication.ui.activity.CreatePlayWithOrderActivity;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.adapter.CoachLisAdapter;
 import com.li.videoapplication.ui.view.SpanItemDecoration;
@@ -46,10 +50,11 @@ import java.util.List;
  * 教练列表
  */
 
-public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.RequestLoadMoreListener {
+public class CoachListFragment extends TBaseFragment implements
+        SwipeRefreshLayout.OnRefreshListener,
+        BaseQuickAdapter.RequestLoadMoreListener ,
+        View.OnClickListener{
     private final long TICK_DELAY = 40000;
-
-
     private SwipeRefreshLayout mRefresh;
     private RecyclerView mList;
     private CoachLisAdapter mAdapter;
@@ -59,16 +64,13 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
 
     private TextView mDiscount;
 
-    private RecyclerView.ItemDecoration mItemDecoration;
-
-    private RecyclerView.ItemDecoration mBottomDecoration;
-
     private MainActivity mActivity;
 
-    /*private float mOffset = 0f;
+    private float mOffset = 0f;
     private float mStartOffset = 0f;
     private float mLastDy = 0f;
-    private boolean mIsShowMenu = true;*/
+    private boolean mIsShowMenu = true;
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -85,6 +87,9 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
 
     @Override
     protected void initContentView(View view) {
+
+        view.findViewById(R.id.tv_create_order_shortcut).setOnClickListener(this);
+
         mList = (RecyclerView) view.findViewById(R.id.rv_coach_list);
         mDiscount = (TextView) view.findViewById(R.id.tv_discount_top);
         mRefresh = (SwipeRefreshLayout)view.findViewById(R.id.srl_coach_refresh_layout);
@@ -93,8 +98,46 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
                 android.R.color.holo_orange_light, android.R.color.holo_red_light);
         mData = new ArrayList<>();
         mAdapter = new CoachLisAdapter(getActivity(),mData);
-        mList.setLayoutManager(new LinearLayoutManager(getContext()));
-       // mList.addItemDecoration(new SpanSingleDecoration(ScreenUtil.dp2px(52),false,false,true,false,0));
+        mList.setLayoutManager(new GridLayoutManager(getActivity(),2));
+
+        mList.addItemDecoration(new SpanItemDecoration(ScreenUtil.dp2px(10),true,true,false,true){
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                int position =  parent.getChildAdapterPosition(view);
+                if (position % 2 == 0){
+                    super.getItemOffsets(outRect, view, parent, state);
+                }else {
+                    outRect.right = mMargin;
+                    outRect.bottom = mMargin;
+                }
+            }
+        });
+
+
+
+        mList.addItemDecoration(new SpanItemDecoration(ScreenUtil.dp2px(10),false,false,false,false){
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                int position =  parent.getChildAdapterPosition(view);
+                switch (position){
+                    case 0:
+                        if (mDiscount.getVisibility() == View.VISIBLE){
+                            outRect.top = ScreenUtil.dp2px(62);
+                        }else {
+                            outRect.top = ScreenUtil.dp2px(62);
+                        }
+                        break;
+                    case 1:
+                        if (mDiscount.getVisibility() == View.VISIBLE){
+                            outRect.top = ScreenUtil.dp2px(62);
+                        }else {
+                            outRect.top = ScreenUtil.dp2px(62);
+                        }
+                        break;
+                }
+            }
+        });
+
         mList.setAdapter(mAdapter);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         mAdapter.setEnableLoadMore(false);
@@ -113,7 +156,7 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
         });
 
 
-    /*    mList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -125,7 +168,7 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                System.out.println("dy:"+dy+" mOffset:"+mOffset+" mStartOffset:"+mStartOffset+" mIsShowMenu:"+mIsShowMenu);
+             //   System.out.println("dy:"+dy+" mOffset:"+mOffset+" mStartOffset:"+mStartOffset+" mIsShowMenu:"+mIsShowMenu);
                 if (mLastDy > 0 && dy < 0 || mLastDy < 0 && dy >0){
                     mStartOffset = mOffset;
                 }
@@ -136,7 +179,6 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
                     if (mActivity != null){
                         mIsShowMenu = false;
                         mActivity.refreshBottomMenu(false);
-
                         mStartOffset = mOffset;
                     }
                 } else if (mOffset - mStartOffset < -ScreenUtil.dp2px(5) && !mIsShowMenu) {
@@ -148,7 +190,7 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
                     }
                 }
             }
-        });*/
+        });
 
         loadData(mPage);
     }
@@ -162,6 +204,16 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
 
     private void loadData(int page){
         DataManager.getCoachList(page,false);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_create_order_shortcut:
+                ActivityManager.startCreatePlayWithOrderActivity(getActivity(), CreatePlayWithOrderActivity.MODE_ORDER_GRAB,null,null,null,null);
+                break;
+        }
     }
 
     @Override
@@ -241,21 +293,9 @@ public class CoachListFragment extends TBaseFragment implements SwipeRefreshLayo
 
             if (StringUtil.isNull(entity.getNotice())){
                 mDiscount.setVisibility(View.GONE);
-
-                mList.removeItemDecoration(mBottomDecoration);
-                mList.removeItemDecoration(mItemDecoration);
-                mItemDecoration = new SpanItemDecoration(ScreenUtil.dp2px(10),true,true,true,false);
-                mBottomDecoration = new SpanSingleDecoration(ScreenUtil.dp2px(10),false,false,false,true,entity.getData().getInclude().size() -1);
-                mList.addItemDecoration(mItemDecoration);
-                mList.addItemDecoration(mBottomDecoration);
             }else {
                 mDiscount.setVisibility(View.VISIBLE);
                 mDiscount.setText(entity.getNotice());
-
-                mList.removeItemDecoration(mBottomDecoration);
-                mList.removeItemDecoration(mItemDecoration);
-                mItemDecoration = new SpanItemDecoration(ScreenUtil.dp2px(10),true,true,false,true);
-                mList.addItemDecoration(mItemDecoration);
             }
         }else {
             ToastHelper.s("暂无陪练大神哦~");

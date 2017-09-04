@@ -134,6 +134,7 @@
     <color name="activity_main_bg">#f3f3f3</color>
     <color name="activity_main_normal">#ffffff</color>
     <color name="activity_main_pressed">#e6e6e6</color>
+    <color name="activity_choice_focus_game_bg">#ff3f3f</color>
 
     <!--###########################-->
     
@@ -197,4 +198,10 @@
     <color name="clickcolor">#3b74c7</color>
     <color name="otherbule">#4d82d2</color>
 
+
+    <color name="color_333333">#333333</color>
+    <color name="color_444444">#444444</color>
+    <color name="color_555555">#555555</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_999999">#999999</color>
 </resources>

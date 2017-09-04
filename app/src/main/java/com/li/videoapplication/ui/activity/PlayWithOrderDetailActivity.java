@@ -1,11 +1,22 @@
 package com.li.videoapplication.ui.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.SystemClock;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.widget.Chronometer;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -22,11 +33,13 @@ import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.event.PayNowEvent;
 import com.li.videoapplication.data.model.event.RefreshOrderDetailEvent;
+import com.li.videoapplication.data.model.response.CancelPlayWithOrderEntity;
 import com.li.videoapplication.data.model.response.CoachConfirmRefundEntity;
 import com.li.videoapplication.data.model.response.ConfirmOrderDoneEntity;
 import com.li.videoapplication.data.model.response.ConfirmOrderEntity;
 import com.li.videoapplication.data.model.response.ConfirmTakeOrderEntity;
 import com.li.videoapplication.data.model.response.CustomerInfoEntity;
+import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderDetailEntity;
 import com.li.videoapplication.data.model.response.PlayWithTakeOrderEntity;
 import com.li.videoapplication.data.network.RequestParams;
@@ -37,14 +50,19 @@ import com.li.videoapplication.interfaces.IShowDialogListener;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.ui.dialog.ConfirmDialog;
 import com.li.videoapplication.ui.dialog.ConfirmPlayWithDialog;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.ui.dialog.OrderMoreOperationDialog;
 import com.li.videoapplication.ui.fragment.PlayWithOrderDetailFragment;
 import com.li.videoapplication.ui.view.OrderOperationView;
 import com.li.videoapplication.utils.StringUtil;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import io.rong.eventbus.EventBus;
 
@@ -66,11 +84,7 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
 
     private  CustomerInfoEntity mCustomerEntity;
 
-    private int mCommentCount;
-
     private OrderMoreOperationDialog mMoreDialog;
-
-    private ConfirmPlayWithDialog mConfirmDialog;
 
     private LoadingDialog mLoadingDialog ;
 
@@ -80,6 +94,18 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
     private int mRole;
 
     private boolean mIsShowCoach = true;
+
+    private View mTickerRoot;
+
+    private Chronometer mTicker;
+
+    private TextView mCancelOrder;
+
+    private ImageView mRadar;
+
+    private TextView mTickerTip;
+
+    private RotateAnimation mRadarAnimation;
     public static int getRole(String memberId,String userId,String coachId){
         if (StringUtil.isNull(memberId) || StringUtil.isNull(userId) || StringUtil.isNull(coachId)){
             return -1;
@@ -153,8 +179,24 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
         findViewById(R.id.iv_more_operation).setOnClickListener(mListener);
     }
 
+    /**
+     * 订单详情 fragment
+     */
     private void showOrderFragment(PlayWithOrderDetailEntity entity){
         mFragment = PlayWithOrderDetailFragment.newInstance(entity,mIsShowCoach);
+
+        if (entity.getCoach() == null && "2".equals(entity.getData().getOrder_mode())){
+            mFragment.addViewGone(R.id.ll_coach_info);
+            if (entity.getData().getStatusX().equals("2") || entity.getData().getStatusX().equals("14")){
+                startTickView(true);
+            }else {
+                startTickView(false);
+            }
+
+        }else {
+            startTickView(false);
+        }
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.rl_play_with_detail_fragment,mFragment)
@@ -163,6 +205,9 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
         initComment(entity);
     }
 
+    /**
+     *底部两个操作按钮
+     */
     private void initOperationView(PlayWithOrderDetailEntity entity){
         if (entity != null && entity.isResult()){
             mOperationView.refreshOrder(entity,mRole);
@@ -179,6 +224,26 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
         }
     }
 
+    /**
+     * 继续选择TA
+     */
+    public void choiceAgain(View source){
+
+        if (mOrderDetail == null || mOrderDetail.getCoach() == null){
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass( this, CreatePlayWithOrderActivity.class);
+        intent.putExtra("order_mode",CreatePlayWithOrderActivity.MODE_ORDER_AGAIN);
+        intent.putExtra("coach_bean",mOrderDetail.getCoach());
+        startActivity(intent);
+    }
+
+    /**
+     * 评论item
+     *
+     * @param entity
+     */
     private void initComment(PlayWithOrderDetailEntity entity){
         if(mRole == ROLE_COACH){
             if (entity.getData() != null && entity.getData().getEvaluate() != null){
@@ -199,14 +264,83 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
         }
     }
 
+    /**
+     * 启动计时
+     */
+    public void startTickView(boolean isShow){
+        mTickerRoot = findViewById(R.id.ll_grab_ticker);
+        if (isShow){
+            mTickerRoot.setVisibility(View.VISIBLE);
+            mTicker = (Chronometer) findViewById(R.id.ct_ticker);
+            mCancelOrder = (TextView ) findViewById(R.id.tv_cancel_order);
+            mRadar = (ImageView)findViewById(R.id.iv_radar);
+            mTickerTip = (TextView)findViewById(R.id.tv_grab_order_tip);
+
+            mCancelOrder.setOnClickListener(mListener);
+            if(mOrderDetail != null){
+                try {
+                    int waitingTime =Integer.parseInt( mOrderDetail.getWaitingTime());
+                    //SystemClock.elapsedRealtime() 为系统启动后的运行时间 Chronometer定时计算公式：long seconds = mCountDown ? mBase - SystemClock.elapsedRealtime() : SystemClock.elapsedRealtime() - mBase;
+                    long t = SystemClock.elapsedRealtime() - waitingTime*1000;
+                    mTicker.setBase(t);
+                    mTicker.start();
+
+                    mRadarAnimation = new RotateAnimation(0,360, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+                    mRadarAnimation.setFillAfter(true);
+                    mRadarAnimation.setDuration(500);
+                    mRadarAnimation.setRepeatCount(-1);
+                    mRadarAnimation.setInterpolator(new LinearInterpolator());
+
+
+                    if(mOrderDetail.getData().getStatusX().equals("14")){
+                        mTicker.stop();
+                        mRadarAnimation.cancel();
+                        mTickerTip.setText("目前陪练正忙，系统给您自动退款人工客服会为您尽快安排客服");
+                        mRadar.setVisibility(View.INVISIBLE);
+
+                        mCancelOrder.setText("派单失败");
+                        mCancelOrder.setTextColor(getResources().getColor(R.color.ab_backdround_red));
+
+                        mCancelOrder.setBackground(null);
+
+                        findViewById(R.id.iv_radar_bg).setVisibility(View.INVISIBLE);
+
+                    }else {
+                        mTicker.start();
+                        mRadar.startAnimation(mRadarAnimation);
+                        mRadar.setVisibility(View.VISIBLE);
+                        mTickerTip.setText("系统正在派单，请耐心等待");
+
+                        mCancelOrder.setText("取消订单");
+                        mCancelOrder.setTextColor(Color.parseColor("#595858"));
+                        mCancelOrder.setBackgroundResource(R.drawable.cancel_play_with_order_bg);
+
+                        findViewById(R.id.iv_radar_bg).setVisibility(View.VISIBLE);
+
+                    }
+
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+        }else {
+            mTickerRoot.setVisibility(View.GONE);
+            if (mTicker != null){
+                mTicker.stop();
+            }
+            if (mRadar != null && mRadarAnimation != null){
+                mRadarAnimation.cancel();
+            }
+        }
+    }
+
+    /**
+     *
+     */
     final View.OnClickListener mListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.tv_chat_with_coach){
-
-            }else if(v.getId() == R.id.tv_coach_selected){
-
-            }else if (v.getId() == R.id.tb_back){
+           if (v.getId() == R.id.tb_back){
                 finish();
             }else if (v.getId() == R.id.iv_more_operation){             //省略号
 
@@ -218,20 +352,67 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
                             changeWindowAlpha(1f);
                         }
                     });
+
+                    //抢单模式下取消订单 需要确认
+                    mMoreDialog.setCancelListener(new OrderMoreOperationDialog.CancelListener() {
+                        @Override
+                        public void onCancelOrder() {
+                            showCancelConfirmDialog();
+                        }
+                    });
                 }
                 mMoreDialog.setCustomerEntity(mCustomerEntity);
                 mMoreDialog.setOrderDetail(mOrderDetail);
                 mMoreDialog.show();
                 changeWindowAlpha(0.5f);
+            }else if(v.getId() == R.id.tv_cancel_order){                //取消订单
+               showCancelConfirmDialog();
             }
         }
     };
 
 
+    /**
+     *更改透明度 出现阴影
+     */
     private void changeWindowAlpha(float scale){
         WindowManager.LayoutParams params = PlayWithOrderDetailActivity.this.getWindow().getAttributes();
         params.alpha = scale;
         PlayWithOrderDetailActivity.this.getWindow().setAttributes(params);
+    }
+
+    /**
+     * 确认取消订单 对话框
+     */
+    private void showCancelConfirmDialog(){
+
+        Dialog dialog = new ConfirmDialog(PlayWithOrderDetailActivity.this,"陪练正飞速赶来的路上", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.tv_confirm_dialog_yes:
+                        //
+                        if (mLoadingDialog != null){
+                            mLoadingDialog.show();
+                        }
+                        DataManager.cancelPlayWithOrder(getMember_id(),mOrderId);
+
+                        if (mMoreDialog != null){
+                            if (mMoreDialog.isShowing()){
+                                mMoreDialog.dismiss();
+                            }
+                        }
+                        break;
+                }
+            }
+        });
+        TextView yes = (TextView) dialog.findViewById(R.id.tv_confirm_dialog_yes);
+        TextView no = (TextView) dialog.findViewById(R.id.tv_confirm_dialog_no);
+        yes.setText("依然取消");
+        no.setText("再等等");
+        no.setTextColor(getResources().getColor(R.color.menu_main_red));
+        dialog.show();
+
     }
 
     /**
@@ -302,11 +483,6 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
             ToastHelper.s(entity.getMsg());
             if (mLoadingDialog.isShowing()){
                 mLoadingDialog.dismiss();
-            }
-            if (mConfirmDialog != null){
-                if (mConfirmDialog.isShowing()){
-                    mConfirmDialog.dismiss();
-                }
             }
         }
     }
@@ -381,6 +557,29 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
         }else {
             ToastHelper.s(entity.getMsg());
             mLoadingDialog.dismiss();
+        }
+    }
+
+    /**
+     * 取消订单结果
+     */
+    public void onEventMainThread(CancelPlayWithOrderEntity entity){
+        if (mLoadingDialog != null){
+            mLoadingDialog.dismiss();
+        }
+        if (entity.isResult()){
+            ToastHelper.s("您已成功取消该陪练订单~");
+            //
+            EventBus.getDefault().post(new RefreshOrderDetailEvent(
+                    mOrderDetail.getData().getOrder_id(),
+                    mOrderDetail.getData().getStatusX(),
+                    mOrderDetail.getData().getStatusText()));
+            //取消雷达与计时器
+            startTickView(false);
+        }else {
+            if (entity.getMsg() != null){
+                ToastHelper.s(entity.getMsg());
+            }
         }
     }
 }

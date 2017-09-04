@@ -44,7 +44,30 @@
                 android:textSize="12sp"/>
 
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_popup_play_with_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
 
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/home_play_with"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="找陪练"
+                android:textColor="#525252"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_popup_square_layout"
             android:layout_width="wrap_content"

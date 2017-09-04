@@ -126,10 +126,25 @@ android {
          */
         buildConfigField "String", "TINKER_ID", "\"${getTinkerIdValue()}\""
         buildConfigField "String", "PLATFORM",  "\"all\""
+
+
+        //测试环境 暂时不要用
+        buildConfigField("String", "ip", "\"192.168.48.9\"")
+        buildConfigField("String", "port", "\"233\"")
+        buildConfigField("String", "rootDir", "\"\"")
+
+     /*   buildConfigField("String", "ip", "\"apps.ifeimo.com\"")
+        buildConfigField("String", "port", "\"\"")
+        buildConfigField("String", "rootDir", "\"\"")*/
     }
 
     buildTypes {
         release {
+            //正式环境
+            buildConfigField("String", "ip", "\"apps.ifeimo.com\"")
+            buildConfigField("String", "port", "\"\"")
+            buildConfigField("String", "rootDir", "\"\"")
+
             // 是否进行混淆
             minifyEnabled false
             shrinkResources false

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/ll_square_item_root"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="120dp"
+              android:layout_margin="5dp">
+
+    <LinearLayout
+        android:id="@+id/ll_choice_game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+    <com.li.videoapplication.views.RoundedImageView
+        android:id="@+id/iv_square_game_icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        app:riv_border_color="#ffffff"
+        app:riv_border_width="0dp"
+        app:riv_corner_radius="4dp"
+        android:scaleType="fitXY"
+        app:riv_oval="false"/>
+    <TextView
+        android:id="@+id/tv_game_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="@dimen/activity_title_size_12sp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="王者荣耀" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignRight="@+id/ll_choice_game"
+        android:layout_alignTop="@+id/ll_choice_game"
+        android:layout_marginRight="-8dp"
+        android:layout_marginTop="-8dp"
+        android:src="@drawable/choice_red"/>
+</RelativeLayout>

@@ -119,6 +119,11 @@ public class RefundApplyActivity extends TBaseAppCompatActivity implements View.
             mFragment = PlayWithOrderDetailFragment.newInstance(entity,true);
         }
         mFragment.addViewGone(R.id.ll_order_status_root);
+
+     /*   if(){
+
+        }*/
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.rl_play_with_detail_fragment,mFragment)

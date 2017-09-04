@@ -49,7 +49,99 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></RelativeLayout>
 
-        <android.support.v7.widget.CardView
+        <LinearLayout
+            android:id="@+id/ll_grab_ticker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="10dp"
+            android:background="@color/white">
+            <LinearLayout
+                android:id="@+id/ll_ticker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerHorizontal="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#939292"
+                android:text="等待时间"
+                android:layout_gravity="center"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+            <Chronometer
+                android:id="@+id/ct_ticker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#595858"
+
+                android:layout_gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:textSize="30sp"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_cancel_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:textSize="10sp"
+                android:layout_alignBottom="@+id/ll_ticker"
+                android:layout_marginBottom="4dp"
+                android:textColor="#595858"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/cancel_play_with_order_bg"
+                android:text="取消订单"/>
+        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp">
+                <ImageView
+                    android:id="@+id/iv_radar_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/radar_bg"/>
+
+                <ImageView
+                    android:id="@+id/iv_radar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/radar"/>
+
+                <TextView
+                    android:id="@+id/tv_grab_order_tip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="12sp"
+                    android:textColor="@color/ab_backdround_red"
+                    android:layout_below="@+id/iv_radar_bg"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="64dp"
+                    android:layout_marginRight="64dp"
+                    android:text="系统正在派单，请耐心等待"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+            <android.support.v7.widget.CardView
             android:id="@+id/cv_order_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -111,7 +203,6 @@
                     android:layout_marginBottom="16dp"
                     />
             </LinearLayout>
-
         </android.support.v7.widget.CardView>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

@@ -41,7 +41,6 @@
                 android:gravity="center"
                 android:background="@drawable/create_order_shortcut"
                 android:textColor="@color/white"
-                android:visibility="gone"
                 android:text="系统匹配陪练"/>
         </android.support.v7.widget.CardView>
     <android.support.v7.widget.RecyclerView

@@ -19,9 +19,6 @@ public class RequestParams {
     private static final int A_SYSJ = 2;
     private static final String SYSJ = "a_sysj";
 
-    public static String sAccessToken = "";
-
-    public static String sRefreshToken = "";
 
     public RequestParams() {
         super();
@@ -2175,7 +2172,7 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> createPlayWithOrder(String memberId,String coachId,int server,int rank,int mode,String time,int count) {
+    public Map<String, Object> createPlayWithOrder(String memberId,String coachId,int server,int rank,int mode,String time,int count,int orderMode) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", memberId);
         map.put("coach_id",coachId);
@@ -2185,6 +2182,7 @@ public class RequestParams {
         map.put("start_time",time);
         map.put("inning",count);
         map.put("target",SYSJ);
+        map.put("order_mode",orderMode);
         map.put("access_token", AppAccount.getAccessToken());
         return map;
     }
@@ -2392,6 +2390,25 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<>();
         map.put("access_token", accessToken);
         map.put("refresh_token", refreshToken);
+        return map;
+    }
+
+
+    public Map<String, Object>  grabPlayWithOrder(String memberId,String orderId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("order_id",orderId);
+        map.put("access_token", AppAccount.getAccessToken());
+
+        return map;
+    }
+
+    public Map<String, Object>  downloadSuccess(String memberId,String gameId,String location,String involveId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("game_id",gameId);
+        map.put("location", location);
+        map.put("involve_id", involveId);
         return map;
     }
 }

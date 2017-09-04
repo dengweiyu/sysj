@@ -50,7 +50,8 @@ public class FileDownloaderEntity extends BaseEntity {
     public final static String A_DOWNLOAD_URL = "a_download_url";
     public final static String I_DOWNLOAD_URL = "i_download_url";
     public final static String MARK = "mark";
-
+    public final static String LOCATION = "location";
+    public final static String INVOLVE_ID="involve_id";
     public final static int AD_LOCATION_ID_1 = 1;
     public final static int AD_LOCATION_ID_2 = 2;
     public final static int AD_LOCATION_ID_3 = 3;
@@ -110,6 +111,28 @@ public class FileDownloaderEntity extends BaseEntity {
 
     @Column(name = MARK)
     private String mark;
+
+    @Column(name = LOCATION)            //点击下载的位置 点击下载的位置（1=>游戏圈子、2=>视频页、3=>赛事、4=>启动图）
+    private String location;
+
+    @Column(name = INVOLVE_ID)
+    private String involve_Id;          //涉及ID，例如在哪个视频下点击的，记录的就是该视频的ID，或是赛事ID、圈子ID
+
+    public String getInvolve_Id() {
+        return involve_Id;
+    }
+
+    public void setInvolve_Id(String involve_Id) {
+        this.involve_Id = involve_Id;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public String getMark() {
         return mark;

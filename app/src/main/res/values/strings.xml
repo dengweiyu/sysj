@@ -309,6 +309,12 @@
     <string name="about_privacy">隐私及免责声明</string>
     <string name="about_feekback">意见及反馈</string>
 
+    <string name="vip">VIP</string>
+    <string name="vip1">VIP 1</string>
+    <string name="vip2">VIP 2</string>
+    <string name="vip3">VIP 3</string>
+
+
     <string-array name="about_title">
         <item>新功能介绍</item>
         <item>官方网站</item>

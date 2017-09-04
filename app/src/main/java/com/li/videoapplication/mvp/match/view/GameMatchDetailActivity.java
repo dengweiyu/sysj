@@ -119,7 +119,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
             overridePendingTransition(R.anim.activity_hold, R.anim.activity_hold);*/
-            ActivityManager.startDownloadManagerActivity(this,match.getGame_id());
+            ActivityManager.startDownloadManagerActivity(this,match.getGame_id(),"3",match.getGame_id());
             // 游戏下载数+1
             DataManager.downloadClick217(match.getGame_id(), getMember_id(),
                     Constant.DOWNLOAD_LOCATION_MATCH, event_id);

@@ -14,7 +14,7 @@ public class SpanItemDecoration extends  RecyclerView.ItemDecoration {
     private boolean mIsTop;
     private boolean mIsBottom;
 
-    private int mMargin;
+    protected int mMargin;
     public SpanItemDecoration(int margin,boolean isLeft, boolean isRight, boolean isTop, boolean isBottom) {
         super();
         this.mIsLeft = isLeft;

@@ -225,7 +225,7 @@ public class GiftDetailActivity extends TBaseActivity implements OnClickListener
                     showToastShort("暂无此游戏哦~");
                     return;
                 }
-                ActivityManager.startDownloadManagerActivity(this,item.getGame_id());
+                ActivityManager.startDownloadManagerActivity(this,item.getGame_id(),"6",item.getGame_id());
                 break;
         }
     }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.database.FileDownloaderEntity;
 import com.li.videoapplication.data.download.DownLoadListener;
 import com.li.videoapplication.data.download.DownLoadManager;
@@ -44,10 +45,12 @@ public class DownloadManagerAdapter extends BaseQuickAdapter<FileDownloaderEntit
     private boolean isProgress = false;
 
     private Map<String,Integer> lastProgress;
-    public DownloadManagerAdapter(List<FileDownloaderEntity> data) {
+    private String mMemberId;
+    public DownloadManagerAdapter(String memberId,List<FileDownloaderEntity> data) {
         super(R.layout.adapter_downloadmanager, data);
         helper = new TextImageHelper();
         lastProgress = new HashMap<>();
+        mMemberId = memberId;
 
         for (FileDownloaderEntity e:
              data) {
@@ -354,6 +357,8 @@ public class DownloadManagerAdapter extends BaseQuickAdapter<FileDownloaderEntit
                 notifyDataSetChanged();
                 //安装
                 ApkUtil.installApp(mContext, entity.getFilePath());
+                //统计下载成功的量
+                DataManager.downloadSuccess(mMemberId == null?"":mMemberId,entity.getGame_id(),entity.getLocation(),entity.getInvolve_Id());
                 break;
             }
         }

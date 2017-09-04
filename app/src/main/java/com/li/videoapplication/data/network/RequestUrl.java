@@ -1,5 +1,7 @@
 package com.li.videoapplication.data.network;
 
+import com.li.videoapplication.framework.AppConstant;
+
 /**
  * 功能：网络请求地址
  */
@@ -24,11 +26,11 @@ public class RequestUrl {
 
 	/* ############## 域名 ############## */
 
-    public String BaseHome = "http://apps.ifeimo.com/home";
+    public String BaseHome = String.format(AppConstant.FORMAT,AppConstant.IP,AppConstant.PORT,AppConstant.ROOT_DIR)+"/home";
 
     //http://apps.ifeimo.com
     //https://sapp.17sysj.com
-    public String BaseSYSJ = "http://apps.ifeimo.com";
+    public String BaseSYSJ = String.format(AppConstant.FORMAT,AppConstant.IP,AppConstant.PORT,AppConstant.ROOT_DIR);
 
     public String SignSYSJ = "http://17sysj.com";
 
@@ -2364,7 +2366,7 @@ public class RequestUrl {
      *查询接单列表
      */
     public final String getPlayWithTakeOrder(){
-        return BaseSYSJ+"/Sysj222/TrainingOrder/receiveOrders";
+        return BaseSYSJ+"/Sysj225/TrainingOrder/receiveOrders";
     }
 
 
@@ -2386,7 +2388,7 @@ public class RequestUrl {
      *确认
      */
     public final String confirmOrder(){
-        return BaseSYSJ+"/Sysj222/TrainingOrder/pay";
+        return BaseSYSJ+"/Sysj225/TrainingOrder/pay";
     }
 
     /**
@@ -2556,5 +2558,27 @@ public class RequestUrl {
      */
     public final String clearToken(){
         return BaseSYSJ+"/Sysj224/member/logout";
+    }
+
+    /**
+     * 抢单
+     */
+    public final String grabPlayWithOrder(){
+        return BaseSYSJ+"/Sysj225/TrainingOrder/grab";
+    }
+
+    /**
+     * 取消订单
+     */
+    public final String cancelPlayWithOrder(){
+        return BaseSYSJ+"/Sysj225/TrainingOrder/cancelOrder";
+    }
+
+
+    /**
+     * 下载成功统计
+     */
+    public final String downloadSuccess(){
+        return BaseSYSJ+"/Sysj225/DownloadGameStatistics/StatisticsDownloadGameSuccess";
     }
 }

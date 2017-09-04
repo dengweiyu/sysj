@@ -16,9 +16,9 @@ public class xUtilsDb {
     private final static String DATABASE_NAME = "video_capture.db";
 
     /**
-     * 数据库版本：V4（2.1.4）
+     * 数据库版本：V6（2.2.5）
      */
-    private final static int DATABASE_VERSION = 5;
+    private final static int DATABASE_VERSION = 6;
 
     private static final DbManager.DaoConfig CONFIG = new DbManager.DaoConfig()
             .setDbName(DATABASE_NAME)
@@ -45,6 +45,9 @@ public class xUtilsDb {
                     }else if (oldVersion == 4){
                         //V5增加游戏下载标识字段
                         addColumnMark(db);
+                    }else if (oldVersion == 5){
+                        //V6增加游戏下载标识字段
+                        addColumnLocation(db);
                     }
                 }
             });
@@ -122,6 +125,24 @@ public class xUtilsDb {
     private static void addColumnMark(DbManager db){
         try {
             db.addColumn(FileDownloaderEntity.class,FileDownloaderEntity.MARK);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 增加游戏下载成功后统计字段
+     */
+    private static void addColumnLocation(DbManager db){
+        try {
+            db.addColumn(FileDownloaderEntity.class,FileDownloaderEntity.LOCATION);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            db.addColumn(FileDownloaderEntity.class,FileDownloaderEntity.INVOLVE_ID);
         } catch (DbException e) {
             e.printStackTrace();
         }

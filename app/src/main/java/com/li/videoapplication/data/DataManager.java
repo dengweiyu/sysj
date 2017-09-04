@@ -3953,10 +3953,10 @@ public class DataManager {
     /**
      * 生成陪玩订单
      */
-    public static void createPlayWithOrder(String memberId,String coachId,int server,int rank,int mode,String time,int count){
+    public static void createPlayWithOrder(String memberId,String coachId,int server,int rank,int mode,String time,int count,int orderMode){
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().createPlayWithOrder();
-        Map<String, Object> params = RequestParams.getInstance().createPlayWithOrder(memberId,coachId,server,rank,mode,time,count);
+        Map<String, Object> params = RequestParams.getInstance().createPlayWithOrder(memberId,coachId,server,rank,mode,time,count,orderMode);
         RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
         request.setEntity(new PlayWithOrderEntity());
         helper.doNetwork(request);
@@ -4324,6 +4324,41 @@ public class DataManager {
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().clearToken();
         Map<String, Object> params = RequestParams.getInstance().clearToken(accessToken,refreshToken);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 抢单
+     */
+    public static void grabPlayWithOrder(String memberId,String orderId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().grabPlayWithOrder();
+        Map<String, Object> params = RequestParams.getInstance().grabPlayWithOrder(memberId,orderId);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new GrabPlayWithOrderEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 取消订单
+     */
+    public static void cancelPlayWithOrder(String memberId,String orderId){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().cancelPlayWithOrder();
+        Map<String, Object> params = RequestParams.getInstance().grabPlayWithOrder(memberId,orderId);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
+        request.setEntity(new CancelPlayWithOrderEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 下载成功后回调
+     */
+    public static void downloadSuccess(String memberId,String gameId,String location,String involveId ){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().downloadSuccess();
+        Map<String, Object> params = RequestParams.getInstance().downloadSuccess(memberId,gameId,location,involveId);
         RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
         helper.doNetwork(request);
     }

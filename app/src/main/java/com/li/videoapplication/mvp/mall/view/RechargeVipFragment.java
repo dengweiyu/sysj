@@ -3,13 +3,13 @@ package com.li.videoapplication.mvp.mall.view;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
@@ -18,10 +18,10 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.mall.model.MallModel;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
+import com.li.videoapplication.ui.adapter.RechargeVIPAdapter;
 import com.li.videoapplication.ui.adapter.VipCenterDurationAdapter;
-import com.li.videoapplication.ui.adapter.VipCenterInfoAdapter;
+
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.li.videoapplication.ui.dialog.VipSelectDialog;
 import com.li.videoapplication.ui.view.SpanItemDecoration;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.TextUtil;
@@ -42,10 +42,7 @@ public class RechargeVipFragment extends TBaseFragment implements View.OnClickLi
     private List<VipRechargeEntity.DataBean> mData = new ArrayList<>();
     private List<VipRechargeEntity.PackageMemuBean> mDurationData = new ArrayList<>();
 
-    private VipCenterInfoAdapter mAdapter;
     private VipCenterDurationAdapter mDurationAdapter;
-
-    private VipSelectDialog mSelectDialog;
 
     private int mSelected = 0;
 
@@ -53,6 +50,8 @@ public class RechargeVipFragment extends TBaseFragment implements View.OnClickLi
 
     private TextView mPrice;
     private TextView mOriginalPrice;
+
+    private RechargeVIPAdapter mAdapter;
 
     public static RechargeVipFragment newInstance(){
         RechargeVipFragment fragment = new RechargeVipFragment();
@@ -84,19 +83,21 @@ public class RechargeVipFragment extends TBaseFragment implements View.OnClickLi
 
         mOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
 
-        mOptions.setLayoutManager(new GridLayoutManager(getActivity(),3));
-        mAdapter = new VipCenterInfoAdapter(R.layout.vip_center_list_item,mData,this);
+        mOptions.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new RechargeVIPAdapter(getActivity(),mData);
         mOptions.setAdapter(mAdapter);
 
-        mOptions.addOnItemTouchListener(new OnItemClickListener() {
+
+        mAdapter.setOnItemClickListener(new RechargeVIPAdapter.OnItemClickListener() {
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+            public void onClick(View view, int position) {
                 mData.get(mSelected).setChoice(false);
-                mSelected = i;
+                mSelected = position;
                 mData.get(mSelected).setChoice(true);
-                mAdapter.setNewData(mData);
+                setPrice(mData.get(mSelected).getPrice());
             }
         });
+
         DataManager.vipInfo();
 
 
@@ -117,18 +118,6 @@ public class RechargeVipFragment extends TBaseFragment implements View.OnClickLi
             }
         });
 
-
-        mSelectDialog = new VipSelectDialog(getActivity(), mData, new VipSelectDialog.OnSelectItem<VipRechargeEntity.DataBean>() {
-            @Override
-            public void onSelect(VipRechargeEntity.DataBean d, int position) {
-
-                mData.get(mSelected).setChoice(false);
-                mSelected = position;
-                mData.get(mSelected).setChoice(true);
-                mAdapter.setNewData(mData);
-
-            }
-        });
     }
 
     @Override
@@ -184,8 +173,8 @@ public class RechargeVipFragment extends TBaseFragment implements View.OnClickLi
                 entity.getData().get(mSelected).setChoice(true);        //默认选择第一个
             }
             mData.clear();
-            mData = entity.getData();
-            mAdapter.addData(mData);
+            mData.addAll(entity.getData());
+
             mAdapter.notifyDataSetChanged();
 
 
@@ -214,11 +203,6 @@ public class RechargeVipFragment extends TBaseFragment implements View.OnClickLi
                 }
                 VipRechargeEntity.DataBean data = mData.get(mSelected);
                 startPaymentWayActivity(mCurrentPrice,activity.entry,data.getLevel(),mDurationData.get(mSelectedDuration).getKey());
-                break;
-            case R.id.tv_vip_level_detail:
-                if (mSelectDialog != null){
-                    mSelectDialog.show(mSelected);
-                }
                 break;
         }
     }

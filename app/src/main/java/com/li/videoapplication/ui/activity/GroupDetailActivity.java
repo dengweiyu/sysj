@@ -91,7 +91,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
                 Uri uri = Uri.parse(game.getA_download());
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);*/
-                ActivityManager.startDownloadManagerActivity(GroupDetailActivity.this,game.getGame_id());
+                ActivityManager.startDownloadManagerActivity(GroupDetailActivity.this,game.getGame_id(),"1",game.getGame_id());
                 // 游戏下载数+1
                 DataManager.downloadClick217(game.getGame_id(), getMember_id(),
                         Constant.DOWNLOAD_LOCATION_GROUP, group_id);

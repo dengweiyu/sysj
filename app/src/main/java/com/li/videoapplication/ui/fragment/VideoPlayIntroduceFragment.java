@@ -32,7 +32,7 @@ public class VideoPlayIntroduceFragment extends TBaseFragment implements OnClick
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             getActivity().startActivity(intent);
             getActivity().overridePendingTransition(R.anim.activity_hold, R.anim.activity_hold);*/
-            ActivityManager.startDownloadManagerActivity(getActivity(),item.getGame_id());
+            ActivityManager.startDownloadManagerActivity(getActivity(),item.getGame_id(),"2",item.video_id);
             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.VIDEOPLAY, "游戏简介-安装");
             // 游戏下载数+1
             DataManager.downloadClick217(item.getGame_id(), getMember_id(),

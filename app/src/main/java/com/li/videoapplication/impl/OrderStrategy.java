@@ -1,5 +1,6 @@
 package com.li.videoapplication.impl;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
@@ -114,12 +115,27 @@ public abstract class OrderStrategy implements IOrderStrategy {
 
     //再来一单
     protected void createOrder(){
-        ActivityManager.startCreatePlayWithOrderActivity(
-                AppManager.getInstance().currentActivity(),
-                mOrderDetail.getCoach().getMember_id(),
-                mOrderDetail.getCoach().getNickname(),
-                mOrderDetail.getCoach().getAvatar(),
-                mOrderDetail.getCoach().getQq());
+        int orderMode = mOrderDetail.getData().getOrder_mode().equals("2")?CreatePlayWithOrderActivity.MODE_ORDER_AGAIN:CreatePlayWithOrderActivity.MODE_ORDER_NORMAL;
+        if (orderMode == CreatePlayWithOrderActivity.MODE_ORDER_AGAIN){                                                      //抢单模式
+            Intent intent = new Intent();
+            intent.setClass(AppManager.getInstance().currentActivity(), CreatePlayWithOrderActivity.class);
+            intent.putExtra("order_mode",CreatePlayWithOrderActivity.MODE_ORDER_AGAIN);
+            intent.putExtra("coach_bean",mOrderDetail.getCoach());
+            AppManager.getInstance().currentActivity().startActivity(intent);
+        }else {                                                     //普通模式
+            ActivityManager.startCreatePlayWithOrderActivity(
+                    AppManager.getInstance().currentActivity(),
+                    mOrderDetail.getCoach().getMember_id(),
+                    mOrderDetail.getCoach().getNickname(),
+                    mOrderDetail.getCoach().getAvatar(),
+                    mOrderDetail.getCoach().getQq());
+        }
+
+    }
+
+    //抢单模式
+    protected void createGrabOrder(){
+        ActivityManager.startCreatePlayWithOrderActivity(AppManager.getInstance().currentActivity(),CreatePlayWithOrderActivity.MODE_ORDER_GRAB,null,null,null,null);
     }
 
     //确认接单

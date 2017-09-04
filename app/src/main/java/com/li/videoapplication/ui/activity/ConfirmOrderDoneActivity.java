@@ -153,11 +153,13 @@ public class ConfirmOrderDoneActivity extends TBaseAppCompatActivity implements 
 
     @Override
     public void onClickImage(View view, int index) {
+
+
         if (mImageSize == mChoiceMaxSize){
             //show detail
             ImageDetailSceneActivity.startImageDetailActivity(this,view,0,new String[]{mImages.get(index)},true);
         }else {
-            if (mImages.size()-1 == index ){
+            if (mImages.size()-1 == index && !mImageAdapter.isUploadDone()){
                 //pick image
                 mExpandUtil.openPhotoPick(this);
             }else {

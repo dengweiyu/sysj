@@ -1,5 +1,6 @@
 package com.li.videoapplication.ui.activity;
 
+import android.graphics.Canvas;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,6 +11,8 @@ import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.event.SquareFilterEvent;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.mvp.adapter.SquareGameChoiceAdapter;
+import com.li.videoapplication.ui.view.SimpleItemDecoration;
+
 import io.rong.eventbus.EventBus;
 
 /**
@@ -34,6 +37,29 @@ public class SquareGameChoiceActivity extends TBaseActivity implements View.OnCl
         mAdapter = new SquareGameChoiceAdapter(this,mGame.getData());
         mList.setLayoutManager(new GridLayoutManager(this,4));
         mList.setAdapter(mAdapter);
+
+        mList.addItemDecoration(new SimpleItemDecoration(this,false,false,false,true){
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                int childCount = parent.getChildCount();
+                for (int i = 0; i < childCount; i++) {
+                    int width = 1;
+
+                    if (mIsTop){
+                        drawTop(c,parent.getChildAt(i),parent,width);
+                    }
+                    if (mIsBottom){
+                        drawBottom(c,parent.getChildAt(i),parent,width);
+                    }
+                    if (mIsLeft){
+                        drawLeft(c,parent.getChildAt(i),parent,width);
+                    }
+                    if (mIsRight){
+                        drawRight(c,parent.getChildAt(i),parent,width);
+                    }
+                }
+            }
+        });
     }
 
     private void initToolbar(){

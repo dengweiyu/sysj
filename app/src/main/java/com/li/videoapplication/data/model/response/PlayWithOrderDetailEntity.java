@@ -25,7 +25,15 @@ public class PlayWithOrderDetailEntity extends BaseResponseEntity {
     private UserBean user;
     private DataBean data;
     private List<String> defaultReason;
+    private String waitingTime;
 
+    public String getWaitingTime() {
+        return waitingTime;
+    }
+
+    public void setWaitingTime(String waitingTime) {
+        this.waitingTime = waitingTime;
+    }
     public CoachBean getCoach() {
         return coach;
     }
@@ -201,6 +209,15 @@ public class PlayWithOrderDetailEntity extends BaseResponseEntity {
         private String orderNum;
         private String gameName;
         private Evaluate evaluate;
+        private String order_mode;
+
+        public String getOrder_mode() {
+            return order_mode;
+        }
+
+        public void setOrder_mode(String order_mode) {
+            this.order_mode = order_mode;
+        }
 
         public Evaluate getEvaluate() {
             return evaluate;

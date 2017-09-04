@@ -18,6 +18,7 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
+import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.PrivacyActivity;
 import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.ScreenUtil;
@@ -60,7 +61,7 @@ public class RecordDialogNew extends AlphaShadeDialog implements View.OnClickLis
         findViewById(R.id.record_close).setOnClickListener(this);
         findViewById(R.id.ll_popup_square_layout).setOnClickListener(this);
         findViewById(R.id.ll_popup_record_layout).setOnClickListener(this);
-
+        findViewById(R.id.ll_popup_play_with_layout).setOnClickListener(this);
 
     }
 
@@ -73,6 +74,21 @@ public class RecordDialogNew extends AlphaShadeDialog implements View.OnClickLis
                 break;
             case R.id.ll_popup_square_layout:
                 startSquareActivity();
+                break;
+            case R.id.ll_popup_play_with_layout:
+
+                if (mActivity != null && mActivity instanceof MainActivity){
+                    MainActivity mainActivity = (MainActivity) mActivity;
+                    try {
+                        mainActivity.viewPager.setCurrentItem(3);
+                        if (mainActivity.playWithFragment != null){
+                            mainActivity.playWithFragment.setCurrentPage(0);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 break;
         }
         dismiss();

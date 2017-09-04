@@ -11,6 +11,7 @@ import com.ifeimo.im.activity.ChatActivity;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.PlayWithTakeOrderEntity;
@@ -21,6 +22,7 @@ import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.PlayWithOrderDetailActivity;
+import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 
@@ -34,9 +36,11 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
     private String mMemberId;
     private String mOwnerId;
     private String mCoachId;
-    public PlayWithTakeOrderAdapter(String memberId,String ownerId,String coachId, List<PlayWithTakeOrderEntity.DataBean> data) {
+    private LoadingDialog mLoadingDialog;
+    public PlayWithTakeOrderAdapter(String memberId, List<PlayWithTakeOrderEntity.DataBean> data, LoadingDialog loadingDialog) {
         super(R.layout.play_with_take_order_item, data);
         mMemberId = memberId;
+        mLoadingDialog = loadingDialog;
     }
 
     @Override
@@ -107,7 +111,7 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
             e.printStackTrace();
         }
 
-        View take = holder.getView(R.id.tv_take_order);
+        TextView take = holder.getView(R.id.tv_take_order);
         View textGo = holder.getView(R.id.tv_go_detail);
         View layoutGo = holder.getView(R.id.rl_go_detail);
         View imageGo = holder.getView(R.id.iv_go_detail);
@@ -126,11 +130,19 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
                 take.setVisibility(View.VISIBLE);
                 textGo.setVisibility(View.GONE);
                 imageGo.setVisibility(View.GONE);
+
+                if (!StringUtil.isNull(data.getCoach_id())){
+                    take.setText("抢单");
+                    take.setBackgroundResource(R.color.ab_backdround_red);
+                }
+
+
                 break;
             case "3":                   //陪练中
                 take.setVisibility(View.GONE);
                 textGo.setVisibility(View.VISIBLE);
                 imageGo.setVisibility(View.VISIBLE);
+
                 break;
 
             case "4":
@@ -163,9 +175,18 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
             take.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActivityManager.startPlayWithOrderDetailActivity(mContext,
-                            data.getOrder_id(),
-                            PlayWithOrderDetailActivity.ROLE_COACH,false);
+
+                    if (StringUtil.isNull(data.getCoach_id()) || "0".equals(data.getCoach_id())){
+                        //执行抢单
+                        DataManager.grabPlayWithOrder(mMemberId, data.getOrder_id());
+                        if (mLoadingDialog != null){
+                            mLoadingDialog.show();
+                        }
+                    }else {
+                        ActivityManager.startPlayWithOrderDetailActivity(mContext,
+                                data.getOrder_id(),
+                                PlayWithOrderDetailActivity.ROLE_COACH,false);
+                    }
                 }
             });
             layoutGo.setOnClickListener(null);
