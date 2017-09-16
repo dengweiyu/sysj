@@ -8,12 +8,8 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
-import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.TextImageHelper;
-import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 

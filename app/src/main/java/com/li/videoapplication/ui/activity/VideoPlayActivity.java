@@ -14,6 +14,7 @@ import android.os.PowerManager.WakeLock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.Html;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Bullet;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.event.GoodAndStartEvent;
 import com.li.videoapplication.data.model.event.SharedSuccessEvent;
 import com.li.videoapplication.data.model.response.BulletDo203Bullet2VideoEntity;
 import com.li.videoapplication.data.model.response.BulletList203Entity;
@@ -44,6 +46,7 @@ import com.li.videoapplication.data.model.response.VideoCommentLike2Entity;
 import com.li.videoapplication.data.model.response.VideoDetail201Entity;
 import com.li.videoapplication.data.model.response.VideoDoComment2CommentEntity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
@@ -70,16 +73,17 @@ import com.li.videoapplication.utils.HareWareUtil;
 import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.utils.URLUtil;
 import com.li.videoapplication.views.ViewPagerY4;
 import com.li.videoapplication.views.sparkbutton.SparkButton;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.rong.eventbus.EventBus;
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
 
@@ -206,18 +210,58 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
     public void initView() {
         super.initView();
 
-        initTopMenu();
+
         initContentView();
         //引导页
         showPlayTipDialog();
+    }
 
+    private boolean mIsInit = true;
+    private void runOnResume(){
+        if (!mIsInit){
+            return;
+        }
+        mIsInit = false;
+
+        UITask.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initTopMenu();
+                //点赞 收藏.
+                initStatus();
+                // 网页视频 3137
+                // 视频详情
+                DataManager.videoDetail201(item.getId(), getMember_id());
+
+                // 弹幕列表
+                DataManager.DANMUKU.bulletList203(item.getId());
+
+                // 字幕列表
+                DataManager.SUBTITLE.srtList203(item.getId());
+
+                //礼物列表
+                mGiftFragment = VideoPlayGiftFragment.newInstance(item.video_id);
+
+                //礼物时间轴
+                resetTimeLineFragment();
+
+                if (videoPlayView != null){
+                    videoPlayView.addOnPreparedListener(mGiftTimeLineFragment,500);
+                }
+            }
+        },1000);
     }
 
     @Override
     public void loadData() {
         super.loadData();
 
-        //点赞 收藏.
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Const.LINK_PLAY_STATE);
+        filter.addAction(Const.HPPLAY_LINK_DISCONNECT);
+        registerReceiver(myBroadcastReceiver, filter);
+/*        //点赞 收藏.
         initStatus();
         // 网页视频 3137
         // 视频详情
@@ -229,13 +273,10 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         // 字幕列表
         DataManager.SUBTITLE.srtList203(item.getId());
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Const.LINK_PLAY_STATE);
-        filter.addAction(Const.HPPLAY_LINK_DISCONNECT);
-        registerReceiver(myBroadcastReceiver, filter);
+
 
         //礼物列表
-        mGiftFragment = VideoPlayGiftFragment.newInstance(item.video_id);
+        mGiftFragment = VideoPlayGiftFragment.newInstance(item.video_id);*/
     }
 
     private SparkButton mGoodBtn;
@@ -354,12 +395,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         addDanmukuView.init(this);
         addDanmukuView.setAddDanmukuListener(videoPlayView);
 
-        //礼物时间轴
-        resetTimeLineFragment();
 
-        if (videoPlayView != null){
-            videoPlayView.addOnPreparedListener(mGiftTimeLineFragment,500);
-        }
     }
 
 
@@ -660,10 +696,21 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
                 viewPager.setCurrentItem(1);
             }
 
-            mGoodCount.setText(StringUtil.toUnitW(item.getFlower_count()));
+
             mSharedCount.setText(StringUtil.toUnitW(item.getShare_count()));
-            mGiftCount.setText(StringUtil.toUnitW(item.getFrequency()));
-            mStartCount.setText(StringUtil.toUnitW(item.getCollection_count()));
+
+            if (item.flower_tick == 1){
+               mGoodCount.setText( Html.fromHtml(TextUtil.toColor(StringUtil.toUnitW(item.getFlower_count()), "#ff3d2e")));
+            }else {
+                mGoodCount.setText(StringUtil.toUnitW(item.getFlower_count()));
+            }
+
+            if (item.collection_tick == 1){
+                mStartCount.setText( Html.fromHtml(TextUtil.toColor(StringUtil.toUnitW(item.getCollection_count()), "#ff3d2e")));
+
+            }else {
+                mStartCount.setText(StringUtil.toUnitW(item.getCollection_count()));
+            }
 
             int count = 0;
             try {
@@ -1040,13 +1087,21 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
     @Override
     public void onResume() {
         super.onResume();
+
+        //延迟初始化View 提示渲染速度
+        runOnResume();
+
         if (videoPlayView != null)
             videoPlayView.resume();
 
         List<String> videoIds = PreferencesHepler.getInstance().getVideoIds();
         if (videoIds != null && videoIds.size() > 0) {
             // 推荐视频详情
-            DataManager.changeVideo208(getVideoIdsRandom(videoIds));
+            try {
+                DataManager.changeVideo208(getVideoIdsRandom(videoIds));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -1054,7 +1109,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
 
     }
 
-    private String getVideoIdsRandom(List<String> videoIds) {
+    private String getVideoIdsRandom(List<String> videoIds) throws Exception {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
             int index = RandomUtil.getRandom(0, videoIds.size() - 1);
@@ -1331,20 +1386,21 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
                     mGoodBtn.playAnimation();
                     item.setFlower_tick(1);
                     item.setFlower_count(Integer.valueOf(item.getFlower_count()) + 1 + "");
-                    // 提交点赞任务
-                    DataManager.TASK.doTask_21(getMember_id());
                     UmengAnalyticsHelper.onEvent(VideoPlayActivity.this, UmengAnalyticsHelper.VIDEOPLAY, "视频播放-点赞");
+                    EventBus.getDefault().post(new GoodAndStartEvent(GoodAndStartEvent.TYPE_GOOD,item.getVideo_id(),true));
                 } else {
                     mGoodBtn.setChecked(false);
                     mGoodBtn.playAnimation();
                     item.setFlower_tick(0);
                     item.setFlower_count(Integer.valueOf(item.getFlower_count()) - 1 + "");
                     UmengAnalyticsHelper.onEvent(VideoPlayActivity.this, UmengAnalyticsHelper.VIDEOPLAY, "视频播放-取消赞");
+                    EventBus.getDefault().post(new GoodAndStartEvent(GoodAndStartEvent.TYPE_GOOD,item.getVideo_id(),false));
                 }
                 // 视频点赞
                 DataManager.videoFlower2(item.getId(), getMember_id());
                 videoPlayView.controllerViewLand.refreshIconView(item);
-                mGoodCount.setText(StringUtil.toUnitW(item.getFlower_count()));
+               // mGoodCount.setText(StringUtil.toUnitW(item.getFlower_count()));
+                refreshTab(item);
                 break;
             case R.id.ll_video_play_start:
             case R.id.sb_video_play_start:
@@ -1357,21 +1413,24 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
                     mStart.playAnimation();
                     item.setCollection_tick(1);
                     item.setCollection_count(Integer.valueOf(item.getCollection_count()) + 1 + "");
-                    // 提交收藏任务
-                    DataManager.TASK.doTask_20(getMember_id());
                     UmengAnalyticsHelper.onEvent(VideoPlayActivity.this, UmengAnalyticsHelper.VIDEOPLAY, "视频播放-收藏");
+                    EventBus.getDefault().post(new GoodAndStartEvent(GoodAndStartEvent.TYPE_START,item.getVideo_id(),true));
+
                 } else {
                     mStart.setChecked(false);
                     mStart.playAnimation();
                     item.setCollection_tick(0);
                     item.setCollection_count(Integer.valueOf(item.getCollection_count()) - 1 + "");
                     UmengAnalyticsHelper.onEvent(VideoPlayActivity.this, UmengAnalyticsHelper.VIDEOPLAY, "视频播放-取消收藏");
+                    EventBus.getDefault().post(new GoodAndStartEvent(GoodAndStartEvent.TYPE_START,item.getVideo_id(),false));
+
                 }
 
                 // 视频收藏
                 DataManager.videoCollect2(item.getId(), getMember_id());
                 videoPlayView.controllerViewLand.refreshIconView(item);
-                mStartCount.setText(StringUtil.toUnitW(item.getCollection_count()));
+                //mStartCount.setText(StringUtil.toUnitW(item.getCollection_count()));
+                refreshTab(item);
                 break;
 
             case R.id.ll_video_play_status_gift:

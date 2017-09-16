@@ -30,7 +30,7 @@ public class GameFragment extends TBaseChildFragment {
 	private List<Fragment> fragments;
 	private ViewPagerY1 mViewPager;
 	private GamePagerAdapter adapter;
-
+	private View mRootView;
 	@Override
 	protected int getCreateView() {
 		return R.layout.fragment_game;
@@ -48,12 +48,14 @@ public class GameFragment extends TBaseChildFragment {
 
 	@Override
 	protected void initContentView(View view) {
-		
-		initTopMenu(view);
+		mRootView = view;
+
 	}
 	
 	protected void initTopMenu(View view) {
-		
+		if (fragments != null){
+			return;
+		}
 		if (topButtons == null) {
 			topButtons = new ArrayList<RelativeLayout>();
 			topButtons.add((RelativeLayout) view.findViewById(R.id.top_left));
@@ -123,6 +125,9 @@ public class GameFragment extends TBaseChildFragment {
 		if (isVisibleToUser) {
 			UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MAIN, "进入找游戏页面次数");
 			UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "进入找游戏页面次数");
+
+			//可见时 渲染页面
+			initTopMenu(mRootView);
 		}
 	}
 

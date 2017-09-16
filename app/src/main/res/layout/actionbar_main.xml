@@ -156,7 +156,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:gravity="center"
-                android:textSize="15sp"
+                android:textSize="17sp"
                 android:textColor="@color/ab_backdround_red"
                 android:text="陪练"/>
             <View
@@ -180,7 +180,7 @@
                 android:paddingRight="8dp"
                 android:gravity="center"
                 android:textColor="@color/title_bg_color"
-                android:textSize="15sp"
+                android:textSize="17sp"
                 android:text="赛事"/>
             <View
                 android:id="@+id/match_indicator"

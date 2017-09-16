@@ -1,9 +1,7 @@
 package com.li.videoapplication.mvp.match.model;
 
 import com.li.videoapplication.data.HttpManager;
-import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Match;
-import com.li.videoapplication.data.model.event.MatchListFliterEvent;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
 import com.li.videoapplication.data.model.response.GameCateEntity;
@@ -12,15 +10,12 @@ import com.li.videoapplication.data.model.response.MatchRewardBillboardEntity;
 import com.li.videoapplication.data.model.response.ServiceNameEntity;
 import com.li.videoapplication.data.model.response.SignScheduleEntity;
 import com.li.videoapplication.framework.BaseHttpResult;
-import com.li.videoapplication.framework.RxBus;
 import com.li.videoapplication.mvp.OnLoadDataListener;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchModel;
 
 import java.util.List;
 
 import rx.Observer;
-import rx.Subscription;
-import rx.functions.Action1;
 
 /**
  * Model层: 赛事

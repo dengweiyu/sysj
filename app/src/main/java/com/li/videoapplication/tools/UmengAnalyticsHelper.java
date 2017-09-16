@@ -1,7 +1,6 @@
 package com.li.videoapplication.tools;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.li.videoapplication.utils.StringUtil;
 import com.umeng.analytics.AnalyticsConfig;

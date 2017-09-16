@@ -15,7 +15,6 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.mvp.billboard.view.BillboardActivity;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.WebActivity;
@@ -34,6 +33,7 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
 
     private int mNum = 0;	//进入页面的次数
     private long mLastLoadTime;
+    private View mRootView;
     /**
      * 跳转：动态
      */
@@ -54,6 +54,13 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
 
     @Override
     protected void initContentView(View view) {
+        mRootView = view;
+    }
+
+    private void initView(View view){
+        if (count != null){
+            return;
+        }
         count = (CircleImageView) view.findViewById(R.id.discover_dynamic_count);
         go = (ImageView) view.findViewById(R.id.discover_dynamic_go);
         draw = view.findViewById(R.id.discover_draw);
@@ -70,8 +77,6 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
         view.findViewById(R.id.discover_gift).setOnClickListener(this);
         view.findViewById(R.id.ll_reward).setOnClickListener(this);
         draw.setOnClickListener(this);
-
-
     }
 
     private void loadData() {
@@ -94,16 +99,22 @@ public class DiscoverFragment extends TBaseFragment implements OnClickListener {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (shouldLoadData()){
-            loadData();
-            mLastLoadTime = System.currentTimeMillis();
-        }
-        mNum++;
+
+
         //该fragment处于最前台交互状态
         if (isVisibleToUser) {
             updateSquareUnRead();
             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MAIN, "进入发现页面次数");
             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "进入发现页面次数");
+
+            if (shouldLoadData()){
+                loadData();
+                mLastLoadTime = System.currentTimeMillis();
+            }
+            mNum++;
+
+            //可见后 渲染
+            initView(mRootView);
         }
     }
 

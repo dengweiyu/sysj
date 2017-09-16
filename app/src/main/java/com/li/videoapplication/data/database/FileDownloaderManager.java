@@ -7,7 +7,6 @@ import com.li.videoapplication.utils.URLUtil;
 
 import org.xutils.ex.DbException;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**

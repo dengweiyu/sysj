@@ -2,11 +2,15 @@ package com.li.videoapplication.ui.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
-import com.baidu.push.example.BaiduPush;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.download.DownLoadManager;
@@ -19,20 +23,17 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.fragment.BannerFragment;
 import com.li.videoapplication.ui.fragment.SplashFragment;
-import com.li.videoapplication.ui.fragment.WelcomeFragment;
 import com.li.videoapplication.component.service.AppStartService;
+import com.li.videoapplication.ui.fragment.WelcomeFragment;
 import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.meituan.android.walle.WalleChannelReader;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 import java.io.File;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 /**
  * 活动：启动
@@ -41,6 +42,7 @@ public class AppstartActivity extends TBaseActivity {
 
     private boolean firstSetup;
 
+    private WelcomeFragment mWelcomeFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,36 +66,55 @@ public class AppstartActivity extends TBaseActivity {
 
     @Override
     public int getContentView() {
+
         return R.layout.activity_appstart;
     }
 
     @Override
     public void afterOnCreate() {
         super.afterOnCreate();
+    }
 
-        //
-        BaiduPush.getInstances().onCreate(getApplicationContext());
-        //FIXME 上线必关闭
-       // MobclickAgent.setDebugMode(true);
+
+    @Override
+    public void beforeOnCreate() {
+        MainActivity mainActivity = AppManager.getInstance().getMainActivity();
+
+        firstSetup = NormalPreferences.getInstance().getBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, true);
+        if (mainActivity == null){
+            if (firstSetup){
+                //引导页 需要显示状态栏上的信息
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0
+                    setSystemBarBackgroundColor(Color.TRANSPARENT);
+                } else {
+                    setSystemBarBackgroundColor(Color.BLACK);
+                }
+            }else {
+                //启动页 不需要显示状态栏上的信息
+                requestWindowFeature(Window.FEATURE_NO_TITLE);
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            }
+        }
     }
 
     @Override
     public void initView() {
-        setTheme(R.style.AppTheme_Light);
+      //  setTheme(R.style.AppTheme_Light);
         super.initView();
 
         MainActivity mainActivity = AppManager.getInstance().getMainActivity();
-        firstSetup = NormalPreferences.getInstance().getBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, true);
 
-        //FIXME
-        firstSetup = true;
+        View root = findViewById(R.id.container);
 
         if (mainActivity != null) {
+
             ActivityManager.startMainActivityBottom(this);
         } else {
             if (firstSetup) {
+                root.setFitsSystemWindows(false);
                 // 启动-欢迎
-                 replaceFragment(new WelcomeFragment());
+                 mWelcomeFragment = new WelcomeFragment();
+                 replaceFragment(mWelcomeFragment);
                  NormalPreferences.getInstance().putBoolean(Constants.APPSTART_ACTIVITY_FIRSTSETUP, false);
             }
         }
@@ -116,10 +137,6 @@ public class AppstartActivity extends TBaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-
-        BaiduPush.getInstances().onResume(getApplicationContext());
-
-
        /* RequestExecutor.execute(new Runnable() {
             @Override
             public void run() {*/
@@ -151,6 +168,17 @@ public class AppstartActivity extends TBaseActivity {
             }
         },4000);*/
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mWelcomeFragment == null){
+            super.onBackPressed();
+        }else {
+            if (mWelcomeFragment.canGoBack()){
+                super.onBackPressed();
+            }
+        }
     }
 
     private boolean haveLaunchAd() {
@@ -198,7 +226,7 @@ public class AppstartActivity extends TBaseActivity {
 
 
     /**
-     * 反射设置Umeng channel id
+     * 动态设置Umeng channel id
      */
     private void setUmengChannelId(Context context){
         Class<?> configClass = AnalyticsConfig.class;
@@ -230,5 +258,6 @@ public class AppstartActivity extends TBaseActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+
     }
 }

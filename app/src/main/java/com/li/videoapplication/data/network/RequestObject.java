@@ -94,7 +94,11 @@ public class RequestObject extends BaseEntity {
 				String value = Contants.DEFAULT_STRING;
 				try {
 					key = entry.getKey().trim();
-					value = entry.getValue().toString().trim();
+
+					if (entry.getValue() != null){
+						value = entry.getValue().toString().trim();
+					}
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

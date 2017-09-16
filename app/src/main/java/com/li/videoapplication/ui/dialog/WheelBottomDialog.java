@@ -1,12 +1,10 @@
 package com.li.videoapplication.ui.dialog;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.google.common.collect.Lists;
 import com.li.videoapplication.R;
 import com.li.videoapplication.ui.view.WheelRecyclerView;
 

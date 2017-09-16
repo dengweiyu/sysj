@@ -2,8 +2,6 @@ package com.li.videoapplication.data.model.entity;
 
 import com.li.videoapplication.framework.BaseResponse2Entity;
 
-import java.util.List;
-
 /**
  * 举报
  */

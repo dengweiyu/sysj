@@ -1,6 +1,5 @@
 package com.li.videoapplication.ui.activity;
 
-import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -11,12 +10,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.GroupType;
@@ -28,7 +24,6 @@ import com.li.videoapplication.data.model.response.UserProfileFinishMemberInfoEn
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.adapter.EditGameTypeAdapter;
-import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;

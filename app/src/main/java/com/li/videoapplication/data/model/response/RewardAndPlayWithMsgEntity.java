@@ -79,6 +79,15 @@ public class RewardAndPlayWithMsgEntity extends BaseResponseEntity {
             private String statusX;
             private String symbol;
             private String msg_type;
+            private String order_mode;
+
+            public String getOrder_mode() {
+                return order_mode;
+            }
+
+            public void setOrder_mode(String order_mode) {
+                this.order_mode = order_mode;
+            }
 
             public String getSymbol() {
                 return symbol;

@@ -6,7 +6,6 @@ import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.model.entity.Tag;
 import com.li.videoapplication.utils.StringUtil;
 
-import org.xutils.db.Selector;
 import org.xutils.ex.DbException;
 
 import java.io.File;

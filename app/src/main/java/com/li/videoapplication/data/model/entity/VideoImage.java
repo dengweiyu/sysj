@@ -3,7 +3,6 @@ package com.li.videoapplication.data.model.entity;
 import java.util.List;
 
 import com.li.videoapplication.framework.BaseEntity;
-import com.li.videoapplication.utils.StringUtil;
 
 /**
  * 实体类：视频

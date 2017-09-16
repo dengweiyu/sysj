@@ -4,7 +4,6 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -17,7 +16,6 @@ import android.view.View;
 
 import com.li.videoapplication.data.local.FileOperateUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
-import com.li.videoapplication.framework.AppConstant;
 
 public class BitmapHelper {
 

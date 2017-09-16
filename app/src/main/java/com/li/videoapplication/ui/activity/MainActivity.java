@@ -3,19 +3,22 @@ package com.li.videoapplication.ui.activity;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.content.res.AppCompatResources;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -27,14 +30,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService;
 import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.JsonReader;
 import com.ifeimo.im.common.bean.eventbus.ChatWindowEntity;
 import com.ifeimo.im.common.util.StatusBarBlackTextHelper;
+import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.ifeimo.im.framwork.message.OnHtmlItemClickListener;
+import com.ifeimo.im.framwork.message.OnUnReadChange;
 import com.ifeimo.screenrecordlib.RecordingManager;
-import com.ifeimo.screenrecordlib.constant.Constant;
 import com.ifeimo.screenrecordlib.util.TaskUtil;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnCloseListener;
@@ -48,7 +59,9 @@ import com.li.videoapplication.data.Utils_Data;
 import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.download.FileDownloadRequest;
 import com.li.videoapplication.data.image.GlideHelper;
+import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
+import com.li.videoapplication.data.model.entity.BottomIconEntity;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.data.model.entity.VideoImage;
@@ -56,7 +69,7 @@ import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
 import com.li.videoapplication.data.model.event.UnReadMessageEvent;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
-import com.li.videoapplication.data.model.response.DownloadSuccessEntity;
+import com.li.videoapplication.data.model.response.CommitFocusGameListEntity;
 import com.li.videoapplication.data.model.response.GetRongCloudToken204Entity;
 import com.li.videoapplication.data.model.response.ParseResultEntity;
 import com.li.videoapplication.data.model.response.PatchEntity;
@@ -66,11 +79,12 @@ import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.NormalPreferences;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.data.preferences.SharedPreferencesUtils;
+import com.li.videoapplication.data.preferences.UserPreferences;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseSlidingActivity;
+import com.li.videoapplication.impl.SimpleHeadLineObservable;
 import com.li.videoapplication.mvp.home.view.HomeFragment;
-import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -89,7 +103,6 @@ import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
 import com.li.videoapplication.views.ViewPagerY4;
-import com.meituan.android.walle.WalleChannelReader;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
 import com.umeng.analytics.AnalyticsConfig;
@@ -98,11 +111,17 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.lang.reflect.Method;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.rong.eventbus.EventBus;
 import io.rong.imkit.RongIM;
@@ -110,9 +129,7 @@ import io.rong.imlib.RongIMClient;
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
 
-import static android.support.v4.view.ViewPager.SCROLL_STATE_DRAGGING;
 import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
-import static android.support.v4.view.ViewPager.SCROLL_STATE_SETTLING;
 
 /**
  * 活动：主页
@@ -135,8 +152,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     }
 
     private View menu;
-    private View mBottomRecord;
+    private ImageView mBottomRecord;
     private View root;
+    private View mLeftMenuRoot;
     private List<LinearLayout> bottomButtons;
     private List<ImageView> bottomIcon;
     private List<TextView> bottomText;
@@ -179,6 +197,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     private TextView mPlayWithBottom;
     private View mDivider;
+    private int mUnReadCount = 0;
     /**
      * 双击退出应用
      */
@@ -186,6 +205,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     public SlidingMenu slidingMenu;
     private SystemBarTintManager tintManager;
 
+    private boolean mHasPatch = false;      //已经加载了补丁
     /**
      * 跳转：搜索
      */
@@ -241,60 +261,28 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 	/* ########### 侧滑菜单 ############### */
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+ //       Debug.startMethodTracing("main");
 //        TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), Environment.getExternalStorageDirectory().getAbsolutePath() + "/patch_signed_7zip.apk");
-
         initSystemBar(this);
         setSystemBarBackgroundResource(R.color.menu_main_red);
 
-        EventBus.getDefault().register(this);
         AppManager.getInstance().setMainActivity(this);
         AppManager.getInstance().removeActivity(AppstartActivity.class);
-
-        setBehindContentView(R.layout.view_slider);
-        initAnimation();
-        initSlider(savedInstanceState);
 
         setContentView(R.layout.activity_main);
         setActionBar(inflateActionBar());
 
-        initMenu();
-        initFragment();
-
-        switchTab(0);
-        switchActionBar(0);
-        refreshActionBar();
-
-        viewPager.setCurrentItem(0);
-
-        showVideoTipDialog();
-
-        if (!isShowedUpdate) {
-            // 版本更新
-            DataManager.updateVersion();
-        }
-
-        if (isLogin && RongIM.getInstance() != null &&
-                RongIM.getInstance().getCurrentConnectionStatus() !=
-                        RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED) {
-            //链接融云
-            RongIMHelper.connectIM();
-        }
+        //初始化菜单先隐藏 提升启动速度
+        mLeftMenuRoot = LayoutInflater.from(this).inflate(R.layout.view_slider,null);
+        mLeftMenuRoot.setVisibility(View.INVISIBLE);
+        setBehindContentView(mLeftMenuRoot);
 
         getIntentValue();
         getIntentResult();
-        // 初始化下载器
-        DownLoadManager.getInstance();
 
-        //注册IM 消息点击监听器
-        registerIMClickListener();
-        //注册EventBus 3.0
-        org.greenrobot.eventbus.EventBus.getDefault().register(this);
 
-        //检查补丁包  补丁包一定不要使用7zip的，在百度加固下出现崩溃
-        mHandler.post(mFetchPatchTask);
     }
 
     @Override
@@ -372,9 +360,103 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
     };
 
+    private boolean mIsInit = true;
+    private void runOnResume(){
+        if (!mIsInit){
+            return;
+        }
+
+        mIsInit = false;
+        //显示侧滑菜单
+        mLeftMenuRoot.setVisibility(View.VISIBLE);
+        initSlider();
+        //初始化HomeFragment
+        initHomeFragment();
+        initMenu();
+        switchTab(0);
+
+        UITask.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                switchActionBar(mPagerIndex);
+
+                getIntentResult();
+                //显示 引导图
+                showVideoTipDialog();
+                //注册EventBus 2.0
+                EventBus.getDefault().register(MainActivity.this);
+                //注册EventBus 3.0
+                org.greenrobot.eventbus.EventBus.getDefault().register(MainActivity.this);
+
+                initAnimation();
+
+                //IM推送
+                IMSdk.setHeadLineMeesageListener(new SimpleHeadLineObservable(getApplicationContext()));
+
+                //注册IM 消息点击监听器
+                registerIMClickListener();
+
+                refreshActionBar();
+
+                if (!isShowedUpdate) {
+                    // 版本更新
+                    DataManager.updateVersion();
+                }
+
+                //检查补丁包  补丁包一定不要使用7zip的，在百度加固下出现崩溃
+                mHandler.post(mFetchPatchTask);
+
+                if (isLogin && RongIM.getInstance() != null &&
+                        RongIM.getInstance().getCurrentConnectionStatus() !=
+                                RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED) {
+                    //链接融云
+                    RongIMHelper.connectIM();
+                }
+
+                // 初始化下载器
+                DownLoadManager.getInstance();
+
+                //提交问卷
+                commitFocusGameList();
+
+                //更新配置文件
+                File file =  new File(getFilesDir(),"icon_config.json");
+                try {
+                    if (!file.exists()){
+                        file.createNewFile();
+                    }
+
+                    downloadConfig(file.getAbsolutePath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //监听IM 消息变化
+                Proxy.getMessageManager().onUnReadChange(new OnUnReadChange() {
+                         @Override
+                        public void change(final int count) {
+                            runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mUnReadCount = count;
+                                if (slider != null){
+                                    slider.refreshXMPPUnreadMsg(count);
+                                }
+                            }
+                        });
+                     }
+                });
+
+            }
+        },1000);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
+     //   Debug.stopMethodTracing();
+
+        runOnResume();
         if (NetUtil.isConnect() && !isLogin) {
             String ipAddress = NetUtil.getLocalIpAddress();
             //ICP 统计相关接口--用户登录记录
@@ -387,9 +469,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             @Override
             public void totalUnreadCount(int count) {
                 Log.d(tag, "totalUnreadCount: count == " + count);
-                if(leftCount == null){
-                     return;
-                }
+
                 if (mUnReadMsg == null){
                     mUnReadMsg = new UnReadMessageEvent(count);
                 }else {
@@ -399,15 +479,24 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 if (viewPager != null && viewPager.getCurrentItem() == 3){
                     return;
                 }
-                if (count > 0) {
-                    leftCount.setVisibility(View.VISIBLE);
-                } else {
-                    leftCount.setVisibility(View.GONE);
-                }
+
+                mUnReadCount = count;
+                refreshUnReadView();
             }
         });
 
 
+    }
+
+    private void refreshUnReadView(){
+        if(leftCount == null){
+            return;
+        }
+        if (mUnReadCount > 0){
+            leftCount.setVisibility(View.VISIBLE);
+        }else {
+            leftCount.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -431,12 +520,28 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         if (mHandler != null){
             mHandler.removeCallbacks(mFetchPatchTask);
         }
+
+        //全部退出APP 保证重启后补丁生效
+        if (mHasPatch){
+            //kill current activity
+            AppManager.getInstance().removeCurrentActivity();
+            //
+            android.os.Process.killProcess(android.os.Process.myPid());
+            //
+            System.exit(0);
+            //call gc
+            System.gc();
+        }
     }
 
     /**
      * 回调：IM点击事件
      */
     private void registerIMClickListener(){
+        if (Proxy.getMessageManager() == null){
+            return;
+        }
+
         Proxy.getMessageManager().setOnHtmlItemClickListener(new OnHtmlItemClickListener() {
             @Override
             public void onClick(String memberid, String defaultStr, String[] html, boolean isMe) {
@@ -454,7 +559,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
             switchTab(pager);
             switchActionBar(pager);
-            switchContent(context, fragments.get(pager));
+            //switchContent(context, fragments.get(pager));
         }
     }
 
@@ -494,16 +599,21 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         };
     }
 
-    private void initSlider(Bundle savedInstanceState) {
+    private void initSlider() {
 
-        if (savedInstanceState == null) {
+
+        FragmentTransaction t = manager.beginTransaction();
+        slider = new SliderFragment();
+        t.replace(R.id.slider, slider);
+        t.commit();
+     /*   if (savedInstanceState == null) {
             FragmentTransaction t = manager.beginTransaction();
             slider = new SliderFragment();
             t.replace(R.id.slider, slider);
             t.commit();
         } else {
             slider = (SliderFragment) manager.findFragmentById(R.id.slider);
-        }
+        }*/
 
         slidingMenu = getSlidingMenu();
         slidingMenu.setShadowWidthRes(R.dimen.slider_shadow_width);
@@ -549,7 +659,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         left.setOnClickListener(this);
         right.setOnClickListener(this);
 
-        mBottomRecord = findViewById(R.id.iv_bottom_record);
+        mBottomRecord = (ImageView) findViewById(R.id.iv_bottom_record);
         mBottomRecord.setOnClickListener(this);
         root = findViewById(R.id.rl_main_root);
         return background;
@@ -647,8 +757,12 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
     }
 
-    private void switchActionBar(final int index) {
 
+
+    private void switchActionBar(final int index) {
+        if (leftIcon == null || leftHead == null){
+            return;
+        }
         if (index == 0) {
             if (isLogin) {
                 leftIcon.setVisibility(View.GONE);
@@ -731,7 +845,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
      * 刷新标题栏左上角头像
      */
     private void refreshActionBar() {
-
+        if (leftHead == null || leftIcon == null){
+            return;
+        }
         isLogin = PreferencesHepler.getInstance().isLogin();
         imageUrl = PreferencesHepler.getInstance().getUserProfilePersonalInformation().getAvatar();
         if (isLogin && !StringUtil.isNull(imageUrl)) {
@@ -768,37 +884,70 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
     }
 
-    private void initFragment() {
+    /**
+     * 只初始化首页
+     */
+    private void initHomeFragment() {
         if (fragments == null) {
             fragments = new ArrayList<>();
+        }else {
+            return;
         }
         fragments.clear();
 
         home = new HomeFragment();
+       // game = new GameFragment();
+      //  discover = new DiscoverFragment();
+     //   playWithFragment = new PlayWithFragment();
+
+        fragments.add(home);
+       /* fragments.add(game);
+        fragments.add(discover);
+        fragments.add(playWithFragment);*/
+      //  fragments.add(new Fragment());
+      //  fragments.add(new Fragment());
+       // fragments.add(new Fragment());
+        viewPager = (ViewPagerY4) findViewById(R.id.pager);
+        viewPager.setScrollable(true);
+        viewPager.setOffscreenPageLimit(3);
+        adapter = new WelfarePagerAdapter(manager, fragments);
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(this);
+
+        viewPager.setCurrentItem(0);
+    //    viewPager.setPageTransformer(false,new HomeShadeTransformer(viewPager,search,mPlayWidth,3));
+        new HorizontalOverScrollBounceEffectDecorator(new ViewPagerOverScrollDecorAdapter(viewPager));
+    }
+
+    /**
+     * 拆分出来 提升冷启动首页速度
+     */
+    private void initOtherFragment(){
+        if (fragments == null || viewPager == null) {
+            return;
+        }
+        if(game != null || discover != null || playWithFragment != null){
+            return;
+        }
+
         game = new GameFragment();
         discover = new DiscoverFragment();
         playWithFragment = new PlayWithFragment();
+        playWithFragment.setOnScrollListener(mPlayWithListener);
 
+        fragments.clear();
         fragments.add(home);
         fragments.add(game);
         fragments.add(discover);
         fragments.add(playWithFragment);
-        viewPager = (ViewPagerY4) findViewById(R.id.pager);
-        viewPager.setScrollable(true);
-        viewPager.setOffscreenPageLimit(1);
-        adapter = new WelfarePagerAdapter(manager, fragments);
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(this);
-        playWithFragment.setOnScrollListener(mPlayWithListener);
 
-    //    viewPager.setPageTransformer(false,new HomeShadeTransformer(viewPager,search,mPlayWidth,3));
-        new HorizontalOverScrollBounceEffectDecorator(new ViewPagerOverScrollDecorAdapter(viewPager));
+
+        adapter.notifyDataSetChanged();
     }
 
     public void initMenu() {
 
         menu = findViewById(R.id.menu);
-
         mPlayWithBottom = (TextView)findViewById(R.id.tv_bottom_play_with);
         mDivider = findViewById(R.id.v_divider_bottom);
 
@@ -839,6 +988,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     @Override
     public void onPageScrollStateChanged(int arg0) {
+        //状态改变 重新渲染
+        initOtherFragment();
 
         mScrollState = arg0;
         if (mScrollState == SCROLL_STATE_IDLE){
@@ -930,44 +1081,126 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         search.setAlpha(scale);
     }
 
+    private Map<String,Drawable> mDrawableMap = new HashMap<>();
+    private int mPagerIndex = 0;
     private void switchTab(final int index) {
-        for (int i = 0; i < bottomText.size(); i++) {
-            if (index == i) {
-                bottomText.get(i).setTextColor(resources.getColorStateList(R.color.menu_main_red));
+        //
+        mPagerIndex = index;
 
-            } else {
-                bottomText.get(i).setTextColor(resources.getColorStateList(R.color.menu_main_gray));
+        //初始化页面
+        initOtherFragment();
+
+        //解析按钮配置
+        BottomIconEntity entity =  parseIconConfig();
+
+        if (entity == null){
+            entity = new BottomIconEntity();
+            entity.setMenuIco(new BottomIconEntity.MenuIcoBean());
+        }
+
+        if (bottomText != null){
+            for (int i = 0; i < bottomText.size(); i++) {
+                if (index == i) {
+                    bottomText.get(i).setTextColor(resources.getColorStateList(R.color.menu_main_red));
+
+                } else {
+                    bottomText.get(i).setTextColor(resources.getColorStateList(R.color.menu_main_gray));
+                }
             }
         }
+
+        //重新渲染 录屏按钮图片
+        if (mBottomRecord != null){
+            final String unPress = entity.getMenuIco().getScreen();
+            final String press = entity.getMenuIco().getScreenChecked();
+            GlideHelper.displayImageByDrawable(this, R.drawable.home_bottom_record, unPress, mBottomRecord, new SimpleTarget<GlideDrawable>() {
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    if (!StringUtil.isNull(unPress)){
+                        mDrawableMap.put(unPress,resource);
+                    }
+
+                    if (mDrawableMap.get(press) != null){
+                        StateListDrawable drawable = new StateListDrawable();
+
+                        drawable.addState(new int[]{android.R.attr.state_pressed},mDrawableMap.get(press));
+
+                        drawable.addState(new int[]{-android.R.attr.state_pressed},resource);
+                        mBottomRecord.setImageDrawable(drawable);
+                    }
+                }
+            });
+            GlideHelper.displayImageByDrawable(this, R.drawable.home_bottom_record_press,press, mBottomRecord, new SimpleTarget<GlideDrawable>() {
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    if (!StringUtil.isNull(press)){
+                        mDrawableMap.put(press,resource);
+                    }
+                    if (mDrawableMap.get(unPress) != null){
+                        StateListDrawable drawable = new StateListDrawable();
+
+                        drawable.addState(new int[]{android.R.attr.state_pressed},resource);
+
+                        drawable.addState(new int[]{-android.R.attr.state_pressed},mDrawableMap.get(unPress));
+                        mBottomRecord.setImageDrawable(drawable);
+                    }
+                }
+            });
+        }
+
         switch (index) {
             case 0:// 首页
-                bottomIcon.get(0).setImageResource(R.drawable.home_selected);
+
+                GlideHelper.displayImage(this,R.drawable.home_selected,entity.getMenuIco().getIndexChecked(),bottomIcon.get(0));
+                GlideHelper.displayImage(this,R.drawable.game_normal,entity.getMenuIco().getGroup(),bottomIcon.get(1));
+                GlideHelper.displayImage(this,R.drawable.discover_normal,entity.getMenuIco().getDiscovery(),bottomIcon.get(2));
+                GlideHelper.displayImage(this,R.drawable.event_nomal,entity.getMenuIco().getTraining(),bottomIcon.get(3));
+
+          /*      bottomIcon.get(0).setImageResource(R.drawable.home_selected);
                 bottomIcon.get(1).setImageResource(R.drawable.game_normal);
                 bottomIcon.get(2).setImageResource(R.drawable.discover_normal);
-                bottomIcon.get(3).setImageResource(R.drawable.event_nomal);
+                bottomIcon.get(3).setImageResource(R.drawable.event_nomal);*/
                 showPlayWidthTab(false);
                 break;
             case 1: // 打游戏
-                bottomIcon.get(0).setImageResource(R.drawable.home_normal);
+
+                GlideHelper.displayImage(this,R.drawable.home_normal,entity.getMenuIco().getIndex(),bottomIcon.get(0));
+                GlideHelper.displayImage(this,R.drawable.game_selected,entity.getMenuIco().getGroupChecked(),bottomIcon.get(1));
+                GlideHelper.displayImage(this,R.drawable.discover_normal,entity.getMenuIco().getDiscovery(),bottomIcon.get(2));
+                GlideHelper.displayImage(this,R.drawable.event_nomal,entity.getMenuIco().getTraining(),bottomIcon.get(3));
+
+             /*   bottomIcon.get(0).setImageResource(R.drawable.home_normal);
                 bottomIcon.get(1).setImageResource(R.drawable.game_selected);
                 bottomIcon.get(2).setImageResource(R.drawable.discover_normal);
-                bottomIcon.get(3).setImageResource(R.drawable.event_nomal);
+                bottomIcon.get(3).setImageResource(R.drawable.event_nomal);*/
                 showPlayWidthTab(false);
                 showGameTipDialog();
                 break;
             case 2: // 发现
-                bottomIcon.get(0).setImageResource(R.drawable.home_normal);
+
+                GlideHelper.displayImage(this,R.drawable.home_normal,entity.getMenuIco().getIndex(),bottomIcon.get(0));
+                GlideHelper.displayImage(this,R.drawable.game_normal,entity.getMenuIco().getGroup(),bottomIcon.get(1));
+                GlideHelper.displayImage(this,R.drawable.discover_selected,entity.getMenuIco().getDiscoveryChecked(),bottomIcon.get(2));
+                GlideHelper.displayImage(this,R.drawable.event_nomal,entity.getMenuIco().getTraining(),bottomIcon.get(3));
+
+           /*     bottomIcon.get(0).setImageResource(R.drawable.home_normal);
                 bottomIcon.get(1).setImageResource(R.drawable.game_normal);
                 bottomIcon.get(2).setImageResource(R.drawable.discover_selected);
-                bottomIcon.get(3).setImageResource(R.drawable.event_nomal);
+                bottomIcon.get(3).setImageResource(R.drawable.event_nomal);*/
                 showPlayWidthTab(false);
                 showDiscoverTipDialog();
                 break;
             case 3:// 福利
-                bottomIcon.get(0).setImageResource(R.drawable.home_normal);
+
+                GlideHelper.displayImage(this,R.drawable.home_normal,entity.getMenuIco().getIndex(),bottomIcon.get(0));
+                GlideHelper.displayImage(this,R.drawable.game_normal,entity.getMenuIco().getGroup(),bottomIcon.get(1));
+                GlideHelper.displayImage(this,R.drawable.discover_normal,entity.getMenuIco().getDiscovery(),bottomIcon.get(2));
+                GlideHelper.displayImage(this,R.drawable.event_selected,entity.getMenuIco().getTrainingChecked(),bottomIcon.get(3));
+
+            /*    bottomIcon.get(0).setImageResource(R.drawable.home_normal);
                 bottomIcon.get(1).setImageResource(R.drawable.game_normal);
                 bottomIcon.get(2).setImageResource(R.drawable.discover_normal);
-                bottomIcon.get(3).setImageResource(R.drawable.event_selected);
+                bottomIcon.get(3).setImageResource(R.drawable.event_selected);*/
                 showPlayWidthTab(true);
                 showMatchTipDialog();
                 break;
@@ -975,9 +1208,43 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     }
 
     /**
+     * 解析首页底部按钮图片配置文件
+     */
+    private BottomIconEntity parseIconConfig(){
+        BottomIconEntity entity = null;
+        //R.raw.iconconf 此文件默认为空，后台有更新时会写入
+        File file = null;
+        try {
+            file =  new File(getFilesDir(),"icon_config.json");
+            if (!file.exists()){
+                file.createNewFile();
+            }
+            InputStream is = new FileInputStream(file);
+            if (is != null){
+                Gson gson = new Gson();
+                entity =  gson.fromJson(new JsonReader(new InputStreamReader(is)),BottomIconEntity.class);
+            }
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        } catch (JsonIOException e) {
+            e.printStackTrace();
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        return entity;
+    }
+
+    /**
      *显示/隐藏顶部陪练赛事标题
      */
     private void showPlayWidthTab(boolean isShow){
+        if (leftCount == null || playWithFragment == null){
+            return;
+        }
         if (isShow){
             leftCount.setVisibility(View.GONE);
             right.setVisibility(View.GONE);
@@ -1004,8 +1271,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                     break;
             }
         }else {
-
-            leftCount.setVisibility(View.VISIBLE);
+            refreshUnReadView();
 
             right.setVisibility(View.VISIBLE);
             mOrderList.setVisibility(View.GONE);
@@ -1107,11 +1373,26 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     }
 
     /**
+     * 提交游戏关注列表
+     */
+    private void commitFocusGameList(){
+        //提交问卷
+        String gameIds;
+        gameIds = UserPreferences.getInstance().getString(Constants.GROUP_IDS_NEW,"");
+        Member member = PreferencesHepler.getInstance().getUserProfilePersonalInformation();
+
+        if (!StringUtil.isNull(gameIds) && member != null){
+            DataManager.commitFocusGameList(member.getId(),gameIds);
+        }
+    }
+
+    /**
      * 遮罩提示页：视频录制
      */
     private void showVideoTipDialog() {
 
         boolean tip = NormalPreferences.getInstance().getBoolean(Constants.TIP_VEDIO, true);
+
         if (tip) {
             UITask.postDelayed(new Runnable() {
                 @Override
@@ -1159,6 +1440,51 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
     }
 
+    private String mConfigUrl = null;
+    private FileDownloadRequest mConfigRequest;
+    private void downloadConfig(final String filePath){
+        if (StringUtil.isNull(filePath)){
+            return;
+        }
+        if (StringUtil.isNull(mConfigUrl)){
+            mConfigUrl = AppConstant.getIconConfigQn();
+        }
+        if (mConfigRequest == null){
+            mConfigRequest = new FileDownloadRequest();
+        }
+
+        mConfigRequest.download(mConfigUrl, filePath, 0, new FileDownloadRequest.DownloadListener() {
+            @Override
+            public void progress(long totalBytesRead, long contentLength, boolean isDone) {
+                if (isDone ){
+                    if (totalBytesRead >0){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                switchTab(mPagerIndex);
+                            }
+                        });
+                    }else {
+                        if (mConfigUrl.equals(AppConstant.getIconConfigQn())){
+                            mConfigUrl = AppConstant.getIconConfigFm();
+                            downloadConfig(filePath);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void finish() {
+
+                if (mConfigUrl.equals(AppConstant.getIconConfigQn())){
+                    mConfigUrl = AppConstant.getIconConfigFm();
+                    downloadConfig(filePath);
+                }
+            }
+        });
+
+    }
+
     /**
      * 事件：登录
      */
@@ -1167,8 +1493,22 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         if (event != null) {
             refreshActionBar();
         }
+
+        commitFocusGameList();
     }
 
+
+
+
+    /**
+     *  提交问卷结果
+     */
+    public void onEventMainThread(CommitFocusGameListEntity entity){
+        if (entity.isResult()){
+            //清除问卷
+            UserPreferences.getInstance().putString(Constants.GROUP_IDS_NEW,"");
+        }
+    }
 
     /**
      * 回调：融云获取token
@@ -1238,7 +1578,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                        new FileDownloadRequest().download(data.getDownload_url(),patchFile.getAbsolutePath(),0,new FileDownloadRequest.DownloadListener(){
                            @Override
                            public void progress(long totalBytesRead, long contentLength, boolean isDone) {
-                               Log.d("FileDownloadRequest","totalBytesRead:"+totalBytesRead+" contentLength:"+contentLength+" isDone:"+isDone);
+                             //  Log.d("FileDownloadRequest","totalBytesRead:"+totalBytesRead+" contentLength:"+contentLength+" isDone:"+isDone);
                                if (isDone){
                                    String validation= "";
                                    try {
@@ -1250,6 +1590,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                                    }
                                    if (mValidation.equals(validation)){
                                        TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), patchFile.getAbsolutePath());
+                                        //第一次加载了新补丁
+                                       mHasPatch = true;
                                    }
                                }
                            }
@@ -1264,8 +1606,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             }
         }
     }
-
-
 
 
     private UnReadMessageEvent mUnReadMsg;

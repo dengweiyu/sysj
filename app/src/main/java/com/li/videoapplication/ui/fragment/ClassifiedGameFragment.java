@@ -1,20 +1,12 @@
 package com.li.videoapplication.ui.fragment;
 
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
@@ -26,7 +18,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.GroupType;
-import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
 import com.li.videoapplication.data.model.response.GameListEntity;
@@ -43,19 +34,9 @@ import com.li.videoapplication.ui.adapter.ClassifiedAdapter;
 import com.li.videoapplication.ui.adapter.ClassifiedGameAdapter;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.views.GridViewY1;
-import com.li.videoapplication.views.bubblelayout.BubbleLayout;
-import com.li.videoapplication.views.bubblelayout.BubblePopupHelper;
-import io.rong.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import y.com.sqlitesdk.framework.IfeimoSqliteSdk;
 
 /**
  * 碎片：游戏分类

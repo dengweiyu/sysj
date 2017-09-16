@@ -9,7 +9,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.VideoPlayGiftEntity;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 

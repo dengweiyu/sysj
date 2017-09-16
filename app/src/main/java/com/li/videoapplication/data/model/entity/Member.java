@@ -1,7 +1,5 @@
 package com.li.videoapplication.data.model.entity;
 
-import android.graphics.Bitmap;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;

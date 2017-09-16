@@ -34,7 +34,6 @@ import java.util.TimerTask;
 
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import rx.functions.Action1;
 
 
 /**

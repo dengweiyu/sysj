@@ -18,7 +18,6 @@ import com.squareup.okhttp.ResponseBody;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import okio.Buffer;
 /**

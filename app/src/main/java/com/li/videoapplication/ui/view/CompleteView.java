@@ -5,26 +5,18 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.VideoImage;
-import com.li.videoapplication.data.model.entity.VideoImageGroup;
-import com.li.videoapplication.data.preferences.PreferencesHepler;
-import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.ArrayHelper;
-import com.li.videoapplication.tools.RandomUtil;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
-import com.li.videoapplication.ui.adapter.BannerAdapter;
 import com.li.videoapplication.ui.adapter.VideoRecommendationAdapter;
 import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.views.CircleFlowIndicator;
 import com.li.videoapplication.views.ViewFlow;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**

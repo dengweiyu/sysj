@@ -9,14 +9,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ifeimo.im.activity.ChatActivity;
 import com.ifeimo.im.framwork.IMSdk;
-import com.ifeimo.im.framwork.Proxy;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.image.GlideHelper;
-import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.PlayWithTakeOrderEntity;
-import com.li.videoapplication.data.network.UITask;
-import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
@@ -92,7 +88,12 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
 
         TextView startTime = (TextView)holder.getView(R.id.tv_game_start_time);
         try {
-            startTime.setText(Html.fromHtml("开始时间："+TextUtil.toColor(TimeHelper.getWholeTimeFormat(data.getStart_time()),"#b8b8b8")));
+            if ("2".equals(data.getOrder_mode())){
+                startTime.setVisibility(View.GONE);
+            }else {
+                startTime.setVisibility(View.VISIBLE);
+                startTime.setText(Html.fromHtml("开始时间："+TextUtil.toColor(TimeHelper.getWholeTimeFormat(data.getStart_time()),"#b8b8b8")));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,6 +101,7 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
         TextView createTime = (TextView)holder.getView(R.id.tv_game_end_time);
         try {
             createTime.setText(Html.fromHtml("下单时间："+TextUtil.toColor(TimeHelper.getWholeTimeFormat(data.getAdd_time()),"#b8b8b8")));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -115,6 +117,8 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
         View textGo = holder.getView(R.id.tv_go_detail);
         View layoutGo = holder.getView(R.id.rl_go_detail);
         View imageGo = holder.getView(R.id.iv_go_detail);
+
+        take.setText("接单");
         switch (data.getStatusX()){
             case "0":                   //待支付
                 take.setVisibility(View.GONE);
@@ -131,7 +135,8 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
                 textGo.setVisibility(View.GONE);
                 imageGo.setVisibility(View.GONE);
 
-                if (!StringUtil.isNull(data.getCoach_id())){
+                //抢单模式
+                if ("2".equals(data.getOrder_mode())){
                     take.setText("抢单");
                     take.setBackgroundResource(R.color.ab_backdround_red);
                 }
@@ -149,14 +154,14 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
                 take.setVisibility(View.GONE);
                 textGo.setVisibility(View.VISIBLE);
                 imageGo.setVisibility(View.VISIBLE);
-                status.setTextColor(mContext.getResources().getColor(R.color.lpds_blue));
+              //  status.setTextColor(mContext.getResources().getColor(R.color.lpds_blue));
                 break;
 
             case "5":                   //陪练完成
                 take.setVisibility(View.GONE);
                 textGo.setVisibility(View.VISIBLE);
                 imageGo.setVisibility(View.VISIBLE);
-                status.setTextColor(mContext.getResources().getColor(R.color.lpds_blue));
+             //   status.setTextColor(mContext.getResources().getColor(R.color.lpds_blue));
                 break;
             case "10":                  //退款申请
                 take.setVisibility(View.GONE);

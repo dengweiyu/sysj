@@ -7,7 +7,6 @@ import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.PointF;
 import android.graphics.Rect;
-import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;

@@ -14,7 +14,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.framework.AppManager;

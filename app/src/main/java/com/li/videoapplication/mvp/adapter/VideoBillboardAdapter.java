@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.event.GoodAndStartEvent;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.mvp.billboard.BillboardContract.IBillboardPresenter;
 import com.li.videoapplication.mvp.billboard.presenter.BillboardPresenter;
@@ -27,6 +28,8 @@ import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 
 import java.util.List;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 适配器：视频榜
@@ -59,6 +62,7 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
         helper = new TextImageHelper();
         presenter = new BillboardPresenter();
         member_id = PreferencesHepler.getInstance().getMember_id();
+        EventBus.getDefault().register(this);
     }
 
     public void setTab(int tab) {
@@ -71,10 +75,9 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
                 .setBackgroundColor(R.id.divider, ContextCompat.getColor(mContext, R.color.divider_bg))
                 .setVisible(R.id.groupdetail_v, videoImage.isV())
                 .setText(R.id.groupdetail_name, videoImage.getNickname())
-                .setText(R.id.groupdetail_content, videoImage.getTitle())
-                .setText(R.id.groupdetail_starCount, videoImage.getCollection_count());
+                .setText(R.id.groupdetail_content, videoImage.getTitle());
 
-        if (tab != 0 && tab == 1) {
+   /*     if (tab != 0 && tab == 1) {
             holder.setText(R.id.groupdetail_likeCount, Str2Red(videoImage.getFlower_count()))
                     .setText(R.id.groupdetail_commentCount, videoImage.getComment_count());
         } else if (tab != 0 && tab == 2) {
@@ -83,6 +86,18 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
         } else { //tab=0 || tab=3
             holder.setText(R.id.groupdetail_likeCount, videoImage.getFlower_count())
                     .setText(R.id.groupdetail_commentCount, videoImage.getComment_count());
+        }*/
+
+        holder.setText(R.id.groupdetail_likeCount, videoImage.getFlower_count())
+                .setText(R.id.groupdetail_commentCount, videoImage.getComment_count())
+                .setText(R.id.groupdetail_starCount, videoImage.getCollection_count());
+
+        if (videoImage.flower_tick == 1){
+            holder.setText(R.id.groupdetail_likeCount, Str2Red(videoImage.getFlower_count()));
+        }
+
+        if (videoImage.collection_tick == 1){
+            holder .setText(R.id.groupdetail_starCount, Str2Red(videoImage.getCollection_count()));
         }
 
         ImageView head = holder.getView(R.id.groupdetail_head);
@@ -104,11 +119,13 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
 
             setTimeLength(holder, videoImage);
 
-            if (tab != 0 && tab == 3) {
+        /*    if (tab != 0 && tab == 3) {
                 holder.setText(R.id.groupdetail_playCount, Str2Red(StringUtil.toUnitW(videoImage.getClick_count())));
             } else {
                 holder.setText(R.id.groupdetail_playCount, StringUtil.toUnitW(videoImage.getClick_count()));
-            }
+            }*/
+
+            holder.setText(R.id.groupdetail_playCount, StringUtil.toUnitW(videoImage.getClick_count()));
 
             ImageView cover = holder.getView(R.id.groupdetail_cover);
             if (!StringUtil.isNull(videoImage.getVideo_flag())) {
@@ -184,6 +201,7 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
 
         if (record.getFlower_tick() == 1) {// 已点赞状态
             holder.setImageResource(R.id.groupdetail_like, R.drawable.videoplay_good_red_205);
+
         } else {// 未点赞状态
             holder.setImageResource(R.id.groupdetail_like, R.drawable.videoplay_good_gray_205);
         }
@@ -352,5 +370,52 @@ public class VideoBillboardAdapter extends BaseQuickAdapter<VideoImage, BaseView
 
     private CharSequence Str2Red(String string) {
         return Html.fromHtml(TextUtil.toColor(string, "#ff3d2e"));
+    }
+
+
+    /**
+     * 点赞 收藏事件
+     */
+    public void onEventMainThread(GoodAndStartEvent event){
+        if (StringUtil.isNull(event.getVideoId())){
+            return;
+        }
+        if (mData == null){
+            return;
+        }
+        for (VideoImage v:
+                mData) {
+            if (event.getVideoId().equals(v.getVideo_id())){
+                if (event.getType() == GoodAndStartEvent.TYPE_GOOD){
+                    if (event.isPositive()){
+                        v.flower_tick = 1;
+                        v.flower_count =( Integer.parseInt(v.flower_count) + 1)+"";
+                    }else {
+                        int count = Integer.parseInt(v.flower_count);
+                        if (count < 1){
+                            return;
+                        }
+                        v.flower_tick = 0;
+                        v.flower_count =(count - 1)+"";
+                    }
+                    notifyDataSetChanged();
+                }else if (event.getType() == GoodAndStartEvent.TYPE_START){
+                    if (event.isPositive()){
+                        v.collection_tick = 1;
+                        v.collection_count = ( Integer.parseInt(v.collection_count) + 1)+"";
+                    }else {
+                        v.collection_tick = 0;
+
+                        int count = Integer.parseInt(v.collection_count);
+                        if (count < 1){
+                            return;
+                        }
+                        v.collection_count = ( count - 1)+"";
+                    }
+                    notifyDataSetChanged();
+                }
+                break;
+            }
+        }
     }
 }

@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
-import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
@@ -20,8 +19,6 @@ import com.li.videoapplication.ui.activity.GroupListActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.RoundedImageView;
-
-import io.rong.eventbus.EventBus;
 
 /**
  * 适配器：圈子
@@ -90,7 +87,7 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
      * 话题
      */
     private void setTopic(TextView view, final Game record) {
-        view.setText("话题\t" + record.getVideo_num());
+        view.setText("话题\t" + StringUtil.toUnitW(record.getVideo_num()));
     }
 
     /**

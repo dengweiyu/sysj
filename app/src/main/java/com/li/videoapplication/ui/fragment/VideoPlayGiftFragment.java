@@ -48,8 +48,6 @@ import com.li.videoapplication.ui.view.GiftItemDecoration;
 import com.li.videoapplication.ui.view.SimpleItemDecoration;
 import com.li.videoapplication.utils.StringUtil;
 
-import org.apache.commons.io.filefilter.FalseFileFilter;
-
 import java.util.ArrayList;
 import java.util.List;
 

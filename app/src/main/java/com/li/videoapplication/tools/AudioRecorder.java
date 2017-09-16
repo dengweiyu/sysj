@@ -1,8 +1,5 @@
 package com.li.videoapplication.tools;
 
-import android.media.AudioFormat;
-import android.media.AudioRecord;
-import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.util.Log;
 

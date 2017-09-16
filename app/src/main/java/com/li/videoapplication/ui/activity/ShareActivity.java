@@ -41,7 +41,6 @@ import cn.sharesdk.framework.Platform.ShareParams;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.wechat.utils.WechatClientNotExistException;
-import io.rong.imkit.model.Event;
 
 /**
  * 活动：分享

@@ -101,13 +101,13 @@
         android:id="@+id/tv_choice_again"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:visibility="gone"
         android:layout_alignParentRight="true"
         android:textSize="10sp"
         android:textColor="@color/ab_backdround_red"
         android:text="继续选择TA"
         android:background="@drawable/red_border"
         android:padding="2dp"
-        android:visibility="gone"
+        android:layout_alignTop="@+id/ll_coach_score"
         android:layout_marginLeft="10dp"/>
 </RelativeLayout>

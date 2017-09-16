@@ -2,11 +2,9 @@ package com.li.videoapplication.tools;
 
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 
 import com.ifeimo.im.common.callback.LoginCallBack;
-import com.ifeimo.im.common.callback.OnLoginSYSJCallBack;
 import com.ifeimo.im.framwork.IMSdk;
 
 

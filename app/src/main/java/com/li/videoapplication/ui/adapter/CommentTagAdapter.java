@@ -1,6 +1,5 @@
 package com.li.videoapplication.ui.adapter;
 
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;

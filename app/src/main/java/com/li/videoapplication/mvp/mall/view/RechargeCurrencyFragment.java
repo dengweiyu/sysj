@@ -17,7 +17,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.TopUp;
 import com.li.videoapplication.data.model.event.UserInfomationEvent;
-import com.li.videoapplication.data.model.response.MemberCurrencyEntity;
 import com.li.videoapplication.data.model.response.TopUpOptionEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.adapter.TopUpAdapter;

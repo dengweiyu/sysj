@@ -10,9 +10,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.data.model.response.PhotoRetPhotoNameAndTokenEntity;
-import com.li.videoapplication.data.model.response.PhotoSavePhotoEntity;
 import com.li.videoapplication.data.model.response.RetPhotoKeyAndToken204Entity;
-import com.li.videoapplication.data.model.response.SaveEventResult204Entity;
 import com.li.videoapplication.data.qiniu.http.ResponseInfo;
 import com.li.videoapplication.data.qiniu.storage.KeyGenerator;
 import com.li.videoapplication.data.qiniu.storage.UpCancellationSignal;
@@ -23,7 +21,6 @@ import com.li.videoapplication.data.qiniu.storage.UploadOptions;
 import com.li.videoapplication.data.qiniu.storage.persistent.FileRecorder;
 import com.li.videoapplication.data.qiniu.utils.UrlSafeBase64;
 import com.li.videoapplication.framework.BaseResponseEntity;
-import com.li.videoapplication.utils.LogHelper;
 import com.li.videoapplication.utils.StringUtil;
 
 import org.json.JSONObject;

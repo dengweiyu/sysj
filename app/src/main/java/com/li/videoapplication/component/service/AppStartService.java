@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 
-import com.baidu.push.example.BaiduPush;
 import com.fmsysj.screeclibinvoke.data.preferences.Utils_Preferens;
 import com.ifeimo.im.framwork.IMSdk;
 import com.li.videoapplication.data.EventManager;
@@ -17,14 +16,10 @@ import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.entity.Member;
-import com.li.videoapplication.data.model.event.LogoutEvent;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.response.GetDownloadAppEntity;
 import com.li.videoapplication.data.model.response.GetDownloadOtherEntity;
-import com.li.videoapplication.data.model.response.LoginEntity;
-import com.li.videoapplication.data.model.response.SubmitChannelIdEntity;
-import com.li.videoapplication.data.model.response.Token;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.impl.SimpleHeadLineObservable;
@@ -45,7 +40,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import cn.jpush.android.service.DaemonService;
 import rx.Observer;
 
 /**
@@ -106,14 +100,6 @@ public class AppStartService extends BaseIntentService{
             mTokenHandler.post(mRefreshTokenTask);
         }
 
-        //
-        BaiduPush.getInstances().onCreate(getApplicationContext());
-
-        //feimo im sdk
-        IMSdk.init(getApplication());
-
-        //IM推送
-        IMSdk.setHeadLineMeesageListener(new SimpleHeadLineObservable(this));
     }
 
     @Override
@@ -542,34 +528,4 @@ public class AppStartService extends BaseIntentService{
         Log.d(TAG, "feimo: true");
     }
 
-    /**
-     * 回调:登录成功
-     */
-    public synchronized void onEventMainThread(LoginEntity event) {
-        BaiduPush.getInstances().onCreate(getApplicationContext());
-    }
-
-    /**
-     *回调：退出
-     */
-    public  void onEventMainThread(LogoutEvent event){
-        BaiduPush.getInstances().onStop(getApplicationContext());
-    }
-
-
-    /**
-     * channel id 提交结果
-     */
-    public void onEventMainThread(SubmitChannelIdEntity entity){
-        if (entity == null || !entity.isResult()){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    BaiduPush.getInstances().onCreate(getApplicationContext());
-                }
-            },120000);
-        }else {
-
-        }
-    }
 }

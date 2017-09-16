@@ -2,9 +2,6 @@ package com.li.videoapplication.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.nfc.Tag;
-import android.os.IBinder;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;

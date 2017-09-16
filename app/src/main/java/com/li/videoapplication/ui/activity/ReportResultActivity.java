@@ -1,7 +1,5 @@
 package com.li.videoapplication.ui.activity;
 
-import android.os.Bundle;
-
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.TBaseActivity;
 

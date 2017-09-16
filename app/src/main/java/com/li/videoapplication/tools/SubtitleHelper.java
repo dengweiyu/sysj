@@ -10,7 +10,6 @@ import com.li.videoapplication.ui.srt.SRT;
 import com.li.videoapplication.ui.srt.SRTInfo;
 import com.li.videoapplication.ui.srt.SRTReader;
 import com.li.videoapplication.ui.srt.SRTTimeFormat;
-import com.pili.pldroid.player.widget.PLVideoView;
 
 import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;

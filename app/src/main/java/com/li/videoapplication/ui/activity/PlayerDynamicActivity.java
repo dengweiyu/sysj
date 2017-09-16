@@ -22,7 +22,6 @@ import com.li.videoapplication.data.model.response.VideoCollect2Entity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.PullToRefreshActivity;
-import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.DynamicVideoAdapter;
@@ -472,7 +471,5 @@ public class PlayerDynamicActivity extends PullToRefreshActivity<VideoImage> imp
                 showToastShort(event.getMsg());
             }
         }
-
-
     }
 }

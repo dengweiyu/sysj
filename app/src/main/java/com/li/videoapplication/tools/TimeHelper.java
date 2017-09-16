@@ -5,8 +5,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,6 +12,8 @@ import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.image.VideoDuration;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.utils.StreamUtil;
+import com.li.videoapplication.utils.StringUtil;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;
@@ -440,7 +440,9 @@ public class TimeHelper {
      */
     @SuppressWarnings("deprecation")
     public static final String getVideoImageUpTime(String time) throws Exception {
-
+        if (StringUtil.isNull(time)){
+            return "";
+        }
         Long l = Long.valueOf(time);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date originalDate = new Date(l * 1000L);

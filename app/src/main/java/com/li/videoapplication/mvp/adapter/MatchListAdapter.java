@@ -11,8 +11,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.utils.StringUtil;
-import com.li.videoapplication.utils.URLUtil;
 
 import java.util.List;
 
@@ -45,10 +43,18 @@ public class MatchListAdapter extends BaseQuickAdapter<Match, BaseViewHolder> {
 
     private void setTime(BaseViewHolder holder, Match record) {
         try {
-            String string = TimeHelper.getMMddTimeFormat(record.getStarttime()) +
-                    "~" + TimeHelper.getMMddTimeFormat(record.getEndtime());
+            //1 => 个人赛  2 => 团体赛
+            if ("1".equals(record.getType_id()) || "2".equals(record.getType_id())){
+                String string = TimeHelper.getTimeFormat(record.getStarttime());
+                holder.setText(R.id.match_time, Html.fromHtml(string));
+                holder.setText(R.id.iv_match_time_tip,"开赛：");
+            }else {
+                String string = TimeHelper.getTimeFormat(record.getStarttime()) +
+                        "~" + TimeHelper.getMMddTimeFormat(record.getEndtime());
 
-            holder.setText(R.id.match_time, Html.fromHtml(string));
+                holder.setText(R.id.match_time, Html.fromHtml(string));
+                holder.setText(R.id.iv_match_time_tip,"时间：");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

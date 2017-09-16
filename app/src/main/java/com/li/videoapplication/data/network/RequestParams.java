@@ -1,16 +1,12 @@
 package com.li.videoapplication.data.network;
 
-import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-import com.li.videoapplication.data.model.entity.OrderResultEntity;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.AppConstant;
-import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
-import com.umeng.analytics.AnalyticsConfig;
 
 /**
  * 功能：网络请求参数
@@ -188,12 +184,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> allRead(String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("type", "video");
-        return map;
-    }
 
     public Map<String, Object> messageSysMessage(String member_id, int page) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -209,11 +199,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> messageMsgGroupRed(String memberId) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("memberId", memberId);
-        return map;
-    }
 
     public Map<String, Object> messageMsgRed(String member_id) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -221,11 +206,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> messageClickMsg(String msg_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("msg_id", msg_id);
-        return map;
-    }
 
 	/* ############## 版本升级 ############## */
 
@@ -236,27 +216,7 @@ public class RequestParams {
         return map;
     }
 
-	/* ############## 用户资料 ############## */
 
-    public Map<String, Object> detailNew(String id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("id", id);
-        map.put("member_id", member_id);
-        return map;
-    }
-
-    public Map<String, Object> uploadAvatar(String id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("id", id);
-        return map;
-    }
-
-    public Map<String, Object> memberAttention(String member_id, String id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("id", id);
-        return map;
-    }
 
     public Map<String, Object> memberAttention201(String member_id, String id) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -265,54 +225,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> personalAttention(String member_id, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> personalFans(String member_id, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> cloudList(String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        return map;
-    }
-
-    public Map<String, Object> authorVideoList(int page, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> memberReviewList(String member_id, int page, String id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("page", page);
-        map.put("id", id);
-        return map;
-    }
-
-    public Map<String, Object> reviewLike(String review_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("review_id", review_id);
-        map.put("member_id", member_id);
-        return map;
-    }
-
-    public Map<String, Object> reviewLike2(String id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("id", id);
-        map.put("member_id", member_id);
-        return map;
-    }
 
     public Map<String, Object> UserProfilePersonalInformation(String user_id, String member_id) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -419,13 +331,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> rankingMyRanking(String memberId, String order) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("memberId", memberId);
-        map.put("order", order);
-        return map;
-    }
-
     public Map<String, Object> videoDisplayVideoQnKey(String qn_key) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("qn_key", qn_key);
@@ -467,51 +372,9 @@ public class RequestParams {
         return map;
     }
 
-	/* ############## ############## */
-
-    public Map<String, Object> subscribe(String id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("id", id);
-        return map;
-    }
 
 	/* ############## 收藏 ############## */
 
-    public Map<String, Object> collectVideoList(String member_id, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> matchLike(String member_id, String match_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("match_id", match_id);
-        return map;
-    }
-
-    public Map<String, Object> matchMark(String member_id, String match_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("match_id", match_id);
-        return map;
-    }
-
-    public Map<String, Object> matchReview(String member_id, String match_id, String content) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("match_id", match_id);
-        map.put("content", content);
-        return map;
-    }
-
-    public Map<String, Object> selectMatch203(String game_id) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("game_id", game_id);
-        return map;
-    }
 
     public Map<String, Object> getMatchInfo(String match_id) {
         Map<String, Object> map = new HashMap<>();
@@ -547,12 +410,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> memberCollectPicList(String member_id, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("page", page);
-        return map;
-    }
 
     public Map<String, Object> memberCancelCollect(String member_id, String video_ids, String pic_ids) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -564,13 +421,6 @@ public class RequestParams {
 
 	/* ############## 游戏圈子 ############## */
 
-    public Map<String, Object> groupList(int page, String type_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("type_id", type_id);
-        map.put("page", page);
-        return map;
-    }
 
     public Map<String, Object> groupList2(int page, String group_type_id, String member_id) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -588,13 +438,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> groupDetail(String group_id, String member_id, String type_name) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("group_id", group_id);
-        map.put("type_name", type_name);
-        return map;
-    }
 
     public Map<String, Object> groupInfo(String group_id, String member_id) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -603,13 +446,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> groupVideoList(String group_id, String member_id, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("group_id", group_id);
-        map.put("page", page);
-        return map;
-    }
 
     public Map<String, Object> groupDataList(String group_id, String member_id, int page) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -635,12 +471,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> groupAttention(String group_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("group_id", group_id);
-        return map;
-    }
 
     public Map<String, Object> groupAttentionGroup(String group_id, String member_id) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -649,51 +479,9 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> groupMemberList(String group_id, String member_id, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("group_id", group_id);
-        map.put("member_id", member_id);
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> groupReviewList(String group_id, String member_id, String page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("group_id", group_id);
-        map.put("member_id", member_id);
-        map.put("page", page);
-        return map;
-    }
 
 	/* ############## 视频 ############## */
 
-    public Map<String, Object> videoFlower(String id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("id", id);
-        map.put("member_id", member_id);
-        return map;
-    }
-
-    public Map<String, Object> videoCancelFlower(String id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("id", id);
-        map.put("member_id", member_id);
-        return map;
-    }
-
-    public Map<String, Object> videoCollect(String id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("id", id);
-        return map;
-    }
-
-    public Map<String, Object> videoCancelCollect(String id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("id", id);
-        return map;
-    }
 
     public Map<String, Object> videoDetail201(String video_id, String member_id) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -703,11 +491,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> videoPlayNext(String id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("id", id);
-        return map;
-    }
 
     public Map<String, Object> videoCommentList(String video_id, String member_id, int page) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -773,26 +556,6 @@ public class RequestParams {
 
 	/* ############## ############## */
 
-    public Map<String, Object> editorRecommend(String page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> topicList(String page, String mark) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        map.put("mark", mark);
-        return map;
-    }
-
-    public Map<String, Object> topicList2(String page, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        map.put("member_id", member_id);
-        return map;
-    }
-
     public Map<String, Object> list(String page, String type_id, String sort) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("page", page);
@@ -801,26 +564,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> homeDaily(String page, String sort) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        map.put("sort", sort);
-        return map;
-    }
-
-    public Map<String, Object> likeVideoList(String member_id, String page, String sort) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("page", page);
-        map.put("sort", sort);
-        return map;
-    }
-
-    public Map<String, Object> downLoad(String id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("id", id);
-        return map;
-    }
 
     public Map<String, Object> like(String id, String member_id) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -829,18 +572,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> commentLike(String comment_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("comment_id", comment_id);
-        map.put("member_id", member_id);
-        return map;
-    }
-
-    public Map<String, Object> keyWordList(String page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        return map;
-    }
 
     public Map<String, Object> keyWordListNew(int num) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -861,20 +592,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> searchTask(String name, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("className", name);
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> searchMember(String name, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("name", name);
-        map.put("page", page);
-        return map;
-    }
-
     public Map<String, Object> searchVideo(String name, String sort, int page) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("name", name);
@@ -883,18 +600,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> searchPackage(String name, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("name", name);
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> groupSearch(String keyWord) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("keyWord", keyWord);
-        return map;
-    }
 
     public Map<String, Object> searchVideo203(String keyword, String member_id, int page) {
         Map<String, Object> map = new HashMap<>();
@@ -930,33 +635,11 @@ public class RequestParams {
 
 	/* ############## 注册登录 ############## */
 
-    public Map<String, Object> registerNew(String key, String password, String origin) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("key", key);
-        map.put("password", password);
-        map.put("origin", origin);
-        return map;
-    }
-
-    public Map<String, Object> loginNew(String key, String password) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("key", key);
-        map.put("password", password);
-        return map;
-    }
-
     public Map<String, Object> eventRequestMsg(String key, String target, String title) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("key", key);
         map.put("target", target);// target = "sysj"
         map.put("event", title);
-        return map;
-    }
-
-    public Map<String, Object> sendCode(String mobile, String target) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("mobile", mobile);
-        map.put("target", target);// target = "sysj"
         return map;
     }
 
@@ -1071,26 +754,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> pwdModify(String uid, String oldpwd, String newpwd) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("uid", uid);
-        map.put("oldpwd", oldpwd);
-        map.put("newpwd", newpwd);
-        return map;
-    }
-
-    public Map<String, Object> pwdForget(String uid, String newpwd) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("uid", uid);
-        map.put("newpwd", newpwd);
-        return map;
-    }
-
-    public Map<String, Object> findForEmail(String email) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("email", email);
-        return map;
-    }
 
 	/* ############## 礼包 ############## */
 
@@ -1101,28 +764,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> packageInfo(String member_id, String id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("id", id);
-        map.put("member_id", member_id);
-        return map;
-    }
-
-    public Map<String, Object> getMyPackageList(String member_id, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> packageList(String member_id, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        if (!StringUtil.isNull(member_id)) {
-            map.put("member_id", member_id);
-        }
-        return map;
-    }
 
     public Map<String, Object> gamePackage203(String game_id, String member_id, int page) {
         Map<String, Object> map = new HashMap<>();
@@ -1139,13 +780,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> myPackage203(String member_id, int page) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("member_id", member_id);
-        map.put("page", page);
-        return map;
-    }
-
     public Map<String, Object> packageInfo203(String member_id, String id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("id", id);
@@ -1156,26 +790,6 @@ public class RequestParams {
 
 	/* ############## 任务 ############## */
 
-    public Map<String, Object> taskListNew(String member_id, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        map.put("member_id", member_id);
-        return map;
-    }
-
-    public Map<String, Object> taskList115(int page, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        map.put("member_id", member_id);
-        return map;
-    }
-
-    public Map<String, Object> taskList201(int page, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        map.put("member_id", member_id);
-        return map;
-    }
 
     public Map<String, Object> taskList203(String member_id) {
         Map<String, Object> map = new HashMap<>();
@@ -1183,98 +797,7 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> acceptTask(String task_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("task_id", task_id);
-        return map;
-    }
 
-    public Map<String, Object> acceptTask201(String task_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("task_id", task_id);
-        return map;
-    }
-
-    public Map<String, Object> doTask(String task_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("task_id", task_id);
-        return map;
-    }
-
-    public Map<String, Object> doTask115(String task_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("task_id", task_id);
-        return map;
-    }
-
-    public Map<String, Object> doTask201(String task_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("task_id", task_id);
-        return map;
-    }
-
-    public Map<String, Object> doTask203(String task_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("task_id", task_id);
-        return map;
-    }
-
-    public Map<String, Object> doTask117(String task_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("task_id", task_id);
-        return map;
-    }
-
-    public Map<String, Object> finishTaskNew(String task_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("task_id", task_id);
-        return map;
-    }
-
-    public Map<String, Object> getExp(String task_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("task_id", task_id);
-        return map;
-    }
-
-    public Map<String, Object> taskUnDoNum(String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        return map;
-    }
-
-	/* ############## ############## */
-
-    public Map<String, Object> taskUnDoNum(String page, String member_id, String flag) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        map.put("flag", flag);
-        if (!StringUtil.isNull(member_id)) {
-            map.put("member_id", member_id);
-        }
-        return map;
-    }
-
-    public Map<String, Object> getFocuseList(String page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> activityDetail(String id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("id", id);
-        return map;
-    }
 
     /* ############## 赛事 ############## */
     public Map<String, Object> signSchedule214(String member_id, String schedule_id, String event_id) {
@@ -1380,30 +903,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> getGroupEventsList211(String game_id, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("game_id", game_id);
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> getEventsList204(int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> getMatchList1_2(int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> getMatchList3(String alone_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("alone_id", alone_id);
-        return map;
-    }
 
     public Map<String, Object> getMatchList201(int page) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -1437,19 +936,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> matchInfo(String match_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("match_id", match_id);
-        map.put("member_id", member_id);
-        return map;
-    }
-
-    public Map<String, Object> matchVideoList(String match_id, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("match_id", match_id);
-        map.put("page", page);
-        return map;
-    }
 
     public Map<String, Object> myMatchList(String member_id, int page) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -1466,133 +952,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> myEventsList204(String member_id, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> joinMatch(String match_id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("match_id", match_id);
-        return map;
-    }
-
-    public Map<String, Object> matchVideoList201(String match_id, String member_id, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("match_id", match_id);
-        map.put("page", page);
-        return map;
-    }
-
-	/* ############## 榜单 ############## */
-
-    public Map<String, Object> daRenListNew(String member_id, String flag, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("flag", flag);// video fan rank
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> myDaRenList(String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        return map;
-    }
-
-    public Map<String, Object> memberRankingCurrency(String member_id, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> rankingMemberRanking(String member_id, String sort, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("sort", sort);// fans/rank/video
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> rankingVideoRanking(String member_id, String sort, int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("sort", sort);// like/comment/click
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> likeVideoList115(String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        return map;
-    }
-
-    public Map<String, Object> specialTopic(String id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("id", id);
-        return map;
-    }
-
-    public Map<String, Object> homeDaily(String page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        return map;
-    }
-
-	/* ############## 首页 ############## */
-
-    public Map<String, Object> appIndexList(int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> appIndexListAloneVersion(String alone_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("alone_id", alone_id);
-        return map;
-    }
-
-    public Map<String, Object> appIndexMore(String more_mark, String sort, String page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("more_mark", more_mark);
-        map.put("sort", sort);
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> appIndexMoreAloneVersion(String type_id, String sort, String page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("type_id", type_id);
-        map.put("sort", sort);
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> relaxedMoment(int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> recommendList(int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> indexIndex(int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        return map;
-    }
 
     public Map<String, Object> statisticalOpenApp(String member_id) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -1601,11 +960,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> indexIndex204(int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        return map;
-    }
 
     public Map<String, Object> indexIndexMore(String more_mark, String member_id, String sort, int page) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -1625,24 +979,7 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> indexBanner(String alone_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("alone_id", alone_id);
-        return map;
-    }
 
-    public Map<String, Object> indexVideoList(int page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        return map;
-    }
-
-    public Map<String, Object> indexDoSurvey(String member_id, String group_ids) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("group_ids", group_ids);
-        return map;
-    }
 
     public Map<String, Object> indexChangeGuess(String group_ids) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -1684,67 +1021,6 @@ public class RequestParams {
         map.put("platform", "android");
         return map;
     }
-
-    public Map<String, Object> launchImage(String target, int time) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("target", target);
-        map.put("time", time);
-        return map;
-    }
-
-    public Map<String, Object> indexLaunchImage(String target, int time) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("target", target);
-        map.put("time", time);
-        return map;
-    }
-
-    public Map<String, Object> appBanner(String alone_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("alone_id", alone_id);
-        return map;
-    }
-
-    public Map<String, Object> uplaodImage(String uplaodImage) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("uplaodImage", uplaodImage);
-        return map;
-    }
-
-    public Map<String, Object> detail(String id, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("id", id);
-        return map;
-    }
-
-    public Map<String, Object> topicVideoList(String id, String page) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-        map.put("id", id);
-        return map;
-    }
-
-    public Map<String, Object> playNext(String id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("id", id);
-        return map;
-    }
-
-    public Map<String, Object> commentList(String id, String page, String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("id", id);
-        map.put("page", page);
-        map.put("member_id", member_id);
-        return map;
-    }
-
-    public Map<String, Object> getVidById(String member_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        return map;
-    }
-
 	/* ############## 图文 ############## */
 
     public Map<String, Object> photoPhotoDetail(String pic_id, String member_id) {
@@ -1762,13 +1038,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> photoCommentLike(String piccommentid, String member_id, boolean isLike) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("piccommentid", piccommentid);
-        map.put("member_id", member_id);
-        map.put("isLike", isLike);// 点赞状态,false表示点击,true表示取消点赞
-        return map;
-    }
 
     public Map<String, Object> photoSendComment(String pic_id, String member_id, String content) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -1794,13 +1063,7 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> photoAttention(String fan_id, String member_id, boolean isAttent) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("fan_id", fan_id);// 登录用户的id
-        map.put("member_id", member_id);// 发表图文的用户id(不是登录用户!)
-        map.put("isAttent", isAttent);// 登录用户是否已经关注,false为还没有关注,true表示已经关注
-        return map;
-    }
+
 
     public Map<String, Object> report(String video_id, String member_id, String description, String type_id) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -1811,52 +1074,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> videoDoVideoMark(String member_id,
-                                                String video_title,
-                                                String game_id,
-                                                String width,
-                                                String height,
-                                                String time_length,
-                                                String channel,
-                                                String match_id,
-                                                String description) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("video_title", video_title);
-        map.put("game_id", game_id);
-        map.put("width", width);
-        map.put("height", height);
-        map.put("time_length", time_length);
-        map.put("channel", channel);// (通道，默认1)
-        map.put("match_id", match_id);// (活动用，可空)
-        map.put("description", description);// (可空)
-        return map;
-    }
-
-    public Map<String, Object> videoDoVideoMark203(String member_id,
-                                                   String video_title,
-                                                   String game_id,
-                                                   String width,
-                                                   String height,
-                                                   String time_length,
-                                                   String channel,
-
-                                                   String match_id,
-                                                   String description,
-                                                   int isofficial) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("member_id", member_id);
-        map.put("video_title", video_title);
-        map.put("game_id", game_id);
-        map.put("width", width);
-        map.put("height", height);
-        map.put("time_length", time_length);
-        map.put("channel", channel);// (通道，默认1)
-        map.put("match_id", match_id);// (活动用，可空)
-        map.put("description", description);// (可空)
-        map.put("isofficial", isofficial);// 0/1(可空)
-        return map;
-    }
 
     public Map<String, Object> doVideoMark(String member_id,
                                            String video_title,
@@ -1887,36 +1104,8 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> videoQiniuTokenPass(String video_id,
-                                                   String game_id,
-                                                   String is_success,
-                                                   String join_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("video_id", video_id);
-        map.put("game_id", game_id);
-        map.put("is_success", is_success);
-        map.put("join_id", join_id);// （活动用，可空）
-        return map;
-    }
 
-    public Map<String, Object> saveEventVideo204(String pk_id, String video_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("pk_id", pk_id);
-        map.put("video_id", video_id);
-        return map;
-    }
 
-    public Map<String, Object> videoQiniuTokenPass203(String video_id,
-                                                      String game_id,
-                                                      String is_success,
-                                                      String join_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("video_id", video_id);
-        map.put("game_id", game_id);
-        map.put("is_success", is_success);
-        map.put("join_id", join_id);// （活动用，可空）
-        return map;
-    }
 
     public Map<String, Object> qiniuTokenPass(String video_id,
                                               String game_id,
@@ -1932,11 +1121,7 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> videoUploadPicQiniu(String video_id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("video_id", video_id);
-        return map;
-    }
+
 
     public Map<String, Object> retPhotoKeyAndToken204(String member_id, String length) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -1995,12 +1180,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> gameDownloadNum(String id) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("id", id);
-        return map;
-    }
-
     public Map<String, Object> downloadClick217(String game_id, String target,
                                                 String member_id, int location, String involve_id) {
         Map<String, Object> map = new HashMap<>();
@@ -2028,11 +1207,7 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> videoDownLoad201(String video_id) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("video_id", video_id);
-        return map;
-    }
+
 
     public Map<String, Object> fansList203(String member_id, String type, int page) {
         Map<String, Object> map = new HashMap<>();
@@ -2292,13 +1467,6 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object>  submitChannelId(String memberId,String channelId) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("member_id", memberId);
-        map.put("channel_id",channelId);
-        map.put("system", "android");
-        return map;
-    }
 
     public Map<String, Object>  readMessage(String memberId,String msgId,String symbol,String msgType,int isAll) {
         Map<String, Object> map = new HashMap<>();
@@ -2409,6 +1577,14 @@ public class RequestParams {
         map.put("game_id",gameId);
         map.put("location", location);
         map.put("involve_id", involveId);
+        return map;
+    }
+
+
+    public Map<String, Object>  commitFocusGameList(String memberId,String gameIds) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("group_ids",gameIds);
         return map;
     }
 }

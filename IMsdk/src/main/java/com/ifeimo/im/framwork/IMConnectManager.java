@@ -59,7 +59,7 @@ final class IMConnectManager implements IConnect {
     private ConnectBean connectBean = null;
     private XMPPTCPConnection connection;
     private DeflaterStanzaFilter deflaterStanzaFilter;
-    private static Context application;
+    private Context application;
     private boolean isSYSJlLogin = false;
     private boolean isInit = false;
     private LoginCallBack loginCallBack;
@@ -158,9 +158,13 @@ final class IMConnectManager implements IConnect {
      * 开始连接 im
      */
     private void startConnection() {
+        if (application == null){
+            return;
+        }
+
         if (!ConnectUtil.isConnect(application)) {
             log(" ------ Error : NO NETWORK ------");
-            return;
+            //return;
         }
 
         if (StringUtil.isNull(Proxy.getAccountManger().getUserMemberId())) {
@@ -241,6 +245,7 @@ final class IMConnectManager implements IConnect {
     private synchronized boolean connect() {
         try {
             if (!ConnectUtil.isConnect(application)) {
+                log("------ Msg: is connected ------");
                 return false;
             }
             if (connection == null) {
@@ -250,8 +255,10 @@ final class IMConnectManager implements IConnect {
 //                    reconnectionManager.setFixedDelay(5);//重联间隔
 //                    reconnectionManager.enableAutomaticReconnection();
                 connection.connect();
+                log("------ Msg: connection is null  so start connecting ------");
             } else if (!connection.isConnected()) {
                 connection.connect();
+                log("------ Msg: disconnect so start connecting ------");
             }
             return true;
         } catch (Exception e) {

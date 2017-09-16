@@ -1,12 +1,9 @@
 package com.li.videoapplication.mvp.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.graphics.Paint;
 import android.text.Html;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -15,9 +12,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.ui.activity.ActivityListActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
-import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
 

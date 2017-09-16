@@ -5,15 +5,10 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.BaseOverShootDialog;
-import com.mob.commons.MobProduct;
 
 /**
  * 弹框：是否要获取更多魔豆

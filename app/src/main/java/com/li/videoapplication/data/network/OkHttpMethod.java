@@ -2,12 +2,8 @@ package com.li.videoapplication.data.network;
 
 import android.util.Log;
 
-import com.li.videoapplication.data.EventManager;
-import com.li.videoapplication.data.cache.BaseUtils;
 import com.li.videoapplication.data.cache.FileManager;
-import com.li.videoapplication.data.cache.SubtitleCache;
 import com.li.videoapplication.data.model.response.DownloadSuccessEntity;
-import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.MediaType;
@@ -25,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import io.rong.eventbus.EventBus;
-import okhttp3.FormBody;
 
 /**
  * 功能：OKHttp网络请求方法

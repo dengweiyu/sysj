@@ -9,7 +9,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.tools.LayoutParamsHelper;
-import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.utils.ScreenUtil;
 
 import java.util.List;

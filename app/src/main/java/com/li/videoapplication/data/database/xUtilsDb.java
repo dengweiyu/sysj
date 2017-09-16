@@ -7,8 +7,6 @@ import org.xutils.DbManager;
 import org.xutils.ex.DbException;
 import org.xutils.x;
 
-import java.util.List;
-
 public class xUtilsDb {
 
     private static final String TAG = xUtilsDb.class.getSimpleName();

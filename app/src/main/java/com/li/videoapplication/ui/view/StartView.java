@@ -13,8 +13,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.utils.URLUtil;
 
-import static android.R.attr.bitmap;
-
 /**
  * 视图：开始播放：封面，中心播放按键
  */

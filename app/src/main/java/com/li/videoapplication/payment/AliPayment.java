@@ -8,12 +8,9 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.alipay.sdk.app.EnvUtils;
 import com.alipay.sdk.app.PayTask;
-import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.PayResult;
 import com.li.videoapplication.data.model.response.PaymentEntity;
-import com.li.videoapplication.tools.TimeHelper;
 
 import java.util.Map;
 

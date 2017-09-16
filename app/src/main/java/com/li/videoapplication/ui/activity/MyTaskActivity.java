@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.Task;
 import com.li.videoapplication.data.model.entity.TaskGroup;
@@ -165,8 +164,6 @@ public class MyTaskActivity extends PullToRefreshActivity<TaskGroup> implements 
 
 	private void doRequest() {
 
-		// 任务列表203
-		DataManager.taskList203(getMember_id());
 	}
 
 	@Override

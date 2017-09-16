@@ -227,8 +227,7 @@ public class ControllerViewLand extends RelativeLayout implements View.OnClickLi
                     // 踩
                     DataManager.fndownClick203(videoImage.getId(), PreferencesHepler.getInstance().getMember_id());
                 }
-                // 提交点赞任务
-                DataManager.TASK.doTask_21(PreferencesHepler.getInstance().getMember_id());
+
             } else {
                 good.setImageResource(R.drawable.controller_good_white_208);
                 videoImage.setFlower_tick(0);

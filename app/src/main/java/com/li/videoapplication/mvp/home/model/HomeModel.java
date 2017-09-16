@@ -2,8 +2,6 @@ package com.li.videoapplication.mvp.home.model;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.database.FileDownloaderEntity;
@@ -18,9 +16,7 @@ import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
-import com.li.videoapplication.framework.BaseResponseEntity;
 import com.li.videoapplication.mvp.OnLoadDataListener;
-import com.li.videoapplication.mvp.home.HomeContract;
 import com.li.videoapplication.mvp.home.HomeContract.onloadHomeDataListener;
 import com.li.videoapplication.mvp.home.HomeContract.IHomeModel;
 import com.li.videoapplication.data.HttpManager;

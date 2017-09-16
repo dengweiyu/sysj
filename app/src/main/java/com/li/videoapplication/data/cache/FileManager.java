@@ -1,11 +1,8 @@
 package com.li.videoapplication.data.cache;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.li.videoapplication.data.local.SYSJStorageUtil;
-import com.li.videoapplication.data.local.StorageUtil;
 
 import java.io.File;
 import java.io.InputStream;

@@ -7,16 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.model.response.RechargeCoinEntity;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.Constant;
-import com.li.videoapplication.tools.TabLayoutHelper;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
-import com.li.videoapplication.utils.ScreenUtil;
 
 import java.util.ArrayList;
 import java.util.List;

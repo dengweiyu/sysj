@@ -3,8 +3,6 @@ package com.li.videoapplication.utils;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 
 import java.util.ArrayList;

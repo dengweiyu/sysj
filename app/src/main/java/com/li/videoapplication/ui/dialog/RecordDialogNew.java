@@ -1,30 +1,24 @@
 package com.li.videoapplication.ui.dialog;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialog;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 
 import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.network.UITask;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
+import com.li.videoapplication.data.preferences.SharedPreferencesUtils;
+import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
+import com.li.videoapplication.ui.activity.CreatePlayWithOrderActivity;
 import com.li.videoapplication.ui.activity.MainActivity;
-import com.li.videoapplication.ui.activity.PrivacyActivity;
 import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.ScreenUtil;
-import com.mob.MobSDK;
-
-import java.lang.reflect.Field;
 
 
 /**
@@ -77,16 +71,10 @@ public class RecordDialogNew extends AlphaShadeDialog implements View.OnClickLis
                 break;
             case R.id.ll_popup_play_with_layout:
 
-                if (mActivity != null && mActivity instanceof MainActivity){
-                    MainActivity mainActivity = (MainActivity) mActivity;
-                    try {
-                        mainActivity.viewPager.setCurrentItem(3);
-                        if (mainActivity.playWithFragment != null){
-                            mainActivity.playWithFragment.setCurrentPage(0);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                if (mActivity != null){
+
+                    ActivityManager.startCreatePlayWithOrderActivity(mActivity, CreatePlayWithOrderActivity.MODE_ORDER_GRAB,null,null,null,null);
+
                 }
 
                 break;

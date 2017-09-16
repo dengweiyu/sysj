@@ -3,7 +3,6 @@ package com.li.videoapplication.ui.dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.widget.PopupWindowCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,18 +12,14 @@ import com.ifeimo.im.activity.ChatActivity;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.CustomerInfoEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderDetailEntity;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
-import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.PlayWithOrderDetailActivity;
 import com.li.videoapplication.utils.ScreenUtil;
-
-import io.rong.eventbus.EventBus;
 
 /**
  * 退款 , 客服
@@ -99,8 +94,9 @@ public class OrderMoreOperationDialog extends PopupWindow implements View.OnClic
                             if (mCancelListener != null){
                                 mCancelListener.onCancelOrder();
                             }
+                            return;
                         }
-                        return;
+                        break;
 
                     case "5":
                         ToastHelper.s("您无法对该订单进行退款了哦~如有需要请联系客服");

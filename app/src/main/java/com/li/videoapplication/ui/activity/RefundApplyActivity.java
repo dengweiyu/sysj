@@ -24,7 +24,6 @@ import com.li.videoapplication.ui.fragment.PlayWithOrderDetailFragment;
 import com.li.videoapplication.utils.StringUtil;
 
 import io.rong.eventbus.EventBus;
-import io.rong.imlib.filetransfer.Call;
 
 /**
  * 退款

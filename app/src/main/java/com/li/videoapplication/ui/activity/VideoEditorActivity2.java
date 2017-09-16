@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.EventManager;
@@ -18,7 +17,6 @@ import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.LPDSStorageUtil;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.SRTHelper;
 import com.li.videoapplication.tools.ToastHelper;

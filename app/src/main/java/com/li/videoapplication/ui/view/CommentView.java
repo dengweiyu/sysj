@@ -14,11 +14,9 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Comment;
 import com.li.videoapplication.data.network.UITask;
-import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.adapter.FaceAdapter;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.ui.dialog.GiftNumberInputDialog;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.lang.reflect.Field;

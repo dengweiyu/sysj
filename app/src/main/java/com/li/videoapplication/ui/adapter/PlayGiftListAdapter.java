@@ -8,7 +8,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.response.VideoPlayGiftEntity;
 import com.li.videoapplication.data.network.UITask;
-import com.li.videoapplication.utils.StringUtil;
 
 import java.util.List;
 

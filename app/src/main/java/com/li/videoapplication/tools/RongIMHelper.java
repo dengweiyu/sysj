@@ -19,7 +19,6 @@ import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Group;
-import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 
 public class RongIMHelper {

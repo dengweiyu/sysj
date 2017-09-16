@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import com.li.videoapplication.R;
-import com.li.videoapplication.utils.ScreenUtil;
 
 /**
  * Created by liuwei on 2017/6/22.

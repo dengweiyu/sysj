@@ -7,11 +7,11 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.chad.library.adapter.base.listener.SimpleClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.NetworkError;
+import com.li.videoapplication.data.model.event.RefreshAboutOrderEvent;
 import com.li.videoapplication.data.model.response.PlayWithPlaceOrderEntity;
 import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.framework.TBaseFragment;
@@ -22,8 +22,6 @@ import com.li.videoapplication.ui.view.SimpleItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.rong.imkit.model.Event;
 
 /**
  * 陪玩 下单列表
@@ -151,6 +149,13 @@ public class PlayWithPlaceOrderListFragment extends TBaseFragment implements Bas
         }else {
             mEmptyView.setVisibility(View.VISIBLE);
         }
+    }
+
+    /**
+     * 刷新下单列表
+     */
+    public void onEventMainThread(RefreshAboutOrderEvent event){
+        onRefresh();
     }
 
     /**

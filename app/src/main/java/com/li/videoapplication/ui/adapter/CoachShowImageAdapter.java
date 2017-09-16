@@ -2,14 +2,11 @@ package com.li.videoapplication.ui.adapter;
 
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
-import com.li.videoapplication.ui.activity.CoachInfoEditActivity;
 import com.li.videoapplication.utils.ScreenUtil;
 
 import java.util.List;

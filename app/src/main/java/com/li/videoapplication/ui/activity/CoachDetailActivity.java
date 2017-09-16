@@ -326,7 +326,13 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
                     ToastHelper.l("不能为自己下单哦~");
                     return;
                 }
-                ActivityManager.startCreatePlayWithOrderActivity(CoachDetailActivity.this,mMemberId,mCoachNickName,mCoachAvatar,mCoachQQ);
+                ActivityManager.startCreatePlayWithOrderActivity(
+                        CoachDetailActivity.this,
+                        CreatePlayWithOrderActivity.MODE_ORDER_NORMAL,
+                        mMemberId,
+                        mCoachNickName,
+                        mCoachAvatar,
+                        mCoachQQ);
                 break;
             case R.id.rv_coach_info_header:                 //个人中心
                 startPersonCenterActivity();

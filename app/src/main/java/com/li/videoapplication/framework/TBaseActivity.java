@@ -46,7 +46,6 @@ import com.li.videoapplication.utils.StringUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.umeng.analytics.MobclickAgent;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -120,6 +119,7 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
         }
         initActionBar();
     }
+
 
     public void onResume() {
         super.onResume();

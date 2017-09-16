@@ -1,25 +1,18 @@
 package com.li.videoapplication.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
@@ -37,7 +30,6 @@ import com.li.videoapplication.data.qiniu.storage.UploadOptions;
 import com.li.videoapplication.framework.AsyncTask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.adapter.CoachShowImageAdapter;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.utils.ExpandUtil;
@@ -46,12 +38,8 @@ import com.li.videoapplication.utils.StringUtil;
 
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import id.zelory.compressor.Compressor;

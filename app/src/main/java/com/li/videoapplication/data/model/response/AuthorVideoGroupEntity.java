@@ -1,6 +1,5 @@
 package com.li.videoapplication.data.model.response;
 
-import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.BaseResponse2Entity;
 import com.li.videoapplication.framework.BaseResponseEntity;

@@ -145,7 +145,7 @@ public class FileDownloadRequest{
                 }
             }
             if (mListener != null && mFileSize == 0){
-                mListener.progress(totalSize,totalSize,true);
+                mListener.progress(downloadSize,downloadSize,true);
             }
             result = true;
         }catch (IOException e1){

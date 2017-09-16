@@ -8,13 +8,10 @@ import com.li.videoapplication.data.model.response.VerifyCodeNewEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppAccount;
-import com.li.videoapplication.framework.BaseDialog;
 import com.li.videoapplication.framework.BaseOverShootDialog;
-import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.ShareSDKLoginHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.ui.activity.LoginActivity;
 import com.li.videoapplication.utils.AuthCodeUtil;
 import com.li.videoapplication.utils.CountDownTimerUtils;
 import com.li.videoapplication.utils.PatternUtil;
@@ -22,20 +19,9 @@ import com.li.videoapplication.utils.StringUtil;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import io.rong.eventbus.EventBus;
 

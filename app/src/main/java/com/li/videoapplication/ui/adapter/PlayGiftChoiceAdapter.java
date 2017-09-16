@@ -2,7 +2,6 @@ package com.li.videoapplication.ui.adapter;
 
 
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -10,7 +9,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.response.PlayGiftTypeEntity;
-import com.li.videoapplication.utils.StringUtil;
 
 import java.util.List;
 

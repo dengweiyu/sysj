@@ -3,7 +3,6 @@ package com.li.videoapplication.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,15 +20,12 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.SearchResultEvent;
 import com.li.videoapplication.data.model.response.SearchVideo203Entity;
-import com.li.videoapplication.data.model.response.SearchVideoHotEntity;
 import com.li.videoapplication.data.model.response.VideoCollect2Entity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
-import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseChildFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
-import com.li.videoapplication.ui.activity.SearchActivity;
 import com.li.videoapplication.ui.adapter.GroupDetailVideoAdapter;
 
 import io.rong.eventbus.EventBus;

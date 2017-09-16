@@ -40,9 +40,10 @@
         android:orientation="vertical">
     <com.li.videoapplication.views.TipView
             android:id="@+id/topRight"
-            android:layout_width="58dp"
-            android:layout_height="58dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             app:isRound="true"
+
             />
         <ImageView
             android:layout_width="match_parent"
@@ -51,13 +52,13 @@
     </LinearLayout>
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="58dp"
         android:layout_toLeftOf="@+id/ll_topRight"
         android:layout_alignParentBottom="true"
         android:background="@color/tip_bg"/>
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="58dp"
         android:layout_toRightOf="@+id/ll_topRight"
         android:layout_alignParentBottom="true"
         android:background="@color/tip_bg"/>

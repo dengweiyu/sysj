@@ -18,7 +18,6 @@ import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
-import com.li.videoapplication.data.model.entity.LaunchImage;
 import com.li.videoapplication.data.network.LightTask;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppManager;

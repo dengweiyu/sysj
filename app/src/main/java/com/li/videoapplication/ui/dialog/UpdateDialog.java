@@ -27,14 +27,10 @@ import com.li.videoapplication.component.service.UpdateService;
 import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseDialog;
-import com.li.videoapplication.tools.DownloadHelper;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.ScreenUtil;
-
-import cn.jpush.android.service.DownloadService;
 
 
 /**

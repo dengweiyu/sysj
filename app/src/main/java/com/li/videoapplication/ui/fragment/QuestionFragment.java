@@ -3,8 +3,6 @@ package com.li.videoapplication.ui.fragment;
 import android.content.res.AssetManager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 

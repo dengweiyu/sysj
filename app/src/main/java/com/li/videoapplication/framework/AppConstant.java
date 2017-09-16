@@ -116,9 +116,27 @@ public class AppConstant {
 	}
 
 
+	/**
+	 * 首页底部按钮图片配置文件  七牛下载地址
+	 * @return
+	 */
+	public static final String getIconConfigQn(){
+		return "http://config.ifeimo.com/conf.json";
+	}
+
+	/**
+	 * 首页底部按钮图片配置文件 自有服务器
+	 * @return
+	 */
+	public static final String getIconConfigFm(){
+		return "http://apps.ifeimo.com/Public/Config/conf.json";
+	}
+
+
     /*网站链接*/
     public static final String webURL = "http://www.17sysj.com/";
-	
+
+
 	/**
 	 * 功能：各个页面网络加载延迟时间
 	 */

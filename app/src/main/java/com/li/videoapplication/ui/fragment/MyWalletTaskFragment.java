@@ -4,15 +4,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.webkit.WebView;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.response.MemberTaskEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
-import io.rong.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;

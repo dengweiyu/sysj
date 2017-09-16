@@ -14,7 +14,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.response.CoachCommentEntity;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.utils.StringUtil;
 
 import java.util.List;
 

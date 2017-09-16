@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
@@ -19,7 +17,6 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.entity.VideoImageGroup;
 import com.li.videoapplication.data.model.response.IndexIndexMore204HotEntity;
 import com.li.videoapplication.data.model.response.IndexIndexMore204NewEntity;
-import com.li.videoapplication.data.model.response.SquareListEntity;
 import com.li.videoapplication.data.model.response.SquareListHotEntity;
 import com.li.videoapplication.data.model.response.SquareListNewEntity;
 import com.li.videoapplication.data.model.response.VideoCollect2Entity;
@@ -30,13 +27,9 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.adapter.GroupDetailVideoAdapter;
 import com.li.videoapplication.utils.StringUtil;
-import com.mob.tools.log.NLog;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 碎片：广场（最新，热门）；首页更多（最新，最热）

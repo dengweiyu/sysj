@@ -17,7 +17,6 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.database.VideoCaptureManager;
 import com.li.videoapplication.data.database.VideoCaptureResponseObject;
-import com.li.videoapplication.data.image.VideoCoverHelper;
 import com.li.videoapplication.data.model.event.VideoCutEvent;
 import com.li.videoapplication.data.model.event.VideoEditor2VideoManagerEvent;
 import com.li.videoapplication.data.model.response.PaymentEntity;
@@ -30,13 +29,9 @@ import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.adapter.MyLocalVideoAdapter;
-import com.li.videoapplication.ui.adapter.MyLocalVideoAdapter210;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;

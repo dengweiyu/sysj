@@ -1,7 +1,6 @@
 package com.li.videoapplication.mvp.mall.view;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -11,10 +10,8 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.PaymentList;
-import com.li.videoapplication.data.model.response.MemberCurrencyEntity;
 import com.li.videoapplication.data.model.response.PaymentEntity;
 import com.li.videoapplication.framework.AppConstant;
-import com.li.videoapplication.framework.AsyncTask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.mvp.adapter.PaymentLisAdapter;
@@ -24,7 +21,6 @@ import com.li.videoapplication.mvp.mall.presenter.MallPresenter;
 import com.li.videoapplication.payment.IPayment;
 import com.li.videoapplication.payment.PaymentFactory;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.utils.StringUtil;
 
 /**
  * Created by liuwei on 2017/4/1.

@@ -1,15 +1,11 @@
 package com.li.videoapplication.mvp.adapter;
 
-import android.util.Log;
 import android.util.SparseBooleanArray;
-import android.widget.CompoundButton;
-import android.widget.RadioButton;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Recommend;
-import com.li.videoapplication.ui.dialog.OfficialPaymentDialog;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.util.List;

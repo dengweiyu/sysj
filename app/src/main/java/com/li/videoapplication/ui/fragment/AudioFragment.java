@@ -18,7 +18,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.LPDSStorageUtil;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.AudioRecorder;
 import com.li.videoapplication.tools.IntentHelper;

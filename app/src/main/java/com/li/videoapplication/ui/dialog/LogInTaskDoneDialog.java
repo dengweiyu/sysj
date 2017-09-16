@@ -1,15 +1,10 @@
 package com.li.videoapplication.ui.dialog;
 
 import android.content.Context;
-import android.text.Html;
 import android.view.View;
-import android.widget.TextView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.framework.BaseDialog;
 import com.li.videoapplication.framework.BaseOverShootDialog;
-import com.li.videoapplication.mvp.match.view.GameMatchDetailActivity;
-import com.li.videoapplication.utils.TextUtil;
 
 
 /**

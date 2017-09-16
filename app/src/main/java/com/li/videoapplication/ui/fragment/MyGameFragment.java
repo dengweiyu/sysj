@@ -1,14 +1,7 @@
 package com.li.videoapplication.ui.fragment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import android.util.Log;
 import android.view.View;
@@ -17,7 +10,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
@@ -37,7 +29,6 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.adapter.MyGameAdapter;
-import io.rong.eventbus.EventBus;
 
 /**
  * 碎片：我的游戏

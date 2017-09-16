@@ -2,9 +2,7 @@ package com.li.videoapplication.ui.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 /**
  * 礼物RecyclerView分割线

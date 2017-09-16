@@ -3,7 +3,6 @@ package com.li.videoapplication.mvp.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -11,7 +10,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.network.UITask;
-import com.li.videoapplication.ui.activity.SquareGameChoiceActivity;
 
 import java.util.List;
 

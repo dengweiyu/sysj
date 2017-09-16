@@ -18,10 +18,7 @@ import cn.sharesdk.wechat.utils.WechatClientNotExistException;
 import cn.sharesdk.wechat.utils.WechatTimelineNotSupportedException;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.VideoImage;
-import com.li.videoapplication.data.model.event.SharedSuccessEvent;
-import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.utils.StringUtil;
@@ -177,8 +174,6 @@ public class ShareSDKShareHelper {
 			oks.setSite(site);
 			// 此内容的网站地址，仅在QQ空间使用
 			oks.setSiteUrl(siteUrl);
-			// 提交分享任务
-			DataManager.TASK.doTask_22(PreferencesHepler.getInstance().getMember_id());
 			// 启动分享
 			oks.show(context);
 			((Activity) context).overridePendingTransition(
@@ -233,9 +228,7 @@ public class ShareSDKShareHelper {
 			oks.setSite(site);
 			// 此内容的网站地址，仅在QQ空间使用
 			oks.setSiteUrl(siteUrl);
-			// 提交分享任务
-            DataManager.TASK.doTask_22(PreferencesHepler.getInstance()
-					.getMember_id());
+
 			// 启动分享
 			oks.show(context);
 			((Activity) context).overridePendingTransition(

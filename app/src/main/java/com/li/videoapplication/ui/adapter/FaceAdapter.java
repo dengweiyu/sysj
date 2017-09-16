@@ -1,6 +1,5 @@
 package com.li.videoapplication.ui.adapter;
 
-import java.io.File;
 import java.util.List;
 
 import android.content.Context;

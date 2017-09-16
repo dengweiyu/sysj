@@ -3,14 +3,10 @@ package com.li.videoapplication.ui.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.SystemClock;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -21,17 +17,11 @@ import android.widget.PopupWindow;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.googlecode.mp4parser.boxes.mp4.objectdescriptors.AudioSpecificConfig;
-import com.ifeimo.im.activity.ChatActivity;
-import com.ifeimo.im.framwork.IMSdk;
-import com.ifeimo.im.framwork.Proxy;
-import com.ifeimo.im.framwork.commander.IFileTransfer;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.cache.RequestCache;
-import com.li.videoapplication.data.model.entity.HomeDto;
-import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.event.PayNowEvent;
+import com.li.videoapplication.data.model.event.RefreshAboutOrderEvent;
 import com.li.videoapplication.data.model.event.RefreshOrderDetailEvent;
 import com.li.videoapplication.data.model.response.CancelPlayWithOrderEntity;
 import com.li.videoapplication.data.model.response.CoachConfirmRefundEntity;
@@ -39,30 +29,21 @@ import com.li.videoapplication.data.model.response.ConfirmOrderDoneEntity;
 import com.li.videoapplication.data.model.response.ConfirmOrderEntity;
 import com.li.videoapplication.data.model.response.ConfirmTakeOrderEntity;
 import com.li.videoapplication.data.model.response.CustomerInfoEntity;
-import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderDetailEntity;
-import com.li.videoapplication.data.model.response.PlayWithTakeOrderEntity;
 import com.li.videoapplication.data.network.RequestParams;
 import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.interfaces.IShowDialogListener;
-import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
-import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.dialog.ConfirmDialog;
-import com.li.videoapplication.ui.dialog.ConfirmPlayWithDialog;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.ui.dialog.OrderMoreOperationDialog;
 import com.li.videoapplication.ui.fragment.PlayWithOrderDetailFragment;
 import com.li.videoapplication.ui.view.OrderOperationView;
 import com.li.videoapplication.utils.StringUtil;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import io.rong.eventbus.EventBus;
 
@@ -75,6 +56,7 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
     //以什么角色查看订单
     public final static int ROLE_OWNER = 0;              //下单者
     public final static int ROLE_COACH = 1;              //教练
+    public final static int ROLE_TOURIST = -1;            //游客  无权限操作订单
 
     private String mOrderId;
 
@@ -108,7 +90,7 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
     private RotateAnimation mRadarAnimation;
     public static int getRole(String memberId,String userId,String coachId){
         if (StringUtil.isNull(memberId) || StringUtil.isNull(userId) || StringUtil.isNull(coachId)){
-            return -1;
+            return ROLE_TOURIST;
         }
 
         if (memberId.equals(userId)){
@@ -116,7 +98,7 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
         }else if (memberId.equals(coachId)){
             return ROLE_COACH;
         }
-        return -1;
+        return ROLE_TOURIST;
     }
 
     @Override
@@ -127,17 +109,23 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
     @Override
     public void refreshIntent() {
         super.refreshIntent();
-        mOrderId = getIntent().getStringExtra("order_id");
-        mRole = getIntent().getIntExtra("role",-1);
-        mIsShowCoach = getIntent().getBooleanExtra("is_show_coach",true);
+        Intent intent = getIntent();
+        mOrderId = intent.getStringExtra("order_id");
+        mRole = intent.getIntExtra("role",-1);
+        mIsShowCoach = intent.getBooleanExtra("is_show_coach",true);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        mOrderId = getIntent().getStringExtra("order_id");
-        mRole = getIntent().getIntExtra("role",-1);
-        mIsShowCoach = getIntent().getBooleanExtra("is_show_coach",true);
+        setIntent(intent);
+        mOrderId = intent.getStringExtra("order_id");
+        mRole = intent.getIntExtra("role",-1);
+        mIsShowCoach = intent.getBooleanExtra("is_show_coach",true);
+
+        if (!StringUtil.isNull(mOrderId)){
+            DataManager.getPlayWithOrderDetail(getMember_id(),mOrderId);
+        }
 
     }
 
@@ -152,6 +140,9 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
         mRefresh.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_light,
                 android.R.color.holo_orange_light, android.R.color.holo_red_light);
         mRefresh.setOnRefreshListener(this);
+
+
+
     }
 
     @Override
@@ -183,18 +174,21 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
      * 订单详情 fragment
      */
     private void showOrderFragment(PlayWithOrderDetailEntity entity){
+        if (entity == null){
+            return;
+        }
         mFragment = PlayWithOrderDetailFragment.newInstance(entity,mIsShowCoach);
-
+        //2 => 抢单模式  14 =>该订单自动派单失败
         if (entity.getCoach() == null && "2".equals(entity.getData().getOrder_mode())){
             mFragment.addViewGone(R.id.ll_coach_info);
             if (entity.getData().getStatusX().equals("2") || entity.getData().getStatusX().equals("14")){
-                startTickView(true);
+                startTickView(true,entity);
             }else {
-                startTickView(false);
+                startTickView(false,entity);
             }
 
         }else {
-            startTickView(false);
+            startTickView(false,entity);
         }
 
         getSupportFragmentManager()
@@ -209,7 +203,7 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
      *底部两个操作按钮
      */
     private void initOperationView(PlayWithOrderDetailEntity entity){
-        if (entity != null && entity.isResult()){
+        if (entity != null && entity.isResult() && mRole != -1){
             mOperationView.refreshOrder(entity,mRole);
             mOperationView.setListener(new IShowDialogListener() {
                 @Override
@@ -264,10 +258,11 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
         }
     }
 
+    private long mTickCount = 0;
     /**
      * 启动计时
      */
-    public void startTickView(boolean isShow){
+    public void startTickView(boolean isShow,PlayWithOrderDetailEntity entity){
         mTickerRoot = findViewById(R.id.ll_grab_ticker);
         if (isShow){
             mTickerRoot.setVisibility(View.VISIBLE);
@@ -275,34 +270,50 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
             mCancelOrder = (TextView ) findViewById(R.id.tv_cancel_order);
             mRadar = (ImageView)findViewById(R.id.iv_radar);
             mTickerTip = (TextView)findViewById(R.id.tv_grab_order_tip);
-
+            mRadar.setImageResource(R.drawable.radar);
             mCancelOrder.setOnClickListener(mListener);
-            if(mOrderDetail != null){
+            if(entity != null){
                 try {
-                    int waitingTime =Integer.parseInt( mOrderDetail.getWaitingTime());
+                    int waitingTime =Integer.parseInt( entity.getWaitingTime());
                     //SystemClock.elapsedRealtime() 为系统启动后的运行时间 Chronometer定时计算公式：long seconds = mCountDown ? mBase - SystemClock.elapsedRealtime() : SystemClock.elapsedRealtime() - mBase;
                     long t = SystemClock.elapsedRealtime() - waitingTime*1000;
+
                     mTicker.setBase(t);
                     mTicker.start();
+                    mTicker.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                        @Override
+                        public void onChronometerTick(Chronometer chronometer) {
+                            mTickCount++;
+                            //超过 30分钟  本地也强制刷新一次 避免收不到推送导致不刷新订单
+                            if(mTickCount > 1802){
+                                mRefresh.setRefreshing(true);
+                                onRefresh();
+                                mTickCount = 0L;
+                            }
+                        }
+                    });
 
                     mRadarAnimation = new RotateAnimation(0,360, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
                     mRadarAnimation.setFillAfter(true);
-                    mRadarAnimation.setDuration(500);
+                    mRadarAnimation.setDuration(700);
                     mRadarAnimation.setRepeatCount(-1);
                     mRadarAnimation.setInterpolator(new LinearInterpolator());
 
 
-                    if(mOrderDetail.getData().getStatusX().equals("14")){
+                    if(entity.getData().getStatusX().equals("14")){
                         mTicker.stop();
-                        mRadarAnimation.cancel();
+                       // mRadarAnimation.cancel();
                         mTickerTip.setText("目前陪练正忙，系统给您自动退款人工客服会为您尽快安排客服");
-                        mRadar.setVisibility(View.INVISIBLE);
 
+                        if (mRadar.getAnimation() != null){
+                            mRadar.getAnimation().cancel();
+                        }
+                        mRadar.setVisibility(View.GONE);
+                        mRadar.setImageDrawable(null);
                         mCancelOrder.setText("派单失败");
                         mCancelOrder.setTextColor(getResources().getColor(R.color.ab_backdround_red));
 
                         mCancelOrder.setBackground(null);
-
                         findViewById(R.id.iv_radar_bg).setVisibility(View.INVISIBLE);
 
                     }else {
@@ -343,7 +354,10 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
            if (v.getId() == R.id.tb_back){
                 finish();
             }else if (v.getId() == R.id.iv_more_operation){             //省略号
-
+               if (mRole == ROLE_TOURIST){
+                   ToastHelper.s("您无权限，操作此订单");
+                   return;
+               }
                 if (mMoreDialog == null) {
                     mMoreDialog = new OrderMoreOperationDialog(PlayWithOrderDetailActivity.this,getUser(), v, mOrderDetail, mRole);
                     mMoreDialog.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -452,15 +466,29 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
         if (mLoadingDialog.isShowing()){
             mLoadingDialog.dismiss();
         }
+
+        if (mRole == ROLE_TOURIST){
+            return;
+        }
+
         if (entity != null && entity.isResult()){
             showOrderFragment(entity);
             if (mOrderDetail != null){
+                //
+                View tip = findViewById(R.id.tv_take_order_tip);
+                if ("3".equals(entity.getData().getStatusX()) && mRole == ROLE_OWNER){
+                    tip.setVisibility(View.VISIBLE);
+                }else {
+                    tip.setVisibility(View.GONE);
+                }
+
                 if (entity.getData().getOrder_id().equals(mOrderDetail.getData().getOrder_id())){
                     if (entity.getData().getStatusX().equals(mOrderDetail.getData().getStatusX())){
                         return;
                     }
                 }
             }
+
 
             mOrderDetail = entity;
 
@@ -495,7 +523,6 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
             //更新订单状态
             DataManager.getPlayWithOrderDetail(getMember_id(),event.getOrderId());
         }
-
     }
 
     /**
@@ -507,6 +534,13 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
             mLoadingDialog.show();
             DataManager.confirmOrder(getMember_id(),mOrderDetail.getData().getOrder_id());
         }
+    }
+
+    /**
+     *IM推送的透传消息，需要刷新当前订单
+     */
+    public void onEventMainThread( RefreshAboutOrderEvent event){
+        onRefresh();
     }
 
     /**
@@ -575,11 +609,17 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
                     mOrderDetail.getData().getStatusX(),
                     mOrderDetail.getData().getStatusText()));
             //取消雷达与计时器
-            startTickView(false);
+            startTickView(false,mOrderDetail);
+            //
+            ActivityManager.startCreatePlayWithOrderActivity(this,CreatePlayWithOrderActivity.MODE_ORDER_AGAIN,null,null,null,null);
         }else {
             if (entity.getMsg() != null){
                 ToastHelper.s(entity.getMsg());
             }
         }
     }
+
+    /**
+     *
+     */
 }

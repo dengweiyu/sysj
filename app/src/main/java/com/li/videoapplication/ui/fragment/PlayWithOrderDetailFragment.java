@@ -15,9 +15,7 @@ import com.li.videoapplication.data.model.response.PlayWithOrderDetailEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.ui.activity.CreatePlayWithOrderActivity;
 import com.li.videoapplication.ui.activity.PlayWithOrderDetailActivity;
-import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 
 import java.util.ArrayList;
@@ -213,7 +211,14 @@ public class PlayWithOrderDetailFragment extends TBaseFragment implements View.O
 
             TextView startTime = (TextView)view.findViewById(R.id.tv_game_start_time);
             try {
-                startTime.setText(Html.fromHtml("开始时间："+TextUtil.toColor(TimeHelper.getWholeTimeFormat(data.getStart_time()),"#b8b8b8")));
+                //抢单模式下 不显示开始时间
+                if ("2".equals(data.getOrder_mode())){
+                    startTime.setVisibility(View.GONE);
+                }else {
+                    startTime.setVisibility(View.VISIBLE);
+                    startTime.setText(Html.fromHtml("开始时间："+TextUtil.toColor(TimeHelper.getWholeTimeFormat(data.getStart_time()),"#b8b8b8")));
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

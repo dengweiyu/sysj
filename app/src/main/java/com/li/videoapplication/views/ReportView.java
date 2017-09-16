@@ -2,15 +2,11 @@ package com.li.videoapplication.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.View;
-
-import com.li.videoapplication.R;
 
 @SuppressLint("DrawAllocation")
 public class ReportView extends View {

@@ -1,10 +1,7 @@
 package com.li.videoapplication.data.model.response;
 
 import com.li.videoapplication.data.model.entity.Member;
-import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.BaseResponseEntity;
-
-import java.util.List;
 
 
 @SuppressWarnings("serial")

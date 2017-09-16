@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
-import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;

@@ -18,10 +18,7 @@ package com.li.videoapplication.component.service;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Toast;
 
-import com.li.videoapplication.data.preferences.SharedPreferencesUtils;
-import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.tools.Utils;
 import com.tencent.tinker.lib.service.DefaultTinkerResultService;
 import com.tencent.tinker.lib.service.PatchResult;

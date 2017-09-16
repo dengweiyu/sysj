@@ -87,11 +87,6 @@
                 android:pathPrefix="/push_message"
                 android:scheme="rong" />
         </activity>
-        <activity android:name=".ui.activity.ChoiceFocusGameActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/MyTheme.NoActionBar">
-        </activity>
         <activity
             android:name="com.li.videoapplication.ui.activity.ScanQRCodeActivity"
             android:launchMode="singleTask"
@@ -162,6 +157,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Light" />
+
         <activity
             android:name="com.li.videoapplication.ui.activity.PrivacyActivity"
             android:launchMode="singleTask"

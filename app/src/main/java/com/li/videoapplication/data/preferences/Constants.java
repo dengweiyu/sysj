@@ -52,6 +52,7 @@ public class Constants {
 	public static final String HISTORY_SEARCH = "historySearch";// 搜索记录
 	public static final String ASSOCIATE201 = "associate201";//搜索联想
 	public static final String GROUP_IDS = "groupIds";// 问卷
+	public static final String GROUP_IDS_NEW = "groupIdsNew";// 问卷
 	public static final String VIDEO_IDS = "videoIds";// 猜你喜欢
 	public static final String UPDATE_VERSION = "updateVersion";// 版本更新
 	public static final String USER_TOKEN = "token";// 融云token

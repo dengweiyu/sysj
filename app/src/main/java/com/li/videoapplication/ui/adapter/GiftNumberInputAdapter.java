@@ -5,14 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.common.collect.Iterators;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.response.PlayGiftTypeEntity;
-import com.li.videoapplication.ui.srt.SRTInfo;
-import com.li.videoapplication.utils.ScreenUtil;
 
 import java.util.ArrayList;
 import java.util.List;

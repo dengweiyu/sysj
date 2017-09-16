@@ -1,11 +1,8 @@
 package com.li.videoapplication.mvp.match.presenter;
 
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Match;
-import com.li.videoapplication.data.model.event.MatchListFliterEvent;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
 import com.li.videoapplication.data.model.response.GameCateEntity;
@@ -15,7 +12,6 @@ import com.li.videoapplication.data.model.response.ServiceNameEntity;
 import com.li.videoapplication.data.model.response.SignScheduleEntity;
 import com.li.videoapplication.framework.BaseHttpResult;
 import com.li.videoapplication.mvp.OnLoadDataListener;
-import com.li.videoapplication.mvp.match.MatchContract;
 import com.li.videoapplication.mvp.match.MatchContract.IGroupDetailView;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchRecordView;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchProcessView;
@@ -27,7 +23,6 @@ import com.li.videoapplication.mvp.match.MatchContract.IMatchListView;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchPresenter;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchModel;
 import com.li.videoapplication.mvp.match.model.MatchModel;
-import com.li.videoapplication.ui.activity.GroupDetailActivity;
 
 import java.util.List;
 

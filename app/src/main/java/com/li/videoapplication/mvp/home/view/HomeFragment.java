@@ -14,10 +14,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.data.model.entity.LaunchImage;
+import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
+import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.mvp.adapter.HomeMultipleAdapter;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
@@ -40,6 +43,7 @@ import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.ui.adapter.BannerAdapter;
+import com.li.videoapplication.ui.adapter.YouLikeAdapter;
 import com.li.videoapplication.ui.view.HomeTaskView;
 import com.li.videoapplication.utils.ClickUtil;
 import com.li.videoapplication.utils.GDTUtil;
@@ -76,6 +80,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
     private int page = 1;
     private int page_count = 1;
+    private boolean mIsInit = true;
 
     private IHomePresenter presenter = HomePresenter.getInstance();
     public HomeMultipleAdapter homeAdapter;
@@ -144,7 +149,11 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         //该fragment处于最前台交互状态
         if (isVisibleToUser) {
             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MAIN, "进入首页次数");
+
+            //可见再渲染
         }
+
+
     }
 
     private MainActivity activity;
@@ -171,18 +180,13 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
         taskView = (HomeTaskView) view.findViewById(R.id.home_task);
 
+
         initRecyclerView();
 
         initAdapter();
 
         addOnClickListener();
 
-        try {
-            initData();
-        } catch (Exception e) {
-            e.printStackTrace();
-            presenter.loadHomeData(page, true);
-        }
     }
 
 
@@ -276,7 +280,11 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                             } else {// id未过期
                                 if (videoIds != null && videoIds.size() > 0) {
                                     // 首页猜你喜歡详情
-                                    presenter.changeGuessSecond(getVideoIdsRandom(videoIds));
+                                    try {
+                                        presenter.changeGuessSecond(getVideoIdsRandom(videoIds));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 } else {
                                     // 首页猜你喜歡
                                     presenter.changeGuess(PreferencesHepler.getInstance().getGroupIds2());
@@ -348,7 +356,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         });
     }
 
-    private String getVideoIdsRandom(List<String> videoIds) {
+    private String getVideoIdsRandom(List<String> videoIds) throws Exception {
         List<String> list = new ArrayList<String>();
         for (int i = 0; i < 4; i++) {
             int index = RandomUtil.getRandom(0, videoIds.size() - 1);
@@ -470,6 +478,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                 long currentTime = TimeHelper.getCurrentTime();
                 //上次保存时间与当前时间不是同一天，则显示任务提示条
                 if (!TimeHelper.isSameDay(lastTime4Task, currentTime)) {
+                    taskView.setVisibility(View.VISIBLE);
                     taskView.appear();
                     //保存当前时间
                     PreferencesHepler.getInstance().saveTaskTime(currentTime);
@@ -508,6 +517,8 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         }
     }
 
+
+    private VideoImageGroup mVideoImageGroup;
     //主页数据
     @Override
     public void refreshHomeData(HomeDto homeDto) {
@@ -527,7 +538,9 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                 if (data.getHotGame() != null && data.getHotGame().getList().size() > 0) {
                     homeData.add(new HomeDto(HomeDto.TYPE_HOTGAME, data.getHotGame()));
                 }
+
                 if (data.getGuessVideo() != null && data.getGuessVideo().getList().size() > 0) {
+                    mVideoImageGroup = data.getGuessVideo();
                     homeData.add(new HomeDto(HomeDto.TYPE_GUESSYOULIKE, data.getGuessVideo()));
                 }
                 if (data.getSysjVideo() != null && data.getSysjVideo().getList().size() > 0) {
@@ -646,9 +659,11 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         });
     }
 
+
     private void replaceGuessVideo2AD(List<VideoImage> newGuessList, VideoImage adItem) {
         if (newGuessList.size() == 4) {//防止连续点击造成个数问题
             newGuessList.remove(newGuessList.size() - 1);//移除第4条item
+
             newGuessList.add(adItem);//替换广告
             homeAdapter.changeGuessVideo(newGuessList);
             if (!isClickLike){
@@ -680,6 +695,12 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         }
 
         //VIP3不展示广告
+        Member member = getUser();
+        if (member!= null && member.getVipInfo() != null){
+            if ("3".equals(member.getVipInfo().getLevel())){
+                return true;
+            }
+        }
 
         return isIntercept;
     }
@@ -695,9 +716,23 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         super.onResume();
         startAutoFlowTimer();
         Log.d(tag, "onResume: homeData==" + homeData);
-//        if (homeData == null || homeData.size() == 0) {
-//            loadCacheData();
-//        }
+
+        if (mIsInit){
+
+            UITask.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        initData();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        presenter.loadHomeData(page, true);
+                    }
+                }
+            },200);
+            mIsInit = false;
+        }
+
     }
 
     @Override
@@ -744,4 +779,5 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             }, 600);
         }
     }
+
 }

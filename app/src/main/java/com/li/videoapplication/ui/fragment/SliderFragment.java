@@ -258,7 +258,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
         switchHeaderView(isLogin(), getUser());
 
         //注册IM 未读消息监听
-        Proxy.getMessageManager().onUnReadChange(new OnUnReadChange() {
+      /*  Proxy.getMessageManager().onUnReadChange(new OnUnReadChange() {
             @Override
             public void change(final int count) {
 
@@ -271,7 +271,15 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
                 });
 
             }
-        });
+        });*/
+    }
+
+    /**
+     * 更新XMPP 未读消息数目
+     */
+    public void refreshXMPPUnreadMsg(int count){
+        totalXMPP = count;
+        refreshRedCount(totalRong+totalXMPP);
     }
 
     //刷新侧栏红点

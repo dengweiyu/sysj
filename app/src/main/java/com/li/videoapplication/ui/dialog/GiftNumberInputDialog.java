@@ -3,30 +3,21 @@ package com.li.videoapplication.ui.dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.SimpleAdapter;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.event.InputNumberEvent;
 import com.li.videoapplication.data.model.response.PlayGiftTypeEntity;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.ui.adapter.GiftNumberInputAdapter;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
-import io.rong.eventbus.EventBus;
 
 import java.util.List;
-
-import io.rong.imkit.model.Event;
 
 
 /**

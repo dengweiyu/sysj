@@ -2,8 +2,6 @@ package com.li.videoapplication.utils;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.nfc.Tag;
-import android.util.Log;
 
 /**
  * 功能：版本控制工具

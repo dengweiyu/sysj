@@ -8,8 +8,6 @@ import android.view.View;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.TBaseFragment;
-import com.li.videoapplication.ui.activity.PrivacyActivity;
-import com.li.videoapplication.ui.fragment.PlayWithOrderDetailFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.views.ViewPagerY1;
 

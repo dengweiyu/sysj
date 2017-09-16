@@ -1,7 +1,6 @@
 package com.li.videoapplication.ui.adapter;
 
 
-import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,7 +16,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.response.MyGiftBillEntity;
 import com.li.videoapplication.ui.fragment.ReceiveGiftFragment;
-import com.li.videoapplication.utils.TextUtil;
 
 import java.util.List;
 

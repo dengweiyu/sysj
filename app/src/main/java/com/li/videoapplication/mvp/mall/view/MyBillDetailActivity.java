@@ -3,14 +3,11 @@ package com.li.videoapplication.mvp.mall.view;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.common.collect.Lists;
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 

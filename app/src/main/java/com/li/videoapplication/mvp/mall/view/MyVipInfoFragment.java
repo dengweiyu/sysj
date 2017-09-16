@@ -14,6 +14,7 @@ import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.ui.ActivityManager;
+import com.li.videoapplication.ui.dialog.VipSelectDialog;
 
 /**
  * 我的VIP 详情

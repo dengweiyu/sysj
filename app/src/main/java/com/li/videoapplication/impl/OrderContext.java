@@ -7,6 +7,8 @@ import com.li.videoapplication.data.model.response.PlayWithOrderDetailEntity;
 import com.li.videoapplication.interfaces.IOrderStrategy;
 import com.li.videoapplication.interfaces.IShowDialogListener;
 import com.li.videoapplication.interfaces.IStrategyController;
+import com.li.videoapplication.ui.activity.CreatePlayWithOrderActivity;
+import com.li.videoapplication.ui.activity.PlayWithOrderDetailActivity;
 
 
 /**
@@ -23,6 +25,9 @@ public class OrderContext implements IStrategyController ,IOrderStrategy  {
     @Override
     public IOrderStrategy getStrategy(PlayWithOrderDetailEntity orderEntity,int role) {
         IOrderStrategy strategy = null;
+        if (role == PlayWithOrderDetailActivity.ROLE_TOURIST){
+            return strategy;
+        }
         if (orderEntity != null){
             switch (orderEntity.getData().getStatusX()){
                 case "0":           //待支付

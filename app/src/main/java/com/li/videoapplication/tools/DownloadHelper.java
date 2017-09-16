@@ -8,10 +8,8 @@ import android.view.View;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.component.service.DownloadService;
-import com.li.videoapplication.component.service.UpdateService;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.entity.Download;
-import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.NetUtil;
 

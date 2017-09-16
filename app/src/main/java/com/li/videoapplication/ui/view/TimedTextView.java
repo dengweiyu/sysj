@@ -12,9 +12,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import com.li.videoapplication.R;
-import com.li.videoapplication.framework.TBaseActivity;
-import com.li.videoapplication.ui.activity.VideoEditorActivity2;
-import com.li.videoapplication.ui.activity.VideoPlayActivity;
 
 
 /**

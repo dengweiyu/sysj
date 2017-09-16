@@ -128,9 +128,12 @@ public class RechargeVIPAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 if(p > currentPos){
                     ((TextView)holder.getView(R.id.vip_desc_text)).
                             setTextColor(ActivityCompat.getColor(context,R.color.color_999999));
+                    ((ImageView)holder.getView(R.id.id_desc_iv)).setImageResource(R.drawable.hook_gray);
                 }else{
                     ((TextView)holder.getView(R.id.vip_desc_text)).
                             setTextColor(ActivityCompat.getColor(context,R.color.color_333333));
+
+                    ((ImageView)holder.getView(R.id.id_desc_iv)).setImageResource(R.drawable.hook);
                 }
                 holder.setText(R.id.vip_desc_text,s);
             }

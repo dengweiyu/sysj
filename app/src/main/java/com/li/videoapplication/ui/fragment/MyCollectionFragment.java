@@ -21,7 +21,6 @@ import com.li.videoapplication.data.model.response.MemberCollectVideoListEntity;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ArrayHelper;
-import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.adapter.VideoAdapter;
 
 import java.util.ArrayList;

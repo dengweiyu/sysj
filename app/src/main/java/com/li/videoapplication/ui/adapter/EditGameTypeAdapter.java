@@ -39,7 +39,7 @@ public class EditGameTypeAdapter extends BaseQuickAdapter<GroupType, BaseViewHol
                 } else {
                     if (isChecked) {// 選中狀態
                         checkBox.setChecked(false);
-                        ToastHelper.s("只能选择3个喜欢的游戏类型");
+                        ToastHelper.s("只能选择5个喜欢的游戏类型");
                     } else {
                         groupType.setSelected(false);
                     }
@@ -58,7 +58,7 @@ public class EditGameTypeAdapter extends BaseQuickAdapter<GroupType, BaseViewHol
 
     private boolean canSeleceed() {
         getGroup_type_id();
-        return group_type_id.size() < 3;
+        return group_type_id.size() < 5;
     }
 
     public List<String> getGroup_type_id() {

@@ -26,13 +26,15 @@
             android:layout_weight="1"
             android:gravity="center"
             android:clickable="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="5dp"
                 android:scaleType="fitXY"
+                android:background="@drawable/background_press_less"
                 android:src="@drawable/home_record"/>
 
             <TextView
@@ -50,13 +52,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="5dp"
                 android:scaleType="fitXY"
+                android:background="@drawable/background_press_less"
                 android:src="@drawable/home_play_with"/>
 
             <TextView
@@ -74,13 +78,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="5dp"
                 android:scaleType="fitXY"
+                android:background="@drawable/background_press_less"
                 android:src="@drawable/home_square"/>
 
             <TextView

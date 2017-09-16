@@ -1,9 +1,6 @@
 package com.li.videoapplication.ui.fragment;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 import android.app.Activity;
@@ -14,19 +11,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.ifeimo.im.framwork.RequestManager;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.event.SearchResultEvent;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
@@ -62,6 +54,10 @@ public class SearchMemberFragment extends TBaseChildFragment implements OnRefres
 			if (data != null){
 				data.clear();
 			}
+			if (adapter != null){
+				adapter.updateKey(content);
+			}
+
 		}
 		
 		refreshListView();
@@ -135,7 +131,7 @@ public class SearchMemberFragment extends TBaseChildFragment implements OnRefres
 		emptyText.setText("没有相关主播");
 		listView.setEmptyView(emptyView);
 		data = new ArrayList<>();
-		adapter = new SearchMemberAdapter(getActivity(), SearchMemberAdapter.PAGE_SEARCHMEMBER, data);
+		adapter = new SearchMemberAdapter(getActivity(), SearchMemberAdapter.PAGE_SEARCHMEMBER, data,content);
 		listView.setAdapter(adapter);
 		
 		pullToRefreshListView.setOnRefreshListener(this);

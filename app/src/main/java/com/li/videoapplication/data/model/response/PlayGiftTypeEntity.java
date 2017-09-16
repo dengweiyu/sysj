@@ -1,6 +1,5 @@
 package com.li.videoapplication.data.model.response;
 
-import com.google.gson.annotations.SerializedName;
 import com.li.videoapplication.framework.BaseResponseEntity;
 
 import java.util.List;

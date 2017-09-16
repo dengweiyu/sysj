@@ -18,7 +18,6 @@ import com.li.videoapplication.data.model.response.VideoFlower2Entity;
 import com.li.videoapplication.data.model.response.VideoRankingEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.adapter.VideoBillboardAdapter;
-import com.li.videoapplication.animation.RecyclerViewAnim;
 import com.li.videoapplication.mvp.billboard.BillboardContract.IBillboardPresenter;
 import com.li.videoapplication.mvp.billboard.BillboardContract.IVideoBillboardView;
 import com.li.videoapplication.mvp.billboard.presenter.BillboardPresenter;

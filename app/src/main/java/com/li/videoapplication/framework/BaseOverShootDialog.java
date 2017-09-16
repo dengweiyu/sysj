@@ -3,7 +3,6 @@ package com.li.videoapplication.framework;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 

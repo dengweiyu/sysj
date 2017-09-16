@@ -22,7 +22,6 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.GroupDataListEntity;
 import com.li.videoapplication.data.model.response.GroupHotDataListEntity;
 import com.li.videoapplication.data.model.response.GroupNewDataListEntity;
-import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;

@@ -79,7 +79,7 @@ public class RechargeVipFragment extends TBaseFragment implements View.OnClickLi
         mPrice = (TextView)view.findViewById(R.id.tv_vip_price);
         mOriginalPrice = (TextView)view.findViewById(R.id.tv_vip_original_price);
         view.findViewById(R.id.rl_vip_center_payment_now).setOnClickListener(this);
-        view.findViewById(R.id.tv_vip_level_detail).setOnClickListener(this);
+
 
         mOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
 

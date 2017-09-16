@@ -2,17 +2,14 @@ package com.li.videoapplication.ui.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.Contacts;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.ui.activity.CreatePlayWithOrderActivity;
 import com.li.videoapplication.ui.adapter.SimpleChoiceAdapter;
 import com.li.videoapplication.ui.view.WheelRecyclerView;

@@ -1,7 +1,6 @@
 package com.li.videoapplication.ui.activity;
 
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -9,8 +8,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.gson.Gson;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
@@ -19,7 +16,6 @@ import com.li.videoapplication.data.model.entity.OrderResultEntity;
 import com.li.videoapplication.data.model.event.RefreshOrderDetailEvent;
 import com.li.videoapplication.data.model.response.OrderResultCommitEntity;
 import com.li.videoapplication.data.model.response.UploadKeyEntity;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.qiniu.http.ResponseInfo;
 import com.li.videoapplication.data.qiniu.storage.UpCancellationSignal;
 import com.li.videoapplication.data.qiniu.storage.UpCompletionHandler;

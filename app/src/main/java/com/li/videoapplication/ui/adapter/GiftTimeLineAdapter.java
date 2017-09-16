@@ -2,7 +2,6 @@ package com.li.videoapplication.ui.adapter;
 
 
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,7 +11,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.response.TimeLineGiftEntity;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.ui.dialog.PlayGiftDialog;
 
 import java.util.List;

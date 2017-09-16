@@ -5,31 +5,23 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.response.CoachListEntity;
 import com.li.videoapplication.data.model.response.CoachStatusEntity;
 import com.li.videoapplication.data.model.response.ConfirmOrderEntity;
-import com.li.videoapplication.data.model.response.PackageInfo203Entity;
 import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ToastHelper;
@@ -39,7 +31,6 @@ import com.li.videoapplication.ui.activity.CreatePlayWithOrderActivity;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.adapter.CoachLisAdapter;
 import com.li.videoapplication.ui.view.SpanItemDecoration;
-import com.li.videoapplication.ui.view.SpanSingleDecoration;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 
@@ -70,7 +61,7 @@ public class CoachListFragment extends TBaseFragment implements
     private float mStartOffset = 0f;
     private float mLastDy = 0f;
     private boolean mIsShowMenu = true;
-
+    private TextView mShortcut;
 
     @Override
     public void onAttach(Activity activity) {
@@ -88,7 +79,8 @@ public class CoachListFragment extends TBaseFragment implements
     @Override
     protected void initContentView(View view) {
 
-        view.findViewById(R.id.tv_create_order_shortcut).setOnClickListener(this);
+        mShortcut = (TextView) view.findViewById(R.id.tv_create_order_shortcut);
+        mShortcut.setOnClickListener(this);
 
         mList = (RecyclerView) view.findViewById(R.id.rv_coach_list);
         mDiscount = (TextView) view.findViewById(R.id.tv_discount_top);
@@ -106,9 +98,11 @@ public class CoachListFragment extends TBaseFragment implements
                 int position =  parent.getChildAdapterPosition(view);
                 if (position % 2 == 0){
                     super.getItemOffsets(outRect, view, parent, state);
+                    outRect.right = ScreenUtil.dp2px(5);
                 }else {
                     outRect.right = mMargin;
                     outRect.bottom = mMargin;
+                    outRect.left = ScreenUtil.dp2px(5);
                 }
             }
         });
@@ -122,14 +116,14 @@ public class CoachListFragment extends TBaseFragment implements
                 switch (position){
                     case 0:
                         if (mDiscount.getVisibility() == View.VISIBLE){
-                            outRect.top = ScreenUtil.dp2px(62);
+                            outRect.top = ScreenUtil.dp2px(52);
                         }else {
                             outRect.top = ScreenUtil.dp2px(62);
                         }
                         break;
                     case 1:
                         if (mDiscount.getVisibility() == View.VISIBLE){
-                            outRect.top = ScreenUtil.dp2px(62);
+                            outRect.top = ScreenUtil.dp2px(52);
                         }else {
                             outRect.top = ScreenUtil.dp2px(62);
                         }
@@ -283,6 +277,9 @@ public class CoachListFragment extends TBaseFragment implements
         if (entity != null && entity.isResult() && entity.getData() != null){
             refreshData(entity.getData().getInclude());
 
+            RelativeLayout.LayoutParams params =   (RelativeLayout.LayoutParams) mShortcut.getLayoutParams();
+            int offset = ScreenUtil.dp2px(10);
+
             if (entity.getData().getPage_count() > mPage){
                 mAdapter.setEnableLoadMore(true);
                 mAdapter.setOnLoadMoreListener(this);
@@ -293,9 +290,13 @@ public class CoachListFragment extends TBaseFragment implements
 
             if (StringUtil.isNull(entity.getNotice())){
                 mDiscount.setVisibility(View.GONE);
+                params.setMargins(offset,offset,offset,0);
+                mShortcut.setLayoutParams(params);
             }else {
                 mDiscount.setVisibility(View.VISIBLE);
                 mDiscount.setText(entity.getNotice());
+                params.setMargins(offset,0,offset,0);
+                mShortcut.setLayoutParams(params);
             }
         }else {
             ToastHelper.s("暂无陪练大神哦~");

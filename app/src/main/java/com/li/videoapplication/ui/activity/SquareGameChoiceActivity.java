@@ -38,7 +38,7 @@ public class SquareGameChoiceActivity extends TBaseActivity implements View.OnCl
         mList.setLayoutManager(new GridLayoutManager(this,4));
         mList.setAdapter(mAdapter);
 
-        mList.addItemDecoration(new SimpleItemDecoration(this,false,false,false,true){
+        mList.addItemDecoration(new SimpleItemDecoration(this,false,false,false,false){
             @Override
             public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
                 int childCount = parent.getChildCount();

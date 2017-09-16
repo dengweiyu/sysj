@@ -19,7 +19,6 @@ import com.li.videoapplication.data.model.response.SendRewardRankEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.ui.adapter.SendRewardRankAdapter;
 import com.li.videoapplication.ui.view.SimpleItemDecoration;
-import com.li.videoapplication.ui.view.SpanItemDecoration;
 import com.li.videoapplication.utils.TextUtil;
 
 import java.util.ArrayList;

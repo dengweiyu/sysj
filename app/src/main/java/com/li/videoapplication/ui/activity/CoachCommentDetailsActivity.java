@@ -19,8 +19,6 @@ import com.li.videoapplication.utils.ScreenUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.rong.imlib.filetransfer.Call;
-
 /**
  * 教练被评论列表
  */

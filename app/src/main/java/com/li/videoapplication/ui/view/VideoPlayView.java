@@ -1163,8 +1163,7 @@ public class VideoPlayView extends RelativeLayout implements
         }
 
         if (pos == 0) {
-            // 完成任务
-            DataManager.TASK.doTask_19(PreferencesHepler.getInstance().getMember_id());
+
             // 播放历史
             if (videoImage != null) {
                 if (StringUtil.isNull(videoImage.getId())) {

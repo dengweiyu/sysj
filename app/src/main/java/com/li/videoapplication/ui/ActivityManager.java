@@ -41,7 +41,6 @@ import com.li.videoapplication.ui.activity.ActivityImageUploadActivity;
 import com.li.videoapplication.ui.activity.ActivityListActivity;
 import com.li.videoapplication.ui.activity.CameraRecoedActivity;
 import com.li.videoapplication.ui.activity.CameraRecoedActivity50;
-import com.li.videoapplication.ui.activity.ChoiceFocusGameActivity;
 import com.li.videoapplication.ui.activity.CoachCommentDetailsActivity;
 import com.li.videoapplication.ui.activity.CoachDetailActivity;
 import com.li.videoapplication.ui.activity.CoachInfoEditActivity;
@@ -348,8 +347,7 @@ public class ActivityManager {
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.push_bottom_in, R.anim.activity_hold);
 
-        // 推广手游视界APP
-        DataManager.TASK.doTask_17(PreferencesHepler.getInstance().getMember_id());
+
     }
 
     /**
@@ -366,9 +364,6 @@ public class ActivityManager {
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.push_bottom_in, R.anim.activity_hold);
 
-        String member_id = PreferencesHepler.getInstance().getMember_id();
-        // 缤分享客
-        DataManager.TASK.doTask_22(member_id);
     }
 
     /**
@@ -1510,6 +1505,7 @@ public class ActivityManager {
     /**
      * 生成陪玩订单
      */
+    @Deprecated
     public static void startCreatePlayWithOrderActivity(Context context,String memberId,String nickName,String avatar,String QQ) {
 
         Intent intent = new Intent();
@@ -1648,9 +1644,5 @@ public class ActivityManager {
         context.startActivity(intent);
     }
 
-    public static void startChoiceFocusGameActivity(Context context){
-        Intent intent = new Intent(context, ChoiceFocusGameActivity.class);
 
-        context.startActivity(intent);
-    }
 }

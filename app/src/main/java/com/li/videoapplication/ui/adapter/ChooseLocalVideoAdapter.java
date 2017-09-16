@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.image.GlideHelper;
-import com.li.videoapplication.data.image.MyLocalVideoImageLoader;
 import com.li.videoapplication.data.image.VideoDurationHelper;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.VideoCaptureHelper;

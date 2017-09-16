@@ -4,7 +4,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.GroupType;
-import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.model.response.GroupList2Entity;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.ui.adapter.GroupListAdapter;

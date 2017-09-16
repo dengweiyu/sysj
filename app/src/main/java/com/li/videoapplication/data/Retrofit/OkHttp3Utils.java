@@ -3,13 +3,10 @@ package com.li.videoapplication.data.Retrofit;
 import android.util.Log;
 
 import com.li.videoapplication.BuildConfig;
-import com.li.videoapplication.data.model.entity.Tag;
 import com.li.videoapplication.data.network.NewAddVersionParamInterceptor;
-import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -19,7 +16,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okio.Okio;
 
 /*
  *  okHttp的配置

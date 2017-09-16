@@ -14,14 +14,10 @@ package com.li.videoapplication.ui.dialog;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.BaseEmptyDialog;
-import com.li.videoapplication.utils.ScreenUtil;
 
 /**
  * 弹框：进行中上传图片遮罩

@@ -31,7 +31,7 @@
         android:textColor="@color/text_color"
         android:maxLines="1"
         android:ellipsize="end"
-        android:text="霸道总裁sadasdsadasasdsa"/>
+        android:text="霸道总裁"/>
 
     <TextView
         android:id="@+id/tv_user_score"
@@ -58,7 +58,7 @@
         android:id="@+id/tv_play_with_order_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/lpds_blue"
+        android:textColor="@color/ab_backdround_red"
         android:layout_alignParentRight="true"
         android:textSize="12sp"
         android:layout_alignBottom="@+id/ll_nick_name"

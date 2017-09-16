@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.framework.BaseEmptyDialog;
 /**
  * 弹框：视频遮罩

@@ -3,14 +3,12 @@ package com.li.videoapplication.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Paint;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -36,10 +34,8 @@ import com.li.videoapplication.data.model.response.PlayWithOrderDetailEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderOptionsEntity;
 import com.li.videoapplication.data.model.response.PlayWithOrderPriceEntity;
-import com.li.videoapplication.data.model.response.PlayWithPlaceOrderEntity;
 import com.li.videoapplication.data.network.RequestParams;
 import com.li.videoapplication.data.network.RequestUrl;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.adapter.ChoiceOptionAdapter;
@@ -58,7 +54,6 @@ import com.li.videoapplication.utils.MD5Util;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.Calendar;
 import java.util.List;
@@ -160,6 +155,20 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     @Override
     public void refreshIntent() {
         super.refreshIntent();
+        getExtraData();
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        getExtraData();
+        refreshViewByMode();
+    }
+
+
+    private void getExtraData(){
         try {
             Intent intent = getIntent();
             mCoachId = intent.getStringExtra("coach_id");
@@ -169,6 +178,10 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             mCurrentOrderMode = intent.getIntExtra("order_mode",MODE_ORDER_NORMAL);
             //只有在点击【继续选择TA】后会传递教练所有信息过来
             mCoachBean  = (PlayWithOrderDetailEntity.CoachBean)intent.getSerializableExtra("coach_bean");
+
+            if(mCoachBean != null){
+                mCoachId = mCoachBean.getMember_id();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -297,6 +310,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             case MODE_ORDER_GRAB:
                 TextView chat = (TextView) findViewById(R.id.tv_chat_with_coach);
                 chat.setVisibility(View.GONE);
+                //抢单模式下隐藏时间选择
+                findViewById(R.id.ll_choice_start_time).setVisibility(View.GONE);
                 break;
 
         }
@@ -794,10 +809,13 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
             return;
         }
-
-        if (startTime == 0L || StringUtil.isNull(startTimeStr)){
-            return;
+        //抢单模式下不验证时间
+        if (mCurrentOrderMode != MODE_ORDER_GRAB){
+            if (startTime == 0L || StringUtil.isNull(startTimeStr)){
+                return;
+            }
         }
+
 
         //生成MD5  避免重复提交
         String orderMD5 = MD5Util.string2MD5(
@@ -989,7 +1007,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                 user.setCoin(entity.getResidue_coin()+"");
             }
             PreferencesHepler.getInstance().saveUserProfilePersonalInformation(user);
-            ActivityManager.startPlayWithOrderDetailActivity(this,mOrderEntity.getOrder().getId()+"",PlayWithOrderDetailActivity.ROLE_OWNER,true);
+            ActivityManager.startPlayWithOrderDetailActivity(this,entity.getOrder_id()+"",PlayWithOrderDetailActivity.ROLE_OWNER,true);
 
             //更新优惠信息
             refreshOptions(false);

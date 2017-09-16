@@ -12,12 +12,12 @@
               android:fitsSystemWindows="true"
               android:orientation="vertical">
 
-    <FrameLayout
+  <!--  <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:visibility="gone"/>
+        android:visibility="gone"/>-->
 
     <com.li.videoapplication.views.ViewPagerY4
         android:id="@+id/pager"

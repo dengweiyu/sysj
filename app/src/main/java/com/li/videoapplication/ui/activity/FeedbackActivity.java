@@ -5,10 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.li.videoapplication.R;
-import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
-
-import java.util.concurrent.Callable;
 
 /**
  * Created by y on 2017/1/5.

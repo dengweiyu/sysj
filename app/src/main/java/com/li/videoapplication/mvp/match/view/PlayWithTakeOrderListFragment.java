@@ -5,7 +5,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -14,6 +13,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.NetworkError;
+import com.li.videoapplication.data.model.event.RefreshAboutOrderEvent;
 import com.li.videoapplication.data.model.event.RefreshOrderDetailEvent;
 import com.li.videoapplication.data.model.response.CoachSignEntity;
 import com.li.videoapplication.data.model.response.GrabPlayWithOrderEntity;
@@ -21,11 +21,9 @@ import com.li.videoapplication.data.model.response.PlayWithTakeOrderEntity;
 import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.WebActivityJS;
 import com.li.videoapplication.ui.adapter.PlayWithTakeOrderAdapter;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
-import com.li.videoapplication.ui.view.SimpleItemDecoration;
 import com.li.videoapplication.ui.view.SpanItemDecoration;
 import com.li.videoapplication.utils.ScreenUtil;
 
@@ -246,7 +244,7 @@ public class PlayWithTakeOrderListFragment extends TBaseFragment implements View
         if (entity.isResult()){
             ToastHelper.l("恭喜您！抢单成功啦~");
         }else {
-            if (entity.getCode() == 20003){
+            if (entity.getCode() == 20003 || entity.getCode() == 20023 ){
                 ToastHelper.l("哎呀，订单已被抢~");
             }else {
                 ToastHelper.l("出现错误~请重试");
@@ -257,6 +255,12 @@ public class PlayWithTakeOrderListFragment extends TBaseFragment implements View
         onRefresh();
     }
 
+    /**
+     *刷新接单列表
+     */
+    public void onEventMainThread(RefreshAboutOrderEvent event){
+        onRefresh();
+    }
 
 
     /**

@@ -1,7 +1,6 @@
 package com.li.videoapplication.ui.dialog;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
@@ -12,9 +11,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.response.PhoneRequestMsgEntity;
 import com.li.videoapplication.data.model.response.VerifyCodeNewEntity;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.BaseDialog;
-import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.AnimationHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.AuthCodeUtil;

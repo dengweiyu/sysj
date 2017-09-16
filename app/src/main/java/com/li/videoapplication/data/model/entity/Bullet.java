@@ -2,8 +2,6 @@ package com.li.videoapplication.data.model.entity;
 
 import com.li.videoapplication.framework.BaseEntity;
 
-import java.util.List;
-
 /**
  * 首页专栏
  */

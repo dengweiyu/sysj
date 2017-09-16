@@ -14,19 +14,12 @@ package com.li.videoapplication.ui.dialog;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseEmptyDialog;
 import com.li.videoapplication.ui.DialogManager;
-import com.li.videoapplication.utils.ScreenUtil;
-import com.li.videoapplication.views.TipView2;
 
 /**
  * 弹框：进行中约战遮罩

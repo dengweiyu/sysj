@@ -5,12 +5,8 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.li.videoapplication.data.model.response.PaymentEntity;
-import com.li.videoapplication.mvp.mall.view.PaymentWayActivity;
-import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.wxapi.WXPayEntryActivity;
-import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
-import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;

@@ -862,6 +862,7 @@ public class PreferencesHepler {
     /**
      * 保存问卷
      */
+    @Deprecated
     public void saveGroupIds(List<String> list) {
         if (list != null && list.size() > 0) {
             String json = gson.toJson(list);

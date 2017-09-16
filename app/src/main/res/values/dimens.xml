@@ -7,7 +7,7 @@
     <dimen name="ab_height">38dp</dimen>
 
     <dimen name="menu_main_height">44dp</dimen>
-    <dimen name="menu_main_icon">22dp</dimen>
+    <dimen name="menu_main_icon">30dp</dimen>
     <dimen name="menu_main_padding">4dp</dimen>
 
     <dimen name="banner_height">180dp</dimen>

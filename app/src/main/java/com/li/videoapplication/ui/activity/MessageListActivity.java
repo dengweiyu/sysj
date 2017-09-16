@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.eventbus.EventBus;
-import io.rong.imkit.model.Event;
 
 /**
  * 活动：消息
@@ -107,7 +106,6 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
         abMessageClean.setOnClickListener(this);
 
         if ("video".equals(mType)) {
-
             setAdapter(videoAdapter);
             emptyText.setText("没有视频消息");
         } else if ("group".equals(mType)) {

@@ -31,7 +31,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.mvp.adapter.PlayerBillboardAdapter;
 import com.li.videoapplication.utils.StringUtil;
-import io.rong.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 

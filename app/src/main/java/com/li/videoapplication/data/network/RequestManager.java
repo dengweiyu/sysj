@@ -5,12 +5,9 @@ import android.util.Log;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 功能：网络请求页面管理类

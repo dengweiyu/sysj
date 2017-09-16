@@ -16,7 +16,6 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.response.VideoRewardRankEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.ui.adapter.VideoRewardAdapter;
-import com.li.videoapplication.ui.view.SimpleItemDecoration;
 import com.li.videoapplication.utils.TextUtil;
 
 import java.util.ArrayList;

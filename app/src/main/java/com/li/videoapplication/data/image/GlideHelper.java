@@ -1,21 +1,18 @@
 package com.li.videoapplication.data.image;
 
-import android.animation.Animator;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
-import android.os.Build;
+import android.support.v7.content.res.AppCompatResources;
 import android.util.Log;
-import android.view.ViewAnimationUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.li.videoapplication.R;
@@ -23,8 +20,6 @@ import com.li.videoapplication.framework.AppManager;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
-
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * 功能：Glider加载图片封装
@@ -289,5 +284,71 @@ public class GlideHelper {
                 .placeholder(R.drawable.default_video_211)
                 .dontAnimate()
                 .into(view);
+    }
+
+
+    /**
+     * 加载图片，自定义占位符
+     */
+    public static void displayImage(Context context,int placeHolder,String uri, ImageView view) {
+
+        if (context == null){
+            return;
+        }
+        if(context instanceof Activity){
+            if (((Activity)context).isDestroyed()){
+                return;
+            }
+        }
+
+        Glide.with(context)
+                .load(uri)
+                .placeholder(placeHolder)
+                .dontAnimate()
+                .fitCenter()
+                .into(view);
+    }
+
+
+    /**
+     * 加载图片，自定义占位符
+     */
+    public static void displayImageByDrawable(final Context context, int placeHolder, String uri, final ImageView view,SimpleTarget<GlideDrawable> target) {
+
+        if (context == null){
+            return;
+        }
+        if(context instanceof Activity){
+            if (((Activity)context).isDestroyed()){
+                return;
+            }
+        }
+
+        Glide.with(context)
+                .load(uri)
+                .placeholder(placeHolder)
+                .dontAnimate()
+                .into(target /*new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        if (context == null){
+                            return;
+                        }
+                    //    Drawable drawable = AppCompatResources.getDrawable(context,R.drawable.home_bottom_record_bg);
+                        Drawable drawable = view.getDrawable();
+                        StateListDrawable stateDrawable = null;
+                        if (drawable instanceof StateListDrawable){
+                            stateDrawable = (StateListDrawable)drawable;
+                        }else {
+                            stateDrawable = new StateListDrawable();
+                        }
+                        if (isPress){
+                            stateDrawable.addState(new int[]{android.R.attr.state_pressed},resource);
+                        }else {
+                            stateDrawable.addState(new int[]{-android.R.attr.state_pressed},resource);
+                        }
+                        view.setImageDrawable(stateDrawable);
+                    }
+                }*/);
     }
 }

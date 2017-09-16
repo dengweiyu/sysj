@@ -1,7 +1,6 @@
 package com.li.videoapplication.ui.dialog;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 

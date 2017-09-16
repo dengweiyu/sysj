@@ -2,8 +2,6 @@ package com.li.videoapplication.data.network;
 
 import android.util.Log;
 
-import com.li.videoapplication.data.model.entity.Task;
-
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.concurrent.BlockingQueue;

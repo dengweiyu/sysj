@@ -1,12 +1,9 @@
 package com.li.videoapplication.utils;
 
 import android.content.Context;
-import android.nfc.Tag;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
-import android.util.Log;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import java.text.DecimalFormat;

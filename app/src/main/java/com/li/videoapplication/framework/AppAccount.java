@@ -3,15 +3,12 @@ package com.li.videoapplication.framework;
 
 import android.util.Base64;
 
-import com.google.gson.Gson;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.data.cache.BaseUtils;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.Token;
-import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
-import com.li.videoapplication.data.preferences.UserPreferences;
 import com.li.videoapplication.tools.JPushHelper;
 import com.li.videoapplication.tools.ShareSDKLoginHelper;
 import com.li.videoapplication.utils.StringUtil;

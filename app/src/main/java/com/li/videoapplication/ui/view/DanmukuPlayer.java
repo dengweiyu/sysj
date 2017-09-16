@@ -2,10 +2,8 @@ package com.li.videoapplication.ui.view;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -17,20 +15,11 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.model.entity.Comment;
 import com.li.videoapplication.utils.PatternUtil;
 import com.li.videoapplication.utils.StringUtil;
 
-import org.jivesoftware.smack.filter.StanzaIdFilter;
-
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -52,7 +41,6 @@ import master.flame.danmaku.danmaku.model.android.Danmakus;
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 import master.flame.danmaku.danmaku.parser.IDataSource;
 import master.flame.danmaku.danmaku.parser.android.BiliDanmukuParser;
-import master.flame.danmaku.danmaku.util.IOUtils;
 import master.flame.danmaku.ui.widget.CenterImageSpan;
 import master.flame.danmaku.ui.widget.DanmakuView;
 

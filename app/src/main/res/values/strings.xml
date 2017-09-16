@@ -926,13 +926,13 @@
     <string name="jump_match_content">马上到赛事主页参加比赛完成任务，是否跳转？</string>
     <string name="jump_upload_content">分享视频即有机会获得魔豆奖励，立即分享？</string>
     <string name="jump_videobillboard_content">马上到排行榜查看自己的当前排名，是否跳转？</string>
-    <string name="jump_playerbillboard_content">马上跳转到推荐榜关注自己心仪的主播，是否跳转？</string>
+    <string name="jump_playerbillboard_content">马上跳转到主播榜关注自己心仪的主播，是否跳转？</string>
     <string name="jump_mall_content">跳转到商城购买主播推荐位，即可提高排名，被更多的关注，是否跳转？</string>
     <string name="jump_home_go">进入首页</string>
     <string name="jump_match_go">进入赛事</string>
     <string name="jump_upload_go">进入视频管理</string>
     <string name="jump_videobillboard_go">进入排行榜</string>
-    <string name="jump_playerbillboard_go">进入玩家推荐榜</string>
+    <string name="jump_playerbillboard_go">进入主播榜</string>
     <string name="jump_mall_go">进入商城</string>
 
     <string name="confirm_dialog_yes">确定</string>
@@ -946,7 +946,7 @@
     <string name="square_tip_video_uploading">视频正在上传中...</string>
     <string name="square_tip_video_is_private">上传完成前仅自己可见</string>
     
-    <string name="vip_center_recharge_vip">选择等级</string>
+    <string name="vip_center_recharge_vip">选择特权</string>
 
     <string name="my_wallet_beans_over">魔豆余额</string>
     <string name="my_wallet_coin_over">魔币余额</string>

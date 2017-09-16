@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.li.videoapplication.data.EventManager;
 import com.li.videoapplication.framework.BaseReceiver;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.ApkUtil;

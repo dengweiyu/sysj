@@ -2,9 +2,7 @@ package com.li.videoapplication.payment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.li.videoapplication.data.model.response.PaymentEntity;
 import com.tencent.mobileqq.openpay.api.IOpenApi;
@@ -14,10 +12,6 @@ import com.tencent.mobileqq.openpay.constants.OpenConstants;
 import com.tencent.mobileqq.openpay.data.base.BaseResponse;
 import com.tencent.mobileqq.openpay.data.pay.PayApi;
 import com.tencent.mobileqq.openpay.data.pay.PayResponse;
-
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
 /**
  * QQ支付

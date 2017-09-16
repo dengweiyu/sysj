@@ -78,6 +78,14 @@ public class RewardAndPlayWithAdapter extends BaseArrayAdapter<RewardAndPlayWith
                     videoImage.setVideo_id(data.getRelation_id());
                     ActivityManager.startVideoPlayActivity(mActivity,videoImage);
                 }else{                                      //陪练消息
+                    //抢单模式下 并且 状态为 待抢单  此消息只会推送给教练
+                    if ("2".equals(data.getOrder_mode())){
+                        if ("2".equals(data.getStatusX())){
+                            ActivityManager.startPlayWithOrderAndMatchActivity(mActivity,0,1);
+                            return;
+                        }
+                    }
+
                     int role = PlayWithOrderDetailActivity.getRole(mActivity.getMemberId(),data.getUser_id(),data.getCoach_id());
                     if (role == PlayWithOrderDetailActivity.ROLE_COACH){
                         switch (data.getStatusX()){
@@ -105,6 +113,9 @@ public class RewardAndPlayWithAdapter extends BaseArrayAdapter<RewardAndPlayWith
                                 break;
                             case "10":
                             case "11":
+                            case "12":
+                            case "13":
+                            case "14":
                                 //跳转订单详情
                                 ActivityManager.startPlayWithOrderDetailActivity(mActivity,data.getRelation_id(),role,true);
                                 break;

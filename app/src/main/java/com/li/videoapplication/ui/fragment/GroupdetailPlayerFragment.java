@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.rong.eventbus.EventBus;
 
 /**
  * 碎片：玩家

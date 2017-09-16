@@ -13,15 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
-import com.li.videoapplication.data.network.UITask;
-import com.li.videoapplication.tools.SubtitleHelper;
 import com.li.videoapplication.tools.SubtitleHelper2;
 import com.li.videoapplication.ui.activity.VideoEditorActivity2;
 import com.li.videoapplication.ui.fragment.AudioFragment;

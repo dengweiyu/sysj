@@ -1,7 +1,6 @@
 package com.li.videoapplication.data;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -19,7 +18,6 @@ import com.li.videoapplication.data.local.ScreenShotResponseObject;
 import com.li.videoapplication.data.model.entity.Associate;
 import com.li.videoapplication.data.model.event.CloudVideoRecommendEvent;
 import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
-import com.li.videoapplication.data.model.event.DownloadCompleteEvent;
 import com.li.videoapplication.data.model.event.FileDownloaderEvent;
 import com.li.videoapplication.data.model.event.ImageView2ImageShareEvent;
 import com.li.videoapplication.data.model.event.LoginEvent;
@@ -33,7 +31,6 @@ import com.li.videoapplication.data.model.event.UserInfomationEvent;
 import com.li.videoapplication.data.model.event.VideoCutEvent;
 import com.li.videoapplication.data.model.event.VideoEditor2VideoManagerEvent;
 import com.li.videoapplication.data.model.event.VideoUploadCompleteEvent;
-import com.li.videoapplication.data.model.event.postConnectedTVSuccessEvent;
 
 import java.util.List;
 
@@ -52,15 +49,6 @@ public class EventManager {
     public static void postFileDownloaderEvent() {
         Log.d(TAG, "postFileDownloaderEvent: ");
         FileDownloaderEvent event = new FileDownloaderEvent();
-        EventBus.getDefault().post(event);
-    }
-
-    /**
-     * 发布下载完成事件
-     */
-    public static void postDownloadCompleteEvent(Intent intent) {
-        DownloadCompleteEvent event = new DownloadCompleteEvent();
-        event.setIntent(intent);
         EventBus.getDefault().post(event);
     }
 
@@ -170,13 +158,6 @@ public class EventManager {
         EventBus.getDefault().post(event);
     }
 
-    public static void postSearchGame2VideoShareEvent(String gamaName, String gamaId, String groupId) {
-        SearchGame2VideoShareEvent event = new SearchGame2VideoShareEvent();
-        event.setGamaName(gamaName);
-        event.setGamaId(gamaId);
-        event.setGroupId(groupId);
-        EventBus.getDefault().post(event);
-    }
 
     public static void postSearchGame2VideoShareEvent(Associate associate) {
         SearchGame2VideoShareEvent event = new SearchGame2VideoShareEvent();
@@ -189,10 +170,7 @@ public class EventManager {
         EventBus.getDefault().post(event);
     }
 
-    public static void postConnectedTVSuccessEvent() {
-        postConnectedTVSuccessEvent event = new postConnectedTVSuccessEvent();
-        EventBus.getDefault().post(event);
-    }
+
 
     public static void postShare2VideoShareEvent(String shareChannel) {
         Share2VideoShareEvent event = new Share2VideoShareEvent();

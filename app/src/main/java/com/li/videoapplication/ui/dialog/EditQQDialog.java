@@ -2,26 +2,18 @@ package com.li.videoapplication.ui.dialog;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
-import com.li.videoapplication.data.model.response.PhoneRequestMsgEntity;
 import com.li.videoapplication.data.model.response.UserProfileFinishMemberInfoEntity;
-import com.li.videoapplication.data.model.response.VerifyCodeNewEntity;
-import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.BaseDialog;
 import com.li.videoapplication.tools.AnimationHelper;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.utils.AuthCodeUtil;
-import com.li.videoapplication.utils.CountDownTimerUtils;
 import com.li.videoapplication.utils.InputUtil;
-import com.li.videoapplication.utils.PatternUtil;
 import com.li.videoapplication.utils.StringUtil;
 
 import io.rong.eventbus.EventBus;

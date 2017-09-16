@@ -112,8 +112,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
         // 20170104,2.1.4   test:20161122, 2.1.2
-        versionCode 20170819
-        versionName "2.2.4"
+        versionCode 20170916
+        versionName "2.2.5"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
         multiDexEnabled true
@@ -128,7 +128,7 @@ android {
         buildConfigField "String", "PLATFORM",  "\"all\""
 
 
-        //测试环境 暂时不要用
+        //测试环境 有些地方的接口 有可能没改过来
         buildConfigField("String", "ip", "\"192.168.48.9\"")
         buildConfigField("String", "port", "\"233\"")
         buildConfigField("String", "rootDir", "\"\"")
@@ -225,7 +225,7 @@ dependencies {
     compile project(':PullToRefresh')
     compile project(':ShareSDK')
     compile project(':DanmakuFlameMaster')
-    compile project(':baidupush')
+    //compile project(':baidupush')
     compile files('libs/MobLogCollector.jar')
     compile files('libs/systembartint-1.0.4.jar')
     // OKHttp
@@ -339,8 +339,8 @@ def gitSha() {
             throw new GradleException("can't get git rev, you should add git to system path or just input test value, such as 'testTinkerId'")
         }
         //使用git commit 的版本号作为tinkerId  tinkerId一致的话才会加载补丁，所以也要注意本地开发中的tinkerId不能与线上的一致
-       // return gitRev
-        return "9cff953"
+        return gitRev
+     //   return "9cff953"
     } catch (Exception e) {
         throw new GradleException("can't get git rev, you should add git to system path or just input test value, such as 'testTinkerId'")
     }
@@ -361,11 +361,11 @@ ext {
 
     //for normal build
     //old apk file to build patch apk
-    tinkerOldApkPath = "${bakPath}/VideoApplication_2.2.4_build_20170819_224.apk"
+    tinkerOldApkPath = "${bakPath}/VideoApplication_2.2.5.2_build_20170819.apk"
     //proguard mapping file to build patch apk
     tinkerApplyMappingPath = "${bakPath}/app-release-0805-14-05-12-mapping.txt"
     //resource R.txt to build patch apk, must input if there is resource changed
-    tinkerApplyResourcePath = "${bakPath}/app-release-224-0819-19-03-48-R.txt"
+    tinkerApplyResourcePath = "${bakPath}/app-debug-0912-14-21-13-R.txt"
 
     //only use for build all flavor, if not, just ignore this field
     tinkerBuildFlavorDirectory = "${bakPath}/app-1018-17-32-47"

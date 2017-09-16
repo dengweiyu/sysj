@@ -1,6 +1,5 @@
 package com.li.videoapplication.impl;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
@@ -115,8 +114,17 @@ public abstract class OrderStrategy implements IOrderStrategy {
 
     //再来一单
     protected void createOrder(){
-        int orderMode = mOrderDetail.getData().getOrder_mode().equals("2")?CreatePlayWithOrderActivity.MODE_ORDER_AGAIN:CreatePlayWithOrderActivity.MODE_ORDER_NORMAL;
-        if (orderMode == CreatePlayWithOrderActivity.MODE_ORDER_AGAIN){                                                      //抢单模式
+        int orderMode = mOrderDetail.getData().getOrder_mode().equals("2")?CreatePlayWithOrderActivity.MODE_ORDER_GRAB:CreatePlayWithOrderActivity.MODE_ORDER_NORMAL;
+
+        ActivityManager.startCreatePlayWithOrderActivity(
+                AppManager.getInstance().currentActivity(),
+                orderMode,
+                mOrderDetail.getCoach().getMember_id(),
+                mOrderDetail.getCoach().getNickname(),
+                mOrderDetail.getCoach().getAvatar(),
+                mOrderDetail.getCoach().getQq());
+
+/*        if (orderMode == CreatePlayWithOrderActivity.MODE_ORDER_AGAIN){                                                      //抢单模式
             Intent intent = new Intent();
             intent.setClass(AppManager.getInstance().currentActivity(), CreatePlayWithOrderActivity.class);
             intent.putExtra("order_mode",CreatePlayWithOrderActivity.MODE_ORDER_AGAIN);
@@ -129,7 +137,7 @@ public abstract class OrderStrategy implements IOrderStrategy {
                     mOrderDetail.getCoach().getNickname(),
                     mOrderDetail.getCoach().getAvatar(),
                     mOrderDetail.getCoach().getQq());
-        }
+        }*/
 
     }
 

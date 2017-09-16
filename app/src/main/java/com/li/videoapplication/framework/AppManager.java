@@ -5,7 +5,6 @@ import android.app.Application;
 import android.app.Service;
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 

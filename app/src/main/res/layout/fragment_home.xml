@@ -12,7 +12,8 @@
     <com.li.videoapplication.ui.view.HomeTaskView
         android:id="@+id/home_task"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="46dp"
+        android:visibility="gone"
         android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

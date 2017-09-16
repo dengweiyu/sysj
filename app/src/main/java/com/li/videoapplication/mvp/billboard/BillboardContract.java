@@ -1,7 +1,6 @@
 package com.li.videoapplication.mvp.billboard;
 
 
-import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.response.MatchRewardBillboardEntity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
 import com.li.videoapplication.data.model.response.PhotoCollectionEntity;

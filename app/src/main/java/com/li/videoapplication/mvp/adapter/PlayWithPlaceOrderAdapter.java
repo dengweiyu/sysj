@@ -7,7 +7,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.response.PlayWithPlaceOrderEntity;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.tools.TimeHelper;
 import java.util.List;
 

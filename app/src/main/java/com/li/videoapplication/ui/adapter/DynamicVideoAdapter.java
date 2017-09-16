@@ -10,25 +10,26 @@ import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.event.GoodAndStartEvent;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 适配器：个人中心，动态
  */
 @SuppressLint("InflateParams")
 public class DynamicVideoAdapter extends BaseArrayAdapter<VideoImage>{
-
+	private List<VideoImage> mData;
 	/**
 	 * 跳转：视频播放
 	 */
@@ -38,6 +39,8 @@ public class DynamicVideoAdapter extends BaseArrayAdapter<VideoImage>{
 
 	public DynamicVideoAdapter(Context context, List<VideoImage> data) {
 		super(context, R.layout.adapter_dynamic_video, data);
+		mData = data;
+		EventBus.getDefault().register(this);
 	}
 
 	@Override
@@ -307,6 +310,52 @@ public class DynamicVideoAdapter extends BaseArrayAdapter<VideoImage>{
 				notifyDataSetChanged();
 			}
 		});
+	}
+
+	/**
+	 * 点赞 收藏事件
+	 */
+	public void onEventMainThread(GoodAndStartEvent event){
+		if (StringUtil.isNull(event.getVideoId())){
+			return;
+		}
+		if (mData == null){
+			return;
+		}
+		for (VideoImage v:
+				mData) {
+			if (event.getVideoId().equals(v.getVideo_id())){
+				if (event.getType() == GoodAndStartEvent.TYPE_GOOD){
+					if (event.isPositive()){
+						v.flower_tick = 1;
+						v.flower_count =( Integer.parseInt(v.flower_count) + 1)+"";
+					}else {
+						int count = Integer.parseInt(v.flower_count);
+						if (count < 1){
+							return;
+						}
+						v.flower_tick = 0;
+						v.flower_count =(count - 1)+"";
+					}
+					notifyDataSetChanged();
+				}else if (event.getType() == GoodAndStartEvent.TYPE_START){
+					if (event.isPositive()){
+						v.collection_tick = 1;
+						v.collection_count = ( Integer.parseInt(v.collection_count) + 1)+"";
+					}else {
+						v.collection_tick = 0;
+
+						int count = Integer.parseInt(v.collection_count);
+						if (count < 1){
+							return;
+						}
+						v.collection_count = ( count - 1)+"";
+					}
+					notifyDataSetChanged();
+				}
+				break;
+			}
+		}
 	}
 
 	/**

@@ -103,9 +103,9 @@ public class MyPlayerFragment extends TBaseChildFragment implements OnRefreshLis
 
         data = new ArrayList<>();
         if (tab == MyPlayerActivity.PAGE_MYFANS)
-            adapter = new SearchMemberAdapter(getActivity(), SearchMemberAdapter.PAGE_MYFANS, data);
+            adapter = new SearchMemberAdapter(getActivity(), SearchMemberAdapter.PAGE_MYFANS, data,null);
         if (tab == MyPlayerActivity.PAGE_MYFOCUS)
-            adapter = new SearchMemberAdapter(getActivity(), SearchMemberAdapter.PAGE_MYFOCUS, data);
+            adapter = new SearchMemberAdapter(getActivity(), SearchMemberAdapter.PAGE_MYFOCUS, data,null);
         listView.setAdapter(adapter);
 
         pullToRefreshListView.setOnRefreshListener(this);

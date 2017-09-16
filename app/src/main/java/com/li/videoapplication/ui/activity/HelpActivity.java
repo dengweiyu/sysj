@@ -8,7 +8,6 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.ui.fragment.MatchCourseFragment;
 import com.li.videoapplication.ui.fragment.QuestionFragment;

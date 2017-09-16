@@ -2,7 +2,6 @@ package com.li.videoapplication.data.model.entity;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
-import com.li.videoapplication.framework.BaseResponse2Entity;
 import com.li.videoapplication.framework.BaseResponseEntity;
 
 import java.util.List;

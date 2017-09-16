@@ -2,7 +2,6 @@ package com.li.videoapplication.mvp.adapter;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

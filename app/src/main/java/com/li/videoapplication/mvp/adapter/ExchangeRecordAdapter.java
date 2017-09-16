@@ -1,9 +1,6 @@
 package com.li.videoapplication.mvp.adapter;
 
-import android.util.Log;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;

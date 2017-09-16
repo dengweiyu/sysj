@@ -5,6 +5,10 @@
               android:layout_height="match_parent"
               android:background="@color/white"
     android:fitsSystemWindows="true">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="#ff3f3f"></View>
     <include layout="@layout/toolbar_white" />
 
     <TextView
@@ -12,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:textSize="14sp"
-        android:textColor="@color/black"
+        android:textColor="#050505"
         android:text="关注你感兴趣的游戏"
         android:gravity="center"/>
 
@@ -21,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textSize="12sp"
-        android:textColor="@color/text_color"
+        android:textColor="#3a3939"
         android:text="当有视频内容更新时。手游视界会第一时间通知你哦"
         android:gravity="center"/>
 
@@ -34,19 +38,19 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:layout_above="@+id/tv_choice_done"></android.support.v7.widget.RecyclerView>
         <TextView
             android:id="@+id/tv_choice_done"
-            android:layout_width="142dp"
-            android:layout_height="30dp"
+            android:layout_width="200dp"
+            android:layout_height="36dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/welcome_gointo"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/welcome_unselect"
             android:gravity="center"
-            android:text="@string/welcome_gointo"
+            android:text="选好了"
             android:textColor="@color/white"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
     </RelativeLayout>
 </LinearLayout>

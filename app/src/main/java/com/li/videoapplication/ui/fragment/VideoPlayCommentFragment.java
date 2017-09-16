@@ -317,8 +317,7 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
                     star.playAnimation();
                     videoImage.setCollection_tick(1);
                     videoImage.setCollection_count(Integer.valueOf(videoImage.getCollection_count()) + 1 + "");
-                    // 提交收藏任务
-                    DataManager.TASK.doTask_20(getMember_id());
+
                     UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放-收藏");
                 } else {
                     star.setChecked(false);
@@ -349,8 +348,7 @@ public class VideoPlayCommentFragment extends TBaseFragment implements OnRefresh
                         // 踩
                         DataManager.fndownClick203(videoImage.getId(), getMember_id());
                     }
-                    // 提交点赞任务
-                    DataManager.TASK.doTask_21(getMember_id());
+
                     UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.VIDEOPLAY, "视频播放-点赞");
                 } else {
                     good.setChecked(false);

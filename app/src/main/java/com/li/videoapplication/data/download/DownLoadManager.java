@@ -12,7 +12,6 @@ import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.ui.activity.MainActivity;
-import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.utils.ApkUtil;
 
 import java.io.File;

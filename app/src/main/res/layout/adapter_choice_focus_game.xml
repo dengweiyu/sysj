@@ -15,8 +15,8 @@
         android:orientation="vertical">
     <com.li.videoapplication.views.RoundedImageView
         android:id="@+id/iv_square_game_icon"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_gravity="center"
         app:riv_border_color="#ffffff"
         app:riv_border_width="0dp"
@@ -35,11 +35,13 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/iv_is_choice"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_alignRight="@+id/ll_choice_game"
         android:layout_alignTop="@+id/ll_choice_game"
         android:layout_marginRight="-8dp"
         android:layout_marginTop="-8dp"
+
         android:src="@drawable/choice_red"/>
 </RelativeLayout>

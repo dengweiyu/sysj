@@ -51,7 +51,6 @@ import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.CustomViewPager;
-import io.rong.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;

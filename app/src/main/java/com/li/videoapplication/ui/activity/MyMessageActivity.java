@@ -19,7 +19,6 @@ import com.li.videoapplication.data.model.event.ReadMessageEntity;
 import com.li.videoapplication.data.model.response.AllReadEntity;
 import com.li.videoapplication.data.model.response.MessageListEntity;
 import com.li.videoapplication.data.model.response.MessageMsgRedEntity;
-import com.li.videoapplication.data.model.response.PlayWithOrderOptionsEntity;
 import com.li.videoapplication.data.network.RequestParams;
 import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.framework.TBaseActivity;

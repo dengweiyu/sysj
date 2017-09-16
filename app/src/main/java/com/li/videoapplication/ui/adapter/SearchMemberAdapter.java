@@ -2,7 +2,11 @@ package com.li.videoapplication.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,7 +16,6 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
-import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
@@ -22,8 +25,6 @@ import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.CircleImageView;
 
 import java.util.List;
-
-import io.rong.imlib.filetransfer.Call;
 
 /**
  * 适配器：搜索玩家, 关注粉丝
@@ -50,10 +51,18 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 		}
 	}
 
-	public SearchMemberAdapter(Context context, int page, List<Member> data) {
+	private String mKey;
+	public SearchMemberAdapter(Context context, int page, List<Member> data,String key) {
 		super(context, R.layout.adapter_searchmember, data);
 		this.page = page;
 		mData  = data;
+		mKey = key;
+	}
+
+	public void updateKey(String key){
+		if (!StringUtil.isNull(key)){
+			mKey = key;
+		}
 	}
 
 	@Override
@@ -81,8 +90,27 @@ public class SearchMemberAdapter extends BaseArrayAdapter<Member> {
 		if (record.isV())
 			holder.head_v.setVisibility(View.VISIBLE);
 		setImageViewImageNet(holder.head, record.getAvatar());
-		setTextViewText(holder.name, record.getNickname());
-		
+
+		String name = record.getNickname();
+		if (!StringUtil.isNull(name)){
+			if (!StringUtil.isNull(mKey)){
+				//关键词 标红
+				int start  = name.indexOf(mKey);
+				int end = start + mKey.length();
+				if (start == -1){
+					holder.name.setText(record.getNickname());
+				}else {
+					SpannableStringBuilder style=new SpannableStringBuilder(record.getNickname());
+					style.setSpan(new ForegroundColorSpan(Color.parseColor("#fc3c2e")),start,end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+					holder.name.setText(style);
+				}
+
+			}else {
+				holder.name.setText(record.getNickname());
+			}
+
+		}
+
 		setMark(holder.mark, record);
 
 		holder.content.setVisibility(View.VISIBLE);

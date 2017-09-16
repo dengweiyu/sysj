@@ -2,11 +2,6 @@
 package com.li.videoapplication.ui.activity;
 
 import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.media.Image;
-import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
@@ -15,21 +10,17 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Gift;
 import com.li.videoapplication.data.model.response.ClaimPackageEntity;
 import com.li.videoapplication.data.model.response.PackageInfo203Entity;
-import com.li.videoapplication.data.model.response.PackageInfoEntity;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
-
-import io.rx_cache.internal.cache.memory.apache.IterableMap;
 
 /**
  * 活动：礼包详情

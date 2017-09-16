@@ -10,7 +10,6 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.BaseDialog;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.ui.activity.SignUpActivity;
 import com.li.videoapplication.utils.TextUtil;
 
 

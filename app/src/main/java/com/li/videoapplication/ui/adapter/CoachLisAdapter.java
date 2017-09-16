@@ -4,11 +4,11 @@ package com.li.videoapplication.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -16,7 +16,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.response.CoachListEntity;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.utils.ScreenUtil;
 
 import java.util.List;
@@ -42,8 +41,11 @@ public class CoachLisAdapter extends BaseQuickAdapter<CoachListEntity.DataBean.I
               //  .setText(R.id.tv_coach_score,includeBean.getScore()+"分");
 
         View view = holder.getView(R.id.rl_coach_icon);
-
         setPicLayoutParams(view);
+     /*   TextView name =  holder.getView(R.id.tv_coach_nick_name);
+        name.setText("");
+        name.setText(includeBean.getNickname());
+        name.setEllipsize(TextUtils.TruncateAt.END);*/
 
 
         final  ImageView icon = (ImageView) holder.getView(R.id.iv_coach_icon);

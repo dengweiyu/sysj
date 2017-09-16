@@ -24,18 +24,18 @@ public class StatusBarBlackTextHelper {
             if (Build.VERSION.SDK_INT >= 23){
                 if (dark){
                     window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                    Log.e("initStatusBar","系统6.0+ 设置深色字体成功");
+           //         Log.e("initStatusBar","系统6.0+ 设置深色字体成功");
                 }else {
                     window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-                    Log.e("initStatusBar","系统6.0+ 设置亮色字体成功");
+         //           Log.e("initStatusBar","系统6.0+ 设置亮色字体成功");
                 }
 
             }else{
                 if (setMiuiStatusBarLightMode(window,dark)){                         //miui
-                    Log.e("initStatusBar","MIUI 设置深色字体成功");
+           //         Log.e("initStatusBar","MIUI 设置深色字体成功");
 
                 }else if (setFlymeStatusBarLightMode(window,dark)){                  //flyme
-                    Log.e("initStatusBar","flyme 设置深色字体成功");
+           //         Log.e("initStatusBar","flyme 设置深色字体成功");
                 }
             }
 

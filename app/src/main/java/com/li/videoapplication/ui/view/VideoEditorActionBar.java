@@ -9,8 +9,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
-import com.li.videoapplication.utils.MResource;
-
 
 
 /**

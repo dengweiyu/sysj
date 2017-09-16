@@ -1,6 +1,5 @@
 package com.li.videoapplication.data.model.event;
 
-import com.li.videoapplication.data.model.entity.Associate;
 import com.li.videoapplication.framework.BaseEntity;
 
 /**

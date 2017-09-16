@@ -33,15 +33,11 @@ import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.event.CloudVideoEvent;
 import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.network.UITask;
-import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
-import com.li.videoapplication.data.preferences.SharedPreferencesUtils;
-import com.li.videoapplication.data.preferences.UserPreferences;
 import com.li.videoapplication.data.upload.Contants;
 import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.tools.IntentHelper;
-import com.li.videoapplication.tools.JSONHelper;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -909,6 +905,12 @@ public class MyLocalVideoAdapter extends BaseAdapter implements
             ToastHelper.s("视频存在错误，不能分享");
             return false;
         }
+
+        //VIP 1,2,3 无限制
+        if (hasVip()){
+            return true;
+        }
+
         // 获取视频长度（毫秒）
         long secs = 0;
         try {
@@ -931,6 +933,26 @@ public class MyLocalVideoAdapter extends BaseAdapter implements
         }
         return true;
     }
+
+    private boolean hasVip(){
+        //VIP3不展示广告
+        Member member = PreferencesHepler.getInstance().getUserProfilePersonalInformation();
+        if (member!= null && member.getVipInfo() != null){
+            if ("3".equals(member.getVipInfo().getLevel())){
+                return true;
+            }
+            if (!StringUtil.isNull(member.getVipInfo().getLevel())){
+                switch (member.getVipInfo().getLevel()){
+                    case "1":
+                    case "2":
+                    case "3":
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     /**
      * 跳转：视频播放

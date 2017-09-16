@@ -10,39 +10,28 @@ import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
-import com.baidu.push.example.BaiduPush;
-import com.baidu.push.example.entity.BaiduEntity;
-import com.google.gson.Gson;
 import com.happly.link.util.LogCat;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.screenrecordlib.RecordingManager;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.cache.CacheManager;
-import com.li.videoapplication.data.model.entity.BaiduMessageEntity;
-import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.network.RequestExecutor;
 import com.li.videoapplication.data.network.RequestService;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
-import com.li.videoapplication.framework.BaseApplication;
+import com.li.videoapplication.impl.SimpleHeadLineObservable;
 import com.li.videoapplication.tools.AppExceptionHandler;
 import com.li.videoapplication.tools.JPushHelper;
 import com.li.videoapplication.tools.MyLogImp;
 import com.li.videoapplication.tools.TinkerManager;
 import com.li.videoapplication.utils.AppUtil;
-import com.li.videoapplication.utils.StringUtil;
-import com.meituan.android.walle.WalleChannelReader;
 import com.tencent.tinker.anno.DefaultLifeCycle;
 import com.tencent.tinker.lib.tinker.Tinker;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
 import com.tencent.tinker.loader.app.DefaultApplicationLike;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
-import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.x;
-
-import java.lang.reflect.Field;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
@@ -58,9 +47,6 @@ public class MainApplicationLike extends DefaultApplicationLike {
 
     private static final boolean DEBUG = false;
     private static final String FEEDBACK_KEY = "23590443";
-
-    private static BaiduEntity mBaiduEntity;
-
 
     public MainApplicationLike(Application application, int tinkerFlags, boolean tinkerLoadVerifyFlag,
                                long applicationStartElapsedTime, long applicationStartMillisTime, Intent tinkerResultIntent) {
@@ -143,42 +129,8 @@ public class MainApplicationLike extends DefaultApplicationLike {
         x.Ext.init(application);
         x.Ext.setDebug(DEBUG);
 
-
-        //Baidu push
-        BaiduPush.getInstances().init(application, new BaiduPush.OnSucceed() {
-            @Override
-            public void succeed(BaiduEntity b) {
-
-                mBaiduEntity = b;
-                Member member =  PreferencesHepler.getInstance().getUserProfilePersonalInformation();
-                if (PreferencesHepler.getInstance().isLogin()){
-                        if (mBaiduEntity != null && !StringUtil.isNull(mBaiduEntity.getChannelId())) {
-                            DataManager.submitChannelId(member.getId(),mBaiduEntity.getChannelId());
-                    }
-                }
-            }
-
-            @Override
-            public void customContent(String content) {
-                try {
-                    Gson gson = new Gson();
-                    BaiduMessageEntity entity = gson.fromJson(content, BaiduMessageEntity.class);
-                    if (entity != null && entity.getCustom_content() != null){
-                        if ("training".equals(entity.getCustom_content().getType())){
-                            //更新一下个人资料
-                            String memberId = PreferencesHepler.getInstance().getMember_id();
-                            if (!StringUtil.isNull(memberId)){
-                                DataManager.userProfilePersonalInformation(memberId, memberId);
-                            }
-                        }
-                    }
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-            }
-        });
+        //feimo im sdk
+        IMSdk.init(getApplication());
 
     }
 
@@ -211,9 +163,5 @@ public class MainApplicationLike extends DefaultApplicationLike {
             return false;
         }
     };
-
-    public static BaiduEntity getBaiduEntity() {
-        return mBaiduEntity;
-    }
 
 }

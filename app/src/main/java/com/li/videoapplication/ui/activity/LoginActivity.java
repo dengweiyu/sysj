@@ -24,6 +24,7 @@ import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.ShareSDKLoginHelper;
+import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
 import com.li.videoapplication.utils.AuthCodeUtil;
 import com.li.videoapplication.utils.CountDownTimerUtils;
@@ -101,6 +102,7 @@ public class LoginActivity extends TBaseActivity implements OnClickListener,
         submit.setClickable(false);
         get.setFocusable(false);
         get.setClickable(false);
+        findViewById(R.id.iv_protocol_detail).setOnClickListener(this);
     }
 
     private void initFMLogin() {
@@ -133,6 +135,7 @@ public class LoginActivity extends TBaseActivity implements OnClickListener,
                 Log.d(tag, "onNothingSelected: ");
             }
         });
+
     }
 
     @Override
@@ -209,7 +212,9 @@ public class LoginActivity extends TBaseActivity implements OnClickListener,
                 animationHelper.startAnimationShake(v);
                 loginHelper.wb();
                 break;
-
+            case R.id.iv_protocol_detail:
+                ActivityManager.startPrivacyActivity(LoginActivity.this);
+                break;
             default:
                 break;
         }

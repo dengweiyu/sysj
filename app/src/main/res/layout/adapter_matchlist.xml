@@ -103,9 +103,10 @@
             android:gravity="center_vertical">
 
             <TextView
+                android:id="@+id/iv_match_time_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="时间："
+                android:text="开赛："
                 android:textColor="@color/textcolor_gray"
                 android:textSize="10sp" />
 

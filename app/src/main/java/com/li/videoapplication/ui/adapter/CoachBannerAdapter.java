@@ -1,12 +1,7 @@
 package com.li.videoapplication.ui.adapter;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +11,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.framework.BaseBaseAdapter;
 import com.li.videoapplication.ui.activity.ImageDetailSceneActivity;
-import com.li.videoapplication.ui.activity.ImageViewPagerActivity;
 import com.li.videoapplication.views.ViewFlow;
 
 import java.util.List;

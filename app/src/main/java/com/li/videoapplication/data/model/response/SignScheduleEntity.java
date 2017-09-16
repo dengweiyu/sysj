@@ -1,7 +1,6 @@
 package com.li.videoapplication.data.model.response;
 
 import com.li.videoapplication.data.model.entity.Match;
-import com.li.videoapplication.framework.BaseHttpResult;
 import com.li.videoapplication.framework.BaseResponse2Entity;
 import com.li.videoapplication.framework.BaseResponseEntity;
 

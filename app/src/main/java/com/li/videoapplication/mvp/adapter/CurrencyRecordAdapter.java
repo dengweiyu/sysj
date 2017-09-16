@@ -1,7 +1,5 @@
 package com.li.videoapplication.mvp.adapter;
 
-import android.widget.ImageView;
-
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;

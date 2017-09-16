@@ -3,7 +3,6 @@ package com.li.videoapplication.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,13 +16,10 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.AuthorVideoGroupEntity;
-import com.li.videoapplication.data.model.response.AuthorVideoList2EntityVideoPlay;
-import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
-import com.li.videoapplication.ui.adapter.VideoPlayVideoAdapter;
 import com.li.videoapplication.ui.adapter.VideoPlayVideoAdapter2;
 
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator;

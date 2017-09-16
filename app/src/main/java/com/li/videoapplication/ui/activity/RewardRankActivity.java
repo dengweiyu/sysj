@@ -14,7 +14,6 @@ import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.ui.fragment.SendRewardRankFragment;
 import com.li.videoapplication.ui.fragment.VideoRewardFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
-import com.li.videoapplication.views.ViewPagerY4;
 
 import java.util.ArrayList;
 import java.util.List;

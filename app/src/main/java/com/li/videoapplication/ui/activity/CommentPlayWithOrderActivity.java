@@ -17,7 +17,6 @@ import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.event.RefreshOrderDetailEvent;
 import com.li.videoapplication.data.model.response.CommentTagEntity;
 import com.li.videoapplication.data.model.response.CommitCommentEntity;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.adapter.CommentTagAdapter;

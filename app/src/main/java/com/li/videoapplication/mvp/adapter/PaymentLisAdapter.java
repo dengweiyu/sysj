@@ -10,7 +10,6 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.framework.BaseBaseAdapter;
-import com.li.videoapplication.tools.TextImageHelper;
 
 import java.util.List;
 

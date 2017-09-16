@@ -4,8 +4,6 @@ import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.framework.BaseResponse2Entity;
 import com.li.videoapplication.framework.BaseResponseEntity;
 
-import java.util.List;
-
 
 @SuppressWarnings("serial")
 public class JoinEventsEntity extends BaseResponseEntity {

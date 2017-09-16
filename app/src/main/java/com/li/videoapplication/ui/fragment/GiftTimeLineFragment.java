@@ -2,7 +2,6 @@ package com.li.videoapplication.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,7 +10,6 @@ import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.event.ResetTimeLineEvent;
-import com.li.videoapplication.data.model.response.ServiceTimeEntity;
 import com.li.videoapplication.data.model.response.TimeLineGiftEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.ui.adapter.GiftTimeLineAdapter;

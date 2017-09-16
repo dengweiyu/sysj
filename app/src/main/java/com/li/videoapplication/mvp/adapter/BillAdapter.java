@@ -2,16 +2,10 @@ package com.li.videoapplication.mvp.adapter;
 
 
 import android.graphics.Color;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
-import android.text.method.ArrowKeyMovementMethod;
-import android.text.method.BaseMovementMethod;
 import android.text.method.LinkMovementMethod;
-import android.text.method.MovementMethod;
-import android.text.method.ScrollingMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,17 +13,14 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.entity.SectionEntity;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.BillEntity;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
-import com.li.videoapplication.utils.TextUtil;
 
 import java.util.List;
 

@@ -1,7 +1,6 @@
 package com.li.videoapplication.data.network;
 
 import android.app.Activity;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.li.videoapplication.framework.BaseActivity;

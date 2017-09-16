@@ -30,7 +30,6 @@ import com.li.videoapplication.data.model.response.GameCateEntity;
 import com.li.videoapplication.framework.BaseEmptyRightDialog;
 import com.li.videoapplication.mvp.adapter.MatchListFliterAdapter;
 import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -158,4 +158,8 @@ public class HomeMultipleAdapter extends BaseMultiItemQuickAdapter<HomeDto, Base
             youLikeAdapter.notifyDataSetChanged();
         }
     }
+
+    public YouLikeAdapter getGuessListAdapter(){
+        return   youLikeAdapter;
+    }
 }

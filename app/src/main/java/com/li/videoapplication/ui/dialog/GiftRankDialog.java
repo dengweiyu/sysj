@@ -1,24 +1,19 @@
 package com.li.videoapplication.ui.dialog;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ifeimo.im.framwork.Proxy;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.response.VideoPlayGiftEntity;
 import com.li.videoapplication.framework.BaseOverShootDialog;
-import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.adapter.GiftRankAdapter;
 import com.li.videoapplication.ui.view.SpanItemDecoration;
