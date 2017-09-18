@@ -282,7 +282,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         getIntentValue();
         getIntentResult();
 
-
     }
 
     @Override
