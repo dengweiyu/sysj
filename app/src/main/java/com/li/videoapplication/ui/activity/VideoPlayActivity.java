@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -28,6 +29,7 @@ import com.happly.link.HpplayLinkControl;
 import com.happly.link.bean.WebPushInfo;
 import com.happly.link.device.Const;
 import com.happly.link.net.RefreshUIInterface;
+import com.ifeimo.im.common.util.StatusBarBlackTextHelper;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Bullet;
@@ -86,6 +88,8 @@ import java.util.Map;
 import io.rong.eventbus.EventBus;
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
+
+import static android.view.View.SYSTEM_UI_FLAG_FULLSCREEN;
 
 /**
  * 活动：视频详情
@@ -187,12 +191,14 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         setSystemBar(false);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//显示状态栏
+
     }
 
     @Override
     public void afterOnCreate() {
         super.afterOnCreate();
-
+        StatusBarBlackTextHelper.initStatusBarTextColor(this.getWindow(),false);
 
        /// actionBar.hide();
 
@@ -707,7 +713,6 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
 
             if (item.collection_tick == 1){
                 mStartCount.setText( Html.fromHtml(TextUtil.toColor(StringUtil.toUnitW(item.getCollection_count()), "#ff3d2e")));
-
             }else {
                 mStartCount.setText(StringUtil.toUnitW(item.getCollection_count()));
             }
@@ -715,14 +720,17 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
             int count = 0;
             try {
                 count = Integer.parseInt(item.getFrequency());
+
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
 
             if (count > 0){
                 mGift.setImageResource(R.drawable.gift_selected);
+                mGiftCount.setText( Html.fromHtml(TextUtil.toColor(StringUtil.toUnitW(item.getFrequency()), "#ff3d2e")));
             }else {
                 mGift.setImageResource(R.drawable.gift_unselected);
+                mGiftCount.setText(StringUtil.toUnitW(item.getFrequency()));
             }
 
             if (item.getFlower_tick() == 0){
@@ -846,9 +854,9 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
      * 回调：打赏成功
      */
     public void onEventMainThread(PlayGiftResultEntity entity) {
-        if (mGiftCount != null){
+        if (mGiftCount != null && entity.isResult()){
             // 视频详情
-            mGiftCount.setText(StringUtil.toUnitW(entity.getData().getRewardedPrice()));
+            mGiftCount.setText( Html.fromHtml(TextUtil.toColor(StringUtil.toUnitW(entity.getData().getRewardedPrice()), "#ff3d2e")));
         }
     }
 

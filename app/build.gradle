@@ -339,8 +339,8 @@ def gitSha() {
             throw new GradleException("can't get git rev, you should add git to system path or just input test value, such as 'testTinkerId'")
         }
         //使用git commit 的版本号作为tinkerId  tinkerId一致的话才会加载补丁，所以也要注意本地开发中的tinkerId不能与线上的一致
-        return gitRev
-     //   return "9cff953"
+      //  return gitRev
+        return "b86eda2"
     } catch (Exception e) {
         throw new GradleException("can't get git rev, you should add git to system path or just input test value, such as 'testTinkerId'")
     }

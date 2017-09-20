@@ -1,5 +1,6 @@
 package com.li.videoapplication.ui.fragment;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +18,7 @@ import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.RoundedImageView;
+import com.umeng.analytics.AnalyticsConfig;
 
 /**
  * 碎片：视频播放/游戏简介
@@ -48,6 +50,12 @@ public class VideoPlayIntroduceFragment extends TBaseFragment implements OnClick
         this.item = item;
         Log.d(tag, "Item: == " + item);
         refreshContentView();
+
+        if (isNeedHideDownload(getActivity())){
+            if (install != null){
+                install.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -89,6 +97,23 @@ public class VideoPlayIntroduceFragment extends TBaseFragment implements OnClick
         } else {
             install.setVisibility(View.GONE);
         }
+
+        if (isNeedHideDownload(getActivity())){
+            install.setVisibility(View.GONE);
+        }
+    }
+
+
+
+    /**
+     *
+     */
+    private boolean isNeedHideDownload(Context context){
+        String channel = AnalyticsConfig.getChannel(context);
+        if ("huawei".equals(channel)){
+            return true;
+        }
+        return false;
     }
 
     @Override

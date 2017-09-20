@@ -1577,6 +1577,7 @@ public class RequestParams {
         map.put("game_id",gameId);
         map.put("location", location);
         map.put("involve_id", involveId);
+        map.put("target",SYSJ);
         return map;
     }
 

@@ -2,6 +2,7 @@ package com.li.videoapplication.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
@@ -52,6 +53,7 @@ import com.li.videoapplication.ui.fragment.GroupdetailVideoFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.RoundedImageView;
+import com.umeng.analytics.AnalyticsConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -220,6 +222,11 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
         } else {
             findViewById(R.id.tb_download).setVisibility(View.GONE);
         }
+
+
+        if (isNeedHideDownload(this)){
+            findViewById(R.id.tb_download).setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -250,6 +257,18 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
         findViewById(R.id.groupdetail_chatview).setOnClickListener(this);
         matchView.setOnClickListener(this);
         focusView.setOnClickListener(this);
+    }
+
+
+    /**
+     *
+     */
+    private boolean isNeedHideDownload(Context context){
+        String channel = AnalyticsConfig.getChannel(context);
+        if ("huawei".equals(channel)){
+            return true;
+        }
+        return false;
     }
 
     public void refreshHeaderView(final Game item) {

@@ -1,5 +1,6 @@
 package com.li.videoapplication.ui.activity;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +30,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.LogHelper;
+import com.umeng.analytics.AnalyticsConfig;
 
 /**
  * 活动：设置
@@ -145,6 +147,10 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
 
         point.setVisibility(View.GONE);
         refreshRedPoint();
+
+        if (isNeedHideDownload(this)){
+            findViewById(R.id.setting_downloadmanager).setVisibility(View.GONE);
+        }
     }
 
 
@@ -175,6 +181,17 @@ public class SettingActivity extends TBaseActivity implements OnClickListener, O
 
         anchorModelToggle.setOnClickListener(this);
         refreshFrontCamera();
+    }
+
+    /**
+     *
+     */
+    private boolean isNeedHideDownload(Context context){
+        String channel = AnalyticsConfig.getChannel(context);
+        if ("huawei".equals(channel)){
+            return true;
+        }
+        return false;
     }
 
     private void refreshFrontCamera() {
