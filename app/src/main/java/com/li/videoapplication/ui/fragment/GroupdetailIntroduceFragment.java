@@ -1,6 +1,7 @@
 package com.li.videoapplication.ui.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +17,8 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
 import com.li.videoapplication.utils.StringUtil;
+import com.umeng.analytics.AnalyticsConfig;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 碎片：游戏介绍
@@ -62,6 +65,21 @@ public class GroupdetailIntroduceFragment extends TBaseFragment{
         mOpen = (TextView)view.findViewById(R.id.tv_group_detail_open);
         mSubTitle = view.findViewById(R.id.rl_introduce_subtitle);
         mOpen.setOnClickListener(mListener);
+
+        if (isNeedHideDownload(getActivity())){
+            mOpen.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     *
+     */
+    private boolean isNeedHideDownload(Context context){
+        String channel = AnalyticsConfig.getChannel(context);
+        if ("huawei".equals(channel)){
+            return true;
+        }
+        return false;
     }
 
     public void loadData() {
