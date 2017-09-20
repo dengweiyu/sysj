@@ -45,12 +45,12 @@ public class MatchListAdapter extends BaseQuickAdapter<Match, BaseViewHolder> {
         try {
             //1 => 个人赛  2 => 团体赛
             if ("1".equals(record.getType_id()) || "2".equals(record.getType_id())){
-                String string = TimeHelper.getTimeFormat(record.getStarttime());
+                String string = TimeHelper.getTimeFormat(record.getFirst_schedule_time());
                 holder.setText(R.id.match_time, Html.fromHtml(string));
                 holder.setText(R.id.iv_match_time_tip,"开赛：");
             }else {
                 String string = TimeHelper.getTimeFormat(record.getStarttime()) +
-                        "~" + TimeHelper.getMMddTimeFormat(record.getEndtime());
+                        "~" + TimeHelper.getTimeFormat(record.getEndtime());
 
                 holder.setText(R.id.match_time, Html.fromHtml(string));
                 holder.setText(R.id.iv_match_time_tip,"时间：");
