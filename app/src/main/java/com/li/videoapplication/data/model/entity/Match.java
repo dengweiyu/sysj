@@ -156,6 +156,17 @@ public class Match extends BaseEntity {
     private String roomName;
     private boolean privateIM;
 
+    //2.2.5区分赛事开赛时间和活动时间
+    private String first_schedule_time;
+
+    public String getFirst_schedule_time() {
+        return first_schedule_time;
+    }
+
+    public void setFirst_schedule_time(String first_schedule_time) {
+        this.first_schedule_time = first_schedule_time;
+    }
+
     public String getRoomPicurl() {
         return roomPicurl;
     }
