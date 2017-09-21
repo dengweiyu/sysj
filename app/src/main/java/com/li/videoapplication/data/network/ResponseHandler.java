@@ -1,5 +1,6 @@
 package com.li.videoapplication.data.network;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -134,7 +135,15 @@ public class ResponseHandler {
 
         try {
             // 解析网络访问结果
+
+            Bundle extra = null;
+            if (templateEntity != null){
+                extra = templateEntity.getExtra();
+            }
             entity = gson.fromJson(resultString, templateEntity.getClass());
+            if (extra != null){
+                entity.setExtra(extra);
+            }
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
         }

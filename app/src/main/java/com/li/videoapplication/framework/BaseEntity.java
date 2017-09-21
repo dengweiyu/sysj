@@ -1,5 +1,7 @@
 package com.li.videoapplication.framework;
 
+import android.os.Bundle;
+
 import java.io.Serializable;
 
 import com.google.gson.Gson;
@@ -12,7 +14,7 @@ public abstract class BaseEntity implements Serializable, Cloneable {
 
     protected final String tag = this.getClass().getSimpleName();
     protected final String action = this.getClass().getName();
-
+	protected Bundle extra;
 	public String toJSON() {
 		Gson gson = new Gson();
 		return gson.toJson(this);
@@ -31,5 +33,13 @@ public abstract class BaseEntity implements Serializable, Cloneable {
 			e.printStackTrace();
 		}
 		return baseEntity;
+	}
+
+	public Bundle getExtra() {
+		return extra;
+	}
+
+	public void setExtra(Bundle extra) {
+		this.extra = extra;
 	}
 }
