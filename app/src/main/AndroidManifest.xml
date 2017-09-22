@@ -72,11 +72,7 @@
             android:theme="@style/AppTheme.Launcher"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.li.videoapplication.ui.activity.MainActivity"
@@ -91,7 +87,11 @@
                   android:launchMode="singleTask"
                   android:screenOrientation="portrait"
                   android:theme="@style/MyTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.li.videoapplication.ui.activity.ScanQRCodeActivity"
