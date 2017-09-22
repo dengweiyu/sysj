@@ -689,8 +689,8 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             channel="default_channel";
         }
 
-        //oppo渠道默认不展示广告
-        if ("oppo".equals(channel)){
+        //oppo huawei 渠道默认不展示广告
+        if ("oppo".equals(channel) || "huawei".equals(channel)){
             isIntercept = true;
         }
 
