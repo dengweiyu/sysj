@@ -49,6 +49,7 @@ import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.ViewPagerY4;
 import com.li.videoapplication.views.bubblelayout.BubbleLayout;
 import com.li.videoapplication.views.bubblelayout.BubblePopupHelper;
+import com.umeng.analytics.AnalyticsConfig;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -233,6 +234,23 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
         } else {
             findViewById(R.id.tb_download).setVisibility(View.GONE);
         }
+
+        if (isNeedHideDownload(this)){
+            findViewById(R.id.tb_download).setVisibility(View.GONE);
+        }
+
+    }
+
+
+    /**
+     *
+     */
+    private boolean isNeedHideDownload(Context context){
+        String channel = AnalyticsConfig.getChannel(context);
+        if ("huawei".equals(channel)){
+            return true;
+        }
+        return false;
     }
 
     private void refreshImageView(boolean isFirstIn) {

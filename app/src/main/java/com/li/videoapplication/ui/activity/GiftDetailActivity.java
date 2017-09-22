@@ -2,6 +2,7 @@
 package com.li.videoapplication.ui.activity;
 
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
@@ -21,6 +22,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
+import com.umeng.analytics.AnalyticsConfig;
 
 /**
  * 活动：礼包详情
@@ -105,8 +107,27 @@ public class GiftDetailActivity extends TBaseActivity implements OnClickListener
         receive.setVisibility(View.GONE);
         copy.setVisibility(View.GONE);
         code.setVisibility(View.GONE);
-        download.setVisibility(View.VISIBLE);
+
         download.setOnClickListener(this);
+
+        if (isNeedHideDownload(this)){
+            download.setVisibility(View.GONE);
+        }else {
+            download.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+
+    /**
+     *
+     */
+    private boolean isNeedHideDownload(Context context){
+        String channel = AnalyticsConfig.getChannel(context);
+        if ("huawei".equals(channel)){
+            return true;
+        }
+        return false;
     }
 
     private void refreshContentView(Gift item) {
