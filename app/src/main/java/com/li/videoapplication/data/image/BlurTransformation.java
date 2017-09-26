@@ -18,7 +18,9 @@ public class BlurTransformation extends BitmapTransformation {
 
     private RenderScript rs;
     private static final float BITMAP_SCALE = 0.4f;
-    private static final float BLUR_RADIUS = 25.f;
+    private static final float BLUR_RADIUS = 1.0f;
+
+
 
     public BlurTransformation(Context context) {
         super(context);
@@ -40,6 +42,7 @@ public class BlurTransformation extends BitmapTransformation {
 
         // Load up an instance of the specific script that we want to use.
         ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+
         script.setInput(input);
 
         // Set the blur radius

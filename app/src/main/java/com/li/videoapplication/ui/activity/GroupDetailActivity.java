@@ -280,6 +280,7 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
 
     private void setHeaderData(final Game item) {
         if (item != null) {
+
             GlideHelper.displayImageWhiteTargets(this, item.getFlag(), new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
