@@ -253,6 +253,8 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
 
                 if (videoPlayView != null){
                     videoPlayView.addOnPreparedListener(mGiftTimeLineFragment,500);
+
+
                 }
             }
         },1000);
@@ -1126,6 +1128,12 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         return ArrayHelper.list2Array(list);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        mEntryTime = System.currentTimeMillis();
+    }
+
     /**
      * 暂停
      */
@@ -1137,9 +1145,8 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         map.put("member_id",item.getMember_id());
         //统计播放页停留时长事件
         UmengAnalyticsHelper.onEventValue(this,UmengAnalyticsHelper.VIDEO_PLAY_DURATION,map,(int) (System.currentTimeMillis()/1000-mEntryTime/1000));
-        //上传到后台
-        DataManager.commitStayDuration(getMember_id(),item.video_id,(int)(System.currentTimeMillis()-mEntryTime));
 
+        commitPlayDuration();
         super.onPause();
         if (videoPlayView != null)
             videoPlayView.pause();
@@ -1212,6 +1219,15 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
             videoPlayView.lastPos = savedInstanceState.getLong("lastPos");
             Log.e(tag, "lastPos=" + videoPlayView.lastPos);
         }
+    }
+
+
+    /**
+     * 统计播放时长
+     */
+    public void commitPlayDuration(){
+        //上传到后台
+        DataManager.commitStayDuration(getMember_id(),item.video_id,(int)(videoPlayView.videoPlayer.getPlayDuration()));
     }
 
     /**

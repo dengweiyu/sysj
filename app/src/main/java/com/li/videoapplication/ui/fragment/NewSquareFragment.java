@@ -21,6 +21,7 @@ import com.li.videoapplication.data.model.response.SquareListHotEntity;
 import com.li.videoapplication.data.model.response.SquareListNewEntity;
 import com.li.videoapplication.data.model.response.VideoCollect2Entity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseFragment;
@@ -42,11 +43,11 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
     public static final int HOMEMORE_HOT = 4;
 
     public synchronized static NewSquareFragment newInstance(int square) {
-        return newInstance(square, null,null,false);
+        return newInstance(square, null,null,false,0);
     }
 
-    public synchronized static NewSquareFragment newInstance(int square, VideoImageGroup group,String game_id,boolean needLoadData) {
-        NewSquareFragment fragment = new NewSquareFragment();
+    public synchronized static NewSquareFragment newInstance(int square, VideoImageGroup group,String game_id,boolean needLoadData,int delayTime) {
+       final NewSquareFragment fragment = new NewSquareFragment();
 
         Bundle bundle = fragment.getArguments();
         if (bundle == null){
@@ -61,7 +62,12 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
         }
         fragment.setArguments(bundle);
         if (needLoadData){
-            fragment.loadData();
+            UITask.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    fragment.loadData();
+                }
+            },delayTime);
         }
 
         return fragment;

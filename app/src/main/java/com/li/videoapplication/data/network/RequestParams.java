@@ -1548,7 +1548,7 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", memberId);
         map.put("video_id", videoId);
-        map.put("stay_time", duration);
+        map.put("play_time", duration);
         map.put("target",SYSJ);
         return map;
     }

@@ -30,11 +30,18 @@ public class SquareFragment extends TBaseFragment {
     private SquareScrollEntity mEntity;
 
     private String gameId;
-    public static  SquareFragment newInstance(String gameId){
+
+    private boolean isNeedLoadData;
+
+    private int delayTime = 0;
+
+    public static  SquareFragment newInstance(String gameId,boolean isNeedLoadData,int delayTime){
         SquareFragment instance = new SquareFragment();
 
         Bundle bundle = new Bundle();
         bundle.putString("game_id",gameId);
+        bundle.putBoolean("is_need_load_data",isNeedLoadData);
+        bundle.putInt("delay_time",delayTime);
         instance.setArguments(bundle);
         return instance;
     }
@@ -49,6 +56,10 @@ public class SquareFragment extends TBaseFragment {
     protected void initContentView(View view) {
         try {
             gameId = getArguments().getString("game_id");
+
+            isNeedLoadData = getArguments().getBoolean("is_need_load_data");
+
+            delayTime = getArguments().getInt("delay_time");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,8 +68,8 @@ public class SquareFragment extends TBaseFragment {
 
         if (mFragments == null){
             mFragments = new ArrayList<>();
-            mFragments.add(NewSquareFragment.newInstance(NewSquareFragment.SQUARE_NEW,null,gameId,true));        //最新列表
-            mFragments.add(NewSquareFragment.newInstance(NewSquareFragment.SQUARE_HOT,null,gameId,true));        //最热列表
+            mFragments.add(NewSquareFragment.newInstance(NewSquareFragment.SQUARE_NEW,null,gameId,isNeedLoadData,delayTime));        //最新列表
+            mFragments.add(NewSquareFragment.newInstance(NewSquareFragment.SQUARE_HOT,null,gameId,isNeedLoadData,delayTime));        //最热列表
             mAdapter = new ViewPagerAdapter(getChildFragmentManager(),mFragments,new String[]{});
         }
 

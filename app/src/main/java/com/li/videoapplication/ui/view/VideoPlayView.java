@@ -1003,6 +1003,10 @@ public class VideoPlayView extends RelativeLayout implements
 
             //播放完变成竖屏
             activity.setMinSize();
+
+            //上传到后台
+            activity.commitPlayDuration();
+            videoPlayer.resetPlayDuration();
             return;
         }
 
@@ -1238,6 +1242,9 @@ public class VideoPlayView extends RelativeLayout implements
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            //上传到后台
+            activity.commitPlayDuration();
         }
 
         if (progressHandlerNew != null){

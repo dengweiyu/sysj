@@ -110,8 +110,8 @@ public class HomeMoreActivity extends TBaseActivity implements OnPageChangeListe
 
         if (fragments == null) {
             fragments = new ArrayList<>();
-            fragments.add(NewSquareFragment.newInstance(NewSquareFragment.HOMEMORE_NEW, group,null,false));
-            fragments.add(NewSquareFragment.newInstance(NewSquareFragment.HOMEMORE_HOT, group,null,false));
+            fragments.add(NewSquareFragment.newInstance(NewSquareFragment.HOMEMORE_NEW, group,null,false,0));
+            fragments.add(NewSquareFragment.newInstance(NewSquareFragment.HOMEMORE_HOT, group,null,false,0));
         }
 
         mViewPager = (ViewPagerY4) findViewById(R.id.viewpager);

@@ -117,9 +117,16 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
 
         fragments = new ArrayList<>();
         List<String> title = new ArrayList<>();
-        for (SquareGameEntity.DataBean bean:
-             game.getData()) {
-            fragments.add(SquareFragment.newInstance(bean.getGame_id()));
+
+        for (int i = 0; i < game.getData().size(); i++) {
+            boolean isNeedLoaData = false;
+            SquareGameEntity.DataBean bean = game.getData().get(i);
+            int offset = Math.abs(mCurrentPage - i);
+            if (offset <= 1){
+                isNeedLoaData = true;
+            }
+
+                fragments.add(SquareFragment.newInstance(bean.getGame_id(),isNeedLoaData,offset * 1000));
             title.add(bean.getName());
         }
 
