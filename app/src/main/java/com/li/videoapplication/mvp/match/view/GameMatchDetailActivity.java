@@ -247,7 +247,7 @@ public class GameMatchDetailActivity extends TBaseAppCompatActivity implements I
      */
     private boolean isNeedHideDownload(Context context){
         String channel = AnalyticsConfig.getChannel(context);
-        if ("huawei".equals(channel)){
+        if ("huawei".equalsIgnoreCase(channel) || "xiaomi".equalsIgnoreCase(channel) || "anzhi".equalsIgnoreCase(channel)){
             return true;
         }
         return false;

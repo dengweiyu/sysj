@@ -76,7 +76,7 @@ public class GroupdetailIntroduceFragment extends TBaseFragment{
      */
     private boolean isNeedHideDownload(Context context){
         String channel = AnalyticsConfig.getChannel(context);
-        if ("huawei".equals(channel)){
+        if ("huawei".equals(channel)|| "xiaomi".equalsIgnoreCase(channel) || "anzhi".equalsIgnoreCase(channel)){
             return true;
         }
         return false;
