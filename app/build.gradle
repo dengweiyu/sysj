@@ -112,7 +112,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
         // 20170104,2.1.4   test:20161122, 2.1.2
-        versionCode 20170916
+        versionCode 20171028
         versionName "2.2.6"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
@@ -157,7 +157,7 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        def fileName = "VideoApplication_${defaultConfig.versionName}_build_${defaultConfig.versionCode}.apk"
+                        def fileName = "VideoApplication_${defaultConfig.versionName}_build_${defaultConfig.versionCode}_${variant.name}.apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
@@ -339,8 +339,8 @@ def gitSha() {
             throw new GradleException("can't get git rev, you should add git to system path or just input test value, such as 'testTinkerId'")
         }
         //使用git commit 的版本号作为tinkerId  tinkerId一致的话才会加载补丁，所以也要注意本地开发中的tinkerId不能与线上的一致
-      //  return gitRev
-        return "b86eda2"
+        return gitRev
+      //  return "b86eda2"
     } catch (Exception e) {
         throw new GradleException("can't get git rev, you should add git to system path or just input test value, such as 'testTinkerId'")
     }

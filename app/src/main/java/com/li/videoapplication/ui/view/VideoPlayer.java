@@ -15,7 +15,6 @@ public class VideoPlayer extends PLVideoView implements IVideoPlayer {
     public final static int MEDIA_CODEC_HW_DECODE = 1;
     public final static int MEDIA_CODEC_AUTO = 2;
     private long mStartTime = 0;
-    private long mPlayDuration = 0;
     private AVOptions mAVOptions;
     public VideoPlayer(Context context) {
         super(context);
@@ -60,9 +59,7 @@ public class VideoPlayer extends PLVideoView implements IVideoPlayer {
     @Override
     public void pauseVideo() {
         pause();
-        //
-        mStartTime = 0;
-        mPlayDuration = System.currentTimeMillis() - mStartTime;
+
     }
 
     @Override
@@ -103,11 +100,10 @@ public class VideoPlayer extends PLVideoView implements IVideoPlayer {
     }
 
     public void resetPlayDuration(){
-        mStartTime = 0;
-        mPlayDuration = 0;
+        mStartTime = System.currentTimeMillis();
     }
 
     public long getPlayDuration(){
-        return mPlayDuration;
+        return System.currentTimeMillis() - mStartTime;
     }
 }

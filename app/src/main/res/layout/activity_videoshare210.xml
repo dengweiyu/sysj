@@ -236,6 +236,7 @@
                     android:background="#e2e2e2" />
             </LinearLayout>
 
+
             <TextView
                 android:id="@+id/videoshare_privacy"
                 android:layout_width="wrap_content"

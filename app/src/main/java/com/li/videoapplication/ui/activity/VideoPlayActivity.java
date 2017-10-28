@@ -1226,8 +1226,14 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
      * 统计播放时长
      */
     public void commitPlayDuration(){
+        long playTime = videoPlayView.videoPlayer.getPlayDuration();
+        if (playTime == 0){
+            return;
+        }
         //上传到后台
-        DataManager.commitStayDuration(getMember_id(),item.video_id,(int)(videoPlayView.videoPlayer.getPlayDuration()));
+        DataManager.commitStayDuration(getMember_id(),item.video_id,(int)playTime);
+
+        System.out.println("play duration:"+playTime);
     }
 
     /**

@@ -22,7 +22,8 @@ import com.li.videoapplication.utils.ScreenUtil;
  * 弹框：游戏类型
  */
 public class MoreTypePopupWindow extends PopupWindow implements OnClickListener {
-
+    public static final int VIDEO_TYPE_GAME = 10;
+    public static final int VIDEO_TYPE_LIFE = 11;
     private View conentView;
     private LinearLayout game, life;
     private Activity activity;
@@ -33,6 +34,7 @@ public class MoreTypePopupWindow extends PopupWindow implements OnClickListener 
     private LayoutInflater inflater;
 
     private ImageView typeArrow;
+    private int mVideoType;
 
     /**
      * 显示向右箭头
@@ -121,11 +123,13 @@ public class MoreTypePopupWindow extends PopupWindow implements OnClickListener 
     @Override
     public void onClick(View v) {
         if (v == game) {// 手机游戏
-
+            mVideoType = VIDEO_TYPE_GAME;
             ActivityManager.startSearchGameActivity(activity);
             UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MACROSCOPIC_DATA, "手机游戏");
             this.dismiss();
         } else if (v == life) {// 精彩生活
+
+            mVideoType = VIDEO_TYPE_LIFE;
             ActivityManager.startSearchLifeActivity(activity);
 
             UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MACROSCOPIC_DATA, "精彩生活");
@@ -143,5 +147,9 @@ public class MoreTypePopupWindow extends PopupWindow implements OnClickListener 
         WindowManager.LayoutParams params = window.getAttributes();
         params.alpha = alpha;
         window.setAttributes(params);
+    }
+
+    public int getVideoType() {
+        return mVideoType;
     }
 }

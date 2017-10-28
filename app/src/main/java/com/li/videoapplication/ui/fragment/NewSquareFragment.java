@@ -86,6 +86,10 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
         super.setUserVisibleHint(isVisibleToUser);
 
         if (isVisibleToUser) {
+            if (data == null || data.size() == 0){
+                loadData();
+            }
+
             if (getSquare() == SQUARE_HOT) {
                 UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "广场-热门");
             } else if (getSquare() == HOMEMORE_HOT) {

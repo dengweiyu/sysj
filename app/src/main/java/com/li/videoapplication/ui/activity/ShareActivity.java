@@ -29,6 +29,7 @@ import com.li.videoapplication.tools.ShareSDKShareHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
+import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 
@@ -140,6 +141,8 @@ public class ShareActivity extends BaseActivity implements OnClickListener {
 
         setContentView(R.layout.activity_share);
         ShareSDK.initSDK(this);
+
+        getWindow().getAttributes().width = ScreenUtil.getScreenWidth();
     }
 
     @Override

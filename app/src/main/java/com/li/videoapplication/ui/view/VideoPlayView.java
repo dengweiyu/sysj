@@ -1242,9 +1242,6 @@ public class VideoPlayView extends RelativeLayout implements
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            //上传到后台
-            activity.commitPlayDuration();
         }
 
         if (progressHandlerNew != null){

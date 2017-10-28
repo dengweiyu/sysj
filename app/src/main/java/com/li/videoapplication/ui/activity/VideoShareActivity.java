@@ -2,10 +2,13 @@ package com.li.videoapplication.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Bitmap;
 
+import android.net.Uri;
 import android.os.Build;
 import android.text.Editable;
+import android.text.Html;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
@@ -51,9 +54,11 @@ import com.li.videoapplication.utils.BitmapUtil;
 import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.SpanUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.ListViewY1;
 import com.li.videoapplication.views.SmoothCheckBox;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -63,6 +68,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.sharesdk.framework.ShareSDK;
+import retrofit2.http.Url;
 
 /**
  * 活动：视频分享
@@ -187,6 +193,7 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
     private View type;
     private View shareTag;
 
+    private boolean isShardBySystem = false;
     @Override
     public int getContentView() {
         return R.layout.activity_videoshare210;
@@ -214,6 +221,26 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
         refresAdapterView();
 
         initData();
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        if (isShardBySystem){
+            ToastHelper.l("已分享");
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //shard by system
+        if (requestCode == 11){
+
+        }
     }
 
     @Override
@@ -379,7 +406,10 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
         join.setVisibility(View.GONE);
         activityListview = (ListViewY1) findViewById(R.id.activity_listview);
 
-        findViewById(R.id.videoshare_privacy).setOnClickListener(this);
+       TextView privacy =  (TextView) findViewById(R.id.videoshare_privacy);
+        privacy.setOnClickListener(this);
+
+        privacy.setText(Html.fromHtml(TextUtil.toColor("请正确选择游戏类型，否则分享审核不通过","#fc3c2e")+"。"+getResources().getString(R.string.videoshare_deal2)));
     }
 
     private void refresAdapterView() {
@@ -530,7 +560,9 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
 
     private void showMoreTypePopupWindow() {
         dismissMoreTypePopupWindow();
-        moreTypePopupWindow = new MoreTypePopupWindow(this, typeArrow, false);
+        if (moreTypePopupWindow == null){
+            moreTypePopupWindow = new MoreTypePopupWindow(this, typeArrow, false);
+        }
         moreTypePopupWindow.showPopupWindow(type);
     }
 
@@ -561,6 +593,14 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
      */
     private void shareNow() {
         if (isInfoUnfinished()) return;
+
+        if (moreTypePopupWindow.getVideoType() == MoreTypePopupWindow.VIDEO_TYPE_LIFE){
+            shardBySystem();
+            return;
+        }
+
+        isShardBySystem = false;
+
         if (apply.isChecked() && !isPayed) { //申请推荐位
             // 推荐位信息
             DataManager.recommendedLocation(getMember_id(), new ShareRecommendLocEntity());
@@ -611,6 +651,20 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
     public void setGoods_id(String id) {
         Log.d(tag, "setGoods_id: " + id);
         this.id = id;
+    }
+
+    /**
+     *
+     */
+    private void shardBySystem(){
+        Uri uri = Uri.fromFile(new File(entity.getVideo_path()));
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.setType("video/*");
+        startActivityForResult(Intent.createChooser(shareIntent, "分享到"),11);
+
+        isShardBySystem = true;
     }
 
     // ----------------------------------------------------------------------------------------
