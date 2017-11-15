@@ -43,8 +43,16 @@ public class RequestUrl {
     /**
      * 首页信息
      */
+    @Deprecated
     public final String homeInfo() {
         return BaseSYSJ + "/Sysj217/Index/index";
+    }
+
+    /**
+     * 首页信息
+     */
+    public final String homeInfoById() {
+        return BaseSYSJ + "/Sysj226/Index/index";
     }
 
     /**

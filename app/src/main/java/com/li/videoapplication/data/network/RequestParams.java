@@ -42,6 +42,16 @@ public class RequestParams {
         return map;
     }
 
+    public Map<String, Object> homeInfoById(String columnId,int page) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("page", page);
+        map.put("column_id",columnId);
+        map.put("target",SYSJ);
+        return map;
+    }
+
+
+
     //分享成功后触发
     public Map<String, Object> shareTriggerReward(String memberId,String hook,String taskId,String flag) {
         Map<String, Object> map = new HashMap<String, Object>();

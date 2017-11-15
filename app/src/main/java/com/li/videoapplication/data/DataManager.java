@@ -1,6 +1,8 @@
 package com.li.videoapplication.data;
 
 
+import android.os.Bundle;
+
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.local.ImageDirectoryHelper;
 import com.li.videoapplication.data.local.ScreenShotEntity;
@@ -42,7 +44,7 @@ public class DataManager {
 
     public static String TAG = DataManager.class.getSimpleName();
 
-
+    @Deprecated
     public static void getHomeInfo(int page){
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().homeInfo();
@@ -51,6 +53,8 @@ public class DataManager {
         request.setEntity(new HomeDto());
         helper.doService(request);
     }
+
+
 
     /**
      * 分享页面广场信息
@@ -3141,5 +3145,22 @@ public class DataManager {
         RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
         request.setEntity(new CommitFocusGameListEntity());
         helper.doNetwork(request);
+    }
+
+
+    /**
+     *新版本，首页分栏的首页数据
+     */
+    public static void getHomeInfoById(String columnId,int page){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().homeInfoById();
+        Map<String, Object> params = RequestParams.getInstance().homeInfoById(columnId,page);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        HomeModuleEntity entity =new HomeModuleEntity();
+        Bundle bundle = new Bundle();
+        bundle.putString("column_id",columnId);
+        entity.setExtra(bundle);
+        request.setEntity(entity);
+        helper.doService(request);
     }
 }

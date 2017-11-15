@@ -85,6 +85,7 @@ import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseSlidingActivity;
 import com.li.videoapplication.impl.SimpleHeadLineObservable;
 import com.li.videoapplication.mvp.home.view.HomeFragment;
+import com.li.videoapplication.mvp.home.view.HomeFragmentNew;
 import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -179,7 +180,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private View background;
     private int currIndex = 0;// 当前页卡编号
     private List<Fragment> fragments;
-    private HomeFragment home;
+    private HomeFragmentNew home;
     private DiscoverFragment discover;
     private GameFragment game;
     public PlayWithFragment playWithFragment;
@@ -667,17 +668,18 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     @Override
     public void onClosed() {
         refreshSystemBar(false);
-        home.startAutoFlowTimer();
+        //FIXME 侧滑菜单  需要在这里 关闭滚动
+    //    home.startAutoFlowTimer();
     }
 
     @Override
     public void onClose() {
-        home.startAutoFlowTimer();
+     //   home.startAutoFlowTimer();
     }
 
     @Override
     public void onOpened() {
-        home.stopAutoFlowTimer();
+   //     home.stopAutoFlowTimer();
         slider.refreshUnReadMessage();
         String member_id = PreferencesHepler.getInstance().getMember_id();
         if (!StringUtil.isNull(member_id)){
@@ -689,7 +691,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     @Override
     public void onOpen() {
         refreshSystemBar(true);
-        home.stopAutoFlowTimer();
+     //   home.stopAutoFlowTimer();
     }
 
     @Override
@@ -894,7 +896,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
         fragments.clear();
 
-        home = new HomeFragment();
+        home = new HomeFragmentNew();
        // game = new GameFragment();
       //  discover = new DiscoverFragment();
      //   playWithFragment = new PlayWithFragment();
