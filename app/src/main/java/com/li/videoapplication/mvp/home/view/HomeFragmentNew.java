@@ -100,8 +100,8 @@ public class HomeFragmentNew extends TBaseFragment {
 
         if (entity!=null){
             for (HomeColumnEntity.ADataBean dataBean :entity.getAData() ) {
-                mColumnList.add(dataBean.getName());
-                mColumnIdList.add(dataBean.getId());
+                mColumnList.add(dataBean.getName());//推荐,王者荣耀
+                mColumnIdList.add(dataBean.getId());//01,20，
             }
             initFragment();
             setViewpager();
@@ -169,6 +169,7 @@ public class HomeFragmentNew extends TBaseFragment {
                 if (offset <= 1){
                     isNeedLoaData = true;
                 }
+                //TODO 懒加载
                 mFragments.add(HomeColumnFragment.newInstance(mColumnIdList.get(i),isNeedLoaData,offset*1000));
             }
         }
