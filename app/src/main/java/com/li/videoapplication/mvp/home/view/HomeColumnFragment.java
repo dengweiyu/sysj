@@ -262,7 +262,9 @@ public class HomeColumnFragment extends TBaseFragment implements SwipeRefreshLay
     }
 
     @Override
-    public void c() {
+    public void onLoadMoreRequested() {
+
+
 
     }
 }
