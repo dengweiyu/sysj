@@ -9,7 +9,9 @@ import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.data.local.ScreenShotHelper;
 import com.li.videoapplication.data.local.VideoCaptureHelper;
 import com.li.videoapplication.data.model.entity.Advertisement;
+import com.li.videoapplication.data.model.entity.HomeColumnEntity;
 import com.li.videoapplication.data.model.entity.HomeDto;
+import com.li.videoapplication.data.model.entity.HomeGameSelectEntity;
 import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.*;
@@ -3159,6 +3161,36 @@ public class DataManager {
         HomeModuleEntity entity =new HomeModuleEntity();
         Bundle bundle = new Bundle();
         bundle.putString("column_id",columnId);
+        entity.setExtra(bundle);
+        request.setEntity(entity);
+        helper.doService(request);
+    }
+    /**
+     * 新版本，获取首页分栏的项
+     */
+    public static void getHomeColumnByUser(String member_id){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().homeColumnByUid();
+        Map<String, Object> params = RequestParams.getInstance().homeColumnByUid(member_id);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        HomeColumnEntity entity =new HomeColumnEntity();
+        Bundle bundle = new Bundle();
+        bundle.putString("member_id",member_id);
+        entity.setExtra(bundle);
+        request.setEntity(entity);
+        helper.doService(request);
+    }
+    /**
+     * 新版本，获取可供选择的游戏
+     */
+    public static void getGameToSelect(String member_id){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getAllHomeGame();
+        Map<String, Object> params = RequestParams.getInstance().homeColumnByUid(member_id);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        HomeGameSelectEntity entity =new HomeGameSelectEntity();
+        Bundle bundle = new Bundle();
+        bundle.putString("member_id",member_id);
         entity.setExtra(bundle);
         request.setEntity(entity);
         helper.doService(request);

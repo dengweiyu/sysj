@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.framework.TBaseFragment;
@@ -25,6 +26,7 @@ import com.li.videoapplication.ui.fragment.MyHistoryFragment;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
+import com.li.videoapplication.views.CircleImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +65,16 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
      * 是否处于批量删除状态
      */
     private boolean deleteMode = false;
+    /**
+     * 跳转：玩家动态 居然要这个参数。。。。
+     */
+    private void startPlayerDynamicActivity(Member member) {
+        if (StringUtil.isNull(member.getId())) {
+            member.setId(member.getMember_id());
+        }
+        ActivityManager.startPlayerDynamicActivity(getContext(), member);
+    }
+
 
     public void setDeleteMode(boolean isDeleteMode) {
         this.deleteMode = isDeleteMode;
@@ -118,13 +130,16 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.adapter_video, null);
             holder.title = (TextView) view.findViewById(R.id.video_title);
-            holder.playCount = (TextView) view.findViewById(R.id.video_playCount);
-            holder.play = (ImageView) view.findViewById(R.id.video_play);
+            //holder.playCount = (TextView) view.findViewById(R.id.video_playCount);
+            //holder.play = (ImageView) view.findViewById(R.id.video_play);//播放数
             holder.cover = (ImageView) view.findViewById(R.id.video_cover);
             holder.allTime = (TextView) view.findViewById(R.id.video_allTime);
             holder.deleteState = (CheckBox) view.findViewById(R.id.vedio_deleteState);
             holder.deleteButton = (ImageView) view.findViewById(R.id.vedio_deleteButton);
             holder.root = view.findViewById(R.id.root);
+            holder.avatar= (CircleImageView) view.findViewById(R.id.civ_user);//FIXME 这里采用CircleImageView 可能会出错
+            holder.nickname= (TextView) view.findViewById(R.id.tv_up_user_name);
+
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -140,6 +155,10 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
             setTextViewText(holder.title, record.getVideo_name());
         } else if (!StringUtil.isNull(record.getTitle())) {
             setTextViewText(holder.title, record.getTitle());
+        }
+        //作者名字
+        if (!StringUtil.isNull((record.getNickname()))){
+            setTextViewText(holder.nickname,record.getNickname());
         }
 
         //播放数格式成以万为单位
@@ -159,6 +178,12 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
         if (!StringUtil.isNull(record.getFlagPath())) {
             if (URLUtil.isURL(record.getFlagPath())) {
                 setImageViewImageNetAlpha(holder.cover, record.getFlagPath());
+            }
+        }
+        //上传主的头像
+        if (!StringUtil.isNull(record.getAvatar())){
+            if (URLUtil.isURL(record.getAvatar())){
+                setCircleImageViewNetAlpha(holder.avatar,record.getAvatar());
             }
         }
 
@@ -191,6 +216,16 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
             holder.deleteState.setChecked(true);
             longPosition = -1;
         }
+        //头像点击
+        holder.avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (record.getMember_id()!=null){
+                    //跳转
+                    Log.d(tag,record.getMember_id()+"点击了头像");
+                }
+            }
+        });
 
         // 长按删除
         view.setOnLongClickListener(new View.OnLongClickListener() {
@@ -236,7 +271,7 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
             // 86/148
             int w = (srceenWidth - ScreenUtil.dp2px(10 * 2)) / 2;
             int h = w * 9 / 16;
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, h);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, h);
             view.setLayoutParams(params);
         }
     }
@@ -278,6 +313,9 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
         CheckBox deleteState;
         ImageView deleteButton;
         View root;
+        CircleImageView avatar;
+        TextView nickname;
+        TextView userID;
     }
 
     @Override

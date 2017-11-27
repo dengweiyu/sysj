@@ -12,6 +12,7 @@ import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
 import com.li.videoapplication.data.model.response.GameCateEntity;
+import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.data.model.response.MatchRecordEntity;
 import com.li.videoapplication.data.model.response.MatchRewardBillboardEntity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
@@ -147,6 +148,14 @@ public class HttpManager extends RetrofitUtils {
                 new DynamicKey("getHomeInfo&" + page),
                 new EvictDynamicKey(isload)).map(new HttpResultFuncCache<HomeDto>());
         setSubscribe(observableCache, observer);
+    }
+    //首页信息2.2.6
+    public void getHomeInfoFor226(int page, String column, boolean isload, Observer<HomeModuleEntity> observer){
+        Observable<HomeModuleEntity> observable = service.getHomeInfoFor226(page,column).map(new HttpResultFunc<HomeModuleEntity>());
+        Observable<HomeModuleEntity> observableCache =providers.getHomeInfoFor226(observable,
+                new DynamicKey("getHomeInfoFor226&"+page),
+                new EvictDynamicKey(isload)).map(new HttpResultFuncCache<HomeModuleEntity>());
+        setSubscribe(observableCache,observer);
     }
 
     //首页每日任务

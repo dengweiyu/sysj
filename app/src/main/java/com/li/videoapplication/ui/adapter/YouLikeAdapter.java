@@ -20,6 +20,8 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.utils.URLUtil;
+import com.li.videoapplication.views.CircleImageView;
 
 /**
  * 适配器：猜你喜欢
@@ -53,6 +55,8 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
             holder.allTime = (TextView) view.findViewById(R.id.video_allTime);
             holder.deleteState = (CheckBox) view.findViewById(R.id.vedio_deleteState);
             holder.adLogo = (ImageView)view.findViewById(R.id.iv_ad_logo);
+            holder.userIamgeView= (CircleImageView) view.findViewById(R.id.civ_user);
+            holder.nikename= (TextView) view.findViewById(R.id.tv_up_user_name);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -66,12 +70,16 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
             holder.playCount.setVisibility(View.GONE);
             holder.play.setVisibility(View.GONE);
             holder.allTime.setVisibility(View.GONE);
+            //TODO 是广告就不显示上传主的名字和头像,需要与产品确定要求
+            holder.userIamgeView.setVisibility(View.GONE);
+            holder.nikename.setVisibility(View.GONE);
           //  setTextViewText(holder.allTime, "广告");
             holder.adLogo.setVisibility(View.VISIBLE);
         } else {
             holder.playCount.setVisibility(View.VISIBLE);
             holder.play.setVisibility(View.VISIBLE);
             holder.adLogo.setVisibility(View.GONE);
+            holder.userIamgeView.setVisibility(View.VISIBLE);
             if (!StringUtil.isNull(record.getClick_count())) {
                 //播放数格式成以万为单位
                 String clickCount = StringUtil.toUnitW(record.getClick_count());
@@ -81,6 +89,15 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
         }
 
         setImageViewImageNetAlpha(holder.cover, record.getFlagPath());
+        //判断是否符合要求，然后组装上传主的是视图
+        if (!StringUtil.isNull(record.getAvatar())){
+            if (URLUtil.isURL(record.getAvatar())){
+                setImageViewImageNetAlpha(holder.userIamgeView,record.getAvatar());
+            }
+        }
+        if (!StringUtil.isNull(record.getNickname())){
+            setTextViewText(holder.nikename,record.getNickname());
+        }
         holder.deleteState.setVisibility(View.GONE);
 
 
@@ -133,5 +150,7 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
         TextView allTime;
         CheckBox deleteState;
         ImageView adLogo;
+        CircleImageView userIamgeView;
+        TextView nikename;
     }
 }

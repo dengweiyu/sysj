@@ -22,7 +22,7 @@ import android.widget.ImageView;
 
 import com.li.videoapplication.R;
 
-public class CircleImageView extends ImageView {
+public class CircleImageView extends android.support.v7.widget.AppCompatImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 
@@ -227,6 +227,9 @@ public class CircleImageView extends ImageView {
                 bitmap = Bitmap.createBitmap(COLORDRAWABLE_DIMENSION, COLORDRAWABLE_DIMENSION, BITMAP_CONFIG);
             } else {
                 bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), BITMAP_CONFIG);
+            }
+            if (bitmap == null){
+                return null;
             }
 
             Canvas canvas = new Canvas(bitmap);

@@ -2,6 +2,7 @@ package com.li.videoapplication.mvp.home;
 
 import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
+import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
@@ -25,6 +26,10 @@ public class HomeContract {
         void loadHomeData(int page, final onloadHomeDataListener listener);
 
         void loadHomeData(int page, boolean isLoad, final onloadHomeDataListener listener);
+
+        //2.2.6首页
+        void loadHomeDataFor226(int page,String column,boolean isLoad,final onloadHomeDataListener listener );
+        void loadHomeDataFor226(int page,String column,final onloadHomeDataListener listener);
 
         void unfinishedTask(String member_id, boolean update, final onloadHomeDataListener listener);
 
@@ -56,6 +61,7 @@ public class HomeContract {
 
         //回调：首页数据
         void refreshHomeData(HomeDto data);
+        void refreshHomeData(HomeModuleEntity homeModuleEntity);
 
         //回调：首页数据加载失败
         void refreshHomeDataFault(Throwable t);
@@ -77,6 +83,7 @@ public class HomeContract {
         void setHomeView(IHomeView homeView);
 
         void loadHomeData(int page, boolean isLoad);
+        void loadHomeDataFor226(int page,String column,boolean isLoad);
         void unfinishedTask(String member_id, boolean update);
 
         void changeGuess(String group_ids);
@@ -98,7 +105,7 @@ public class HomeContract {
      */
     public interface onloadHomeDataListener {
         void onLoadHomeSuccess(HomeDto data);
-
+        void onLoadHomeSuccessFor226(HomeModuleEntity data);
         void onLoadHomeFault(Throwable t);
 
         void onLoadUnFinishTaskSuccess(UnfinishedTaskEntity data);

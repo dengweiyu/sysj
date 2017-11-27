@@ -19,6 +19,8 @@ import com.li.videoapplication.tools.LayoutParamsHelper;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.ScreenUtil;
+import com.li.videoapplication.views.CircleImageView;
+
 /**
  * 基本适配器
  */
@@ -137,6 +139,9 @@ public abstract class BaseArrayAdapter<T> extends ArrayAdapter<T> {
 
 	protected void setImageViewImageNetAlpha(ImageView mImageView, String url) {
 		textImageHelper.setImageViewNetAlpha(mImageView, url);
+	}
+	protected void setCircleImageViewNetAlpha(CircleImageView circleImageView,String url){
+		textImageHelper.setImageViewNetAlpha(circleImageView, url);
 	}
 	
 	/*##############  提示   ##############*/

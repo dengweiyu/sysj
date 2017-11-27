@@ -12,11 +12,13 @@ import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.LaunchImage;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
+import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.mvp.OnLoadDataListener;
+import com.li.videoapplication.mvp.home.HomeContract;
 import com.li.videoapplication.mvp.home.HomeContract.onloadHomeDataListener;
 import com.li.videoapplication.mvp.home.HomeContract.IHomeModel;
 import com.li.videoapplication.data.HttpManager;
@@ -47,7 +49,7 @@ public class HomeModel implements IHomeModel {
         return homeModel;
     }
 
-
+    //使用的是DataManager 下面的不使用了
     @Override
     public void loadHomeData(int page, onloadHomeDataListener listener) {
         DataManager.getHomeInfo(page);
@@ -79,6 +81,39 @@ public class HomeModel implements IHomeModel {
             }
         });
     }
+
+    @Override
+    public void loadHomeDataFor226(final int page, String column, boolean isLoad, final onloadHomeDataListener listener) {
+        HttpManager.getInstance().getHomeInfoFor226(page,column,isLoad, new Observer<HomeModuleEntity>() {
+
+            @Override
+            public void onCompleted() {
+                Log.e("loadHomeData-onComplet",System.currentTimeMillis()+"");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                listener.onLoadHomeFault(e);
+                Log.e("loadHomeData-onError",System.currentTimeMillis()+"");
+            }
+
+            @Override
+            public void onNext(HomeModuleEntity homeModuleEntity) {
+                Log.e("loadHomeData-onNext",System.currentTimeMillis()+"");
+                if (page == 1){
+                    PreferencesHepler.getInstance().saveHomeEntity(homeModuleEntity);//保存首页json 只要第一页数据
+                }
+                listener.onLoadHomeSuccessFor226(homeModuleEntity);
+            }
+
+        });
+    }
+
+    @Override
+    public void loadHomeDataFor226(int page, String column, onloadHomeDataListener listener) {
+        DataManager.getHomeInfoById(column,page);
+    }
+
 
     @Override
     public void unfinishedTask(String member_id, boolean update, final onloadHomeDataListener listener) {

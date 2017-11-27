@@ -12,6 +12,7 @@ import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.utils.BitmapUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.views.CircleImageView;
 
 import java.io.File;
 
@@ -113,10 +114,23 @@ public class TextImageHelper {
             }
         }
     }
-
     /**
-     * 功能：ImageView显示资源图像
+     * 功能：ImageView显示网络图像渐变展示
      */
+    public synchronized void setCircleImageViewNetAlpha(CircleImageView view, String url) {
+        if (view != null && !StringUtil.isNull(url)) {
+            GlideHelper.displayImageFade(url, view);
+        } else {
+            if (view != null) {
+                view.setImageBitmap(null);
+            }
+        }
+    }
+
+
+        /**
+         * 功能：ImageView显示资源图像
+         */
     public synchronized void setImageViewImageRes(ImageView view, int res) {
         if (view != null && res != 0) {
             view.setImageResource(res);

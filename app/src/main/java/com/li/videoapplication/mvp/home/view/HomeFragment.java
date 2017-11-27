@@ -1,6 +1,12 @@
 package com.li.videoapplication.mvp.home.view;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +25,7 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.ConnectivityChangeEvent;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
+import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppConstant;
@@ -302,6 +309,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                         startHomeMoreActivity(item.getData().getSysjVideo());
                         break;
                     case R.id.hometype_game://游戏视频更多
+                        //item 其它游戏集合中的一个 item，代表了一个
                         if (item.getData().getVideoGroupItem().getIsGame() == 1 &&
                                 !StringUtil.isNull(item.getData().getVideoGroupItem().getGroup_id())) {
                             startGameDetailActivity(item.getData().getVideoGroupItem().getGroup_id());
@@ -589,6 +597,11 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         }
     }
 
+    @Override
+    public void refreshHomeData(HomeModuleEntity homeModuleEntity) {
+
+    }
+
     /**
      * 加载首页数据失败
      */
@@ -689,8 +702,8 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             channel="default_channel";
         }
 
-        //oppo huawei 渠道默认不展示广告
-        if ("oppo".equals(channel) || "huawei".equals(channel)){
+        //oppo渠道默认不展示广告
+        if ("oppo".equals(channel)){
             isIntercept = true;
         }
 

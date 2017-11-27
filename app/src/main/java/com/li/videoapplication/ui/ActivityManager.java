@@ -41,6 +41,7 @@ import com.li.videoapplication.ui.activity.ActivityImageUploadActivity;
 import com.li.videoapplication.ui.activity.ActivityListActivity;
 import com.li.videoapplication.ui.activity.CameraRecoedActivity;
 import com.li.videoapplication.ui.activity.CameraRecoedActivity50;
+import com.li.videoapplication.ui.activity.ChoiceHomeTabActivity;
 import com.li.videoapplication.ui.activity.CoachCommentDetailsActivity;
 import com.li.videoapplication.ui.activity.CoachDetailActivity;
 import com.li.videoapplication.ui.activity.CoachInfoEditActivity;
@@ -152,6 +153,15 @@ public class ActivityManager {
         if (entity != null)
             intent.putExtra("entity", entity);
         context.startActivity(intent);
+    }
+    /**
+     * 选择首页游戏
+     */
+    public synchronized static void starChoiceHomeTabActivity(Context context){
+        Intent intent = new Intent();
+        intent.setClass(context,ChoiceHomeTabActivity.class);
+        context.startActivity(intent);
+
     }
 
     /**

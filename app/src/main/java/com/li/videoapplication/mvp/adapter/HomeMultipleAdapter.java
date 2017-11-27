@@ -67,6 +67,7 @@ public class HomeMultipleAdapter extends BaseMultiItemQuickAdapter<HomeDto, Base
         helper = new TextImageHelper();
     }
 
+
     @Override
     protected void convert(BaseViewHolder holder, HomeDto item) {
         switch (holder.getItemViewType()) {
@@ -98,7 +99,6 @@ public class HomeMultipleAdapter extends BaseMultiItemQuickAdapter<HomeDto, Base
             case HomeDto.TYPE_GUESSYOULIKE://猜你喜欢
                 holder.setVisible(R.id.hometype_guess, true)
                         .addOnClickListener(R.id.hometype_youlike_change);
-
                 GridViewY1 youLikeGridView = holder.getView(R.id.hometype_gridview);
                 youLikeAdapter = new YouLikeAdapter(mContext,item.getData().getGuessVideo().getList());
                 youLikeGridView.setAdapter(youLikeAdapter);
@@ -158,6 +158,7 @@ public class HomeMultipleAdapter extends BaseMultiItemQuickAdapter<HomeDto, Base
             youLikeAdapter.notifyDataSetChanged();
         }
     }
+
 
     public YouLikeAdapter getGuessListAdapter(){
         return   youLikeAdapter;

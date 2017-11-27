@@ -18,6 +18,7 @@ public class HomeModuleEntity extends BaseResponseEntity {
     public static final int TYPE_SYSJ_VIDEO = 3;        //视界原创
     public static final int TYPE_HOT_NARRATE = 4;       //热门主播
     public static final int TYPE_VIDEO_GROUP = 5;       //游戏视频
+    public static final int TYPE_GAMER_VIDEO = 6;       //玩家视频
 
 
     /**
@@ -26,17 +27,9 @@ public class HomeModuleEntity extends BaseResponseEntity {
      * page_count : 4
      */
 
-    private Object OData;
+
     private int page_count;
     private List<ADataBean> AData;
-
-    public Object getOData() {
-        return OData;
-    }
-
-    public void setOData(Object OData) {
-        this.OData = OData;
-    }
 
     public int getPage_count() {
         return page_count;
@@ -192,6 +185,123 @@ public class HomeModuleEntity extends BaseResponseEntity {
             private String game_id;
             private String group_name;
             private String url;
+            private String click_count;
+            private String video_name;//为了适配上一个版本
+            private String more_mark;
+            private String time_length;
+            private String pic_flsp;
+            private String pic_mrgx;
+            private String isRecommend;
+            private String cover_position;
+            private String member_id;
+            private String nickname;
+            private String avatar;
+            private int sex;
+            private String upload_time;
+
+            public String getNickname() {
+                return nickname;
+            }
+
+            public void setNickname(String nickname) {
+                this.nickname = nickname;
+            }
+
+            public String getAvatar() {
+                return avatar;
+            }
+
+            public void setAvatar(String avatar) {
+                this.avatar = avatar;
+            }
+
+            public int getSex() {
+                return sex;
+            }
+
+            public void setSex(int sex) {
+                this.sex = sex;
+            }
+
+            public String getUpload_time() {
+                return upload_time;
+            }
+
+            public void setUpload_time(String upload_time) {
+                this.upload_time = upload_time;
+            }
+
+            public String getMember_id() {
+                return member_id;
+            }
+
+            public void setMember_id(String member_id) {
+                this.member_id = member_id;
+            }
+
+            public String getPic_flsp() {
+                return pic_flsp;
+            }
+
+            public void setPic_flsp(String pic_flsp) {
+                this.pic_flsp = pic_flsp;
+            }
+
+            public String getPic_mrgx() {
+                return pic_mrgx;
+            }
+
+            public void setPic_mrgx(String pic_mrgx) {
+                this.pic_mrgx = pic_mrgx;
+            }
+
+            public String getIsRecommend() {
+                return isRecommend;
+            }
+
+            public void setIsRecommend(String isRecommend) {
+                this.isRecommend = isRecommend;
+            }
+
+            public String getCover_position() {
+                return cover_position;
+            }
+
+            public void setCover_position(String cover_position) {
+                this.cover_position = cover_position;
+            }
+
+            public String getTime_length() {
+                return time_length;
+            }
+
+            public void setTime_length(String time_length) {
+                this.time_length = time_length;
+            }
+
+            public String getMore_mark() {
+                return more_mark;
+            }
+
+            public void setMore_mark(String more_mark) {
+                this.more_mark = more_mark;
+            }
+
+            public String getVideo_name() {
+                return video_name;
+            }
+
+            public void setVideo_name(String video_name) {
+                this.video_name = video_name;
+            }
+
+            public String getClick_count() {
+                return click_count;
+            }
+
+            public void setClick_count(String click_count) {
+                this.click_count = click_count;
+            }
 
             private String package_id;
             private String time;
@@ -333,6 +443,8 @@ public class HomeModuleEntity extends BaseResponseEntity {
             public void setEvent_id(String event_id) {
                 this.event_id = event_id;
             }
+
+
         }
     }
 }

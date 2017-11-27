@@ -2,6 +2,7 @@ package com.li.videoapplication.data.network;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Objects;
 
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.AppConstant;
@@ -47,6 +48,15 @@ public class RequestParams {
         map.put("page", page);
         map.put("column_id",columnId);
         map.put("target",SYSJ);
+        return map;
+    }
+
+    /**
+     *2.2.6首页分栏，通过用户ID 来获取首页顶部的项
+     */
+    public Map<String,Object> homeColumnByUid(String member_id){
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id",member_id);
         return map;
     }
 

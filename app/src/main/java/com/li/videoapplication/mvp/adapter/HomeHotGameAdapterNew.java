@@ -14,7 +14,7 @@ import com.li.videoapplication.utils.ScreenUtil;
 
 import java.util.List;
 
-/**
+/**适应2.2.6的热门游戏适配器
  * Created by Administrator on 2017/11/14.
  */
 

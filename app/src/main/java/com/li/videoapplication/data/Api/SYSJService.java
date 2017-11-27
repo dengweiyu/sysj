@@ -10,6 +10,7 @@ import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
 import com.li.videoapplication.data.model.response.GameCateEntity;
+import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.data.model.response.MatchRecordEntity;
 import com.li.videoapplication.data.model.response.MatchRewardBillboardEntity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
@@ -53,7 +54,9 @@ import rx.Observable;
 public interface SYSJService {
 
     //@GET("接口尾址")（域名 http://apps.ifeimo.com 在 RetrofitUtils 中已配置）
-
+    //获取首页详情 首页分栏
+    @GET("/Sysj226/Index/index")
+    Observable<BaseHttpResult<HomeModuleEntity>> getHomeInfoFor226(@Query("page")int page,@Query("column_id")String column_id);
     //获取首页详情
     @GET("/Sysj217/Index/index")
     Observable<BaseHttpResult<HomeDto>> getHomeInfo(@Query("page") int page);

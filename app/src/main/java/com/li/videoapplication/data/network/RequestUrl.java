@@ -54,6 +54,20 @@ public class RequestUrl {
     public final String homeInfoById() {
         return BaseSYSJ + "/Sysj226/Index/index";
     }
+    /**
+     *2.2.6首页分栏的项
+     */
+    public final String homeColumnByUid(){
+        return BaseSYSJ + "/Sysj226/Index/topIndexColumn";
+    }
+    /**
+     * 2.2.6获取所有游戏，以便选择选择游戏
+     */
+    public final  String getAllHomeGame(){
+        return BaseSYSJ + "/Sysj226/Index/indexColumnGame";
+    }
+
+
 
     /**
      * 分享页面广场信息
