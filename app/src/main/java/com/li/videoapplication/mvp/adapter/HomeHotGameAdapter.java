@@ -39,4 +39,6 @@ public class HomeHotGameAdapter extends BaseQuickAdapter<Game, BaseViewHolder> {
         int h = ScreenUtil.dp2px(72);
         layoutParamsHelper.setRelativeLayout(view, w, h);
     }
+
+
 }

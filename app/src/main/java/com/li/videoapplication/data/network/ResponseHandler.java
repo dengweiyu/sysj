@@ -141,7 +141,7 @@ public class ResponseHandler {
                 extra = templateEntity.getExtra();
             }
             entity = gson.fromJson(resultString, templateEntity.getClass());
-            if (extra != null){
+            if (extra != null && entity != null){
                 entity.setExtra(extra);
             }
         } catch (JsonSyntaxException e) {

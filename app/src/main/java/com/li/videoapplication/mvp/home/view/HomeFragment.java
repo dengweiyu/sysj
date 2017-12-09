@@ -168,8 +168,6 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-
         try {
             this.activity = (MainActivity) activity;
         } catch (Exception e) {
@@ -455,7 +453,6 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
         return footerView;
     }
 
-
     /**
      * 回调：首页数据
      * @param homeDto
@@ -610,7 +607,6 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
     }
 
-
     /**
      * 刷新广告
      */
@@ -671,7 +667,6 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
             }
         });
     }
-
 
     private void replaceGuessVideo2AD(List<VideoImage> newGuessList, VideoImage adItem) {
         if (newGuessList.size() == 4) {//防止连续点击造成个数问题

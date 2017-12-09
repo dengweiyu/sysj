@@ -187,8 +187,6 @@ public class HomeColumnFragment extends TBaseFragment implements SwipeRefreshLay
 
             mAdapter.notifyDataSetChanged();
 
-
-
             //保证第一页数据返回后再加载第二页
 
             if (mPage == 1){

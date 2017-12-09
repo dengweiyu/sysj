@@ -2,6 +2,7 @@ package com.li.videoapplication.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ import com.li.videoapplication.views.CircleImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.rong.eventbus.EventBus;
+
 /**
  * 适配器：视频
  */
@@ -51,6 +54,18 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
     private TBaseFragment fragment;
 
     private int longPosition = -1;
+
+    private  boolean isScrolling = false;
+
+    private boolean showFlag = false; //渲染后为true
+
+    public boolean getScrolling() {
+        return isScrolling;
+    }
+
+    public void setScrolling(boolean scrolling) {
+        this.isScrolling = scrolling;
+    }
 
     /**
      * 跳转：视频播放
@@ -94,6 +109,7 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
 
     public VideoAdapter(Context context, List<VideoImage> data) {
         super(context, R.layout.adapter_video, data);
+        EventBus.getDefault().register(this);
         this.data = data;
 
         deleteData.clear();
@@ -113,6 +129,10 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
         for (int i = 0; i < data.size(); i++) {
             positionData.add(false);
         }
+    }
+
+    public void addData(List<VideoImage> moreData) {
+        this.data.addAll(moreData);
     }
 
     public void setVideoType(String more_mark) {
@@ -172,14 +192,22 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
         // 封面
         if (!StringUtil.isNull(record.getFlag())) {
             if (URLUtil.isURL(record.getFlag())) {
-                setImageViewImageNetAlpha(holder.cover, record.getFlag());
-            }
-        }
-        if (!StringUtil.isNull(record.getFlagPath())) {
-            if (URLUtil.isURL(record.getFlagPath())) {
                 setImageViewImageNetAlpha(holder.cover, record.getFlagPath());
             }
         }
+        if (!isScrolling) {
+            if (!StringUtil.isNull(record.getFlagPath())) {
+                if (URLUtil.isURL(record.getFlagPath())) {
+                    setImageViewImageNetAlpha(holder.cover, record.getFlagPath());
+                }
+            }
+
+            Log.w(tag, "没有滚动，图渲染..");
+        } else {
+            holder.cover.setImageResource(R.drawable.default_video_211);
+            Log.w(tag, "在滚动，先本地set..");
+        }
+        Log.w(tag, "执行notifyDataSetChanged，isScrolling：" + isScrolling);
         //上传主的头像
         if (!StringUtil.isNull(record.getAvatar())){
             if (URLUtil.isURL(record.getAvatar())){
@@ -336,4 +364,10 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
     }
+
+    public void onEventMainThread(boolean isScrolling) {
+        this.isScrolling = isScrolling;
+        Log.w(tag, "改变滚动状态..");
+    }
+
 }

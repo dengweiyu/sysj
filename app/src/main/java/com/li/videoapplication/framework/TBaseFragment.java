@@ -66,6 +66,7 @@ public abstract class TBaseFragment extends BaseFragment {
 
     protected WindowManager windowManager;
 
+    private View defRootView;
     private View rootView;
 
     @Override
@@ -87,6 +88,7 @@ public abstract class TBaseFragment extends BaseFragment {
         try {
             if (rootView == null) {
                 rootView = inflater.inflate(getCreateView(), container, false);
+                defRootView = rootView;
             }
             ButterKnife.bind(this, rootView);
         } catch (Exception e) {
@@ -104,8 +106,19 @@ public abstract class TBaseFragment extends BaseFragment {
         }
     }
 
-
     protected abstract void initContentView(View view);
+
+    public void setBaseRootView(View view) {
+        rootView = view;
+    }
+
+    public View getBaseRootView() {
+        return rootView;
+    }
+
+    public void setDefRootView() {
+        rootView = defRootView;
+    }
 
     @SuppressWarnings("rawtypes")
     protected abstract IPullToRefresh getPullToRefresh();

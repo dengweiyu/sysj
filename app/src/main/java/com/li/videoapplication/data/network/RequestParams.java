@@ -1581,7 +1581,6 @@ public class RequestParams {
         return map;
     }
 
-
     public Map<String, Object>  grabPlayWithOrder(String memberId,String orderId) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", memberId);
@@ -1601,11 +1600,24 @@ public class RequestParams {
         return map;
     }
 
-
     public Map<String, Object>  commitFocusGameList(String memberId,String gameIds) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", memberId);
         map.put("group_ids",gameIds);
+        return map;
+    }
+
+    /**
+     *
+     * @param memberId
+     * @param columnIds 分栏id字符串逗号拼接，如：“1,3,5”
+     * @return
+     */
+    public Map<String, Object>  commitMyGameList(String memberId, String columnIds) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("column_ids",columnIds);
+        map.put("access_token", AppAccount.getAccessToken());
         return map;
     }
 }

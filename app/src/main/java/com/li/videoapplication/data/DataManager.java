@@ -2,6 +2,7 @@ package com.li.videoapplication.data;
 
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.local.ImageDirectoryHelper;
@@ -38,6 +39,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 功能：数据请求管理类
@@ -55,7 +57,6 @@ public class DataManager {
         request.setEntity(new HomeDto());
         helper.doService(request);
     }
-
 
 
     /**
@@ -791,6 +792,31 @@ public class DataManager {
         request.setEntity(new ChangeGuessEntity());
         helper.doNetwork(request);
     }
+
+    /**
+     * 功能：首页猜你喜歡217
+     */
+    public static void indexChangeGuess217(String group_ids) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().indexChangeGuess217();
+        Map<String, Object> params = RequestParams.getInstance().indexChangeGuess(group_ids);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new ChangeGuessEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：首页猜你喜歡217(有video_ids的时候)
+     */
+    public static void indexChangeGuessSecond217(String video_ids) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().indexChangeGuess217();
+        Map<String, Object> params = RequestParams.getInstance().indexChangeGuessSecond(video_ids);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new ChangeGuessEntity());
+        helper.doNetwork(request);
+    }
+
 
     /** ############ 广告 ############# */
 
@@ -3169,6 +3195,7 @@ public class DataManager {
      * 新版本，获取首页分栏的项
      */
     public static void getHomeColumnByUser(String member_id){
+        Log.w("HomeFragmentNew", "getHomeColumnByUser..");
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().homeColumnByUid();
         Map<String, Object> params = RequestParams.getInstance().homeColumnByUid(member_id);
@@ -3178,6 +3205,7 @@ public class DataManager {
         bundle.putString("member_id",member_id);
         entity.setExtra(bundle);
         request.setEntity(entity);
+        Log.w("DataManager", "准备doService..");
         helper.doService(request);
     }
     /**
@@ -3188,10 +3216,20 @@ public class DataManager {
         String url = RequestUrl.getInstance().getAllHomeGame();
         Map<String, Object> params = RequestParams.getInstance().homeColumnByUid(member_id);
         RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
-        HomeGameSelectEntity entity =new HomeGameSelectEntity();
+        HomeGameSelectEntity entity = new HomeGameSelectEntity();
         Bundle bundle = new Bundle();
         bundle.putString("member_id",member_id);
         entity.setExtra(bundle);
+        request.setEntity(entity);
+        helper.doService(request);
+    }
+
+    public static void saveMyGameList(String member_id, String column_ids) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().saveMyGameList();
+        Map<String, Object> params = RequestParams.getInstance().commitMyGameList(member_id, column_ids);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
+        BaseResponseEntity entity = new BaseResponseEntity();
         request.setEntity(entity);
         helper.doService(request);
     }

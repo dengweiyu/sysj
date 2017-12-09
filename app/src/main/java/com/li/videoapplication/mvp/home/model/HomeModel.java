@@ -114,7 +114,6 @@ public class HomeModel implements IHomeModel {
         DataManager.getHomeInfoById(column,page);
     }
 
-
     @Override
     public void unfinishedTask(String member_id, boolean update, final onloadHomeDataListener listener) {
 

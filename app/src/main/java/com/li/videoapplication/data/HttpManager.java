@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Download;
+import com.li.videoapplication.data.model.entity.HomeColumnEntity;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.entity.TopUp;
@@ -53,6 +54,8 @@ import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
 import io.rx_cache.internal.RxCache;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Retrofit;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -156,6 +159,14 @@ public class HttpManager extends RetrofitUtils {
                 new DynamicKey("getHomeInfoFor226&"+page),
                 new EvictDynamicKey(isload)).map(new HttpResultFuncCache<HomeModuleEntity>());
         setSubscribe(observableCache,observer);
+    }
+    //分栏信息
+    public Call<ResponseBody> getTopIndexColumn(String member_id) {
+        return service.getTopIndexColumn(member_id, "a_sysj");
+    }
+    public void getTopIndexColumn2(String member_id, Observer<HomeColumnEntity> observer) {
+        Observable<HomeColumnEntity> observable = service.getTopIndexColumn2(member_id, "a_sysj");
+        setSubscribe(observable, observer);
     }
 
     //首页每日任务

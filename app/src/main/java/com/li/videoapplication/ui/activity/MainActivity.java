@@ -1499,7 +1499,11 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     }
 
 
-
+    public void onEventMainThread(Integer i) {
+        if (i == 1) {
+            viewPager.setCurrentItem(1, true);
+        }
+    }
 
     /**
      *  提交问卷结果

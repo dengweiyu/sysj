@@ -968,6 +968,32 @@ public class PreferencesHepler {
     }
 
     /**
+     * 获取猜你喜歡,随机获取的数量
+     */
+    public List<String> getVideoIds(int count) {
+        List<String> totalVideoIds = getVideoIds();
+        List<String> videoIds = new ArrayList<>();
+        List<Integer> indexs = new ArrayList<>();
+        int total = totalVideoIds.size();
+        if (total <= count) {
+            return totalVideoIds;
+        }
+        while (true) {
+            int j = (int) (Math.random()*(total));
+            if (!indexs.contains(j)) {
+                indexs.add(j);
+            }
+            if (indexs.size() >= count) {
+                break;
+            }
+        }
+        for (int i = 0; i < indexs.size(); i++) {
+            videoIds.add(totalVideoIds.get(indexs.get(i)));
+        }
+        return videoIds;
+    }
+
+    /**
      * 保存猜你喜歡视频保存的时间
      */
     public void saveVideoIdsTime() {

@@ -1,6 +1,7 @@
 package com.li.videoapplication.views;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatSeekBar;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.SeekBar;
@@ -8,7 +9,7 @@ import android.widget.SeekBar;
 /**
  * 禁止SeekBar的拖动事件
  */
-public class TouchSeekBar extends SeekBar {
+public class TouchSeekBar extends AppCompatSeekBar {
 
     public TouchSeekBar(Context context) {
         super(context);

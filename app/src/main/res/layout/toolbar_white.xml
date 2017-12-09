@@ -56,6 +56,21 @@
         android:layout_centerVertical="true"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/tv_save_edit"
+        android:layout_width="44dp"
+        android:layout_height="22dp"
+        android:layout_marginEnd="12dp"
+        android:clickable="true"
+        android:background="@drawable/button_edit"
+        android:gravity="center"
+        android:text="@string/mypersonalinfo_edit"
+        android:textColor="@color/menu_main_red"
+        android:textSize="12sp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
+
     <ImageView
         android:id="@+id/iv_tb_record"
         android:layout_width="20dp"

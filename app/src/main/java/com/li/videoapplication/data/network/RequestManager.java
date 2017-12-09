@@ -29,10 +29,13 @@ public class RequestManager {
     private void addTask(RequestRunnable task) {
         if (tasks != null && !tasks.contains(task)) {
             Log.e(tag, "-------------addTask-----------------");
+            Log.i(tag, "tasks大小：" + tasks.size());
             tasks.add(task);
+            Log.i(tag, "tasks大小：" + tasks.size());
             Log.i(tag, "addTask/task=" + task);
         }
-        printAllTask();
+       // printAllTask();
+        Log.i(tag, "执行完addTask方法..........." );
     }
 
     /**
