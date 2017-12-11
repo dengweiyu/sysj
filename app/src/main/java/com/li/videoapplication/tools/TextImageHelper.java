@@ -2,12 +2,17 @@ package com.li.videoapplication.tools;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.utils.BitmapUtil;
@@ -114,6 +119,32 @@ public class TextImageHelper {
             }
         }
     }
+
+    /**
+     * 功能：ImageView显示网络图像渐变展示
+     */
+    public synchronized void setImageViewNetAlpha(Context context, ImageView view, String url) {
+        if (view != null && !StringUtil.isNull(url)) {
+            GlideHelper.displayImageFade(context, url, view);
+        } else {
+            if (view != null) {
+                view.setImageBitmap(null);
+            }
+        }
+    }
+
+    /**
+     * 功能：ImageView显示网络图像渐变展示
+     */
+    public synchronized void setCircleImageNetAlpha(Context context, ImageView view, String url) {
+        if (view != null && !StringUtil.isNull(url)) {
+            GlideHelper.displayCircleImageFade(context, url, view);
+        } else {
+            if (view != null) {
+                view.setImageBitmap(null);
+            }
+        }
+    }
     /**
      * 功能：ImageView显示网络图像渐变展示
      */
@@ -160,4 +191,5 @@ public class TextImageHelper {
             }
         }
     }
+
 }

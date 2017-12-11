@@ -22,6 +22,7 @@ import java.util.Set;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -36,8 +37,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.ImageView.ScaleType;
+
+import com.li.videoapplication.R;
+import com.li.videoapplication.framework.AppManager;
 
 @SuppressWarnings("UnusedDeclaration")
 public class RoundedDrawable extends Drawable {
@@ -77,6 +82,26 @@ public class RoundedDrawable extends Drawable {
 	private ScaleType mScaleType = ScaleType.FIT_CENTER;
 
 	public RoundedDrawable(Bitmap bitmap) {
+		mBitmap = bitmap;
+
+		mBitmapWidth = bitmap.getWidth();
+		mBitmapHeight = bitmap.getHeight();
+		mBitmapRect.set(0, 0, mBitmapWidth, mBitmapHeight);
+
+		mBitmapPaint = new Paint();
+		mBitmapPaint.setStyle(Paint.Style.FILL);
+		mBitmapPaint.setAntiAlias(true);
+
+		mBorderPaint = new Paint();
+		mBorderPaint.setStyle(Paint.Style.STROKE);
+		mBorderPaint.setAntiAlias(true);
+		mBorderPaint.setColor(mBorderColor.getColorForState(getState(),
+				DEFAULT_BORDER_COLOR));
+		mBorderPaint.setStrokeWidth(mBorderWidth);
+	}
+
+	public RoundedDrawable(int resId) {
+		Bitmap bitmap = BitmapFactory.decodeResource(AppManager.getInstance().getResources(), resId);
 		mBitmap = bitmap;
 
 		mBitmapWidth = bitmap.getWidth();

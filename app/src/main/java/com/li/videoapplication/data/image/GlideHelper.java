@@ -2,8 +2,12 @@ package com.li.videoapplication.data.image;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
@@ -12,14 +16,23 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.li.videoapplication.R;
 import com.li.videoapplication.framework.AppManager;
+import com.li.videoapplication.tools.TextImageHelper;
+import com.li.videoapplication.views.RoundedDrawable;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import io.rong.imageloader.core.display.CircleBitmapDisplayer;
+import io.rong.imlib.filetransfer.RequestOption;
 
 /**
  * 功能：Glider加载图片封装
@@ -201,6 +214,36 @@ public class GlideHelper {
     }
 
     /**
+     * 加载图片，sysj默认占位符1s渐变消失
+     */
+    public static void displayImageFade(Context context, String uri, ImageView view) {
+        Log.d(TAG, "imageUrl=" + uri);
+
+        Glide.with(context)
+                .load(uri)
+                .placeholder(R.drawable.default_video_211)
+                .error(R.drawable.default_video_211)
+                .crossFade(1000)
+                .into(view);
+    }
+
+    /**
+     * 加载图片，sysj默认占位符1s渐变消失
+     */
+    public static void displayCircleImageFade(Context context, String uri, ImageView view) {
+        Log.d(TAG, "imageUrl=" + uri);
+
+        Glide.with(context)
+                .load(uri)
+                .skipMemoryCache(false)
+                .placeholder(new RoundedDrawable(R.drawable.default_video_211)) //R.drawable.default_video_211
+                .transform(new GlideCircleTransform(AppManager.getInstance().getContext(), 2, AppManager.getInstance().getContext().getResources().getColor(R.color.white)))
+                .error(R.drawable.default_video_211)
+                .crossFade(1000)
+                .into(view);
+    }
+
+    /**
      * 加载图片，sysj默认占位符
      */
     public static void displayImage(Context context, String uri, ImageView view) {
@@ -351,4 +394,62 @@ public class GlideHelper {
                     }
                 }*/);
     }
+
+    public static class GlideCircleTransform extends BitmapTransformation {
+
+        private Paint mBorderPaint;
+        private float mBorderWidth;
+
+        public GlideCircleTransform(Context context) {
+            super(context);
+        }
+
+        public GlideCircleTransform(Context context, int borderWidth, int borderColor) {
+            super(context);
+            mBorderWidth = Resources.getSystem().getDisplayMetrics().density * borderWidth;
+
+            mBorderPaint = new Paint();
+            mBorderPaint.setDither(true);
+            mBorderPaint.setAntiAlias(true);
+            mBorderPaint.setColor(borderColor);
+            mBorderPaint.setStyle(Paint.Style.STROKE);
+            mBorderPaint.setStrokeWidth(mBorderWidth);
+        }
+
+
+        protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
+            return circleCrop(pool, toTransform);
+        }
+
+        private Bitmap circleCrop(BitmapPool pool, Bitmap source) {
+            if (source == null) return null;
+
+            int size = (int) (Math.min(source.getWidth(), source.getHeight()) - (mBorderWidth / 2));
+            int x = (source.getWidth() - size) / 2;
+            int y = (source.getHeight() - size) / 2;
+            // TODO this could be acquired from the pool too
+            Bitmap squared = Bitmap.createBitmap(source, x, y, size, size);
+            Bitmap result = pool.get(size, size, Bitmap.Config.ARGB_8888);
+            if (result == null) {
+                result = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+            }
+            Canvas canvas = new Canvas(result);
+            Paint paint = new Paint();
+            paint.setShader(new BitmapShader(squared, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
+            paint.setAntiAlias(true);
+            float r = size / 2f;
+            canvas.drawCircle(r, r, r, paint);
+            if (mBorderPaint != null) {
+                float borderRadius = r - mBorderWidth / 2;
+                canvas.drawCircle(r, r, borderRadius, mBorderPaint);
+            }
+            return result;
+        }
+
+        @Override
+        public String getId() {
+            return getClass().getName();
+        }
+    }
 }
+

@@ -155,6 +155,10 @@ public class HomeModuleEntity extends BaseResponseEntity {
             this.list = list;
         }
 
+        public void clearList() {
+            this.list.clear();
+        }
+
         public static class ListBean {
             /**
              * type : activity

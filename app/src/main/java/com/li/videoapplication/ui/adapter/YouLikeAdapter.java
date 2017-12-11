@@ -22,6 +22,7 @@ import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
 import com.li.videoapplication.views.CircleImageView;
+import com.li.videoapplication.views.RoundedImageView;
 
 /**
  * 适配器：猜你喜欢
@@ -29,6 +30,7 @@ import com.li.videoapplication.views.CircleImageView;
 @SuppressLint("InflateParams")
 public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
 
+    private Context mContext;
     /**
      * 跳转：视频播放
      */
@@ -38,6 +40,7 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
 
     public YouLikeAdapter(Context context, List<VideoImage> data) {
         super(context, R.layout.adapter_video, data);
+        mContext = context;
     }
 
     @Override
@@ -55,7 +58,7 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
             holder.allTime = (TextView) view.findViewById(R.id.video_allTime);
             holder.deleteState = (CheckBox) view.findViewById(R.id.vedio_deleteState);
             holder.adLogo = (ImageView)view.findViewById(R.id.iv_ad_logo);
-            holder.userIamgeView= (CircleImageView) view.findViewById(R.id.civ_user);
+            holder.userIamgeView= (ImageView) view.findViewById(R.id.civ_user);
             holder.nikename= (TextView) view.findViewById(R.id.tv_up_user_name);
             view.setTag(holder);
         } else {
@@ -92,14 +95,13 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
         //判断是否符合要求，然后组装上传主的是视图
         if (!StringUtil.isNull(record.getAvatar())){
             if (URLUtil.isURL(record.getAvatar())){
-                setImageViewImageNetAlpha(holder.userIamgeView,record.getAvatar());
+                setCircleImageNetAlpha(mContext, holder.userIamgeView,record.getAvatar());
             }
         }
         if (!StringUtil.isNull(record.getNickname())){
             setTextViewText(holder.nikename,record.getNickname());
         }
         holder.deleteState.setVisibility(View.GONE);
-
 
         view.setOnClickListener(new View.OnClickListener() {
 
@@ -150,7 +152,7 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
         TextView allTime;
         CheckBox deleteState;
         ImageView adLogo;
-        CircleImageView userIamgeView;
+        ImageView userIamgeView;
         TextView nikename;
     }
 }

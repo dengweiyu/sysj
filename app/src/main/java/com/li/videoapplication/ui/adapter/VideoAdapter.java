@@ -28,6 +28,8 @@ import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
 import com.li.videoapplication.views.CircleImageView;
+import com.li.videoapplication.views.RoundedDrawable;
+import com.li.videoapplication.views.RoundedImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,7 @@ import io.rong.eventbus.EventBus;
 public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
         AbsListView.OnScrollListener {
 
+    private Context mContext;
     /**
      * 选择要删除的文件列表选
      */
@@ -109,9 +112,8 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
 
     public VideoAdapter(Context context, List<VideoImage> data) {
         super(context, R.layout.adapter_video, data);
-        EventBus.getDefault().register(this);
         this.data = data;
-
+        this.mContext = context;
         deleteData.clear();
         positionData.clear();
         for (int i = 0; i < data.size(); i++) {
@@ -123,7 +125,7 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
         super(context, R.layout.adapter_video, data);
         this.data = data;
         this.fragment = fragment;
-
+        this.mContext = context;
         deleteData.clear();
         positionData.clear();
         for (int i = 0; i < data.size(); i++) {
@@ -157,7 +159,8 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
             holder.deleteState = (CheckBox) view.findViewById(R.id.vedio_deleteState);
             holder.deleteButton = (ImageView) view.findViewById(R.id.vedio_deleteButton);
             holder.root = view.findViewById(R.id.root);
-            holder.avatar= (CircleImageView) view.findViewById(R.id.civ_user);//FIXME 这里采用CircleImageView 可能会出错
+//            holder.avatar= (CircleImageView) view.findViewById(R.id.civ_user);//FIXME 这里采用CircleImageView 可能会出错
+            holder.avatar = (ImageView) view.findViewById(R.id.civ_user);
             holder.nickname= (TextView) view.findViewById(R.id.tv_up_user_name);
 
             view.setTag(holder);
@@ -192,13 +195,13 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
         // 封面
         if (!StringUtil.isNull(record.getFlag())) {
             if (URLUtil.isURL(record.getFlag())) {
-                setImageViewImageNetAlpha(holder.cover, record.getFlagPath());
+                setImageViewImageNetAlpha(mContext, holder.cover, record.getFlagPath());
             }
         }
         if (!isScrolling) {
             if (!StringUtil.isNull(record.getFlagPath())) {
                 if (URLUtil.isURL(record.getFlagPath())) {
-                    setImageViewImageNetAlpha(holder.cover, record.getFlagPath());
+                    setImageViewImageNetAlpha(mContext, holder.cover, record.getFlagPath());
                 }
             }
 
@@ -211,7 +214,7 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
         //上传主的头像
         if (!StringUtil.isNull(record.getAvatar())){
             if (URLUtil.isURL(record.getAvatar())){
-                setCircleImageViewNetAlpha(holder.avatar,record.getAvatar());
+                setCircleImageNetAlpha(mContext, holder.avatar,record.getAvatar());
             }
         }
 
@@ -341,7 +344,7 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
         CheckBox deleteState;
         ImageView deleteButton;
         View root;
-        CircleImageView avatar;
+        ImageView avatar;
         TextView nickname;
         TextView userID;
     }
@@ -363,11 +366,6 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-    }
-
-    public void onEventMainThread(boolean isScrolling) {
-        this.isScrolling = isScrolling;
-        Log.w(tag, "改变滚动状态..");
     }
 
 }

@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
@@ -23,6 +25,7 @@ import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
+import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.adapter.HomeMultipleAdapterNew;
 import com.li.videoapplication.mvp.billboard.view.BillboardActivity;
@@ -265,7 +268,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         if (mData == null) {
             mData = new ArrayList<>();
         }
-        if (!mData.isEmpty()){
+        if (!mData.isEmpty()) {
             mData.clear();
         }
         if (tData == null) {
@@ -335,6 +338,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
 //                        dataBean.setList(sSaveData);
 //                    }
                     mData.add(dataBean);
+
                 }
             }
             addTData();
@@ -438,6 +442,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         isGamerVideoLoadComplete = false;
         isStartLoadGamerVideo = false;
         mPage = 1;
+        gamerVideoIndex = 0;
         mVideoGamerPage = 2; //先load后加页，所以一开始是第二页
         isRefreshFlag = true;
         isLoadMoreFlag = false;
@@ -487,7 +492,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         for (int i = 0; i < mData.size(); i++) {
             if (mData.get(i).getFlag().equals("gamerVideo")) {
                 isStartLoadGamerVideo = true;
-                gamerVideoIndex = i;
+                gamerVideoIndex = tData.size() + i;
                 for (int j = 0; j < i + 1; j++) {
                     tData.add(mData.get(j));
                 }
@@ -497,7 +502,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
                     for (int j = 0; j < 10; j++) {
                         sSaveData.add(sGamerVideoData.get(j));
                     }
-                    tData.get(i).setList(sSaveData);
+                    tData.get(gamerVideoIndex).setList(sSaveData);
                 }
             }
         }
@@ -697,13 +702,13 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                EventBus.getDefault().post(false);
                 mAdapter.setScrolling(false);
                 mAdapter.notifyDataSetChanged();
-                Log.w(tag, "滚动停止，刷新..");
+//                Log.w(tag, "滚动停止，刷新..");
+
             } else {
-                EventBus.getDefault().post(true);
                 mAdapter.setScrolling(true);
+
             }
         }
 
@@ -895,6 +900,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
 //        if (bannerFlow != null)
 //            bannerFlow.destroy();
         super.onDestroy();
+
     }
 
 
@@ -942,12 +948,13 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        listLostByViewGroup((ViewGroup) ((ViewGroup)mActivity.findViewById(android.R.id.content)).getChildAt(0));
+        listLostByViewGroup((ViewGroup) ((ViewGroup) mActivity.findViewById(android.R.id.content)).getChildAt(0));
     }
 
     /**
      * 初始将fragment的item失去焦点 (解决换一换刷新和拉到其它fragment中recyclerview自动滚动的问题)
      * 也可在xml中设置布局获取焦点
+     *
      * @param viewGroup
      */
     public static void listLostByViewGroup(ViewGroup viewGroup) {
@@ -955,5 +962,6 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         viewGroup.setFocusableInTouchMode(true);
         viewGroup.requestFocus();
     }
+
 }
 
