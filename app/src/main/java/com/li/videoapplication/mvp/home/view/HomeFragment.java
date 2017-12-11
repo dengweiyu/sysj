@@ -647,6 +647,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                     ad.setTitle(adItem.getDesc());
                     //替换广告
                     replaceGuessVideo2AD(newGuessList, ad);
+
                 }
             }
 
