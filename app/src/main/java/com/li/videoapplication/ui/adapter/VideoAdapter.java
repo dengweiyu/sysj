@@ -38,6 +38,7 @@ import io.rong.eventbus.EventBus;
 
 /**
  * 适配器：视频
+ *
  */
 @SuppressLint("InflateParams")
 public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
@@ -160,12 +161,13 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
             holder.deleteButton = (ImageView) view.findViewById(R.id.vedio_deleteButton);
             holder.root = view.findViewById(R.id.root);
 //            holder.avatar= (CircleImageView) view.findViewById(R.id.civ_user);//FIXME 这里采用CircleImageView 可能会出错
-            holder.avatar = (ImageView) view.findViewById(R.id.civ_user);
+            holder.avatar = (CircleImageView) view.findViewById(R.id.civ_user);
             holder.nickname= (TextView) view.findViewById(R.id.tv_up_user_name);
-
             view.setTag(holder);
+            Log.i(tag, "view等于null..");
         } else {
             holder = (ViewHolder) view.getTag();
+            Log.i(tag, "view不等于null，复用..");
         }
 
         setLayoutParams(holder.root);
@@ -192,31 +194,30 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
         // 播放时长
         setTimeLength(holder.allTime, record);
 
-        // 封面
-        if (!StringUtil.isNull(record.getFlag())) {
-            if (URLUtil.isURL(record.getFlag())) {
-                setImageViewImageNetAlpha(mContext, holder.cover, record.getFlagPath());
-            }
-        }
+
+//        if (!StringUtil.isNull(record.getFlag())) {
+//            if (URLUtil.isURL(record.getFlag())) {
+//                setImageViewImageNetAlpha(mContext, holder.cover, record.getFlagPath());
+//            }
+//        }
         if (!isScrolling) {
+            // 封面
             if (!StringUtil.isNull(record.getFlagPath())) {
                 if (URLUtil.isURL(record.getFlagPath())) {
                     setImageViewImageNetAlpha(mContext, holder.cover, record.getFlagPath());
                 }
             }
-
+            //上传主的头像
+            if (!StringUtil.isNull(record.getAvatar())){
+                if (URLUtil.isURL(record.getAvatar())){
+                    setCircleImageNetAlpha(mContext, holder.avatar,record.getAvatar());
+                }
+            }
             Log.w(tag, "没有滚动，图渲染..");
         } else {
-            holder.cover.setImageResource(R.drawable.default_video_211);
-            Log.w(tag, "在滚动，先本地set..");
+            Log.w(tag, "在滚动，不做处理..");
         }
         Log.w(tag, "执行notifyDataSetChanged，isScrolling：" + isScrolling);
-        //上传主的头像
-        if (!StringUtil.isNull(record.getAvatar())){
-            if (URLUtil.isURL(record.getAvatar())){
-                setCircleImageNetAlpha(mContext, holder.avatar,record.getAvatar());
-            }
-        }
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
 
@@ -344,7 +345,7 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
         CheckBox deleteState;
         ImageView deleteButton;
         View root;
-        ImageView avatar;
+        CircleImageView avatar;
         TextView nickname;
         TextView userID;
     }
