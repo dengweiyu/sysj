@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.framework.BaseArrayAdapter;
@@ -83,6 +84,8 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
      * 是否处于批量删除状态
      */
     private boolean deleteMode = false;
+
+    private int count = 0;
     /**
      * 跳转：玩家动态 居然要这个参数。。。。
      */
@@ -148,6 +151,9 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
 
         final VideoImage record = getItem(position);
         final ViewHolder holder;
+
+        Log.e("VideoAdapter","count:"+count +" view is null?"+(view == null));
+        count++;
         if (view == null) {
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.adapter_video, null);
@@ -159,8 +165,8 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
             holder.deleteState = (CheckBox) view.findViewById(R.id.vedio_deleteState);
             holder.deleteButton = (ImageView) view.findViewById(R.id.vedio_deleteButton);
             holder.root = view.findViewById(R.id.root);
-//            holder.avatar= (CircleImageView) view.findViewById(R.id.civ_user);//FIXME 这里采用CircleImageView 可能会出错
-            holder.avatar = (ImageView) view.findViewById(R.id.civ_user);
+            holder.avatar= (CircleImageView) view.findViewById(R.id.civ_user);//FIXME 这里采用CircleImageView 可能会出错
+//            holder.avatar = (ImageView) view.findViewById(R.id.civ_user);
             holder.nickname= (TextView) view.findViewById(R.id.tv_up_user_name);
 
             view.setTag(holder);
@@ -202,6 +208,7 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
             if (!StringUtil.isNull(record.getFlagPath())) {
                 if (URLUtil.isURL(record.getFlagPath())) {
                     setImageViewImageNetAlpha(mContext, holder.cover, record.getFlagPath());
+
                 }
             }
 
@@ -214,7 +221,8 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
         //上传主的头像
         if (!StringUtil.isNull(record.getAvatar())){
             if (URLUtil.isURL(record.getAvatar())){
-                setCircleImageNetAlpha(mContext, holder.avatar,record.getAvatar());
+              //  setCircleImageNetAlpha(mContext, holder.avatar,record.getAvatar());
+                GlideHelper.displayImage(mContext, record.getFlagPath(),holder.avatar);
             }
         }
 

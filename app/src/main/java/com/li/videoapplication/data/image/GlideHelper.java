@@ -237,7 +237,7 @@ public class GlideHelper {
                 .load(uri)
                 .skipMemoryCache(false)
                 .placeholder(new RoundedDrawable(R.drawable.default_video_211)) //R.drawable.default_video_211
-                .transform(new GlideCircleTransform(AppManager.getInstance().getContext(), 2, AppManager.getInstance().getContext().getResources().getColor(R.color.white)))
+                //.transform(new GlideCircleTransform(AppManager.getInstance().getContext(), 2, AppManager.getInstance().getContext().getResources().getColor(R.color.white)))
                 .error(R.drawable.default_video_211)
                 .crossFade(1000)
                 .into(view);

@@ -234,6 +234,8 @@ public class HomeFragmentNew extends TBaseFragment {
                 //TODO 懒加载
 //                mFragments.add(HomeColumnFragment.newInstance(mColumnIdList.get(i),isNeedLoaData,
 //                        offset*1000));
+
+
                 mFragments.add(HomeLazyColumnFragment3.newInstance(
                         mColumnIdList.get(i),
                         isNeedLoaData,
@@ -241,7 +243,6 @@ public class HomeFragmentNew extends TBaseFragment {
 
             }
         }
-
     }
 
     CommonNavigatorAdapter commonNavigatorAdapter = new CommonNavigatorAdapter() {

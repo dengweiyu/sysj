@@ -102,7 +102,7 @@
             </RelativeLayout>
 
 
-        <ImageView
+  <!--      <ImageView
             android:id="@+id/civ_user"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -110,16 +110,16 @@
             android:layout_marginBottom="-20dp"
             android:layout_alignBottom="@id/root"
             android:layout_marginLeft="5dp"
-            android:src="#cece"  />
-        <!--<com.li.videoapplication.views.CircleImageView-->
-            <!--android:id="@+id/civ_user"-->
-            <!--android:layout_width="45dp"-->
-            <!--android:layout_height="45dp"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:layout_marginBottom="-20dp"-->
-            <!--android:layout_alignBottom="@id/root"-->
-            <!--android:layout_marginLeft="5dp"-->
-            <!--android:src="#cece" />-->
+            android:src="#cece"  />-->
+        <com.li.videoapplication.views.CircleImageView
+            android:id="@+id/civ_user"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+
+            android:layout_marginBottom="-20dp"
+            android:layout_alignBottom="@id/root"
+            android:layout_marginLeft="5dp"
+            android:src="#cece" />
 
         <TextView
             android:layout_width="wrap_content"
