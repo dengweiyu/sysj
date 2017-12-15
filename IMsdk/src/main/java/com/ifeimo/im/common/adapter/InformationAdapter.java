@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.ifeimo.im.R;
 import com.ifeimo.im.common.adapter.base.RecyclerViewCursorAdapter;
 import com.ifeimo.im.common.adapter.holder.InformationHolder;
@@ -90,8 +91,7 @@ public class InformationAdapter extends RecyclerViewCursorAdapter<InformationHol
         holder.itemView.setOnTouchListener(this);
         Glide.with(context)
                 .load(informationModel.getPicUrl())
-                .dontAnimate()
-                .placeholder(R.drawable.logo_round)
+                .apply(new RequestOptions().placeholder(R.drawable.logo_round).dontAnimate())
                 .into(holder.muc_left_face);
         holder.muc_left_layout.setOnClickListener(new View.OnClickListener() {
             @Override

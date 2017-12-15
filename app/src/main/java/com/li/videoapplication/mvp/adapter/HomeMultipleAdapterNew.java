@@ -158,7 +158,7 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
                 gameAdapter.setScrolling(isScrolling);
                 GridViewY1 gameGridView = holder.getView(R.id.hometype_gridview);
                 gameGridView.setAdapter(gameAdapter);
-                gameAdapter.setVideoType(dataBean.getMore_mark());
+               // gameAdapter.setVideoType(dataBean.getMore_mark());
                 break;
             case HomeModuleEntity.TYPE_GAMER_VIDEO:
                 holder.setVisible(R.id.hometype_game, true);
@@ -170,7 +170,7 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
 //                VideoAdapter gameVideoAdapter = new VideoAdapter(mContext, changeVideoImageType(dataBean.getList()));
                 gameVideoAdapter.setScrolling(isScrolling);
                 GridViewY1 gameVideoGridView = holder.getView(R.id.hometype_gridview);
-                gameVideoGridView.setAdapter(gameVideoAdapter);
+              //  gameVideoGridView.setAdapter(gameVideoAdapter);
 
                 break;
 

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.ifeimo.im.R;
 import com.ifeimo.im.common.adapter.holder.Holder;
 import com.ifeimo.im.common.bean.AccountBean;
@@ -54,8 +55,7 @@ public class ChatReAdapter extends BaseChatReCursorAdapter<Holder,ChatMsgModel> 
             holder.leftFace.setTag(R.id.image_url, url);
             Glide.with(activity.getContext())
                     .load(url)
-                    .dontAnimate()
-                    .placeholder(R.drawable.actor)
+                    .apply(new RequestOptions().placeholder(R.drawable.actor).dontAnimate())
                     .into(holder.leftFace);
 
             holder.leftMsg.setOnLongClickListener(new View.OnLongClickListener() {
@@ -76,8 +76,7 @@ public class ChatReAdapter extends BaseChatReCursorAdapter<Holder,ChatMsgModel> 
             holder.leftFace.setTag(R.id.image_url, url);
             Glide.with(activity.getContext())
                     .load(url)
-                    .dontAnimate()
-                    .placeholder(R.drawable.actor)
+                    .apply(new RequestOptions().placeholder(R.drawable.actor).dontAnimate())
                     .into(holder.rightFace);
             holder.id_process.setVisibility(View.GONE);
             holder.reConnectIv.setVisibility(View.GONE);

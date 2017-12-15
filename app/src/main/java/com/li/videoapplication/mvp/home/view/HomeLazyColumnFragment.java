@@ -249,15 +249,16 @@ public class HomeLazyColumnFragment extends TBaseFragment implements SwipeRefres
         if (mAdapter == null) {
             mAdapter = new HomeMultipleAdapterNew(mData);
         }
-        Bundle bundle = entity.getExtra();
-        if (bundle == null) {
+        Map<String,Object> extra = entity.getExtra();
+        if (extra == null){
             return;
         }
         //避免加载到 其他分栏的数据
 
-        if (!mColumnId.equals(bundle.getString("column_id"))) {
+        if (!mColumnId .equals(extra.get("column_id"))){
             return;
         }
+
         Log.d("HomeLazy", entity.getAData().size() + "");
         Log.w("HomeLazy", entity.toJSON());
         if (entity.isResult()) {

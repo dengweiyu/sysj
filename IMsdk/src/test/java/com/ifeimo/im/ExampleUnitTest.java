@@ -11,7 +11,6 @@ import com.ifeimo.im.framwork.connect.IConnectSupport;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 
-import org.apache.http.HttpConnection;
 import org.junit.Test;
 
 import java.io.BufferedInputStream;

@@ -256,12 +256,12 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
     }
 
     public void onEventMainThread(HomeModuleEntity entity) {
-        Bundle bundle = entity.getExtra();
-        if (bundle == null) {
+        Map<String,Object> extra = entity.getExtra();
+        if (extra == null) {
             return;
         }
         //避免加载到 其他分栏的数据
-        if (!mColumnId.equals(bundle.getString("column_id"))) {
+        if (!mColumnId.equals(extra.get("column_id"))) {
             return;
         }
 

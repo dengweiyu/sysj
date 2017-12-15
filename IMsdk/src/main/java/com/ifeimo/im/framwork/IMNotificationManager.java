@@ -14,6 +14,8 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
+import static com.bumptech.glide.request.RequestOptions.centerCropTransform;
+import com.bumptech.glide.request.RequestOptions;
 import com.ifeimo.im.OnOutIM;
 import com.ifeimo.im.R;
 import com.ifeimo.im.activity.ChatActivity;
@@ -126,11 +128,13 @@ final class IMNotificationManager implements NotificationManager, OnOutIM {
                 break;
         }
         Bitmap bitmap = null;
+        RequestOptions options = new RequestOptions()
+                .centerCrop();
         try {
             bitmap = Glide.with(IMSdk.CONTEXT)
-                    .load(iMsg.getMemberAvatarUrl())
                     .asBitmap() //必须
-                    .centerCrop()
+                    .load(iMsg.getMemberAvatarUrl())
+                    .apply(centerCropTransform())
                     .into(300, 300)
                     .get();
         } catch (Exception e) {
