@@ -74,7 +74,7 @@ public class ChoiceHomeTabActivity extends TBaseAppCompatActivity {
             public void onClick(View view) {
                 if (!isLogin()) {
                     ToastHelper.s("请先登录");
-                    setTvSaveEditState(); //登录搞好后删除该行
+//                    setTvSaveEditState(); //登录搞好后删除该行
                 } else {
                     if (tvSaveEditState) {
                         StringBuffer sb = new StringBuffer();
@@ -119,14 +119,20 @@ public class ChoiceHomeTabActivity extends TBaseAppCompatActivity {
     }
 
     public void onEventMainThread(HomeGameSelectEntity entity) {
-        hotGameList = entity.getAData().getHot_game();
-        myGameList = entity.getAData().getMy_game();
+        if (entity != null) {
+            if (entity.getAData().getHot_game()!= null) {
+                hotGameList = entity.getAData().getHot_game();
+            }
+            if (entity.getAData().getMy_game() != null) {
+                myGameList = entity.getAData().getMy_game();
+            }
+            for (int i = 0; i < myGameList.size(); i++) {
+                HomeGameSelectEntity.ADataBean.MyGameBean myGameBean = myGameList.get(i);
+                Log.i(tag, myGameBean.getName());
+            }
+        }
         mAdapter = new ChoiceHomeTabAdapter(mData, myGameList, hotGameList);
         mGameList.setAdapter(mAdapter);
-        for (int i = 0; i < myGameList.size(); i++) {
-            HomeGameSelectEntity.ADataBean.MyGameBean myGameBean = myGameList.get(i);
-            Log.i(tag, myGameBean.getName());
-        }
 
     }
 

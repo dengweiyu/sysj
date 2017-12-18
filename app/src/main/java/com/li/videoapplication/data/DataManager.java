@@ -3185,11 +3185,8 @@ public class DataManager {
         Map<String, Object> params = RequestParams.getInstance().homeInfoById(columnId,page);
         RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
         HomeModuleEntity entity =new HomeModuleEntity();
-
         Map<String,Object> extra = new HashMap<>();
-
         extra.put("column_id",columnId);
-
         entity.setExtra(extra);
         request.setEntity(entity);
         helper.doService(request);
@@ -3204,6 +3201,9 @@ public class DataManager {
         Map<String, Object> params = RequestParams.getInstance().homeColumnByUid(member_id);
         RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
         HomeColumnEntity entity =new HomeColumnEntity();
+        Map<String,Object> extra = new HashMap<>();
+        extra.put("member_id",member_id);
+        entity.setExtra(extra);
    /*     Bundle bundle = new Bundle();
         bundle.putString("member_id",member_id);
         entity.setExtra(bundle);*/
@@ -3220,6 +3220,9 @@ public class DataManager {
         Map<String, Object> params = RequestParams.getInstance().homeColumnByUid(member_id);
         RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
         HomeGameSelectEntity entity = new HomeGameSelectEntity();
+        Map<String,Object> extra = new HashMap<>();
+        extra.put("member_id",member_id);
+        entity.setExtra(extra);
 /*        Bundle bundle = new Bundle();
         bundle.putString("member_id",member_id);
         entity.setExtra(bundle);*/

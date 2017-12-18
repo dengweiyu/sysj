@@ -41,7 +41,6 @@ public class SimpleItemDecoration extends RecyclerView.ItemDecoration {
         mPaint.setColor(Color.parseColor("#e2e2e2"));       //gray
     }
 
-
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
 
@@ -63,7 +62,6 @@ public class SimpleItemDecoration extends RecyclerView.ItemDecoration {
         }
 
     }
-
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -122,5 +120,8 @@ public class SimpleItemDecoration extends RecyclerView.ItemDecoration {
         c.drawRect(left,top,right,bottom,mPaint);
     }
 
+    protected void setColor(int color){
+        mPaint.setColor(color);
+    }
 
 }

@@ -272,7 +272,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
     private void addOnClickListener() {
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
-            public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 HomeDto item = (HomeDto) adapter.getItem(position);
                 switch (view.getId()) {
                     case R.id.hometype_youlike_change://换一换
@@ -359,6 +359,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                         break;
                 }
             }
+
         });
     }
 

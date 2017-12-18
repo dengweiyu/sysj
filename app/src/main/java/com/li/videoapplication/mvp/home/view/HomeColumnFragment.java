@@ -91,7 +91,7 @@ public class HomeColumnFragment extends TBaseFragment implements SwipeRefreshLay
         }
         initRecyclerView(view);
         mData = new ArrayList<>();
-        mAdapter = new HomeMultipleAdapterNew(mData);
+        mAdapter = new HomeMultipleAdapterNew(this, mData);
         mRecyclerView.setAdapter(mAdapter);
         //TODO 这样 会导致 所有走到这里的fragment都会直接加载数据 应该限制一下
         //包括了数据的加载，转换，视图的处理

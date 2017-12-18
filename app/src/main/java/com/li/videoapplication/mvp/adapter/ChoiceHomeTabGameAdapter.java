@@ -41,9 +41,12 @@ public class ChoiceHomeTabGameAdapter extends BaseItemDraggableAdapter<HomeGameS
         holder.setText(R.id.tv_game_name,myGameBean.getName());
         if (!isEditState) {
             holder.getView(R.id.iv_is_choice).setVisibility(View.GONE);
+            holder.getView(R.id.ll_square_item_root).setClickable(isEditState);
         } else {
             holder.getView(R.id.iv_is_choice).setVisibility(View.VISIBLE);
+            holder.getView(R.id.ll_square_item_root).setClickable(isEditState);
         }
+
         GlideHelper.displayImage(mContext.getApplicationContext(),myGameBean.getIco_pic(),(ImageView)holder.getView(R.id.iv_square_game_icon));
         if (isFirstLoad) {
             UITask.postDelayed(new Runnable() {
@@ -57,7 +60,7 @@ public class ChoiceHomeTabGameAdapter extends BaseItemDraggableAdapter<HomeGameS
             //加载到最后一个，firstload完成
             isFirstLoad = false;
         }
-        holder.addOnClickListener(R.id.iv_is_choice);
+//        holder.addOnClickListener(R.id.iv_is_choice);
     }
 
 }

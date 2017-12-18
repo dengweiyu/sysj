@@ -111,6 +111,7 @@ public class GiftTimeLineFragment extends TBaseFragment implements View.OnClickL
         sSaveData = null;
         if (sQueue != null){
             sQueue.clear();
+
             sQueue = null;
         }
     }

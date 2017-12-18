@@ -66,14 +66,15 @@ public class PlayWithPlaceOrderListFragment extends TBaseFragment implements Bas
         //点击事件
         mList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                if (mData.get(i).t != null){
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (mData.get(position).t != null){
 
                     ActivityManager.startPlayWithOrderDetailActivity(getContext()
-                            ,mData.get(i).t.getOrder_id(),
+                            ,mData.get(position).t.getOrder_id(),
                             PlayWithOrderDetailActivity.ROLE_OWNER,true);
                 }
             }
+
         });
 
         mRefresh.setRefreshing(true);

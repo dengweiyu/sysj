@@ -136,8 +136,8 @@ public class GroupMatchListActivity extends TBaseAppCompatActivity implements IG
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
-                Match item = (Match) adapter.getItem(pos);
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Match item = (Match) adapter.getItem(position);
 
                 if (item.getType_id().equals("3")) { //活动
                     startActivityDetailActivity208(item.getMatch_id());
@@ -145,18 +145,20 @@ public class GroupMatchListActivity extends TBaseAppCompatActivity implements IG
                     startActivityDetailGameMatch(item.getEvent_id());
                 }
             }
+
         });
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
-            public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int pos) {
-                Match record = (Match) adapter.getItem(pos);
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Match record = (Match) adapter.getItem(position);
                 switch (view.getId()) {
                     case R.id.match_result:
                         startMatchResultActivity(record.getEvent_id());
                         break;
                 }
             }
+
         });
     }
 

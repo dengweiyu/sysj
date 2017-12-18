@@ -48,6 +48,11 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
+    public void finishUpdate(ViewGroup container) {
+        super.finishUpdate(container);
+    }
+
+    @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         super.destroyItem(container, position, object);
     }

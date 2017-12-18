@@ -67,14 +67,14 @@ public class HomeColumnWZRYAdapter extends BaseMultiItemQuickAdapter<HomeModuleE
                 RecyclerView hotNarrateRecyclerView = holder.getView(R.id.homehotnarrate_recyclerview);
                 hotNarrateRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
                 HomeHotNarrateAdapter hotNarrateAdapter = new HomeHotNarrateAdapter(changeMemberType(dataBean.getList()));
-                hotNarrateRecyclerView.setAdapter(hotNarrateAdapter);
-                hotNarrateRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
+                hotNarrateAdapter.setOnItemClickListener(new OnItemClickListener() {
                     @Override
-                    public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int i) {
-                        Member member = (Member) adapter.getItem(i);
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        Member member = (Member) adapter.getItem(position);
                         startPlayerDynamicActivity(member);
                     }
                 });
+                hotNarrateRecyclerView.setAdapter(hotNarrateAdapter);
                 holder.addOnClickListener(R.id.home_hotnarrate_more);
                 break;
             case HomeModuleEntity.TYPE_AD:              //通栏广告

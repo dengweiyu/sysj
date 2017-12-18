@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -49,6 +50,7 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
         final VideoImage record = getItem(position);
         final ViewHolder holder;
         if (view == null) {
+            Log.i(tag, "猜一猜view为空..");
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.adapter_video, null);
             holder.title = (TextView) view.findViewById(R.id.video_title);
@@ -63,6 +65,7 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
+            Log.i(tag, "猜一猜view不为空");
         }
 
         setPicLayoutParams(holder.cover);

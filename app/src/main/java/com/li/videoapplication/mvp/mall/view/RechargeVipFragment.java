@@ -108,14 +108,15 @@ public class RechargeVipFragment extends TBaseFragment implements View.OnClickLi
         mDuration.addItemDecoration(new SpanItemDecoration(ScreenUtil.dp2px(getContext(),15),false,false,false,true));
         mDuration.addOnItemTouchListener(new OnItemClickListener() {
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 mDurationData.get(mSelectedDuration).setChoice(false);
-                mSelectedDuration = i;
+                mSelectedDuration = position;
                 mDurationData.get(mSelectedDuration).setChoice(true);
                 mDurationAdapter.setNewData(mDurationData);
 
                 setPrice(mData.get(mSelected).getPrice());
             }
+
         });
 
     }

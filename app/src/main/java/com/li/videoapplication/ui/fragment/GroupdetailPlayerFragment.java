@@ -175,22 +175,22 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
-                Member item = (Member) adapter.getItem(pos);
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Member item = (Member) adapter.getItem(position);
                 startPlayerDynamicActivity(item);
                 if (null != activity && activity.isSingleEvent){
                     UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME,activity.game.getGroup_name()+"-"+"游戏圈-玩家-头像");
                 }else {
                     UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-玩家-头像");
                 }
-
             }
+
         });
         //recyclerview item上子控件点击事件处理
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
-            public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int pos) {
-                Member record = (Member) adapter.getItem(pos);
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Member record = (Member) adapter.getItem(position);
                 if (!isLogin()) {
                     showLoginDialog();
                     return;
@@ -204,14 +204,14 @@ public class GroupdetailPlayerFragment extends TBaseFragment implements OnRefres
                 }
                 // 玩家关注
                 DataManager.memberAttention201(record.getMember_id(), getMember_id());
-                adapter.notifyItemChanged(pos);
+                adapter.notifyItemChanged(position);
                 if (null != activity && activity.isSingleEvent){
                     UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name()+"-"+"游戏圈-玩家-关注");
                 }else {
                     UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-玩家-关注");
                 }
-
             }
+
         });
     }
 

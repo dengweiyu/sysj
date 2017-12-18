@@ -144,26 +144,28 @@ public class GameMatchFragment extends TBaseFragment implements IMatchListView,
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
-                Match record = (Match) adapter.getItem(pos);
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Match record = (Match) adapter.getItem(position);
                 if (record.getType_id().equals("3")) { //活动
                     startActivityDetailActivity208(record.getMatch_id());
                 } else { //赛事
                     startGameMatchDetailActivity(record.getEvent_id());
                 }
             }
+
         });
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
-            public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int pos) {
-                Match record = (Match) adapter.getItem(pos);
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Match record = (Match) adapter.getItem(position);
                 switch (view.getId()) {
                     case R.id.match_result:
                         startMatchResultActivity(record.getEvent_id());
                         break;
                 }
             }
+
         });
     }
 

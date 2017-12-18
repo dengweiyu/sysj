@@ -80,11 +80,11 @@ public class ChoiceHomeTabAdapter extends BaseMultiItemQuickAdapter<ChoiceHomeTa
                 mMyGameAdapter.enableDragItem(mMyGameTouchHelper);
                 mMyGameAdapter.disableDragItem(); //默认不能拉动
                 gameList.setAdapter(mMyGameAdapter);
-                gameList.addOnItemTouchListener(new OnItemChildClickListener() {
+                mMyGameAdapter.setOnItemClickListener(new OnItemClickListener() {
                     @Override
-                    public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                        HomeGameSelectEntity.ADataBean.MyGameBean myGameBean = myGameList.get(i);
-                        myGameList.remove(i);
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        HomeGameSelectEntity.ADataBean.MyGameBean myGameBean = myGameList.get(position);
+                        myGameList.remove(position);
                         HomeGameSelectEntity.ADataBean.HotGameBean hotGameBean
                                 = new HomeGameSelectEntity.ADataBean.HotGameBean();
                         hotGameBean.setColumn_id(myGameBean.getColumn_id());
@@ -108,11 +108,11 @@ public class ChoiceHomeTabAdapter extends BaseMultiItemQuickAdapter<ChoiceHomeTa
                 mHotGameAdapter.enableDragItem(mHotGameTouchHelper);
                 mHotGameAdapter.disableDragItem(); //热门游戏先不拖动
                 homeGameList.setAdapter(mHotGameAdapter);
-                homeGameList.addOnItemTouchListener(new OnItemChildClickListener() {
+                mHotGameAdapter.setOnItemClickListener(new OnItemClickListener() {
                     @Override
-                    public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                        HomeGameSelectEntity.ADataBean.HotGameBean hotGameBean = hotGameList.get(i);
-                        hotGameList.remove(i);
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        HomeGameSelectEntity.ADataBean.HotGameBean hotGameBean = hotGameList.get(position);
+                        hotGameList.remove(position);
                         HomeGameSelectEntity.ADataBean.MyGameBean myGameBean
                                 = new HomeGameSelectEntity.ADataBean.MyGameBean();
                         myGameBean.setColumn_id(hotGameBean.getColumn_id());
@@ -122,8 +122,8 @@ public class ChoiceHomeTabAdapter extends BaseMultiItemQuickAdapter<ChoiceHomeTa
                         myGameList.add(myGameBean);
                         mHotGameAdapter.notifyDataSetChanged();
                         mMyGameAdapter.notifyDataSetChanged();
-
                     }
+
                 });
 
                 break;

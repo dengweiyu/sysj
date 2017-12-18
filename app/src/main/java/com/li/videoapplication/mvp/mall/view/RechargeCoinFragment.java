@@ -114,10 +114,11 @@ public class RechargeCoinFragment  extends TBaseFragment implements MallContract
 
     final OnItemClickListener mListener = new OnItemClickListener() {
         @Override
-        public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-            mAdapter.refreshSelectItem(i);
-            setPrice(i);
+        public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+            mAdapter.refreshSelectItem(position);
+            setPrice(position);
         }
+
     };
 
     @Override

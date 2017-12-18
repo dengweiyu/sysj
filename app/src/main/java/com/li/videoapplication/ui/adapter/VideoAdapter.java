@@ -27,6 +27,7 @@ import com.li.videoapplication.ui.fragment.MyHistoryFragment;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
+
 import com.li.videoapplication.views.CircleImageView;
 import com.li.videoapplication.views.RoundedDrawable;
 import com.li.videoapplication.views.RoundedImageView;
@@ -138,6 +139,15 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
         this.data.addAll(moreData);
     }
 
+    public void setData(List<VideoImage> data) {
+        if (!this.data.isEmpty()) {
+            this.data.clear();
+            for (int i = 0; i < data.size(); i++) {
+                this.data.add(data.get(i));
+            }
+        }
+    }
+
     public void setVideoType(String more_mark) {
         for (int i = 0; i < data.size(); i++) {
             data.get(i).setMore_mark(more_mark);
@@ -160,8 +170,8 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
             holder.deleteState = (CheckBox) view.findViewById(R.id.vedio_deleteState);
             holder.deleteButton = (ImageView) view.findViewById(R.id.vedio_deleteButton);
             holder.root = view.findViewById(R.id.root);
-//            holder.avatar= (CircleImageView) view.findViewById(R.id.civ_user);//FIXME 这里采用CircleImageView 可能会出错
-            holder.avatar = (CircleImageView) view.findViewById(R.id.civ_user);
+            holder.avatar= (ImageView) view.findViewById(R.id.civ_user);//FIXME 这里采用CircleImageView 可能会出错
+           // holder.avatar = (ImageView) view.findViewById(R.id.civ_user);
             holder.nickname= (TextView) view.findViewById(R.id.tv_up_user_name);
             view.setTag(holder);
             Log.i(tag, "view等于null..");
@@ -345,7 +355,7 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
         CheckBox deleteState;
         ImageView deleteButton;
         View root;
-        CircleImageView avatar;
+        ImageView avatar;
         TextView nickname;
         TextView userID;
     }

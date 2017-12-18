@@ -3,6 +3,7 @@ package com.li.videoapplication.mvp.home.view;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -50,6 +51,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+import java.util.logging.Handler;
 
 import butterknife.BindView;
 import io.rong.eventbus.EventBus;
@@ -112,7 +114,6 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
     private boolean isShowView = false; //是否已经展示过
     private static boolean isLoadMoreFlag = false; //判断是否是加载更多的flag
     private boolean isRefreshFlag = false;  //判断是否下拉刷新的flag
-
 
     private MainActivity mActivity;
 
@@ -207,11 +208,9 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
             tData = new ArrayList<>();
         }
         if (mAdapter == null) {
-            mAdapter = new HomeMultipleAdapterNew(tData);
+            mAdapter = new HomeMultipleAdapterNew(this, tData);
         }
 
-//        mAdapter.addFooterView(footerLoadView);
-//        mAdapter.setEmptyView(inflater.inflate(R.layout.view_loadmore_accent, null));
         View emptyView = inflater.inflate(R.layout.emptyview_main,
                 (ViewGroup) mRecyclerView.getParent(), false);
         mAdapter.setEmptyView(emptyView);
@@ -224,6 +223,15 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
             loadData();
         }
     }
+
+    public void setIsShowView(boolean isShowView) {
+        this.isShowView = isShowView;
+    }
+
+    public void notifyAdapter() {
+        this.mAdapter.notifyDataSetChanged();
+    }
+
 
     /**
      * 获取网络数据
@@ -256,7 +264,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
     }
 
     public void onEventMainThread(HomeModuleEntity entity) {
-        Map<String,Object> extra = entity.getExtra();
+        Map<String, Object> extra = entity.getExtra();
         if (extra == null) {
             return;
         }
@@ -275,7 +283,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
             tData = new ArrayList<>();
         }
         if (mAdapter == null) {
-            mAdapter = new HomeMultipleAdapterNew(tData);
+            mAdapter = new HomeMultipleAdapterNew(this, tData);
         }
         Log.d("HomeLazy", entity.getAData().size() + "");
         Log.w("HomeLazy", entity.toJSON());
@@ -306,6 +314,9 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
                 if (dataBean.getFlag().equals("guessVideo")) {
                     dataBean.setItemType(HomeModuleEntity.TYPE_GUESS_YOU_LIKE);
                     mData.add(dataBean);
+                    if (AppConstant.SHOW_DOWNLOAD_AD) {//普通渠道，替换广告
+                        replaseGDT(HomeMultipleAdapterNew.changeVideoImageType(dataBean.getList()), GUESSVIDEO_CHANGE);
+                    }
                     continue;
                 }
                 if (dataBean.getFlag().equals("hotMember")) {
@@ -325,20 +336,8 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
                     }
                 }
                 if (dataBean.getFlag().equals("gamerVideo")) {
-//                    isStartLoadGamerVideo = true;
                     dataBean.setItemType(HomeModuleEntity.TYPE_GAMER_VIDEO);
-//                    sGamerVideoData = dataBean.getList();
-//                    Log.d("HomeLazy", sGamerVideoData.toString());
-//                    if (dataBean.getList().size() > 10) {
-//                        List sSaveData = new ArrayList<>();
-//                        for (int i = 0; i < 10; i++) {
-//                            sSaveData.add(dataBean.getList().get(i));
-//                        }
-//                        Log.w(TAG, sGamerVideoData.toString());
-//                        dataBean.setList(sSaveData);
-//                    }
                     mData.add(dataBean);
-
                 }
             }
             addTData();
@@ -348,10 +347,9 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
                 swipeRefreshLayout.setRefreshing(false);
             }
 //            refreshData(sSaveData);
-            if (!isLoadMoreFlag && !isRefreshFlag) {
+            if (isInit && !isLoadMoreFlag && !isRefreshFlag) {
                 mAdapter.notifyDataSetChanged();
                 isShowView = true;
-
             } else {
                 mAdapter.loadMoreComplete();
             }
@@ -388,6 +386,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         scrollListener = new ScrollListener();
         layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
+        ((DefaultItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mRecyclerView.addOnScrollListener(scrollListener);
         mRecyclerView.addOnItemTouchListener(mItemChildClickListener);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -473,11 +472,11 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         //已经初始化过
         if (isInit && getBaseRootView() != null) {
             if (isVisibleToUser) {
-//                isShowView = true;
-                if (!isShowView) {
+//                isShowView = false;
+                if (!isShowView && isInit) {
                     mAdapter.notifyDataSetChanged();
+                    isShowView = true;
                 }
-                Log.d("HomeLazyColumn", mColumnId + "已经初始化，并可见");
             } else {
 //                isShowView = false;
                 Log.d("HomeLazyColumn", mColumnId + "已经初始化，不可见");
@@ -553,18 +552,19 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
                 isGamerVideoLoadComplete = true;
             }
 
-            mAdapter.notifyDataSetChanged();
+//            mAdapter.notifyDataSetChanged();
+            mAdapter.notifyItemChanged(gamerVideoIndex);
             mAdapter.loadMoreComplete();
             ++mVideoGamerPage;
         }
     }
 
-    OnItemChildClickListener mItemChildClickListener = new OnItemChildClickListener() {
+    private OnItemChildClickListener mItemChildClickListener = new OnItemChildClickListener() {
 
         @Override
-        public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+        public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
             Log.d(tag, "item点击了");
-            HomeModuleEntity.ADataBean dataBean = (HomeModuleEntity.ADataBean) baseQuickAdapter.getItem(i);
+            HomeModuleEntity.ADataBean dataBean = (HomeModuleEntity.ADataBean) baseQuickAdapter.getItem(position);
             if (dataBean != null) {
                 Log.d(tag, "item点击了->" + dataBean.getTitle());
             }
@@ -600,8 +600,8 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
                         List<String> videoIds = PreferencesHepler.getInstance().getVideoIds(4);
                         StringBuffer video_ids = new StringBuffer();
                         for (int j = 0; j < videoIds.size(); j++) {
-                            video_ids.append(videoIds.get(i));
-                            if (i < (videoIds.size() - 1)) {
+                            video_ids.append(videoIds.get(position));
+                            if (position < (videoIds.size() - 1)) {
                                 video_ids.append(",");
                             }
                         }
@@ -643,6 +643,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
                 PreferencesHepler.getInstance().saveVideoIdsTime();
             }
             if (AppConstant.SHOW_DOWNLOAD_AD) {//普通渠道，替换广告
+
                 replaseGDT(entity.getData().getList(), GUESSVIDEO_CHANGE);
             } else {//特殊渠道，不加广告
                 mAdapter.changeGuessVideo(entity.getData().getList());
@@ -703,12 +704,12 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
             super.onScrollStateChanged(recyclerView, newState);
             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                 mAdapter.setScrolling(false);
+                mAdapter.setScrollingSingle(true);
                 mAdapter.notifyDataSetChanged();
 //                Log.w(tag, "滚动停止，刷新..");
 
             } else {
                 mAdapter.setScrolling(true);
-
             }
         }
 
@@ -752,7 +753,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
                         if (isStartLoadGamerVideo && !isGamerVideoLoadComplete) {
                             Log.d(tag, "加载更多本地页..");
                             loadMoreGamerVideoData2();
-
+                            isLoadMoreFlag = true;
                         } else {
                             ++mPage;
                             isLoadMoreFlag = true;
@@ -764,7 +765,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
                         mAdapter.loadMoreEnd();
                     }
                 }
-            }, 0);
+            }, 200);
         }
     };
 
@@ -882,6 +883,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
 
     @Override
     public void onDestroy() {
+        isShowView = false;
         if (mColumnId != null) {
             Log.w(tag, mColumnId + "执行onDestroy");
         } else {
@@ -962,6 +964,50 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         viewGroup.setFocusableInTouchMode(true);
         viewGroup.requestFocus();
     }
+
+    public void zero() {
+        mRecyclerView = null;
+        layoutManager = null;
+        scrollListener = null;
+
+        bannerView = null;
+        bannerFlow = null;
+        bannerAdapter = null;
+        mColumnId = null;
+
+        adItem = null;
+        refreshTimer = null;
+        loadMoreTimer = null;
+        sGamerVideoData = null;         //所有数据
+
+        mPage = 1;
+        mVideoGamerPage = 2; //先load后加页，所以一开始是第二页
+        //尾部
+        footerView = null;
+
+        mAdapter = null;
+
+        mData = null; //获取的总数据
+        tData = null; //渲染的数据
+
+
+        isInit = false; //真正显示的View是否已经被初始化
+        isStartLoadGamerVideo = false;
+        isGamerVideoLoadComplete = false;
+        isLoadDataComplete = false; //第一次加载数据是否完成
+
+        isLazyLoad = true;
+        isShowView = false; //是否已经展示过
+        isRefreshFlag = false;  //判断是否下拉刷新的flag
+
+        mActivity = null;
+
+        mOffset = 0f;
+        mStartOffset = 0f;
+        mLastDy = 0f;
+        mIsShowMenu = true;
+    }
+
 
 }
 

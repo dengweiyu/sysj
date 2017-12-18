@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,8 +147,15 @@ public abstract class BaseArrayAdapter<T> extends ArrayAdapter<T> {
 		textImageHelper.setImageViewNetAlpha(context, mImageView, url);
 	}
 
+	protected void setImageViewImageNetAlpha(Fragment fragment, ImageView mImageView, String url) {
+		textImageHelper.setImageViewNetAlpha(fragment, mImageView, url);
+	}
+
 	protected void setCircleImageNetAlpha(Context context, ImageView mImageView, String url) {
 		textImageHelper.setCircleImageNetAlpha(context, mImageView, url);
+	}
+	protected void setCircleImageNetAlpha(Fragment fragment, ImageView mImageView, String url) {
+		textImageHelper.setCircleImageNetAlpha(fragment, mImageView, url);
 	}
 	protected void setCircleImageViewNetAlpha(CircleImageView circleImageView,String url){
 		textImageHelper.setImageViewNetAlpha(circleImageView, url);

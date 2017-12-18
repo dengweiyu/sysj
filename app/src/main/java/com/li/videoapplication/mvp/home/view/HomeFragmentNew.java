@@ -54,7 +54,9 @@ import retrofit2.Response;
  */
 
 public class HomeFragmentNew extends TBaseFragment {
-    private static final int PAGE_LIMIT = 3;
+    private static final int PAGE_LIMIT = 2;
+    private boolean otherGameFlag = false; //判断是否有其它游戏分栏。决定选择游戏后返回刷新的封拆逻辑
+
     private ViewPagerY4 mViewPager;
     private String member_id;
     private List<HomeLazyColumnFragment3> mFragments;
@@ -69,9 +71,9 @@ public class HomeFragmentNew extends TBaseFragment {
     /**
      * 跳转：选择ITEM
      */
-    public void starChoiceHomeTabActivity() {
+    public void startChoiceHomeTabActivity() {
         Log.d(tag, "starChoiceHomeTabActivity: ");
-        ActivityManager.starChoiceHomeTabActivity(getContext());
+        ActivityManager.startChoiceHomeTabActivity(getContext());
     }
 
     @Override
@@ -93,7 +95,7 @@ public class HomeFragmentNew extends TBaseFragment {
             @Override
             public void onClick(View v) {
                 //跳转到选择游戏中
-                starChoiceHomeTabActivity();
+                startChoiceHomeTabActivity();
             }
         });
 
@@ -150,6 +152,7 @@ public class HomeFragmentNew extends TBaseFragment {
         }
     };
 
+
     public void onEventMainThread(List<HomeGameSelectEntity.ADataBean.MyGameBean> myGameBeanList) {
         for (int i = 0; i < myGameBeanList.size(); i++) {
             Log.i(tag, myGameBeanList.get(i).getName() + " : " + myGameBeanList.get(i).getColumn_id());
@@ -160,25 +163,41 @@ public class HomeFragmentNew extends TBaseFragment {
         }
         List<HomeLazyColumnFragment3> oldFragments = new ArrayList<>();
         for (int i = 0; i < mFragments.size(); i++) {
+            mFragments.get(i).setIsShowView(false);
             oldFragments.add(mFragments.get(i));
         }
-        //重新拆合，第一个是推荐，最后一个是其他游戏
-        String recommendName = mColumnList.get(0);
-        String recommendId = mColumnIdList.get(0);
-        String otherGameName = mColumnList.get(mColumnList.size() - 1);
-        String otherGameId = mColumnIdList.get(mColumnIdList.size() - 1);
-        mColumnList.clear();
-        mColumnIdList.clear();
-        mColumnList.add(recommendName);
-        mColumnIdList.add(recommendId);
+        if (otherGameFlag) { //有其它游戏分栏
+            //重新拆合，第一个是推荐，最后一个是其他游戏
+            String recommendName = mColumnList.get(0);
+            String recommendId = mColumnIdList.get(0);
 
-        for (int i = 0; i < myGameBeanList.size(); i++) {
-            mColumnList.add(myGameBeanList.get(i).getName());
-            mColumnIdList.add(myGameBeanList.get(i).getColumn_id());
+            String otherGameName = mColumnList.get(mColumnList.size() - 1);
+            String otherGameId = mColumnIdList.get(mColumnIdList.size() - 1);
+            mColumnList.clear();
+            mColumnIdList.clear();
+            mColumnList.add(recommendName);
+            mColumnIdList.add(recommendId);
 
+            for (int i = 0; i < myGameBeanList.size(); i++) {
+                mColumnList.add(myGameBeanList.get(i).getName());
+                mColumnIdList.add(myGameBeanList.get(i).getColumn_id());
+            }
+            mColumnList.add(otherGameName);
+            mColumnIdList.add(otherGameId);
+        } else {   //无其它游戏分栏
+            String recommendName = mColumnList.get(0);
+            String recommendId = mColumnIdList.get(0);
+
+            mColumnList.clear();
+            mColumnIdList.clear();
+            mColumnList.add(recommendName);
+            mColumnIdList.add(recommendId);
+
+            for (int i = 0; i < myGameBeanList.size(); i++) {
+                mColumnList.add(myGameBeanList.get(i).getName());
+                mColumnIdList.add(myGameBeanList.get(i).getColumn_id());
+            }
         }
-        mColumnList.add(otherGameName);
-        mColumnIdList.add(otherGameId);
 
         mFragments.clear();
 
@@ -198,8 +217,7 @@ public class HomeFragmentNew extends TBaseFragment {
         }
         commonNavigatorAdapter.notifyDataSetChanged();
         mHomeViewPagerAdapter.notifyDataSetChanged();
-        oldColumnIds = null;
-        oldFragments =  null;
+        mFragments.get(mViewPager.getCurrentItem()).notifyAdapter();
     }
 
     /////////////////////////////视图处理/////////////////////////////////
@@ -208,6 +226,43 @@ public class HomeFragmentNew extends TBaseFragment {
         mHomeViewPagerAdapter = new HomeViewPagerAdapter(getFragmentManager(), mFragments, new String[]{});
         mViewPager.setOffscreenPageLimit(PAGE_LIMIT);
         mViewPager.setAdapter(mHomeViewPagerAdapter);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+//                Log.i(tag, "当前的fragment是：" + position + "，columnId是：" + mFragments.get(position).getColumnId());
+//                boolean isNotify = false;
+//                if (position - 1 > 0) {
+//                    String leftColumnId = mFragments.get(position - 2).getColumnId();
+//                    if (leftColumnId != null) {
+//                        mFragments.set(position - 2, HomeLazyColumnFragment3.newInstance(leftColumnId, false, 1000, true));
+//                        isNotify = true;
+//                    }
+//                }
+//                if (position + 1 < mFragments.size()) {
+//                    String rightColumnId = mFragments.get(position + 2).getColumnId();
+//                    if (rightColumnId != null) {
+//                        mFragments.set(position + 2, HomeLazyColumnFragment3.newInstance(rightColumnId, false, 1000, true));
+//
+//                        isNotify = true;
+//                    }
+//                }
+//                if (isNotify) {
+//                    commonNavigatorAdapter.notifyDataSetChanged();
+//                    mHomeViewPagerAdapter.notifyDataSetChanged();
+//                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
     }
 
     public void setMagicIndicator() {
@@ -234,7 +289,8 @@ public class HomeFragmentNew extends TBaseFragment {
                 //TODO 懒加载
 //                mFragments.add(HomeColumnFragment.newInstance(mColumnIdList.get(i),isNeedLoaData,
 //                        offset*1000));
-
+                if (mColumnIdList.equals("6"))
+                    otherGameFlag = true; //6为其它游戏
 
                 mFragments.add(HomeLazyColumnFragment3.newInstance(
                         mColumnIdList.get(i),

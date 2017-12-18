@@ -195,8 +195,8 @@ public class GameMatchProcessFragment extends TBaseFragment implements IMatchPro
     private void addOnClickListener() {
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
-            public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int pos) {
-                Match record = (Match) adapter.getItem(pos);
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Match record = (Match) adapter.getItem(position);
                 switch (view.getId()) {
                     case R.id.red_icon:
                         if (RongIM.getInstance() != null &&

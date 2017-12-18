@@ -157,7 +157,7 @@ public class ActivityManager {
     /**
      * 选择首页游戏
      */
-    public synchronized static void starChoiceHomeTabActivity(Context context){
+    public synchronized static void startChoiceHomeTabActivity(Context context){
         Intent intent = new Intent();
         intent.setClass(context,ChoiceHomeTabActivity.class);
         context.startActivity(intent);

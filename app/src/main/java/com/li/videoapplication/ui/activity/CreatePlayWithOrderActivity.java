@@ -252,20 +252,21 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
         mServerNameList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                mServerNameAdapter.setIsSelected(i);
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                mServerNameAdapter.setIsSelected(position);
                 mServerNameAdapter.notifyDataSetChanged();
-                mServerIndex = i;
+                mServerIndex = position;
             }
         });
 
         mModeNameList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                mModeNameAdapter.setIsSelected(i);
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                mModeNameAdapter.setIsSelected(position);
                 mModeNameAdapter.notifyDataSetChanged();
-                mGameModeIndex = i;
+                mGameModeIndex = position;
             }
+
         });
 
 

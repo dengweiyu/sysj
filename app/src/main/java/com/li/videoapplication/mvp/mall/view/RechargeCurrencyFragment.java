@@ -171,22 +171,23 @@ public class RechargeCurrencyFragment extends TBaseFragment implements MallContr
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
-                TopUp record = (TopUp) adapter.getItem(pos);
-                if (selectedPos != pos) {
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                TopUp record = (TopUp) adapter.getItem(position);
+                if (selectedPos != position) {
                     //先取消上个item的勾选状态
                     data.get(selectedPos).setSelected(false);
                     adapter.notifyItemChanged(selectedPos);
                     //设置新Item的勾选状态
-                    selectedPos = pos;
+                    selectedPos = position;
                     data.get(selectedPos).setSelected(true);
                     adapter.notifyItemChanged(selectedPos);
 
                     if (!record.getOption().equals("-1")) {//正常充值选项
-                        setPrice(pos);
+                        setPrice(position);
                     }
                 }
             }
+
         });
     }
 

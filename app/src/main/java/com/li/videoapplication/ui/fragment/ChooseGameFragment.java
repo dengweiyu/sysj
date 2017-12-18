@@ -113,13 +113,14 @@ public class ChooseGameFragment extends TBaseFragment {
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Associate record = (Associate) adapter.getItem(position);
                 // 保存本地
                 PreferencesHepler.getInstance().addAssociate201List(record);
                 getActivity().finish();
                 EventManager.postSearchGame2VideoShareEvent(record);
             }
+
         });
     }
 

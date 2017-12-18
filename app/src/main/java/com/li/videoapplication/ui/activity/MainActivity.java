@@ -30,9 +30,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService;
 import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
 import com.google.gson.Gson;
@@ -1114,7 +1113,23 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         if (mBottomRecord != null){
             final String unPress = entity.getMenuIco().getScreen();
             final String press = entity.getMenuIco().getScreenChecked();
-            GlideHelper.displayImageByDrawable(this, R.drawable.home_bottom_record, unPress, mBottomRecord, new SimpleTarget<GlideDrawable>() {
+            GlideHelper.displayImageByDrawable(this, R.drawable.home_bottom_record, unPress, mBottomRecord, new SimpleTarget<Drawable>() {
+                @Override
+                public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                    if (!StringUtil.isNull(unPress)){
+                        mDrawableMap.put(unPress,resource);
+                    }
+
+                    if (mDrawableMap.get(press) != null){
+                        StateListDrawable drawable = new StateListDrawable();
+
+                        drawable.addState(new int[]{android.R.attr.state_pressed},mDrawableMap.get(press));
+
+                        drawable.addState(new int[]{-android.R.attr.state_pressed},resource);
+                        mBottomRecord.setImageDrawable(drawable);
+                    }
+                }
+                /*
                 @Override
                 public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                     if (!StringUtil.isNull(unPress)){
@@ -1129,9 +1144,25 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                         drawable.addState(new int[]{-android.R.attr.state_pressed},resource);
                         mBottomRecord.setImageDrawable(drawable);
                     }
-                }
+                }*/
             });
-            GlideHelper.displayImageByDrawable(this, R.drawable.home_bottom_record_press,press, mBottomRecord, new SimpleTarget<GlideDrawable>() {
+            GlideHelper.displayImageByDrawable(this, R.drawable.home_bottom_record_press,press, mBottomRecord, new SimpleTarget<Drawable>() {
+                @Override
+                public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                    if (!StringUtil.isNull(press)){
+                        mDrawableMap.put(press,resource);
+                    }
+                    if (mDrawableMap.get(unPress) != null){
+                        StateListDrawable drawable = new StateListDrawable();
+
+                        drawable.addState(new int[]{android.R.attr.state_pressed},resource);
+
+                        drawable.addState(new int[]{-android.R.attr.state_pressed},mDrawableMap.get(unPress));
+                        mBottomRecord.setImageDrawable(drawable);
+                    }
+                }
+
+                /*
                 @Override
                 public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                     if (!StringUtil.isNull(press)){
@@ -1145,7 +1176,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                         drawable.addState(new int[]{-android.R.attr.state_pressed},mDrawableMap.get(unPress));
                         mBottomRecord.setImageDrawable(drawable);
                     }
-                }
+                }*/
             });
         }
 

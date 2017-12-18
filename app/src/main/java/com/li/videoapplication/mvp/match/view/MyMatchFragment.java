@@ -104,8 +104,8 @@ public class MyMatchFragment extends TBaseFragment implements MatchContract.IMyM
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
-                Match item = (Match) adapter.getItem(pos);
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Match item = (Match) adapter.getItem(position);
 
                 if (item.getType_id().equals("3")) { //活动
                     startActivityDetailActivity208(item.getMatch_id());
@@ -113,6 +113,7 @@ public class MyMatchFragment extends TBaseFragment implements MatchContract.IMyM
                     startActivityDetailGameMatch(item.getEvent_id());
                 }
             }
+
         });
     }
 

@@ -211,8 +211,8 @@ public class RecommendActivity extends PullToRefreshActivity<VideoImage> impleme
 			hotNarrateRecyerView.setAdapter(hotNarrateAdapter);
 			hotNarrateRecyerView.addOnItemTouchListener(new OnItemClickListener() {
 				@Override
-				public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int i) {
-					Member member = (Member) adapter.getItem(i);
+				public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+					Member member = (Member) adapter.getItem(position);
 					startPlayerDynamicActivity(member);
 				}
 			});

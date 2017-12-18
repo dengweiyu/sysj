@@ -42,7 +42,7 @@ public  class HomeFragemntText extends TBaseFragment implements SwipeRefreshLayo
     @Override
     protected void initContentView(View view) {
         mData=new ArrayList<>();
-        mAdapter= new HomeMultipleAdapterNew(mData);
+        mAdapter= new HomeMultipleAdapterNew(this, mData);
 
         setRecyclerView();
         setSwipeRefreshLayout();

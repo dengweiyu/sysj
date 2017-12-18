@@ -143,16 +143,17 @@ public class MyActivityListActivity extends TBaseAppCompatActivity implements IM
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
-                Match record = (Match) adapter.getItem(pos);
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Match record = (Match) adapter.getItem(position);
                 startActivityDetailActivity(record);
             }
+
         });
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
-            public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int pos) {
-                Match record = (Match) adapter.getItem(pos);
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Match record = (Match) adapter.getItem(position);
                 switch (view.getId()) {
                     case R.id.activity_reward:
                         WebActivity.startWebActivity(MyActivityListActivity.this, record.getReward_url());

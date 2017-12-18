@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,6 +48,7 @@ public class TextImageHelper {
     /**
      * 功能：TextView显示文字
      */
+
     public synchronized void setTextViewText(TextView view, String text) {
         if (view != null && !StringUtil.isNull(text)) {
             view.setText(StringUtil.convert(text));
@@ -136,6 +138,19 @@ public class TextImageHelper {
     /**
      * 功能：ImageView显示网络图像渐变展示
      */
+    public synchronized void setImageViewNetAlpha(Fragment fragment, ImageView view, String url) {
+        if (view != null && !StringUtil.isNull(url)) {
+            GlideHelper.displayImageFade(fragment, url, view);
+        } else {
+            if (view != null) {
+                view.setImageBitmap(null);
+            }
+        }
+    }
+
+    /**
+     * 功能：ImageView显示网络图像渐变展示
+     */
     public synchronized void setCircleImageNetAlpha(Context context, ImageView view, String url) {
         if (view != null && !StringUtil.isNull(url)) {
             GlideHelper.displayCircleImageFade(context, url, view);
@@ -145,6 +160,20 @@ public class TextImageHelper {
             }
         }
     }
+
+    /**
+     * 功能：ImageView显示网络图像渐变展示
+     */
+    public synchronized void setCircleImageNetAlpha(Fragment fragment, ImageView view, String url) {
+        if (view != null && !StringUtil.isNull(url)) {
+            GlideHelper.displayCircleImageFade(fragment, url, view);
+        } else {
+            if (view != null) {
+                view.setImageBitmap(null);
+            }
+        }
+    }
+
     /**
      * 功能：ImageView显示网络图像渐变展示
      */

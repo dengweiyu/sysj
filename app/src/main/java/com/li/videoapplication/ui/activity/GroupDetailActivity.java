@@ -17,8 +17,8 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.im.framwork.Proxy;
@@ -282,8 +282,9 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
         if (item != null) {
 
             GlideHelper.displayImageWhiteTargets(this, item.getFlag(), new SimpleTarget<Bitmap>() {
+
                 @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                     head.setImageBitmap(resource);
                     try {
                         FglassHelper.blur(head, bg);

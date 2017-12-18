@@ -160,5 +160,20 @@
         android:stretchMode="columnWidth"
         android:verticalSpacing="4dp"
         android:visibility="visible" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_hometype"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00ffffff"
+        android:cacheColorHint="#00ffffff"
+        android:horizontalSpacing="7dp"
+        android:listSelector="#00ffffff"
+        android:numColumns="2"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="4dp"
+        android:visibility="gone"/>
 
 </LinearLayout>

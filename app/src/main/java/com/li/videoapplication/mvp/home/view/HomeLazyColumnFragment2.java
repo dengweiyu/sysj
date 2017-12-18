@@ -505,9 +505,9 @@ public class HomeLazyColumnFragment2 extends TBaseFragment
     OnItemChildClickListener mItemChildClickListener = new OnItemChildClickListener() {
 
         @Override
-        public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+        public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
             Log.d(tag, "item点击了");
-            HomeModuleEntity.ADataBean dataBean = (HomeModuleEntity.ADataBean) baseQuickAdapter.getItem(i);
+            HomeModuleEntity.ADataBean dataBean = (HomeModuleEntity.ADataBean) baseQuickAdapter.getItem(position);
             if (dataBean != null) {
                 Log.d(tag, "item点击了->" + dataBean.getTitle());
             }
@@ -542,8 +542,8 @@ public class HomeLazyColumnFragment2 extends TBaseFragment
                         List<String> videoIds = PreferencesHepler.getInstance().getVideoIds(4);
                         StringBuffer video_ids = new StringBuffer();
                         for (int j = 0; j < videoIds.size(); j++) {
-                            video_ids.append(videoIds.get(i));
-                            if (i < (videoIds.size() - 1)) {
+                            video_ids.append(videoIds.get(position));
+                            if (position < (videoIds.size() - 1)) {
                                 video_ids.append(",");
                             }
                         }
@@ -570,6 +570,7 @@ public class HomeLazyColumnFragment2 extends TBaseFragment
                     break;
             }
         }
+
     };
 
     //有video_ids的换一换
