@@ -475,6 +475,15 @@ public class RequestParams {
         return map;
     }
 
+    public Map<String, Object> groupDataList226(String group_id, String member_id, int page, String mark) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        map.put("group_id", group_id);
+        map.put("page", page);
+        map.put("mark", mark);
+        return map;
+    }
+
     public Map<String, Object> groupHotDataList(String group_id, String member_id, int page) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);

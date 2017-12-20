@@ -37,6 +37,7 @@ import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.adapter.BannerAdapter;
 import com.li.videoapplication.ui.adapter.BannerAdapterFor226;
 import com.li.videoapplication.utils.GDTUtil;
+import com.li.videoapplication.utils.MD5Util;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -103,6 +104,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    private boolean isReZero = false;
     private boolean isInit = false; //真正显示的View是否已经被初始化
     private boolean isStartLoadGamerVideo = false;
     private boolean isGamerVideoLoadComplete = false;
@@ -114,6 +116,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
     private boolean isShowView = false; //是否已经展示过
     private static boolean isLoadMoreFlag = false; //判断是否是加载更多的flag
     private boolean isRefreshFlag = false;  //判断是否下拉刷新的flag
+    private boolean isNetWordData = false; //判断是否是从网络获取数据的flag，用来作缓存判断
 
     private MainActivity mActivity;
 
@@ -180,6 +183,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         if (isLazyLoad) {
             //若isVisibleToUser==true就对真正需要的显示内容进行加载
             if (getUserVisibleHint() && !isInit) {
+                Log.i(tag, "懒加载:loadview...");
                 loadView();
                 isInit = true;
             } else {
@@ -214,7 +218,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         View emptyView = inflater.inflate(R.layout.emptyview_main,
                 (ViewGroup) mRecyclerView.getParent(), false);
         mAdapter.setEmptyView(emptyView);
-        mAdapter.setOnLoadMoreListener(mLoadMoreListener);
+        mAdapter.setOnLoadMoreListener(mLoadMoreListener, mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
         //TODO 这样 会导致 所有走到这里的fragment都会直接加载数据 应该限制一下
         //包括了数据的加载，转换，视图的处理
@@ -232,17 +236,28 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         this.mAdapter.notifyDataSetChanged();
     }
 
-
     /**
      * 获取网络数据
      */
     private void loadData() {
         // FIXME: 2017/11/21 应该加上page参数，做到选择加载页数
         Log.w("HomeLazy", "loadData->" + "mColumnId:" + mColumnId + "和mPage:" + mPage);
-        if (NetUtil.isConnect()) {
-            DataManager.getHomeInfoById(mColumnId, mPage);
+        HomeModuleEntity entity = HomeFragmentNew.lruCache.get(MD5Util.string2MD5(mColumnId + mPage));
+        if (entity != null && !isRefreshFlag) {
+            Map<String, Object> extra = entity.getExtra();
+            extra.put("cache", "1");
+            entity.setExtra(extra);
+            EventBus.getDefault().post(entity);
         } else {
-            ToastHelper.s(R.string.net_disable);
+            if (NetUtil.isConnect()) {
+                DataManager.getHomeInfoById(mColumnId, mPage);
+            } else {
+                if (mColumnId.equals("1")) {
+                    EventBus.getDefault().post(PreferencesHepler.getInstance().getHomeEntity());
+                } else {
+                    ToastHelper.s(R.string.net_disable);
+                }
+            }
         }
     }
 
@@ -271,6 +286,17 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         //避免加载到 其他分栏的数据
         if (!mColumnId.equals(extra.get("column_id"))) {
             return;
+        }
+
+        if (mColumnId.equals("1")) //缓存首页
+            PreferencesHepler.getInstance().saveHomeEntity(entity);
+
+        if (extra.get("cache").equals("0")) {
+            HomeModuleEntity cacheEntity = (HomeModuleEntity) entity.clone();
+            for (int i = 0; i < entity.getAData().size(); i++) {
+                entity.getAData().get(i).setList(new ArrayList<HomeModuleEntity.ADataBean.ListBean>(entity.getAData().get(i).getList()));
+            }
+            HomeFragmentNew.lruCache.put(MD5Util.string2MD5(mColumnId + mPage), cacheEntity);
         }
 
         if (mData == null) {
@@ -436,7 +462,8 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
     @Override
     public void onRefresh() {
         mData.clear();
-        tData.clear();
+
+         tData.clear();
         isLoadDataComplete = false;
         isGamerVideoLoadComplete = false;
         isStartLoadGamerVideo = false;
@@ -458,6 +485,26 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
                 }
             }
         }, 1000 * 10);
+    }
+
+    public boolean isReZero() {
+        return isReZero;
+    }
+
+    public void reZero() {
+        mData.clear();
+        tData.clear();
+        isLoadDataComplete = false;
+        isGamerVideoLoadComplete = false;
+        isStartLoadGamerVideo = false;
+        mPage = 1;
+        gamerVideoIndex = 0;
+        mVideoGamerPage = 2; //先load后加页，所以一开始是第二页
+        isRefreshFlag = true;
+        isLoadMoreFlag = false;
+        mAdapter.removeFooterView(getFootView());
+        mAdapter.notifyDataSetChanged();
+        isReZero = true;
     }
 
     @Override
@@ -482,6 +529,17 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
                 Log.d("HomeLazyColumn", mColumnId + "已经初始化，不可见");
             }
         }
+//        if (getBaseRootView() == null) {
+//            TimeHelper.runAfter(new TimeHelper.RunAfter() {
+//                @Override
+//                public void runAfter() {
+//                    loadView();
+//                    Log.w(tag, mColumnId + "->初始化....");
+//                    isInit = true;
+//                    swipeRefreshLayout.setRefreshing(false);
+//                }
+//            }, 200);
+//        }
     }
 
     private int gamerVideoIndex = 0; //玩家视频的索引

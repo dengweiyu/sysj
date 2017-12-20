@@ -1,14 +1,17 @@
 package com.li.videoapplication.ui;
 
 import android.app.Activity;
+import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.util.Log;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
@@ -135,11 +138,11 @@ public class ActivityManager {
     /**
      * 下载管理
      */
-    public synchronized static void startDownloadManagerActivity(Context context, String gameId,String location,String involveId) {
+    public synchronized static void startDownloadManagerActivity(Context context, String gameId, String location, String involveId) {
         Intent intent = new Intent();
-        intent.putExtra("game_id",gameId);
-        intent.putExtra("location",location);
-        intent.putExtra("involve_Id",involveId);
+        intent.putExtra("game_id", gameId);
+        intent.putExtra("location", location);
+        intent.putExtra("involve_Id", involveId);
         intent.setClass(context, DownloadManagerActivity.class);
         context.startActivity(intent);
     }
@@ -154,12 +157,13 @@ public class ActivityManager {
             intent.putExtra("entity", entity);
         context.startActivity(intent);
     }
+
     /**
      * 选择首页游戏
      */
-    public synchronized static void startChoiceHomeTabActivity(Context context){
+    public synchronized static void startChoiceHomeTabActivity(Context context) {
         Intent intent = new Intent();
-        intent.setClass(context,ChoiceHomeTabActivity.class);
+        intent.setClass(context, ChoiceHomeTabActivity.class);
         context.startActivity(intent);
 
     }
@@ -407,10 +411,10 @@ public class ActivityManager {
     /**
      * 分享本地视频
      */
-    public synchronized static void startShareActivity4MyLocalVideo(Activity activity,boolean isLifeType) {
+    public synchronized static void startShareActivity4MyLocalVideo(Activity activity, boolean isLifeType) {
         Intent intent = new Intent(activity, ShareActivity.class);
         intent.putExtra("page", ShareActivity.PAGE_MYLOCALVIDEO);
-        intent.putExtra("is_life_type",isLifeType);
+        intent.putExtra("is_life_type", isLifeType);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.push_bottom_in, R.anim.activity_hold);
@@ -714,12 +718,12 @@ public class ActivityManager {
     /**
      * 主页
      */
-    public synchronized static void startMainActivity(Context context,int mainPosition,int matchPosition) {
+    public synchronized static void startMainActivity(Context context, int mainPosition, int matchPosition) {
         try {
             Intent intent = new Intent();
             intent.setClass(context, MainActivity.class);
-            intent.putExtra("main_position",mainPosition);
-            intent.putExtra("match_position",matchPosition);
+            intent.putExtra("main_position", mainPosition);
+            intent.putExtra("match_position", matchPosition);
             context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
@@ -831,12 +835,12 @@ public class ActivityManager {
     /**
      * 消息
      */
-    public synchronized static void startMessageListActivity(Context context,String title ,String url,String type) {
+    public synchronized static void startMessageListActivity(Context context, String title, String url, String type) {
         Intent intent = new Intent();
         intent.setClass(context, MessageListActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("url", url);
-        intent.putExtra("type",type);
+        intent.putExtra("type", type);
         context.startActivity(intent);
     }
 
@@ -884,14 +888,14 @@ public class ActivityManager {
     /**
      * 我的钱包
      */
-    public synchronized static void startMyWalletActivity(Context context,int page) {
+    public synchronized static void startMyWalletActivity(Context context, int page) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             DialogManager.showLogInDialog(context);
             return;
         }
         Intent intent = new Intent();
         intent.setClass(context, MyWalletActivity.class);
-        intent.putExtra("page",page);
+        intent.putExtra("page", page);
         context.startActivity(intent);
     }
 
@@ -923,32 +927,25 @@ public class ActivityManager {
 
 
     /**
-     *
      * @param context
-     * @param money
-     *              充值金额
-     * @param number
-     *              魔豆数量
-     * @param entry
-     *              点击哪里的入口
-     * @param use
-     *              用于魔豆充值还是会员开通
-     * @param level
-     *              需要开通的VIP等级
-     *
+     * @param money   充值金额
+     * @param number  魔豆数量
+     * @param entry   点击哪里的入口
+     * @param use     用于魔豆充值还是会员开通
+     * @param level   需要开通的VIP等级
      */
-    public static void startPaymentWayActivity(Context context,float money,int number,int entry,int use,int level,int key) {
+    public static void startPaymentWayActivity(Context context, float money, int number, int entry, int use, int level, int key) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
         }
         Intent intent = new Intent();
-        intent.putExtra(PaymentWayActivity.MONEY,money);
-        intent.putExtra(PaymentWayActivity.ENTRY,entry);
-        intent.putExtra(PaymentWayActivity.NUMBER,number);
-        intent.putExtra(PaymentWayActivity.USE,use);
-        intent.putExtra(PaymentWayActivity.LEVEL,level);
-        intent.putExtra(PaymentWayActivity.KEY,key);
+        intent.putExtra(PaymentWayActivity.MONEY, money);
+        intent.putExtra(PaymentWayActivity.ENTRY, entry);
+        intent.putExtra(PaymentWayActivity.NUMBER, number);
+        intent.putExtra(PaymentWayActivity.USE, use);
+        intent.putExtra(PaymentWayActivity.LEVEL, level);
+        intent.putExtra(PaymentWayActivity.KEY, key);
         intent.setClass(context, PaymentWayActivity.class);
         context.startActivity(intent);
     }
@@ -1040,14 +1037,14 @@ public class ActivityManager {
     /**
      * 充值
      */
-    public synchronized static void startTopUpActivity(Context context, int entry,int position) {
+    public synchronized static void startTopUpActivity(Context context, int entry, int position) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
         }
         Intent intent = new Intent();
         intent.putExtra("entry", entry);
-        intent.putExtra("position",position);
+        intent.putExtra("position", position);
         intent.setClass(context, TopUpActivity.class);
         context.startActivity(intent);
     }
@@ -1056,13 +1053,13 @@ public class ActivityManager {
     /**
      * 魔豆/魔币账单
      */
-    public synchronized static void startMyWalletBillActivity(Context context,int mode) {
+    public synchronized static void startMyWalletBillActivity(Context context, int mode) {
         if (!PreferencesHepler.getInstance().isLogin()) {
             ToastHelper.s("请先登录");
             return;
         }
         Intent intent = new Intent();
-        intent.putExtra("mode",mode);
+        intent.putExtra("mode", mode);
         intent.setClass(context, MyBillDetailActivity.class);
         context.startActivity(intent);
     }
@@ -1426,11 +1423,11 @@ public class ActivityManager {
     /**
      * 广场
      */
-    public synchronized static void startSquareActivity(Context context,String gameId) {
+    public synchronized static void startSquareActivity(Context context, String gameId) {
         Intent intent = new Intent();
         intent.setClass(context, SquareActivity.class);
-        if (gameId != null){
-            intent.putExtra("game_id",gameId);
+        if (gameId != null) {
+            intent.putExtra("game_id", gameId);
         }
         context.startActivity(intent);
     }
@@ -1482,7 +1479,7 @@ public class ActivityManager {
 
         Intent intent = new Intent();
         intent.setClass(context, SquareGameChoiceActivity.class);
-        intent.putExtra("game",entity);
+        intent.putExtra("game", entity);
         context.startActivity(intent);
     }
 
@@ -1490,11 +1487,11 @@ public class ActivityManager {
     /**
      * 礼物流水
      */
-    public static void startMyGiftBillActivity(Context context,String userId) {
+    public static void startMyGiftBillActivity(Context context, String userId) {
 
         Intent intent = new Intent();
         intent.setClass(context, MyGiftActivity.class);
-        intent.putExtra("user_id",userId);
+        intent.putExtra("user_id", userId);
         context.startActivity(intent);
     }
 
@@ -1502,13 +1499,13 @@ public class ActivityManager {
     /**
      * 教练详情
      */
-    public static void startCoachDetailActivity(Context context,String memberId,String nickName,String avatar) {
+    public static void startCoachDetailActivity(Context context, String memberId, String nickName, String avatar) {
 
         Intent intent = new Intent();
         intent.setClass(context, CoachDetailActivity.class);
-        intent.putExtra("member_id",memberId);
-        intent.putExtra("nick_name",nickName);
-        intent.putExtra("avatar",avatar);
+        intent.putExtra("member_id", memberId);
+        intent.putExtra("nick_name", nickName);
+        intent.putExtra("avatar", avatar);
         context.startActivity(intent);
     }
 
@@ -1516,14 +1513,14 @@ public class ActivityManager {
      * 生成陪玩订单
      */
     @Deprecated
-    public static void startCreatePlayWithOrderActivity(Context context,String memberId,String nickName,String avatar,String QQ) {
+    public static void startCreatePlayWithOrderActivity(Context context, String memberId, String nickName, String avatar, String QQ) {
 
         Intent intent = new Intent();
         intent.setClass(context, CreatePlayWithOrderActivity.class);
-        intent.putExtra("coach_id",memberId);
-        intent.putExtra("nick_name",nickName);
-        intent.putExtra("avatar",avatar);
-        intent.putExtra("qq",QQ);
+        intent.putExtra("coach_id", memberId);
+        intent.putExtra("nick_name", nickName);
+        intent.putExtra("avatar", avatar);
+        intent.putExtra("qq", QQ);
         context.startActivity(intent);
     }
 
@@ -1531,25 +1528,25 @@ public class ActivityManager {
     /**
      * 生成陪玩订单(抢单模式)
      */
-    public static void startCreatePlayWithOrderActivity(Context context,int mode,String memberId,String nickName,String avatar,String QQ) {
+    public static void startCreatePlayWithOrderActivity(Context context, int mode, String memberId, String nickName, String avatar, String QQ) {
         Intent intent = new Intent();
         intent.setClass(context, CreatePlayWithOrderActivity.class);
-        intent.putExtra("order_mode",mode);
+        intent.putExtra("order_mode", mode);
 
-        if (!StringUtil.isNull(memberId)){
-            intent.putExtra("coach_id",memberId);
+        if (!StringUtil.isNull(memberId)) {
+            intent.putExtra("coach_id", memberId);
         }
 
-        if (!StringUtil.isNull(nickName)){
-            intent.putExtra("nick_name",nickName);
+        if (!StringUtil.isNull(nickName)) {
+            intent.putExtra("nick_name", nickName);
         }
 
-        if (!StringUtil.isNull(avatar)){
-            intent.putExtra("avatar",avatar);
+        if (!StringUtil.isNull(avatar)) {
+            intent.putExtra("avatar", avatar);
         }
 
-        if (!StringUtil.isNull(QQ)){
-            intent.putExtra("qq",QQ);
+        if (!StringUtil.isNull(QQ)) {
+            intent.putExtra("qq", QQ);
         }
 
         context.startActivity(intent);
@@ -1559,37 +1556,37 @@ public class ActivityManager {
     /**
      * 陪玩订单与赛事
      */
-    public static void startPlayWithOrderAndMatchActivity(Context context,int position,int orderPosition){
+    public static void startPlayWithOrderAndMatchActivity(Context context, int position, int orderPosition) {
         Intent intent = new Intent();
         intent.setClass(context, PlayWithAndMatchActivity.class);
-        intent.putExtra("position",position);
-        intent.putExtra("order_position",orderPosition);
+        intent.putExtra("position", position);
+        intent.putExtra("order_position", orderPosition);
         context.startActivity(intent);
     }
 
     /**
      * 陪玩订单详情
      */
-    public static void startPlayWithOrderDetailActivity(Context context,String orderId,int role,boolean isShowCoach){
+    public static void startPlayWithOrderDetailActivity(Context context, String orderId, int role, boolean isShowCoach) {
         Intent intent = new Intent();
         intent.setClass(context, PlayWithOrderDetailActivity.class);
-        intent.putExtra("order_id",orderId);
-        intent.putExtra("role",role);
-        intent.putExtra("is_show_coach",isShowCoach);
+        intent.putExtra("order_id", orderId);
+        intent.putExtra("role", role);
+        intent.putExtra("is_show_coach", isShowCoach);
         context.startActivity(intent);
     }
 
     /**
      * 陪玩订单评价
      */
-    public static void startPlayWithOrderCommentActivity(Context context,String coachId,String nickName,String avatar,String score,String orderId){
+    public static void startPlayWithOrderCommentActivity(Context context, String coachId, String nickName, String avatar, String score, String orderId) {
         Intent intent = new Intent();
         intent.setClass(context, CommentPlayWithOrderActivity.class);
-        intent.putExtra("coach_id",coachId);
-        intent.putExtra("nick_name",nickName);
-        intent.putExtra("avatar",avatar);
-        intent.putExtra("score",score);
-        intent.putExtra("order_id",orderId);
+        intent.putExtra("coach_id", coachId);
+        intent.putExtra("nick_name", nickName);
+        intent.putExtra("avatar", avatar);
+        intent.putExtra("score", score);
+        intent.putExtra("order_id", orderId);
         context.startActivity(intent);
     }
 
@@ -1597,14 +1594,14 @@ public class ActivityManager {
      * 确认完成订单
      */
 
-    public static void startConfirmOrderDoneActivity(Context context,String nickName,String avatar,String orderId,String count,String orderCount){
+    public static void startConfirmOrderDoneActivity(Context context, String nickName, String avatar, String orderId, String count, String orderCount) {
         Intent intent = new Intent();
         intent.setClass(context, ConfirmOrderDoneActivity.class);
-        intent.putExtra("order_id",orderId);
-        intent.putExtra("nick_name",nickName);
-        intent.putExtra("avatar",avatar);
-        intent.putExtra("count",count);
-        intent.putExtra("order_count",orderCount);
+        intent.putExtra("order_id", orderId);
+        intent.putExtra("nick_name", nickName);
+        intent.putExtra("avatar", avatar);
+        intent.putExtra("count", count);
+        intent.putExtra("order_count", orderCount);
         context.startActivity(intent);
     }
 
@@ -1612,11 +1609,11 @@ public class ActivityManager {
      * 退款申请
      */
 
-    public static void startRefundApplyActivity(Context context,PlayWithOrderDetailEntity entity,String orderId){
+    public static void startRefundApplyActivity(Context context, PlayWithOrderDetailEntity entity, String orderId) {
         Intent intent = new Intent();
         intent.setClass(context, RefundApplyActivity.class);
-        intent.putExtra("order_detail",entity);
-        intent.putExtra("order_id",orderId);
+        intent.putExtra("order_detail", entity);
+        intent.putExtra("order_id", orderId);
         context.startActivity(intent);
     }
 
@@ -1624,7 +1621,7 @@ public class ActivityManager {
     /**
      * 阿里百川反馈页面
      */
-    public static void startFeedbackActivity(Context context){
+    public static void startFeedbackActivity(Context context) {
         Intent intent = new Intent(context, FeedbackActivity.class);
         context.startActivity(intent);
     }
@@ -1632,7 +1629,7 @@ public class ActivityManager {
     /**
      * 打赏榜
      */
-    public static void startRewardRankActivity(Context context){
+    public static void startRewardRankActivity(Context context) {
         Intent intent = new Intent(context, RewardRankActivity.class);
         context.startActivity(intent);
     }
@@ -1640,7 +1637,7 @@ public class ActivityManager {
     /**
      * 编辑陪练信息
      */
-    public static void startCoachInfoEditActivity(Context context){
+    public static void startCoachInfoEditActivity(Context context) {
         Intent intent = new Intent(context, CoachInfoEditActivity.class);
         context.startActivity(intent);
     }
@@ -1648,11 +1645,10 @@ public class ActivityManager {
     /**
      * 陪练全部评价
      */
-    public static void startCoachAllCommentActivity(Context context,String coachId){
+    public static void startCoachAllCommentActivity(Context context, String coachId) {
         Intent intent = new Intent(context, CoachCommentDetailsActivity.class);
-        intent.putExtra("coach_id",coachId);
+        intent.putExtra("coach_id", coachId);
         context.startActivity(intent);
     }
-
 
 }

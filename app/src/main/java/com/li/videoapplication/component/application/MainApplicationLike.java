@@ -10,6 +10,7 @@ import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
+import com.bumptech.glide.Glide;
 import com.happly.link.util.LogCat;
 import com.ifeimo.im.framwork.IMSdk;
 import com.ifeimo.screenrecordlib.RecordingManager;
@@ -35,6 +36,8 @@ import org.xutils.x;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+
+import static android.content.ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN;
 
 /**
  * 应用:主应用程序
@@ -147,11 +150,16 @@ public class MainApplicationLike extends DefaultApplicationLike {
             e.printStackTrace();
         }
         super.onLowMemory();
+        Glide.get(getApplication()).clearMemory();
     }
 
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
+        if (level == TRIM_MEMORY_UI_HIDDEN) {
+            Glide.get(getApplication()).clearMemory();
+        }
+        Glide.get(getApplication()).trimMemory(level);
     }
 
 

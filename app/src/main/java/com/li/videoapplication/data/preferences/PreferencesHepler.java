@@ -1,5 +1,6 @@
 package com.li.videoapplication.data.preferences;
 
+import android.support.v4.util.LruCache;
 import android.util.Log;
 
 import com.fmsysj.screeclibinvoke.data.ConstantsPreferences;
@@ -11,6 +12,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Advertisement;
+import com.li.videoapplication.data.model.entity.HomeColumnEntity;
 import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.Associate;
@@ -484,6 +486,10 @@ public class PreferencesHepler {
         NormalPreferences.getInstance().putString(Constants.HOME,entity.toJSON());
     }
 
+    public void saveHomeColumnEntity(HomeColumnEntity entity){
+        NormalPreferences.getInstance().putString(Constants.HOME_COLUMN,entity.toJSON());
+    }
+
     /**
      * 获取首页 将保存的第一页json 转为entity;
      */
@@ -510,6 +516,19 @@ public class PreferencesHepler {
         try {
             if (!StringUtil.isNull(json)){
                 entity = gson.fromJson(json, HomeModuleEntity.class);
+            }
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        return  entity;
+    }
+
+    public HomeColumnEntity getHomeColumnEntity() {
+        String json = NormalPreferences.getInstance().getString(Constants.HOME_COLUMN);
+        HomeColumnEntity entity = null;
+        try {
+            if (!StringUtil.isNull(json)){
+                entity = gson.fromJson(json, HomeColumnEntity.class);
             }
         } catch (JsonSyntaxException e) {
             e.printStackTrace();

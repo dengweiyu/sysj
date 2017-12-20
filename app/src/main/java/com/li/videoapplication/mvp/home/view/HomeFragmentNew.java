@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.LruCache;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -54,7 +55,8 @@ import retrofit2.Response;
  */
 
 public class HomeFragmentNew extends TBaseFragment {
-    private static final int PAGE_LIMIT = 2;
+    public static LruCache<String, HomeModuleEntity> lruCache = new LruCache<>(40);
+    private static final int PAGE_LIMIT = 1;
     private boolean otherGameFlag = false; //判断是否有其它游戏分栏。决定选择游戏后返回刷新的封拆逻辑
 
     private ViewPagerY4 mViewPager;
@@ -131,6 +133,7 @@ public class HomeFragmentNew extends TBaseFragment {
 
         @Override
         public void onNext(HomeColumnEntity entity) {
+            PreferencesHepler.getInstance().saveHomeColumnEntity(entity);
             NetUtil.checkNCallBackData(entity);
             //拿到数据装入bean ，根据分栏ID初始化加载fragment,初始化VP和指示器
             Log.w(tag, entity.toString());
@@ -210,7 +213,7 @@ public class HomeFragmentNew extends TBaseFragment {
                 }
                 if (j == oldColumnIds.size() - 1) {
                     mFragments.add(HomeLazyColumnFragment3.newInstance(mColumnIdList.get(i), false, 1000, true));
-                    Log.d(tag, "mFragments的id是 : " + mColumnIdList.get(i) + "->" + mColumnList.get(i)  + "->" + oldFragments.get(j).getColumnId());
+                    Log.d(tag, "mFragments的id是 : " + mColumnIdList.get(i) + "->" + mColumnList.get(i) + "->" + oldFragments.get(j).getColumnId());
                 }
 
             }
@@ -227,34 +230,43 @@ public class HomeFragmentNew extends TBaseFragment {
         mViewPager.setOffscreenPageLimit(PAGE_LIMIT);
         mViewPager.setAdapter(mHomeViewPagerAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            private boolean instant = false;
+            private int oldPosition = 0;
+            private int bPosition;
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+//                if (instant && positionOffset == 0.f && position == oldPosition) {
+//                    instant = false;
+//                    Log.w("PageScrolled", "执行替换");
+//                    boolean isNotify = false;
+//                    if (position - 1 > 0) {
+//                        mFragments.set(position - 1, HomeLazyColumnFragment3.newInstance(mColumnIdList.get(position - 1), false, 1000, false));
+//                        isNotify = true;
+//                    }
+//                    if (position + 2 < mFragments.size()) {
+//                        mFragments.set(position + 2, HomeLazyColumnFragment3.newInstance(mColumnIdList.get(position + 2), false, 1000, false));
+//                        isNotify = true;
+//                    }
+//                    if (isNotify) {
+////                        commonNavigatorAdapter.notifyDataSetChanged();
+////                        mHomeViewPagerAdapter.notifyDataSetChanged();
+//                    }
+//                }
             }
 
             @Override
             public void onPageSelected(int position) {
-//                Log.i(tag, "当前的fragment是：" + position + "，columnId是：" + mFragments.get(position).getColumnId());
-//                boolean isNotify = false;
-//                if (position - 1 > 0) {
-//                    String leftColumnId = mFragments.get(position - 2).getColumnId();
-//                    if (leftColumnId != null) {
-//                        mFragments.set(position - 2, HomeLazyColumnFragment3.newInstance(leftColumnId, false, 1000, true));
-//                        isNotify = true;
-//                    }
+
+                bPosition = position - oldPosition;
+                mFragments.set(oldPosition, HomeLazyColumnFragment3.newInstance(mColumnIdList.get(oldPosition), false, 1000, false));
+//                if (bPosition >= 2) {
+//                    mFragments.set(oldPosition, HomeLazyColumnFragment3.newInstance(mColumnIdList.get(oldPosition), false, 1000, false));
+//                } else {
+//                    instant = true;
 //                }
-//                if (position + 1 < mFragments.size()) {
-//                    String rightColumnId = mFragments.get(position + 2).getColumnId();
-//                    if (rightColumnId != null) {
-//                        mFragments.set(position + 2, HomeLazyColumnFragment3.newInstance(rightColumnId, false, 1000, true));
-//
-//                        isNotify = true;
-//                    }
-//                }
-//                if (isNotify) {
-//                    commonNavigatorAdapter.notifyDataSetChanged();
-//                    mHomeViewPagerAdapter.notifyDataSetChanged();
-//                }
+                oldPosition = position;
             }
 
             @Override

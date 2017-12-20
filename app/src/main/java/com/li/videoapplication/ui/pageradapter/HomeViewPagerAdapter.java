@@ -28,7 +28,7 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public HomeLazyColumnFragment3 getItem(int position) {
         return  fragments.get(position);
     }
 
@@ -48,8 +48,8 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public void finishUpdate(ViewGroup container) {
-        super.finishUpdate(container);
+    public Object instantiateItem(ViewGroup container, int position) {
+        return super.instantiateItem(container, position);
     }
 
     @Override

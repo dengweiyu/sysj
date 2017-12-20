@@ -493,6 +493,9 @@ public class RequestUrl {
     public final String groupDataList() {
         return BaseSYSJ + "/sysj201/group/groupDataList";
     }
+    public final String groupDataList226() {
+        return BaseSYSJ + "/Sysj226/Group/groupListData";
+    }
 
     /**
      * 圈子视频列表（最热）

@@ -181,11 +181,13 @@ public class GroupdetailVideoFragment extends TBaseFragment
             if (getTab() == GROUPDETAILVIDEO_NEW) {
                 Log.d(tag, "~~~~~~~~~ loadHomeData: NEW ~~~~~~~~~");
                 // 圈子视频列表（最新）
-                DataManager.groupDataList(activity.group_id, getMember_id(), page);
+//                DataManager.groupDataList(activity.group_id, getMember_id(), page);
+                DataManager.groupDataList226(activity.group_id, getMember_id(), page, "newest");
             } else if (getTab() == GROUPDETAILVIDEO_HOT) {
                 Log.d(tag, "~~~~~~~~~ loadHomeData: HOT ~~~~~~~~~");
                 // 圈子视频列表（最热）
-                DataManager.groupHotDataList(activity.group_id, getMember_id(), page);
+//                DataManager.groupHotDataList(activity.group_id, getMember_id(), page);
+                DataManager.groupDataList226(activity.group_id, getMember_id(), page, "hosttest");
             }
         }
     }

@@ -2163,6 +2163,21 @@ public class DataManager {
         helper.doNetwork(request);
     }
 
+    public static void groupDataList226(String group_id, String member_id, int page, String mark) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().groupDataList226();
+        Map<String, Object> params = RequestParams.getInstance().groupDataList226(group_id, member_id, page, mark);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        if (mark.equals("newest")) {
+            request.setEntity(new GroupNewDataListEntity());
+        } else if (mark.equals("hosttest")){
+            request.setEntity(new GroupHotDataListEntity());
+        }
+        helper.doNetwork(request);
+    }
+
     /**
      * 功能：圈子视频列表（最热）
      */
@@ -3187,6 +3202,7 @@ public class DataManager {
         HomeModuleEntity entity =new HomeModuleEntity();
         Map<String,Object> extra = new HashMap<>();
         extra.put("column_id",columnId);
+        extra.put("cache", "0");
         entity.setExtra(extra);
         request.setEntity(entity);
         helper.doService(request);

@@ -27,7 +27,8 @@
                 android:scaleX="0.7"
                 android:scaleY="0.7"
                 android:id="@+id/iv_add_game"
-                android:src="@drawable/home_add_new"/>
+                android:src="@drawable/ic_home_add_new"/>
+
         </LinearLayout>
 
 
