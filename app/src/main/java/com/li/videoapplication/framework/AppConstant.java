@@ -122,12 +122,13 @@ public class AppConstant {
 	 */
 	public static final String getIconConfigQn(){
 		return "http://config.ifeimo.com/conf.json";
+	//	return "http://192.168.48.9:233/Public/Config/conf.json";
 	}
 
 	/**
 	 * 首页底部按钮图片配置文件 自有服务器
 	 * @return
-	 */
+	 **/
 	public static final String getIconConfigFm(){
 		return "http://apps.ifeimo.com/Public/Config/conf.json";
 	}

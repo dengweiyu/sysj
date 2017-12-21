@@ -3142,4 +3142,31 @@ public class DataManager {
         request.setEntity(new CommitFocusGameListEntity());
         helper.doNetwork(request);
     }
+
+
+    /**
+     * 选择关注游戏  列表
+     */
+    public static void getHybridGroupDetail(String groupId,String memberId,String version){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().groupDetailHybrid();
+
+        Map<String, Object> params = RequestParams.getInstance().groupHybridDetail(groupId,memberId,version);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new GroupHybridDetailEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 获取需要混合页面显示的圈子
+     */
+    public static void getHybridGroupList(String version){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().groupHybridList();
+
+        Map<String, Object> params = RequestParams.getInstance().groupHybridList(version);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        request.setEntity(new HybridGroupListEntity());
+        helper.doNetwork(request);
+    }
 }

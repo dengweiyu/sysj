@@ -9,6 +9,7 @@ import android.webkit.JavascriptInterface;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.FGame;
+import com.li.videoapplication.data.model.event.RefreshCommentPagerEvent;
 import com.li.videoapplication.data.model.response.GameDetailEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppAccount;
@@ -24,7 +25,10 @@ import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.MyWalletActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
+import com.li.videoapplication.ui.activity.WebActivityJS;
 import com.li.videoapplication.utils.StringUtil;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * App端和JS交互接口
@@ -84,6 +88,20 @@ public class JSInterface {
         if (!StringUtil.isNull(game_id)) {
             // 游戏详情
             DataManager.gameDetail(game_id);
+        }
+    }
+
+    @JavascriptInterface
+    public void applyCall(int type){
+        //游戏圈 HTML详情页finish事件
+        AppManager.getInstance().removeActivity(WebActivityJS.class);
+        switch (type){
+            case 1:
+                //需要同时刷新其他页面
+                EventBus.getDefault().post(new RefreshCommentPagerEvent());
+                break;
+            case 2:
+                break;
         }
     }
 

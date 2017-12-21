@@ -316,7 +316,7 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
                 finish();
                 break;
             case R.id.tb_topup_record:                      //价格
-                WebActivityJS.startWebActivityJS(CoachDetailActivity.this,"https://sapp.17sysj.com/Sysj222/Coach/price","价格","");
+                WebActivityJS.startWebActivityJS(CoachDetailActivity.this,"https://sapp.17sysj.com/Sysj222/Coach/price","价格","",true);
                 break;
             case R.id.tv_chat_with_coach:                   //私聊
                 chatWith();

@@ -1443,4 +1443,19 @@ public class RequestUrl {
     public final String commitFocusGameList(){
         return BaseSYSJ+"/Sysj225/Group/batchFollow";
     }
+
+
+    /**
+     * 混合页面圈子详情
+     */
+    public final String groupDetailHybrid(){
+        return BaseSYSJ+"/sysj228/GameGroup/getGameGroupController";
+    }
+
+    /**
+     * 需要混合页面的圈子
+     */
+    public final String groupHybridList(){
+        return BaseSYSJ+"/sysj228/GameGroup/getGameGroupEdition";
+    }
 }

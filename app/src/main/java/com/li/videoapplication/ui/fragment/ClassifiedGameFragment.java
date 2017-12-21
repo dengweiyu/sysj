@@ -14,6 +14,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.li.videoapplication.BuildConfig;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
@@ -23,6 +24,7 @@ import com.li.videoapplication.data.model.event.LogoutEvent;
 import com.li.videoapplication.data.model.response.GameListEntity;
 import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.model.response.GroupType2Entity;
+import com.li.videoapplication.data.model.response.HybridGroupListEntity;
 import com.li.videoapplication.data.network.RequestConstant;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.PullToRefreshActivity;
@@ -57,6 +59,8 @@ public class ClassifiedGameFragment extends TBaseFragment implements OnRefreshLi
     private List<GroupType> headerData;
     private View mTitleView;
     private TextView show;
+
+
 
     @Override
     protected int getCreateView() {
@@ -290,6 +294,6 @@ public class ClassifiedGameFragment extends TBaseFragment implements OnRefreshLi
         //关注发生改变 刷新列表
         page = 1;
         DataManager.gameList(page, getMember_id(), sort);
-
     }
+
 }

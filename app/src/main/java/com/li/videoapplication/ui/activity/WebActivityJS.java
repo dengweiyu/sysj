@@ -24,7 +24,11 @@ import com.li.videoapplication.data.js.JSInterface;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.IntentHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
@@ -39,12 +43,13 @@ public class WebActivityJS extends TBaseAppCompatActivity {
     private static final String TAG = WebActivityJS.class.getSimpleName();
 
     private String url, title, js;
+    private boolean showToolbar;
     private WebView webView;
 
     /**
      * 网页浏览
      */
-    public static void startWebActivityJS(Context context, String url, String title, String js) {
+    public static void startWebActivityJS(Context context, String url, String title, String js,boolean hideToolbar) {
         if (context == null) {
             return;
         }
@@ -58,6 +63,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         intent.putExtra("url", url);
         intent.putExtra("title", title);
         intent.putExtra("js", js);
+        intent.putExtra("show_toolbar",hideToolbar);
         intent.setClass(context, WebActivityJS.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
@@ -84,6 +90,13 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         }
         try {
             js = getIntent().getStringExtra("js");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            showToolbar = getIntent().getBooleanExtra("show_toolbar",true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -133,6 +146,12 @@ public class WebActivityJS extends TBaseAppCompatActivity {
 
         TextView tb_title = (TextView) findViewById(R.id.tb_title);
         setTextViewText(tb_title, title);
+
+        if (showToolbar){
+            findViewById(R.id.ab_toolbar).setVisibility(View.VISIBLE);
+        }else {
+            findViewById(R.id.ab_toolbar).setVisibility(View.GONE);
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -179,7 +198,16 @@ public class WebActivityJS extends TBaseAppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                requestNoTitle();
+                if (showToolbar){
+                    requestNoTitle();
+                }else {
+                    //
+                    if (StringUtil.isNull(view.getTitle())){
+                        findViewById(R.id.ab_toolbar).setVisibility(View.VISIBLE);
+                    }
+                }
+
+
                 UITask.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -203,6 +231,24 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
+
+                try {
+                    JSONObject object = new JSONObject(message);
+                    if (object != null){
+                        String msg = object.getString("msg");
+                        String status = object.getString("status");
+                        if ("110".equals(status)){
+                            ToastHelper.l(msg);
+                            result.confirm();
+                            return true;
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 return super.onJsAlert(view, url, message, result);
             }
 

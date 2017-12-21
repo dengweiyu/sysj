@@ -12,7 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
+import com.li.videoapplication.BuildConfig;
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.model.response.HybridGroupListEntity;
 import com.li.videoapplication.framework.TBaseChildFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.pageradapter.GamePagerAdapter;
@@ -31,6 +34,15 @@ public class GameFragment extends TBaseChildFragment {
 	private ViewPagerY1 mViewPager;
 	private GamePagerAdapter adapter;
 	private View mRootView;
+
+	private static HybridGroupListEntity mHybridGroupList;
+
+
+
+	public GameFragment(){
+
+	}
+
 	@Override
 	protected int getCreateView() {
 		return R.layout.fragment_game;
@@ -49,7 +61,8 @@ public class GameFragment extends TBaseChildFragment {
 	@Override
 	protected void initContentView(View view) {
 		mRootView = view;
-
+		//获取 需要显示为混合页面的圈子
+		DataManager.getHybridGroupList(BuildConfig.VERSION_NAME);
 	}
 	
 	protected void initTopMenu(View view) {
@@ -176,5 +189,26 @@ public class GameFragment extends TBaseChildFragment {
 				topLine.get(i).setImageResource(R.color.menu_game_transperent);
 			}
 		}
+	}
+
+
+
+	/**
+	 * 回调：关注圈子201
+	 */
+	public void onEventMainThread(HybridGroupListEntity entity) {
+		if (entity.isResult()){
+			mHybridGroupList = entity;
+		}
+	}
+
+
+
+	public static boolean isHybridPager(String id){
+		if (mHybridGroupList == null){
+			DataManager.getHybridGroupList(BuildConfig.VERSION_NAME);
+			return false;
+		}
+		return mHybridGroupList.isHybridPager(id);
 	}
 }

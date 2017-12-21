@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
+import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
@@ -81,7 +82,7 @@ public class GameDetailDialog extends BaseTopDialog implements View.OnClickListe
         UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "游戏圈-本地上传");
     }
 
-    public GameDetailDialog(Context context, Game game) {
+    public GameDetailDialog(Activity context, Game game) {
         super(context);
         this.game = game;
         try {
@@ -121,9 +122,11 @@ public class GameDetailDialog extends BaseTopDialog implements View.OnClickListe
                 break;
 
             case R.id.gamedetail_video://录屏
-                GroupDetailActivity activity = (GroupDetailActivity) AppManager.getInstance().getActivity(GroupDetailActivity.class);
-                if (activity != null && game != null)
-                    activity.startScreenRecordActivity();
+                if (activity != null && game != null){
+                    ScreenRecordActivity.startScreenRecordActivity(activity);
+                    activity. overridePendingTransition(R.anim.activity_slide_in_top, R.anim.activity_hold);
+                }
+
                 UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "游戏圈-录制一段视频");
                 break;
 
@@ -136,7 +139,7 @@ public class GameDetailDialog extends BaseTopDialog implements View.OnClickListe
                     if (game != null) {
                         int SDKVesion = AppUtil.getAndroidSDKVersion();
                         // FIXME: CameraGLView第565行，setPreviewSize（预览宽高有几个固定比例等级），
-                        // FIXME: 华为的垃圾机屏幕分辨率不是正常比例来的(因为有条垃圾返回键等底栏) 所以会抛异常。没空先不给华为进入先，看到的大神有空修一下
+                        // FIXME: 华为的垃圾机屏幕分辨不率是正常比例来的(因为有条垃圾返回键等底栏) 所以会抛异常。没空先不给华为进入先，看到的大神有空修一下
                         if (SDKVesion >= 21 && !RootUtil.getManufacturer().equals("HUAWEI")) {
                             startCameraRecoed50Activity();
                         } else {

@@ -191,6 +191,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar" />
+        <activity android:name=".ui.activity.GroupDetailHybridActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/MyTheme.NoActionBar" />
         <activity
             android:name="com.li.videoapplication.ui.activity.GroupGiftActivity"
             android:launchMode="singleTask"

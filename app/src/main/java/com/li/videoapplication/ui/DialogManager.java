@@ -366,7 +366,7 @@ public class DialogManager {
     /**
      * 游戏详情
      */
-    public static void showGameDetailDialog(Context context, Game game) {
+    public static void showGameDetailDialog(Activity context, Game game) {
         Dialog dialog = new GameDetailDialog(context, game);
         dialog.show();
     }

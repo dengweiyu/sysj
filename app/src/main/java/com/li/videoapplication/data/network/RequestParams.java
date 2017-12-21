@@ -1588,4 +1588,21 @@ public class RequestParams {
         map.put("group_ids",gameIds);
         return map;
     }
+
+
+    public Map<String, Object>  groupHybridDetail(String groupId,String memberId,String version) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("current_version",version);
+        map.put("group_id",groupId);
+        map.put("target",SYSJ);
+        return map;
+    }
+
+    public Map<String, Object>  groupHybridList(String version) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("current_version",version);
+        map.put("target",SYSJ);
+        return map;
+    }
 }

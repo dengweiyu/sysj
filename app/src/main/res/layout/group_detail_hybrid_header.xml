@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="10dp"
+              android:orientation="horizontal">
+
+    <com.li.videoapplication.views.CircleImageView
+        android:id="@+id/iv_group_detail_icon"
+        android:layout_width="52dp"
+        android:layout_height="52dp"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center|left"
+        android:layout_marginLeft="10dp">
+
+        <TextView
+            android:id="@+id/tv_group_detail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textcolor_gray"
+            android:text="绝地求生"
+            android:textSize="15sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_group_detail_video_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textcolor_gray"
+                android:text="视频：3.8万"
+                android:textSize="10sp"/>
+
+            <TextView
+                android:id="@+id/tv_group_detail_video_player"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/textcolor_gray"
+                android:text="玩家：2,890"
+                android:textSize="10sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="right|center_vertical">
+
+        <TextView
+            android:id="@+id/tv_open_game"
+            android:layout_width="54dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/white"
+            android:background="@drawable/mywallet_currencyrecord_red"
+            android:text="打开"/>
+
+
+        <LinearLayout
+            android:id="@+id/ll_follow_game"
+            android:layout_width="54dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:background="@drawable/hybrid_pager_follow"
+
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/iv_follow_icon"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/simple_group"/>
+                <TextView
+                    android:id="@+id/tv_follow_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:paddingTop="2dp"
+                    android:textColor="@color/white"
+                    android:paddingBottom="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:text="关注"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

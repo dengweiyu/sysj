@@ -96,7 +96,7 @@ public class MyWalletActivity extends TBaseAppCompatActivity implements View.OnC
         switch (v.getId()){
             case R.id.iv_tb_record:
                 //钱包说明
-                WebActivityJS.startWebActivityJS(this,"http://apps.ifeimo.com/Sysj221/WalletInstructions/index","我的钱包说明","");
+                WebActivityJS.startWebActivityJS(this,"http://apps.ifeimo.com/Sysj221/WalletInstructions/index","我的钱包说明","",true);
                 break;
             case R.id.tb_back:
                 finish();

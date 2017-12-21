@@ -103,7 +103,7 @@ public class MyBeansFragment extends TBaseFragment implements View.OnClickListen
                     ActivityManager.startMyWalletBillActivity(getActivity(),mMode);
                     break;
                 case R.id.tv_my_wallet_exchange:
-                    WebActivityJS.startWebActivityJS(getActivity(),"http://apps.ifeimo.com/Sysj221/WalletInstructions/withdrawal","提现","");
+                    WebActivityJS.startWebActivityJS(getActivity(),"http://apps.ifeimo.com/Sysj221/WalletInstructions/withdrawal","提现","",true);
                     break;
             }
         }

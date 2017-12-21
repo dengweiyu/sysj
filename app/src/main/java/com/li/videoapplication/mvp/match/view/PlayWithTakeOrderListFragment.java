@@ -160,7 +160,7 @@ public class PlayWithTakeOrderListFragment extends TBaseFragment implements View
                 break;
             case R.id.ll_order_list_empty:
                 //打开web页
-                WebActivityJS.startWebActivityJS(getContext(),"https://sapp.17sysj.com/Sysj222/Coach/apply","申请成为陪练","");
+                WebActivityJS.startWebActivityJS(getContext(),"https://sapp.17sysj.com/Sysj222/Coach/apply","申请成为陪练","",true);
                 break;
         }
     }

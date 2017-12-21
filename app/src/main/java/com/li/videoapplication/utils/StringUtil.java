@@ -35,6 +35,8 @@ public class StringUtil {
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
         }
         return "0";
     }

@@ -141,7 +141,7 @@ public class MallActivity extends TBaseActivity implements OnClickListener, OnGr
                 startExchangeRecordActivity();
                 break;
             case R.id.ab_question:
-                WebActivityJS.startWebActivityJS(this, Constant.WEB_WALLET, "视界商城说明", null);
+                WebActivityJS.startWebActivityJS(this, Constant.WEB_WALLET, "视界商城说明", null,true);
                 break;
             case R.id.mall_login:
                 DialogManager.showLogInDialog(this);

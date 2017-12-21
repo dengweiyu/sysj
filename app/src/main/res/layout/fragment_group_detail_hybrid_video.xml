@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_square_tab_second"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@color/ab_backdround_white">
+        <TextView
+            android:id="@+id/tv_title_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            android:background="@drawable/square_selected_title"
+            android:text="最新"/>
+
+        <TextView
+            android:id="@+id/tv_title_hot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textColor="#5e5e5e"
+            android:textSize="13sp"
+            android:text="最热"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/activity_main_bg"></View>
+
+    <com.li.videoapplication.views.ViewPagerY5
+        android:id="@+id/vp_group_detail_video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.li.videoapplication.views.ViewPagerY5>
+</LinearLayout>

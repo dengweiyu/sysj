@@ -56,6 +56,7 @@ import com.li.videoapplication.ui.activity.FeedbackActivity;
 import com.li.videoapplication.ui.activity.GiftDetailActivity;
 import com.li.videoapplication.ui.activity.GiftListActivity;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
+import com.li.videoapplication.ui.activity.GroupDetailHybridActivity;
 import com.li.videoapplication.ui.activity.GroupGiftActivity;
 import com.li.videoapplication.ui.activity.GroupListActivity;
 import com.li.videoapplication.mvp.match.view.GroupMatchListActivity;
@@ -110,6 +111,8 @@ import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.ui.activity.VideoUploadActivity;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.ui.fragment.ClassifiedGameFragment;
+import com.li.videoapplication.ui.fragment.GameFragment;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 
@@ -605,10 +608,16 @@ public class ActivityManager {
     public synchronized static void startGroupDetailActivity(Context context, String group_id) {
 
         Intent intent = new Intent();
-        intent.setClass(context, GroupDetailActivity.class);
+        if (GameFragment.isHybridPager(group_id)){
+            intent.setClass(context, GroupDetailHybridActivity.class);
+        }else {
+            intent.setClass(context, GroupDetailActivity.class);
+        }
+
         intent.putExtra("group_id", group_id);
         context.startActivity(intent);
     }
+
 
     /**
      * 圈子详情
@@ -616,7 +625,13 @@ public class ActivityManager {
     public synchronized static void startGroupDetailActivityNewTask(Context context, String group_id) {
 
         Intent intent = new Intent();
-        intent.setClass(context, GroupDetailActivity.class);
+
+        if (GameFragment.isHybridPager(group_id)){
+            intent.setClass(context, GroupDetailHybridActivity.class);
+        }else {
+            intent.setClass(context, GroupDetailActivity.class);
+        }
+
         intent.putExtra("group_id", group_id);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
