@@ -61,6 +61,11 @@ public class GiftRankAdapter extends BaseQuickAdapter<VideoPlayGiftEntity.DataBe
                 .setText(R.id.tv_play_currency,StringUtil.formatNum(includesBean.getCoin_sum()+""))
                 .setText(R.id.tv_play_beans,StringUtil.formatNum(includesBean.getCurrency_sum()));
 
+        if (includesBean.getCoin_sum() < 1){
+            holder.setText(R.id.tv_play_currency,includesBean.getCoin_sum()+"");
+        }
+
+
         View root  = holder.getView(R.id.ll_rank_root);
         if (!StringUtil.isNull(mMemberId)){
 

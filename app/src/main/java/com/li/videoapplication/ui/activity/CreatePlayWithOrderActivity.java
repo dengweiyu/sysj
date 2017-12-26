@@ -232,6 +232,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         mServerNameList = (RecyclerView)findViewById(R.id.rv_server_name_list);
         mModeNameList = (RecyclerView)findViewById(R.id.rv_mode_name_list);
 
+
         mServerNameList.setLayoutManager(new GridLayoutManager(this,2));
         mModeNameList.setLayoutManager(new GridLayoutManager(this,2));
 

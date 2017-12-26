@@ -464,14 +464,14 @@ public class RequestUrl {
      * 圈子视频列表（最新）
      */
     public final String groupDataList() {
-        return BaseSYSJ + "/sysj201/group/groupDataList";
+        return BaseSYSJ + "/Sysj226/Group/groupListData";
     }
 
     /**
      * 圈子视频列表（最热）
      */
     public final String groupHotDataList() {
-        return BaseSYSJ + "/sysj201/group/groupHotDataList";
+        return BaseSYSJ + "/Sysj226/Group/groupListData";
     }
 
 
@@ -516,7 +516,7 @@ public class RequestUrl {
      * 视频详情201
      */
     public final String videoDetail201() {
-        return BaseSYSJ + "/sysj201/video/detail";
+        return BaseSYSJ + "/sysj226/video/getVideoDetail";
     }
 
 

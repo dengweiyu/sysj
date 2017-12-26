@@ -253,8 +253,6 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
 
                 if (videoPlayView != null){
                     videoPlayView.addOnPreparedListener(mGiftTimeLineFragment,500);
-
-
                 }
             }
         },1000);
@@ -1315,19 +1313,17 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         if (videoImage != null) {
             yk_url = videoImage.getYk_url();
             youku_url = AppConstant.getYoukuUrl(yk_url);
-            qn_key = videoImage.getQn_key();
-            qn_url = AppConstant.getQnUrl(qn_key);
+
             Log.d(tag, "yk_url=" + yk_url);
             Log.d(tag, "youku_url=" + youku_url);
-            Log.d(tag, "qn_key=" + qn_key);
-            Log.d(tag, "qn_url=" + qn_url);
+
 
             videoPlayView.setVideoImage(videoImage);
             if (videoImage.getIspass() != null && videoImage.getIspass().equals("0")){
                 videoPlayView.switchPlay(VideoPlayView.STATE_UNVETIFY);
                 return;
             }
-            if (!StringUtil.isNull(qn_key) && URLUtil.isURL(qn_url)) {
+            if (!StringUtil.isNull(videoImage.getVideoUrl())) {
                 if (NetUtil.isWIFI()) {
                     videoPlayView.switchPlay(VideoPlayView.STATE_VIDEOPLAY);
                 } else {

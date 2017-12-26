@@ -14,7 +14,7 @@
         android:textSize="14sp"
         android:gravity="center"
         android:visibility="gone"
-        android:textColor="#5e5e5e"
+        android:textColor="@color/ab_backdround_red"
         android:text="本周首单，免费第二单半价。"/>
 
 <android.support.v4.widget.SwipeRefreshLayout
@@ -33,20 +33,55 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/v_divider_bottom"></android.support.v7.widget.RecyclerView>
 
+
+        <LinearLayout
+            android:id="@+id/ll_top_plus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_choice_game"
+                android:background="@drawable/create_order_shortcut"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginRight="4dp"
+                android:visibility="gone"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/tv_game_name"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/textcolor_french_gray"
+                    android:text="荒野行动"/>
+                <ImageView
+                    android:id="@+id/tv_choice_game"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:padding="6dp"
+                    android:rotation="90"
+                    android:src="@drawable/order_arrow_right_red"/>
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/tv_create_order_shortcut"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_margin="10dp"
-                android:padding="10dp"
+                android:layout_weight="1"
                 android:textSize="16sp"
-
+                android:padding="10dp"
                 android:gravity="center"
+                android:layout_marginLeft="4dp"
                 android:background="@drawable/create_order_shortcut"
-                android:textColor="@color/white"
+                android:textColor="@color/ab_backdround_white"
                 android:text="系统匹配陪练"/>
-
+        </LinearLayout>
 
     </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

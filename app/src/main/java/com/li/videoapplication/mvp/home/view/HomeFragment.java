@@ -58,7 +58,9 @@ import com.meituan.android.walle.WalleChannelReader;
 import com.qq.e.ads.nativ.NativeADDataRef;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 
 import butterknife.BindView;
@@ -358,8 +360,15 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
 
     private String getVideoIdsRandom(List<String> videoIds) throws Exception {
         List<String> list = new ArrayList<String>();
+        //避免重复
+        Map<String,String> map = new HashMap<>();
         for (int i = 0; i < 4; i++) {
             int index = RandomUtil.getRandom(0, videoIds.size() - 1);
+            if (map.containsKey(videoIds.get(index))){
+                i--;
+                continue;
+            }
+            map.put(videoIds.get(index),videoIds.get(index));
             list.add(videoIds.get(index));
         }
         return ArrayHelper.list2Array(list);
@@ -624,12 +633,13 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
      *                  点击换一换后的猜你喜欢数据如加载不到广告则将新数据更新上
      */
     private void replaseGDT(List<VideoImage> guessList, final int location) {
-        if (isInterceptAD()){
-            return;
-        }
 
         newGuessList.clear();
         newGuessList.addAll(guessList);
+        if (isInterceptAD()){
+            homeAdapter.changeGuessVideo(newGuessList);
+            return;
+        }
         GDTUtil.nativeAD(getActivity(), GDTUtil.POS_ID_GUESSYOURLIKE, new GDTUtil.GDTonLoaded() {
 
             @Override
@@ -647,6 +657,7 @@ public class HomeFragment extends TBaseFragment implements IHomeView,
                     ad.setTitle(adItem.getDesc());
                     //替换广告
                     replaceGuessVideo2AD(newGuessList, ad);
+
                 }
             }
 

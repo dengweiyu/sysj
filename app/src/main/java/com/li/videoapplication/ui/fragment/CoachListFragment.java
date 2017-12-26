@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import com.li.videoapplication.data.model.response.CoachListEntity;
 import com.li.videoapplication.data.model.response.CoachStatusEntity;
 import com.li.videoapplication.data.model.response.ConfirmOrderEntity;
 import com.li.videoapplication.data.network.RequestUrl;
+import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -277,7 +279,7 @@ public class CoachListFragment extends TBaseFragment implements
         if (entity != null && entity.isResult() && entity.getData() != null){
             refreshData(entity.getData().getInclude());
 
-            RelativeLayout.LayoutParams params =   (RelativeLayout.LayoutParams) mShortcut.getLayoutParams();
+            LinearLayout.LayoutParams params =   (LinearLayout.LayoutParams) mShortcut.getLayoutParams();
             int offset = ScreenUtil.dp2px(10);
 
             if (entity.getData().getPage_count() > mPage){

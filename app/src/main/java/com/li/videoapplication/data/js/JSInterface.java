@@ -10,6 +10,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.FGame;
 import com.li.videoapplication.data.model.event.RefreshCommentPagerEvent;
+import com.li.videoapplication.data.model.event.ReleaseScrollEvent;
 import com.li.videoapplication.data.model.response.GameDetailEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppAccount;
@@ -103,6 +104,12 @@ public class JSInterface {
             case 2:
                 break;
         }
+    }
+
+    @JavascriptInterface
+    public void applyRoll(){
+        //不拦截滚动事件
+        EventBus.getDefault().post(new ReleaseScrollEvent());
     }
 
     /**

@@ -2125,7 +2125,7 @@ public class DataManager {
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().groupDataList();
         Map<String, Object> params = RequestParams.getInstance().groupDataList(group_id, member_id, page);
-
+        params.put("mark","newest");
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new GroupNewDataListEntity());
         helper.doNetwork(request);
@@ -2139,7 +2139,7 @@ public class DataManager {
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().groupHotDataList();
         Map<String, Object> params = RequestParams.getInstance().groupHotDataList(group_id, member_id, page);
-
+        params.put("mark","hosttest");
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new GroupHotDataListEntity());
         helper.doNetwork(request);

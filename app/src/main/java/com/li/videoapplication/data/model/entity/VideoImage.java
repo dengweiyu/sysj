@@ -53,8 +53,16 @@ public class VideoImage extends BaseEntity {
 	private String rewardCount;
 	private String buttonText;
 	private int jumpStatus;
-
+	private String videoUrl;
 	private String isRecommend;
+
+	public String getVideoUrl() {
+		return videoUrl;
+	}
+
+	public void setVideoUrl(String videoUrl) {
+		this.videoUrl = videoUrl;
+	}
 
 	public String getRewardCount() {
 		return rewardCount;

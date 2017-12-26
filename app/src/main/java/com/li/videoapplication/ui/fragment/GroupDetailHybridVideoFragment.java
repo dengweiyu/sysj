@@ -29,17 +29,17 @@ public class GroupDetailHybridVideoFragment extends TBaseFragment implements Vie
 
     private ViewPagerAdapter mAdapter;
 
-    private String gameId;
+    private String mGroupId;
 
     private TextView mNew;
     private TextView mHot;
 
 
-    public static  GroupDetailHybridVideoFragment newInstance(String gameId){
+    public static  GroupDetailHybridVideoFragment newInstance(String groupId){
         GroupDetailHybridVideoFragment instance = new GroupDetailHybridVideoFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString("game_id",gameId);
+        bundle.putString("group_id",groupId);
 
         instance.setArguments(bundle);
         return instance;
@@ -54,7 +54,7 @@ public class GroupDetailHybridVideoFragment extends TBaseFragment implements Vie
     @Override
     protected void initContentView(View view) {
         try {
-            gameId = getArguments().getString("game_id");
+            mGroupId = getArguments().getString("group_id");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,8 +67,8 @@ public class GroupDetailHybridVideoFragment extends TBaseFragment implements Vie
 
         if (mFragments == null){
             mFragments = new ArrayList<>();
-            mFragments.add(NewSquareFragment.newInstance(NewSquareFragment.SQUARE_NEW,null,gameId,true,0));        //最新列表
-            mFragments.add(NewSquareFragment.newInstance(NewSquareFragment.SQUARE_HOT,null,gameId,true,0));        //最热列表
+            mFragments.add(GroupdetailVideoFragment.newInstance(GroupdetailVideoFragment.GROUPDETAILVIDEO_NEW,mGroupId));        //最新列表
+            mFragments.add(GroupdetailVideoFragment.newInstance(GroupdetailVideoFragment.GROUPDETAILVIDEO_HOT,mGroupId));        //最热列表
             mAdapter = new ViewPagerAdapter(getChildFragmentManager(),mFragments,new String[]{});
         }
 

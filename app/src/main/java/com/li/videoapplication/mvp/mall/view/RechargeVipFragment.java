@@ -189,6 +189,9 @@ public class RechargeVipFragment extends TBaseFragment implements View.OnClickLi
             mDurationData = entity.getPackageMemu();
             mDurationAdapter.addData(mDurationData);
             mDurationAdapter.notifyDataSetChanged();
+
+
+            setPrice(mData.get(mSelected).getPrice());
         }
     }
 

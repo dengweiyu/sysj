@@ -104,8 +104,10 @@ public class VideoPlayView extends RelativeLayout implements
     public long lastPos = 0L;
     private String yk_url;
     private String youku_url;
-    private String qn_key;
-    private String qn_url;
+   // private String qn_key;
+  //  private String qn_url;
+
+    private String mVideoUrl;
     private String file;
 
     public VideoImage videoImage;
@@ -119,14 +121,13 @@ public class VideoPlayView extends RelativeLayout implements
         if (videoImage != null) {
             yk_url = videoImage.getYk_url();
             youku_url = AppConstant.getYoukuUrl(yk_url);
-            qn_key = videoImage.getQn_key();
-            qn_url = AppConstant.getQnUrl(qn_key);
+
             if (DEBUG) {
                 Log.d(tag, "yk_url=" + yk_url);
                 Log.d(tag, "youku_url=" + youku_url);
-                Log.d(tag, "qn_key=" + qn_key);
-                Log.d(tag, "qn_url=" + qn_url);
             }
+
+            mVideoUrl = videoImage.getVideoUrl();
             controllerViewLand.setVideoImage(videoImage);
         }
     }
@@ -629,7 +630,7 @@ public class VideoPlayView extends RelativeLayout implements
         mOnPreparedListeners.add(listener);
         mDelay = delay;
         if (progressHandlerNew == null){
-            progressHandlerNew = new Handler();
+            progressHandlerNew = new Handler(Looper.getMainLooper());
         //    progressHandlerNew.post(progressRunnableNew);
         }
     }
@@ -900,7 +901,7 @@ public class VideoPlayView extends RelativeLayout implements
     };
 
     //新增进度监听  可控制细粒度
-    private Handler progressHandlerNew = null;
+    private Handler progressHandlerNew = new Handler(Looper.getMainLooper());
     private Runnable progressRunnableNew = new Runnable() {
 
         @Override
@@ -1036,7 +1037,7 @@ public class VideoPlayView extends RelativeLayout implements
         /**
          * 开始播放
          */
-        if (state == STATE_START && !StringUtil.isNull(qn_key) && URLUtil.isURL(qn_url)) {
+        if (state == STATE_START && !StringUtil.isNull(mVideoUrl) ) {
             if (DEBUG) LogHelper.d(tag, "========= STATE_START =========");
             errorView.hideView();
             prepareView.hideView();
@@ -1068,7 +1069,7 @@ public class VideoPlayView extends RelativeLayout implements
         /**
          * 视频播放
          */
-        if (state == STATE_VIDEOPLAY && qn_url != null && URLUtil.isURL(qn_url)) {
+        if (state == STATE_VIDEOPLAY && mVideoUrl != null && URLUtil.isURL(mVideoUrl)) {
             if (DEBUG) LogHelper.d(tag, "========= STATE_VIDEOPLAY =========");
             errorView.hideView();
             prepareView.hideView();
@@ -1086,7 +1087,7 @@ public class VideoPlayView extends RelativeLayout implements
             videoPlayer.setVisibility(VISIBLE);
             webPlayer.setVisibility(GONE);
 
-            startPlayer(qn_url, 0);
+            startPlayer(mVideoUrl, 0);
             UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.VIDEOPLAY, "视频播放次数");
             UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.MACROSCOPIC_DATA, "视频总播放次数");
             return;
@@ -1193,8 +1194,8 @@ public class VideoPlayView extends RelativeLayout implements
         lastPos = VideoPlayActivity.playPos;
         if (DEBUG) Log.d(tag, "resume: state == " + state);
         if (state != STATE_TV) {
-            if (lastPos != 0 && URLUtil.isURL(qn_url)) {
-                startPlayer(qn_url, lastPos);
+            if (lastPos != 0 && URLUtil.isURL(mVideoUrl)) {
+                startPlayer(mVideoUrl, lastPos);
             }
             if (webPlayer != null && URLUtil.isURL(youku_url)) {
                 webPlayer.onResume();
@@ -1224,7 +1225,7 @@ public class VideoPlayView extends RelativeLayout implements
             if (videoPlayer != null) {
                 lastPos = videoPlayer.getVideoPosition();
                 VideoPlayActivity.playPos = lastPos;
-                VideoPlayActivity.playUrl = qn_url;
+                VideoPlayActivity.playUrl = mVideoUrl;
                 if (DEBUG) Log.e(tag, "lastPos=" + lastPos);
                 videoPlayer.pauseVideo();
             }

@@ -96,7 +96,7 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                 holder.setText(R.id.groupdetail_content, videoImage.getName());
             }
         } else if (activity instanceof GroupDetailActivity) {
-            holder.setVisible(R.id.goodstarcomment, true)
+          /*  holder.setVisible(R.id.goodstarcomment, true)
                     .setVisible(R.id.joinactivity_goodfloor, false)
                     .setBackgroundColor(R.id.gridview, resources.getColor(R.color.white))
                     .setTextColor(R.id.groupdetail_name, resources.getColor(R.color.video_name))
@@ -116,8 +116,31 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                 setStar(videoImage, holder);
                 //
                 setPlay(videoImage,holder);
-            }
+            }*/
         }
+
+        holder.setVisible(R.id.goodstarcomment, true)
+                .setVisible(R.id.joinactivity_goodfloor, false)
+                .setBackgroundColor(R.id.gridview, resources.getColor(R.color.white))
+                .setTextColor(R.id.groupdetail_name, resources.getColor(R.color.video_name))
+                .setTextColor(R.id.groupdetail_content, resources.getColor(R.color.video_content))
+                .setTextColor(R.id.groupdetail_time, resources.getColor(R.color.video_time))
+                .setBackgroundColor(R.id.divider, resources.getColor(R.color.divider_bg))
+                .setText(R.id.groupdetail_content, videoImage.getTitle())
+                .setText(R.id.groupdetail_likeCount, videoImage.getFlower_count())
+                .setText(R.id.groupdetail_starCount, videoImage.getCollection_count())
+                .setText(R.id.groupdetail_commentCount, videoImage.getComment_count())
+                .setVisible(R.id.bottom, !videoImage.isAD())
+                .addOnClickListener(R.id.groupdetail_comment);
+        if (!videoImage.isAD()) {//不是广告
+            // 点赞设置
+            setLike(videoImage, holder);
+            // 收藏设置
+            setStar(videoImage, holder);
+            //
+            setPlay(videoImage,holder);
+        }
+
 
         helper.setImageViewImageNet((ImageView) holder.getView(R.id.groupdetail_head), videoImage.getAvatar());
 

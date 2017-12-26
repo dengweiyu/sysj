@@ -3,8 +3,8 @@ package com.li.videoapplication.ui.activity;
 import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,7 +15,9 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Game;
+import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.RefreshCommentPagerEvent;
+import com.li.videoapplication.data.model.event.ReleaseScrollEvent;
 import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.data.model.response.GroupHybridDetailEntity;
 import com.li.videoapplication.data.network.UITask;
@@ -30,6 +32,7 @@ import com.li.videoapplication.ui.fragment.GroupDetailHybridVideoFragment;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.views.ViewPagerY4;
 import com.qq.e.comm.util.Md5Util;
 import com.umeng.analytics.AnalyticsConfig;
 
@@ -47,7 +50,7 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
 
     private String mGroupId;
 
-    private ViewPager mViewPager;
+    private ViewPagerY4 mViewPager;
 
     private GroupHybridDetailEntity mDetailEntity;
 
@@ -98,11 +101,22 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
 
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        //释放滚动
+        if (event.getAction() == MotionEvent.ACTION_UP){
+            mViewPager.setScrollable(true);
+        }
+
+        return super.dispatchTouchEvent(event);
+    }
+
+    @Override
     public void initView() {
         super.initView();
         initToolbar();
         findViewById(R.id.iv_record_screen).setOnClickListener(this);
-        mViewPager = (ViewPager)findViewById(R.id.vp_detail_pager);
+        mViewPager = (ViewPagerY4)findViewById(R.id.vp_detail_pager);
+
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 
@@ -151,29 +165,66 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
     }
 
     private void initFragment(){
-        if (mDetailEntity != null){
+        if (mDetailEntity != null && mFragments.size() == 0){
             for (int i = 0; i < mDetailEntity.getAData().size(); i++) {
                 mTitle.add(mDetailEntity.getAData().get(i).getName());
 
                 if ("video".equals(mDetailEntity.getAData().get(i).getFlagName())){
-                    mFragments.add(GroupDetailHybridVideoFragment.newInstance(mDetailEntity.getAData().get(i).getGame_id()));
+                    mFragments.add(GroupDetailHybridVideoFragment.newInstance(mDetailEntity.getOData().getGroup_id()));
                 }else {
                     mFragments.add(GroupDetailHybridFragment.newInstance(coverUrl(mDetailEntity.getAData().get(i).getGoUrl(),mDetailEntity.getAData().get(i).getGame_id()),true));
                 }
             }
+            mViewPager.setOffscreenPageLimit(5);
             mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(),mFragments,mTitle.toArray(new String[]{})));
         }
+    }
+
+
+    @Override
+    protected void onDestroy(){
+        if (mFragments != null){
+            for (int i = 0; i < mFragments.size(); i++) {
+                 if (mFragments.get(i) instanceof GroupDetailHybridFragment){
+                     if (((GroupDetailHybridFragment)mFragments.get(i)).logout()){
+                         break;
+                     }
+                 }
+            }
+        }
+        super.onDestroy();
     }
 
     //拼接URL
     private String coverUrl(String url,String gameId){
 
         String sign = "game_id="+gameId+(StringUtil.isNull(getMember_id())?"":"&member_id="+getMember_id())+"&target=a_sysj&key=sysj";
-
         url += "?sign="+Md5Util.encode(sign).toUpperCase()+"&"+sign;
         return url;
     }
 
+
+    public void setFragmentByFlagName(String flagName){
+        if (StringUtil.isNull(flagName)){
+            return;
+        }
+        if (mViewPager == null || mDetailEntity == null){
+            return;
+        }
+
+        int index = -1;
+        for (int i = 0; i < mDetailEntity.getAData().size(); i++) {
+            mTitle.add(mDetailEntity.getAData().get(i).getName());
+
+            if (flagName.equals(mDetailEntity.getAData().get(i).getFlagName())){
+                index = i;
+                break;
+            }
+        }
+        if (index >= 0){
+            mViewPager.setCurrentItem(index);
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -186,6 +237,12 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
                 if(mDetailEntity == null){
                     return;
                 }
+
+                if(StringUtil.isNull(getMember_id())){
+                    DialogManager.showLogInDialog(this);
+                    return;
+                }
+
                 if (mDetailEntity.getOData().getTick() == 1) {
                     DialogManager.showConfirmDialog(this,"取消关注该游戏圈?",new View.OnClickListener(){
                         @Override
@@ -249,11 +306,12 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
         if (mDetailEntity.getOData().getTick() == 0){
             mFollowLayout.setBackgroundResource(R.drawable.hybrid_pager_follow);
             mFollowText.setText("关注");
+            mFollowIcon.setVisibility(View.VISIBLE);
             mFollowIcon.setImageResource(R.drawable.simple_group);
         }else {
             mFollowLayout.setBackgroundColor(resources.getColor(R.color.groupdetail_player_gray));
             mFollowText.setText("已关注");
-            mFollowIcon.setImageResource(R.drawable.group_follow_hook);
+            mFollowIcon.setVisibility(View.GONE);
         }
 
     }
@@ -316,5 +374,13 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
                 break;
             }
         }
+    }
+
+    public void onEventMainThread(LoginEvent event){
+        loadData();
+    }
+
+    public void onEventMainThread(ReleaseScrollEvent event){
+        mViewPager.setScrollable(false);
     }
 }

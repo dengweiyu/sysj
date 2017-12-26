@@ -112,8 +112,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
         // 20170104,2.1.4   test:20161122, 2.1.2
-        versionCode 20171221
-        versionName "2.2.8.1"
+        versionCode 20171226
+        versionName "2.2.8"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
         multiDexEnabled true
@@ -129,7 +129,7 @@ android {
 
 
         //测试环境 有些地方的接口 有可能没改过来
-        /*buildConfigField("String", "ip", "\"192.168.48.9\"")
+/*        buildConfigField("String", "ip", "\"192.168.48.9\"")
         buildConfigField("String", "port", "\"233\"")
         buildConfigField("String", "rootDir", "\"\"")*/
 

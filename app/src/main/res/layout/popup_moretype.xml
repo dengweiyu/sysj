@@ -20,7 +20,7 @@
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:text="请正确选择视频所属游戏或类别，有助于视频展示"
+                android:text="请正确选择游戏类型，否则分享审核不通过"
                 android:textSize="12sp"
                 android:textColor="#f9f9f9"
                 android:background="@drawable/moretype_text_bg"

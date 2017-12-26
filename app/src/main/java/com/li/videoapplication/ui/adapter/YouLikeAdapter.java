@@ -68,6 +68,9 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
             holder.allTime.setVisibility(View.GONE);
           //  setTextViewText(holder.allTime, "广告");
             holder.adLogo.setVisibility(View.VISIBLE);
+
+            //展示上报
+            HomeFragment.adItem.onExposured(view);
         } else {
             holder.playCount.setVisibility(View.VISIBLE);
             holder.play.setVisibility(View.VISIBLE);
@@ -89,7 +92,7 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
             @Override
             public void onClick(View v) {
                 if (record.isAD()) {
-                    HomeFragment.adItem.onExposured(v);
+
                     HomeFragment.adItem.onClicked(v);
                 } else {
                     startVideoPlayActivity(record);

@@ -1,36 +1,47 @@
 package com.li.videoapplication.ui.fragment;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.ViewGroup;
+import android.webkit.ConsoleMessage;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.RelativeLayout;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.js.JSInterface;
+import com.li.videoapplication.data.model.event.LoginEvent;
+import com.li.videoapplication.data.model.response.LoginEntity;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.ui.activity.GroupDetailHybridActivity;
 import com.li.videoapplication.ui.activity.WebActivityJS;
+import com.li.videoapplication.ui.dialog.LogInDialog;
+import com.li.videoapplication.ui.view.SimpleSwipeRefreshLayout;
 import com.li.videoapplication.utils.StringUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import io.rong.eventbus.EventBus;
+
 /**
  *圈子详情页-加载HTML
  */
 
-public class GroupDetailHybridFragment extends TBaseFragment {
+public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private WebView mWebView;
 
@@ -38,7 +49,11 @@ public class GroupDetailHybridFragment extends TBaseFragment {
 
     private boolean mIsNeedLoadData = false;
 
+    private GroupDetailHybridActivity mActivity;
 
+    private SimpleSwipeRefreshLayout mRefreshLayout;
+
+    private View mErrorView;
 
     public static GroupDetailHybridFragment newInstance(String url,boolean isNeedLoadData){
         GroupDetailHybridFragment fragment = new GroupDetailHybridFragment();
@@ -50,12 +65,12 @@ public class GroupDetailHybridFragment extends TBaseFragment {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
 
-     /*   if (!StringUtil.isNull(mUrl) && isVisibleToUser && mWebView != null && StringUtil.isNull(mWebView.getUrl())){
-            mWebView.loadUrl(mUrl);
-        }*/
+        if (activity instanceof GroupDetailHybridActivity ){
+            mActivity = (GroupDetailHybridActivity)activity;
+        }
     }
 
     @Override
@@ -77,13 +92,28 @@ public class GroupDetailHybridFragment extends TBaseFragment {
         if (mWebView != null){
             return;
         }
+        mRefreshLayout = (SimpleSwipeRefreshLayout)view.findViewById(R.id.srl_pull_to_refresh);
+        mRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light, android.R.color.holo_blue_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        mRefreshLayout.setOnRefreshListener(this);
+
+        mRefreshLayout.setRefreshing(true);
 
         mWebView = (WebView)view.findViewById(R.id.wv_hybrid);
 
+        mRefreshLayout.setWebView(mWebView);
+
+        mErrorView = view.findViewById(R.id.ll_webview_error);
+
         //
         settingWebView();
+
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
     private void settingWebView(){
         WebSettings webSettings = mWebView.getSettings();
@@ -91,13 +121,12 @@ public class GroupDetailHybridFragment extends TBaseFragment {
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setJavaScriptEnabled(true);
-        webSettings.setDomStorageEnabled(true);
+       //webSettings.setDomStorageEnabled(true);
         webSettings.setAllowContentAccess(true);
-        webSettings.setDatabaseEnabled(true);
-        webSettings.setAppCacheEnabled(true);
+       //webSettings.setDatabaseEnabled(true);
+       //webSettings.setAppCacheEnabled; (false);
         webSettings.setSavePassword(false);
         webSettings.setSaveFormData(false);
-
 
         mWebView.addJavascriptInterface(new JSInterface(getActivity()), "user");//app与js交互接口
         mWebView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -116,11 +145,45 @@ public class GroupDetailHybridFragment extends TBaseFragment {
                     if (object != null){
                         String msg = object.getString("msg");
                         String status = object.getString("status");
+
+                        //转换为Toast
                         if ("110".equals(status)){
                             ToastHelper.l(msg);
                             result.confirm();
                             return true;
                         }
+
+                        //login
+                        if ("120".equals(status)){
+                            DialogManager.showLogInDialog(getActivity());
+                            result.confirm();
+                            return true;
+                        }
+
+                        //切换fragment
+                        if ("122".equals(status)){
+                            if (mActivity != null){
+                                mActivity.setFragmentByFlagName("appraise");
+                            }
+                            result.confirm();
+                            return true;
+                        }
+                        //页面跳转  两种跳转方式 取决于页面了
+                        if ("222".equals(status)){
+                            String title = object.optString("title");
+                            String toUrl = object.optString("url");
+                            WebActivityJS.startWebActivityJS(getActivity(),toUrl,title,"user",StringUtil.isNull(title)?false  :true);
+                            result.confirm();
+                            return true;
+                        }
+
+                        //登录完成 刷新页面
+                        if ("119".equals(status)){
+                            mWebView.reload();
+                            result.confirm();
+                            return true;
+                        }
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -131,46 +194,90 @@ public class GroupDetailHybridFragment extends TBaseFragment {
             }
 
             @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                if (newProgress >= 80){
+                    mRefreshLayout.setRefreshing(false);
+                }
+
+                if (newProgress >= 60){
+                    mErrorView.setVisibility(View.GONE);
+                }
+
+                if ("about:blank".equals(view.getUrl())){
+                    mErrorView.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
             public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
                 return super.onJsConfirm(view, url, message, result);
+            }
+
+            @Override
+            public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+                return super.onConsoleMessage(consoleMessage);
+            }
+
+            @Override
+            public void onConsoleMessage(String message, int lineNumber, String sourceID) {
+                super.onConsoleMessage(message, lineNumber, sourceID);
             }
         });
 
         mWebView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                WebActivityJS.startWebActivityJS(getActivity(),url,"","Interactive",false);
+                WebActivityJS.startWebActivityJS(getActivity(),url,"","user",false);
                 return true;
             }
 
             @TargetApi(21)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                WebActivityJS.startWebActivityJS(getActivity(),request.getUrl().toString(),"","Interactive",false);
+                WebActivityJS.startWebActivityJS(getActivity(),request.getUrl().toString(),"","user",false);
                 return true;
             }
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
+
+            }
+
+            @Override
+            public void onPageCommitVisible(WebView view, String url) {
+                super.onPageCommitVisible(view, url);
+
+                if(!StringUtil.isNull(getMember_id())){
+                    login();
+                }else {
+                    logout();
+                }
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                mRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
 
-                view.loadUrl("blank");
+                mWebView.loadUrl("blank");
+                mErrorView.setVisibility(View.VISIBLE);
+                mWebView.setVisibility(View.GONE);
             }
 
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
-                view.loadUrl("blank");
+                mWebView.loadUrl("blank");
+                mErrorView.setVisibility(View.VISIBLE);
+                mWebView.setVisibility(View.GONE);
             }
         });
 
@@ -189,8 +296,42 @@ public class GroupDetailHybridFragment extends TBaseFragment {
         return null;
     }
 
+    @Override
+    public void onRefresh() {
+        if (mWebView != null){
+            mWebView.setVisibility(View.VISIBLE);
+
+            if (mWebView.getUrl() == null ||"about:blank".equals(mWebView.getUrl()) || mUrl.equals(mWebView.getUrl())){
+                mWebView.loadUrl(mUrl);
+            }else {
+                mWebView.reload();
+            }
+
+        }
+    }
+
+    public boolean logout(){
+        if (mWebView == null){
+            return false;
+        }
+        mWebView.loadUrl("javascript:removewapMember_id()");
+        return true;
+    }
+
+    private void login(){
+        if(!StringUtil.isNull(getMember_id()) && !mIsLoad){
+            mWebView.loadUrl("javascript:setwapMember_id("+getMember_id()+")");
+            mIsLoad = true;
+        }
+    }
 
     public void refresh(){
         mWebView.reload();
+    }
+
+    private boolean mIsLoad = false;
+
+    public void onEventMainThread(LoginEvent event){
+            login();
     }
 }

@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
@@ -19,6 +21,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
+import com.li.videoapplication.data.model.event.GoodAndStartEvent;
 import com.li.videoapplication.data.model.response.GroupDataListEntity;
 import com.li.videoapplication.data.model.response.GroupHotDataListEntity;
 import com.li.videoapplication.data.model.response.GroupNewDataListEntity;
@@ -89,16 +92,31 @@ public class GroupdetailVideoFragment extends TBaseFragment
         GroupdetailVideoFragment fragment = new GroupdetailVideoFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("tab", tab);
+
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    public static GroupdetailVideoFragment newInstance(int tab,String groupId) {
+        GroupdetailVideoFragment fragment = new GroupdetailVideoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("tab", tab);
+        bundle.putString("group_id",groupId);
+
         fragment.setArguments(bundle);
         return fragment;
     }
 
     public int tab;
 
+    private String mGroupId;
     public int getTab() {
         if (tab == 0) {
             try {
                 tab = getArguments().getInt("tab");
+                if (getArguments().containsKey("group_id")){
+                    mGroupId = getArguments().getString("group_id");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -118,6 +136,8 @@ public class GroupdetailVideoFragment extends TBaseFragment
             e.printStackTrace();
         }
     }
+
+
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -150,6 +170,8 @@ public class GroupdetailVideoFragment extends TBaseFragment
     @Override
     protected void initContentView(View view) {
 
+        getTab();
+
         initRecyclerView();
 
         initAdapter();
@@ -173,6 +195,12 @@ public class GroupdetailVideoFragment extends TBaseFragment
         adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         adapter.setOnLoadMoreListener(this);
 
+        View emptyView = getActivity().getLayoutInflater().inflate(R.layout.emptyview,
+                (ViewGroup) recyclerView.getParent(), false);
+        TextView emptyText = (TextView) emptyView.findViewById(R.id.emptyview_text);
+        emptyText.setText("暂无视频");
+        adapter.setEmptyView(emptyView);
+
         recyclerView.setAdapter(adapter);
     }
 
@@ -186,6 +214,18 @@ public class GroupdetailVideoFragment extends TBaseFragment
                 Log.d(tag, "~~~~~~~~~ loadHomeData: HOT ~~~~~~~~~");
                 // 圈子视频列表（最热）
                 DataManager.groupHotDataList(activity.group_id, getMember_id(), page);
+            }
+        }else {
+            if (!StringUtil.isNull(mGroupId)){
+                if (getTab() == GROUPDETAILVIDEO_NEW) {
+                    Log.d(tag, "~~~~~~~~~ loadHomeData: NEW ~~~~~~~~~");
+                    // 圈子视频列表（最新）
+                    DataManager.groupDataList(mGroupId, getMember_id(), page);
+                } else if (getTab() == GROUPDETAILVIDEO_HOT) {
+                    Log.d(tag, "~~~~~~~~~ loadHomeData: HOT ~~~~~~~~~");
+                    // 圈子视频列表（最热）
+                    DataManager.groupHotDataList(mGroupId, getMember_id(), page);
+                }
             }
         }
     }
@@ -277,13 +317,19 @@ public class GroupdetailVideoFragment extends TBaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        activity.appBarLayout.addOnOffsetChangedListener(this);
+        if(activity != null){
+            activity.appBarLayout.addOnOffsetChangedListener(this);
+        }
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        activity.appBarLayout.removeOnOffsetChangedListener(this);
+        if (activity != null){
+            activity.appBarLayout.removeOnOffsetChangedListener(this);
+        }
+
     }
 
     /**
@@ -354,5 +400,51 @@ public class GroupdetailVideoFragment extends TBaseFragment
 
             }
         });
+    }
+
+    /**
+     * 点赞 收藏事件
+     */
+    public void onEventMainThread(GoodAndStartEvent event){
+        if (StringUtil.isNull(event.getVideoId())){
+            return;
+        }
+        if (videoData == null){
+            return;
+        }
+        for (VideoImage v:
+                videoData) {
+            if (event.getVideoId().equals(v.getVideo_id())){
+                if (event.getType() == GoodAndStartEvent.TYPE_GOOD){
+                    if (event.isPositive()){
+                        v.flower_tick = 1;
+                        v.flower_count =( Integer.parseInt(v.flower_count) + 1)+"";
+                    }else {
+                        int count = Integer.parseInt(v.flower_count);
+                        if (count < 1){
+                            return;
+                        }
+                        v.flower_tick = 0;
+                        v.flower_count =(count - 1)+"";
+                    }
+                    adapter.notifyDataSetChanged();
+                }else if (event.getType() == GoodAndStartEvent.TYPE_START){
+                    if (event.isPositive()){
+                        v.collection_tick = 1;
+                        v.collection_count = ( Integer.parseInt(v.collection_count) + 1)+"";
+                    }else {
+                        v.collection_tick = 0;
+
+                        int count = Integer.parseInt(v.collection_count);
+                        if (count < 1){
+                            return;
+                        }
+                        v.collection_count = ( count - 1)+"";
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+            }
+        }
     }
 }
