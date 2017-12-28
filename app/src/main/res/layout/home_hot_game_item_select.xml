@@ -15,15 +15,20 @@
         android:layout_centerInParent="true"
 
         android:orientation="vertical">
-        <com.li.videoapplication.views.RoundedImageView
+        <!--<com.li.videoapplication.views.RoundedImageView-->
+            <!--android:id="@+id/iv_square_game_icon"-->
+            <!--android:layout_width="48dp"-->
+            <!--android:layout_height="48dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--app:riv_border_color="#ffffff"-->
+            <!--app:riv_border_width="0dp"-->
+            <!--app:riv_corner_radius="4dp"-->
+            <!--app:riv_oval="false"/>-->
+        <ImageView
             android:id="@+id/iv_square_game_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_gravity="center"
-            app:riv_border_color="#ffffff"
-            app:riv_border_width="0dp"
-            app:riv_corner_radius="4dp"
-            app:riv_oval="false"/>
+            android:layout_gravity="center" />
         <TextView
             android:id="@+id/tv_game_name"
             android:layout_width="match_parent"
@@ -33,7 +38,10 @@
             android:ems="5"
             android:gravity="center"
             android:layout_gravity="center"
-            android:text="王者荣耀" />
+            android:text="王者荣耀"
+            android:maxLines="1"
+            android:maxEms="4"
+            android:ellipsize="end"/>
     </LinearLayout>
 
     <ImageView

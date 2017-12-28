@@ -21,6 +21,7 @@ import com.li.videoapplication.data.model.response.MessageMsgRedEntity;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.Constant;
+import com.li.videoapplication.mvp.home.view.HomeFragmentNew;
 import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.ShareSDKLoginHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -31,6 +32,8 @@ import com.li.videoapplication.ui.activity.MyWalletActivity;
 import com.li.videoapplication.ui.dialog.ServiceDialog;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 碎片：侧滑菜单
@@ -511,6 +514,7 @@ public class SliderFragment extends TBaseFragment implements OnClickListener {
                         AppAccount.login();
                     }
                 }, 400);
+                EventBus.getDefault().post(new StringBuffer(HomeFragmentNew.HomeFragmentNew_FLAG));
                 UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.SLIDER, "登录成功");
                 return;
             }

@@ -175,7 +175,7 @@ public class TextImageHelper {
     }
 
     /**
-     * 功能：ImageView显示网络图像渐变展示
+     * 功能：CircleImageView显示网络图像渐变展示
      */
     public synchronized void setCircleImageViewNetAlpha(CircleImageView view, String url) {
         if (view != null && !StringUtil.isNull(url)) {

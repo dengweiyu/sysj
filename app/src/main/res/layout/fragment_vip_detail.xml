@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ab_background_white"
+    android:orientation="vertical">
+
+    <!--<LinearLayout -->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@color/ab_background_white"-->
+    <!--android:orientation="vertical">-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/vip_level_layout_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/id_vip_level_name_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textColor="@color/color_999999"
+                android:textSize="14dp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/id_vip_level_month_money_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:text="？元/月"
+                android:textColor="@color/color_999999"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/color_dfdfdf" />
+
+
+        <LinearLayout
+            android:id="@+id/vip_level_layout_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/id_vip_level_name_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textColor="@color/color_999999"
+                android:textSize="14dp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/id_vip_level_month_money_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:text="？元/月"
+                android:textColor="@color/color_999999"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/color_dfdfdf" />
+
+        <LinearLayout
+            android:id="@+id/vip_level_layout_3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/id_vip_level_name_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textColor="@color/color_999999"
+                android:textSize="14dp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/id_vip_level_month_money_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:text="？元/月"
+                android:textColor="@color/color_999999"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/ab_background_white"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_dfdfdf" />
+
+            <com.screeclibinvoke.views.ListViewY1
+                android:id="@+id/recharge_vip_ListViewY1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"
+                android:scrollbars="none" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_dfdfdf" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+
+                    android:layout_marginTop="20dp"
+                    android:text="@string/select_time"
+                    android:textColor="@color/color_666666"
+                    android:textSize="15dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <android.support.v7.widget.AppCompatButton
+                            android:id="@+id/id_one_month_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/shape_gray"
+                            android:gravity="center"
+                            android:minHeight="30dp"
+                            android:minWidth="75dp"
+                            android:padding="6dp"
+                            android:text="@string/month_1_max"
+                            android:textColor="@color/color_999999"
+                            android:textSize="12dp" />
+                    </FrameLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <RelativeLayout
+                            android:id="@+id/id_three_mounth_btn_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true">
+
+
+                            <android.support.v7.widget.AppCompatButton
+                                android:id="@+id/id_three_month_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/shape_gray"
+                                android:gravity="center"
+                                android:minHeight="30dp"
+                                android:minWidth="75dp"
+                                android:padding="6dp"
+                                android:text="@string/month_3_max"
+                                android:textColor="@color/color_999999"
+                                android:textSize="12dp" />
+
+
+                        </RelativeLayout>
+
+                        <ImageView
+                            android:id="@+id/id_three_month_discount_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignRight="@+id/id_three_mounth_btn_layout"
+                            android:src="@drawable/no_discount" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <RelativeLayout
+                            android:id="@+id/id_six_month_btn_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true">
+
+                            <android.support.v7.widget.AppCompatButton
+                                android:id="@+id/id_six_month_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/shape_gray"
+                                android:gravity="center"
+                                android:minHeight="30dp"
+                                android:minWidth="75dp"
+                                android:padding="6dp"
+                                android:text="@string/month_6_max"
+                                android:textColor="@color/color_999999"
+                                android:textSize="12dp" />
+
+
+                        </RelativeLayout>
+
+
+                        <ImageView
+                            android:id="@+id/id_six_month_discount_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignRight="@+id/id_six_month_btn_layout"
+                            android:src="@drawable/no_discount" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <RelativeLayout
+                            android:id="@+id/id_twelve_month_btn_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true">
+
+                            <android.support.v7.widget.AppCompatButton
+                                android:id="@+id/id_twelve_month_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/shape_gray"
+                                android:gravity="center"
+                                android:minHeight="30dp"
+                                android:minWidth="75dp"
+                                android:padding="6dp"
+                                android:text="@string/month_12_max"
+                                android:textColor="@color/color_999999"
+                                android:textSize="12dp" />
+
+
+                        </RelativeLayout>
+
+                        <ImageView
+                            android:id="@+id/id_twelve_month_discount_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignRight="@+id/id_twelve_month_btn_layout"
+                            android:src="@drawable/no_discount" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/recharge_vip_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/color_666666"
+                    android:textSize="14dp" />
+
+
+                <!--<android.support.v7.widget.AppCompatTextView-->
+                <!--android:id="@+id/id_recharge_old_vip_money"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="13dp"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:gravity="bottom"-->
+                <!--android:textColor="@color/color_999999"-->
+                <!--android:textSize="13dp" />-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/id_sale_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/recharge_sale_vip_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/color_666666"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/recharge_vip_pay_now"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="45dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/recharge_pay_blue_bg"
+                android:gravity="center"
+                android:text="@string/subtitle_confirm"
+                android:textColor="@color/menu_main_white"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:id="@+id/migu_vip_parent_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#cccccc" />
+
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/id_migu_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/recharge_pay_migu_tip"
+                    android:textColor="@color/color_666666"
+                    android:textSize="16dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#cccccc" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

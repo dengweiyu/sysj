@@ -1,8 +1,10 @@
 package com.li.videoapplication.ui.adapter;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.li.videoapplication.R;
@@ -16,6 +18,7 @@ import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.fragment.SendRewardRankFragment;
 import com.li.videoapplication.utils.StringUtil;
+
 import java.util.List;
 
 
@@ -23,65 +26,67 @@ import java.util.List;
  * 土豪榜/人气榜
  */
 
-public class SendRewardRankAdapter extends BaseQuickAdapter<SendRewardRankEntity.ADataBean.IncludeBean,BaseViewHolder> {
+public class SendRewardRankAdapter extends BaseQuickAdapter<SendRewardRankEntity.ADataBean.IncludeBean, BaseViewHolder> {
     private int mType;
-    public SendRewardRankAdapter(List<SendRewardRankEntity.ADataBean.IncludeBean> data,int type) {
-        super(R.layout.adapter_send_reward_rank,data);
+
+    public SendRewardRankAdapter(List<SendRewardRankEntity.ADataBean.IncludeBean> data, int type) {
+        super(R.layout.adapter_send_reward_rank, data);
         mType = type;
     }
 
     @Override
     protected void convert(BaseViewHolder holder, final SendRewardRankEntity.ADataBean.IncludeBean includeBean) {
         int position = holder.getAdapterPosition();
-
         ImageView rankIcon = (ImageView) holder.getView(R.id.iv_rank);
         TextView rankText = (TextView) holder.getView(R.id.tv_rank);
         rankText.setVisibility(View.VISIBLE);
         rankIcon.setVisibility(View.GONE);
-        rankText.setText(position+"");
+        rankText.setText(String.valueOf(position - getHeaderLayoutCount() + 1));
+
+        Log.i("SendRewardRankAdapter", "位置：" + position + ",includeBean:" + includeBean.getNickname());
         int redId = 0;
 
-            switch (position-getHeaderLayoutCount()){
-                case 0:
-                    redId = R.drawable.playerbillboard_one;
-                    rankIcon.setVisibility(View.VISIBLE);
-                    rankText.setVisibility(View.GONE);
-                    rankIcon.setImageResource(redId);
-                    break;
-                case 1:
-                    redId = R.drawable.playerbillboard_two;
-                    rankIcon.setVisibility(View.VISIBLE);
-                    rankText.setVisibility(View.GONE);
-                    rankIcon.setImageResource(redId);
-                    break;
-                case 2:
-                    redId = R.drawable.playerbillboard_three;
-                    rankIcon.setVisibility(View.VISIBLE);
-                    rankText.setVisibility(View.GONE);
-                    rankIcon.setImageResource(redId);
-                    break;
+        switch (position - getHeaderLayoutCount()) {
+            case 0:
+                redId = R.drawable.playerbillboard_one;
+                rankIcon.setVisibility(View.VISIBLE);
+                rankText.setVisibility(View.GONE);
+                rankIcon.setImageResource(redId);
+                break;
+            case 1:
+                redId = R.drawable.playerbillboard_two;
+                rankIcon.setVisibility(View.VISIBLE);
+                rankText.setVisibility(View.GONE);
+                rankIcon.setImageResource(redId);
+                break;
+            case 2:
+                redId = R.drawable.playerbillboard_three;
+                rankIcon.setVisibility(View.VISIBLE);
+                rankText.setVisibility(View.GONE);
+                rankIcon.setImageResource(redId);
+                break;
 
-            }
-
-        String type= "送出：" ;
-        if (mType == SendRewardRankFragment.TYPE_RECEIVED){
-            type="收到：";
         }
-        holder.setText(R.id.tv_reward_type,type);
 
-        GlideHelper.displayImageWhite(mContext,includeBean.getAvatar(),(ImageView) holder.getView(R.id.civ_player_icon));
+        String type = "送出：";
+        if (mType == SendRewardRankFragment.TYPE_RECEIVED) {
+            type = "收到：";
+        }
+        holder.setText(R.id.tv_reward_type, type);
 
-        holder.setText(R.id.tv_user_nick_name,includeBean.getNickname());
+        GlideHelper.displayImageWhite(mContext, includeBean.getAvatar(), (ImageView) holder.getView(R.id.civ_player_icon));
+
+        holder.setText(R.id.tv_user_nick_name, includeBean.getNickname());
 
         try {
-            holder.setText(R.id.tv_currency_coin,StringUtil.formatMoneyOnePoint(Float.parseFloat(includeBean.getCoin())));
-            holder.setText(R.id.tv_currency_beans,StringUtil.formatMoney(Float.parseFloat(includeBean.getCurrency())));
+            holder.setText(R.id.tv_currency_coin, StringUtil.formatMoneyOnePoint(Float.parseFloat(includeBean.getCoin())));
+            holder.setText(R.id.tv_currency_beans, StringUtil.formatMoney(Float.parseFloat(includeBean.getCurrency())));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-        setFocus((TextView) holder.getView(R.id.tv_send_reward_focus),includeBean);
+        setFocus((TextView) holder.getView(R.id.tv_send_reward_focus), includeBean);
 
         holder.getView(R.id.ll_reward_rank).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +98,6 @@ public class SendRewardRankAdapter extends BaseQuickAdapter<SendRewardRankEntity
             }
         });
     }
-
 
 
     private void startDynamicActivity(Member member) {
@@ -132,10 +136,10 @@ public class SendRewardRankAdapter extends BaseQuickAdapter<SendRewardRankEntity
                     DialogManager.showConfirmDialog(mContext, "确认取消关注该玩家?", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            switch (v.getId()){
+                            switch (v.getId()) {
                                 case R.id.tv_confirm_dialog_yes:
                                     includeBean.setMember_tick(0);
-                                    DataManager.memberAttention201(includeBean.getMember_id(),PreferencesHepler.getInstance().getMember_id());
+                                    DataManager.memberAttention201(includeBean.getMember_id(), PreferencesHepler.getInstance().getMember_id());
 
                                     notifyDataSetChanged();
                                     UmengAnalyticsHelper.onEvent(mContext, UmengAnalyticsHelper.GAME, "打赏榜-关注");
@@ -147,7 +151,7 @@ public class SendRewardRankAdapter extends BaseQuickAdapter<SendRewardRankEntity
                 } else { // 未关注状态
                     includeBean.setMember_tick(1);
                 }
-                DataManager.memberAttention201(includeBean.getMember_id(),PreferencesHepler.getInstance().getMember_id());
+                DataManager.memberAttention201(includeBean.getMember_id(), PreferencesHepler.getInstance().getMember_id());
                 notifyDataSetChanged();
                 UmengAnalyticsHelper.onEvent(mContext, UmengAnalyticsHelper.GAME, "打赏榜-关注");
                 //

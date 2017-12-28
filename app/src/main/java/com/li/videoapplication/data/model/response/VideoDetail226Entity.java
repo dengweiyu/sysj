@@ -6,15 +6,15 @@ import com.li.videoapplication.framework.BaseResponseEntity;
 
 
 @SuppressWarnings("serial")
-public class VideoDetail201Entity extends BaseResponseEntity {
+public class VideoDetail226Entity extends BaseResponseEntity {
 	
-	private VideoImage data;
+	private VideoImage AData;
 
 	public VideoImage getData() {
-		return data;
+		return AData;
 	}
 
 	public void setData(VideoImage data) {
-		this.data = data;
+		this.AData = data;
 	}
 }

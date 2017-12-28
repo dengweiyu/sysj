@@ -110,10 +110,16 @@ public class Member extends BaseEntity {
 	}
 
 	public static class VIPInfo implements Serializable {
+		public static final String SILVER = "1";
+		public static final String GOLD = "2";
+		public static final String DIAMOND = "3";
+
 		private String level;
 		private String member_id;
 		private String end_time;
 		private String valid;
+		private String order_id;
+		private String is_mg = "-1";
 
 		public String getValid() {
 			return valid;
@@ -145,6 +151,32 @@ public class Member extends BaseEntity {
 
 		public void setEnd_time(String end_time) {
 			this.end_time = end_time;
+		}
+
+		public String getOrder_id() {
+			return order_id;
+		}
+
+		public void setOrder_id(String order_id) {
+			this.order_id = order_id;
+		}
+
+		public String getIs_migu() {
+			return is_mg;
+		}
+
+		public void setIs_migu(String is_migu) {
+			this.is_mg = is_migu;
+		}
+
+		private List<VIPInfo> details;
+
+		public List<VIPInfo> getDetail() {
+			return details;
+		}
+
+		public void setDetail(List<VIPInfo> detail) {
+			this.details = detail;
 		}
 	}
 

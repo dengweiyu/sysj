@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
+import com.li.videoapplication.mvp.home.view.HomeLazyColumnFragment2;
 import com.li.videoapplication.mvp.home.view.HomeLazyColumnFragment3;
 
 import java.util.List;
@@ -11,12 +12,12 @@ import java.util.List;
 /**
  * 通用viewpager适配器
  */
-public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
+public class HomeViewPagerAdapter2 extends FragmentStatePagerAdapter {
 
-    private List<HomeLazyColumnFragment3> fragments;
+    private List<HomeLazyColumnFragment2> fragments;
     private String[] tabTitle;
     private FragmentManager fm;
-    public HomeViewPagerAdapter(FragmentManager fm, List<HomeLazyColumnFragment3> fragments, String[] tabTitle) {
+    public HomeViewPagerAdapter2(FragmentManager fm, List<HomeLazyColumnFragment2> fragments, String[] tabTitle) {
         super(fm);
         this.fragments = fragments;
         this.tabTitle = tabTitle;
@@ -24,7 +25,7 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public HomeLazyColumnFragment3 getItem(int position) {
+    public HomeLazyColumnFragment2 getItem(int position) {
         return  fragments.get(position);
     }
 

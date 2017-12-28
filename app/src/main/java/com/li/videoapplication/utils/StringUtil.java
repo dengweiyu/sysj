@@ -53,6 +53,14 @@ public class StringUtil {
     }
 
     /**
+     * 保留两位小数
+     */
+    public static String formatNum2(float num){
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(num);
+    }
+
+    /**
      * 格式化金额
      * 不带小数点
      */

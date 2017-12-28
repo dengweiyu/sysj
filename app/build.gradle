@@ -98,7 +98,7 @@ android {
     }
 
     //关闭aapt对png的优化
-    aaptOptions{
+    aaptOptions {
         cruncherEnabled false
     }
 
@@ -112,8 +112,8 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
         // 20170104,2.1.4   test:20161122, 2.1.2
-        versionCode 20171212
-        versionName "2.2.8"
+        versionCode 20171222
+        versionName "2.2.8.3"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
         multiDexEnabled true
@@ -125,17 +125,16 @@ android {
          * so we can get the newly git version easily!
          */
         buildConfigField "String", "TINKER_ID", "\"${getTinkerIdValue()}\""
-        buildConfigField "String", "PLATFORM",  "\"all\""
-
+        buildConfigField "String", "PLATFORM", "\"all\""
 
         //测试环境 有些地方的接口 有可能没改过来
-        buildConfigField("String", "ip", "\"192.168.48.9\"")
+        /*buildConfigField("String", "ip", "\"192.168.48.9\"")
         buildConfigField("String", "port", "\"233\"")
-        buildConfigField("String", "rootDir", "\"\"")
-
-     /*   buildConfigField("String", "ip", "\"apps.ifeimo.com\"")
-        buildConfigField("String", "port", "\"\"")
         buildConfigField("String", "rootDir", "\"\"")*/
+
+        buildConfigField("String", "ip", "\"apps.ifeimo.com\"")
+        buildConfigField("String", "port", "\"\"")
+        buildConfigField("String", "rootDir", "\"\"")
     }
 
     buildTypes {
@@ -175,34 +174,34 @@ android {
     }
 
     // 友盟多渠道打包
-   /* productFlavors {
-        default_channel {}
-        _91 {}
-        _360 {}
-        Lenovo {}
-        oppo {}
-        AndroidMarket {}
-        Baidu {}
-        feimo1 {}
-        feimo2 {}
-        HuaWei {}
-        JiFeng {}
-        WangDouJia {}
-        XiaoMi {}
-        YingYongBao {}
-        MeiZu {}
-        vivo {}
-        ali {}
-        FM {}
-        FM_M_videopage {}
-        FM_M_match {}
-        FM_M_langdingpage {}
-        FM_lpds_shop {}
-    }
+    /* productFlavors {
+         default_channel {}
+         _91 {}
+         _360 {}
+         Lenovo {}
+         oppo {}
+         AndroidMarket {}
+         Baidu {}
+         feimo1 {}
+         feimo2 {}
+         HuaWei {}
+         JiFeng {}
+         WangDouJia {}
+         XiaoMi {}
+         YingYongBao {}
+         MeiZu {}
+         vivo {}
+         ali {}
+         FM {}
+         FM_M_videopage {}
+         FM_M_match {}
+         FM_M_langdingpage {}
+         FM_lpds_shop {}
+     }
 
-    productFlavors.all { flavor ->
-        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
-    }*/
+     productFlavors.all { flavor ->
+         flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+     }*/
 }
 
 repositories {
@@ -232,7 +231,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.7.2'
     compile 'com.squareup.okhttp:okhttp-apache:2.7.2'
     compile 'com.squareup.okio:okio:1.6.0'
-   // compile 'com.google.code.gson:gson:2.5'
+    // compile 'com.google.code.gson:gson:2.5'
     //    compile 'de.greenrobot:eventbus:2.4.0'
     // HttpClient
     compile 'org.apache.httpcomponents:httpclient-android:4.3.3'
@@ -251,7 +250,7 @@ dependencies {
     compile project(':IMKit_v2_7_0')
     compile project(':sweet-alert-dialog')
     //emoji
-  //  compile project(':lib-emojix')
+    //  compile project(':lib-emojix')
     // 极光推送
     compile project(':JPush')
     // butterknife注解
@@ -278,7 +277,7 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
     compile 'com.github.VictorAlbertos.RxCache:core:1.4.6'
     // 图片加载框架 glide
-   // compile 'com.github.bumptech.glide:glide:3.7.0'
+    // compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'jp.wasabeef:glide-transformations:2.0.1'
     //阿里百川用户反馈
     compile(name: 'alisdk-feedback-2.3.0', ext: 'aar')
@@ -300,11 +299,10 @@ dependencies {
 
     //Guava collection
     compile 'com.google.guava:guava-collections:r03'
-  /*  compile 'com.android.support.constraint:constraint-layout:1.0.2'*/
+    /*  compile 'com.android.support.constraint:constraint-layout:1.0.2'*/
 
     //PhotoView
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
-
 
     //无需引入tinker的任何库,使用tinkerpatch sdk即可
     //可选，用于生成application类
@@ -343,7 +341,7 @@ def gitSha() {
         }
         //使用git commit 的版本号作为tinkerId  tinkerId一致的话才会加载补丁，所以也要注意本地开发中的tinkerId不能与线上的一致
         return gitRev
-      //  return "b86eda2"
+        //  return "b86eda2"
     } catch (Exception e) {
         throw new GradleException("can't get git rev, you should add git to system path or just input test value, such as 'testTinkerId'")
     }
@@ -360,7 +358,6 @@ def bakPath = file("${buildDir}/bakApk/")
 ext {
     //for some reason, you may want to ignore tinkerBuild, such as instant run debug build?
     tinkerEnabled = true
-
 
     //for normal build
     //old apk file to build patch apk
@@ -440,7 +437,6 @@ if (buildWithTinker()) {
          */
         tinkerEnable = buildWithTinker()
 
-
         /**
          * Warning, applyMapping will affect the normal android build!
          */
@@ -473,8 +469,6 @@ if (buildWithTinker()) {
              * open this can reduce the dex diff file size.
              */
             keepDexApply = true
-
-
 
             /**
              * optional, default 'false'
@@ -599,7 +593,7 @@ if (buildWithTinker()) {
     }
 
     List<String> flavors = new ArrayList<>();
-    project.android.productFlavors.each {flavor ->
+    project.android.productFlavors.each { flavor ->
         flavors.add(flavor.name)
     }
     boolean hasFlavors = flavors.size() > 0

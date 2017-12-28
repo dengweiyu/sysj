@@ -55,4 +55,5 @@
     <dimen name="activity_title_size">24sp</dimen>
 
     <dimen name="ab_title">18.4sp</dimen><!--16/17.6/19.2-->
+
 </resources>

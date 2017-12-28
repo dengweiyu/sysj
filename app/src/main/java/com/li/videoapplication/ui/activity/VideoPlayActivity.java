@@ -19,7 +19,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -45,7 +44,7 @@ import com.li.videoapplication.data.model.response.PlayGiftResultEntity;
 import com.li.videoapplication.data.model.response.SrtList203Entity;
 import com.li.videoapplication.data.model.response.VideoCollect2Entity;
 import com.li.videoapplication.data.model.response.VideoCommentLike2Entity;
-import com.li.videoapplication.data.model.response.VideoDetail201Entity;
+import com.li.videoapplication.data.model.response.VideoDetail226Entity;
 import com.li.videoapplication.data.model.response.VideoDoComment2CommentEntity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
 import com.li.videoapplication.data.network.UITask;
@@ -88,8 +87,6 @@ import java.util.Map;
 import io.rong.eventbus.EventBus;
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.ViewPagerOverScrollDecorAdapter;
-
-import static android.view.View.SYSTEM_UI_FLAG_FULLSCREEN;
 
 /**
  * 活动：视频详情
@@ -237,7 +234,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
                 initStatus();
                 // 网页视频 3137
                 // 视频详情
-                DataManager.videoDetail201(item.getId(), getMember_id());
+                DataManager.videoDetail226(item.getId(), getMember_id());
 
                 // 弹幕列表
                 DataManager.DANMUKU.bulletList203(item.getId());
@@ -372,7 +369,6 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
     public AddDanmukuView addDanmukuView;
     public VideoPlayView videoPlayView;
 
-
     private View mPlayGift;
     private View mLandPlayGift;
     private void initContentView() {
@@ -395,6 +391,9 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         }
 
         commentView = (CommentView) findViewById(R.id.comment);
+        if (isLogin()) {
+            commentView.setFocusable(true);
+        }
         commentView.init(this);
         commentView.setCommentListener(this);
         commentView.showView();
@@ -405,7 +404,6 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
 
 
     }
-
 
     private boolean mFragmentState;
     private VideoPlayGiftFragment mGiftFragment;
@@ -546,14 +544,20 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
 
     @Override
     public boolean comment(boolean isSecondComment, String text) {
-        Log.d(tag, "comment/text=" + text);
-        if (videoPlayView != null && videoPlayView.isVoideoPlaying()) {
-            videoPlayView.addDanmuku(text);
-         }else {
-            if (videoPlayView != null && videoPlayView.videoImage != null){
-                DataManager.DANMUKU.bulletDo203Bullet2Video(videoPlayView.videoImage.getVideo_id(),"1000",getMember_id(),text);
+        if (isLogin()) {
+            Log.d(tag, "comment/text=" + text);
+            if (videoPlayView != null && videoPlayView.isVoideoPlaying()) {
+                videoPlayView.addDanmuku(text);
+            }else {
+                if (videoPlayView != null && videoPlayView.videoImage != null){
+                    DataManager.DANMUKU.bulletDo203Bullet2Video(videoPlayView.videoImage.getVideo_id(),"1000",getMember_id(),text);
+                }
             }
+        } else {
+            DialogManager.showLogInDialog(this);
+            return false;
         }
+
         // 评论
 //        DataManager.DANMUKU.bulletDo203Comment2Video(item.getVideo_id(),
 //                getMember_id(),
@@ -689,7 +693,6 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
             }
         }
     }
-
 
 
     public void refreshTab(VideoImage item) {
@@ -835,14 +838,14 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
     /**
      * 回调：视频详情
      */
-    public void onEventMainThread(VideoDetail201Entity event) {
+    public void onEventMainThread(VideoDetail226Entity event) {
+        Log.w(tag, event.toString());
         if (event.isResult()) {
             setItem(event.getData());
             setFragmentData();
 
             refreshData(item);
             refreshTab(item);
-
 
         } else {
             ToastHelper.s(event.getMsg());

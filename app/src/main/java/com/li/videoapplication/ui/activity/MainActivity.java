@@ -85,6 +85,8 @@ import com.li.videoapplication.framework.BaseSlidingActivity;
 import com.li.videoapplication.impl.SimpleHeadLineObservable;
 import com.li.videoapplication.mvp.home.view.HomeFragment;
 import com.li.videoapplication.mvp.home.view.HomeFragmentNew;
+import com.li.videoapplication.mvp.home.view.HomeFragmentNew2;
+import com.li.videoapplication.mvp.home.view.HomeLazyColumnFragment2;
 import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -206,6 +208,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private SystemBarTintManager tintManager;
 
     private boolean mHasPatch = false;      //已经加载了补丁
+
     /**
      * 跳转：搜索
      */
@@ -257,13 +260,12 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     }
 
 
-
 	/* ########### 侧滑菜单 ############### */
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
- //       Debug.startMethodTracing("main");
+        //       Debug.startMethodTracing("main");
 //        TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), Environment.getExternalStorageDirectory().getAbsolutePath() + "/patch_signed_7zip.apk");
         initSystemBar(this);
         setSystemBarBackgroundResource(R.color.menu_main_red);
@@ -275,7 +277,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         setActionBar(inflateActionBar());
 
         //初始化菜单先隐藏 提升启动速度
-        mLeftMenuRoot = LayoutInflater.from(this).inflate(R.layout.view_slider,null);
+        mLeftMenuRoot = LayoutInflater.from(this).inflate(R.layout.view_slider, null);
         mLeftMenuRoot.setVisibility(View.INVISIBLE);
         setBehindContentView(mLeftMenuRoot);
 
@@ -295,14 +297,15 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private int tab;
     private int mMainPosition;
     private int mMatchPosition;
+
     private void getIntentValue() {
         if (getIntent() != null) {
             try {
                 //老版本
                 tab = getIntent().getIntExtra("tab", 0);
                 //新版本
-                mMainPosition = getIntent().getIntExtra("main_position",-1);
-                mMatchPosition = getIntent().getIntExtra("match_position",-1);
+                mMainPosition = getIntent().getIntExtra("main_position", -1);
+                mMatchPosition = getIntent().getIntExtra("match_position", -1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -318,32 +321,32 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             }
 
             //跳到赛事页面
-            if(tab == 4){
+            if (tab == 4) {
                 if (playWithFragment != null) {
                     playWithFragment.setCurrentPage(1);
                 }
             }
         }
 
-        if (mMainPosition > 0 && mMainPosition < 4){
+        if (mMainPosition > 0 && mMainPosition < 4) {
             if (viewPager != null) {
                 viewPager.setCurrentItem(mMainPosition);
-                if(mMainPosition == 3){
+                if (mMainPosition == 3) {
                     showPlayWidthTab(true);
                 }
                 mMainPosition = -1;
             }
         }
 
-        if (mMatchPosition > 0 && mMatchPosition < 2){
+        if (mMatchPosition > 0 && mMatchPosition < 2) {
             if (playWithFragment != null) {
                 playWithFragment.setCurrentPage(mMatchPosition);
                 mMatchPosition = -1;
             }
         }
 
-        if (slidingMenu != null){
-            if (slidingMenu.isMenuShowing()){
+        if (slidingMenu != null) {
+            if (slidingMenu.isMenuShowing()) {
                 toggle();
             }
         }
@@ -354,14 +357,15 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     Runnable mFetchPatchTask = new Runnable() {
         @Override
         public void run() {
-            DataManager.fetchPatch(AnalyticsConfig.getChannel(MainActivity.this),BuildConfig.VERSION_NAME);
+            DataManager.fetchPatch(AnalyticsConfig.getChannel(MainActivity.this), BuildConfig.VERSION_NAME);
 
         }
     };
 
     private boolean mIsInit = true;
-    private void runOnResume(){
-        if (!mIsInit){
+
+    private void runOnResume() {
+        if (!mIsInit) {
             return;
         }
 
@@ -420,9 +424,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 commitFocusGameList();
 
                 //更新配置文件
-                File file =  new File(getFilesDir(),"icon_config.json");
+                File file = new File(getFilesDir(), "icon_config.json");
                 try {
-                    if (!file.exists()){
+                    if (!file.exists()) {
                         file.createNewFile();
                     }
 
@@ -432,28 +436,28 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 }
                 //监听IM 消息变化
                 Proxy.getMessageManager().onUnReadChange(new OnUnReadChange() {
-                         @Override
-                        public void change(final int count) {
-                            runOnUiThread(new Runnable() {
+                    @Override
+                    public void change(final int count) {
+                        runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 mUnReadCount = count;
-                                if (slider != null){
+                                if (slider != null) {
                                     slider.refreshXMPPUnreadMsg(count);
                                 }
                             }
                         });
-                     }
+                    }
                 });
 
             }
-        },1000);
+        }, 1000);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-     //   Debug.stopMethodTracing();
+        //   Debug.stopMethodTracing();
 
         runOnResume();
         if (NetUtil.isConnect() && !isLogin) {
@@ -469,13 +473,13 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             public void totalUnreadCount(int count) {
                 Log.d(tag, "totalUnreadCount: count == " + count);
 
-                if (mUnReadMsg == null){
+                if (mUnReadMsg == null) {
                     mUnReadMsg = new UnReadMessageEvent(count);
-                }else {
-                    mUnReadMsg.setCount(mUnReadMsg.getCount()+count);
+                } else {
+                    mUnReadMsg.setCount(mUnReadMsg.getCount() + count);
                 }
 
-                if (viewPager != null && viewPager.getCurrentItem() == 3){
+                if (viewPager != null && viewPager.getCurrentItem() == 3) {
                     return;
                 }
 
@@ -487,13 +491,13 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     }
 
-    private void refreshUnReadView(){
-        if(leftCount == null){
+    private void refreshUnReadView() {
+        if (leftCount == null) {
             return;
         }
-        if (mUnReadCount > 0){
+        if (mUnReadCount > 0) {
             leftCount.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             leftCount.setVisibility(View.GONE);
         }
     }
@@ -516,12 +520,12 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             System.gc();
         }
 
-        if (mHandler != null){
+        if (mHandler != null) {
             mHandler.removeCallbacks(mFetchPatchTask);
         }
 
         //全部退出APP 保证重启后补丁生效
-        if (mHasPatch){
+        if (mHasPatch) {
             //kill current activity
             AppManager.getInstance().removeCurrentActivity();
             //
@@ -536,15 +540,15 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     /**
      * 回调：IM点击事件
      */
-    private void registerIMClickListener(){
-        if (Proxy.getMessageManager() == null){
+    private void registerIMClickListener() {
+        if (Proxy.getMessageManager() == null) {
             return;
         }
 
         Proxy.getMessageManager().setOnHtmlItemClickListener(new OnHtmlItemClickListener() {
             @Override
             public void onClick(String memberid, String defaultStr, String[] html, boolean isMe) {
-                if (html != null && !StringUtil.isNull(html[0])){
+                if (html != null && !StringUtil.isNull(html[0])) {
                     //将Url给后台解析
                     DataManager.parseMessage(html[0]);
                 }
@@ -643,10 +647,10 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
         mPlayWith = (LinearLayout) background.findViewById(R.id.ll_play_with_match_tab);
         mPlayWithIndicator = background.findViewById(R.id.play_with_indicator);
-        mPlayWithTitle = (TextView)background.findViewById(R.id.tv_play_with_title);
-        mMatchTitle = (TextView)background.findViewById(R.id.tv_match_title);
+        mPlayWithTitle = (TextView) background.findViewById(R.id.tv_play_with_title);
+        mMatchTitle = (TextView) background.findViewById(R.id.tv_match_title);
         mMatchIndicator = background.findViewById(R.id.match_indicator);
-        mOrderList = (TextView)background.findViewById(R.id.tv_order_list);
+        mOrderList = (TextView) background.findViewById(R.id.tv_order_list);
 
         mOrderList.setOnClickListener(this);
         mPlayWithTitle.setOnClickListener(this);
@@ -668,20 +672,20 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     public void onClosed() {
         refreshSystemBar(false);
         //FIXME 侧滑菜单  需要在这里 关闭滚动
-    //    home.startAutoFlowTimer();
+        //    home.startAutoFlowTimer();
     }
 
     @Override
     public void onClose() {
-     //   home.startAutoFlowTimer();
+        //   home.startAutoFlowTimer();
     }
 
     @Override
     public void onOpened() {
-   //     home.stopAutoFlowTimer();
+        //     home.stopAutoFlowTimer();
         slider.refreshUnReadMessage();
         String member_id = PreferencesHepler.getInstance().getMember_id();
-        if (!StringUtil.isNull(member_id)){
+        if (!StringUtil.isNull(member_id)) {
             DataManager.userProfilePersonalInformation(member_id, member_id);
         }
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.MAIN, "打开左侧栏次数");
@@ -690,7 +694,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     @Override
     public void onOpen() {
         refreshSystemBar(true);
-     //   home.stopAutoFlowTimer();
+        //   home.stopAutoFlowTimer();
     }
 
     @Override
@@ -708,8 +712,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 break;
             case R.id.iv_bottom_record:
 
-                DialogManager.showRecordDialog(this,getWindow().getDecorView());
-                UmengAnalyticsHelper.onEvent(MainActivity.this,UmengAnalyticsHelper.MAIN,"首页-底部录屏");
+                DialogManager.showRecordDialog(this, getWindow().getDecorView());
+                UmengAnalyticsHelper.onEvent(MainActivity.this, UmengAnalyticsHelper.MAIN, "首页-底部录屏");
                 break;
 
             case R.id.ab_search:
@@ -728,28 +732,28 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 startScanQRCodeActivity();
                 break;
             case R.id.tv_play_with_title:
-                if (playWithFragment != null){
+                if (playWithFragment != null) {
                     playWithFragment.setCurrentPage(0);
                 }
                 break;
             case R.id.tv_match_title:
-                if (playWithFragment != null){
+                if (playWithFragment != null) {
                     playWithFragment.setCurrentPage(1);
                 }
                 break;
             case R.id.tv_order_list:
 
-                if(PreferencesHepler.getInstance().isLogin()){
+                if (PreferencesHepler.getInstance().isLogin()) {
                     Member member = PreferencesHepler.getInstance().getUserProfilePersonalInformation();
-                    if (member != null ){
-                        if (member.isCoach()){
-                            ActivityManager.startPlayWithOrderAndMatchActivity(MainActivity.this,0,1);
-                        }else {
-                            ActivityManager.startPlayWithOrderAndMatchActivity(MainActivity.this,0,0);
+                    if (member != null) {
+                        if (member.isCoach()) {
+                            ActivityManager.startPlayWithOrderAndMatchActivity(MainActivity.this, 0, 1);
+                        } else {
+                            ActivityManager.startPlayWithOrderAndMatchActivity(MainActivity.this, 0, 0);
                         }
                     }
 
-                }else {
+                } else {
                     DialogManager.showLogInDialog(MainActivity.this);
                 }
 
@@ -758,9 +762,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     }
 
 
-
     private void switchActionBar(final int index) {
-        if (leftIcon == null || leftHead == null){
+        if (leftIcon == null || leftHead == null) {
             return;
         }
         if (index == 0) {
@@ -792,7 +795,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 title.setVisibility(View.GONE);
                 search.setVisibility(View.VISIBLE);
                 search.setBackgroundResource(R.drawable.search_bg);
-                if(leftCount != null){
+                if (leftCount != null) {
                     leftCount.setImageResource(R.color.white);
                 }
                 break;
@@ -805,7 +808,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 title.setVisibility(View.GONE);
                 search.setVisibility(View.VISIBLE);
                 search.setBackgroundResource(R.drawable.search_bg_white);
-                if (leftCount != null){
+                if (leftCount != null) {
                     leftCount.setImageResource(R.color.ab_backdround_red);
                 }
                 break;
@@ -818,7 +821,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 title.setVisibility(View.GONE);
                 search.setVisibility(View.VISIBLE);
                 search.setBackgroundResource(R.drawable.search_bg_white);
-                if (leftCount != null){
+                if (leftCount != null) {
                     leftCount.setImageResource(R.color.ab_backdround_red);
                 }
                 break;
@@ -832,7 +835,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 title.setText(R.string.menu_main_fourth);
                 search.setVisibility(View.VISIBLE);
                 search.setBackgroundResource(R.drawable.search_bg_white);
-                if (leftCount != null){
+                if (leftCount != null) {
                     leftCount.setImageResource(R.color.ab_backdround_red);
                 }
                 break;
@@ -845,7 +848,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
      * 刷新标题栏左上角头像
      */
     private void refreshActionBar() {
-        if (leftHead == null || leftIcon == null){
+        if (leftHead == null || leftIcon == null) {
             return;
         }
         isLogin = PreferencesHepler.getInstance().isLogin();
@@ -858,7 +861,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             leftHead.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
             leftIcon.setVisibility(View.VISIBLE);
             leftHead.setVisibility(View.GONE);
-            if(leftCount == null){
+            if (leftCount == null) {
                 return;
             }
             leftCount.setVisibility(View.GONE);
@@ -890,23 +893,23 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private void initHomeFragment() {
         if (fragments == null) {
             fragments = new ArrayList<>();
-        }else {
+        } else {
             return;
         }
         fragments.clear();
 
         home = new HomeFragmentNew();
-       // game = new GameFragment();
-      //  discover = new DiscoverFragment();
-     //   playWithFragment = new PlayWithFragment();
+        // game = new GameFragment();
+        //  discover = new DiscoverFragment();
+        //   playWithFragment = new PlayWithFragment();
 
         fragments.add(home);
        /* fragments.add(game);
         fragments.add(discover);
         fragments.add(playWithFragment);*/
-      //  fragments.add(new Fragment());
-      //  fragments.add(new Fragment());
-       // fragments.add(new Fragment());
+        //  fragments.add(new Fragment());
+        //  fragments.add(new Fragment());
+        // fragments.add(new Fragment());
         viewPager = (ViewPagerY4) findViewById(R.id.pager);
         viewPager.setScrollable(true);
         viewPager.setOffscreenPageLimit(3);
@@ -915,18 +918,18 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         viewPager.addOnPageChangeListener(this);
 
         viewPager.setCurrentItem(0);
-    //    viewPager.setPageTransformer(false,new HomeShadeTransformer(viewPager,search,mPlayWidth,3));
+        //    viewPager.setPageTransformer(false,new HomeShadeTransformer(viewPager,search,mPlayWidth,3));
         new HorizontalOverScrollBounceEffectDecorator(new ViewPagerOverScrollDecorAdapter(viewPager));
     }
 
     /**
      * 拆分出来 提升冷启动首页速度
      */
-    private void initOtherFragment(){
+    private void initOtherFragment() {
         if (fragments == null || viewPager == null) {
             return;
         }
-        if(game != null || discover != null || playWithFragment != null){
+        if (game != null || discover != null || playWithFragment != null) {
             return;
         }
 
@@ -948,7 +951,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     public void initMenu() {
 
         menu = findViewById(R.id.menu);
-        mPlayWithBottom = (TextView)findViewById(R.id.tv_bottom_play_with);
+        mPlayWithBottom = (TextView) findViewById(R.id.tv_bottom_play_with);
         mDivider = findViewById(R.id.v_divider_bottom);
 
         if (bottomButtons == null) {
@@ -992,11 +995,11 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         initOtherFragment();
 
         mScrollState = arg0;
-        if (mScrollState == SCROLL_STATE_IDLE){
-            if (viewPager.getCurrentItem() == 3){
+        if (mScrollState == SCROLL_STATE_IDLE) {
+            if (viewPager.getCurrentItem() == 3) {
                 showPlayWidthTab(true);
 
-            }else {
+            } else {
                 showPlayWidthTab(false);
                 //底部 menu
                 refreshBottomMenu(true);
@@ -1009,21 +1012,21 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     @Override
     public void onPageScrolled(int arg0, float arg1, int arg2) {
-        if (mPreviousPosition == 3 && arg1 == 0){
+        if (mPreviousPosition == 3 && arg1 == 0) {
             return;
         }
 
-        if (arg1 - mLastOffset > 0){              //0->1
-            if (mPreviousPosition == 2 || viewPager.getCurrentItem() == 3){
-                if (mLastOffset != 0){
+        if (arg1 - mLastOffset > 0) {              //0->1
+            if (mPreviousPosition == 2 || viewPager.getCurrentItem() == 3) {
+                if (mLastOffset != 0) {
                     showShade(arg1);
-                    hideShade(1-arg1);
+                    hideShade(1 - arg1);
                 }
             }
-        }else {                                   //1-0
-            if (mPreviousPosition == 3 && viewPager.getCurrentItem() == 3){
+        } else {                                   //1-0
+            if (mPreviousPosition == 3 && viewPager.getCurrentItem() == 3) {
                 showShade(arg1);
-                hideShade(1-arg1);
+                hideShade(1 - arg1);
             }
         }
         mLastOffset = arg1;
@@ -1053,8 +1056,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            if (state == SCROLL_STATE_IDLE){
-                if (playWithFragment.getCurrentPage() == 1){
+            if (state == SCROLL_STATE_IDLE) {
+                if (playWithFragment.getCurrentPage() == 1) {
                     refreshBottomMenu(true);
                 }
 
@@ -1063,26 +1066,27 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     };
 
 
-    private void showShade(float scale){
-        if (mPlayWith == null){
+    private void showShade(float scale) {
+        if (mPlayWith == null) {
             return;
         }
-        if (mPlayWith.getVisibility() == View.GONE){
+        if (mPlayWith.getVisibility() == View.GONE) {
             mPlayWith.setVisibility(View.VISIBLE);
         }
 
         mPlayWith.setAlpha(scale);
     }
 
-    private void hideShade(float scale){
-        if (search == null){
+    private void hideShade(float scale) {
+        if (search == null) {
             return;
         }
         search.setAlpha(scale);
     }
 
-    private Map<String,Drawable> mDrawableMap = new HashMap<>();
+    private Map<String, Drawable> mDrawableMap = new HashMap<>();
     private int mPagerIndex = 0;
+
     private void switchTab(final int index) {
         //
         mPagerIndex = index;
@@ -1091,14 +1095,14 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         initOtherFragment();
 
         //解析按钮配置
-        BottomIconEntity entity =  parseIconConfig();
+        BottomIconEntity entity = parseIconConfig();
 
-        if (entity == null){
+        if (entity == null) {
             entity = new BottomIconEntity();
             entity.setMenuIco(new BottomIconEntity.MenuIcoBean());
         }
 
-        if (bottomText != null){
+        if (bottomText != null) {
             for (int i = 0; i < bottomText.size(); i++) {
                 if (index == i) {
                     bottomText.get(i).setTextColor(resources.getColorStateList(R.color.menu_main_red));
@@ -1110,22 +1114,22 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
 
         //重新渲染 录屏按钮图片
-        if (mBottomRecord != null){
+        if (mBottomRecord != null) {
             final String unPress = entity.getMenuIco().getScreen();
             final String press = entity.getMenuIco().getScreenChecked();
             GlideHelper.displayImageByDrawable(this, R.drawable.home_bottom_record, unPress, mBottomRecord, new SimpleTarget<Drawable>() {
                 @Override
                 public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                    if (!StringUtil.isNull(unPress)){
-                        mDrawableMap.put(unPress,resource);
+                    if (!StringUtil.isNull(unPress)) {
+                        mDrawableMap.put(unPress, resource);
                     }
 
-                    if (mDrawableMap.get(press) != null){
+                    if (mDrawableMap.get(press) != null) {
                         StateListDrawable drawable = new StateListDrawable();
 
-                        drawable.addState(new int[]{android.R.attr.state_pressed},mDrawableMap.get(press));
+                        drawable.addState(new int[]{android.R.attr.state_pressed}, mDrawableMap.get(press));
 
-                        drawable.addState(new int[]{-android.R.attr.state_pressed},resource);
+                        drawable.addState(new int[]{-android.R.attr.state_pressed}, resource);
                         mBottomRecord.setImageDrawable(drawable);
                     }
                 }
@@ -1146,18 +1150,18 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                     }
                 }*/
             });
-            GlideHelper.displayImageByDrawable(this, R.drawable.home_bottom_record_press,press, mBottomRecord, new SimpleTarget<Drawable>() {
+            GlideHelper.displayImageByDrawable(this, R.drawable.home_bottom_record_press, press, mBottomRecord, new SimpleTarget<Drawable>() {
                 @Override
                 public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                    if (!StringUtil.isNull(press)){
-                        mDrawableMap.put(press,resource);
+                    if (!StringUtil.isNull(press)) {
+                        mDrawableMap.put(press, resource);
                     }
-                    if (mDrawableMap.get(unPress) != null){
+                    if (mDrawableMap.get(unPress) != null) {
                         StateListDrawable drawable = new StateListDrawable();
 
-                        drawable.addState(new int[]{android.R.attr.state_pressed},resource);
+                        drawable.addState(new int[]{android.R.attr.state_pressed}, resource);
 
-                        drawable.addState(new int[]{-android.R.attr.state_pressed},mDrawableMap.get(unPress));
+                        drawable.addState(new int[]{-android.R.attr.state_pressed}, mDrawableMap.get(unPress));
                         mBottomRecord.setImageDrawable(drawable);
                     }
                 }
@@ -1183,10 +1187,10 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         switch (index) {
             case 0:// 首页
 
-                GlideHelper.displayImage(this,R.drawable.home_selected,entity.getMenuIco().getIndexChecked(),bottomIcon.get(0));
-                GlideHelper.displayImage(this,R.drawable.game_normal,entity.getMenuIco().getGroup(),bottomIcon.get(1));
-                GlideHelper.displayImage(this,R.drawable.discover_normal,entity.getMenuIco().getDiscovery(),bottomIcon.get(2));
-                GlideHelper.displayImage(this,R.drawable.event_nomal,entity.getMenuIco().getTraining(),bottomIcon.get(3));
+                GlideHelper.displayImage(this, R.drawable.home_selected, entity.getMenuIco().getIndexChecked(), bottomIcon.get(0));
+                GlideHelper.displayImage(this, R.drawable.game_normal, entity.getMenuIco().getGroup(), bottomIcon.get(1));
+                GlideHelper.displayImage(this, R.drawable.discover_normal, entity.getMenuIco().getDiscovery(), bottomIcon.get(2));
+                GlideHelper.displayImage(this, R.drawable.event_nomal, entity.getMenuIco().getTraining(), bottomIcon.get(3));
 
           /*      bottomIcon.get(0).setImageResource(R.drawable.home_selected);
                 bottomIcon.get(1).setImageResource(R.drawable.game_normal);
@@ -1196,10 +1200,10 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 break;
             case 1: // 打游戏
 
-                GlideHelper.displayImage(this,R.drawable.home_normal,entity.getMenuIco().getIndex(),bottomIcon.get(0));
-                GlideHelper.displayImage(this,R.drawable.game_selected,entity.getMenuIco().getGroupChecked(),bottomIcon.get(1));
-                GlideHelper.displayImage(this,R.drawable.discover_normal,entity.getMenuIco().getDiscovery(),bottomIcon.get(2));
-                GlideHelper.displayImage(this,R.drawable.event_nomal,entity.getMenuIco().getTraining(),bottomIcon.get(3));
+                GlideHelper.displayImage(this, R.drawable.home_normal, entity.getMenuIco().getIndex(), bottomIcon.get(0));
+                GlideHelper.displayImage(this, R.drawable.game_selected, entity.getMenuIco().getGroupChecked(), bottomIcon.get(1));
+                GlideHelper.displayImage(this, R.drawable.discover_normal, entity.getMenuIco().getDiscovery(), bottomIcon.get(2));
+                GlideHelper.displayImage(this, R.drawable.event_nomal, entity.getMenuIco().getTraining(), bottomIcon.get(3));
 
              /*   bottomIcon.get(0).setImageResource(R.drawable.home_normal);
                 bottomIcon.get(1).setImageResource(R.drawable.game_selected);
@@ -1210,10 +1214,10 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 break;
             case 2: // 发现
 
-                GlideHelper.displayImage(this,R.drawable.home_normal,entity.getMenuIco().getIndex(),bottomIcon.get(0));
-                GlideHelper.displayImage(this,R.drawable.game_normal,entity.getMenuIco().getGroup(),bottomIcon.get(1));
-                GlideHelper.displayImage(this,R.drawable.discover_selected,entity.getMenuIco().getDiscoveryChecked(),bottomIcon.get(2));
-                GlideHelper.displayImage(this,R.drawable.event_nomal,entity.getMenuIco().getTraining(),bottomIcon.get(3));
+                GlideHelper.displayImage(this, R.drawable.home_normal, entity.getMenuIco().getIndex(), bottomIcon.get(0));
+                GlideHelper.displayImage(this, R.drawable.game_normal, entity.getMenuIco().getGroup(), bottomIcon.get(1));
+                GlideHelper.displayImage(this, R.drawable.discover_selected, entity.getMenuIco().getDiscoveryChecked(), bottomIcon.get(2));
+                GlideHelper.displayImage(this, R.drawable.event_nomal, entity.getMenuIco().getTraining(), bottomIcon.get(3));
 
            /*     bottomIcon.get(0).setImageResource(R.drawable.home_normal);
                 bottomIcon.get(1).setImageResource(R.drawable.game_normal);
@@ -1224,10 +1228,10 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 break;
             case 3:// 福利
 
-                GlideHelper.displayImage(this,R.drawable.home_normal,entity.getMenuIco().getIndex(),bottomIcon.get(0));
-                GlideHelper.displayImage(this,R.drawable.game_normal,entity.getMenuIco().getGroup(),bottomIcon.get(1));
-                GlideHelper.displayImage(this,R.drawable.discover_normal,entity.getMenuIco().getDiscovery(),bottomIcon.get(2));
-                GlideHelper.displayImage(this,R.drawable.event_selected,entity.getMenuIco().getTrainingChecked(),bottomIcon.get(3));
+                GlideHelper.displayImage(this, R.drawable.home_normal, entity.getMenuIco().getIndex(), bottomIcon.get(0));
+                GlideHelper.displayImage(this, R.drawable.game_normal, entity.getMenuIco().getGroup(), bottomIcon.get(1));
+                GlideHelper.displayImage(this, R.drawable.discover_normal, entity.getMenuIco().getDiscovery(), bottomIcon.get(2));
+                GlideHelper.displayImage(this, R.drawable.event_selected, entity.getMenuIco().getTrainingChecked(), bottomIcon.get(3));
 
             /*    bottomIcon.get(0).setImageResource(R.drawable.home_normal);
                 bottomIcon.get(1).setImageResource(R.drawable.game_normal);
@@ -1242,19 +1246,19 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     /**
      * 解析首页底部按钮图片配置文件
      */
-    private BottomIconEntity parseIconConfig(){
+    private BottomIconEntity parseIconConfig() {
         BottomIconEntity entity = null;
         //R.raw.iconconf 此文件默认为空，后台有更新时会写入
         File file = null;
         try {
-            file =  new File(getFilesDir(),"icon_config.json");
-            if (!file.exists()){
+            file = new File(getFilesDir(), "icon_config.json");
+            if (!file.exists()) {
                 file.createNewFile();
             }
             InputStream is = new FileInputStream(file);
-            if (is != null){
+            if (is != null) {
                 Gson gson = new Gson();
-                entity =  gson.fromJson(new JsonReader(new InputStreamReader(is)),BottomIconEntity.class);
+                entity = gson.fromJson(new JsonReader(new InputStreamReader(is)), BottomIconEntity.class);
             }
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
@@ -1262,7 +1266,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             e.printStackTrace();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -1271,13 +1275,13 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     }
 
     /**
-     *显示/隐藏顶部陪练赛事标题
+     * 显示/隐藏顶部陪练赛事标题
      */
-    private void showPlayWidthTab(boolean isShow){
-        if (leftCount == null || playWithFragment == null){
+    private void showPlayWidthTab(boolean isShow) {
+        if (leftCount == null || playWithFragment == null) {
             return;
         }
-        if (isShow){
+        if (isShow) {
             leftCount.setVisibility(View.GONE);
             right.setVisibility(View.GONE);
             mPlayWith.setAlpha(1);
@@ -1286,7 +1290,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             mPlayWithBottom.setTextColor(getResources().getColor(R.color.ab_backdround_red));
             mDivider.setBackgroundColor(getResources().getColor(R.color.ab_backdround_red));
             mOrderList.setVisibility(View.VISIBLE);
-            switch(playWithFragment.getCurrentPage()){
+            switch (playWithFragment.getCurrentPage()) {
                 case 0:
                     mPlayWithTitle.setTextColor(Color.parseColor("#fc3c2e"));
                     mPlayWithIndicator.setVisibility(View.VISIBLE);
@@ -1302,7 +1306,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                     mPlayWithIndicator.setVisibility(View.INVISIBLE);
                     break;
             }
-        }else {
+        } else {
             refreshUnReadView();
 
             right.setVisibility(View.VISIBLE);
@@ -1331,24 +1335,25 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
      * 显示/隐藏底部菜单
      */
     private boolean mMenuIsShowing = true;
-    public void refreshBottomMenu(boolean isShow){
-        if (menu == null || mBottomRecord == null){
+
+    public void refreshBottomMenu(boolean isShow) {
+        if (menu == null || mBottomRecord == null) {
             return;
         }
 
-        if (isShow == mMenuIsShowing){
+        if (isShow == mMenuIsShowing) {
             return;
         }
 
-        if (isShow){
-            Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,0f,Animation.RELATIVE_TO_SELF,0f,Animation.RELATIVE_TO_SELF,2f,Animation.RELATIVE_TO_SELF,0f);
+        if (isShow) {
+            Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 2f, Animation.RELATIVE_TO_SELF, 0f);
             animation.setDuration(300);
             animation.setFillAfter(true);
             menu.startAnimation(animation);
             mBottomRecord.startAnimation(animation);
             System.out.println("menu showing");
-        }else if (mMenuIsShowing){
-            Animation animation = new  TranslateAnimation(Animation.RELATIVE_TO_SELF,0f,Animation.RELATIVE_TO_SELF,0f,Animation.RELATIVE_TO_SELF,0f,Animation.RELATIVE_TO_SELF,2f);
+        } else if (mMenuIsShowing) {
+            Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 2f);
             animation.setDuration(300);
             animation.setFillAfter(true);
             menu.startAnimation(animation);
@@ -1401,20 +1406,20 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
      * @param activity
      */
     public void setStatusBarDarkMode(boolean darkmode, Activity activity) {
-        StatusBarBlackTextHelper.initStatusBarTextColor(activity.getWindow(),darkmode);
+        StatusBarBlackTextHelper.initStatusBarTextColor(activity.getWindow(), darkmode);
     }
 
     /**
      * 提交游戏关注列表
      */
-    private void commitFocusGameList(){
+    private void commitFocusGameList() {
         //提交问卷
         String gameIds;
-        gameIds = UserPreferences.getInstance().getString(Constants.GROUP_IDS_NEW,"");
+        gameIds = UserPreferences.getInstance().getString(Constants.GROUP_IDS_NEW, "");
         Member member = PreferencesHepler.getInstance().getUserProfilePersonalInformation();
 
-        if (!StringUtil.isNull(gameIds) && member != null){
-            DataManager.commitFocusGameList(member.getId(),gameIds);
+        if (!StringUtil.isNull(gameIds) && member != null) {
+            DataManager.commitFocusGameList(member.getId(), gameIds);
         }
     }
 
@@ -1431,7 +1436,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 public void run() {
                     DialogManager.showVideoTipDialog(MainActivity.this);
                 }
-            },300);
+            }, 300);
 
             NormalPreferences.getInstance().putBoolean(Constants.TIP_VEDIO, false);
         }
@@ -1474,30 +1479,31 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     private String mConfigUrl = null;
     private FileDownloadRequest mConfigRequest;
-    private void downloadConfig(final String filePath){
-        if (StringUtil.isNull(filePath)){
+
+    private void downloadConfig(final String filePath) {
+        if (StringUtil.isNull(filePath)) {
             return;
         }
-        if (StringUtil.isNull(mConfigUrl)){
+        if (StringUtil.isNull(mConfigUrl)) {
             mConfigUrl = AppConstant.getIconConfigQn();
         }
-        if (mConfigRequest == null){
+        if (mConfigRequest == null) {
             mConfigRequest = new FileDownloadRequest();
         }
 
         mConfigRequest.download(mConfigUrl, filePath, 0, new FileDownloadRequest.DownloadListener() {
             @Override
             public void progress(long totalBytesRead, long contentLength, boolean isDone) {
-                if (isDone ){
-                    if (totalBytesRead >0){
+                if (isDone) {
+                    if (totalBytesRead > 0) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 switchTab(mPagerIndex);
                             }
                         });
-                    }else {
-                        if (mConfigUrl.equals(AppConstant.getIconConfigQn())){
+                    } else {
+                        if (mConfigUrl.equals(AppConstant.getIconConfigQn())) {
                             mConfigUrl = AppConstant.getIconConfigFm();
                             downloadConfig(filePath);
                         }
@@ -1508,7 +1514,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             @Override
             public void finish() {
 
-                if (mConfigUrl.equals(AppConstant.getIconConfigQn())){
+                if (mConfigUrl.equals(AppConstant.getIconConfigQn())) {
                     mConfigUrl = AppConstant.getIconConfigFm();
                     downloadConfig(filePath);
                 }
@@ -1537,12 +1543,12 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     }
 
     /**
-     *  提交问卷结果
+     * 提交问卷结果
      */
-    public void onEventMainThread(CommitFocusGameListEntity entity){
-        if (entity.isResult()){
+    public void onEventMainThread(CommitFocusGameListEntity entity) {
+        if (entity.isResult()) {
             //清除问卷
-            UserPreferences.getInstance().putString(Constants.GROUP_IDS_NEW,"");
+            UserPreferences.getInstance().putString(Constants.GROUP_IDS_NEW, "");
         }
     }
 
@@ -1594,49 +1600,49 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     /**
      * 补丁文件
      */
-    public void  onEventMainThread(PatchEntity entity){
-        if (entity.isResult()){
+    public void onEventMainThread(PatchEntity entity) {
+        if (entity.isResult()) {
             mValidation = entity.getData().getValidation();
             PatchEntity.DataBean data = entity.getData();
-            if (data.getChannel_id() != null && data.getChannel_id().equals(AnalyticsConfig.getChannel(MainActivity.this))){
-               final File patchFile = SYSJStorageUtil.createFilecachePath(data.getDownload_url());
-                if (BuildConfig.VERSION_NAME.equals(data.getApp_version()) && !StringUtil.isNull(data.getDownload_url())){
+            if (data.getChannel_id() != null && data.getChannel_id().equals(AnalyticsConfig.getChannel(MainActivity.this))) {
+                final File patchFile = SYSJStorageUtil.createFilecachePath(data.getDownload_url());
+                if (BuildConfig.VERSION_NAME.equals(data.getApp_version()) && !StringUtil.isNull(data.getDownload_url())) {
                     //生成MD5
-                    String md5 = MD5Util.string2MD5(data.getApp_version()+data.getPatch_version()+data.getChannel_id()+data.getDownload_url());
-                    if (patchFile != null && patchFile.exists() && md5.equals(SharedPreferencesUtils.getPreference(this, AppConstant.PATCH_MD5))){
+                    String md5 = MD5Util.string2MD5(data.getApp_version() + data.getPatch_version() + data.getChannel_id() + data.getDownload_url());
+                    if (patchFile != null && patchFile.exists() && md5.equals(SharedPreferencesUtils.getPreference(this, AppConstant.PATCH_MD5))) {
                         //Tinker是线性覆盖 重复加载补丁没有影响
                         TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), patchFile.getAbsolutePath());
                         return;
                     }
-                    SharedPreferencesUtils.setPreference(this, AppConstant.PATCH_MD5,md5);
+                    SharedPreferencesUtils.setPreference(this, AppConstant.PATCH_MD5, md5);
                     //拉取补丁
-                    if (!StringUtil.isNull(data.getDownload_url())){
-                       new FileDownloadRequest().download(data.getDownload_url(),patchFile.getAbsolutePath(),0,new FileDownloadRequest.DownloadListener(){
-                           @Override
-                           public void progress(long totalBytesRead, long contentLength, boolean isDone) {
-                             //  Log.d("FileDownloadRequest","totalBytesRead:"+totalBytesRead+" contentLength:"+contentLength+" isDone:"+isDone);
-                               if (isDone){
-                                   String validation= "";
-                                   try {
-                                       validation = MD5Util.getFileMD5(patchFile);
-                                   } catch (NoSuchAlgorithmException e) {
-                                       e.printStackTrace();
-                                   } catch (IOException e) {
-                                       e.printStackTrace();
-                                   }
-                                   if (mValidation.equals(validation)){
-                                       TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), patchFile.getAbsolutePath());
+                    if (!StringUtil.isNull(data.getDownload_url())) {
+                        new FileDownloadRequest().download(data.getDownload_url(), patchFile.getAbsolutePath(), 0, new FileDownloadRequest.DownloadListener() {
+                            @Override
+                            public void progress(long totalBytesRead, long contentLength, boolean isDone) {
+                                //  Log.d("FileDownloadRequest","totalBytesRead:"+totalBytesRead+" contentLength:"+contentLength+" isDone:"+isDone);
+                                if (isDone) {
+                                    String validation = "";
+                                    try {
+                                        validation = MD5Util.getFileMD5(patchFile);
+                                    } catch (NoSuchAlgorithmException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (mValidation.equals(validation)) {
+                                        TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), patchFile.getAbsolutePath());
                                         //第一次加载了新补丁
-                                       mHasPatch = true;
-                                   }
-                               }
-                           }
+                                        mHasPatch = true;
+                                    }
+                                }
+                            }
 
-                           @Override
-                           public void finish() {
+                            @Override
+                            public void finish() {
 
-                           }
-                       });
+                            }
+                        });
                     }
                 }
             }
@@ -1645,13 +1651,14 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
 
     private UnReadMessageEvent mUnReadMsg;
+
     /**
-     *未读消息红点
+     * 未读消息红点
      */
-    public void updateUnReadMessage(UnReadMessageEvent event){
-        if (event != null && leftCount != null){
+    public void updateUnReadMessage(UnReadMessageEvent event) {
+        if (event != null && leftCount != null) {
             mUnReadMsg = event;
-            if (viewPager != null && viewPager.getCurrentItem() == 3){
+            if (viewPager != null && viewPager.getCurrentItem() == 3) {
                 return;
             }
         }
@@ -1660,20 +1667,20 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     /**
      * IM 消息URL解析结果
      */
-    public void onEventMainThread(ParseResultEntity entity){
-        if (entity != null && entity.isResult()){
-            switch (entity.getData().getType()){
+    public void onEventMainThread(ParseResultEntity entity) {
+        if (entity != null && entity.isResult()) {
+            switch (entity.getData().getType()) {
                 case "event":
-                    ActivityManager.startGameMatchDetailActivity(MainActivity.this,entity.getData().getId());
+                    ActivityManager.startGameMatchDetailActivity(MainActivity.this, entity.getData().getId());
                     break;                 //点击了赛事链接
                 case "activity":
-                    ActivityManager.startActivityDetailActivity(MainActivity.this,entity.getData().getId());
+                    ActivityManager.startActivityDetailActivity(MainActivity.this, entity.getData().getId());
                     break;              //点击了活动链接
                 case "video":
                     VideoImage item = new VideoImage();
                     item.setQn_key(entity.getData().getKey());
                     item.setVideo_id(entity.getData().getId());
-                    ActivityManager.startVideoPlayActivity(MainActivity.this,item);
+                    ActivityManager.startVideoPlayActivity(MainActivity.this, item);
                     break;                 //点击了视频链接
             }
         }
@@ -1692,17 +1699,17 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     }
 
     /**
-     *聊天界面点击事件
+     * 聊天界面点击事件
      */
     @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onChatWindowClickListener(ChatWindowEntity entity){
-        if (entity != null && entity.getId() == com.ifeimo.im.R.id.id_top_right_layout){
-            if (!StringUtil.isNull(entity.getReceiverID())){
+    public void onChatWindowClickListener(ChatWindowEntity entity) {
+        if (entity != null && entity.getId() == com.ifeimo.im.R.id.id_top_right_layout) {
+            if (!StringUtil.isNull(entity.getReceiverID())) {
                 Member member = new Member();
                 member.setId(entity.getReceiverID());
                 member.setMember_id(entity.getReceiverID());
-                ActivityManager.startPlayerPersonalInfoActivity(this,member);
+                ActivityManager.startPlayerPersonalInfoActivity(this, member);
             }
         }
     }
@@ -1723,4 +1730,5 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             viewPager.setCurrentItem(index);
         }
     }
+
 }

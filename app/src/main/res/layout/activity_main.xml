@@ -1,48 +1,49 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
+
     <LinearLayout
         android:id="@+id/rl_main_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_background"
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <!--  <FrameLayout
+              android:id="@+id/container"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/app_background"
-              android:clipToPadding="true"
-              android:fitsSystemWindows="true"
-              android:orientation="vertical">
+              android:layout_weight="1"
+              android:visibility="gone"/>-->
 
-  <!--  <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:visibility="gone"/>-->
+        <com.li.videoapplication.views.ViewPagerY4
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
-    <com.li.videoapplication.views.ViewPagerY4
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_weight="0"
-        android:background="#dddddd"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_weight="0"
+            android:background="#dddddd" />
 
 
-</LinearLayout>
+    </LinearLayout>
+
     <include
         android:id="@+id/menu"
-        layout="@layout/menu_main">
-    </include>
+        layout="@layout/menu_main"></include>
+
     <ImageView
         android:id="@+id/iv_bottom_record"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/home_bottom_record_bg"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"/>
+        android:scaleType="fitXY"
+        android:src="@drawable/home_bottom_record_bg" />
 </RelativeLayout>

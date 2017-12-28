@@ -60,7 +60,15 @@ public class RequestParams {
         return map;
     }
 
-
+    /**
+     *2.2.6首页分栏，统计分栏点击次数
+     */
+    public Map<String, Object> columnStatistical(String column_id) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("column_id", column_id);
+        map.put("target", "a_sysj");
+        return map;
+    }
 
     //分享成功后触发
     public Map<String, Object> shareTriggerReward(String memberId,String hook,String taskId,String flag) {

@@ -106,6 +106,7 @@ public class VideoPlayView extends RelativeLayout implements
     private String youku_url;
     private String qn_key;
     private String qn_url;
+    private String videoUrl;
     private String file;
 
     public VideoImage videoImage;
@@ -121,11 +122,13 @@ public class VideoPlayView extends RelativeLayout implements
             youku_url = AppConstant.getYoukuUrl(yk_url);
             qn_key = videoImage.getQn_key();
             qn_url = AppConstant.getQnUrl(qn_key);
+            videoUrl = videoImage.getVideoUrl();
             if (DEBUG) {
                 Log.d(tag, "yk_url=" + yk_url);
                 Log.d(tag, "youku_url=" + youku_url);
                 Log.d(tag, "qn_key=" + qn_key);
                 Log.d(tag, "qn_url=" + qn_url);
+                Log.d(tag, "videoUrl=" + videoUrl);
             }
             controllerViewLand.setVideoImage(videoImage);
         }
@@ -1086,7 +1089,7 @@ public class VideoPlayView extends RelativeLayout implements
             videoPlayer.setVisibility(VISIBLE);
             webPlayer.setVisibility(GONE);
 
-            startPlayer(qn_url, 0);
+            startPlayer(videoUrl, 0);
             UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.VIDEOPLAY, "视频播放次数");
             UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.MACROSCOPIC_DATA, "视频总播放次数");
             return;
@@ -1194,7 +1197,7 @@ public class VideoPlayView extends RelativeLayout implements
         if (DEBUG) Log.d(tag, "resume: state == " + state);
         if (state != STATE_TV) {
             if (lastPos != 0 && URLUtil.isURL(qn_url)) {
-                startPlayer(qn_url, lastPos);
+                startPlayer(videoUrl, lastPos);
             }
             if (webPlayer != null && URLUtil.isURL(youku_url)) {
                 webPlayer.onResume();

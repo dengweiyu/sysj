@@ -1,7 +1,6 @@
 package com.li.videoapplication.mvp.adapter;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,45 +10,40 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.entity.MyHomeModuleEntity;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.framework.TBaseFragment;
-import com.li.videoapplication.mvp.home.view.HomeLazyColumnFragment3;
 import com.li.videoapplication.tools.TextImageHelper;
+import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.ui.adapter.VideoAdapter;
 import com.li.videoapplication.ui.adapter.VideoQuickAdapter;
 import com.li.videoapplication.ui.adapter.YouLikeAdapter;
-import com.li.videoapplication.ui.view.GiftItemDecoration;
-import com.li.videoapplication.ui.view.SimpleItemDecoration;
 import com.li.videoapplication.ui.view.SpanItemDecoration;
-import com.li.videoapplication.ui.view.VideoItemDecoration;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.utils.URLUtil;
 import com.li.videoapplication.views.GridViewY1;
-import com.li.videoapplication.views.StaggeredGridView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.rong.eventbus.EventBus;
 
 /**
  * 首页多布局 适配器
  */
 
-public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModuleEntity.ADataBean, BaseViewHolder> {
+public class HomeMultipleAdapterNew2 extends BaseMultiItemQuickAdapter<MyHomeModuleEntity.ADataBean, BaseViewHolder> {
     private static final String TAG = HomeMultipleAdapter.class.getSimpleName();
 
     private TBaseFragment mFragment;
@@ -64,6 +58,8 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
 
     private List<VideoAdapter> gameVideoAdapters;
     private List<VideoQuickAdapter> gamervideoQuickAdapters;
+
+    protected TextImageHelper textImageHelper = new TextImageHelper();
 
     public void setScrolling(boolean isScrolling) {
         this.isScrolling = isScrolling;
@@ -96,13 +92,13 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
         UmengAnalyticsHelper.onEvent(mContext, UmengAnalyticsHelper.MAIN, "热门主播");
     }
 
-    public HomeMultipleAdapterNew(List<HomeModuleEntity.ADataBean> data) {
+    public HomeMultipleAdapterNew2(List<MyHomeModuleEntity.ADataBean> data) {
         super(data);
         helper = new TextImageHelper();
         init();
     }
 
-    public HomeMultipleAdapterNew(TBaseFragment fragment, List<HomeModuleEntity.ADataBean> data) {
+    public HomeMultipleAdapterNew2(TBaseFragment fragment, List<MyHomeModuleEntity.ADataBean> data) {
         super(data);
         mFragment = fragment;
         helper = new TextImageHelper();
@@ -112,19 +108,30 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
     private void init() {
         gameVideoAdapters = new ArrayList<>();
         gamervideoQuickAdapters = new ArrayList<>();
-        addItemType(HomeModuleEntity.TYPE_HOT_GAME, R.layout.adapter_hometype_hotgame);
-        addItemType(HomeModuleEntity.TYPE_AD, R.layout.view_banner);
-        addItemType(HomeModuleEntity.TYPE_GUESS_YOU_LIKE, R.layout.adapter_hometype_video);
-        addItemType(HomeModuleEntity.TYPE_SYSJ_VIDEO, R.layout.adapter_hometype_video);//视频推荐
-        addItemType(HomeModuleEntity.TYPE_HOT_NARRATE, R.layout.adapter_hometype_hotnarrate);
-        addItemType(HomeModuleEntity.TYPE_VIDEO_GROUP, R.layout.adapter_hometype_video);//游戏视频
-        addItemType(HomeModuleEntity.TYPE_GAMER_VIDEO, R.layout.adapter_hometype_video);//玩家视频
+        //热门游戏
+        addItemType(MyHomeModuleEntity.TYPE_HOT_GAME_TITLE, R.layout.adapter_hometype_hotgame);
+        //广告
+        addItemType(MyHomeModuleEntity.TYPE_AD, R.layout.view_banner);
+        //猜你喜欢
+        addItemType(MyHomeModuleEntity.TYPE_GUESS_YOU_LIKE_TITLE, R.layout.adapter_hometype_video);
+        addItemType(MyHomeModuleEntity.TYPE_GUESS_YOU_LIKE, R.layout.adapter_video);
+        //视频推荐
+        addItemType(MyHomeModuleEntity.TYPE_SYSJ_VIDEO_TITLE, R.layout.adapter_hometype_video);
+        addItemType(MyHomeModuleEntity.TYPE_SYSJ_VIDEO, R.layout.adapter_video);
+        //热门解说
+        addItemType(MyHomeModuleEntity.TYPE_HOT_NARRATE, R.layout.adapter_hometype_hotnarrate);
+        //游戏视频
+        addItemType(MyHomeModuleEntity.TYPE_VIDEO_GROUP_TITLE, R.layout.adapter_hometype_video);
+        addItemType(MyHomeModuleEntity.TYPE_VIDEO_GROUP, R.layout.adapter_video);
+        //玩家视频
+        addItemType(MyHomeModuleEntity.TYPE_GAMER_VIDEO_TITLE, R.layout.adapter_hometype_video);
+        addItemType(MyHomeModuleEntity.TYPE_GAMER_VIDEO, R.layout.adapter_video);
     }
 
     @Override
-    protected void convert(BaseViewHolder holder, HomeModuleEntity.ADataBean dataBean) {
+    protected void convert(BaseViewHolder holder, MyHomeModuleEntity.ADataBean dataBean) {
         switch (dataBean.getItemType()) {
-            case HomeModuleEntity.TYPE_HOT_GAME:        //热门游戏
+            case MyHomeModuleEntity.TYPE_HOT_GAME_TITLE:        //热门游戏
                 RecyclerView recyclerView = holder.getView(R.id.homehotgame_recyclerview);
                 recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
                 HomeHotGameAdapter hotGameAdapter = new HomeHotGameAdapter(changeGameType(dataBean.getList()));
@@ -140,61 +147,36 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
                         }
                     }
                 });
-
                 holder.addOnClickListener(R.id.homehotgame_more);
                 break;
-            case HomeModuleEntity.TYPE_AD:              //通栏广告
+            case MyHomeModuleEntity.TYPE_AD:              //通栏广告
                 setAdLayoutParmas(holder);
                 ImageView pic = holder.getView(R.id.banner_image);
                 // helper.setImageViewImageNet(pic, item.getData().getAdvertisement().getData().get(0).getServer_pic_a());
                 holder.addOnClickListener(R.id.banner_delete)
                         .addOnClickListener(R.id.banner_image);
                 break;
-            case HomeModuleEntity.TYPE_GUESS_YOU_LIKE:  //猜你喜欢（视频类型)
+            case MyHomeModuleEntity.TYPE_GUESS_YOU_LIKE_TITLE: //猜你喜欢（视频类型)
                 holder.setVisible(R.id.hometype_guess, true)
                         .addOnClickListener(R.id.hometype_youlike_change);
-
-                GridViewY1 youLikeGridView = holder.getView(R.id.hometype_gridview);
-                if (youLikeAdapter != null) {
-                    youLikeAdapter.notifyDataSetChanged();
-                    if (youLikeGridView.getAdapter() == null) { // TODO: 2017/12/21 为什么有时候adapter和gridView会断开绑定
-                        youLikeGridView.setAdapter(youLikeAdapter);
-                    }
-                } else {
-                    youLikeAdapter = new YouLikeAdapter(mContext, changeVideoImageType(dataBean.getList()));
-                    youLikeGridView.setAdapter(youLikeAdapter);
-                }
+                holder.setVisible(R.id.hometype_gridview, false);
+                holder.setVisible(R.id.rv_hometype, false);
                 break;
-            case HomeModuleEntity.TYPE_SYSJ_VIDEO:      //视界原创（视频类型）
+            case MyHomeModuleEntity.TYPE_GUESS_YOU_LIKE:
+                VideoImage ykVideoImage = changeVideoImageType(dataBean.getListBean());
+                initVideoParams(holder, ykVideoImage);
+                break;
+            case MyHomeModuleEntity.TYPE_SYSJ_VIDEO_TITLE: //视界原创（视频类型）
                 holder.setVisible(R.id.hometype_sysj, true)
                         .addOnClickListener(R.id.hometype_sysj);
                 holder.setVisible(R.id.hometype_gridview, false);
-//                VideoAdapter sysjAdapter = new VideoAdapter(mContext, changeVideoImageType(dataBean.getList()));
-//                GridViewY1 sysjGridView = holder.getView(R.id.hometype_gridview);
-//                sysjGridView.setAdapter(sysjAdapter);
-//                sysjAdapter.setVideoType(dataBean.getMore_mark());
-                RecyclerView rvSysj = holder.getView(R.id.rv_hometype);
-                VideoQuickAdapter sysjQuickAdapter;
-                if (rvSysj.getAdapter() != null) {
-                    if (!isScrollingSingle) {
-                        sysjQuickAdapter = (VideoQuickAdapter) rvSysj.getAdapter();
-                        sysjQuickAdapter.setAllData(changeVideoImageType(dataBean.getList()));
-                        sysjQuickAdapter.notifyDataSetChanged();
-                    } else isScrollingSingle = false;
-                } else {
-                    Log.i(TAG, "新建VideoQuickAdapter示例");
-                    rvSysj.setVisibility(View.VISIBLE);
-                    sysjQuickAdapter =
-                            new VideoQuickAdapter(mFragment, R.layout.adapter_video, changeVideoImageType(dataBean.getList()));
-                    sysjQuickAdapter.setVideoType(dataBean.getMore_mark());
-                    sysjQuickAdapter.setOnItemClickListener(mOnItemClickListener);
-                    rvSysj.setLayoutManager(new GridLayoutManager(mContext, 2));
-                    rvSysj.addItemDecoration(new SpanItemDecoration(
-                            ScreenUtil.dp2px(mFragment.getContext(), 3), true, true, true, false));
-                    rvSysj.setAdapter(sysjQuickAdapter);
-                }
+                holder.setVisible(R.id.rv_hometype, false);
                 break;
-            case HomeModuleEntity.TYPE_HOT_NARRATE:     //热门解说
+            case MyHomeModuleEntity.TYPE_SYSJ_VIDEO:
+                VideoImage sysjVideoImage = changeVideoImageType(dataBean.getListBean());
+                initVideoParams(holder, sysjVideoImage);
+                break;
+            case MyHomeModuleEntity.TYPE_HOT_NARRATE:     //热门解说
                 RecyclerView hotNarrateRecyclerView = holder.getView(R.id.homehotnarrate_recyclerview);
                 hotNarrateRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
                 HomeHotNarrateAdapter hotNarrateAdapter = new HomeHotNarrateAdapter(changeMemberType(dataBean.getList()));
@@ -208,90 +190,29 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
                 });
                 holder.addOnClickListener(R.id.home_hotnarrate_more);
                 break;
-            case HomeModuleEntity.TYPE_VIDEO_GROUP:     //游戏视频（视频类型）
+            case MyHomeModuleEntity.TYPE_VIDEO_GROUP_TITLE: //游戏视频（视频类型）
+                holder.setVisible(R.id.hometype_gridview, false);
+                holder.setVisible(R.id.rv_hometype, false);
                 holder.setVisible(R.id.hometype_game, true)
                         .addOnClickListener(R.id.hometype_game);
                 holder.setText(R.id.hoemtype_game_title, dataBean.getTitle());
-                holder.setVisible(R.id.hometype_gridview, false);
-                RecyclerView rvGameVideo = holder.getView(R.id.rv_hometype);
-                VideoQuickAdapter gameVideoQuickAdapter;
-                if (rvGameVideo.getAdapter() != null) {
-                    if (!isScrollingSingle) {
-                        gameVideoQuickAdapter = (VideoQuickAdapter) rvGameVideo.getAdapter();
-                        gameVideoQuickAdapter.setAllData(changeVideoImageType(dataBean.getList()));
-                        gameVideoQuickAdapter.notifyDataSetChanged();
-                    } else isScrollingSingle = false;
-                } else {
-                    Log.i(TAG, "新建VideoQuickAdapter示例");
-                    rvGameVideo.setVisibility(View.VISIBLE);
-                    gameVideoQuickAdapter =
-                            new VideoQuickAdapter(mFragment, R.layout.adapter_video, changeVideoImageType(dataBean.getList()));
-                    gameVideoQuickAdapter.setVideoType(dataBean.getMore_mark());
-                    gameVideoQuickAdapter.setOnItemClickListener(mOnItemClickListener);
-                    rvGameVideo.addItemDecoration(new SpanItemDecoration(
-                            ScreenUtil.dp2px(mFragment.getContext(), 3), true, true, true, false));
-                    rvGameVideo.setLayoutManager(new GridLayoutManager(mContext, 2));
-                    rvGameVideo.setAdapter(gameVideoQuickAdapter);
-                }
-//                VideoAdapter gameAdapter;
-//                GridViewY1 gameGridView = holder.getView(R.id.hometype_gridview);
-//                if (gameGridView.getAdapter() != null) {
-//                    gameAdapter = (VideoAdapter) gameGridView.getAdapter();
-//                    gameGridView.setAdapter(null);
-//                    gameGridView.setAdapter(gameAdapter);
-////                  gameAdapter.notifyDataSetChanged();
-//                } else {
-//                    gameAdapter = new VideoAdapter(mContext, changeVideoImageType(dataBean.getList()), mFragment);
-//                    gameGridView.setAdapter(gameAdapter);
-//                }
-//                gameAdapter.setScrolling(isScrolling);
-//                gameAdapter.setVideoType(dataBean.getMore_mark());
                 break;
-            case HomeModuleEntity.TYPE_GAMER_VIDEO:
+            case MyHomeModuleEntity.TYPE_VIDEO_GROUP:
+                VideoImage groupVideoImage = changeVideoImageType(dataBean.getListBean());
+                initVideoParams(holder, groupVideoImage);
+                break;
+            case MyHomeModuleEntity.TYPE_GAMER_VIDEO_TITLE:
+                holder.setVisible(R.id.hometype_gridview, false);
+                holder.setVisible(R.id.rv_hometype, false);
                 holder.setVisible(R.id.hometype_game, true);
                 holder.setVisible(R.id.tv_more, false);
                 holder.setVisible(R.id.iv_more, false);
-                holder.setVisible(R.id.hometype_gridview, false);
                 holder.setText(R.id.hoemtype_game_title, dataBean.getTitle());
-//                gameVideoAdapters.add(gameVideoAdapter);
-//                gamervideoQuickAdapters.add(gamerVideoQuickAdapter);
-//                gameVideoAdapter.setScrolling(isScrolling);
-//                gamerVideoQuickAdapter.setScrolling(isScrolling);
-//                GridViewY1 gameVideoGridView = holder.getView(R.id.hometype_gridview);
-//                VideoAdapter gameVideoAdapter;
-//                if (gameVideoGridView.getAdapter() != null) {
-//                    gameVideoAdapter = (VideoAdapter) gameVideoGridView.getAdapter();
-//                    gameVideoAdapter.setData(changeVideoImageType(dataBean.getList()));
-//                    gameVideoGridView.setAdapter(null);
-//                    gameVideoGridView.setAdapter(gameVideoAdapter);
-//                } else {
-//                    gameVideoAdapter = new VideoAdapter(mContext, changeVideoImageType(dataBean.getList()));
-//                    gameVideoGridView.setAdapter(gameVideoAdapter);
-//                }
-                RecyclerView rvGamerVideo = holder.getView(R.id.rv_hometype);
-                VideoQuickAdapter gamerVideoQuickAdapter;
-
-                if (rvGamerVideo.getAdapter() != null) {
-                    if (!isScrollingSingle) {
-                        gamerVideoQuickAdapter = (VideoQuickAdapter) rvGamerVideo.getAdapter();
-                        gamerVideoQuickAdapter.setAllData(changeVideoImageType(dataBean.getList()));
-                        gamerVideoQuickAdapter.notifyDataSetChanged();
-                    } else isScrollingSingle = false;
-                } else {
-                    Log.i(TAG, "新建VideoQuickAdapter示例");
-                    rvGamerVideo.setVisibility(View.VISIBLE);
-                    rvGamerVideo.addItemDecoration(new SpanItemDecoration(
-                            ScreenUtil.dp2px(mFragment.getContext(), 3), true, true, true, false));
-                    rvGamerVideo.setLayoutManager(new GridLayoutManager(mContext, 2));
-                    gamerVideoQuickAdapter =
-                            new VideoQuickAdapter(mFragment, R.layout.adapter_video, changeVideoImageType(dataBean.getList()));
-                    gamerVideoQuickAdapter.setOnItemClickListener(mOnItemClickListener);
-                    gamerVideoQuickAdapter.setVideoType(dataBean.getMore_mark());
-                    rvGamerVideo.setAdapter(gamerVideoQuickAdapter);
-                }
-
                 break;
-
+            case MyHomeModuleEntity.TYPE_GAMER_VIDEO:
+                VideoImage gamerVideoImage = changeVideoImageType(dataBean.getListBean());
+                initVideoParams(holder, gamerVideoImage);
+                break;
         }
     }
 
@@ -308,6 +229,19 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
         params.height = height;
         container.setLayoutParams(params);
     }
+
+    private void setRootLayoutParams(View view) {
+        if (view != null) {
+            WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+            int srceenWidth = windowManager.getDefaultDisplay().getWidth();
+            // 86/148
+            int w = (srceenWidth - ScreenUtil.dp2px(10 * 2)) / 2;
+            int h = w * 9 / 16;
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, h);
+            view.setLayoutParams(params);
+        }
+    }
+
 
     public void changeGuessVideo(List<VideoImage> guessVideoList) {
         if (youLikeAdapter != null) {
@@ -344,6 +278,26 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
         }
         return videoImages;
     }
+
+    public static VideoImage changeVideoImageType(HomeModuleEntity.ADataBean.ListBean listBean) {
+        VideoImage videoImage = new VideoImage();
+        HomeModuleEntity.ADataBean.ListBean dataBean = listBean;
+        videoImage.setFlag(dataBean.getFlag());
+        videoImage.setVideo_id(dataBean.getVideo_id());
+        videoImage.setTitle(dataBean.getTitle());
+        videoImage.setClick_count(dataBean.getClick_count());
+        videoImage.setYk_url(dataBean.getYk_url());
+        videoImage.setQn_key(dataBean.getQn_key());
+        videoImage.setFlagPath(dataBean.getFlagPath());
+        videoImage.setIsRecommend(dataBean.getIsRecommend());
+        videoImage.setPic_flsp(dataBean.getPic_flsp());
+        videoImage.setAvatar(dataBean.getAvatar());
+        videoImage.setTime_length(dataBean.getTime_length());
+        videoImage.setNickname(dataBean.getNickname());
+        videoImage.setMember_id(dataBean.getMember_id());
+        return videoImage;
+    }
+
 
     public List<Member> changeMemberType(List<HomeModuleEntity.ADataBean.ListBean> listBeen) {
         List<Member> members = new ArrayList<>();
@@ -396,5 +350,52 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
 
 
     };
+
+    private void initVideoParams(BaseViewHolder holder, VideoImage videoImage) {
+        setRootLayoutParams(holder.getView(R.id.root));
+        TextView title = holder.getView(R.id.video_title);
+        ImageView cover = holder.getView(R.id.video_cover);
+        TextView allTime = holder.getView(R.id.video_allTime);
+        ImageView avatar = holder.getView(R.id.civ_user);//FIXME 这里采用CircleImageView 可能会出错
+        TextView nickname= holder.getView(R.id.tv_up_user_name);
+
+        // 标题
+        if (!StringUtil.isNull(videoImage.getVideo_name())) {
+            textImageHelper.setTextViewText(title, videoImage.getVideo_name());
+        } else if (!StringUtil.isNull(videoImage.getTitle())) {
+            textImageHelper.setTextViewText(title, videoImage.getTitle());
+        }
+        //作者名字
+        if (!StringUtil.isNull((videoImage.getNickname()))){
+            textImageHelper.setTextViewText(nickname, videoImage.getNickname());
+        }
+        // 播放时长
+        setTimeLength(allTime, videoImage);
+        // 封面
+        if (!StringUtil.isNull(videoImage.getFlagPath())) {
+            if (URLUtil.isURL(videoImage.getFlagPath())) {
+                textImageHelper.setImageViewNetAlpha(mFragment, cover, videoImage.getFlagPath());
+            }
+        }
+        //上传主的头像
+        if (!StringUtil.isNull(videoImage.getAvatar())){
+            if (URLUtil.isURL(videoImage.getAvatar())){
+                textImageHelper.setCircleImageNetAlpha(mFragment, avatar,videoImage.getAvatar());
+            }
+        }
+    }
+
+    /**
+     * 视频时间长度
+     */
+    private void setTimeLength(TextView view, VideoImage record) {
+        // 17:00
+        try {
+            textImageHelper.setTextViewText(view, TimeHelper.getVideoPlayTime(record.getTime_length()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            textImageHelper.setTextViewText(view, "");
+        }
+    }
 
 }

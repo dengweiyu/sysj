@@ -5,6 +5,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Process;
 import android.support.multidex.MultiDex;
 import android.util.Log;

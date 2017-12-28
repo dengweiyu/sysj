@@ -1,6 +1,7 @@
-package com.li.videoapplication.data.model.response;
+package com.li.videoapplication.data.model.entity;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.framework.BaseResponseEntity;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
  * 新版本-首页分栏数据
  */
 
-public class HomeModuleEntity extends BaseResponseEntity implements Cloneable {
+public class MyHomeModuleEntity extends BaseResponseEntity implements Cloneable {
 
 
     public static final int TYPE_HOT_GAME = 0;          //热门游戏
@@ -21,6 +22,15 @@ public class HomeModuleEntity extends BaseResponseEntity implements Cloneable {
     public static final int TYPE_HOT_NARRATE = 4;       //热门主播
     public static final int TYPE_VIDEO_GROUP = 5;       //游戏视频
     public static final int TYPE_GAMER_VIDEO = 6;       //玩家视频
+
+    //区域标题栏
+    public static final int TYPE_HOT_GAME_TITLE = 7;          //热门游戏
+    public static final int TYPE_AD_TITLE = 8;                //通栏广告
+    public static final int TYPE_GUESS_YOU_LIKE_TITLE = 9;    //猜你喜欢
+    public static final int TYPE_SYSJ_VIDEO_TITLE = 10;        //视界原创
+    public static final int TYPE_HOT_NARRATE_TITLE = 11;       //热门主播
+    public static final int TYPE_VIDEO_GROUP_TITLE = 12;       //游戏视频
+    public static final int TYPE_GAMER_VIDEO_TITLE = 13;       //玩家视频
 
 
     /**
@@ -74,6 +84,16 @@ public class HomeModuleEntity extends BaseResponseEntity implements Cloneable {
             this.spanSize = spanSize;
         }
 
+        public ADataBean(){
+
+        }
+
+        public ADataBean(HomeModuleEntity.ADataBean.ListBean listBean, int spanSize, int type) {
+            this.listBean = listBean;
+            this.spanSize = spanSize;
+            this.mItemType = type;
+        }
+
         /**
          * more_mark :
          * flag : banner
@@ -94,7 +114,8 @@ public class HomeModuleEntity extends BaseResponseEntity implements Cloneable {
         private String isGame;
         private String group_id;
         private String game_id;
-        private List<ListBean> list;
+        private HomeModuleEntity.ADataBean.ListBean listBean;
+        private List<HomeModuleEntity.ADataBean.ListBean> list;
 
         public String getMore_mark() {
             return more_mark;
@@ -144,6 +165,14 @@ public class HomeModuleEntity extends BaseResponseEntity implements Cloneable {
             this.isGame = isGame;
         }
 
+        public HomeModuleEntity.ADataBean.ListBean getListBean() {
+            return listBean;
+        }
+
+        public void setListBean(HomeModuleEntity.ADataBean.ListBean listBean) {
+            this.listBean = listBean;
+        }
+
         public String getGroup_id() {
             return group_id;
         }
@@ -160,11 +189,11 @@ public class HomeModuleEntity extends BaseResponseEntity implements Cloneable {
             this.game_id = game_id;
         }
 
-        public List<ListBean> getList() {
+        public List<HomeModuleEntity.ADataBean.ListBean> getList() {
             return list;
         }
 
-        public void setList(List<ListBean> list) {
+        public void setList(List<HomeModuleEntity.ADataBean.ListBean> list) {
             this.list = list;
         }
 
@@ -172,317 +201,25 @@ public class HomeModuleEntity extends BaseResponseEntity implements Cloneable {
             this.list.clear();
         }
 
-        public static class ListBean implements Cloneable{
-            /**
-             * type : activity
-             * type_id : 132
-             * title : 手游视界陪练模块上线
-             * flag : 59a386c30e61a.jpg
-             * go_url : http://www.17sysj.com/act/pljs/
-             * match_id : 132
-             * flagPath : http://192.168.48.9:233/Public/Uploads/Focuse/Flag/59a386c30e61a.jpg
-             * video_id : 4898767
-             * yk_url :
-             * qn_key : lpds_c5a22d2d0726b
-             * event_id : 596
-             */
-
-            private String type;
-            private String type_id;
-            private String title;
-            private String flag;
-            private String go_url;
-            private String match_id;
-            private String flagPath;
-            private String video_id;
-            private String yk_url;
-            private String qn_key;
-            private String event_id;
-            private String group_id;
-            private String game_id;
-            private String group_name;
-            private String url;
-            private String click_count;
-            private String video_name;//为了适配上一个版本
-            private String more_mark;
-            private String time_length;
-            private String pic_flsp;
-            private String pic_mrgx;
-            private String isRecommend;
-            private String cover_position;
-            private String member_id;
-            private String nickname;
-            private String avatar;
-            private int sex;
-            private String upload_time;
-
-            public String getNickname() {
-                return nickname;
-            }
-
-            public void setNickname(String nickname) {
-                this.nickname = nickname;
-            }
-
-            public String getAvatar() {
-                return avatar;
-            }
-
-            public void setAvatar(String avatar) {
-                this.avatar = avatar;
-            }
-
-            public int getSex() {
-                return sex;
-            }
-
-            public void setSex(int sex) {
-                this.sex = sex;
-            }
-
-            public String getUpload_time() {
-                return upload_time;
-            }
-
-            public void setUpload_time(String upload_time) {
-                this.upload_time = upload_time;
-            }
-
-            public String getMember_id() {
-                return member_id;
-            }
-
-            public void setMember_id(String member_id) {
-                this.member_id = member_id;
-            }
-
-            public String getPic_flsp() {
-                return pic_flsp;
-            }
-
-            public void setPic_flsp(String pic_flsp) {
-                this.pic_flsp = pic_flsp;
-            }
-
-            public String getPic_mrgx() {
-                return pic_mrgx;
-            }
-
-            public void setPic_mrgx(String pic_mrgx) {
-                this.pic_mrgx = pic_mrgx;
-            }
-
-            public String getIsRecommend() {
-                return isRecommend;
-            }
-
-            public void setIsRecommend(String isRecommend) {
-                this.isRecommend = isRecommend;
-            }
-
-            public String getCover_position() {
-                return cover_position;
-            }
-
-            public void setCover_position(String cover_position) {
-                this.cover_position = cover_position;
-            }
-
-            public String getTime_length() {
-                return time_length;
-            }
-
-            public void setTime_length(String time_length) {
-                this.time_length = time_length;
-            }
-
-            public String getMore_mark() {
-                return more_mark;
-            }
-
-            public void setMore_mark(String more_mark) {
-                this.more_mark = more_mark;
-            }
-
-            public String getVideo_name() {
-                return video_name;
-            }
-
-            public void setVideo_name(String video_name) {
-                this.video_name = video_name;
-            }
-
-            public String getClick_count() {
-                return click_count;
-            }
-
-            public void setClick_count(String click_count) {
-                this.click_count = click_count;
-            }
-
-            private String package_id;
-            private String time;
-
-
-            public String getPackage_id() {
-                return package_id;
-            }
-
-            public void setPackage_id(String package_id) {
-                this.package_id = package_id;
-            }
-
-
-            public String getTime() {
-                return time;
-            }
-
-            public void setTime(String time) {
-                this.time = time;
-            }
-
-            public String getGroup_id() {
-                return group_id;
-            }
-
-            public void setGroup_id(String group_id) {
-                this.group_id = group_id;
-            }
-
-            public String getGame_id() {
-                return game_id;
-            }
-
-            public void setGame_id(String game_id) {
-                this.game_id = game_id;
-            }
-
-            public String getGroup_name() {
-                return group_name;
-            }
-
-            public void setGroup_name(String group_name) {
-                this.group_name = group_name;
-            }
-
-            public String getUrl() {
-                return url;
-            }
-
-            public void setUrl(String url) {
-                this.url = url;
-            }
-
-            public String getType() {
-                return type;
-            }
-
-            public void setType(String type) {
-                this.type = type;
-            }
-
-            public String getType_id() {
-                return type_id;
-            }
-
-            public void setType_id(String type_id) {
-                this.type_id = type_id;
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            public void setTitle(String title) {
-                this.title = title;
-            }
-
-            public String getFlag() {
-                return flag;
-            }
-
-            public void setFlag(String flag) {
-                this.flag = flag;
-            }
-
-            public String getGo_url() {
-                return go_url;
-            }
-
-            public void setGo_url(String go_url) {
-                this.go_url = go_url;
-            }
-
-            public String getMatch_id() {
-                return match_id;
-            }
-
-            public void setMatch_id(String match_id) {
-                this.match_id = match_id;
-            }
-
-            public String getFlagPath() {
-                return flagPath;
-            }
-
-            public void setFlagPath(String flagPath) {
-                this.flagPath = flagPath;
-            }
-
-            public String getVideo_id() {
-                return video_id;
-            }
-
-            public void setVideo_id(String video_id) {
-                this.video_id = video_id;
-            }
-
-            public String getYk_url() {
-                return yk_url;
-            }
-
-            public void setYk_url(String yk_url) {
-                this.yk_url = yk_url;
-            }
-
-            public String getQn_key() {
-                return qn_key;
-            }
-
-            public void setQn_key(String qn_key) {
-                this.qn_key = qn_key;
-            }
-
-            public String getEvent_id() {
-                return event_id;
-            }
-
-            public void setEvent_id(String event_id) {
-                this.event_id = event_id;
-            }
-
-            @Override
-            public Object clone() throws CloneNotSupportedException {
-                return super.clone();
-            }
-        }
 
         @Override
         protected Object clone() throws CloneNotSupportedException {
             ADataBean aDataBean = (ADataBean) super.clone();
-            List<ListBean> listBeen = new ArrayList<>();
-            Iterator<ListBean> iterator = this.list.iterator();
+            List<HomeModuleEntity.ADataBean.ListBean> listBeens = new ArrayList<>();
+            Iterator<HomeModuleEntity.ADataBean.ListBean> iterator = this.list.iterator();
             while (iterator.hasNext()) {
-                listBeen.add((ListBean) iterator.next().clone());
+                listBeens.add((HomeModuleEntity.ADataBean.ListBean) iterator.next().clone());
             }
-            aDataBean.list = listBeen;
+            aDataBean.list = listBeens;
+            HomeModuleEntity.ADataBean.ListBean listBean = (HomeModuleEntity.ADataBean.ListBean) this.listBean.clone();
+            aDataBean.listBean = listBean;
             return aDataBean;
         }
     }
 
     @Override
     public Object clone() {
-        HomeModuleEntity entity = (HomeModuleEntity) super.clone();
+        MyHomeModuleEntity entity = (MyHomeModuleEntity) super.clone();
         if (this.AData != null) {
             List<ADataBean> aDataBeanList = new ArrayList<>();
             for (ADataBean aDataBean : this.AData) {

@@ -2,29 +2,22 @@ package com.li.videoapplication.mvp.home.view;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.util.LruCache;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.HttpManager;
 import com.li.videoapplication.data.model.entity.HomeColumnEntity;
 import com.li.videoapplication.data.model.entity.HomeGameSelectEntity;
-import com.li.videoapplication.data.model.entity.SquareGameEntity;
-import com.li.videoapplication.data.model.response.ColumnStatisticalEntity;
-import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.pageradapter.HomeViewPagerAdapter;
-import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
+import com.li.videoapplication.ui.pageradapter.HomeViewPagerAdapter2;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.views.ViewPagerY4;
 
@@ -34,28 +27,17 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ClipPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Observer;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 /**
  * 首页
  */
 
-public class HomeFragmentNew extends TBaseFragment {
+public class HomeFragmentNew2 extends TBaseFragment {
     public static final String HomeFragmentNew_FLAG = "HomeFragmentNew";
     public static LruCache<String, String> lruCache = new LruCache<>(40);
     private static final int PAGE_LIMIT = 1;
@@ -64,14 +46,14 @@ public class HomeFragmentNew extends TBaseFragment {
 
     private ViewPagerY4 mViewPager;
     private String member_id;
-    private List<HomeLazyColumnFragment3> mFragments;
+    private List<HomeLazyColumnFragment2> mFragments;
     private int mCurrentPage = 0;
     private List<String> mColumnList;
     private List<String> mColumnIdList;
     private MagicIndicator magicIndicator;
     private CommonNavigator commonNavigator;
 
-    private HomeViewPagerAdapter mHomeViewPagerAdapter;
+    private HomeViewPagerAdapter2 mHomeViewPagerAdapter;
     private HomePageChangeListener mPageChangeListener;
 
     /**
@@ -94,7 +76,7 @@ public class HomeFragmentNew extends TBaseFragment {
 
         //FIXME 需要处理滑动事件冲突的问题
         mViewPager = (ViewPagerY4) view.findViewById(R.id.vp_home);
-        ImageView imageView = (android.widget.ImageView) view.findViewById(R.id.iv_add_game);
+        ImageView imageView = (ImageView) view.findViewById(R.id.iv_add_game);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -193,7 +175,7 @@ public class HomeFragmentNew extends TBaseFragment {
         for (int i = 0; i < mColumnIdList.size(); i++) {
             oldColumnIds.add(mColumnIdList.get(i));
         }
-        List<HomeLazyColumnFragment3> oldFragments = new ArrayList<>();
+        List<HomeLazyColumnFragment2> oldFragments = new ArrayList<>();
         for (int i = 0; i < mFragments.size(); i++) {
             mFragments.get(i).setIsShowView(false);
             oldFragments.add(mFragments.get(i));
@@ -241,7 +223,7 @@ public class HomeFragmentNew extends TBaseFragment {
                     break;
                 }
                 if (j == oldColumnIds.size() - 1) {
-                    mFragments.add(HomeLazyColumnFragment3.newInstance(mColumnIdList.get(i), false, 1000, false));
+                    mFragments.add(HomeLazyColumnFragment2.newInstance(mColumnIdList.get(i), false, 1000, false));
                     Log.d(tag, "mFragments的id是 : " + mColumnIdList.get(i) + "->" + mColumnList.get(i) + "->" + oldFragments.get(j).getColumnId());
                 }
             }
@@ -256,7 +238,7 @@ public class HomeFragmentNew extends TBaseFragment {
     /////////////////////////////视图处理/////////////////////////////////
     public void setViewpager() {
         Log.w(tag, "setViewpager..");
-        mHomeViewPagerAdapter = new HomeViewPagerAdapter(getFragmentManager(), mFragments, new String[]{});
+        mHomeViewPagerAdapter = new HomeViewPagerAdapter2(getFragmentManager(), mFragments, new String[]{});
         mViewPager.setOffscreenPageLimit(PAGE_LIMIT);
         mViewPager.setAdapter(mHomeViewPagerAdapter);
         mViewPager.addOnPageChangeListener(mPageChangeListener = new HomePageChangeListener());
@@ -278,29 +260,33 @@ public class HomeFragmentNew extends TBaseFragment {
             mFragments.clear();
         }
         //做延缓加载处理，防止出现视图重叠
-        if (mColumnIdList != null) {
-            for (int i = 0; i < mColumnIdList.size(); i++) {
-                boolean isNeedLoaData = false;
-                int offset = Math.abs(mCurrentPage - i);
-//                if (offset <= 1){
+//        if (mColumnIdList != null) {
+//            for (int i = 0; i < mColumnIdList.size(); i++) {
+//                boolean isNeedLoaData = false;
+//                int offset = Math.abs(mCurrentPage - i);
+////                if (offset <= 1){
+////                    isNeedLoaData = true;
+////                }
+//                if (i < PAGE_LIMIT) {
 //                    isNeedLoaData = true;
 //                }
-                if (i < PAGE_LIMIT) {
-                    isNeedLoaData = true;
-                }
-                //TODO 懒加载
-//                mFragments.add(HomeColumnFragment.newInstance(mColumnIdList.get(i),isNeedLoaData,
-//                        offset*1000));
-                if (mColumnIdList.equals("6"))
-                    otherGameFlag = true; //6为其它游戏
-
-                mFragments.add(HomeLazyColumnFragment3.newInstance(
-                        mColumnIdList.get(i),
-                        isNeedLoaData,
-                        offset * 1000, !isNeedLoaData));
-
-            }
-        }
+//                //TODO 懒加载
+////                mFragments.add(HomeColumnFragment.newInstance(mColumnIdList.get(i),isNeedLoaData,
+////                        offset*1000));
+//                if (mColumnIdList.equals("6"))
+//                    otherGameFlag = true; //6为其它游戏
+//
+//                mFragments.add(HomeLazyColumnFragment2.newInstance(
+//                        mColumnIdList.get(i),
+//                        isNeedLoaData,
+//                        offset * 1000, !isNeedLoaData));
+//
+//            }
+//        }
+        mFragments.add(HomeLazyColumnFragment2.newInstance(
+                "1",
+                false,
+                 0, false));
     }
 
 
@@ -314,31 +300,14 @@ public class HomeFragmentNew extends TBaseFragment {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-//                if (instant && positionOffset == 0.f && position == oldPosition) {
-//                    instant = false;
-//                    Log.w("PageScrolled", "执行替换");
-//                    boolean isNotify = false;
-//                    if (position - 1 > 0) {
-//                        mFragments.set(position - 1, HomeLazyColumnFragment3.newInstance(mColumnIdList.get(position - 1), false, 1000, false));
-//                        isNotify = true;
-//                    }
-//                    if (position + 2 < mFragments.size()) {
-//                        mFragments.set(position + 2, HomeLazyColumnFragment3.newInstance(mColumnIdList.get(position + 2), false, 1000, false));
-//                        isNotify = true;
-//                    }
-//                    if (isNotify) {
-////                        commonNavigatorAdapter.notifyDataSetChanged();
-////                        mHomeViewPagerAdapter.notifyDataSetChanged();
-//                    }
-//                }
         }
 
         @Override
         public void onPageSelected(int position) {
-            DataManager.columnStatistical(new ColumnStatisticalEntity(), mColumnIdList.get(position)); //统计分栏点击次数
+
             bPosition = position - oldPosition;
             if (oldPosition < mColumnIdList.size()){
-                mFragments.set(oldPosition, HomeLazyColumnFragment3.newInstance(mColumnIdList.get(oldPosition), false, 1000, false));
+                mFragments.set(oldPosition, HomeLazyColumnFragment2.newInstance(mColumnIdList.get(oldPosition), false, 1000, false));
             }
 //                if (bPosition >= 2) {
 //                    mFragments.set(oldPosition, HomeLazyColumnFragment3.newInstance(mColumnIdList.get(oldPosition), false, 1000, false));
@@ -358,7 +327,8 @@ public class HomeFragmentNew extends TBaseFragment {
     CommonNavigatorAdapter commonNavigatorAdapter = new CommonNavigatorAdapter() {
         @Override
         public int getCount() {
-            return mColumnList == null ? 0 : mColumnList.size();
+//            return mColumnList == null ? 0 : mColumnList.size();
+            return 1;
         }
 
         @Override
@@ -368,7 +338,7 @@ public class HomeFragmentNew extends TBaseFragment {
             colorTransitionPagerTitleView.setSelectedColor(Color.RED);
             colorTransitionPagerTitleView.setTextSize(16);
             //colorTransitionPagerTitleView.setTypeface();
-            colorTransitionPagerTitleView.setText(mColumnList.get(index));
+            colorTransitionPagerTitleView.setText("推荐"); //mColumnList.get(index)
             colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -389,9 +359,4 @@ public class HomeFragmentNew extends TBaseFragment {
             return null;
         }
     };
-
-    public void onEventMainThread(ColumnStatisticalEntity entity) {
-        Log.i(tag, "分栏点击次数回调(Msg) ：" + entity.getMsg());
-        Log.i(tag, "分栏点击次数回调(Code) ：" + entity.getCode());
-    }
 }
