@@ -137,7 +137,7 @@
                 android:layout_height="1px"
                 android:background="@color/color_dfdfdf" />
 
-            <com.screeclibinvoke.views.ListViewY1
+            <com.li.videoapplication.views.ListViewY1
                 android:id="@+id/recharge_vip_ListViewY1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -50,7 +50,6 @@ public class VideoActivity extends TBaseActivity {
 		context.startActivity(intent);
 	}
 
-
 	private String title;
 	private String uri;
 
