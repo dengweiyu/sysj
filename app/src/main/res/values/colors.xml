@@ -211,4 +211,6 @@
     <color name="color_dfdfdf">#dfdfdf</color>
     <color name="color_7bbbe1_1">#a1d5f4</color>
     <color name="color_7bbbe1">#7bbbe1</color>
+
+    <color name="vip_color_yellow">#ffc110</color>
 </resources>

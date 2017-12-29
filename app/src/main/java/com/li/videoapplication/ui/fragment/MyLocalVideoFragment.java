@@ -36,6 +36,8 @@ import com.li.videoapplication.utils.TextUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.adapters.AbsListViewOverScrollDecorAdapter;
 
@@ -47,6 +49,9 @@ public class MyLocalVideoFragment extends TBaseFragment {
 
     public TextView storgeText;
     private LinearLayout storgeRoot;
+
+    @BindView(R.id.ab_videomanager_import)
+    public View tvImport;
 
     /**
      * 已选择，将要导入的文件列表
@@ -107,6 +112,7 @@ public class MyLocalVideoFragment extends TBaseFragment {
      * 初始化控件
      */
     private void initContentView(View view, Object o) {
+        tvImport.setVisibility(View.VISIBLE);
         listView = (ListView) view.findViewById(R.id.listview);
         new VerticalOverScrollBounceEffectDecorator(new AbsListViewOverScrollDecorAdapter(listView));
 
@@ -123,6 +129,16 @@ public class MyLocalVideoFragment extends TBaseFragment {
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(mListener);
+    }
+
+    @OnClick(R.id.ab_videomanager_import)
+    public void importVideo(){
+        if (activity != null) {
+            UmengAnalyticsHelper.onEvent(activity, UmengAnalyticsHelper.MAIN, "发布-视频-点击视频页面的导入次数");
+            activity.setImporting(true);
+            // 导入外部视频
+            DataManager.LOCAL.importVideoCaptures();
+        }
     }
 
     public void refreshStorge() {

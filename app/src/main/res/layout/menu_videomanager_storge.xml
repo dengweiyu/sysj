@@ -23,5 +23,17 @@
             android:text="共30个视频，占用空间10G，剩余5G/32G"
             android:textSize="10sp"
             android:textColor="#4c4c4c"/>
+
+        <TextView
+            android:id="@+id/ab_videomanager_import"
+            android:layout_width="50dp"
+            android:layout_height="24dp"
+            android:background="@drawable/ab_edit_videomanager"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="@string/videomanager_import"
+            android:textColor="#5e5e5e"
+            android:textSize="13sp"
+            android:visibility="gone"/>
     </LinearLayout>
 </RelativeLayout>

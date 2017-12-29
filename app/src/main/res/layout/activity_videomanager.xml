@@ -1,33 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:background="#f5f5f5"
-              android:fitsSystemWindows="true"
-              android:orientation="vertical">
-
-
-    <include
-        layout="@layout/menu_videomanager"/>
-
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1.0">
-
-        <com.li.videoapplication.views.CustomViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            android:background="#f0f0f0"
-            android:flipInterval="30"
-            android:persistentDrawingCache="animation"/>
-
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f5f5f5"
+        android:orientation="vertical">
         <include
-            layout="@layout/menu_videomanager_edit"/>
+            layout="@layout/menu_videomanager"/>
 
-    </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.0">
 
-</LinearLayout>
+            <com.li.videoapplication.views.CustomViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="#f0f0f0"
+                android:flipInterval="30"
+                android:persistentDrawingCache="animation"/>
+
+            <include
+                layout="@layout/menu_videomanager_edit"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/id_vip_friend_tip_iv"
+        android:layout_width="200dp"
+        android:layout_height="38dp"
+        android:scaleType="fitCenter"
+        android:fitsSystemWindows="true"
+        android:layout_marginLeft="64dp"
+        android:src="@drawable/vip_friend_tip"
+        android:visibility="gone"/>
+</FrameLayout>

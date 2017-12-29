@@ -69,7 +69,8 @@ public class TopUpActivity extends TBaseAppCompatActivity implements View.OnClic
             mFragments = new ArrayList<>();
             mFragments.add(RechargeCurrencyFragment.newInstance());
             mFragments.add(RechargeCoinFragment.newInstance());
-            mFragments.add(RechargeVipFragment.newInstance());
+//            mFragments.add(RechargeVipFragment.newInstance());
+            mFragments.add(RechargeVIP2Fragment.newInstance());
         }
 
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager(),mFragments,new String[]{"充值魔豆","充值魔币","购买VIP"});

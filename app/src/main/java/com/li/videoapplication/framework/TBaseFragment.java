@@ -496,6 +496,10 @@ public abstract class TBaseFragment extends BaseFragment {
         ToastHelper.l(text);
     }
 
+    protected void showToastLong(final int resId) {
+        ToastHelper.l(resId);
+    }
+
     protected void showToastLogin() {
         this.showToastShort("请先登录!");
     }
