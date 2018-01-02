@@ -2687,10 +2687,10 @@ public class DataManager {
      * 教练列表
      */
 
-    public static void getCoachList(int page,boolean isTest){
+    public static void getCoachList(int page,boolean isTest,String typeId){
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().getCoachList();
-        Map<String, Object> params = RequestParams.getInstance().getCoachList(page);
+        Map<String, Object> params = RequestParams.getInstance().getCoachList(page,typeId);
         if (isTest){
             params.put("is_test",1);
         }
@@ -2728,13 +2728,13 @@ public class DataManager {
     /**
      * 预览订单价格
      */
-    public static void getPreviewOrderPrice(String memberId,int rank,int mode,int gameCount){
+    public static void getPreviewOrderPrice(String memberId,int rank,int mode,int gameCount,String typeId){
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().getPreviewOrderPrice();
         if (memberId == null){
             memberId = "";
         }
-        Map<String, Object> params = RequestParams.getInstance().getPreviewOrderPrice(memberId,rank,mode,gameCount);
+        Map<String, Object> params = RequestParams.getInstance().getPreviewOrderPrice(memberId,rank,mode,gameCount,typeId);
         RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
         request.setEntity(new PlayWithOrderPriceEntity());
         helper.doNetwork(request);
@@ -2744,10 +2744,10 @@ public class DataManager {
     /**
      * 生成陪玩订单
      */
-    public static void createPlayWithOrder(String memberId,String coachId,int server,int rank,int mode,String time,int count,int orderMode){
+    public static void createPlayWithOrder(String memberId,String coachId,int server,int rank,int mode,String time,int count,int orderMode,String gameId){
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().createPlayWithOrder();
-        Map<String, Object> params = RequestParams.getInstance().createPlayWithOrder(memberId,coachId,server,rank,mode,time,count,orderMode);
+        Map<String, Object> params = RequestParams.getInstance().createPlayWithOrder(memberId,coachId,server,rank,mode,time,count,orderMode,gameId);
         RequestObject request = new RequestObject(Contants.TYPE_POST, url,params, null);
         request.setEntity(new PlayWithOrderEntity());
         helper.doNetwork(request);

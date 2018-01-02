@@ -51,12 +51,17 @@ import com.li.videoapplication.ui.dialog.SimpleDoubleChoiceDialog;
 import com.li.videoapplication.ui.dialog.UploadVideoPhoneDialog;
 import com.li.videoapplication.ui.view.SpanItemDecoration;
 import com.li.videoapplication.utils.MD5Util;
+import com.li.videoapplication.utils.PatternUtil;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
 import java.util.List;
+
+import io.rong.imlib.filetransfer.Call;
 
 /**
  * 创建陪玩订单
@@ -107,6 +112,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     private TextView mPriceTotal;
     private TextView mOriginalPrice;
     private TextView mNotice;
+    private TextView mGame;
     private View mTopLayoutDiscount;
     private TextView mTopDiscountMessage;
     private View mLayoutDiscount;
@@ -138,6 +144,10 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     private String mCoachAvatar;
 
     private String mCoachQQ;
+
+    private String mTypeId;
+
+    private String mGameName;
 
     private PlayWithOrderDetailEntity.CoachBean mCoachBean;
 
@@ -178,7 +188,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             mCurrentOrderMode = intent.getIntExtra("order_mode",MODE_ORDER_NORMAL);
             //只有在点击【继续选择TA】后会传递教练所有信息过来
             mCoachBean  = (PlayWithOrderDetailEntity.CoachBean)intent.getSerializableExtra("coach_bean");
-
+            mTypeId = intent.getStringExtra("type_id");
+            mGameName = intent.getStringExtra("game_name");
             if(mCoachBean != null){
                 mCoachId = mCoachBean.getMember_id();
             }
@@ -212,6 +223,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         mOperation = findViewById(R.id.ll_coach_operation);
         mOperation.setVisibility(View.VISIBLE);
 
+        mGame = (TextView)findViewById(R.id.tv_game_name);
         mNotice = (TextView)findViewById(R.id.tv_order_create_notice);
         mServerName = (TextView)findViewById(R.id.tv_server_name);
         mGameModeName = (TextView)findViewById(R.id.tv_mode_name);
@@ -271,6 +283,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
 
         refreshViewByMode();
+
+        refreshViewByType();
     }
 
 
@@ -315,6 +329,51 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                 findViewById(R.id.ll_choice_start_time).setVisibility(View.GONE);
                 break;
 
+        }
+    }
+
+    /**
+     * 根据游戏类型重新渲染
+     */
+    private void refreshViewByType(){
+        if (StringUtil.isNull(mTypeId)){
+            return;
+        }
+
+        switch (mTypeId){
+            case "1":           //王者荣耀
+                //显示选择大区
+                findViewById(R.id.ll_choice_server).setVisibility(View.VISIBLE);
+                //显示游戏模式
+                findViewById(R.id.ll_choice_game_mode).setVisibility(View.VISIBLE);
+                //分割线
+                findViewById(R.id.divider_server_name).setVisibility(View.VISIBLE);
+                findViewById(R.id.divider_mode_name).setVisibility(View.VISIBLE);
+                findViewById(R.id.divider_order_price).setVisibility(View.VISIBLE);
+
+                //你的段位
+                ((TextView)findViewById(R.id.tv_my_rank)).setText("你的段位");
+                //局数
+                ((TextView)findViewById(R.id.tv_tv_game_count)).setText("局数");
+                //单价隐藏
+                findViewById(R.id.ll_order_price).setVisibility(View.VISIBLE);
+                break;
+            case "2":           ///吃鸡类
+                //隐藏选择大区
+                findViewById(R.id.ll_choice_server).setVisibility(View.GONE);
+                //隐藏游戏模式
+                findViewById(R.id.ll_choice_game_mode).setVisibility(View.GONE);
+                findViewById(R.id.divider_server_name).setVisibility(View.GONE);
+                findViewById(R.id.divider_mode_name).setVisibility(View.GONE);
+                findViewById(R.id.divider_order_price).setVisibility(View.GONE);
+                //选择游戏
+                ((TextView)findViewById(R.id.tv_my_rank)).setText("选择游戏");
+                //时长
+                ((TextView)findViewById(R.id.tv_tv_game_count)).setText("时长");
+                //单价隐藏
+                findViewById(R.id.ll_order_price).setVisibility(View.GONE);
+
+                break;
         }
     }
 
@@ -370,7 +429,9 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
         mGameCountList.clear();
         for (int i = 1; i <= mOptions.getMaxInning(); i++) {
-            mGameCountList.add(i+"");
+
+
+            mGameCountList.add(i+("2".equals(mTypeId)?"小时":""));
             if (i == mOptions.getDefaultInning()){
                 mGameCountIndex = i - 1;
             }
@@ -400,6 +461,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         if (mOptions.getNotice() != null){
             mNotice.setText(mOptions.getNotice());
         }
+
+        mGame.setText(mGameName);
 
         //缓存数据 则不更新价格显示
         if (!isByCache){
@@ -462,7 +525,14 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
     public void showGameRankDialog(){
         if (mGameRankDialog == null){
-            mGameRankDialog  =  new SimpleChoiceDialog(CreatePlayWithOrderActivity.this, mRankList,SimpleChoiceDialog.TYPE_CHOICE_RANK);
+
+            int type = SimpleChoiceDialog.TYPE_CHOICE_RANK;
+
+            if ("2".equals(mTypeId)){
+                type = SimpleChoiceDialog.TYPE_CHOICE_GAME;
+            }
+
+            mGameRankDialog  =  new SimpleChoiceDialog(CreatePlayWithOrderActivity.this, mRankList,type);
             mGameRankDialog.setSelectPosition(mRankIndex);
             mGameRankDialog.setListener(mListener);
         }else {
@@ -475,7 +545,13 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
     public void showGameCountDialog(){
         if (mGameCountDialog == null ){
-            mGameCountDialog  =  new SimpleChoiceDialog(CreatePlayWithOrderActivity.this, mGameCountList,SimpleChoiceDialog.TYPE_CHOICE_COUNT);
+            int type = SimpleChoiceDialog.TYPE_CHOICE_COUNT;
+
+            if ("2".equals(mTypeId)){
+                type = SimpleChoiceDialog.TYPE_CHOICE_DURATION;
+            }
+
+            mGameCountDialog  =  new SimpleChoiceDialog(CreatePlayWithOrderActivity.this, mGameCountList,type);
             mGameCountDialog.setSelectPosition(mGameCountIndex);
             mGameCountDialog.setListener(mListener);
         }
@@ -705,6 +781,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                     }
                     break;
                 case SimpleChoiceDialog.TYPE_CHOICE_RANK:
+                case SimpleChoiceDialog.TYPE_CHOICE_GAME:
                     if (mRankIndex != position){
                         mLoadingDialog.show();
                         mRankIndex = position;
@@ -715,7 +792,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
 
                     break;
                 case SimpleChoiceDialog.TYPE_CHOICE_COUNT:
-
+                case SimpleChoiceDialog.TYPE_CHOICE_DURATION:
                     if(mGameCountIndex != position){
                         mGameCountIndex = position;
                         //更新订单价格
@@ -761,7 +838,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         if (rankValue != -1 && modeValue != -1){
             if (mGameCountList.size() > mGameCountIndex){
                 //更新订单价格
-                DataManager.getPreviewOrderPrice(getMember_id(),rankValue,modeValue,Integer.parseInt(mGameCountList.get(mGameCountIndex)));
+                DataManager.getPreviewOrderPrice(getMember_id(),rankValue,modeValue,Integer.parseInt(PatternUtil.replaceChinese(mGameCountList.get(mGameCountIndex))),mTypeId);
             }
 
         }
@@ -825,7 +902,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                         mOptions.getGameLevelMap().get(mRankIndex).getValue()+
                         mOptions.getGameModeMap().get(mGameModeIndex).getValue()+
                         startTimeStr+
-                        Integer.parseInt(mGameCountList.get(mGameCountIndex)));
+                        Integer.parseInt(PatternUtil.replaceChinese(mGameCountList.get(mGameCountIndex))));
 
         if (orderMD5.equals(mOrderMD5)){
             ToastHelper.s("您已提交订单，请勿重复提交");
@@ -841,8 +918,9 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                     mOptions.getGameLevelMap().get(mRankIndex).getValue(),
                     mOptions.getGameModeMap().get(mGameModeIndex).getValue(),
                     startTimeStr,
-                    Integer.parseInt(mGameCountList.get(mGameCountIndex)),
-                    mCurrentOrderMode == MODE_ORDER_GRAB ? 2:1);        //1 => 普通模式 2 => 抢单模式
+                    Integer.parseInt(PatternUtil.replaceChinese(mGameCountList.get(mGameCountIndex))),
+                    mCurrentOrderMode == MODE_ORDER_GRAB ? 2:1,//1 => 普通模式 2 => 抢单模式
+                    mTypeId);                                  //1 => 王者荣耀 2 => 吃鸡类
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -44,6 +44,8 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
     private String mCoachNickName;
     private String mCoachAvatar;
     private String mCoachQQ;
+    private String mTypeId;
+    private String mGameName;
 
     private View mDetailInfo;
     private View mGameInfo;
@@ -78,6 +80,7 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
             mMemberId = getIntent().getStringExtra("member_id");
             mCoachNickName = getIntent().getStringExtra("nick_name");
             mCoachAvatar = getIntent().getStringExtra("avatar");
+            mTypeId = getIntent().getStringExtra("type_id");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -172,6 +175,7 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
 
         GlideHelper.displayImageWhite(this,data.getAvatar(),mIcon);
 
+        mGameName = data.getGame_name();
         mNickName.setText(data.getName());
         mGame.setText(data.getGame_name());
 
@@ -316,7 +320,7 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
                 finish();
                 break;
             case R.id.tb_topup_record:                      //价格
-                WebActivityJS.startWebActivityJS(CoachDetailActivity.this,"https://sapp.17sysj.com/Sysj222/Coach/price","价格","",true);
+                WebActivityJS.startWebActivityJS(CoachDetailActivity.this,"https://sapp.17sysj.com/Sysj222/Coach/price?training_type_id="+mTypeId,"价格","",true);
                 break;
             case R.id.tv_chat_with_coach:                   //私聊
                 chatWith();
@@ -332,7 +336,9 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
                         mMemberId,
                         mCoachNickName,
                         mCoachAvatar,
-                        mCoachQQ);
+                        mCoachQQ,
+                        mTypeId,
+                        mGameName);
                 break;
             case R.id.rv_coach_info_header:                 //个人中心
                 startPersonCenterActivity();

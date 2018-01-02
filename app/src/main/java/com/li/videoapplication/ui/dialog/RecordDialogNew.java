@@ -73,7 +73,7 @@ public class RecordDialogNew extends AlphaShadeDialog implements View.OnClickLis
 
                 if (mActivity != null){
 
-                    ActivityManager.startCreatePlayWithOrderActivity(mActivity, CreatePlayWithOrderActivity.MODE_ORDER_GRAB,null,null,null,null);
+                    ActivityManager.startCreatePlayWithOrderActivity(mActivity, CreatePlayWithOrderActivity.MODE_ORDER_GRAB,null,null,null,null,"1","王者荣耀");
 
                 }
 

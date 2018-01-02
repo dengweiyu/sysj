@@ -84,4 +84,19 @@ public class PatternUtil {
     public static boolean isMatchEmail(String s) {
         return Pattern.matches("/^(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w+)+)$/;", s);
     }
+
+
+    /**
+     *替换字符串中的字符 只保留数字
+     */
+    public static String replaceChinese(String value){
+
+        if (value != null){
+            Pattern pattern = Pattern.compile("[\\u4e00-\\u9fa5]");
+            Matcher matcher = pattern.matcher(value);
+            value = matcher.replaceAll("");
+        }
+
+        return value;
+    }
 }

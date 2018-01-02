@@ -611,7 +611,7 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
             //取消雷达与计时器
             startTickView(false,mOrderDetail);
             //
-            ActivityManager.startCreatePlayWithOrderActivity(this,CreatePlayWithOrderActivity.MODE_ORDER_AGAIN,null,null,null,null);
+            ActivityManager.startCreatePlayWithOrderActivity(this,CreatePlayWithOrderActivity.MODE_ORDER_AGAIN,null,null,null,null,mOrderDetail.getData().getTraining_type_id(),mOrderDetail.getData().getGameName());
         }else {
             if (entity.getMsg() != null){
                 ToastHelper.s(entity.getMsg());

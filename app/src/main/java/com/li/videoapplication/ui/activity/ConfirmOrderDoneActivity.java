@@ -53,6 +53,7 @@ public class ConfirmOrderDoneActivity extends TBaseAppCompatActivity implements 
     private String mNickName;
     private String mOrderId;
     private String mOrderCount;
+    private String mTypeId;
     private int mCount = 0;
     private int mImageSize = 0;
     private int mChoiceMaxSize = MAX_IMAGE_SIZE ;
@@ -70,6 +71,7 @@ public class ConfirmOrderDoneActivity extends TBaseAppCompatActivity implements 
         mOrderId = intent.getStringExtra("order_id");
         mAvatar = intent.getStringExtra("avatar");
         mNickName = intent.getStringExtra("nick_name");
+        mTypeId = intent.getStringExtra("type_id");
         String count = intent.getStringExtra("count");
         try {
             mCount = Integer.parseInt(count);
@@ -114,6 +116,13 @@ public class ConfirmOrderDoneActivity extends TBaseAppCompatActivity implements 
 
         final ImageView icon = (ImageView)findViewById(R.id.civ_user_icon);
         GlideHelper.displayImageWhite(this,mAvatar,icon);
+
+        //吃鸡类 没有对局结果选择
+        if ("2".equals(mTypeId)){
+            findViewById(R.id.cv_order_result).setVisibility(View.GONE);
+        }else {
+            findViewById(R.id.cv_order_result).setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -177,13 +186,21 @@ public class ConfirmOrderDoneActivity extends TBaseAppCompatActivity implements 
                 finish();
                 break;
             case R.id.tv_commit_order_result:
-                List<Integer> result = mAdapter.getOrderResult();
-                for (int i = 0; i < result.size(); i++) {
-                    if (result.get(i) == -1){
-                        ToastHelper.l("第"+ StringUtil.convert2Chinese(i+1)+"局未选择游戏结果哦~");
-                        return;
+                if (!"2".equals(mTypeId)){          //吃鸡类不校验结果
+                    List<Integer> result = mAdapter.getOrderResult();
+                    for (int i = 0; i < result.size(); i++) {
+                        if (result.get(i) == -1){
+                            ToastHelper.l("第"+ StringUtil.convert2Chinese(i+1)+"局未选择游戏结果哦~");
+                            return;
+                        }
+                    }
+                }else {
+                    //吃鸡类 给一个默认值 主要是后台没法改导致的
+                    for (int i = 0; i <mCount ; i++) {
+                        mAdapter.setSelectPosition(i,1);
                     }
                 }
+
 
                 if (mImageSize <= 0){
                     ToastHelper.s("至少选择一张图片哦~");
@@ -295,6 +312,7 @@ public class ConfirmOrderDoneActivity extends TBaseAppCompatActivity implements 
             mLoadingDialog.dismiss();
         }
         if (entity != null && entity.isResult()){
+
             //不可编辑图片
             mImageAdapter.setUploadDone(true);
             mImages.remove(mImages.size()-1);

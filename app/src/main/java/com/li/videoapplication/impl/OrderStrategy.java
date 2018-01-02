@@ -122,7 +122,9 @@ public abstract class OrderStrategy implements IOrderStrategy {
                 mOrderDetail.getCoach().getMember_id(),
                 mOrderDetail.getCoach().getNickname(),
                 mOrderDetail.getCoach().getAvatar(),
-                mOrderDetail.getCoach().getQq());
+                mOrderDetail.getCoach().getQq(),
+                mOrderDetail.getData().getTraining_type_id(),
+                mOrderDetail.getData().getGameName());
 
 /*        if (orderMode == CreatePlayWithOrderActivity.MODE_ORDER_AGAIN){                                                      //抢单模式
             Intent intent = new Intent();
@@ -143,7 +145,7 @@ public abstract class OrderStrategy implements IOrderStrategy {
 
     //抢单模式
     protected void createGrabOrder(){
-        ActivityManager.startCreatePlayWithOrderActivity(AppManager.getInstance().currentActivity(),CreatePlayWithOrderActivity.MODE_ORDER_GRAB,null,null,null,null);
+        ActivityManager.startCreatePlayWithOrderActivity(AppManager.getInstance().currentActivity(),CreatePlayWithOrderActivity.MODE_ORDER_GRAB,null,null,null,null,mOrderDetail.getData().getTraining_type_id(),mOrderDetail.getData().getGameName());
     }
 
     //确认接单
@@ -161,7 +163,8 @@ public abstract class OrderStrategy implements IOrderStrategy {
                 mOrderDetail.getCoach().getAvatar(),
                 mOrderDetail.getData().getOrder_id(),
                 mOrderDetail.getData().getInning(),
-                mOrderDetail.getUser().getOrderCount());
+                mOrderDetail.getUser().getOrderCount(),
+                mOrderDetail.getData().getTraining_type_id());
     }
 
     //用户确认教练提交的游戏结果

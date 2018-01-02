@@ -116,6 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:visibility="invisible"
                     android:src="@drawable/radar_bg"/>
 
                 <ImageView
@@ -123,6 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:visibility="invisible"
                     android:src="@drawable/radar"/>
 
                 <TextView

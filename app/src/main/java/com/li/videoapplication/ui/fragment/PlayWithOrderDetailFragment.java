@@ -21,6 +21,8 @@ import com.li.videoapplication.utils.TextUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.rong.imlib.filetransfer.Call;
+
 /**
  * 陪练订单详情
  */
@@ -100,7 +102,8 @@ public class PlayWithOrderDetailFragment extends TBaseFragment implements View.O
             View choiceAgain = view.findViewById(R.id.tv_choice_again);
             ImageView statusIcon = (ImageView)view.findViewById(R.id.iv_order_status);
             choiceAgain.setVisibility(View.GONE);
-            TextView gameName = (TextView)view.findViewById(R.id.tv_game_name);
+            TextView gameName = (TextView)view.findViewById(R.id.tv_coach_game_name);
+            gameName.setVisibility(View.VISIBLE);
             gameName.setText("陪练游戏："+mOrderEntity.getData().getGameName());
 
             switch (data.getStatusX()){
@@ -204,7 +207,7 @@ public class PlayWithOrderDetailFragment extends TBaseFragment implements View.O
 
             TextView priceTotal = (TextView)view.findViewById(R.id.tv_game_price_total);
             try {
-                priceTotal.setText(Html.fromHtml("总价："+TextUtil.toColor(data.getPrice_total()+"","#fc3c2e")));
+                priceTotal.setText(Html.fromHtml("总价："+TextUtil.toColor(data.getPrice_total()+"魔币","#fc3c2e")));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -254,6 +257,34 @@ public class PlayWithOrderDetailFragment extends TBaseFragment implements View.O
                 }
 
             }
+        }
+
+        refreshViewByType();
+    }
+
+    /**
+     *
+     */
+    private void refreshViewByType(){
+        if (mOrderEntity == null || mRootView == null){
+            return;
+        }
+        TextView duration = (TextView) mRootView.findViewById(R.id.tv_game_duration);
+
+        switch (mOrderEntity.getData().getTraining_type_id()){
+            case "1":               //王者荣耀
+                mRootView.findViewById(R.id.ll_game_base_info).setVisibility(View.VISIBLE);
+                mRootView.findViewById(R.id.tv_game_rank).setVisibility(View.GONE);
+                duration.setVisibility(View.GONE);
+                break;
+            case "2":               //吃鸡类
+                //
+                mRootView.findViewById(R.id.ll_game_base_info).setVisibility(View.GONE);
+                mRootView.findViewById(R.id.tv_game_rank).setVisibility(View.GONE);
+
+                duration.setVisibility(View.VISIBLE);
+                duration.setText("陪练时长："+mOrderEntity.getData().getInning()+"小时");
+                break;
         }
     }
 

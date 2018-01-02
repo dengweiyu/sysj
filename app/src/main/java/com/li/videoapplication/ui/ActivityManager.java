@@ -1507,13 +1507,14 @@ public class ActivityManager {
     /**
      * 教练详情
      */
-    public static void startCoachDetailActivity(Context context,String memberId,String nickName,String avatar) {
+    public static void startCoachDetailActivity(Context context,String memberId,String nickName,String avatar,String typeId) {
 
         Intent intent = new Intent();
         intent.setClass(context, CoachDetailActivity.class);
         intent.putExtra("member_id",memberId);
         intent.putExtra("nick_name",nickName);
         intent.putExtra("avatar",avatar);
+        intent.putExtra("type_id",typeId);
         context.startActivity(intent);
     }
 
@@ -1536,7 +1537,7 @@ public class ActivityManager {
     /**
      * 生成陪玩订单(抢单模式)
      */
-    public static void startCreatePlayWithOrderActivity(Context context,int mode,String memberId,String nickName,String avatar,String QQ) {
+    public static void startCreatePlayWithOrderActivity(Context context,int mode,String memberId,String nickName,String avatar,String QQ,String typeId,String gameName) {
         Intent intent = new Intent();
         intent.setClass(context, CreatePlayWithOrderActivity.class);
         intent.putExtra("order_mode",mode);
@@ -1555,6 +1556,14 @@ public class ActivityManager {
 
         if (!StringUtil.isNull(QQ)){
             intent.putExtra("qq",QQ);
+        }
+
+        if (!StringUtil.isNull(typeId)){
+            intent.putExtra("type_id",typeId);
+        }
+
+        if (!StringUtil.isNull(gameName)){
+            intent.putExtra("game_name",gameName);
         }
 
         context.startActivity(intent);
@@ -1602,7 +1611,7 @@ public class ActivityManager {
      * 确认完成订单
      */
 
-    public static void startConfirmOrderDoneActivity(Context context,String nickName,String avatar,String orderId,String count,String orderCount){
+    public static void startConfirmOrderDoneActivity(Context context,String nickName,String avatar,String orderId,String count,String orderCount,String typeId){
         Intent intent = new Intent();
         intent.setClass(context, ConfirmOrderDoneActivity.class);
         intent.putExtra("order_id",orderId);
@@ -1610,6 +1619,7 @@ public class ActivityManager {
         intent.putExtra("avatar",avatar);
         intent.putExtra("count",count);
         intent.putExtra("order_count",orderCount);
+        intent.putExtra("type_id",typeId);
         context.startActivity(intent);
     }
 

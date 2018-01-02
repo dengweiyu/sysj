@@ -206,6 +206,8 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
             });
             take.setOnClickListener(null);
         }
+
+        refreshViewByType(holder,data);
     }
 
     public String getOwnerId() {
@@ -222,6 +224,29 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
 
     public void setCoachId(String coachId) {
         mCoachId = coachId;
+    }
+
+
+
+    private void refreshViewByType(BaseViewHolder holder,PlayWithTakeOrderEntity.DataBean dataBean){
+
+        TextView duration = (TextView) holder.getView(R.id.tv_game_duration);
+
+        switch (dataBean.getTraining_type_id()){
+            case "1":               //王者荣耀
+                holder.getView(R.id.ll_game_base_info).setVisibility(View.VISIBLE);
+                holder.getView(R.id.tv_game_rank).setVisibility(View.GONE);
+                duration.setVisibility(View.GONE);
+                break;
+            case "2":               //吃鸡类
+                //
+                holder.getView(R.id.ll_game_base_info).setVisibility(View.GONE);
+                holder.getView(R.id.tv_game_rank).setVisibility(View.GONE);
+
+                duration.setVisibility(View.VISIBLE);
+                duration.setText("陪练时长："+dataBean.getInning()+"小时");
+                break;
+        }
     }
 
     /**

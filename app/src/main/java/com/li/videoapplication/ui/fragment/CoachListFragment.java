@@ -7,7 +7,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,6 +22,7 @@ import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.NetworkError;
+import com.li.videoapplication.data.model.event.SwitchChoiceGameEvent;
 import com.li.videoapplication.data.model.response.CoachListEntity;
 import com.li.videoapplication.data.model.response.CoachStatusEntity;
 import com.li.videoapplication.data.model.response.ConfirmOrderEntity;
@@ -31,7 +34,9 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.CreatePlayWithOrderActivity;
 import com.li.videoapplication.ui.activity.MainActivity;
+import com.li.videoapplication.ui.activity.PlayWithOrderDetailActivity;
 import com.li.videoapplication.ui.adapter.CoachLisAdapter;
+import com.li.videoapplication.ui.dialog.ChoiceCoachGameDialog;
 import com.li.videoapplication.ui.view.SpanItemDecoration;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -64,7 +69,15 @@ public class CoachListFragment extends TBaseFragment implements
     private float mLastDy = 0f;
     private boolean mIsShowMenu = true;
     private TextView mShortcut;
+    private TextView mChoiceType;
 
+    private View mTopPlus;
+    private View mAnchor;
+
+    private String mChoiceTypeId = null;
+    private String mChoiceGameName = null;
+
+    private  CoachListEntity mCoachEntity;
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -81,8 +94,13 @@ public class CoachListFragment extends TBaseFragment implements
     @Override
     protected void initContentView(View view) {
 
+        mAnchor = view.findViewById(R.id.rl_choice_game_root);
+        mTopPlus = view.findViewById(R.id.ll_top_plus);
+        mChoiceType = (TextView)view.findViewById(R.id.tv_choice_game_type);
         mShortcut = (TextView) view.findViewById(R.id.tv_create_order_shortcut);
         mShortcut.setOnClickListener(this);
+        view.findViewById(R.id.iv_top_plus_arrow).setOnClickListener(this);
+
 
         mList = (RecyclerView) view.findViewById(R.id.rv_coach_list);
         mDiscount = (TextView) view.findViewById(R.id.tv_discount_top);
@@ -145,7 +163,7 @@ public class CoachListFragment extends TBaseFragment implements
                 if (mData != null){
                     String memberId = mData.get(i).getMember_id();
                     if (memberId != null){
-                        ActivityManager.startCoachDetailActivity(getActivity(),memberId,mData.get(i).getNickname(),mData.get(i).getAvatar());
+                        ActivityManager.startCoachDetailActivity(getActivity(),memberId,mData.get(i).getNickname(),mData.get(i).getAvatar(),mChoiceTypeId);
                     }
                 }
             }
@@ -182,7 +200,6 @@ public class CoachListFragment extends TBaseFragment implements
                         mIsShowMenu = true;
                         mActivity.refreshBottomMenu(true);
                         mStartOffset = mOffset;
-
                     }
                 }
             }
@@ -199,7 +216,7 @@ public class CoachListFragment extends TBaseFragment implements
 
 
     private void loadData(int page){
-        DataManager.getCoachList(page,false);
+        DataManager.getCoachList(page,false,mChoiceTypeId);
     }
 
 
@@ -207,9 +224,54 @@ public class CoachListFragment extends TBaseFragment implements
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_create_order_shortcut:
-                ActivityManager.startCreatePlayWithOrderActivity(getActivity(), CreatePlayWithOrderActivity.MODE_ORDER_GRAB,null,null,null,null);
+
+                if ("2".equals(mChoiceTypeId)){
+                    ToastHelper.l("暂不支持系统匹配吃鸡陪练哦~");
+                    return;
+                }
+
+                ActivityManager.startCreatePlayWithOrderActivity(getActivity(), CreatePlayWithOrderActivity.MODE_ORDER_GRAB,null,null,null,null,mChoiceTypeId,mChoiceGameName);
+                break;
+            case R.id.iv_top_plus_arrow:
+
+                if(mCoachEntity == null || mCoachEntity.getData().getTraining_type() == null){
+                    return;
+                }
+
+                List<String> data = new ArrayList<>();
+                int choiceIndex = -1;
+                for (int i = 0; i < mCoachEntity.getData().getTraining_type().size(); i++) {
+                    data.add(mCoachEntity.getData().getTraining_type().get(i).getTitle());
+                    if (mCoachEntity.getData().getTraining_type().get(i).getIsCheck() == 1){
+                        choiceIndex = i;
+                    }
+                }
+
+                if (choiceIndex >= 0){
+                    data.add(0,mCoachEntity.getData().getTraining_type().get(choiceIndex).getTitle());
+                }
+
+                ChoiceCoachGameDialog dialog = new ChoiceCoachGameDialog(getActivity(),mAnchor);
+                dialog.show(data);
+                dialog.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        changeWindowAlpha(1f);
+                    }
+                });
+                changeWindowAlpha(0.5f);
                 break;
         }
+    }
+
+
+    /**
+     *更改透明度 出现阴影
+     */
+    private void changeWindowAlpha(float scale){
+        WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
+        params.alpha = scale;
+        getActivity().getWindow().setAttributes(params);
     }
 
     @Override
@@ -277,9 +339,11 @@ public class CoachListFragment extends TBaseFragment implements
      */
     public void onEventMainThread(CoachListEntity entity){
         if (entity != null && entity.isResult() && entity.getData() != null){
+            mCoachEntity = entity;
+
             refreshData(entity.getData().getInclude());
 
-            LinearLayout.LayoutParams params =   (LinearLayout.LayoutParams) mShortcut.getLayoutParams();
+            LinearLayout.LayoutParams params =   (LinearLayout.LayoutParams) mTopPlus.getLayoutParams();
             int offset = ScreenUtil.dp2px(10);
 
             if (entity.getData().getPage_count() > mPage){
@@ -293,15 +357,24 @@ public class CoachListFragment extends TBaseFragment implements
             if (StringUtil.isNull(entity.getNotice())){
                 mDiscount.setVisibility(View.GONE);
                 params.setMargins(offset,offset,offset,0);
-                mShortcut.setLayoutParams(params);
+                mTopPlus.setLayoutParams(params);
             }else {
                 mDiscount.setVisibility(View.VISIBLE);
                 mDiscount.setText(entity.getNotice());
                 params.setMargins(offset,0,offset,0);
-                mShortcut.setLayoutParams(params);
+                mTopPlus.setLayoutParams(params);
             }
         }else {
             ToastHelper.s("暂无陪练大神哦~");
+        }
+
+        for (int i = 0; i <entity.getData().getTraining_type().size(); i++) {
+            if (entity.getData().getTraining_type().get(i).getIsCheck() == 1){
+                mChoiceTypeId = entity.getData().getTraining_type().get(i).getId();
+                mChoiceType.setText(entity.getData().getTraining_type().get(i).getTitle());
+                mChoiceGameName = entity.getData().getTraining_type().get(i).getGame_name();
+                break;
+            }
         }
         mRefresh.setRefreshing(false);
     }
@@ -385,4 +458,24 @@ public class CoachListFragment extends TBaseFragment implements
         }
     }
 
+
+    /**
+     * 切换游戏
+     */
+    public void onEventMainThread(SwitchChoiceGameEvent event){
+        if (event.getIndex() >= 0 && event.getIndex() < mCoachEntity.getData().getTraining_type().size()){
+
+            String newId = mCoachEntity.getData().getTraining_type().get(event.getIndex()).getId();
+            if (newId.equals(mChoiceTypeId)){
+                return;
+            }
+            mChoiceTypeId = newId;
+
+            mChoiceType.setText(mCoachEntity.getData().getTraining_type().get(event.getIndex()).getTitle());
+
+            mAdapter.getData().clear();
+            mRefresh.setRefreshing(true);
+            onRefresh();
+        }
+    }
 }

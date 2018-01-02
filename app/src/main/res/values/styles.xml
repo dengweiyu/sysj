@@ -222,5 +222,10 @@
                <item name="android:maxHeight">40dp</item>
         <item name="android:isIndicator">false</item>
     </style>
+    
+    <style name="ChoiceGamePopupAnimation">
+        <item name="android:windowEnterAnimation">@anim/choice_game_popup_anim_enter</item>
+        <item name="android:windowExitAnimation">@anim/choice_game_popup_anim_exit</item>
+    </style>
 
 </resources>

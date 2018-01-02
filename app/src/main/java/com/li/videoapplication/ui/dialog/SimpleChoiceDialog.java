@@ -26,6 +26,8 @@ public class SimpleChoiceDialog extends WheelBottomDialog {
     public final static int TYPE_CHOICE_HOUR = 4;
     public final static int TYPE_CHOICE_MINUTE = 5;
     public final static int TYPE_CHOICE_COUNT = 6;
+    public final static int TYPE_CHOICE_DURATION = 7;
+    public final static int TYPE_CHOICE_GAME = 8;
     private List<String> mData;
 
     private OnSelectedListener mListener;
@@ -94,6 +96,12 @@ public class SimpleChoiceDialog extends WheelBottomDialog {
                 break;
             case TYPE_CHOICE_COUNT:
                 title = "选择局数";
+                break;
+            case TYPE_CHOICE_DURATION:
+                title = "陪练时长";
+                break;
+            case TYPE_CHOICE_GAME:
+                title = "选择游戏";
                 break;
         }
         left.setText(title);

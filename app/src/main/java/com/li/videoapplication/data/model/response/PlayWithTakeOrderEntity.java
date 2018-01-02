@@ -92,6 +92,15 @@ public class PlayWithTakeOrderEntity extends BaseResponseEntity {
         private String user_id;
         private String coach_id;
         private String order_mode;
+        private String training_type_id;
+
+        public String getTraining_type_id() {
+            return training_type_id;
+        }
+
+        public void setTraining_type_id(String training_type_id) {
+            this.training_type_id = training_type_id;
+        }
 
         public String getOrder_mode() {
             return order_mode;

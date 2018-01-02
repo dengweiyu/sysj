@@ -100,7 +100,7 @@ public class OrderResultListAdapter extends RecyclerView.Adapter {
         return mCount*4;            //
     }
 
-    private void setSelectPosition(int index,int position){
+    public void setSelectPosition(int index,int position){
         if (mSelectedList != null){
             mSelectedList.set(index,position);
             notifyDataSetChanged();

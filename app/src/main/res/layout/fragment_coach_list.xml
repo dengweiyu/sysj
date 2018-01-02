@@ -35,52 +35,62 @@
 
 
         <LinearLayout
-            android:id="@+id/ll_top_plus"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/ll_choice_game"
-                android:background="@drawable/create_order_shortcut"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_marginRight="4dp"
-                android:visibility="gone"
-                android:layout_weight="1">
-                <TextView
-                    android:id="@+id/tv_game_name"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:textColor="@color/textcolor_french_gray"
-                    android:text="荒野行动"/>
-                <ImageView
-                    android:id="@+id/tv_choice_game"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:padding="6dp"
-                    android:rotation="90"
-                    android:src="@drawable/order_arrow_right_red"/>
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_create_order_shortcut"
-                android:layout_width="0dp"
+                android:id="@+id/ll_top_plus"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="16sp"
-                android:padding="10dp"
-                android:gravity="center"
-                android:layout_marginLeft="4dp"
-                android:background="@drawable/create_order_shortcut"
-                android:textColor="@color/ab_backdround_white"
-                android:text="系统匹配陪练"/>
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/rl_choice_game_root"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/create_order_shortcut"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/tv_choice_game_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:padding="10dp"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:textColor="@color/text_color"
+                        android:text=""/>
+                    <ImageView
+                        android:id="@+id/iv_top_plus_arrow"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:padding="5dp"
+                        android:rotation="90"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/order_arrow_right_red"/>
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_create_order_shortcut"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="16sp"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/create_order_shortcut"
+                    android:textColor="@color/text_color"
+                    android:text="系统匹配陪练"/>
+            </LinearLayout>
         </LinearLayout>
 
     </RelativeLayout>

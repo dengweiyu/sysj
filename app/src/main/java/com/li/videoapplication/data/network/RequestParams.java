@@ -1318,9 +1318,10 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> getCoachList(int page) {
+    public Map<String, Object> getCoachList(int page,String typeId) {
         Map<String, Object> map = new HashMap<>();
         map.put("page", page);
+        map.put("training_type_id",typeId);
         return map;
     }
 
@@ -1337,17 +1338,18 @@ public class RequestParams {
         return map;
     }
 
-    public Map<String, Object> getPreviewOrderPrice(String memberId,int  rank,int mode,int gameCount) {
+    public Map<String, Object> getPreviewOrderPrice(String memberId,int  rank,int mode,int gameCount,String typeId) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", memberId);
         map.put("training_level",rank);
         map.put("game_mode",mode);
         map.put("version","233");
         map.put("inning",gameCount);
+        map.put("training_type_id",typeId);
         return map;
     }
 
-    public Map<String, Object> createPlayWithOrder(String memberId,String coachId,int server,int rank,int mode,String time,int count,int orderMode) {
+    public Map<String, Object> createPlayWithOrder(String memberId,String coachId,int server,int rank,int mode,String time,int count,int orderMode,String gameId) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", memberId);
         map.put("coach_id",coachId);
@@ -1356,6 +1358,7 @@ public class RequestParams {
         map.put("game_mode",mode);
         map.put("start_time",time);
         map.put("inning",count);
+        map.put("training_type_id",gameId);
         map.put("target",SYSJ);
         map.put("order_mode",orderMode);
         map.put("access_token", AppAccount.getAccessToken());
