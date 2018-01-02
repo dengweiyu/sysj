@@ -1,14 +1,15 @@
 package com.ifeimo.im.common.adapter;
 
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.text.Spanned;
 import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.ifeimo.im.R;
 import com.ifeimo.im.common.adapter.holder.Holder;
 import com.ifeimo.im.common.bean.model.GroupChatModel;
@@ -53,15 +54,26 @@ public class MuccChatReAdapter extends BaseChatReCursorAdapter<Holder,GroupChatM
             holder.leftFace.setTag(R.id.image_url, url);
             Glide.with(activity.getContext())
                     .load(url)
-                    .dontAnimate()
-                    .placeholder(R.drawable.actor)
+                    .apply(new RequestOptions().placeholder(R.drawable.actor).dontAnimate())
 //                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .into(new SimpleTarget<GlideDrawable>() {
+                    .into(new SimpleTarget<Drawable>() {
                         @Override
-                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                             holder.leftFace.setImageDrawable(resource);
                         }
                     });
+            //Glide3.x
+//            Glide.with(activity.getContext())
+//                    .load(url)
+//                    .dontAnimate()
+//                    .placeholder(R.drawable.actor)
+////                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+//                    .into(new SimpleTarget<GlideDrawable>() {
+//                        @Override
+//                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+//                            holder.leftFace.setImageDrawable(resource);
+//                        }
+//                    });
             holder.leftFace.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -97,8 +109,7 @@ public class MuccChatReAdapter extends BaseChatReCursorAdapter<Holder,GroupChatM
             holder.leftFace.setTag(R.id.image_url, url);
             Glide.with(activity.getContext())
                     .load(url)
-                    .dontAnimate()
-                    .placeholder(R.drawable.actor)
+                    .apply(new RequestOptions().placeholder(R.drawable.actor).dontAnimate())
                     .into(holder.rightFace);
             holder.leftFace.setOnClickListener(null);
             holder.leftFace.setOnLongClickListener(null);

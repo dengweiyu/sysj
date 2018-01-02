@@ -2,6 +2,7 @@ package com.li.videoapplication.data.Api;
 
 import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
+import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
 
 import java.util.concurrent.TimeUnit;
@@ -29,6 +30,10 @@ public interface CacheProviders {
     Observable<Reply<HomeDto>> getHomeInfo(Observable<HomeDto> oRepos,
                                            DynamicKey userName,
                                            EvictDynamicKey evictDynamicKey);
+    //首页分栏2.2.6
+    Observable<Reply<HomeModuleEntity>> getHomeInfoFor226(Observable<HomeModuleEntity> oRepos,
+                                                 DynamicKey userName,
+                                                 EvictDynamicKey evictDynamicKey);
 
     //获取广告数据 缓存时间1天
     @LifeCache(duration = 1, timeUnit = TimeUnit.DAYS)

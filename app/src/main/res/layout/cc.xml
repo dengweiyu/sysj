@@ -1,0 +1,149 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/button_white"
+    android:clipChildren="false"
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:id="@+id/fl_button"
+            android:layout_height="wrap_content">
+
+
+
+            <!-- 150 -->
+
+            <RelativeLayout
+                android:id="@+id/root"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:clipChildren="false">
+
+                <!-- 86/148 -->
+
+                <ImageView
+                    android:id="@+id/video_cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="centerCrop"
+                    android:src="#555555" />
+
+                <RelativeLayout
+                    android:id="@+id/bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#88000000">
+
+                    <ImageView
+                        android:id="@+id/video_play"
+                        android:layout_width="9dp"
+                        android:layout_height="9dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="7dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/play_home" />
+
+                    <TextView
+                        android:id="@+id/video_allTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="6dp"
+                        android:hint="0"
+                        android:text=""
+                        android:textColor="#ffffff"
+                        android:textSize="9dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_ad_logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="-12dp"
+                        android:gravity="right"
+                        android:src="@drawable/advertisement"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/video_playCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="7dp"
+                        android:layout_toRightOf="@+id/video_play"
+                        android:hint="0"
+                        android:text=""
+                        android:textColor="#ffffff"
+                        android:textSize="9dp" />
+
+                </RelativeLayout>
+
+                <!-- 22 -->
+
+                <CheckBox
+                    android:id="@+id/vedio_deleteState"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_above="@+id/bottom"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginRight="6dp"
+                    android:background="@drawable/choose_check"
+                    android:button="@null"
+                    android:checked="true"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:visibility="gone" />
+
+
+            </RelativeLayout>
+            <com.li.videoapplication.views.CircleImageView
+                android:id="@+id/civ_user"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="start|bottom"
+                android:scaleType="centerCrop"
+                android:src="#cece" />
+
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_up_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/video_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:lines="2"
+            android:text=""
+            android:textColor="#696969"
+            android:textSize="10dp"/>
+    </LinearLayout>
+
+    <ImageView
+        android:visibility="visible"
+        android:id="@+id/vedio_deleteButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</FrameLayout>

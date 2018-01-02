@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Download;
+import com.li.videoapplication.data.model.entity.HomeColumnEntity;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.entity.TopUp;
@@ -12,6 +13,7 @@ import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
 import com.li.videoapplication.data.model.response.GameCateEntity;
+import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.data.model.response.MatchRecordEntity;
 import com.li.videoapplication.data.model.response.MatchRewardBillboardEntity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
@@ -52,6 +54,8 @@ import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
 import io.rx_cache.internal.RxCache;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Retrofit;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -147,6 +151,22 @@ public class HttpManager extends RetrofitUtils {
                 new DynamicKey("getHomeInfo&" + page),
                 new EvictDynamicKey(isload)).map(new HttpResultFuncCache<HomeDto>());
         setSubscribe(observableCache, observer);
+    }
+    //首页信息2.2.6
+    public void getHomeInfoFor226(int page, String column, boolean isload, Observer<HomeModuleEntity> observer){
+        Observable<HomeModuleEntity> observable = service.getHomeInfoFor226(page,column).map(new HttpResultFunc<HomeModuleEntity>());
+        Observable<HomeModuleEntity> observableCache =providers.getHomeInfoFor226(observable,
+                new DynamicKey("getHomeInfoFor226&"+page),
+                new EvictDynamicKey(isload)).map(new HttpResultFuncCache<HomeModuleEntity>());
+        setSubscribe(observableCache,observer);
+    }
+    //分栏信息
+    public Call<ResponseBody> getTopIndexColumn(String member_id) {
+        return service.getTopIndexColumn(member_id, "a_sysj");
+    }
+    public void getTopIndexColumn2(String member_id, Observer<HomeColumnEntity> observer) {
+        Observable<HomeColumnEntity> observable = service.getTopIndexColumn2(member_id, "a_sysj");
+        setSubscribe(observable, observer);
     }
 
     //首页每日任务

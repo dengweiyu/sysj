@@ -104,15 +104,15 @@ public class MatchFliterDialog extends BaseEmptyRightDialog implements View.OnCl
 
         gameRecy.addOnItemTouchListener(new OnItemClickListener() {
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
-                Game game = (Game) adapter.getItem(pos);
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Game game = (Game) adapter.getItem(position);
 
-                if (isGameSelected(pos)) {
-                    gameSelectedPos.put(pos, false);
+                if (isGameSelected(position)) {
+                    gameSelectedPos.put(position, false);
                 } else {
-                    gameSelectedPos.put(pos, true);
+                    gameSelectedPos.put(position, true);
                 }
-                adapter.notifyItemChanged(pos);//选中或取消点击的游戏
+                adapter.notifyItemChanged(position);//选中或取消点击的游戏
 
                 if (game.getId().equals("0")) { //点击的是[全部游戏]
                     resetGameType();//重置所有选中，即单选[全部游戏]
@@ -125,19 +125,21 @@ public class MatchFliterDialog extends BaseEmptyRightDialog implements View.OnCl
 
                 refreshTopBar(false);
             }
+
         });
 
         eventRecy.addOnItemTouchListener(new OnItemClickListener() {
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
-                if (isEventSelected(pos)) {
-                    eventSelectedPos.put(pos, false);
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (isEventSelected(position)) {
+                    eventSelectedPos.put(position, false);
                 } else {
-                    eventSelectedPos.put(pos, true);
+                    eventSelectedPos.put(position, true);
                 }
-                adapter.notifyItemChanged(pos);//选中或取消点击的游戏
+                adapter.notifyItemChanged(position);//选中或取消点击的游戏
                 refreshTopBar(false);
             }
+
         });
     }
 

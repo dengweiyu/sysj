@@ -15,7 +15,7 @@ import android.widget.ImageView;
 
 import com.ifeimo.im.R;
 
-public class RoundedImageView extends ImageView {
+public class RoundedImageView extends android.support.v7.widget.AppCompatImageView {
 
 	public static final String TAG = "RoundedImageView";
 	public static final int DEFAULT_RADIUS = 0;

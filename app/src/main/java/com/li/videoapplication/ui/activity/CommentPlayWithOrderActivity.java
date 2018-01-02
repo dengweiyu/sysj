@@ -85,11 +85,12 @@ public class CommentPlayWithOrderActivity extends TBaseAppCompatActivity impleme
         mTagList.setAdapter(mTagAdapter);
         mTagList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if(mTagAdapter != null){
-                    mTagAdapter.setSelected(i);
+                    mTagAdapter.setSelected(position);
                 }
             }
+
         });
 
 

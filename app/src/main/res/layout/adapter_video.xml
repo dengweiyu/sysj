@@ -5,16 +5,20 @@
               android:orientation="vertical"
               android:descendantFocusability="blocksDescendants">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/father"
+        android:clipChildren="false"
         android:orientation="vertical">
 
         <!-- 150 -->
-        <RelativeLayout
+
+            <RelativeLayout
             android:id="@+id/root"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:clipChildren="false"
+            android:layout_height="wrap_content">
 
             <!-- 86/148 -->
 
@@ -22,17 +26,17 @@
                 android:id="@+id/video_cover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
                 android:scaleType="centerCrop"
-                android:src="#555555"/>
+                android:src="#555555"
+                android:layout_centerHorizontal="true" />
 
-            <RelativeLayout
+                <RelativeLayout
                 android:id="@+id/bottom"
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
                 android:layout_alignParentBottom="true"
                 android:background="#88000000">
-
+<!--2.2.6升级将不显示视频播放数-->
                 <ImageView
                     android:id="@+id/video_play"
                     android:layout_width="9dp"
@@ -80,7 +84,7 @@
 
             <!-- 22 -->
 
-            <CheckBox
+                <CheckBox
                 android:visibility="gone"
                 android:id="@+id/vedio_deleteState"
                 android:layout_width="16dp"
@@ -94,7 +98,49 @@
                 android:button="@null"
                 android:checked="true"
                 android:background="@drawable/choose_check"/>
-        </RelativeLayout>
+
+            </RelativeLayout>
+
+
+       <ImageView
+            android:id="@+id/civ_user"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="-20dp"
+            android:layout_alignBottom="@id/root"
+            android:layout_marginLeft="5dp"
+            android:src="#cece"  />
+        <!--<com.li.videoapplication.views.CircleImageView-->
+            <!--android:id="@+id/civ_user"-->
+            <!--android:layout_width="45dp"-->
+            <!--android:layout_height="45dp"-->
+
+            <!--android:layout_marginBottom="-20dp"-->
+            <!--android:layout_alignBottom="@id/root"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:src="#cece" />-->
+
+        <!--<de.hdodenhof.circleimageview.CircleImageView-->
+            <!--android:id="@+id/civ_user"-->
+            <!--android:layout_width="45dp"-->
+            <!--android:layout_height="45dp"-->
+            <!--android:layout_marginBottom="-20dp"-->
+            <!--android:layout_alignBottom="@id/root"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:src="#cece"/>-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_up_user_name"
+            android:layout_toRightOf="@id/civ_user"
+            android:layout_alignBottom="@id/civ_user"
+            android:layout_marginLeft="15dp"
+            android:textSize="11sp"
+            android:lines="1"
+            android:textColor="#696969"
+            />
 
         <TextView
             android:id="@+id/video_title"
@@ -108,8 +154,9 @@
             android:lines="2"
             android:text=""
             android:textColor="#696969"
+            android:layout_below="@id/tv_up_user_name"
             android:textSize="10dp"/>
-    </LinearLayout>
+    </RelativeLayout>
 
     <ImageView
         android:visibility="visible"

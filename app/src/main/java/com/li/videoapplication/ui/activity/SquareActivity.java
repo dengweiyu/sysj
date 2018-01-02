@@ -125,8 +125,7 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
             if (offset <= 1){
                 isNeedLoaData = true;
             }
-
-                fragments.add(SquareFragment.newInstance(bean.getGame_id(),isNeedLoaData,offset * 1000));
+            fragments.add(SquareFragment.newInstance(bean.getGame_id(),isNeedLoaData,offset * 1000));
             title.add(bean.getName());
         }
 

@@ -1,6 +1,10 @@
 package com.li.videoapplication.mvp.adapter;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -39,4 +43,6 @@ public class HomeHotGameAdapter extends BaseQuickAdapter<Game, BaseViewHolder> {
         int h = ScreenUtil.dp2px(72);
         layoutParamsHelper.setRelativeLayout(view, w, h);
     }
+
+
 }

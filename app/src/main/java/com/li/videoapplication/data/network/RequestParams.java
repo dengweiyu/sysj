@@ -2,6 +2,7 @@ package com.li.videoapplication.data.network;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Objects;
 
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.AppConstant;
@@ -41,6 +42,25 @@ public class RequestParams {
         map.put("page", page);
         return map;
     }
+
+    public Map<String, Object> homeInfoById(String columnId,int page) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("page", page);
+        map.put("column_id",columnId);
+        map.put("target",SYSJ);
+        return map;
+    }
+
+    /**
+     *2.2.6首页分栏，通过用户ID 来获取首页顶部的项
+     */
+    public Map<String,Object> homeColumnByUid(String member_id){
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id",member_id);
+        return map;
+    }
+
+
 
     //分享成功后触发
     public Map<String, Object> shareTriggerReward(String memberId,String hook,String taskId,String flag) {
@@ -1564,7 +1584,6 @@ public class RequestParams {
         return map;
     }
 
-
     public Map<String, Object>  grabPlayWithOrder(String memberId,String orderId) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", memberId);
@@ -1583,7 +1602,6 @@ public class RequestParams {
         map.put("target",SYSJ);
         return map;
     }
-
 
     public Map<String, Object>  commitFocusGameList(String memberId,String gameIds) {
         Map<String, Object> map = new HashMap<>();
@@ -1604,8 +1622,22 @@ public class RequestParams {
 
     public Map<String, Object>  groupHybridList(String version) {
         Map<String, Object> map = new HashMap<>();
-        map.put("current_version",version);
-        map.put("target",SYSJ);
+        map.put("current_version", version);
+        map.put("target", SYSJ);
+        return map;
+    }
+
+    /**
+     *
+     * @param memberId
+     * @param columnIds 分栏id字符串逗号拼接，如：“1,3,5”
+     * @return
+     */
+    public Map<String, Object>  commitMyGameList(String memberId, String columnIds) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("column_ids",columnIds);
+        map.put("access_token", AppAccount.getAccessToken());
         return map;
     }
 }

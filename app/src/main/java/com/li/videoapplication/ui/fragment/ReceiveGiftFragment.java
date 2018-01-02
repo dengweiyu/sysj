@@ -101,8 +101,8 @@ public class ReceiveGiftFragment extends TBaseFragment implements View.OnClickLi
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
-            public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                MyGiftBillEntity.SectionBill data = mAdapter.getData().get(i);
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                MyGiftBillEntity.SectionBill data = mAdapter.getData().get(position);
                 switch (view.getId()){
                     case R.id.tv_my_gift_nick_name:
                         if (!mUserId.equals(data.t.getMember_id())){
@@ -118,6 +118,7 @@ public class ReceiveGiftFragment extends TBaseFragment implements View.OnClickLi
                         break;
                 }
             }
+
         });
 
 

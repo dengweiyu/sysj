@@ -24,7 +24,7 @@ public class GiftItemDecoration extends SimpleItemDecoration {
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
         int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
-            int width = 1;
+            int width = 20;
 
             if (i < 4){
                 drawTop(c,parent.getChildAt(i),parent,width);

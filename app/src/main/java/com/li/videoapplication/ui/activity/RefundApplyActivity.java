@@ -140,10 +140,10 @@ public class RefundApplyActivity extends TBaseAppCompatActivity implements View.
         mReasonList.setAdapter(mAdapter);
         mReasonList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-
-                mAdapter.setSelectPosition(i);
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                mAdapter.setSelectPosition(position);
             }
+
         });
 
 

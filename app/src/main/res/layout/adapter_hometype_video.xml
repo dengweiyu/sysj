@@ -130,6 +130,7 @@
             android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/tv_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="更多"
@@ -138,6 +139,7 @@
             android:layout_marginEnd="6dp"/>
 
         <ImageView
+            android:id="@+id/iv_more"
             android:layout_width="11dp"
             android:layout_height="11dp"
             android:src="@drawable/go_home_217" />
@@ -146,7 +148,7 @@
     <com.li.videoapplication.views.GridViewY1
         android:id="@+id/hometype_gridview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="#00ffffff"
         android:cacheColorHint="#00ffffff"
         android:horizontalSpacing="7dp"
@@ -158,5 +160,20 @@
         android:stretchMode="columnWidth"
         android:verticalSpacing="4dp"
         android:visibility="visible" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_hometype"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00ffffff"
+        android:cacheColorHint="#00ffffff"
+        android:horizontalSpacing="7dp"
+        android:listSelector="#00ffffff"
+        android:numColumns="2"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="4dp"
+        android:visibility="gone"/>
 
 </LinearLayout>

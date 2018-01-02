@@ -139,15 +139,16 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
 
             }
+
         });
 
         //Item内部子控件的点击事件
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
-            public void SimpleOnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 final VideoImage record = (VideoImage) adapter.getItem(position);
 
                 switch (view.getId()) {
@@ -177,6 +178,7 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
                         break;
                 }
             }
+
         });
     }
     /**

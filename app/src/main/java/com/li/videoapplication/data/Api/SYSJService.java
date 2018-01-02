@@ -2,6 +2,7 @@ package com.li.videoapplication.data.Api;
 
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Download;
+import com.li.videoapplication.data.model.entity.HomeColumnEntity;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.entity.TopUp;
@@ -10,6 +11,7 @@ import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
 import com.li.videoapplication.data.model.response.GameCateEntity;
+import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.data.model.response.MatchRecordEntity;
 import com.li.videoapplication.data.model.response.MatchRewardBillboardEntity;
 import com.li.videoapplication.data.model.response.MemberAttention201Entity;
@@ -36,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -53,10 +56,17 @@ import rx.Observable;
 public interface SYSJService {
 
     //@GET("接口尾址")（域名 http://apps.ifeimo.com 在 RetrofitUtils 中已配置）
-
+    //获取首页详情 首页分栏
+    @GET("/Sysj226/Index/index")
+    Observable<BaseHttpResult<HomeModuleEntity>> getHomeInfoFor226(@Query("page")int page,@Query("column_id")String column_id);
     //获取首页详情
     @GET("/Sysj217/Index/index")
     Observable<BaseHttpResult<HomeDto>> getHomeInfo(@Query("page") int page);
+    //获取顶部分栏
+    @GET("/Sysj226/Index/topIndexColumn")
+    Call<ResponseBody> getTopIndexColumn(@Query("member_id")String member_id, @Query("target")String target);
+    @GET("/Sysj226/Index/topIndexColumn")
+    Observable<HomeColumnEntity> getTopIndexColumn2(@Query("member_id")String member_id, @Query("target")String target);
 
     //获取首页每日任务
     @GET("/Sysj211/Currency/unfinishedTask")

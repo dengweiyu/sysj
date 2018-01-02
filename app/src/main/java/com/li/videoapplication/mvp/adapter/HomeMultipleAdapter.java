@@ -67,6 +67,7 @@ public class HomeMultipleAdapter extends BaseMultiItemQuickAdapter<HomeDto, Base
         helper = new TextImageHelper();
     }
 
+
     @Override
     protected void convert(BaseViewHolder holder, HomeDto item) {
         switch (holder.getItemViewType()) {
@@ -75,10 +76,10 @@ public class HomeMultipleAdapter extends BaseMultiItemQuickAdapter<HomeDto, Base
                 recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
                 HomeHotGameAdapter hotGameAdapter = new HomeHotGameAdapter(item.getData().getHotGame().getList());
                 recyclerView.setAdapter(hotGameAdapter);
-                recyclerView.addOnItemTouchListener(new OnItemClickListener() {
+                hotGameAdapter.setOnItemClickListener(new OnItemClickListener() {
                     @Override
-                    public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int i) {
-                        Game record = (Game) adapter.getItem(i);
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        Game record = (Game) adapter.getItem(position);
                         if (!StringUtil.isNull(record.getUrl())) { //H5游戏
                             WebActivity.startWebActivity(mContext, record.getUrl());
                         } else {
@@ -98,7 +99,6 @@ public class HomeMultipleAdapter extends BaseMultiItemQuickAdapter<HomeDto, Base
             case HomeDto.TYPE_GUESSYOULIKE://猜你喜欢
                 holder.setVisible(R.id.hometype_guess, true)
                         .addOnClickListener(R.id.hometype_youlike_change);
-
                 GridViewY1 youLikeGridView = holder.getView(R.id.hometype_gridview);
                 youLikeAdapter = new YouLikeAdapter(mContext,item.getData().getGuessVideo().getList());
                 youLikeGridView.setAdapter(youLikeAdapter);
@@ -125,10 +125,10 @@ public class HomeMultipleAdapter extends BaseMultiItemQuickAdapter<HomeDto, Base
                 hotNarrateRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
                 HomeHotNarrateAdapter hotNarrateAdapter = new HomeHotNarrateAdapter(item.getData().getHotMemberVideo().getList());
                 hotNarrateRecyclerView.setAdapter(hotNarrateAdapter);
-                hotNarrateRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
+                hotNarrateAdapter.setOnItemClickListener(new OnItemClickListener() {
                     @Override
-                    public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int i) {
-                        Member member = (Member) adapter.getItem(i);
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        Member member = (Member) adapter.getItem(position);
                         startPlayerDynamicActivity(member);
                     }
                 });
@@ -158,6 +158,7 @@ public class HomeMultipleAdapter extends BaseMultiItemQuickAdapter<HomeDto, Base
             youLikeAdapter.notifyDataSetChanged();
         }
     }
+
 
     public YouLikeAdapter getGuessListAdapter(){
         return   youLikeAdapter;

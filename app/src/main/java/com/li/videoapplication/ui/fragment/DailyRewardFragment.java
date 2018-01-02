@@ -65,19 +65,21 @@ public class DailyRewardFragment extends TBaseFragment implements View.OnClickLi
         dailyRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Currency item = (Currency) adapter.getItem(position);
                 setJump(item);
             }
+
         });
 
         noviceRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Currency item = (Currency) adapter.getItem(position);
                 setJump(item);
             }
+
         });
     }
 

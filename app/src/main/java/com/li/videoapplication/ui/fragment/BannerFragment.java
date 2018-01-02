@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.image.Constant;
@@ -175,8 +176,7 @@ public class BannerFragment extends TBaseFragment {
 
             Glide.with(getActivity())
                     .load(path)
-                    .placeholder(Constant.APPSTART_WHITE)
-                    .error(Constant.APPSTART_WHITE)
+                    .apply(new RequestOptions().placeholder(Constant.APPSTART_WHITE))
                     .into(image);
             startTimer();
         }

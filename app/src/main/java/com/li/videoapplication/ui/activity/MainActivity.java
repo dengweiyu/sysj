@@ -31,9 +31,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.fmsysj.screeclibinvoke.logic.screenrecord.RecordingService;
 import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
 import com.google.gson.Gson;
@@ -86,6 +85,7 @@ import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseSlidingActivity;
 import com.li.videoapplication.impl.SimpleHeadLineObservable;
 import com.li.videoapplication.mvp.home.view.HomeFragment;
+import com.li.videoapplication.mvp.home.view.HomeFragmentNew;
 import com.li.videoapplication.tools.RongIMHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
@@ -180,7 +180,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private View background;
     private int currIndex = 0;// 当前页卡编号
     private List<Fragment> fragments;
-    private HomeFragment home;
+    private HomeFragmentNew home;
     private DiscoverFragment discover;
     private GameFragment game;
     public PlayWithFragment playWithFragment;
@@ -668,17 +668,18 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     @Override
     public void onClosed() {
         refreshSystemBar(false);
-        home.startAutoFlowTimer();
+        //FIXME 侧滑菜单  需要在这里 关闭滚动
+    //    home.startAutoFlowTimer();
     }
 
     @Override
     public void onClose() {
-        home.startAutoFlowTimer();
+     //   home.startAutoFlowTimer();
     }
 
     @Override
     public void onOpened() {
-        home.stopAutoFlowTimer();
+   //     home.stopAutoFlowTimer();
         slider.refreshUnReadMessage();
         String member_id = PreferencesHepler.getInstance().getMember_id();
         if (!StringUtil.isNull(member_id)){
@@ -690,7 +691,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     @Override
     public void onOpen() {
         refreshSystemBar(true);
-        home.stopAutoFlowTimer();
+     //   home.stopAutoFlowTimer();
     }
 
     @Override
@@ -895,7 +896,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
         fragments.clear();
 
-        home = new HomeFragment();
+        home = new HomeFragmentNew();
        // game = new GameFragment();
       //  discover = new DiscoverFragment();
      //   playWithFragment = new PlayWithFragment();
@@ -1113,7 +1114,23 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         if (mBottomRecord != null){
             final String unPress = entity.getMenuIco().getScreen();
             final String press = entity.getMenuIco().getScreenChecked();
-            GlideHelper.displayImageByDrawable(this, R.drawable.home_bottom_record, unPress, mBottomRecord, new SimpleTarget<GlideDrawable>() {
+            GlideHelper.displayImageByDrawable(this, R.drawable.home_bottom_record, unPress, mBottomRecord, new SimpleTarget<Drawable>() {
+                @Override
+                public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                    if (!StringUtil.isNull(unPress)){
+                        mDrawableMap.put(unPress,resource);
+                    }
+
+                    if (mDrawableMap.get(press) != null){
+                        StateListDrawable drawable = new StateListDrawable();
+
+                        drawable.addState(new int[]{android.R.attr.state_pressed},mDrawableMap.get(press));
+
+                        drawable.addState(new int[]{-android.R.attr.state_pressed},resource);
+                        mBottomRecord.setImageDrawable(drawable);
+                    }
+                }
+                /*
                 @Override
                 public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                     if (!StringUtil.isNull(unPress)){
@@ -1128,9 +1145,25 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                         drawable.addState(new int[]{-android.R.attr.state_pressed},resource);
                         mBottomRecord.setImageDrawable(drawable);
                     }
-                }
+                }*/
             });
-            GlideHelper.displayImageByDrawable(this, R.drawable.home_bottom_record_press,press, mBottomRecord, new SimpleTarget<GlideDrawable>() {
+            GlideHelper.displayImageByDrawable(this, R.drawable.home_bottom_record_press,press, mBottomRecord, new SimpleTarget<Drawable>() {
+                @Override
+                public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                    if (!StringUtil.isNull(press)){
+                        mDrawableMap.put(press,resource);
+                    }
+                    if (mDrawableMap.get(unPress) != null){
+                        StateListDrawable drawable = new StateListDrawable();
+
+                        drawable.addState(new int[]{android.R.attr.state_pressed},resource);
+
+                        drawable.addState(new int[]{-android.R.attr.state_pressed},mDrawableMap.get(unPress));
+                        mBottomRecord.setImageDrawable(drawable);
+                    }
+                }
+
+                /*
                 @Override
                 public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                     if (!StringUtil.isNull(press)){
@@ -1144,7 +1177,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                         drawable.addState(new int[]{-android.R.attr.state_pressed},mDrawableMap.get(unPress));
                         mBottomRecord.setImageDrawable(drawable);
                     }
-                }
+                }*/
             });
         }
 
@@ -1498,7 +1531,11 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     }
 
 
-
+    public void onEventMainThread(Integer i) {
+        if (i == 1) {
+            viewPager.setCurrentItem(1, true);
+        }
+    }
 
     /**
      *  提交问卷结果

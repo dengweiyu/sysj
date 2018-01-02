@@ -30,7 +30,9 @@ public class RequestUrl {
 
     //http://apps.ifeimo.com
     //https://sapp.17sysj.com
-    public String BaseSYSJ = String.format(AppConstant.FORMAT,AppConstant.IP,AppConstant.PORT,AppConstant.ROOT_DIR);
+    // String.format(AppConstant.FORMAT,AppConstant.IP,AppConstant.PORT,AppConstant.ROOT_DIR) 内网测试
+    public String BaseSYSJ = "http://apps.ifeimo.com";
+//    public String BaseSYSJ = "http://192.168.48.9:233";
 
     public String SignSYSJ = "http://17sysj.com";
 
@@ -38,13 +40,38 @@ public class RequestUrl {
 
     public String BaseFMYX_V1 = BaseFMYX + "/api/public/index.php/v1";
 
-
+    /**
+     * 首页信息
+     */
+    @Deprecated
+    public final String homeInfo() {
+        return BaseSYSJ + "/Sysj217/Index/index";
+    }
 
     /**
      * 首页信息
      */
-    public final String homeInfo() {
-        return BaseSYSJ + "/Sysj217/Index/index";
+    public final String homeInfoById() {
+        return BaseSYSJ + "/Sysj226/Index/index";
+    }
+    /**
+     *2.2.6首页分栏的项
+     */
+    public final String homeColumnByUid(){
+        return BaseSYSJ + "/Sysj226/Index/topIndexColumn";
+    }
+    /**
+     * 2.2.6获取所有游戏，以便选择选择游戏
+     */
+    public final String getAllHomeGame(){
+        return BaseSYSJ + "/Sysj226/Index/indexColumnGame";
+    }
+
+    /**
+     * 2.2.6保存分栏中我的游戏
+     */
+    public final String saveMyGameList(){
+        return BaseSYSJ + "/Sysj226/Index/saveMemberColumn";
     }
 
     /**
@@ -873,6 +900,19 @@ public class RequestUrl {
         return BaseSYSJ + "/sysj201/index/changeGuess";
     }
 
+    /**
+     * 首页猜你喜歡217
+     */
+    public final String indexChangeGuess217() {
+        return BaseSYSJ + "/sysj217/index/changeGuess";
+    }
+
+    /**
+     * 首页猜你喜歡217(有video_ids)
+     */
+    public final String indexChangeGuessSecond217() {
+        return BaseSYSJ + "/sysj217/index/changeGuessSecond";
+    }
 
 	/* ############## 图文 ############## */
 

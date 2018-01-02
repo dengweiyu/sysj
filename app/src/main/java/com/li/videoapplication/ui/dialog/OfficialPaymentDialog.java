@@ -149,15 +149,15 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
-                Recommend record = (Recommend) adapter.getItem(pos);
-                if (!mCheckStates.valueAt(pos)) {
-                    if (selectedPos != pos) {
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Recommend record = (Recommend) adapter.getItem(position);
+                if (!mCheckStates.valueAt(position)) {
+                    if (selectedPos != position) {
                         //先取消上个item的勾选状态
                         mCheckStates.put(selectedPos, false);
                         OfficialPaymentDialog.this.adapter.notifyItemChanged(selectedPos);
                         //设置新Item的勾选状态
-                        selectedPos = pos;
+                        selectedPos = position;
                         mCheckStates.put(selectedPos, true);
                         OfficialPaymentDialog.this.adapter.notifyItemChanged(selectedPos);
                         refreshCurrencyView(record.getCurrency_num());
@@ -169,6 +169,7 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
                     }
                 }
             }
+
         });
     }
 

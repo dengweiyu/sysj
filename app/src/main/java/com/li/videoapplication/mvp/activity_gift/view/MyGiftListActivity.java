@@ -143,10 +143,11 @@ public class MyGiftListActivity extends TBaseAppCompatActivity implements IMyGif
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int pos) {
-                Gift record = (Gift) adapter.getItem(pos);
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Gift record = (Gift) adapter.getItem(position);
                 startGiftDetailActivity(record);
             }
+
         });
     }
 

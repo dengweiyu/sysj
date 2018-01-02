@@ -249,9 +249,10 @@ public class VideoPlayGiftFragment extends TBaseFragment implements View.OnClick
 
     final OnItemClickListener mListener = new OnItemClickListener() {
         @Override
-        public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-            mAdapter.setSelected(i);
+        public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+            mAdapter.setSelected(position);
         }
+
     };
 
 

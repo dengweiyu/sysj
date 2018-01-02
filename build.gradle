@@ -1,15 +1,16 @@
 buildscript {
     repositories {
+
         jcenter()
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8' //增加这一句
 
         classpath ('com.tencent.tinker:tinker-patch-gradle-plugin:1.7.11')
 
-        classpath 'com.meituan.android.walle:plugin:1.1.4'
+        classpath 'com.meituan.android.walle:plugin:1.1.5'
     }
 }
 
@@ -17,6 +18,10 @@ allprojects {
     repositories {
         jcenter()
         maven { url "https://jitpack.io" }
+        maven {
+            url "https://maven.google.com"
+        }
         mavenCentral()
     }
+
 }

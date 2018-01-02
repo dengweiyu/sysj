@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="net.lucode.hackware.magicindicatordemo.MainActivity">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+            <net.lucode.hackware.magicindicator.MagicIndicator
+                android:id="@+id/magic_indicator"
+                android:layout_width="0dp"
+                android:layout_weight="0.9"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="0.1"
+                android:layout_height="match_parent"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:id="@+id/iv_add_game"
+                android:src="@drawable/home_add_new"/>
+        </LinearLayout>
+
+
+
+        <com.li.videoapplication.views.ViewPagerY4
+            android:id="@+id/vp_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.li.videoapplication.views.ViewPagerY4>
+
+    </LinearLayout>
+
+
+</LinearLayout>

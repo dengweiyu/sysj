@@ -136,12 +136,12 @@ public class ResponseHandler {
         try {
             // 解析网络访问结果
 
-            Bundle extra = null;
+            Map extra = null;
             if (templateEntity != null){
                 extra = templateEntity.getExtra();
             }
             entity = gson.fromJson(resultString, templateEntity.getClass());
-            if (extra != null){
+            if (extra != null && entity != null){
                 entity.setExtra(extra);
             }
         } catch (JsonSyntaxException e) {

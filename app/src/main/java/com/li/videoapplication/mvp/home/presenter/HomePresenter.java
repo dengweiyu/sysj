@@ -5,6 +5,7 @@ import android.util.Log;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
+import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
 import com.li.videoapplication.framework.BaseHttpResult;
 import com.li.videoapplication.mvp.OnLoadDataListener;
@@ -45,6 +46,15 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
         Log.d(TAG, "loadHomeData: " + isLoad);
         homeModel.loadHomeData(page,this);
     }
+
+
+//改为DataManager
+    @Override
+    public void loadHomeDataFor226(int page, String column, boolean isLoad) {
+        homeModel.loadHomeDataFor226(page,column,this);
+
+    }
+
 
     @Override
     public void unfinishedTask(String member_id, boolean update) {
@@ -97,6 +107,14 @@ public class HomePresenter implements IHomePresenter, onloadHomeDataListener {
         homeView.refreshHomeData(data);
         homeView.hideProgress();
     }
+
+    @Override
+    public void onLoadHomeSuccessFor226(HomeModuleEntity data) {
+        Log.d(TAG, "onLoadHomeSuccessFor226: " + data);
+        homeView.refreshHomeData(data);
+        homeView.hideProgress();
+    }
+
 
     //加载首页失败
     @Override

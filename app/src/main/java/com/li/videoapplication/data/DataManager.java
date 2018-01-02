@@ -1,13 +1,18 @@
 package com.li.videoapplication.data;
 
 
+import android.os.Bundle;
+import android.util.Log;
+
 import com.li.videoapplication.data.database.VideoCaptureEntity;
 import com.li.videoapplication.data.local.ImageDirectoryHelper;
 import com.li.videoapplication.data.local.ScreenShotEntity;
 import com.li.videoapplication.data.local.ScreenShotHelper;
 import com.li.videoapplication.data.local.VideoCaptureHelper;
 import com.li.videoapplication.data.model.entity.Advertisement;
+import com.li.videoapplication.data.model.entity.HomeColumnEntity;
 import com.li.videoapplication.data.model.entity.HomeDto;
+import com.li.videoapplication.data.model.entity.HomeGameSelectEntity;
 import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.*;
@@ -34,6 +39,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 功能：数据请求管理类
@@ -42,7 +48,7 @@ public class DataManager {
 
     public static String TAG = DataManager.class.getSimpleName();
 
-
+    @Deprecated
     public static void getHomeInfo(int page){
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().homeInfo();
@@ -51,6 +57,7 @@ public class DataManager {
         request.setEntity(new HomeDto());
         helper.doService(request);
     }
+
 
     /**
      * 分享页面广场信息
@@ -785,6 +792,31 @@ public class DataManager {
         request.setEntity(new ChangeGuessEntity());
         helper.doNetwork(request);
     }
+
+    /**
+     * 功能：首页猜你喜歡217
+     */
+    public static void indexChangeGuess217(String group_ids) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().indexChangeGuess217();
+        Map<String, Object> params = RequestParams.getInstance().indexChangeGuess(group_ids);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new ChangeGuessEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：首页猜你喜歡217(有video_ids的时候)
+     */
+    public static void indexChangeGuessSecond217(String video_ids) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().indexChangeGuess217();
+        Map<String, Object> params = RequestParams.getInstance().indexChangeGuessSecond(video_ids);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new ChangeGuessEntity());
+        helper.doNetwork(request);
+    }
+
 
     /** ############ 广告 ############# */
 
@@ -3160,13 +3192,74 @@ public class DataManager {
     /**
      * 获取需要混合页面显示的圈子
      */
-    public static void getHybridGroupList(String version){
+    public static void getHybridGroupList(String version) {
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().groupHybridList();
 
         Map<String, Object> params = RequestParams.getInstance().groupHybridList(version);
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new HybridGroupListEntity());
         helper.doNetwork(request);
+    }
+    public static void getHomeInfoById(String columnId,int page){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().homeInfoById();
+        Map<String, Object> params = RequestParams.getInstance().homeInfoById(columnId,page);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        HomeModuleEntity entity =new HomeModuleEntity();
+        Map<String,Object> extra = new HashMap<>();
+        extra.put("column_id",columnId);
+        entity.setExtra(extra);
+        request.setEntity(entity);
+        helper.doService(request);
+    }
+    /**
+     * 新版本，获取首页分栏的项
+     */
+    public static void getHomeColumnByUser(String member_id){
+        Log.w("HomeFragmentNew", "getHomeColumnByUser..");
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().homeColumnByUid();
+        Map<String, Object> params = RequestParams.getInstance().homeColumnByUid(member_id);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        HomeColumnEntity entity =new HomeColumnEntity();
+        Map<String,Object> extra = new HashMap<>();
+        extra.put("member_id",member_id);
+        entity.setExtra(extra);
+   /*     Bundle bundle = new Bundle();
+        bundle.putString("member_id",member_id);
+        entity.setExtra(bundle);*/
+        request.setEntity(entity);
+        Log.w("DataManager", "准备doService..");
+        helper.doService(request);
+    }
+    /**
+     * 新版本，获取可供选择的游戏
+     */
+    public static void getGameToSelect(String member_id){
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getAllHomeGame();
+        Map<String, Object> params = RequestParams.getInstance().homeColumnByUid(member_id);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
+        HomeGameSelectEntity entity = new HomeGameSelectEntity();
+        Map<String,Object> extra = new HashMap<>();
+        extra.put("member_id",member_id);
+        entity.setExtra(extra);
+/*        Bundle bundle = new Bundle();
+        bundle.putString("member_id",member_id);
+        entity.setExtra(bundle);*/
+        request.setEntity(entity);
+        helper.doService(request);
+    }
+
+    public static void saveMyGameList(String member_id, String column_ids) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().saveMyGameList();
+        Map<String, Object> params = RequestParams.getInstance().commitMyGameList(member_id, column_ids);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
+        BaseResponseEntity entity = new BaseResponseEntity();
+        request.setEntity(entity);
+        helper.doService(request);
+
     }
 }

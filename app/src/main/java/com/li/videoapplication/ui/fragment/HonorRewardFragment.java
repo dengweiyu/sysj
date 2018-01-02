@@ -49,7 +49,7 @@ public class HonorRewardFragment extends TBaseFragment {
         recyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Currency item = (Currency) adapter.getItem(position);
                 switch (item.getJumpStatus()){
                     case 1://1=>直接跳转到视屏管理
@@ -78,6 +78,7 @@ public class HonorRewardFragment extends TBaseFragment {
                         break;
                 }
             }
+
         });
     }
 

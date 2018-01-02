@@ -11,6 +11,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Advertisement;
+import com.li.videoapplication.data.model.entity.NetworkError;
 import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.Associate;
 import com.li.videoapplication.data.model.entity.HomeDto;
@@ -19,6 +20,7 @@ import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.AdvertisementAdImage204Entity;
 import com.li.videoapplication.data.model.response.AdvertisementAdLocation204Entity;
+import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.tools.ArrayHelper;
 import com.li.videoapplication.tools.JSONHelper;
 import com.li.videoapplication.utils.StringUtil;
@@ -467,7 +469,7 @@ public class PreferencesHepler {
     }
 
     /**
-     * 保存首页
+     * 保存首页 将entity转为json 保存在sp 中
      */
     public void saveHomeData(HomeDto entity) {
         Log.d(tag, "save/HomeData=" + entity.toJSON());
@@ -475,7 +477,15 @@ public class PreferencesHepler {
     }
 
     /**
-     * 获取首页
+     * 2.2.6版本将数据改为HomeEntity
+     * @param entity
+     */
+    public void saveHomeEntity(HomeModuleEntity entity){
+        NormalPreferences.getInstance().putString(Constants.HOME,entity.toJSON());
+    }
+
+    /**
+     * 获取首页 将保存的第一页json 转为entity;
      */
     public HomeDto getHomeData() {
         String json = NormalPreferences.getInstance().getString(Constants.HOME);
@@ -489,6 +499,22 @@ public class PreferencesHepler {
         }
         Log.d(tag, "get/HomeData=" + entity);
         return entity;
+    }
+    /**
+     * 获取首页的第一页数据转为json 2.2.6
+     *
+     */
+    public HomeModuleEntity getHomeEntity(){
+        String json = NormalPreferences.getInstance().getString(Constants.HOME);
+        HomeModuleEntity entity =null;
+        try {
+            if (!StringUtil.isNull(json)){
+                entity = gson.fromJson(json, HomeModuleEntity.class);
+            }
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        return  entity;
     }
 
 	/* ##############  图片广告  ############### */
@@ -939,6 +965,32 @@ public class PreferencesHepler {
             e.printStackTrace();
         }
         return list;
+    }
+
+    /**
+     * 获取猜你喜歡,随机获取的数量
+     */
+    public List<String> getVideoIds(int count) {
+        List<String> totalVideoIds = getVideoIds();
+        List<String> videoIds = new ArrayList<>();
+        List<Integer> indexs = new ArrayList<>();
+        int total = totalVideoIds.size();
+        if (total <= count) {
+            return totalVideoIds;
+        }
+        while (true) {
+            int j = (int) (Math.random()*(total));
+            if (!indexs.contains(j)) {
+                indexs.add(j);
+            }
+            if (indexs.size() >= count) {
+                break;
+            }
+        }
+        for (int i = 0; i < indexs.size(); i++) {
+            videoIds.add(totalVideoIds.get(indexs.get(i)));
+        }
+        return videoIds;
     }
 
     /**

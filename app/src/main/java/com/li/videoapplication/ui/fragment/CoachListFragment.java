@@ -159,14 +159,15 @@ public class CoachListFragment extends TBaseFragment implements
 
         mList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mData != null){
-                    String memberId = mData.get(i).getMember_id();
+                    String memberId = mData.get(position).getMember_id();
                     if (memberId != null){
-                        ActivityManager.startCoachDetailActivity(getActivity(),memberId,mData.get(i).getNickname(),mData.get(i).getAvatar(),mChoiceTypeId);
+                        ActivityManager.startCoachDetailActivity(getActivity(),memberId,mData.get(position).getNickname(),mData.get(position).getAvatar(),mChoiceTypeId);
                     }
                 }
             }
+
         });
 
 

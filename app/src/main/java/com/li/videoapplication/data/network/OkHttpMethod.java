@@ -248,6 +248,7 @@ public class OkHttpMethod implements AbsRequestMethod {
 		if (response != null) {
 			try {
 				resultString = response.body().string();
+				Log.i(tag, "response(结果)字段：" + resultString);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -281,7 +282,9 @@ public class OkHttpMethod implements AbsRequestMethod {
 	 */
 	private void execute() {
 		try {
+			Log.w(tag, "接收返回response..");
 			response = client.newCall(request).execute();
+			Log.w(tag, "返回response后..");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

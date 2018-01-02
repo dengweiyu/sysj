@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -20,6 +21,9 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.utils.URLUtil;
+import com.li.videoapplication.views.CircleImageView;
+import com.li.videoapplication.views.RoundedImageView;
 
 /**
  * 适配器：猜你喜欢
@@ -27,6 +31,7 @@ import com.li.videoapplication.utils.StringUtil;
 @SuppressLint("InflateParams")
 public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
 
+    private Context mContext;
     /**
      * 跳转：视频播放
      */
@@ -36,6 +41,7 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
 
     public YouLikeAdapter(Context context, List<VideoImage> data) {
         super(context, R.layout.adapter_video, data);
+        mContext = context;
     }
 
     @Override
@@ -44,6 +50,7 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
         final VideoImage record = getItem(position);
         final ViewHolder holder;
         if (view == null) {
+            Log.i(tag, "猜一猜view为空..");
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.adapter_video, null);
             holder.title = (TextView) view.findViewById(R.id.video_title);
@@ -53,9 +60,12 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
             holder.allTime = (TextView) view.findViewById(R.id.video_allTime);
             holder.deleteState = (CheckBox) view.findViewById(R.id.vedio_deleteState);
             holder.adLogo = (ImageView)view.findViewById(R.id.iv_ad_logo);
+            holder.userIamgeView= (ImageView) view.findViewById(R.id.civ_user);
+            holder.nikename= (TextView) view.findViewById(R.id.tv_up_user_name);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
+            Log.i(tag, "猜一猜view不为空");
         }
 
         setPicLayoutParams(holder.cover);
@@ -66,6 +76,9 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
             holder.playCount.setVisibility(View.GONE);
             holder.play.setVisibility(View.GONE);
             holder.allTime.setVisibility(View.GONE);
+            //TODO 是广告就不显示上传主的名字和头像,需要与产品确定要求
+            holder.userIamgeView.setVisibility(View.GONE);
+            holder.nikename.setVisibility(View.GONE);
           //  setTextViewText(holder.allTime, "广告");
             holder.adLogo.setVisibility(View.VISIBLE);
 
@@ -75,6 +88,7 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
             holder.playCount.setVisibility(View.VISIBLE);
             holder.play.setVisibility(View.VISIBLE);
             holder.adLogo.setVisibility(View.GONE);
+            holder.userIamgeView.setVisibility(View.VISIBLE);
             if (!StringUtil.isNull(record.getClick_count())) {
                 //播放数格式成以万为单位
                 String clickCount = StringUtil.toUnitW(record.getClick_count());
@@ -84,8 +98,16 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
         }
 
         setImageViewImageNetAlpha(holder.cover, record.getFlagPath());
+        //判断是否符合要求，然后组装上传主的是视图
+        if (!StringUtil.isNull(record.getAvatar())){
+            if (URLUtil.isURL(record.getAvatar())){
+                setCircleImageNetAlpha(mContext, holder.userIamgeView,record.getAvatar());
+            }
+        }
+        if (!StringUtil.isNull(record.getNickname())){
+            setTextViewText(holder.nikename,record.getNickname());
+        }
         holder.deleteState.setVisibility(View.GONE);
-
 
         view.setOnClickListener(new View.OnClickListener() {
 
@@ -136,5 +158,7 @@ public class YouLikeAdapter extends BaseArrayAdapter<VideoImage> {
         TextView allTime;
         CheckBox deleteState;
         ImageView adLogo;
+        ImageView userIamgeView;
+        TextView nikename;
     }
 }

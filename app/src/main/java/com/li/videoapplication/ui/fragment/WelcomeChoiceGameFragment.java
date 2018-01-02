@@ -53,11 +53,10 @@ public class WelcomeChoiceGameFragment extends TBaseFragment implements View.OnC
 
         mGameList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mFocusGameList != null){
-                    boolean isChoice =  !mAdapter.getData().get(i).isChoice();
-                    mAdapter.getData().get(i).setChoice(isChoice);
+                    boolean isChoice =  !mAdapter.getData().get(position).isChoice();
+                    mAdapter.getData().get(position).setChoice(isChoice);
                     if (mAdapter != null){
                         mAdapter.setNewData(mAdapter.getData());
                     }
@@ -66,6 +65,7 @@ public class WelcomeChoiceGameFragment extends TBaseFragment implements View.OnC
                     refreshButton();
                 }
             }
+
         });
 
 

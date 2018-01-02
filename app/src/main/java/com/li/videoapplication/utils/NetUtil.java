@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.li.videoapplication.framework.AppManager;
+import com.li.videoapplication.tools.ToastHelper;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -113,6 +114,19 @@ public class NetUtil {
             }
         }
         return 0;
+    }
+
+    /**
+     * 检查网络返回数据转化后是否为空。
+     * @param o
+     * @return true：不为空 false:为空并提示
+     */
+    public static boolean checkNCallBackData (Object o) {
+        if (o == null) {
+            ToastHelper.s("返回的数据为空..服务器的锅");
+            return false;
+        }
+        return true;
     }
 
 }
