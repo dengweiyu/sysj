@@ -2,6 +2,7 @@ package com.li.videoapplication.tools;
 
 import android.content.Context;
 
+import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.utils.StringUtil;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
@@ -440,6 +441,18 @@ public class UmengAnalyticsHelper {
         return isSingle;
     }
 
+    public static boolean isMiguVipShowByChannel() {
+        switch (UmengAnalyticsHelper.getChannel(AppManager.getInstance().getContext())) {
+            case "anzhi":
+            case "sougou":
+            case "ali":
+            case "meizu":
+            case "wandoujia":
+                return true;
+            default:
+                return false;
+        }
+    }
 
     /**
      *

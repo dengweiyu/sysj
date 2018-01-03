@@ -22,12 +22,9 @@ public class ChoiceHomeTabHotGameAdapter extends BaseItemDraggableAdapter<HomeGa
 
     private boolean isEditState = false;
 
-    private boolean isFirstLoad ;
-
     public ChoiceHomeTabHotGameAdapter(List<HomeGameSelectEntity.ADataBean.HotGameBean> hotGameList) {
         super(R.layout.home_hot_game_item_select, hotGameList);
         this.hotGameList = hotGameList;
-        this.isFirstLoad = true;
     }
 
     public void setEditState(boolean isEditState) {
@@ -44,20 +41,13 @@ public class ChoiceHomeTabHotGameAdapter extends BaseItemDraggableAdapter<HomeGa
             holder.getView(R.id.iv_is_choice).setVisibility(View.VISIBLE);
             holder.getView(R.id.ll_square_item_root).setClickable(isEditState);
         }
-        GlideHelper.displayImage(mContext.getApplicationContext(), hotGameBean.getIco_pic(), (ImageView) holder.getView(R.id.iv_square_game_icon));
-        if (isFirstLoad) {
-            UITask.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    GlideHelper.displayImage(mContext.getApplicationContext(), hotGameBean.getIco_pic(), (ImageView) holder.getView(R.id.iv_square_game_icon));
-                }
-            }, 1000);
-        }
-        if (hotGameBean.getName().equals(hotGameList.get(hotGameList.size()-1).getName())) {
-            //加载到最后一个，firstload完成
-            isFirstLoad = false;
-        }
-//        holder.addOnClickListener(R.id.iv_is_choice);
+        GlideHelper.displayRoundImage(mContext.getApplicationContext(), hotGameBean.getIco_pic(), (ImageView) holder.getView(R.id.iv_square_game_icon));
+        UITask.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                GlideHelper.displayRoundImage(mContext.getApplicationContext(), hotGameBean.getIco_pic(), (ImageView) holder.getView(R.id.iv_square_game_icon));
+            }
+        }, 100);
     }
 
 }

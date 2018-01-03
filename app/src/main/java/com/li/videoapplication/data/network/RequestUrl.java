@@ -75,6 +75,14 @@ public class RequestUrl {
     }
 
     /**
+     * 2.2.6统计分栏点击次数
+     * @return
+     */
+    public final String columnStatistical() {
+        return BaseSYSJ + "/Sysj226/Index/columnStatistical";
+    }
+
+    /**
      * 分享页面广场信息
      */
     public final String sharePlayerSquare() {
@@ -493,6 +501,9 @@ public class RequestUrl {
     public final String groupDataList() {
         return BaseSYSJ + "/Sysj226/Group/groupListData";
     }
+    public final String groupDataList226() {
+        return BaseSYSJ + "/Sysj226/Group/groupListData";
+    }
 
     /**
      * 圈子视频列表（最热）
@@ -543,6 +554,12 @@ public class RequestUrl {
      * 视频详情201
      */
     public final String videoDetail201() {
+        return BaseSYSJ + "/sysj226/video/getVideoDetail";
+    }
+    /**
+     * 视频详情226
+     */
+    public final String videoDetail226() {
         return BaseSYSJ + "/sysj226/video/getVideoDetail";
     }
 
@@ -1157,6 +1174,13 @@ public class RequestUrl {
      */
     public final String vipInfo(){
         return BaseSYSJ+"/Lpds227/VIP/getVIPRechargeInfo";
+    }
+
+    /**
+     * 获取vip充值信息接口
+     */
+    public final String getVIPRechargeInfo2() {
+        return BaseSYSJ + "/Lpds229/VIP/getVIPRechargeInfo?target=a_sysj";
     }
 
     /**

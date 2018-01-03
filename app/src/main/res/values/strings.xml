@@ -962,4 +962,25 @@
     <string name="phone_hint_code">请输入验证码</string>
     <string name="phone_get">获取验证码</string>
     <string name="phone_submit">立即验证</string>
+
+    <string name="select_time">选择时间</string>
+    <string name="month">月份</string>
+    <string name="month_1_max_1">1个月</string>
+    <string name="month_1_max">一个月</string>
+    <string name="month_2_max">二个月</string>
+    <string name="month_3_max">三个月</string>
+    <string name="month_3_max_1">3个月</string>
+    <string name="month_4_max">四个月</string>
+    <string name="month_5_max">五个月</string>
+    <string name="month_6_max">六个月</string>
+    <string name="month_6_half">半年</string>
+    <string name="month_7_max">七个月</string>
+    <string name="month_8_max">八个月</string>
+    <string name="month_9_max">九个月</string>
+    <string name="month_10_max">十个月</string>
+    <string name="month_11_max">十一个月</string>
+    <string name="month_12_max">十二个月</string>
+    <string name="one_year_max">一年</string>
+
+    <string name="recharge_pay_migu_tip">咪咕会员套餐（话费支付）</string>
 </resources>

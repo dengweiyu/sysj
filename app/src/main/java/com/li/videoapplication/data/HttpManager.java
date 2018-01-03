@@ -40,8 +40,10 @@ import com.li.videoapplication.data.model.response.VideoCollect2Entity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
 import com.li.videoapplication.data.model.response.VideoRankingEntity;
 import com.li.videoapplication.data.network.RequestParams;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.BaseHttpResult;
 import com.li.videoapplication.tools.DownloadHelper;
+import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.io.File;
@@ -58,6 +60,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import rx.Observable;
 import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -165,7 +168,17 @@ public class HttpManager extends RetrofitUtils {
         return service.getTopIndexColumn(member_id, "a_sysj");
     }
     public void getTopIndexColumn2(String member_id, Observer<HomeColumnEntity> observer) {
-        Observable<HomeColumnEntity> observable = service.getTopIndexColumn2(member_id, "a_sysj");
+        Observable<HomeColumnEntity> observable;
+        if (NetUtil.isConnect()) {
+            observable = service.getTopIndexColumn2(member_id, "a_sysj");
+        } else {
+            observable = Observable.create(new Observable.OnSubscribe<HomeColumnEntity>() {
+                @Override
+                public void call(Subscriber<? super HomeColumnEntity> subscriber) {
+                    subscriber.onNext(PreferencesHepler.getInstance().getHomeColumnEntity());
+                }
+            });
+        }
         setSubscribe(observable, observer);
     }
 

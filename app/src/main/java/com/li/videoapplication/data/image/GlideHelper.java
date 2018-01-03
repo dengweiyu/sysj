@@ -8,6 +8,7 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
@@ -280,7 +281,7 @@ public class GlideHelper {
     }
 
     /**
-     * 加载图片，sysj默认占位符1s渐变消失
+     * 加载圆形图片，sysj默认占位符1s渐变消失
      */
     public static void displayCircleImageFade(Fragment fragment, String uri, ImageView view) {
         Log.d(TAG, "imageUrl=" + uri);
@@ -301,6 +302,31 @@ public class GlideHelper {
                 .into(view);
     }
 
+    /**
+     * 加载圆角图片，sysj默认占位符
+     */
+    public static void displayRoundImage(Context context, String uri, ImageView view) {
+        Log.d(TAG, "imageUrl=" + uri);
+        if (context == null) {
+            return;
+        }
+        if (context instanceof Activity) {
+            if (((Activity) context).isDestroyed()) {
+                return;
+            }
+        }
+
+        RequestOptions requestOptions = new RequestOptions()
+                .skipMemoryCache(false)
+//                .circleCrop()
+                .transform(new GlideRoundTransform())
+                .placeholder(R.drawable.default_video_211);
+
+        GlideApp.with(context)
+                .load(uri)
+                .apply(requestOptions)
+                .into(view);
+    }
 
     /**
      * 加载图片，sysj默认占位符
@@ -622,5 +648,55 @@ public class GlideHelper {
         }
     }
 
+    public static class GlideRoundTransform extends BitmapTransformation {
+        private static final String ID = "gift.witch.glide.MyBlurTransformation";
+        private static final byte[] ID_BYTES = ID.getBytes(CHARSET);
+        private float radius = 0f;
+
+        public GlideRoundTransform() {
+            radius = 4;
+        }
+
+        public GlideRoundTransform(int dp) {
+            this.radius = ScreenUtil.dp2px(dp);
+        }
+
+        @Override
+        protected Bitmap transform(@NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight) {
+            return roundCrop(pool, toTransform);
+        }
+
+        private  Bitmap roundCrop(BitmapPool pool, Bitmap source) {
+            if (source == null) return null;
+
+            Bitmap result = pool.get(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888);
+            if (result == null) {
+                result = Bitmap.createBitmap(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888);
+            }
+
+            Canvas canvas = new Canvas(result);
+            Paint paint = new Paint();
+            paint.setShader(new BitmapShader(source, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
+            paint.setAntiAlias(true);
+            RectF rectF = new RectF(0f, 0f, source.getWidth(), source.getHeight());
+            canvas.drawRoundRect(rectF, radius, radius, paint);
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof GlideRoundTransform;
+        }
+
+        @Override
+        public int hashCode() {
+            return ID.hashCode();
+        }
+
+        @Override
+        public void updateDiskCacheKey(MessageDigest messageDigest) {
+
+        }
+    }
 }
 

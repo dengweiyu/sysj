@@ -23,6 +23,7 @@ import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.framework.TBaseFragment;
+import com.li.videoapplication.mvp.home.view.HomeLazyColumnFragment3;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
@@ -156,6 +157,9 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
                 GridViewY1 youLikeGridView = holder.getView(R.id.hometype_gridview);
                 if (youLikeAdapter != null) {
                     youLikeAdapter.notifyDataSetChanged();
+                    if (youLikeGridView.getAdapter() == null) { // TODO: 2017/12/21 为什么有时候adapter和gridView会断开绑定
+                        youLikeGridView.setAdapter(youLikeAdapter);
+                    }
                 } else {
                     youLikeAdapter = new YouLikeAdapter(mContext, changeVideoImageType(dataBean.getList()));
                     youLikeGridView.setAdapter(youLikeAdapter);
@@ -393,15 +397,4 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
 
     };
 
-    private class VideoItemClickListener implements OnItemClickListener {
-
-        @Override
-        public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-            VideoImage record = (VideoImage) baseQuickAdapter.getItem(i);
-            startVideoPlayActivity(record);
-            Log.i(TAG, "video_id是：" + record.getVideo_id());
-            if (!StringUtil.isNull(record.getMore_mark()))
-                UmengAnalyticsHelper.onMainGameEvent(mContext, record.getMore_mark());
-        }
-    }
 }

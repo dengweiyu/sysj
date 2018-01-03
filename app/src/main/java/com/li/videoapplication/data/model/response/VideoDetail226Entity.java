@@ -6,7 +6,7 @@ import com.li.videoapplication.framework.BaseResponseEntity;
 
 
 @SuppressWarnings("serial")
-public class VideoDetail201Entity extends BaseResponseEntity {
+public class VideoDetail226Entity extends BaseResponseEntity {
 	
 	private VideoImage AData;
 

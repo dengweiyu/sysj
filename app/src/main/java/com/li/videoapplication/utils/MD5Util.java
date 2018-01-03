@@ -48,7 +48,6 @@ public class MD5Util {
 		return sb.toString();
 	}
 
-
 	public static String getFileMD5(File file) throws NoSuchAlgorithmException, IOException {
 		if (!file.isFile()) {
 			return null;

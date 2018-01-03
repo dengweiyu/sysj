@@ -5,6 +5,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -57,6 +58,19 @@ public class ViewHolder {
 	public ViewHolder setText(int viewId, String text) {
 		TextView tv = getView(viewId);
 		tv.setText(text);
+		return this;
+	}
+
+	public ViewHolder setTextColor(int viewId,int color) {
+		TextView tv = getView(viewId);
+		tv.setTextColor(color);
+		return this;
+	}
+
+
+	public ViewHolder setImageView(int viewId, int re) {
+		ImageView iv = getView(viewId);
+		iv.setImageResource(re);
 		return this;
 	}
 }

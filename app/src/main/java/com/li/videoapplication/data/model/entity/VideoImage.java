@@ -38,6 +38,7 @@ public class VideoImage extends BaseEntity {
 	public int attentionMark;
 	public int collectionMark;
 	public int flowerMark;
+	public String videoUrl;
 	private boolean isV;
 	private String more_mark;
 	private String upload_time;
@@ -53,16 +54,9 @@ public class VideoImage extends BaseEntity {
 	private String rewardCount;
 	private String buttonText;
 	private int jumpStatus;
-	private String videoUrl;
+
 	private String isRecommend;
 
-	public String getVideoUrl() {
-		return videoUrl;
-	}
-
-	public void setVideoUrl(String videoUrl) {
-		this.videoUrl = videoUrl;
-	}
 
 	public String getRewardCount() {
 		return rewardCount;
@@ -430,6 +424,14 @@ public class VideoImage extends BaseEntity {
 
 	public void setGroup_data_id(String group_data_id) {
 		this.group_data_id = group_data_id;
+	}
+
+	public String getVideoUrl() {
+		return videoUrl;
+	}
+
+	public void setVideoUrl(String videoUrl) {
+		this.videoUrl = videoUrl;
 	}
 
 	public String getPic_id() {
