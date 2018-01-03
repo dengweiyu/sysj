@@ -3,13 +3,15 @@ package com.li.videoapplication.data.model.response;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.li.videoapplication.framework.BaseResponseEntity;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * 新版本-首页分栏数据
  */
 
-public class HomeModuleEntity extends BaseResponseEntity {
+public class HomeModuleEntity extends BaseResponseEntity implements Cloneable {
 
 
     public static final int TYPE_HOT_GAME = 0;          //热门游戏
@@ -47,9 +49,12 @@ public class HomeModuleEntity extends BaseResponseEntity {
         this.AData = AData;
     }
 
-    public static class ADataBean implements MultiItemEntity {
+    public static class ADataBean implements MultiItemEntity, Cloneable {
+        public static final int TITLE_SPAN_SIZE = 1;
+        public static final int VIDEO_SPAN_SIZE = 2;
 
         private int mItemType;
+        private int spanSize;
 
 
         public void setItemType(int itemType) {
@@ -59,6 +64,14 @@ public class HomeModuleEntity extends BaseResponseEntity {
         @Override
         public int getItemType() {
             return mItemType;
+        }
+
+        public int getSpanSize() {
+            return spanSize;
+        }
+
+        public void setSpanSize(int spanSize) {
+            this.spanSize = spanSize;
         }
 
         /**
@@ -159,7 +172,7 @@ public class HomeModuleEntity extends BaseResponseEntity {
             this.list.clear();
         }
 
-        public static class ListBean {
+        public static class ListBean implements Cloneable{
             /**
              * type : activity
              * type_id : 132
@@ -448,7 +461,41 @@ public class HomeModuleEntity extends BaseResponseEntity {
                 this.event_id = event_id;
             }
 
-
+            @Override
+            public Object clone() throws CloneNotSupportedException {
+                return super.clone();
+            }
         }
+
+        @Override
+        protected Object clone() throws CloneNotSupportedException {
+            ADataBean aDataBean = (ADataBean) super.clone();
+            List<ListBean> listBeen = new ArrayList<>();
+            Iterator<ListBean> iterator = this.list.iterator();
+            while (iterator.hasNext()) {
+                listBeen.add((ListBean) iterator.next().clone());
+            }
+            aDataBean.list = listBeen;
+            return aDataBean;
+        }
+    }
+
+    @Override
+    public Object clone() {
+        HomeModuleEntity entity = (HomeModuleEntity) super.clone();
+        if (this.AData != null) {
+            List<ADataBean> aDataBeanList = new ArrayList<>();
+            for (ADataBean aDataBean : this.AData) {
+                try {
+                    aDataBeanList.add((ADataBean) aDataBean.clone());
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+            }
+            entity.AData = aDataBeanList;
+        }
+
+        return entity;
+
     }
 }

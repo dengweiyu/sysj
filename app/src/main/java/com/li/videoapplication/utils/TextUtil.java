@@ -3,7 +3,10 @@ package com.li.videoapplication.utils;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StrikethroughSpan;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -114,5 +117,63 @@ public class TextUtil {
             lists.add(map);
         }
         return lists;
+    }
+
+    /**
+     * 设置文本背景
+     * @param txt
+     * @param startP
+     * @param endP
+     * @param color
+     */
+    @Deprecated
+    public static Spannable setBackgroundColorText(String txt,int startP,int endP,int color){
+        SpannableString spanned = new SpannableString(txt);
+        spanned.setSpan(new BackgroundColorSpan(color),startP,endP,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spanned;
+    }
+
+    /**
+     * 设置文本某段字体颜色
+     * @param txt
+     * @param startP
+     * @param endP
+     * @param color
+     */
+    @Deprecated
+    public static Spannable setForegroundColorText(String txt,int startP,int endP,int color){
+        return setForegroundColorText(new SpannableString(txt),startP,endP,color);
+    }
+
+    /**
+     * 设置文本某段字体颜色
+     * @param startP
+     * @param endP
+     * @param color
+     */
+    public static Spannable setForegroundColorText(Spannable spanned,int startP,int endP,int color){
+        spanned.setSpan(new ForegroundColorSpan(color),startP,endP,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spanned;
+    }
+
+    /**
+     * 中划线，删除线
+     * @return
+     */
+    public static Spannable setStrikethroughSpan(Spannable spanned,int startP,int endP){
+        spanned.setSpan(new StrikethroughSpan(),startP,endP,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spanned;
+    }
+
+    /**
+     * 设置文本某个字体的大小
+     * @param txt
+     * @param startP
+     * @param endP
+     * @param dp
+     */
+    public static Spannable setSizeText(Spannable spanned,int startP,int endP,int dp){
+        spanned.setSpan(new AbsoluteSizeSpan(ScreenUtil.dp2px(dp)), startP, endP, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spanned;
     }
 }

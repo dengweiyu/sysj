@@ -28,6 +28,7 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.mvp.Constant;
+import com.li.videoapplication.mvp.home.view.HomeFragmentNew;
 import com.li.videoapplication.tools.BitmapLoader;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.PhotoHelper;
@@ -49,6 +50,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 活动：个人资料
@@ -284,6 +287,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 ToastHelper.s(R.string.logout_success);
                 FeiMoIMHelper.LogOut(this, true);
                 finish();
+                EventBus.getDefault().post(new StringBuffer(HomeFragmentNew.HomeFragmentNew_FLAG));
                 break;
             case R.id.rl_vip:
                 ActivityManager.startTopUpActivity(MyPersonalInfoActivity.this, Constant.TOPUP_ENTRY_INFO,2);

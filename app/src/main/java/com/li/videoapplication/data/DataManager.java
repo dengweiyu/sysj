@@ -1,7 +1,6 @@
 package com.li.videoapplication.data;
 
 
-import android.os.Bundle;
 import android.util.Log;
 
 import com.li.videoapplication.data.database.VideoCaptureEntity;
@@ -39,7 +38,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 功能：数据请求管理类
@@ -2163,6 +2161,21 @@ public class DataManager {
         helper.doNetwork(request);
     }
 
+    public static void groupDataList226(String group_id, String member_id, int page, String mark) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().groupDataList226();
+        Map<String, Object> params = RequestParams.getInstance().groupDataList226(group_id, member_id, page, mark);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        if (mark.equals("newest")) {
+            request.setEntity(new GroupNewDataListEntity());
+        } else if (mark.equals("hosttest")){
+            request.setEntity(new GroupHotDataListEntity());
+        }
+        helper.doNetwork(request);
+    }
+
     /**
      * 功能：圈子视频列表（最热）
      */
@@ -2277,7 +2290,21 @@ public class DataManager {
         Map<String, Object> params = RequestParams.getInstance().videoDetail201(video_id, member_id);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new VideoDetail201Entity());
+        request.setEntity(new VideoDetail226Entity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：视频详情226
+     */
+    public static void videoDetail226(String video_id, String member_id) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().videoDetail226();
+        Map<String, Object> params = RequestParams.getInstance().videoDetail201(video_id, member_id); //226请求参数保持不变
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new VideoDetail226Entity());
         helper.doNetwork(request);
     }
 
@@ -2631,6 +2658,18 @@ public class DataManager {
         helper.doNetwork(request);
     }
 
+    /**
+     * 获取vip充值信息接口
+     */
+    public static void getVIPRechargeInfo2() {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getVIPRechargeInfo2();
+//        Map<String, Object> params = RequestParams.getInstance().getVIPRechargeInfo("a_lpds");
+
+        RequestObject requestObject = new RequestObject(Contants.TYPE_GET, url, null, null);
+        requestObject.setEntity(new VipRecharge2Entity());
+        helper.doService(requestObject);
+    }
 
     /**
      * 功能：会员中心 开通会员
@@ -2643,6 +2682,7 @@ public class DataManager {
         request.setEntity(new PlayGiftTypeEntity());
         helper.doNetwork(request);
     }
+
 
 
     /**
@@ -3077,7 +3117,6 @@ public class DataManager {
         }else {
             request.setEntity(new SendRewardRankEntity());
         }
-
         helper.doNetwork(request);
     }
 
@@ -3209,6 +3248,7 @@ public class DataManager {
         HomeModuleEntity entity =new HomeModuleEntity();
         Map<String,Object> extra = new HashMap<>();
         extra.put("column_id",columnId);
+        extra.put("cache", "0");
         entity.setExtra(extra);
         request.setEntity(entity);
         helper.doService(request);
@@ -3233,6 +3273,21 @@ public class DataManager {
         Log.w("DataManager", "准备doService..");
         helper.doService(request);
     }
+
+    /**
+     * 功能：统计分栏点击次数
+     */
+    public static void columnStatistical(BaseResponseEntity entity, String column_id) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().columnStatistical();
+        Map<String, Object> params = RequestParams.getInstance().columnStatistical(column_id);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(entity);
+        helper.doNetwork(request);
+    }
+
     /**
      * 新版本，获取可供选择的游戏
      */

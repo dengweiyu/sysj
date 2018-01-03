@@ -60,7 +60,15 @@ public class RequestParams {
         return map;
     }
 
-
+    /**
+     *2.2.6首页分栏，统计分栏点击次数
+     */
+    public Map<String, Object> columnStatistical(String column_id) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("column_id", column_id);
+        map.put("target", "a_sysj");
+        return map;
+    }
 
     //分享成功后触发
     public Map<String, Object> shareTriggerReward(String memberId,String hook,String taskId,String flag) {
@@ -472,6 +480,15 @@ public class RequestParams {
         map.put("member_id", member_id);
         map.put("group_id", group_id);
         map.put("page", page);
+        return map;
+    }
+
+    public Map<String, Object> groupDataList226(String group_id, String member_id, int page, String mark) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        map.put("group_id", group_id);
+        map.put("page", page);
+        map.put("mark", mark);
         return map;
     }
 

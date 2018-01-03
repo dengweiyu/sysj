@@ -22,6 +22,7 @@ public class Constants {
 	public static final String LAUNCH_IMAHE = "launchImage";// 图片广告（旧接口）
 	public static final String INDEX_LAUNCH_IMAHE = "indexLaunchImage";// 图片广告
 	public static final String HOME = "home";// 首页
+	public static final String HOME_COLUMN = "home_column"; //首页分栏
 	public static final String MATCH_CS = "match_cs";// 赛事客服
 	public static final String SQUARE_POSITION = "square_position"; //玩家广场选中的tab页
 

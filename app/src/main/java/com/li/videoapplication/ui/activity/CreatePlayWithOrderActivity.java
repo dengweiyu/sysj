@@ -994,7 +994,6 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                 mOriginalPrice.setVisibility(View.GONE);
             }
 
-
         }
         mLoadingDialog.dismiss();
     }

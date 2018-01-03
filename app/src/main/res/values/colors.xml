@@ -31,6 +31,8 @@
 
     <color name="groupdetail_match_blue">#33b4fe</color>
     <color name="groupdetail_match_blue_pressed">#2a94d1</color>
+    <color name="color_99999999">#66999999</color>
+    <color name="menu_help_blue_1">#3e9def</color>
 
     <color name="video_name">#454545</color>
     <color name="video_content">#aa454545</color>
@@ -204,4 +206,9 @@
     <color name="color_555555">#555555</color>
     <color name="color_666666">#666666</color>
     <color name="color_999999">#999999</color>
+
+    <color name="ab_background_white">#ffffff</color>
+    <color name="color_dfdfdf">#dfdfdf</color>
+    <color name="color_7bbbe1_1">#a1d5f4</color>
+    <color name="color_7bbbe1">#7bbbe1</color>
 </resources>

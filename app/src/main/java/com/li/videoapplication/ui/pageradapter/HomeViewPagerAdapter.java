@@ -1,13 +1,9 @@
 package com.li.videoapplication.ui.pageradapter;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
-import com.li.videoapplication.mvp.home.view.HomeLazyColumnFragment;
-import com.li.videoapplication.mvp.home.view.HomeLazyColumnFragment2;
 import com.li.videoapplication.mvp.home.view.HomeLazyColumnFragment3;
 
 import java.util.List;
@@ -28,7 +24,7 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public HomeLazyColumnFragment3 getItem(int position) {
         return  fragments.get(position);
     }
 
@@ -48,8 +44,8 @@ public class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public void finishUpdate(ViewGroup container) {
-        super.finishUpdate(container);
+    public Object instantiateItem(ViewGroup container, int position) {
+        return super.instantiateItem(container, position);
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.LruCache;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.li.videoapplication.data.HttpManager;
 import com.li.videoapplication.data.model.entity.HomeColumnEntity;
 import com.li.videoapplication.data.model.entity.HomeGameSelectEntity;
 import com.li.videoapplication.data.model.entity.SquareGameEntity;
+import com.li.videoapplication.data.model.response.ColumnStatisticalEntity;
 import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
@@ -54,8 +56,11 @@ import retrofit2.Response;
  */
 
 public class HomeFragmentNew extends TBaseFragment {
-    private static final int PAGE_LIMIT = 2;
+    public static final String HomeFragmentNew_FLAG = "HomeFragmentNew";
+    public static LruCache<String, String> lruCache = new LruCache<>(40);
+    private static final int PAGE_LIMIT = 1;
     private boolean otherGameFlag = false; //判断是否有其它游戏分栏。决定选择游戏后返回刷新的封拆逻辑
+    private boolean isLoginStatusChange = false;
 
     private ViewPagerY4 mViewPager;
     private String member_id;
@@ -67,6 +72,7 @@ public class HomeFragmentNew extends TBaseFragment {
     private CommonNavigator commonNavigator;
 
     private HomeViewPagerAdapter mHomeViewPagerAdapter;
+    private HomePageChangeListener mPageChangeListener;
 
     /**
      * 跳转：选择ITEM
@@ -85,8 +91,6 @@ public class HomeFragmentNew extends TBaseFragment {
     @Override
     protected void initContentView(View view) {
         Log.w(tag, "initContentView");
-        mColumnList = new ArrayList<>();
-        mColumnIdList = new ArrayList<>();
 
         //FIXME 需要处理滑动事件冲突的问题
         mViewPager = (ViewPagerY4) view.findViewById(R.id.vp_home);
@@ -131,7 +135,19 @@ public class HomeFragmentNew extends TBaseFragment {
 
         @Override
         public void onNext(HomeColumnEntity entity) {
+            PreferencesHepler.getInstance().saveHomeColumnEntity(entity);
             NetUtil.checkNCallBackData(entity);
+            if (mColumnIdList == null) {
+                mColumnIdList = new ArrayList<>();
+            } else {
+                mColumnIdList.clear();
+            }
+            if (mColumnList == null) {
+                mColumnList = new ArrayList<>();
+            } else {
+                mColumnList.clear();
+            }
+
             //拿到数据装入bean ，根据分栏ID初始化加载fragment,初始化VP和指示器
             Log.w(tag, entity.toString());
             if (entity != null) {
@@ -145,13 +161,29 @@ public class HomeFragmentNew extends TBaseFragment {
                 for (String columnId : mColumnIdList) {
                     Log.d(tag, "columnId: " + columnId);
                 }
-                initFragment();
-                setViewpager();
-                setMagicIndicator();
+                if (!isLoginStatusChange) {
+                    initFragment();
+                    setViewpager();
+                    setMagicIndicator();
+                } else {
+                    initFragment();
+                    commonNavigatorAdapter.notifyDataSetChanged();
+                    mHomeViewPagerAdapter.notifyDataSetChanged();
+                    mViewPager.setCurrentItem(0);
+                    isLoginStatusChange = false;
+                }
             }
         }
     };
 
+    public void onEventMainThread(StringBuffer flag) {
+        Log.w(tag, "flag回调");
+        if (flag.toString().equals(HomeFragmentNew_FLAG)) {
+            Log.w(tag, "注销完成后返回重新加载数据");
+            isLoginStatusChange = true;
+            loadData();
+        }
+    }
 
     public void onEventMainThread(List<HomeGameSelectEntity.ADataBean.MyGameBean> myGameBeanList) {
         for (int i = 0; i < myGameBeanList.size(); i++) {
@@ -209,15 +241,16 @@ public class HomeFragmentNew extends TBaseFragment {
                     break;
                 }
                 if (j == oldColumnIds.size() - 1) {
-                    mFragments.add(HomeLazyColumnFragment3.newInstance(mColumnIdList.get(i), false, 1000, true));
-                    Log.d(tag, "mFragments的id是 : " + mColumnIdList.get(i) + "->" + mColumnList.get(i)  + "->" + oldFragments.get(j).getColumnId());
+                    mFragments.add(HomeLazyColumnFragment3.newInstance(mColumnIdList.get(i), false, 1000, false));
+                    Log.d(tag, "mFragments的id是 : " + mColumnIdList.get(i) + "->" + mColumnList.get(i) + "->" + oldFragments.get(j).getColumnId());
                 }
-
             }
         }
+        oldPosition = mViewPager.getCurrentItem();
         commonNavigatorAdapter.notifyDataSetChanged();
         mHomeViewPagerAdapter.notifyDataSetChanged();
         mFragments.get(mViewPager.getCurrentItem()).notifyAdapter();
+
     }
 
     /////////////////////////////视图处理/////////////////////////////////
@@ -226,42 +259,7 @@ public class HomeFragmentNew extends TBaseFragment {
         mHomeViewPagerAdapter = new HomeViewPagerAdapter(getFragmentManager(), mFragments, new String[]{});
         mViewPager.setOffscreenPageLimit(PAGE_LIMIT);
         mViewPager.setAdapter(mHomeViewPagerAdapter);
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-//                Log.i(tag, "当前的fragment是：" + position + "，columnId是：" + mFragments.get(position).getColumnId());
-//                boolean isNotify = false;
-//                if (position - 1 > 0) {
-//                    String leftColumnId = mFragments.get(position - 2).getColumnId();
-//                    if (leftColumnId != null) {
-//                        mFragments.set(position - 2, HomeLazyColumnFragment3.newInstance(leftColumnId, false, 1000, true));
-//                        isNotify = true;
-//                    }
-//                }
-//                if (position + 1 < mFragments.size()) {
-//                    String rightColumnId = mFragments.get(position + 2).getColumnId();
-//                    if (rightColumnId != null) {
-//                        mFragments.set(position + 2, HomeLazyColumnFragment3.newInstance(rightColumnId, false, 1000, true));
-//
-//                        isNotify = true;
-//                    }
-//                }
-//                if (isNotify) {
-//                    commonNavigatorAdapter.notifyDataSetChanged();
-//                    mHomeViewPagerAdapter.notifyDataSetChanged();
-//                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        mViewPager.addOnPageChangeListener(mPageChangeListener = new HomePageChangeListener());
 
     }
 
@@ -274,7 +272,11 @@ public class HomeFragmentNew extends TBaseFragment {
 
     private void initFragment() {
         Log.w(tag, "initFragment..");
-        mFragments = new ArrayList<>();
+        if (mFragments == null) {
+            mFragments = new ArrayList<>();
+        } else {
+            mFragments.clear();
+        }
         //做延缓加载处理，防止出现视图重叠
         if (mColumnIdList != null) {
             for (int i = 0; i < mColumnIdList.size(); i++) {
@@ -295,11 +297,63 @@ public class HomeFragmentNew extends TBaseFragment {
                 mFragments.add(HomeLazyColumnFragment3.newInstance(
                         mColumnIdList.get(i),
                         isNeedLoaData,
-                        offset * 1000, true));
+                        offset * 1000, !isNeedLoaData));
 
             }
         }
     }
+
+
+    private int oldPosition = 0;
+    private boolean isMakePageChange = true;
+    private class HomePageChangeListener implements ViewPager.OnPageChangeListener {
+
+        private boolean instant = false;
+        private int bPosition;
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+//                if (instant && positionOffset == 0.f && position == oldPosition) {
+//                    instant = false;
+//                    Log.w("PageScrolled", "执行替换");
+//                    boolean isNotify = false;
+//                    if (position - 1 > 0) {
+//                        mFragments.set(position - 1, HomeLazyColumnFragment3.newInstance(mColumnIdList.get(position - 1), false, 1000, false));
+//                        isNotify = true;
+//                    }
+//                    if (position + 2 < mFragments.size()) {
+//                        mFragments.set(position + 2, HomeLazyColumnFragment3.newInstance(mColumnIdList.get(position + 2), false, 1000, false));
+//                        isNotify = true;
+//                    }
+//                    if (isNotify) {
+////                        commonNavigatorAdapter.notifyDataSetChanged();
+////                        mHomeViewPagerAdapter.notifyDataSetChanged();
+//                    }
+//                }
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            DataManager.columnStatistical(new ColumnStatisticalEntity(), mColumnIdList.get(position)); //统计分栏点击次数
+            bPosition = position - oldPosition;
+            if (oldPosition < mColumnIdList.size()){
+                mFragments.set(oldPosition, HomeLazyColumnFragment3.newInstance(mColumnIdList.get(oldPosition), false, 1000, false));
+            }
+//                if (bPosition >= 2) {
+//                    mFragments.set(oldPosition, HomeLazyColumnFragment3.newInstance(mColumnIdList.get(oldPosition), false, 1000, false));
+//                } else {
+//                    instant = true;
+//                }
+            oldPosition = position;
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    }
+
 
     CommonNavigatorAdapter commonNavigatorAdapter = new CommonNavigatorAdapter() {
         @Override
@@ -335,4 +389,9 @@ public class HomeFragmentNew extends TBaseFragment {
             return null;
         }
     };
+
+    public void onEventMainThread(ColumnStatisticalEntity entity) {
+        Log.i(tag, "分栏点击次数回调(Msg) ：" + entity.getMsg());
+        Log.i(tag, "分栏点击次数回调(Code) ：" + entity.getCode());
+    }
 }

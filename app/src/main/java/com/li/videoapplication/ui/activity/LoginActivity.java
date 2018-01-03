@@ -23,6 +23,7 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.mvp.home.view.HomeFragmentNew;
 import com.li.videoapplication.tools.ShareSDKLoginHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
@@ -30,6 +31,8 @@ import com.li.videoapplication.utils.AuthCodeUtil;
 import com.li.videoapplication.utils.CountDownTimerUtils;
 import com.li.videoapplication.utils.PatternUtil;
 import com.li.videoapplication.utils.StringUtil;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 活动：登录
@@ -326,6 +329,7 @@ public class LoginActivity extends TBaseActivity implements OnClickListener,
                         AppAccount.login();
                     }
                 }, 400);
+                EventBus.getDefault().post(new StringBuffer(HomeFragmentNew.HomeFragmentNew_FLAG));
                 finish();
             } else {
                 showToastShort(event.getMsg());
