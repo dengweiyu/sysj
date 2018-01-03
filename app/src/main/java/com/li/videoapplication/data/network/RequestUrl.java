@@ -31,8 +31,8 @@ public class RequestUrl {
     //http://apps.ifeimo.com
     //https://sapp.17sysj.com
     // String.format(AppConstant.FORMAT,AppConstant.IP,AppConstant.PORT,AppConstant.ROOT_DIR) 内网测试
-    public String BaseSYSJ = "http://apps.ifeimo.com";
-//    public String BaseSYSJ = "http://192.168.48.9:233";
+    //public String BaseSYSJ = "http://apps.ifeimo.com";
+    public String BaseSYSJ = "http://192.168.48.9:233";
 
     public String SignSYSJ = "http://17sysj.com";
 
