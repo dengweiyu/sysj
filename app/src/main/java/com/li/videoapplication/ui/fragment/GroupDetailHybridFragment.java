@@ -25,6 +25,7 @@ import com.li.videoapplication.data.model.response.LoginEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.GroupDetailHybridActivity;
 import com.li.videoapplication.ui.activity.WebActivityJS;
@@ -45,6 +46,8 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
 
     private WebView mWebView;
 
+    private String mTitle;
+
     private String mUrl;
 
     private boolean mIsNeedLoadData = false;
@@ -55,13 +58,25 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
 
     private View mErrorView;
 
-    public static GroupDetailHybridFragment newInstance(String url,boolean isNeedLoadData){
+    public static GroupDetailHybridFragment newInstance(String title, String url,boolean isNeedLoadData){
         GroupDetailHybridFragment fragment = new GroupDetailHybridFragment();
         Bundle bundle = new Bundle();
+        bundle.putString("title", title);
         bundle.putString("url",url);
         bundle.putBoolean("is_need_load_data",isNeedLoadData);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    private boolean isUmengAnalytics = false;
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && mTitle != null && mTitle.length() != 0) {
+            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-" + mTitle);
+            isUmengAnalytics = true;
+        }
     }
 
     @Override
@@ -85,8 +100,13 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
 
         Bundle bundle = getArguments();
         if (bundle != null){
+            mTitle = bundle.getString("title");
             mUrl = bundle.getString("url");
             mIsNeedLoadData = bundle.getBoolean("is_need_load_data");
+        }
+
+        if (!isUmengAnalytics && mTitle.length() != 0) {
+            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-" + mTitle);
         }
 
         if (mWebView != null){

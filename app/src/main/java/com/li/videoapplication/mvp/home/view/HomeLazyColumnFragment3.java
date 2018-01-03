@@ -650,8 +650,8 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
                         List<String> videoIds = PreferencesHepler.getInstance().getVideoIds(4);
                         StringBuffer video_ids = new StringBuffer();
                         for (int j = 0; j < videoIds.size(); j++) {
-                            video_ids.append(videoIds.get(position));
-                            if (position < (videoIds.size() - 1)) {
+                            video_ids.append(videoIds.get(j));
+                            if (j < (videoIds.size() - 1)) {
                                 video_ids.append(",");
                             }
                         }
