@@ -31,8 +31,8 @@ public class RequestUrl {
     //http://apps.ifeimo.com
     //https://sapp.17sysj.com
     // String.format(AppConstant.FORMAT,AppConstant.IP,AppConstant.PORT,AppConstant.ROOT_DIR) 内网测试
-    public String BaseSYSJ = "http://apps.ifeimo.com";
-//    public String BaseSYSJ = "http://192.168.48.9:233";
+   // public String BaseSYSJ = "http://apps.ifeimo.com";
+    public String BaseSYSJ = "http://192.168.48.9:233";
 
     public String SignSYSJ = "http://17sysj.com";
 
@@ -1393,6 +1393,7 @@ public class RequestUrl {
      */
     public final String getCoachStatus(){
         return "http://op.17sysj.com:9090/plugins/coachPresence/status";
+        //return  "http://192.168.48.54:9090/plugins/coachPresence/status";
     }
 
     /**
