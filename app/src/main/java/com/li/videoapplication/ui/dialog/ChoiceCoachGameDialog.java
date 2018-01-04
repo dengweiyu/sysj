@@ -116,7 +116,7 @@ public class ChoiceCoachGameDialog extends PopupWindow{
                 mGameList.setLayoutParams(params);
 
                 float scale = 1- ((value - 0.333f) / (0.667f))*0.5f;
-                System.out.println("scale:"+scale);
+
                 if (mContext instanceof MainActivity && scale >= 0.5f && !mIsDismiss){
                     MainActivity activity = (MainActivity)mContext;
                     WindowManager.LayoutParams params = activity.getWindow().getAttributes();
@@ -137,7 +137,7 @@ public class ChoiceCoachGameDialog extends PopupWindow{
 
             mData.set(0,mData.get(position));
             mAdapter.notifyDataSetChanged();
-            EventBus.getDefault().post(new SwitchChoiceGameEvent(position - 1));
+            EventBus.getDefault().post(new SwitchChoiceGameEvent(position - 1,null));
 
             final LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)mGameList.getLayoutParams();
             ValueAnimator animator = ValueAnimator.ofFloat(1f,0.333f);

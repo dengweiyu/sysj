@@ -11,12 +11,14 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import com.ifeimo.im.activity.ChatActivity;
 import com.ifeimo.im.framwork.IMSdk;
+import com.li.videoapplication.BuildConfig;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.image.GlideHelper;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.CoachCommentEntity;
 import com.li.videoapplication.data.model.response.CoachDetailEntity;
+import com.li.videoapplication.data.network.RequestUrl;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.ToastHelper;
@@ -143,6 +145,14 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
         List<CoachCommentEntity.ADataBean> data = new ArrayList<>();
         mCommentAdapter = new CoachCommentAdapter(data);
         mComment.setAdapter(mCommentAdapter);
+
+
+        View rankLayout = findViewById(R.id.ll_coach_rank);
+        if ("2".equals(mTypeId)){
+            rankLayout.setVisibility(View.GONE);
+        } else {
+            rankLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initToolbar(){
@@ -320,7 +330,7 @@ public class CoachDetailActivity extends TBaseAppCompatActivity implements View.
                 finish();
                 break;
             case R.id.tb_topup_record:                      //价格
-                WebActivityJS.startWebActivityJS(CoachDetailActivity.this,"https://sapp.17sysj.com/Sysj222/Coach/price?training_type_id="+mTypeId,"价格","",true);
+                WebActivityJS.startWebActivityJS(CoachDetailActivity.this, RequestUrl.getInstance().Base+"/Sysj222/Coach/price?training_type_id="+mTypeId,"价格","",true);
                 break;
             case R.id.tv_chat_with_coach:                   //私聊
                 chatWith();

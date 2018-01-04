@@ -24,6 +24,15 @@ public class PlayWithOrderOptionsEntity extends BaseResponseEntity {
     private int maxInning;
     private int defaultInning;
     private String notice;
+    private String orderInningNotice;
+
+    public String getOrderInningNotice() {
+        return orderInningNotice;
+    }
+
+    public void setOrderInningNotice(String orderInningNotice) {
+        this.orderInningNotice = orderInningNotice;
+    }
 
     public String getNotice() {
         return notice;

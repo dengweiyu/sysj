@@ -229,7 +229,12 @@ public class PlayWithOrderDetailActivity extends TBaseAppCompatActivity implemen
         Intent intent = new Intent();
         intent.setClass( this, CreatePlayWithOrderActivity.class);
         intent.putExtra("order_mode",CreatePlayWithOrderActivity.MODE_ORDER_AGAIN);
-        intent.putExtra("coach_bean",mOrderDetail.getCoach());
+
+        PlayWithOrderDetailEntity.CoachBean coachBean = mOrderDetail.getCoach();
+
+        coachBean.setTypeId(mOrderDetail.getData().getTraining_type_id());
+        coachBean.setGameName(mOrderDetail.getData().getGameName());
+        intent.putExtra("coach_bean",coachBean);
         startActivity(intent);
     }
 
