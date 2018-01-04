@@ -129,9 +129,14 @@ android {
 
 
         //测试环境 有些地方的接口 有可能没改过来
-        buildConfigField("String", "ip", "\"192.168.48.9\"")
+      /*  buildConfigField("String", "ip", "\"192.168.48.9\"")
         buildConfigField("String", "port", "\"233\"")
+        buildConfigField("String", "rootDir", "\"\"")*/
+
+        buildConfigField("String", "ip", "\"testapps.ifeimo.com\"")
+        buildConfigField("String", "port", "\"\"")
         buildConfigField("String", "rootDir", "\"\"")
+
 /*
         buildConfigField("String", "ip", "\"apps.ifeimo.com\"")
         buildConfigField("String", "port", "\"\"")

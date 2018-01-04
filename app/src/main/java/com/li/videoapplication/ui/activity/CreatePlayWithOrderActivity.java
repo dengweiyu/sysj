@@ -192,6 +192,8 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
             mGameName = intent.getStringExtra("game_name");
             if(mCoachBean != null){
                 mCoachId = mCoachBean.getMember_id();
+                mTypeId = mCoachBean.getTypeId();
+                mGameName = mCoachBean.getGameName();
             }
         } catch (Exception e) {
             e.printStackTrace();

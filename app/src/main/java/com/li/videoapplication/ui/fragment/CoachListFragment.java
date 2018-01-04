@@ -464,16 +464,24 @@ public class CoachListFragment extends TBaseFragment implements
      * 切换游戏
      */
     public void onEventMainThread(SwitchChoiceGameEvent event){
-        if (event.getIndex() >= 0 && event.getIndex() < mCoachEntity.getData().getTraining_type().size()){
 
+        if (!StringUtil.isNull(event.getTypeId()) && mCoachEntity != null && mCoachEntity.getData() != null && mCoachEntity.getData().getTraining_type()!= null){
+            for (int i = 0; i < mCoachEntity.getData().getTraining_type().size(); i++) {
+                if (event.getTypeId().equals(mCoachEntity.getData().getTraining_type().get(i).getId())){
+                    event.setIndex(i);
+                    break;
+                }
+            }
+        }
+
+
+        if (event.getIndex() >= 0 && event.getIndex() < mCoachEntity.getData().getTraining_type().size()){
             String newId = mCoachEntity.getData().getTraining_type().get(event.getIndex()).getId();
             if (newId.equals(mChoiceTypeId)){
                 return;
             }
             mChoiceTypeId = newId;
-
             mChoiceType.setText(mCoachEntity.getData().getTraining_type().get(event.getIndex()).getTitle());
-
             mAdapter.getData().clear();
             mRefresh.setRefreshing(true);
             onRefresh();

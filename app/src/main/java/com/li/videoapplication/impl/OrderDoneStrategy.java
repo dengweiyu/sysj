@@ -56,6 +56,11 @@ public class OrderDoneStrategy extends OrderStrategy {
 
     @Override
     public void onClickRightButton() {
-        createOrder();
+
+        if ("2".equals(mOrderDetail.getData().getTraining_type_id())){
+            choiceNewCoach();
+        }else {
+            createOrder();
+        }
     }
 }
