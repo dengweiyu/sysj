@@ -303,7 +303,7 @@
                     android:layout_weight="1"
                     android:maxLines="1"
                     android:gravity="center"
-                    android:text="优惠信息优惠信息优"
+                    android:text=""
                     android:textColor="@color/ab_backdround_red"/>
 
                 <TextView

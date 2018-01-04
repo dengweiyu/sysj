@@ -991,6 +991,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
                     mTopLayoutDiscount.setVisibility(View.VISIBLE);
                     mTopDiscountMessage.setText(entity.getTopMsg());
                 }
+                mOrder.setText(entity.getInningMsg());
 
             }else {
                 mLayoutDiscount.setVisibility(View.GONE);
@@ -1047,7 +1048,6 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     public void onEventMainThread(PlayWithOrderOptionsEntity entity){
         if (entity != null){
             mOptions = entity;
-            mOrder.setText(entity.getOrderInningNotice());
             refreshOptions(false);
         }
     }

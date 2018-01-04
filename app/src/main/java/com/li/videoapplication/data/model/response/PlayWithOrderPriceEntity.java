@@ -16,10 +16,20 @@ public class PlayWithOrderPriceEntity  extends BaseResponseEntity{
     private float price;
     private String orderNumber;
     private String promotionMsg;
+
+    public String getInningMsg() {
+        return inningMsg;
+    }
+
+    public void setInningMsg(String inningMsg) {
+        this.inningMsg = inningMsg;
+    }
+
     private float original_price;
     private boolean isDiscount;
     private float sign_price;
     private String topMsg;
+    private  String inningMsg;
 
     public String getTopMsg() {
         return topMsg;
