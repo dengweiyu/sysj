@@ -32,10 +32,10 @@ public class RequestUrl {
 
     //http://apps.ifeimo.com
     //https://sapp.17sysj.com
+    //"http://192.168.48.9:233"
+    // public String BaseSYSJ = "http://apps.ifeimo.com";
 
-   // public String BaseSYSJ = "http://apps.ifeimo.com";
-
-    public String BaseSYSJ = "http://192.168.48.9:233";
+    public String BaseSYSJ = Base;
 
     public String SignSYSJ = "http://17sysj.com";
 

@@ -117,6 +117,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     private TextView mTopDiscountMessage;
     private View mLayoutDiscount;
     private TextView mDiscountMessage;
+    private TextView mOrder;
     private RecyclerView mServerNameList;
     private RecyclerView mModeNameList;
 
@@ -237,6 +238,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
         mOriginalPrice = (TextView)findViewById(R.id.tv_original_price);
         mLayoutDiscount = findViewById(R.id.ll_discount_message);
         mDiscountMessage = (TextView)findViewById(R.id.tv_discount_message);
+        mOrder = (TextView) findViewById(R.id.tv_orderInningNotice);
 
         mTopLayoutDiscount = findViewById(R.id.ll_discount_top_msg);
         mTopDiscountMessage = (TextView)findViewById(R.id.tv_discount_top_msg);
@@ -1045,6 +1047,7 @@ public class CreatePlayWithOrderActivity extends TBaseAppCompatActivity implemen
     public void onEventMainThread(PlayWithOrderOptionsEntity entity){
         if (entity != null){
             mOptions = entity;
+            mOrder.setText(entity.getOrderInningNotice());
             refreshOptions(false);
         }
     }
