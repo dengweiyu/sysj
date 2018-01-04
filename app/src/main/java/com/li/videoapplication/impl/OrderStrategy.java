@@ -12,6 +12,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.event.SwitchChoiceGameEvent;
 import com.li.videoapplication.data.model.response.PlayWithOrderDetailEntity;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.interfaces.IOrderStrategy;
@@ -155,8 +156,15 @@ public abstract class OrderStrategy implements IOrderStrategy {
     protected void choiceNewCoach(){
         //启动页面
         ActivityManager.startMainActivity(AppManager.getInstance().currentActivity(),3,0);
-        //传递新的类型
-        EventBus.getDefault().post(new SwitchChoiceGameEvent(-1,mOrderDetail.getData().getTraining_type_id()));
+
+        UITask.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //传递新的类型
+                EventBus.getDefault().post(new SwitchChoiceGameEvent(-1,mOrderDetail.getData().getTraining_type_id()));
+            }
+        },300);
+
     }
 
     //确认接单

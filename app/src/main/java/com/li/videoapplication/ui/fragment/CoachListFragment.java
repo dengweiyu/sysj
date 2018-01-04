@@ -78,6 +78,11 @@ public class CoachListFragment extends TBaseFragment implements
     private String mChoiceGameName = null;
 
     private  CoachListEntity mCoachEntity;
+
+    public CoachListFragment() {
+        loadData(mPage);
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -206,7 +211,6 @@ public class CoachListFragment extends TBaseFragment implements
             }
         });
 
-        loadData(mPage);
     }
 
     @Override
