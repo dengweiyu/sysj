@@ -20,7 +20,9 @@ import android.widget.TextView;
 import android.widget.ZoomButtonsController;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.js.JSInterface;
+import com.li.videoapplication.data.model.response.ShareInfoEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.IntentHelper;
@@ -35,7 +37,10 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -46,9 +51,12 @@ public class WebActivityJS extends TBaseAppCompatActivity {
 
     private static final String TAG = WebActivityJS.class.getSimpleName();
 
-    private String url, title, js;
+    private String url, title, js, id, strategyType;
     private boolean showToolbar;
     private WebView webView;
+
+    @BindView(R.id.iv_share)
+    ImageView btnShare;
 
     /**
      * 网页浏览
@@ -77,6 +85,33 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         }
     }
 
+    public static void startWebActivityJS(Context context, String url, String title, String js, String id, String strategyType,boolean hideToolbar) {
+        if (context == null) {
+            return;
+        }
+        if (WebActivityJS.isNull(url)) {
+            return;
+        }
+        if (!WebActivityJS.isURL(url)) {
+            return;
+        }
+        Intent intent = new Intent();
+        intent.putExtra("url", url);
+        intent.putExtra("title", title);
+        intent.putExtra("js", js);
+        intent.putExtra("id", id);
+        intent.putExtra("strategyType", strategyType);
+        intent.putExtra("show_toolbar",hideToolbar);
+        intent.setClass(context, WebActivityJS.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @Override
     public void refreshIntent() {
         super.refreshIntent();
@@ -97,8 +132,16 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
+        try {
+            id = getIntent().getStringExtra("id");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            strategyType = getIntent().getStringExtra("strategyType");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             showToolbar = getIntent().getBooleanExtra("show_toolbar",true);
         } catch (Exception e) {
@@ -284,7 +327,26 @@ public class WebActivityJS extends TBaseAppCompatActivity {
     @OnClick(R.id.iv_share)
     public void share() {
 //        DialogManager.showShareDialog(this, url, "http://apps.ifeimo.com/Public/Uploads/Member/Avatar/5a3cb354ab101.jpg", title, "此处为图文攻略内容");
-        ActivityManager.startActivityShareActivity4VideoPlay(this, url, title, "http://apps.ifeimo.com/Public/Uploads/Member/Avatar/5a3cb354ab101.jpg", "此处为图文攻略内容");
+        if (strategyType.length() != 0 && id.length() != 0) {
+            ShareInfoEntity entity = new ShareInfoEntity();
+            Map<String, Object> map = new HashMap<>();
+            map.put("tag", tag);
+            entity.setExtra(map);
+            DataManager.getHybridGroupShareInfo(id, strategyType, entity);
+        }
+//        ActivityManager.startActivityShareActivity4VideoPlay(this, url, title, "http://apps.ifeimo.com/Public/Uploads/Member/Avatar/5a3cb354ab101.jpg", "此处为图文攻略内容");
+    }
+
+    public void onEventMainThread(ShareInfoEntity entity) {
+        if (entity.getaData() != null && entity.getExtra().get("tag").equals(tag)) {
+            ActivityManager.startActivityShareActivity4VideoPlay(this,
+                    entity.getaData().getShare_url(),
+                    entity.getaData().getShare_title(),
+                    entity.getaData().getShare_icon(),
+                    entity.getaData().getShare_desc());
+        } else {
+            ToastHelper.s("分享失败");
+        }
     }
 
     @SuppressWarnings("unused")

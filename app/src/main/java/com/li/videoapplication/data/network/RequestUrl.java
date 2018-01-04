@@ -26,13 +26,14 @@ public class RequestUrl {
 
 	/* ############## 域名 ############## */
 
-    public String BaseHome = String.format(AppConstant.FORMAT,AppConstant.IP,AppConstant.PORT,AppConstant.ROOT_DIR)+"/home";
+    public String BaseHome = String.format(AppConstant.FORMAT, AppConstant.IP, AppConstant.PORT, AppConstant.ROOT_DIR) + "/home";
 
     //http://apps.ifeimo.com
     //https://sapp.17sysj.com
     // String.format(AppConstant.FORMAT,AppConstant.IP,AppConstant.PORT,AppConstant.ROOT_DIR) 内网测试
-//    public String BaseSYSJ = "http://apps.ifeimo.com";
-    public String BaseSYSJ = "http://192.168.48.9:233";
+//     public String BaseSYSJ = "http://apps.ifeimo.com";
+    // public String BaseSYSJ = "http://192.168.48.9:233";
+    public String BaseSYSJ = "testapps.ifeimo.com";  //线上的测试环境
 
     public String SignSYSJ = "http://17sysj.com";
 
@@ -54,28 +55,31 @@ public class RequestUrl {
     public final String homeInfoById() {
         return BaseSYSJ + "/Sysj226/Index/index";
     }
+
     /**
-     *2.2.6首页分栏的项
+     * 2.2.6首页分栏的项
      */
-    public final String homeColumnByUid(){
+    public final String homeColumnByUid() {
         return BaseSYSJ + "/Sysj226/Index/topIndexColumn";
     }
+
     /**
      * 2.2.6获取所有游戏，以便选择选择游戏
      */
-    public final String getAllHomeGame(){
+    public final String getAllHomeGame() {
         return BaseSYSJ + "/Sysj226/Index/indexColumnGame";
     }
 
     /**
      * 2.2.6保存分栏中我的游戏
      */
-    public final String saveMyGameList(){
+    public final String saveMyGameList() {
         return BaseSYSJ + "/Sysj226/Index/saveMemberColumn";
     }
 
     /**
      * 2.2.6统计分栏点击次数
+     *
      * @return
      */
     public final String columnStatistical() {
@@ -501,6 +505,7 @@ public class RequestUrl {
     public final String groupDataList() {
         return BaseSYSJ + "/Sysj226/Group/groupListData";
     }
+
     public final String groupDataList226() {
         return BaseSYSJ + "/Sysj226/Group/groupListData";
     }
@@ -550,12 +555,14 @@ public class RequestUrl {
     public final String squareGameListStatistical() {
         return BaseSYSJ + "/sysj218/PlayerSquare/addPlayerSquareStatistical";
     }
+
     /**
      * 视频详情201
      */
     public final String videoDetail201() {
         return BaseSYSJ + "/sysj226/video/getVideoDetail";
     }
+
     /**
      * 视频详情226
      */
@@ -998,6 +1005,7 @@ public class RequestUrl {
 
     //app端收到七牛上传(fm-test)成功回调时，调用接口;视频状态3(上传成功),
     //临时视频状态1(成功),添加圈子视频信息(默认状态0);内调用图片上传函数
+
     /**
      * 视频上传回调204（POST）
      */
@@ -1064,6 +1072,7 @@ public class RequestUrl {
     }
 
 	/* ############## 统计 ############## */
+
     /**
      * 游戏下载数+1
      */
@@ -1163,17 +1172,17 @@ public class RequestUrl {
     }
 
     /**
-     *使用融云还是自有IM
+     * 使用融云还是自有IM
      */
-    public final String switchChat(){
-        return BaseSYSJ+"/Sysj220/SwitchSelfChat/switchChat";
+    public final String switchChat() {
+        return BaseSYSJ + "/Sysj220/SwitchSelfChat/switchChat";
     }
 
     /**
-     *会员开通信息
+     * 会员开通信息
      */
-    public final String vipInfo(){
-        return BaseSYSJ+"/Lpds227/VIP/getVIPRechargeInfo";
+    public final String vipInfo() {
+        return BaseSYSJ + "/Lpds227/VIP/getVIPRechargeInfo";
     }
 
     /**
@@ -1184,342 +1193,349 @@ public class RequestUrl {
     }
 
     /**
-     *礼物类型列表
+     * 礼物类型列表
      */
-    public final String giftType(){
-        return BaseSYSJ+"/Sysj221/Reward/getGift";
+    public final String giftType() {
+        return BaseSYSJ + "/Sysj221/Reward/getGift";
     }
 
     /**
-     *礼物流水
+     * 礼物流水
      */
-    public final String giftBill(){
-        return BaseSYSJ+"/Sysj221/UserProfile/personalGift";
+    public final String giftBill() {
+        return BaseSYSJ + "/Sysj221/UserProfile/personalGift";
     }
 
     /**
-     *礼物榜单
+     * 礼物榜单
      */
-    public final String getPlayGiftList(){
-        return BaseSYSJ+"/Sysj221/Reward/rewardRanking";
+    public final String getPlayGiftList() {
+        return BaseSYSJ + "/Sysj221/Reward/rewardRanking";
     }
 
     /**
-     *时间轴礼物列表
+     * 时间轴礼物列表
      */
-    public final String getGiftTimeLineList(){
-        return BaseSYSJ+"/Sysj221/Reward/rewardHistory";
+    public final String getGiftTimeLineList() {
+        return BaseSYSJ + "/Sysj221/Reward/rewardHistory";
     }
 
     /**
-     *获取服务器时间
+     * 获取服务器时间
      */
-    public final String getServiceTime(){
-        return BaseSYSJ+"/Sysj221/Reward/serviceTimestamp";
+    public final String getServiceTime() {
+        return BaseSYSJ + "/Sysj221/Reward/serviceTimestamp";
     }
 
     /**
-     *打赏
+     * 打赏
      */
-    public final String playGift(){
-        return BaseSYSJ+"/Sysj221/Reward/rewardGift";
+    public final String playGift() {
+        return BaseSYSJ + "/Sysj221/Reward/rewardGift";
     }
 
     /**
-     *视频播放页分享成功后触发
+     * 视频播放页分享成功后触发
      */
-    public final String sharedSuccess(){
-        return BaseSYSJ+"/Sysj221/ShareStatical/share";
+    public final String sharedSuccess() {
+        return BaseSYSJ + "/Sysj221/ShareStatical/share";
     }
 
     /**
-     *教练列表
+     * 教练列表
      */
-    public final String getCoachList(){
-        return BaseSYSJ+"/Sysj222/Coach/coaches";
+    public final String getCoachList() {
+        return BaseSYSJ + "/Sysj222/Coach/coaches";
     }
 
     /**
-     *教练详情
+     * 教练详情
      */
-    public final String getCoachDetail(){
-        return BaseSYSJ+"/Sysj222/Coach/coachDetail";
+    public final String getCoachDetail() {
+        return BaseSYSJ + "/Sysj222/Coach/coachDetail";
     }
 
     /**
-     *陪玩订单选项
+     * 陪玩订单选项
      */
-    public final String getPlayWithOrderOptions(){
-        return BaseSYSJ+"/Sysj222/TrainingOrder/menuMap";
+    public final String getPlayWithOrderOptions() {
+        return BaseSYSJ + "/Sysj222/TrainingOrder/menuMap";
     }
 
     /**
-     *陪玩订单价格预览
+     * 陪玩订单价格预览
      */
-    public final String getPreviewOrderPrice(){
-        return BaseSYSJ+"/Sysj222/TrainingOrder/estimatePrice";
+    public final String getPreviewOrderPrice() {
+        return BaseSYSJ + "/Sysj222/TrainingOrder/estimatePrice";
     }
 
     /**
-     *生成陪玩订单
+     * 生成陪玩订单
      */
-    public final String createPlayWithOrder(){
-        return BaseSYSJ+"/Sysj222/TrainingOrder/submitOrder";
+    public final String createPlayWithOrder() {
+        return BaseSYSJ + "/Sysj222/TrainingOrder/submitOrder";
     }
 
     /**
-     *查询下单列表
+     * 查询下单列表
      */
-    public final String getPlayWithPlaceOrder(){
-        return BaseSYSJ+"/Sysj222/TrainingOrder/getOrders";
+    public final String getPlayWithPlaceOrder() {
+        return BaseSYSJ + "/Sysj222/TrainingOrder/getOrders";
     }
 
     /**
-     *查询接单列表
+     * 查询接单列表
      */
-    public final String getPlayWithTakeOrder(){
-        return BaseSYSJ+"/Sysj225/TrainingOrder/receiveOrders";
+    public final String getPlayWithTakeOrder() {
+        return BaseSYSJ + "/Sysj225/TrainingOrder/receiveOrders";
     }
 
 
     /**
-     *查询订单详情
+     * 查询订单详情
      */
-    public final String getPlayWithOrderDetail(){
-        return BaseSYSJ+"/Sysj222/TrainingOrder/orderDetail";
+    public final String getPlayWithOrderDetail() {
+        return BaseSYSJ + "/Sysj222/TrainingOrder/orderDetail";
     }
 
     /**
-     *刷新access token
+     * 刷新access token
      */
-    public final String refreshAccessToken(){
-        return BaseSYSJ+"/Sysj222/Token/refresh";
+    public final String refreshAccessToken() {
+        return BaseSYSJ + "/Sysj222/Token/refresh";
     }
 
     /**
-     *确认
+     * 确认
      */
-    public final String confirmOrder(){
-        return BaseSYSJ+"/Sysj225/TrainingOrder/pay";
+    public final String confirmOrder() {
+        return BaseSYSJ + "/Sysj225/TrainingOrder/pay";
     }
 
     /**
-     *获取评论标签
+     * 获取评论标签
      */
-    public final String getCommentTag(){
-        return BaseSYSJ+"/Sysj222/TrainingOrder/evaluateTag";
+    public final String getCommentTag() {
+        return BaseSYSJ + "/Sysj222/TrainingOrder/evaluateTag";
     }
 
     /**
-     *提交评价
+     * 提交评价
      */
-    public final String commitComment(){
-        return BaseSYSJ+"/Sysj222/TrainingOrder/evaluate";
+    public final String commitComment() {
+        return BaseSYSJ + "/Sysj222/TrainingOrder/evaluate";
     }
 
     /**
-     *提交订单结果
+     * 提交订单结果
      */
-    public final String commitOrderResult(){
-        return BaseSYSJ+"/Sysj222/TrainingOrder/submitResult";
+    public final String commitOrderResult() {
+        return BaseSYSJ + "/Sysj222/TrainingOrder/submitResult";
     }
 
     /**
-     *教练签到
+     * 教练签到
      */
-    public final String coachSign(){
-        return BaseSYSJ+"/Sysj222/Coach/status";
+    public final String coachSign() {
+        return BaseSYSJ + "/Sysj222/Coach/status";
     }
 
     /**
-     *申请退款
+     * 申请退款
      */
-    public final String refundApply(){
-        return BaseSYSJ+"/Sysj222/TrainingOrder/applyRefund";
+    public final String refundApply() {
+        return BaseSYSJ + "/Sysj222/TrainingOrder/applyRefund";
     }
 
     /**
-     *消息列表
+     * 消息列表
      */
-    public final String getMessageList(){
-        return BaseSYSJ+"/Sysj222/message/sysjMessageList";
+    public final String getMessageList() {
+        return BaseSYSJ + "/Sysj222/message/sysjMessageList";
     }
 
     /**
      * 用户确认完成订单
      */
-    public final String confirmOrderDone(){
-        return BaseSYSJ+"/Sysj222/TrainingOrder/confirm";
+    public final String confirmOrderDone() {
+        return BaseSYSJ + "/Sysj222/TrainingOrder/confirm";
     }
 
     /**
      * 教练确认接单
      */
-    public final String confirmTakeOrder(){
-        return BaseSYSJ+"/Sysj222/TrainingOrder/receive";
+    public final String confirmTakeOrder() {
+        return BaseSYSJ + "/Sysj222/TrainingOrder/receive";
     }
 
 
     /**
      * 提交channel id
      */
-    public final String submitChannelId(){
-        return BaseSYSJ+"/Sysj222/BindingChannel/memberBindingChannel";
+    public final String submitChannelId() {
+        return BaseSYSJ + "/Sysj222/BindingChannel/memberBindingChannel";
     }
 
     /**
      * 取消消息红点
      */
-    public final String readMessage(){
-        return BaseSYSJ+"/Sysj222/message/clearRedMsg";
+    public final String readMessage() {
+        return BaseSYSJ + "/Sysj222/message/clearRedMsg";
     }
 
     /**
      * 获取客服信息
      */
-    public final String getCustomerInfo(){
-        return BaseSYSJ+"/Sysj222/TrainingCommunication/trainingCustomerService";
+    public final String getCustomerInfo() {
+        return BaseSYSJ + "/Sysj222/TrainingCommunication/trainingCustomerService";
     }
 
     /**
      * 确认退款
      */
-    public final String coachConfirmRefund(){
-        return BaseSYSJ+"/Sysj222/TrainingOrder/confirmRefund";
+    public final String coachConfirmRefund() {
+        return BaseSYSJ + "/Sysj222/TrainingOrder/confirmRefund";
     }
 
     /**
      * 获取教练状态
      */
-    public final String getCoachStatus(){
+    public final String getCoachStatus() {
         return "http://op.17sysj.com:9090/plugins/coachPresence/status";
     }
 
     /**
      * 获取订单开始时间
      */
-    public final String getOrderTime(){
-        return BaseSYSJ+"/Sysj222/TrainingOrder/timeMenu";
+    public final String getOrderTime() {
+        return BaseSYSJ + "/Sysj222/TrainingOrder/timeMenu";
     }
 
     /**
      * 拉取补丁文件
      */
-    public final String fetchPatch(){
-        return BaseSYSJ+"/Sysj224/SysjVersionUpdate/versionHotUpdate";
+    public final String fetchPatch() {
+        return BaseSYSJ + "/Sysj224/SysjVersionUpdate/versionHotUpdate";
     }
 
     /**
      * 获取vip信息
      */
-    public final String getUserVipInfo(){
-        return BaseSYSJ+"/Lpds227/VIP/getMemberVIPInfo";
+    public final String getUserVipInfo() {
+        return BaseSYSJ + "/Lpds227/VIP/getMemberVIPInfo";
     }
 
     /**
      * 获取图片上传的七牛key token
      */
-    public final String getUploadKey(){
-        return BaseSYSJ+"/Sysj224/Coach/getPicUploadParam";
+    public final String getUploadKey() {
+        return BaseSYSJ + "/Sysj224/Coach/getPicUploadParam";
     }
 
     /**
      * 上传个性签名
      */
-    public final String commitSign(){
-        return BaseSYSJ+"/Sysj224/Coach/saveInfo";
+    public final String commitSign() {
+        return BaseSYSJ + "/Sysj224/Coach/saveInfo";
     }
 
     /**
      * 获取个性签名
      */
-    public final String getSign(){
-        return BaseSYSJ+"/Sysj224/Coach/psersonalizedSign";
+    public final String getSign() {
+        return BaseSYSJ + "/Sysj224/Coach/psersonalizedSign";
     }
 
     /**
      * 解绑定百度推送
      */
-    public final String unBindBaiduPush(){
-        return BaseSYSJ+"/Sysj222/BindingChannel/removeBindingChannel";
+    public final String unBindBaiduPush() {
+        return BaseSYSJ + "/Sysj222/BindingChannel/removeBindingChannel";
     }
 
     /**
      * 打赏榜
      */
-    public final String rewardRank(){
-        return BaseSYSJ+"/Sysj224/RewardVideo/ranking";
+    public final String rewardRank() {
+        return BaseSYSJ + "/Sysj224/RewardVideo/ranking";
     }
 
     /**
      * 对教练的评价
      */
-    public final String getCoachComment(){
-        return BaseSYSJ+"/Sysj224/TrainingAppraise/getTrainingAppraise";
+    public final String getCoachComment() {
+        return BaseSYSJ + "/Sysj224/TrainingAppraise/getTrainingAppraise";
     }
 
     /**
      * 统计播放页停留时间
      */
-    public final String commitStayDuration(){
-        return BaseSYSJ+"/Sysj224/Statistics/stayTimeRecord";
+    public final String commitStayDuration() {
+        return BaseSYSJ + "/Sysj224/Statistics/stayTimeRecord";
     }
 
     /**
-     *clear token
+     * clear token
      */
-    public final String clearToken(){
-        return BaseSYSJ+"/Sysj224/member/logout";
+    public final String clearToken() {
+        return BaseSYSJ + "/Sysj224/member/logout";
     }
 
     /**
      * 抢单
      */
-    public final String grabPlayWithOrder(){
-        return BaseSYSJ+"/Sysj225/TrainingOrder/grab";
+    public final String grabPlayWithOrder() {
+        return BaseSYSJ + "/Sysj225/TrainingOrder/grab";
     }
 
     /**
      * 取消订单
      */
-    public final String cancelPlayWithOrder(){
-        return BaseSYSJ+"/Sysj225/TrainingOrder/cancelOrder";
+    public final String cancelPlayWithOrder() {
+        return BaseSYSJ + "/Sysj225/TrainingOrder/cancelOrder";
     }
 
 
     /**
      * 下载成功统计
      */
-    public final String downloadSuccess(){
-        return BaseSYSJ+"/Sysj225/DownloadGameStatistics/StatisticsDownloadGameSuccess";
+    public final String downloadSuccess() {
+        return BaseSYSJ + "/Sysj225/DownloadGameStatistics/StatisticsDownloadGameSuccess";
     }
 
     /**
      * 关注游戏列表
      */
-    public final String focusGameList(){
-        return BaseSYSJ+"/Sysj225/Group/hotAttentionGame";
+    public final String focusGameList() {
+        return BaseSYSJ + "/Sysj225/Group/hotAttentionGame";
     }
 
     /**
      * 提交关注游戏列表
      */
-    public final String commitFocusGameList(){
-        return BaseSYSJ+"/Sysj225/Group/batchFollow";
+    public final String commitFocusGameList() {
+        return BaseSYSJ + "/Sysj225/Group/batchFollow";
     }
 
 
     /**
      * 混合页面圈子详情
      */
-    public final String groupDetailHybrid(){
-        return BaseSYSJ+"/sysj228/GameGroup/getGameGroupController";
+    public final String groupDetailHybrid() {
+        return BaseSYSJ + "/sysj228/GameGroup/getGameGroupController";
     }
 
     /**
      * 需要混合页面的圈子
      */
-    public final String groupHybridList(){
-        return BaseSYSJ+"/sysj228/GameGroup/getGameGroupEdition";
+    public final String groupHybridList() {
+        return BaseSYSJ + "/sysj228/GameGroup/getGameGroupEdition";
+    }
+
+    /**
+     * 混合页面的圈子里文章的分享信息
+     */
+    public final String groupHybridShareInfo() {
+        return BaseSYSJ + "/sysj228/GameStrategyShare/getShareInfo";
     }
 }

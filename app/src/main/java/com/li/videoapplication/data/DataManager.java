@@ -3240,6 +3240,17 @@ public class DataManager {
         request.setEntity(new HybridGroupListEntity());
         helper.doNetwork(request);
     }
+
+    public static void getHybridGroupShareInfo(String id, String strategyType, ShareInfoEntity entity) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().groupHybridShareInfo();
+
+        Map<String, Object> params = RequestParams.getInstance().groupHybridShareInfo(id, strategyType);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(entity);
+        helper.doNetwork(request);
+    }
+
     public static void getHomeInfoById(String columnId,int page){
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().homeInfoById();
