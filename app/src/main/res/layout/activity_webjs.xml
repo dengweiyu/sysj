@@ -5,15 +5,15 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:clipToPadding="true"
-              android:orientation="vertical"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/ab_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:theme="@style/MyTheme.AppBarOverlay"
+        android:visibility="visible"
         app:elevation="2dp">
 
         <LinearLayout
@@ -32,15 +32,22 @@
 
             <TextView
                 android:id="@+id/tb_title"
-                android:layout_width="match_parent"
-                android:layout_marginEnd="38dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:ellipsize="end"
-                android:maxLines="1"
                 android:gravity="center"
-                android:text=""
+                android:maxLines="1"
+                android:text="图文攻略"
                 android:textColor="#dd333333"
                 android:textSize="16sp" />
+            <ImageView
+                android:id="@+id/iv_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingEnd="12dp"
+                android:src="@drawable/share_normal"/>
         </LinearLayout>
 
         <View

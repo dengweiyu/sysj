@@ -25,6 +25,8 @@ import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.ui.ActivityManager;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.StringUtil;
 
 import org.json.JSONException;
@@ -33,6 +35,8 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import butterknife.OnClick;
 
 /**
  * 活动：网页浏览与js交互（去网页标题栏，js方法名）
@@ -275,6 +279,12 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         });
 
         webView.loadUrl(url);
+    }
+
+    @OnClick(R.id.iv_share)
+    public void share() {
+//        DialogManager.showShareDialog(this, url, "http://apps.ifeimo.com/Public/Uploads/Member/Avatar/5a3cb354ab101.jpg", title, "此处为图文攻略内容");
+        ActivityManager.startActivityShareActivity4VideoPlay(this, url, title, "http://apps.ifeimo.com/Public/Uploads/Member/Avatar/5a3cb354ab101.jpg", "此处为图文攻略内容");
     }
 
     @SuppressWarnings("unused")
