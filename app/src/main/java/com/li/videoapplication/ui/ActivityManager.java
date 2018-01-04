@@ -1522,6 +1522,7 @@ public class ActivityManager {
         intent.putExtra("nick_name",nickName);
         intent.putExtra("avatar",avatar);
         intent.putExtra("type_id",typeId);
+        context.startActivity(intent);
     }
 
     /**
@@ -1627,6 +1628,7 @@ public class ActivityManager {
         intent.putExtra("count",count);
         intent.putExtra("order_count",orderCount);
         intent.putExtra("type_id",typeId);
+        context.startActivity(intent);
     }
 
     /**

@@ -3008,10 +3008,11 @@ public class DataManager {
     /**
      *  获取教练状态
      */
-    public static void getCoachStatus(){
+    public static void getCoachStatus(String typeId){
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().getCoachStatus();
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url,null, null);
+        Map<String, Object> params = RequestParams.getInstance().getCoachStatus(typeId);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url,params, null);
         request.setEntity(new CoachStatusEntity());
         helper.doNetwork(request);
     }

@@ -305,7 +305,7 @@ public class CoachListFragment extends TBaseFragment implements
                 mHandler.removeCallbacks(this);
 
             }
-            DataManager.getCoachStatus();
+            DataManager.getCoachStatus(mChoiceTypeId);
         }
     };
 

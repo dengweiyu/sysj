@@ -1526,6 +1526,12 @@ public class RequestParams {
         return map;
     }
 
+    public Map<String, Object>  getCoachStatus(String typeId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("trainingType", typeId);
+        return map;
+    }
+
 
     public Map<String, Object>  fetchPatch(String channelId,String version) {
         Map<String, Object> map = new HashMap<>();
