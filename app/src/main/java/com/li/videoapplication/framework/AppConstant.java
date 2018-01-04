@@ -121,8 +121,8 @@ public class AppConstant {
 	 * @return
 	 */
 	public static final String getIconConfigQn(){
-		//return "http://config.ifeimo.com/conf.json";
-		return "http://192.168.48.9:233/Public/Config/conf.json";
+		return "http://config.ifeimo.com/conf.json";
+//		return "http://192.168.48.9:233/Public/Config/conf.json";
 	}
 
 	/**
