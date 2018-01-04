@@ -10,8 +10,11 @@ public class SwitchChoiceGameEvent extends BaseEntity{
 
     private int index;
 
-    public SwitchChoiceGameEvent(int index) {
+    private String typeId;
+
+    public SwitchChoiceGameEvent(int index, String typeId) {
         this.index = index;
+        this.typeId = typeId;
     }
 
     public int getIndex() {
@@ -20,5 +23,13 @@ public class SwitchChoiceGameEvent extends BaseEntity{
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
     }
 }

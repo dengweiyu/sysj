@@ -10,6 +10,7 @@ import com.ifeimo.im.framwork.Proxy;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.event.SwitchChoiceGameEvent;
 import com.li.videoapplication.data.model.response.PlayWithOrderDetailEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
@@ -23,6 +24,8 @@ import com.li.videoapplication.ui.activity.CreatePlayWithOrderActivity;
 import com.li.videoapplication.ui.activity.PlayWithOrderDetailActivity;
 import com.li.videoapplication.ui.dialog.ConfirmPlayWithDialog;
 import com.li.videoapplication.utils.StringUtil;
+
+import io.rong.eventbus.EventBus;
 
 /**
  *
@@ -146,6 +149,14 @@ public abstract class OrderStrategy implements IOrderStrategy {
     //抢单模式
     protected void createGrabOrder(){
         ActivityManager.startCreatePlayWithOrderActivity(AppManager.getInstance().currentActivity(),CreatePlayWithOrderActivity.MODE_ORDER_GRAB,null,null,null,null,mOrderDetail.getData().getTraining_type_id(),mOrderDetail.getData().getGameName());
+    }
+
+    //吃鸡游戏的再来一单会跳转到陪练列表
+    protected void choiceNewCoach(){
+        //启动页面
+        ActivityManager.startMainActivity(AppManager.getInstance().currentActivity(),3,0);
+        //传递新的类型
+        EventBus.getDefault().post(new SwitchChoiceGameEvent(-1,mOrderDetail.getData().getTraining_type_id()));
     }
 
     //确认接单

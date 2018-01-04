@@ -79,6 +79,24 @@ public class PlayWithOrderDetailEntity extends BaseResponseEntity {
         private String avatar;
         private String score;
         private String qq;
+        private String typeId;
+        private String gameName;
+
+        public String getGameName() {
+            return gameName;
+        }
+
+        public void setGameName(String gameName) {
+            this.gameName = gameName;
+        }
+
+        public String getTypeId() {
+            return typeId;
+        }
+
+        public void setTypeId(String typeId) {
+            this.typeId = typeId;
+        }
 
         public String getQq() {
             return qq;
