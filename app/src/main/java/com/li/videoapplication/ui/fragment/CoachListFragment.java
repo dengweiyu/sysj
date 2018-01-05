@@ -141,14 +141,6 @@ public class CoachListFragment extends TBaseFragment implements
                 int position =  parent.getChildAdapterPosition(view);
                 switch (position){
                     case 0:
-                        if (mDiscount.getVisibility() == View.VISIBLE){
-                            outRect.top = ScreenUtil.dp2px(52);
-//                            outRect.top = ScreenUtil.dp2px(7);
-                        }else {
-                            outRect.top = ScreenUtil.dp2px(62);
-//                            outRect.top = ScreenUtil.dp2px(7);
-                        }
-                        break;
                     case 1:
                         if (mDiscount.getVisibility() == View.VISIBLE){
                             outRect.top = ScreenUtil.dp2px(52);
@@ -158,6 +150,10 @@ public class CoachListFragment extends TBaseFragment implements
 //                            outRect.top = ScreenUtil.dp2px(7);
                         }
                         break;
+                }
+                if (position == parent.getAdapter().getItemCount() - 2
+                        || position == parent.getAdapter().getItemCount() - 1) {
+                    outRect.bottom = ScreenUtil.dp2px(24);
                 }
             }
         });
