@@ -52,7 +52,7 @@ public class CoachListFragment extends TBaseFragment implements
         SwipeRefreshLayout.OnRefreshListener,
         BaseQuickAdapter.RequestLoadMoreListener ,
         View.OnClickListener{
-    private final long TICK_DELAY = 40000;
+    private final long TICK_DELAY = 20000;
     private SwipeRefreshLayout mRefresh;
     private RecyclerView mList;
     private CoachLisAdapter mAdapter;
@@ -99,6 +99,9 @@ public class CoachListFragment extends TBaseFragment implements
     @Override
     protected void initContentView(View view) {
 
+        mHandler.removeCallbacks(mRefreshTask);
+        mHandler.postDelayed(mRefreshTask, TICK_DELAY);
+
         mAnchor = view.findViewById(R.id.rl_choice_game_root);
         mTopPlus = view.findViewById(R.id.ll_top_plus);
         mChoiceType = (TextView)view.findViewById(R.id.tv_choice_game_type);
@@ -138,23 +141,19 @@ public class CoachListFragment extends TBaseFragment implements
                 int position =  parent.getChildAdapterPosition(view);
                 switch (position){
                     case 0:
-                        if (mDiscount.getVisibility() == View.VISIBLE){
-//                            outRect.top = ScreenUtil.dp2px(52);
-                            outRect.top = ScreenUtil.dp2px(7);
-                        }else {
-//                            outRect.top = ScreenUtil.dp2px(52);
-                            outRect.top = ScreenUtil.dp2px(7);
-                        }
-                        break;
                     case 1:
                         if (mDiscount.getVisibility() == View.VISIBLE){
-//                            outRect.top = ScreenUtil.dp2px(52);
-                            outRect.top = ScreenUtil.dp2px(7);
+                            outRect.top = ScreenUtil.dp2px(52);
+//                            outRect.top = ScreenUtil.dp2px(7);
                         }else {
-//                            outRect.top = ScreenUtil.dp2px(62);
-                            outRect.top = ScreenUtil.dp2px(7);
+                            outRect.top = ScreenUtil.dp2px(62);
+//                            outRect.top = ScreenUtil.dp2px(7);
                         }
                         break;
+                }
+                if (position == parent.getAdapter().getItemCount() - 2
+                        || position == parent.getAdapter().getItemCount() - 1) {
+                    outRect.bottom = ScreenUtil.dp2px(24);
                 }
             }
         });
