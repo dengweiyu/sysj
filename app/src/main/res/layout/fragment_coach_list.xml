@@ -23,15 +23,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <LinearLayout
+        android:layout_height="match_parent">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_coach_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/v_divider_bottom"></android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:background="@color/activity_main_bg"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -85,16 +91,8 @@
                     android:text="系统匹配陪练"/>
             </LinearLayout>
         </LinearLayout>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_coach_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/v_divider_bottom"></android.support.v7.widget.RecyclerView>
 
-
-
-
-    </LinearLayout>
+    </FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>
 
 
