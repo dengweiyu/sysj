@@ -693,7 +693,6 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
                 PreferencesHepler.getInstance().saveVideoIdsTime();
             }
             if (AppConstant.SHOW_DOWNLOAD_AD) {//普通渠道，替换广告
-
                 replaseGDT(entity.getData().getList(), GUESSVIDEO_CHANGE);
             } else {//特殊渠道，不加广告
                 mAdapter.changeGuessVideo(entity.getData().getList());
@@ -843,6 +842,8 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
      */
     private void replaseGDT(List<VideoImage> guessList, final int location) {
         if (isInterceptAD()) {
+            Log.d(tag, "广告通道被拦截");
+            mAdapter.changeGuessVideo(guessList);
             return;
         }
 

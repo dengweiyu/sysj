@@ -310,7 +310,10 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
     }
 
     public void changeGuessVideo(List<VideoImage> guessVideoList) {
+        Log.d(TAG, "======== changeGuessVideo: ========");
         if (youLikeAdapter != null) {
+            Log.d(TAG, "======== youLikeAdapter:notifyDataSetChanged ========");
+            Log.i(TAG, guessVideoList.toString());
             youLikeAdapter.clear();
             youLikeAdapter.addAll(guessVideoList);
             youLikeAdapter.notifyDataSetChanged();
