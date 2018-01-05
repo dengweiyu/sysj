@@ -1650,6 +1650,13 @@ public class RequestParams {
         return map;
     }
 
+    public Map<String, Object>  groupHybridShareInfo(String id, String strategyType) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("strategyType", strategyType);
+        return map;
+    }
+
     /**
      *
      * @param memberId

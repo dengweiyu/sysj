@@ -11,6 +11,7 @@ import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.SquareScrollEntity;
 import com.li.videoapplication.framework.TBaseFragment;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.views.ViewPagerY5;
 
@@ -45,6 +46,13 @@ public class GroupDetailHybridVideoFragment extends TBaseFragment implements Vie
         return instance;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-视频");
+        }
+    }
 
     @Override
     protected int getCreateView() {

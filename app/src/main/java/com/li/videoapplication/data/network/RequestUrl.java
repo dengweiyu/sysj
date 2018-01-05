@@ -1395,8 +1395,7 @@ public class RequestUrl {
      * 获取教练状态
      */
     public final String getCoachStatus(){
-        return "http://op.17sysj.com:9090/plugins/coachStatus/status";
-        //return  "http://192.168.48.54:9090/plugins/coachPresence/status";
+        return "http://op.17sysj.com:9090/plugins/coachPresence/status";
     }
 
     /**
@@ -1525,5 +1524,12 @@ public class RequestUrl {
      */
     public final String groupHybridList(){
         return BaseSYSJ+"/sysj228/GameGroup/getGameGroupEdition";
+    }
+
+    /**
+     * 混合页面的圈子里文章的分享信息
+     */
+    public final String groupHybridShareInfo() {
+        return BaseSYSJ + "/sysj228/GameStrategyShare/getShareInfo";
     }
 }

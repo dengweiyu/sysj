@@ -171,8 +171,6 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         }
     }
 
-
-
     @Override
     public int getContentView() {
         return R.layout.activity_videoplay;

@@ -172,7 +172,7 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
                 if ("video".equals(mDetailEntity.getAData().get(i).getFlagName())){
                     mFragments.add(GroupDetailHybridVideoFragment.newInstance(mDetailEntity.getOData().getGroup_id()));
                 }else {
-                    mFragments.add(GroupDetailHybridFragment.newInstance(coverUrl(mDetailEntity.getAData().get(i).getGoUrl(),mDetailEntity.getAData().get(i).getGame_id()),true));
+                    mFragments.add(GroupDetailHybridFragment.newInstance(mTitle.get(i), coverUrl(mDetailEntity.getAData().get(i).getGoUrl(),mDetailEntity.getAData().get(i).getGame_id()),true));
                 }
             }
             mViewPager.setOffscreenPageLimit(5);
