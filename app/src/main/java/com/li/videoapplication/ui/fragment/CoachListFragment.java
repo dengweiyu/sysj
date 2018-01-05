@@ -132,8 +132,6 @@ public class CoachListFragment extends TBaseFragment implements
             }
         });
 
-
-
         mList.addItemDecoration(new SpanItemDecoration(ScreenUtil.dp2px(10),false,false,false,false){
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -141,16 +139,20 @@ public class CoachListFragment extends TBaseFragment implements
                 switch (position){
                     case 0:
                         if (mDiscount.getVisibility() == View.VISIBLE){
-                            outRect.top = ScreenUtil.dp2px(52);
+//                            outRect.top = ScreenUtil.dp2px(52);
+                            outRect.top = ScreenUtil.dp2px(7);
                         }else {
-                            outRect.top = ScreenUtil.dp2px(62);
+//                            outRect.top = ScreenUtil.dp2px(52);
+                            outRect.top = ScreenUtil.dp2px(7);
                         }
                         break;
                     case 1:
                         if (mDiscount.getVisibility() == View.VISIBLE){
-                            outRect.top = ScreenUtil.dp2px(52);
+//                            outRect.top = ScreenUtil.dp2px(52);
+                            outRect.top = ScreenUtil.dp2px(7);
                         }else {
-                            outRect.top = ScreenUtil.dp2px(62);
+//                            outRect.top = ScreenUtil.dp2px(62);
+                            outRect.top = ScreenUtil.dp2px(7);
                         }
                         break;
                 }

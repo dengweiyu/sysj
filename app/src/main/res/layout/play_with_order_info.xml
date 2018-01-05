@@ -128,4 +128,14 @@
             android:textColor="@color/ab_backdround_red"
             android:textSize="12sp"/>
     </LinearLayout>
+    <!--<TextView-->
+        <!--android:id="@+id/tv_game_type"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:paddingTop="4dp"-->
+        <!--android:paddingRight="8dp"-->
+        <!--android:paddingBottom="4dp"-->
+        <!--android:textSize="12sp"-->
+        <!--android:textColor="@color/ab_backdround_red"-->
+        <!--android:text="陪练游戏：荒野行动"/>-->
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.li.videoapplication.ui.adapter;
 
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
@@ -112,6 +113,10 @@ public class PlayWithTakeOrderAdapter extends BaseQuickAdapter<PlayWithTakeOrder
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+//        TextView playWithType = holder.getView(R.id.tv_game_type);
+//        playWithType.setText(data.getStatusText());
+//        playWithType.setTextColor(ContextCompat.getColor(mContext, R.color.ab_backdround_red));
 
         TextView take = holder.getView(R.id.tv_take_order);
         View textGo = holder.getView(R.id.tv_go_detail);
