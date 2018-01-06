@@ -196,6 +196,9 @@ public class WebActivityJS extends TBaseAppCompatActivity {
 
         if (showToolbar){
             findViewById(R.id.ab_toolbar).setVisibility(View.VISIBLE);
+            if (strategyType.length() != 0 && id.length() != 0) {
+                btnShare.setVisibility(View.VISIBLE);
+            }
         }else {
             findViewById(R.id.ab_toolbar).setVisibility(View.GONE);
         }
