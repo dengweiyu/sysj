@@ -176,11 +176,11 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
                 RecyclerView rvSysj = holder.getView(R.id.rv_hometype);
                 VideoQuickAdapter sysjQuickAdapter;
                 if (rvSysj.getAdapter() != null) {
-                    if (!isScrollingSingle) {
+//                    if (!isScrollingSingle) {
                         sysjQuickAdapter = (VideoQuickAdapter) rvSysj.getAdapter();
                         sysjQuickAdapter.setAllData(changeVideoImageType(dataBean.getList()));
                         sysjQuickAdapter.notifyDataSetChanged();
-                    } else isScrollingSingle = false;
+//                    } else isScrollingSingle = false;
                 } else {
                     Log.i(TAG, "新建VideoQuickAdapter示例");
                     rvSysj.setVisibility(View.VISIBLE);
@@ -216,11 +216,11 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
                 RecyclerView rvGameVideo = holder.getView(R.id.rv_hometype);
                 VideoQuickAdapter gameVideoQuickAdapter;
                 if (rvGameVideo.getAdapter() != null) {
-                    if (!isScrollingSingle) {
+//                    if (!isScrollingSingle) {
                         gameVideoQuickAdapter = (VideoQuickAdapter) rvGameVideo.getAdapter();
                         gameVideoQuickAdapter.setAllData(changeVideoImageType(dataBean.getList()));
                         gameVideoQuickAdapter.notifyDataSetChanged();
-                    } else isScrollingSingle = false;
+//                    } else isScrollingSingle = false;
                 } else {
                     Log.i(TAG, "新建VideoQuickAdapter示例");
                     rvGameVideo.setVisibility(View.VISIBLE);
@@ -272,11 +272,11 @@ public class HomeMultipleAdapterNew extends BaseMultiItemQuickAdapter<HomeModule
                 VideoQuickAdapter gamerVideoQuickAdapter;
 
                 if (rvGamerVideo.getAdapter() != null) {
-                    if (!isScrollingSingle) {
+//                    if (!isScrollingSingle) {
                         gamerVideoQuickAdapter = (VideoQuickAdapter) rvGamerVideo.getAdapter();
                         gamerVideoQuickAdapter.setAllData(changeVideoImageType(dataBean.getList()));
                         gamerVideoQuickAdapter.notifyDataSetChanged();
-                    } else isScrollingSingle = false;
+//                    } else isScrollingSingle = false;
                 } else {
                     Log.i(TAG, "新建VideoQuickAdapter示例");
                     rvGamerVideo.setVisibility(View.VISIBLE);
