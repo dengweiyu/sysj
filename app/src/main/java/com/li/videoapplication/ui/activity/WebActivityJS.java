@@ -21,8 +21,12 @@ import android.widget.ZoomButtonsController;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.js.JSInterface;
+import com.li.videoapplication.data.model.entity.Download;
+import com.li.videoapplication.data.model.entity.FGame;
+import com.li.videoapplication.data.model.response.GameDetailEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
+import com.li.videoapplication.tools.DownloadHelper;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
@@ -33,6 +37,8 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 活动：网页浏览与js交互（去网页标题栏，js方法名）
@@ -45,6 +51,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
     private String url, title, js;
     private boolean showToolbar;
     private WebView webView;
+    private JSInterface mJsInterface;
 
     /**
      * 网页浏览
@@ -166,8 +173,12 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         webSettings.setDomStorageEnabled(true);
 
         Log.d(TAG, "initWebView: js == "+js);
-        if (!StringUtil.isNull(js))
-            webView.addJavascriptInterface(new JSInterface(this), js);
+
+        if (!StringUtil.isNull(js)) {
+            mJsInterface = new JSInterface(WebActivityJS.this);
+            EventBus.getDefault().register(mJsInterface);
+            webView.addJavascriptInterface(mJsInterface, js);
+        }
 
         webView.setDownloadListener(new DownloadListener() {
 
@@ -372,7 +383,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        EventBus.getDefault().unregister(mJsInterface);
         if (webView != null) {
             webView.clearHistory();
             webView.removeAllViewsInLayout();

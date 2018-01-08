@@ -300,18 +300,18 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
     private void refreshHeader(){
         mGroupName.setText(mDetailEntity.getOData().getGroup_name());
         mVideoNumber.setText("视频："+StringUtil.toUnitW(mDetailEntity.getOData().getVideo_num()+""));
-        mPlayerNumber.setText("玩家："+StringUtil.formatNum(mDetailEntity.getOData().getAttention_num()+""));
+        mPlayerNumber.setText("玩家："+StringUtil.toUnitW(mDetailEntity.getOData().getAttention_num()+""));
         GlideHelper.displayImage(this,mDetailEntity.getOData().getFlag(),mGroupIcon);
         //
         if (mDetailEntity.getOData().getTick() == 0){
             mFollowLayout.setBackgroundResource(R.drawable.hybrid_pager_follow);
             mFollowText.setText("关注");
-            mFollowIcon.setVisibility(View.VISIBLE);
-            mFollowIcon.setImageResource(R.drawable.simple_group);
+//            mFollowIcon.setVisibility(View.VISIBLE);
+//            mFollowIcon.setImageResource(R.drawable.simple_group);
         }else {
             mFollowLayout.setBackgroundColor(resources.getColor(R.color.groupdetail_player_gray));
             mFollowText.setText("已关注");
-            mFollowIcon.setVisibility(View.GONE);
+//            mFollowIcon.setVisibility(View.GONE);
         }
 
     }
@@ -383,4 +383,6 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
     public void onEventMainThread(ReleaseScrollEvent event){
         mViewPager.setScrollable(false);
     }
+
+
 }
