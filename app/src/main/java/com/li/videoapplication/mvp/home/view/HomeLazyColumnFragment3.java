@@ -246,6 +246,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         this.mAdapter.notifyDataSetChanged();
     }
 
+    private boolean mIsNeedLoadCache = true; //第一次进入默认需要，主动下拉刷新后不需要
     /**
      * 获取网络数据
      */
@@ -254,7 +255,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         Log.w("HomeLazy", "loadData->" + "mColumnId:" + mColumnId + "和mPage:" + mPage);
 
         HomeModuleEntity entity = new Gson().fromJson(HomeFragmentNew.lruCache.get(MD5Util.string2MD5(mColumnId + mPage)), HomeModuleEntity.class);
-        if (entity != null && !isRefreshFlag) {
+        if (entity != null && !isRefreshFlag && mIsNeedLoadCache) {
             Map<String, Object> extra = entity.getExtra();
             extra.put("cache", "1");
             entity.setExtra(extra);
@@ -468,6 +469,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         mData.clear();
 
         tData.clear();
+        mIsNeedLoadCache = false;
         isLoadDataComplete = false;
         isGamerVideoLoadComplete = false;
         isStartLoadGamerVideo = false;

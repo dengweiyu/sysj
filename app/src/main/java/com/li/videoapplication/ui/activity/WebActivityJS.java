@@ -23,8 +23,12 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.js.JSInterface;
 import com.li.videoapplication.data.model.response.ShareInfoEntity;
+import com.li.videoapplication.data.model.entity.Download;
+import com.li.videoapplication.data.model.entity.FGame;
+import com.li.videoapplication.data.model.response.GameDetailEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
+import com.li.videoapplication.tools.DownloadHelper;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
@@ -43,6 +47,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import io.rong.eventbus.EventBus;
+
 /**
  * 活动：网页浏览与js交互（去网页标题栏，js方法名）
  */
@@ -54,6 +60,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
     private String url, title, js, id, strategyType;
     private boolean showToolbar;
     private WebView webView;
+    private JSInterface mJsInterface;
 
     @BindView(R.id.iv_share)
     ImageView btnShare;
@@ -216,8 +223,12 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         webSettings.setDomStorageEnabled(true);
 
         Log.d(TAG, "initWebView: js == "+js);
-        if (!StringUtil.isNull(js))
-            webView.addJavascriptInterface(new JSInterface(this), js);
+
+        if (!StringUtil.isNull(js)) {
+            mJsInterface = new JSInterface(WebActivityJS.this);
+            EventBus.getDefault().register(mJsInterface);
+            webView.addJavascriptInterface(mJsInterface, js);
+        }
 
         webView.setDownloadListener(new DownloadListener() {
 
@@ -447,7 +458,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        EventBus.getDefault().unregister(mJsInterface);
         if (webView != null) {
             webView.clearHistory();
             webView.removeAllViewsInLayout();

@@ -16,6 +16,7 @@ import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.mvp.Constant;
 import com.li.videoapplication.mvp.billboard.view.MatchRewardBillboardActivity;
 import com.li.videoapplication.mvp.match.view.MatchResultActivity;
@@ -23,11 +24,15 @@ import com.li.videoapplication.tools.DownloadHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.ui.activity.GroupDetailHybridActivity;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.MyWalletActivity;
 import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.ui.activity.WebActivityJS;
 import com.li.videoapplication.utils.StringUtil;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import io.rong.eventbus.EventBus;
 
@@ -81,8 +86,13 @@ public class JSInterface {
         Log.d(TAG, "downloadGame: // ----------------------------------------");
         Log.d(TAG, "downloadGame: game_id=" + game_id);
         try {
-            TBaseActivity activity = (TBaseActivity) this.context;
-            activity.showProgressDialog("请稍后...");
+            if (this.context instanceof TBaseActivity) {
+                TBaseActivity activity = (TBaseActivity) this.context;
+                activity.showProgressDialog("请稍后...");
+            } else if (this.context instanceof TBaseAppCompatActivity) {
+                TBaseAppCompatActivity activity = (TBaseAppCompatActivity) this.context;
+                activity.showProgressDialog("请稍后...");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,6 +100,16 @@ public class JSInterface {
             // 游戏详情
             DataManager.gameDetail(game_id);
         }
+    }
+
+    @JavascriptInterface
+    public void downloadGame2(String game_id) {
+        Log.d(TAG, "downloadGame2: // ----------------------------------------");
+        Log.d(TAG, "downloadGame2: game_id=" + game_id);
+        ActivityManager.startDownloadManagerActivity(context, game_id,"1", game_id);
+        // 游戏下载数+1
+        DataManager.downloadClick217(game_id, getMember_id(),
+                Constant.DOWNLOAD_LOCATION_GROUP, game_id);
     }
 
     @JavascriptInterface
@@ -118,12 +138,26 @@ public class JSInterface {
     public void onEventMainThread(GameDetailEntity event) {
         Log.d(TAG, "onMessage: // ----------------------------------------");
         Log.d(TAG, "onMessage: event=" + event);
+
         try {
-            TBaseActivity activity = (TBaseActivity) this.context;
-            activity.dismissProgressDialog();
+            if (this.context instanceof TBaseActivity) {
+                TBaseActivity activity = (TBaseActivity) this.context;
+                activity.dismissProgressDialog();
+            } else if (this.context instanceof TBaseAppCompatActivity) {
+                TBaseAppCompatActivity activity = (TBaseAppCompatActivity) this.context;
+                activity.dismissProgressDialog();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+//        //跳转到下载管理界面
+//        ActivityManager.startDownloadManagerActivity(context,
+//                String.valueOf(event.getData().getGameid()),"4",
+//                String.valueOf(event.getData().getGameid()));
+//        // 游戏下载数+1
+//        DataManager.downloadClick217(String.valueOf(event.getData().getGameid()), getMember_id(),
+//                Constant.DOWNLOAD_LOCATION_GROUP, String.valueOf(event.getData().getGameid()));
+        //直接外部下载
         if (event.getCode() == 200) {// 成功
             FGame fGame = event.getData();
             if (fGame != null && !StringUtil.isNull(fGame.getDownlink())) {
