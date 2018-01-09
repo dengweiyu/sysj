@@ -349,6 +349,11 @@ public class RequestUrl {
     }
 
 
+    public final String selectMyGameList() {
+        return BaseSYSJ + "http://apps.ifeimo.com/Sysj228/GameGroup/getHotGame";
+    }
+
+
     /**
      * 编辑个人资料
      */
@@ -1532,4 +1537,5 @@ public class RequestUrl {
     public final String groupHybridShareInfo() {
         return BaseSYSJ + "/sysj228/GameStrategyShare/getShareInfo";
     }
+
 }

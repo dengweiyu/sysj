@@ -145,14 +145,14 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
             // 个人资料
             DataManager.userProfilePersonalInformation(getMember_id(), getMember_id());
 
-            UITask.postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    // 圈子类型
-                    DataManager.groupType217();
-                }
-            }, 400);
+//            UITask.postDelayed(new Runnable() {
+//
+//                @Override
+//                public void run() {
+//                    // 圈子类型
+//                    DataManager.groupType217();
+//                }
+//            }, 400);
         }
     }
 
@@ -492,6 +492,17 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
     public void onEventMainThread(UserProfilePersonalInformationEntity event) {
         if (event != null && event.isResult()) {
             member = event.getData();
+            List<Member.LikeGameGroup> likeGameGroup = member.getLikeGameGroup();
+            if (groupTypes != null && groupTypes.size() > 0) groupTypes.clear();
+            if (likeGameGroup != null && likeGameGroup.size() > 0) {
+                for (Member.LikeGameGroup likeGame : likeGameGroup) {
+                    GroupType groupType = new GroupType();
+                    groupType.setId(likeGame.getGroup_id());
+                    groupType.setFlag(likeGame.getFlag());
+                    groupType.setGroup_type_name(likeGame.getGroup_name());
+                    groupTypes.add(groupType);
+                }
+            }
             if (member != null) {
                 refreshContentView(member);
                 refreshListView(member);
@@ -526,6 +537,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         if (event != null && event.isResult()) {
             showToastShort("头像上传成功");
             isChangeAvatar = true;
+            FeiMoIMHelper.upDateUser(member.getNickname(), member.getAvatar());
         }
     }
 

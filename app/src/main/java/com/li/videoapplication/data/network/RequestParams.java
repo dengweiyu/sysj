@@ -1,5 +1,7 @@
 package com.li.videoapplication.data.network;
 
+import android.util.ArrayMap;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Objects;
@@ -463,6 +465,12 @@ public class RequestParams {
         map.put("member_id", member_id);
         map.put("page", page);
         map.put("sort", sort);// sort(hot,time)
+        return map;
+    }
+
+    public Map<String, Object> selectMyGameList(String member_id) {
+        Map<String, Object> map = new ArrayMap<>();
+        map.put("member_id", member_id);
         return map;
     }
 

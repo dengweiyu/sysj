@@ -479,6 +479,7 @@
     <string name="mypersonalinfo_mobile">手机号码</string>
     <string name="mypersonalinfo_mobile_hint">请输入手机号码</string>
     <string name="mypersonalinfo_like">我喜欢的游戏资料</string>
+    <string name="mypersonalinfo_like_game">我喜欢的游戏</string>
     <string name="mypersonalinfo_cancel">取消</string>
     <string name="mypersonalinfo_save">保存</string>
     <string name="mypersonalinfo_edit">编辑</string>

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewStub;
 import android.webkit.DownloadListener;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
@@ -62,8 +63,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
     private WebView webView;
     private JSInterface mJsInterface;
 
-    @BindView(R.id.iv_share)
-    ImageView btnShare;
+    ImageView ivShare;
 
     /**
      * 网页浏览
@@ -204,7 +204,16 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         if (showToolbar){
             findViewById(R.id.ab_toolbar).setVisibility(View.VISIBLE);
             if (strategyType.length() != 0 && id.length() != 0) {
-                btnShare.setVisibility(View.VISIBLE);
+                ViewStub stub = (ViewStub) findViewById(R.id.vs_share);
+                stub.inflate();
+                ivShare = (ImageView) findViewById(R.id.iv_share);
+                ivShare.setVisibility(View.VISIBLE);
+                ivShare.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        share();
+                    }
+                });
             }
         }else {
             findViewById(R.id.ab_toolbar).setVisibility(View.GONE);
@@ -261,6 +270,13 @@ public class WebActivityJS extends TBaseAppCompatActivity {
                 super.onPageFinished(view, url);
                 if (showToolbar){
                     requestNoTitle();
+                    if (ivShare != null) {
+                        if (view.canGoBack()) {
+                            ivShare.setVisibility(View.GONE);
+                        } else {
+                            ivShare.setVisibility(View.VISIBLE);
+                        }
+                    }
                 }else {
                     //
                     if (StringUtil.isNull(view.getTitle())){
@@ -338,7 +354,6 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         webView.loadUrl(url);
     }
 
-    @OnClick(R.id.iv_share)
     public void share() {
 //        DialogManager.showShareDialog(this, url, "http://apps.ifeimo.com/Public/Uploads/Member/Avatar/5a3cb354ab101.jpg", title, "此处为图文攻略内容");
         if (strategyType.length() != 0 && id.length() != 0) {

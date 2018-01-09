@@ -19,19 +19,15 @@
                 android:layout_width="0dp"
                 android:layout_weight="0.9"
                 android:layout_height="match_parent" />
-
             <ImageView
                 android:layout_width="0dp"
                 android:layout_weight="0.1"
                 android:layout_height="match_parent"
-                android:scaleX="0.7"
-                android:scaleY="0.7"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
                 android:id="@+id/iv_add_game"
                 android:src="@drawable/ic_home_add_new"/>
-
         </LinearLayout>
-
-
 
         <com.li.videoapplication.views.ViewPagerY4
             android:id="@+id/vp_home"

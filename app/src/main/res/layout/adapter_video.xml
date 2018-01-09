@@ -1,24 +1,23 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@drawable/button_white"
-              android:orientation="vertical"
-              android:descendantFocusability="blocksDescendants">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/button_white"
+    android:descendantFocusability="blocksDescendants">
 
     <RelativeLayout
+        android:id="@+id/father"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/father"
         android:clipChildren="false"
         android:orientation="vertical">
 
         <!-- 150 -->
 
-            <RelativeLayout
+        <RelativeLayout
             android:id="@+id/root"
             android:layout_width="match_parent"
-            android:clipChildren="false"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:clipChildren="false">
 
             <!-- 86/148 -->
 
@@ -26,17 +25,17 @@
                 android:id="@+id/video_cover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
                 android:scaleType="centerCrop"
-                android:src="#555555"
-                android:layout_centerHorizontal="true" />
+                android:src="#555555" />
 
-                <RelativeLayout
+            <RelativeLayout
                 android:id="@+id/bottom"
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
                 android:layout_alignParentBottom="true"
                 android:background="#88000000">
-<!--2.2.6升级将不显示视频播放数-->
+                <!--2.2.6升级将不显示视频播放数-->
                 <ImageView
                     android:id="@+id/video_play"
                     android:layout_width="9dp"
@@ -44,7 +43,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="7dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/play_home"/>
+                    android:src="@drawable/play_home" />
 
                 <TextView
                     android:id="@+id/video_allTime"
@@ -53,10 +52,10 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="6dp"
-                    android:text=""
                     android:hint="0"
+                    android:text=""
                     android:textColor="#ffffff"
-                    android:textSize="9dp"/>
+                    android:textSize="9dp" />
 
                 <ImageView
                     android:id="@+id/iv_ad_logo"
@@ -64,10 +63,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:gravity="right"
                     android:layout_marginRight="-12dp"
-                    android:visibility="gone"
-                    android:src="@drawable/advertisement"/>
+                    android:gravity="right"
+                    android:src="@drawable/advertisement"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/video_playCount"
@@ -76,76 +75,77 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="7dp"
                     android:layout_toRightOf="@+id/video_play"
-                    android:text=""
                     android:hint="0"
+                    android:text=""
                     android:textColor="#ffffff"
-                    android:textSize="9dp"/>
+                    android:textSize="9dp" />
             </RelativeLayout>
 
             <!-- 22 -->
 
-                <CheckBox
-                android:visibility="gone"
+            <CheckBox
                 android:id="@+id/vedio_deleteState"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_above="@+id/bottom"
                 android:layout_alignParentRight="true"
-                android:enabled="false"
-                android:clickable="false"
                 android:layout_marginBottom="4dp"
                 android:layout_marginRight="6dp"
+                android:background="@drawable/choose_check"
                 android:button="@null"
                 android:checked="true"
-                android:background="@drawable/choose_check"/>
+                android:clickable="false"
+                android:enabled="false"
+                android:visibility="gone" />
 
-            </RelativeLayout>
+        </RelativeLayout>
 
 
-       <ImageView
+        <ImageView
             android:id="@+id/civ_user"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:scaleType="centerCrop"
-            android:layout_marginBottom="-20dp"
             android:layout_alignBottom="@id/root"
+            android:layout_marginBottom="-20dp"
             android:layout_marginLeft="5dp"
-            android:src="#cece"  />
+            android:scaleType="centerCrop"
+            android:src="#cece" />
         <!--<com.li.videoapplication.views.CircleImageView-->
-            <!--android:id="@+id/civ_user"-->
-            <!--android:layout_width="45dp"-->
-            <!--android:layout_height="45dp"-->
+        <!--android:id="@+id/civ_user"-->
+        <!--android:layout_width="45dp"-->
+        <!--android:layout_height="45dp"-->
 
-            <!--android:layout_marginBottom="-20dp"-->
-            <!--android:layout_alignBottom="@id/root"-->
-            <!--android:layout_marginLeft="5dp"-->
-            <!--android:src="#cece" />-->
+        <!--android:layout_marginBottom="-20dp"-->
+        <!--android:layout_alignBottom="@id/root"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:src="#cece" />-->
 
         <!--<de.hdodenhof.circleimageview.CircleImageView-->
-            <!--android:id="@+id/civ_user"-->
-            <!--android:layout_width="45dp"-->
-            <!--android:layout_height="45dp"-->
-            <!--android:layout_marginBottom="-20dp"-->
-            <!--android:layout_alignBottom="@id/root"-->
-            <!--android:layout_marginLeft="5dp"-->
-            <!--android:src="#cece"/>-->
+        <!--android:id="@+id/civ_user"-->
+        <!--android:layout_width="45dp"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:layout_marginBottom="-20dp"-->
+        <!--android:layout_alignBottom="@id/root"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:src="#cece"/>-->
 
         <TextView
+            android:id="@+id/tv_up_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_up_user_name"
+            android:layout_below="@id/root"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="7dp"
             android:layout_toRightOf="@id/civ_user"
-            android:layout_alignBottom="@id/civ_user"
-            android:layout_marginLeft="15dp"
-            android:textSize="11sp"
             android:lines="1"
-            android:textColor="#696969"
-            />
+            android:textColor="#555555"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/video_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tv_up_user_name"
             android:layout_marginBottom="6dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
@@ -153,15 +153,14 @@
             android:ellipsize="end"
             android:lines="2"
             android:text=""
-            android:textColor="#696969"
-            android:layout_below="@id/tv_up_user_name"
-            android:textSize="10dp"/>
+            android:textColor="#111111"
+            android:textSize="10dp" />
     </RelativeLayout>
 
     <ImageView
-        android:visibility="visible"
         android:id="@+id/vedio_deleteButton"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:visibility="visible" />
 
 </FrameLayout>

@@ -2089,6 +2089,15 @@ public class DataManager {
         helper.doNetwork(request);
     }
 
+    public static void selectMyGameList(String member_id) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().selectMyGameList();
+        Map<String, Object> params = RequestParams.getInstance().selectMyGameList(member_id);
+
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
+        request.setEntity(new SelectMyGameEntity());
+        helper.doNetwork(request);
+    }
 
     /**
      * 功能：圈子类型
@@ -3201,6 +3210,7 @@ public class DataManager {
         request.setEntity(new FocusGameListEntity());
         helper.doNetwork(request);
     }
+
 
     /**
      * 提交问卷

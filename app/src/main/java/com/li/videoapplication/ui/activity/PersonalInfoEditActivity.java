@@ -20,10 +20,12 @@ import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.BaseInfoEntity;
 import com.li.videoapplication.data.model.response.GroupType210Entity;
 import com.li.videoapplication.data.model.response.IsRepeatEntity;
+import com.li.videoapplication.data.model.response.SelectMyGameEntity;
 import com.li.videoapplication.data.model.response.UserProfileFinishMemberInfoEntity;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.adapter.EditGameTypeAdapter;
+import com.li.videoapplication.ui.adapter.EditMyGameAdapter;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
@@ -46,7 +48,9 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
     private Member member = getUser();
     private Member newMember;
     private EditGameTypeAdapter groupAdapter;
+    private EditMyGameAdapter myGameAdapter;
     private List<GroupType> groupData;
+    private List<SelectMyGameEntity.Bean> games;
 
     @Override
     public void refreshIntent() {
@@ -156,8 +160,9 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
     public void loadData() {
         super.loadData();
         if (type == GAME) {
-            // 圈子类型
-            DataManager.groupType217();
+//            // 圈子类型
+//            DataManager.groupType217();
+            DataManager.selectMyGameList(getMember_id());
         }
     }
 
@@ -299,6 +304,20 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
         }
     }
 
+
+    /**
+     * 回调：圈子類型
+     */
+    public void onEventMainThread(SelectMyGameEntity event) {
+
+        if (event != null && event.isResult()) {
+            games = event.getAData();
+            if (games != null && games.size() > 0) {
+                groupAdapter.setNewData(setSelectedData(groupData));
+            }
+        }
+    }
+
     /**
      * 列表選着狀態
      */
@@ -315,6 +334,24 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
             }
         }
         return groupTypes;
+    }
+
+    /**
+     * 列表選着狀態
+     */
+    private List<SelectMyGameEntity.Bean> setSelectedGame(List<SelectMyGameEntity.Bean> data) {
+        Member item = getUser();
+        List<Member.LikeGameGroup> likeGameGroups = item.getLikeGameGroup();
+        if (likeGameGroups != null && likeGameGroups.size() > 0) {
+            for (int i = 0; i < likeGameGroups.size(); i++) {
+                for (SelectMyGameEntity.Bean bean : data) {
+                    if (likeGameGroups.get(i).getGroup_id().equals(bean.getGroup_id())) {
+                        bean.setIs_attention(1);
+                    }
+                }
+            }
+        }
+        return data;
     }
 
 }
