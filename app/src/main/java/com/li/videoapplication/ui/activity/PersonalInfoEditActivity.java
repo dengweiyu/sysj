@@ -151,8 +151,9 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
         recyclerView.setVisibility(View.VISIBLE);
 
         List<GroupType> datas = new ArrayList<>();
+        List<SelectMyGameEntity.Bean> entities = new ArrayList<>();
         groupAdapter = new EditGameTypeAdapter(datas);
-
+        myGameAdapter = new EditMyGameAdapter(entities);
         recyclerView.setAdapter(groupAdapter);
     }
 
@@ -313,7 +314,7 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
         if (event != null && event.isResult()) {
             games = event.getAData();
             if (games != null && games.size() > 0) {
-                groupAdapter.setNewData(setSelectedData(groupData));
+                myGameAdapter.setNewData(games);
             }
         }
     }
