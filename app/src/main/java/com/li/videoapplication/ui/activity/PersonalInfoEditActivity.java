@@ -1,5 +1,7 @@
 package com.li.videoapplication.ui.activity;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -7,7 +9,9 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Selection;
 import android.text.TextWatcher;
+import android.util.ArrayMap;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -20,8 +24,10 @@ import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.BaseInfoEntity;
 import com.li.videoapplication.data.model.response.GroupType210Entity;
 import com.li.videoapplication.data.model.response.IsRepeatEntity;
+import com.li.videoapplication.data.model.response.SaveMyGameGroupEntity;
 import com.li.videoapplication.data.model.response.SelectMyGameEntity;
 import com.li.videoapplication.data.model.response.UserProfileFinishMemberInfoEntity;
+import com.li.videoapplication.data.qiniu.utils.StringUtils;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.adapter.EditGameTypeAdapter;
@@ -30,6 +36,7 @@ import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 活动：个人资料编辑
@@ -154,7 +161,8 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
         List<SelectMyGameEntity.Bean> entities = new ArrayList<>();
         groupAdapter = new EditGameTypeAdapter(datas);
         myGameAdapter = new EditMyGameAdapter(entities);
-        recyclerView.setAdapter(groupAdapter);
+//        recyclerView.setAdapter(groupAdapter);
+        recyclerView.setAdapter(myGameAdapter);
     }
 
     @Override
@@ -235,7 +243,8 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
                         DataManager.baseInfo(content);
                         break;
                     case GAME:
-                        saveGameType();
+//                        saveGameType();
+                        saveSelectGame();
                         break;
                 }
         }
@@ -355,4 +364,98 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
         return data;
     }
 
+    private final String ADD_GROUP_ID = "add_group_id";
+    private final String DELETE_GROUP_ID = "delete_group_id";
+
+    private Map<String, String> getSelectChange() {
+        Map<String, String> map = new ArrayMap<>();
+        List<String> originIds = new ArrayList<>();
+        List<String> addIds = new ArrayList<>();
+        List<String> deleteIds = new ArrayList<>();
+        Member item = getUser();
+        List<Member.LikeGameGroup> myLikeGameGroups = item.getLikeGameGroup();
+        List<String> selLikeGame = myGameAdapter.getGroup_id();
+        for (int i = 0; i < selLikeGame.size(); i++) {
+            for (int j = 0; j < myLikeGameGroups.size(); j++) {
+                if (myLikeGameGroups.get(j).getGroup_id().equals(selLikeGame.get(i))) {
+                    originIds.add(selLikeGame.get(i));
+                }
+            }
+        }
+        for (String id : originIds) {
+            for (int j = 0; j < selLikeGame.size(); j++) {
+                if (id.equals(selLikeGame.get(j)))
+                    break;
+
+                if (j == selLikeGame.size() - 1) {
+                    if (!id.equals(selLikeGame.get(j))) {
+                        deleteIds.add(id);
+                    }
+                }
+            }
+        }
+        for (String id : selLikeGame) {
+            for (int j = 0; j < originIds.size(); j++) {
+                if (id.equals(originIds.get(j)))
+                    break;
+                if (j == originIds.size() - 1) {
+                    if (!originIds.get(j).equals(id)) {
+                        addIds.add(id);
+                    }
+                }
+            }
+        }
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < addIds.size(); i++) {
+            sb.append(addIds.get(i));
+            if (i < addIds.size() - 1) {
+                sb.append(",");
+            }
+        }
+        map.put(ADD_GROUP_ID, sb.toString());
+        sb.setLength(0);
+        for (int i = 0; i < deleteIds.size(); i++) {
+            sb.append(deleteIds.get(i));
+            if (i < deleteIds.size() - 1) {
+                sb.append(",");
+            }
+        }
+        map.put(DELETE_GROUP_ID, sb.toString());
+        return map;
+    }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Map<String, String> map = (Map) msg.obj;
+            DataManager.saveMyGameGroup(getMember_id(), map.get(ADD_GROUP_ID), map.get(DELETE_GROUP_ID));
+        }
+    };
+
+    private void saveSelectGame() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Map map = getSelectChange();
+                Message msg = new Message();
+                msg.obj = map;
+                mHandler.sendMessage(msg);
+            }
+        }).start();
+    }
+
+    public void onEventMainThread(SaveMyGameGroupEntity entity) {
+        Log.i(tag, "保存我的游戏回调->msg:" + entity.getMsg());
+        Log.i(tag, "保存我的游戏回调->code:" + entity.getCode());
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            String m = getMember_id();
+            Log.i(tag, m);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

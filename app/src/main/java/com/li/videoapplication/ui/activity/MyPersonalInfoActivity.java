@@ -373,13 +373,15 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
         if (groupTypes != null && groupTypes.size() > 0
                 && item.getLikeGroupType() != null && item.getLikeGroupType().size() > 0) {
 
-            for (String id : item.getLikeGroupType()) {
-                for (GroupType groupType : groupTypes) {
-                    if (id.equals(groupType.getGroup_type_id())) {
-                        data.add(groupType);
-                    }
-                }
-            }
+//            for (String id : item.getLikeGroupType()) {
+//                for (GroupType groupType : groupTypes) {
+//                    if (id.equals(groupType.getGroup_type_id())) {
+//                        data.add(groupType);
+//                    }
+//                }
+//            }
+            data.addAll(groupTypes);
+
         }
         adapter.notifyDataSetChanged();
     }
@@ -497,7 +499,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
             if (likeGameGroup != null && likeGameGroup.size() > 0) {
                 for (Member.LikeGameGroup likeGame : likeGameGroup) {
                     GroupType groupType = new GroupType();
-                    groupType.setId(likeGame.getGroup_id());
+                    groupType.setGroup_type_id(likeGame.getGroup_id());
                     groupType.setFlag(likeGame.getFlag());
                     groupType.setGroup_type_name(likeGame.getGroup_name());
                     groupTypes.add(groupType);

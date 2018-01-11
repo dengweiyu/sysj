@@ -2094,8 +2094,18 @@ public class DataManager {
         String url = RequestUrl.getInstance().selectMyGameList();
         Map<String, Object> params = RequestParams.getInstance().selectMyGameList(member_id);
 
-        RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new SelectMyGameEntity());
+        helper.doNetwork(request);
+    }
+
+    public static void saveMyGameGroup(String member_id, String add_group_id, String delete_group_id) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().saveMyGameGroup();
+        Map<String, Object> params = RequestParams.getInstance().saveMyGameGroup(member_id, add_group_id, delete_group_id);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new SaveMyGameGroupEntity());
         helper.doNetwork(request);
     }
 

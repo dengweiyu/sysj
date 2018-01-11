@@ -133,14 +133,14 @@ android {
         buildConfigField("String", "port", "\"233\"")
         buildConfigField("String", "rootDir", "\"\"")*/
 
-        buildConfigField("String", "ip", "\"testapps.ifeimo.com\"")
-        buildConfigField("String", "port", "\"\"")
-        buildConfigField("String", "rootDir", "\"\"")
+//        buildConfigField("String", "ip", "\"testapps.ifeimo.com\"")
+//        buildConfigField("String", "port", "\"\"")
+//        buildConfigField("String", "rootDir", "\"\"")
 
-/*
+
         buildConfigField("String", "ip", "\"apps.ifeimo.com\"")
         buildConfigField("String", "port", "\"\"")
-        buildConfigField("String", "rootDir", "\"\"")*/
+        buildConfigField("String", "rootDir", "\"\"")
     }
 
     buildTypes {

@@ -350,7 +350,11 @@ public class RequestUrl {
 
 
     public final String selectMyGameList() {
-        return BaseSYSJ + "http://apps.ifeimo.com/Sysj228/GameGroup/getHotGame";
+        return BaseSYSJ + "/Sysj228/GameGroup/getHotGame";
+    }
+
+    public final String saveMyGameGroup() {
+        return BaseSYSJ + "/Sysj228/GameGroup/saveGameGroupData";
     }
 
 

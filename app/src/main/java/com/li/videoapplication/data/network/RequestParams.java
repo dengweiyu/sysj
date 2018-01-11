@@ -469,8 +469,17 @@ public class RequestParams {
     }
 
     public Map<String, Object> selectMyGameList(String member_id) {
-        Map<String, Object> map = new ArrayMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("member_id", member_id);
+        return map;
+    }
+
+    public Map<String, Object> saveMyGameGroup(String member_id, String add_group_id, String delete_group_id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", member_id);
+        map.put("add_group_id", add_group_id);
+        map.put("delete_group_id", delete_group_id);
+        map.put("access_token", AppAccount.getAccessToken());
         return map;
     }
 
