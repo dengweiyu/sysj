@@ -25,6 +25,7 @@ import com.li.videoapplication.data.model.response.LoginEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.GroupDetailHybridActivity;
 import com.li.videoapplication.ui.activity.WebActivityJS;
@@ -55,9 +56,16 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
 
     private View mErrorView;
 
-    public static GroupDetailHybridFragment newInstance(String url,boolean isNeedLoadData){
+    private String gameName;
+    private String title;
+
+    private boolean isExecuteVisible = false;
+
+    public static GroupDetailHybridFragment newInstance(String gameName, String title, String url,boolean isNeedLoadData){
         GroupDetailHybridFragment fragment = new GroupDetailHybridFragment();
         Bundle bundle = new Bundle();
+        bundle.putString("game_name", gameName);
+        bundle.putString("title", title);
         bundle.putString("url",url);
         bundle.putBoolean("is_need_load_data",isNeedLoadData);
         fragment.setArguments(bundle);
@@ -74,6 +82,21 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            isExecuteVisible = true;
+            umengStatistics();
+        }
+    }
+
+    private void umengStatistics(){
+        if (gameName != null && gameName.length() > 0 && title != null && title.length() > 0) {
+            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, gameName+"-"+ "游戏圈2.0-" + title);
+        }
+    }
+
+    @Override
     protected int getCreateView() {
         return R.layout.fragment_group_detail_hybrid;
     }
@@ -85,8 +108,14 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
 
         Bundle bundle = getArguments();
         if (bundle != null){
+            gameName = bundle.getString("game_name");
+            title = bundle.getString("title");
             mUrl = bundle.getString("url");
             mIsNeedLoadData = bundle.getBoolean("is_need_load_data");
+        }
+
+        if (!isExecuteVisible) {
+            umengStatistics();
         }
 
         if (mWebView != null){

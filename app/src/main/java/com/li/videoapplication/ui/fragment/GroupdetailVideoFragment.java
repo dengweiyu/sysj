@@ -52,6 +52,8 @@ public class GroupdetailVideoFragment extends TBaseFragment
 
     public static final int GROUPDETAILVIDEO_NEW = 2;
     public static final int GROUPDETAILVIDEO_HOT = 3;
+    public static final String NORMAL = "normal";
+    public static final String HYBRID = "hybrid";
 
     private List<VideoImage> videoData;
     private GroupDetailVideoRecyclerAdapter adapter;
@@ -61,21 +63,25 @@ public class GroupdetailVideoFragment extends TBaseFragment
 
     public static NativeADDataRef adItem;
 
+    private String from = NORMAL; //默認
+
+    private String gameName;
+
     /**
      * 跳转：视频播放
      */
     public void startVideoPlayActivity(VideoImage videoImage) {
         ActivityManager.startVideoPlayActivity(getActivity(), videoImage);
         if (getTab() == GROUPDETAILVIDEO_NEW) {
-            if (null != activity && activity.isSingleEvent){
-                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name()+"-"+ "游戏圈-最新视频-有效");
-            }else {
+            if (null != activity && activity.isSingleEvent) {
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name() + "-" + "游戏圈-最新视频-有效");
+            } else {
                 UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "游戏圈-最新视频-有效");
             }
         } else if (getTab() == GROUPDETAILVIDEO_HOT) {
-            if (null != activity && activity.isSingleEvent){
-                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name()+"-"+ "游戏圈-最热视频-有效");
-            }else {
+            if (null != activity && activity.isSingleEvent) {
+                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name() + "-" + "游戏圈-最热视频-有效");
+            } else {
                 UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.DISCOVER, "游戏圈-最热视频-有效");
             }
         }
@@ -88,20 +94,22 @@ public class GroupdetailVideoFragment extends TBaseFragment
         ActivityManager.startPlayerDynamicActivity(getActivity(), member);
     }
 
-    public static GroupdetailVideoFragment newInstance(int tab) {
+    public static GroupdetailVideoFragment newInstance(String from, int tab) {
         GroupdetailVideoFragment fragment = new GroupdetailVideoFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("tab", tab);
-
+        bundle.putString("from", from);
         fragment.setArguments(bundle);
         return fragment;
     }
 
-    public static GroupdetailVideoFragment newInstance(int tab,String groupId) {
+    public static GroupdetailVideoFragment newInstance(String from, String gameName, int tab, String groupId) {
         GroupdetailVideoFragment fragment = new GroupdetailVideoFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("tab", tab);
-        bundle.putString("group_id",groupId);
+        bundle.putString("group_id", groupId);
+        bundle.putString("from", from);
+        bundle.putString("game_name", gameName);
 
         fragment.setArguments(bundle);
         return fragment;
@@ -110,11 +118,12 @@ public class GroupdetailVideoFragment extends TBaseFragment
     public int tab;
 
     private String mGroupId;
+
     public int getTab() {
         if (tab == 0) {
             try {
                 tab = getArguments().getInt("tab");
-                if (getArguments().containsKey("group_id")){
+                if (getArguments().containsKey("group_id")) {
                     mGroupId = getArguments().getString("group_id");
                 }
             } catch (Exception e) {
@@ -138,26 +147,39 @@ public class GroupdetailVideoFragment extends TBaseFragment
     }
 
 
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         //该fragment处于最前台交互状态
         if (isVisibleToUser) {
-            if (getTab() == GROUPDETAILVIDEO_NEW) {
-                if (null != activity && activity.isSingleEvent){
-                    UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name()+"-"+"游戏圈-最新视频");
-                }else {
-                    UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-最新视频");
+            if (from.equals(NORMAL)) {
+                if (getTab() == GROUPDETAILVIDEO_NEW) {
+                    if (null != activity && activity.isSingleEvent) {
+                        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name() + "-" + "游戏圈-最新视频");
+                    } else {
+                        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-最新视频");
+                    }
+                } else if (getTab() == GROUPDETAILVIDEO_HOT) {
+                    if (null != activity && activity.isSingleEvent) {
+                        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name() + "-" + "游戏圈-精彩视频");
+                    } else {
+                        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-精彩视频");
+                    }
                 }
-
-            } else if (getTab() == GROUPDETAILVIDEO_HOT) {
-                if (null != activity && activity.isSingleEvent){
-                    UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.game.getGroup_name()+"-"+"游戏圈-精彩视频");
-                }else {
-                    UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-精彩视频");
+            } else if (from.equals(HYBRID)) {
+                if (getTab() == GROUPDETAILVIDEO_NEW) {
+                    if (gameName != null && gameName.length() > 0) {
+                        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, gameName + "-" + "游戏圈2.0-视频-最新");
+                    } else {
+                        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈2.0-视频-最新");
+                    }
+                } else if (getTab() == GROUPDETAILVIDEO_HOT) {
+                    if (gameName != null && gameName.length() > 0) {
+                        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, gameName + "-" + "游戏圈2.0-视频-最熱");
+                    } else {
+                        UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈2.0-视频-最熱");
+                    }
                 }
-
             }
         }
     }
@@ -171,6 +193,9 @@ public class GroupdetailVideoFragment extends TBaseFragment
     protected void initContentView(View view) {
 
         getTab();
+        from = getArguments().getString("from");
+        gameName = getArguments().getString("game_name");
+
 
         initRecyclerView();
 
@@ -191,7 +216,7 @@ public class GroupdetailVideoFragment extends TBaseFragment
 
     private void initAdapter() {
         videoData = new ArrayList<>();
-        adapter = new GroupDetailVideoRecyclerAdapter(getActivity(),this, videoData);
+        adapter = new GroupDetailVideoRecyclerAdapter(getActivity(), this, videoData);
         adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         adapter.setOnLoadMoreListener(this);
 
@@ -217,8 +242,8 @@ public class GroupdetailVideoFragment extends TBaseFragment
 //                DataManager.groupHotDataList(activity.group_id, getMember_id(), page);
                 DataManager.groupDataList226(activity.group_id, getMember_id(), page, "hosttest");
             }
-        }else {
-            if (!StringUtil.isNull(mGroupId)){
+        } else {
+            if (!StringUtil.isNull(mGroupId)) {
                 if (getTab() == GROUPDETAILVIDEO_NEW) {
                     Log.d(tag, "~~~~~~~~~ loadHomeData: NEW ~~~~~~~~~");
                     // 圈子视频列表（最新）
@@ -319,7 +344,7 @@ public class GroupdetailVideoFragment extends TBaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        if(activity != null){
+        if (activity != null) {
             activity.appBarLayout.addOnOffsetChangedListener(this);
         }
 
@@ -328,7 +353,7 @@ public class GroupdetailVideoFragment extends TBaseFragment
     @Override
     public void onPause() {
         super.onPause();
-        if (activity != null){
+        if (activity != null) {
             activity.appBarLayout.removeOnOffsetChangedListener(this);
         }
 
@@ -362,8 +387,8 @@ public class GroupdetailVideoFragment extends TBaseFragment
             videoData.clear();
             videoData = event.getData().getList();
             adapter.setNewData(videoData);
-           // if (AppConstant.SHOW_DOWNLOAD_AD)
-              //  initGDT(pos_id);//插入一行广点通广告
+            // if (AppConstant.SHOW_DOWNLOAD_AD)
+            //  initGDT(pos_id);//插入一行广点通广告
         } else {
             // 如果有下一页则调用addData，不需要把下一页数据add到list里面，直接新的数据给adapter即可。
             adapter.addData(event.getData().getList());
@@ -407,41 +432,41 @@ public class GroupdetailVideoFragment extends TBaseFragment
     /**
      * 点赞 收藏事件
      */
-    public void onEventMainThread(GoodAndStartEvent event){
-        if (StringUtil.isNull(event.getVideoId())){
+    public void onEventMainThread(GoodAndStartEvent event) {
+        if (StringUtil.isNull(event.getVideoId())) {
             return;
         }
-        if (videoData == null){
+        if (videoData == null) {
             return;
         }
-        for (VideoImage v:
+        for (VideoImage v :
                 videoData) {
-            if (event.getVideoId().equals(v.getVideo_id())){
-                if (event.getType() == GoodAndStartEvent.TYPE_GOOD){
-                    if (event.isPositive()){
+            if (event.getVideoId().equals(v.getVideo_id())) {
+                if (event.getType() == GoodAndStartEvent.TYPE_GOOD) {
+                    if (event.isPositive()) {
                         v.flower_tick = 1;
-                        v.flower_count =( Integer.parseInt(v.flower_count) + 1)+"";
-                    }else {
+                        v.flower_count = (Integer.parseInt(v.flower_count) + 1) + "";
+                    } else {
                         int count = Integer.parseInt(v.flower_count);
-                        if (count < 1){
+                        if (count < 1) {
                             return;
                         }
                         v.flower_tick = 0;
-                        v.flower_count =(count - 1)+"";
+                        v.flower_count = (count - 1) + "";
                     }
                     adapter.notifyDataSetChanged();
-                }else if (event.getType() == GoodAndStartEvent.TYPE_START){
-                    if (event.isPositive()){
+                } else if (event.getType() == GoodAndStartEvent.TYPE_START) {
+                    if (event.isPositive()) {
                         v.collection_tick = 1;
-                        v.collection_count = ( Integer.parseInt(v.collection_count) + 1)+"";
-                    }else {
+                        v.collection_count = (Integer.parseInt(v.collection_count) + 1) + "";
+                    } else {
                         v.collection_tick = 0;
 
                         int count = Integer.parseInt(v.collection_count);
-                        if (count < 1){
+                        if (count < 1) {
                             return;
                         }
-                        v.collection_count = ( count - 1)+"";
+                        v.collection_count = (count - 1) + "";
                     }
                     adapter.notifyDataSetChanged();
                 }
