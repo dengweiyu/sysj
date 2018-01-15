@@ -3,6 +3,7 @@ package com.li.videoapplication.ui.fragment;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -155,6 +156,9 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
        //webSettings.setDatabaseEnabled(true);
        //webSettings.setAppCacheEnabled; (false);
         webSettings.setSavePassword(false);
+        if (Build.VERSION.SDK_INT >= 21) {
+            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
         webSettings.setSaveFormData(false);
 
         mWebView.addJavascriptInterface(new JSInterface(getActivity()), "user");//app与js交互接口
