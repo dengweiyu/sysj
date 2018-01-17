@@ -808,7 +808,7 @@ public class DataManager {
      */
     public static void indexChangeGuessSecond217(String video_ids) {
         RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().indexChangeGuess217();
+        String url = RequestUrl.getInstance().indexChangeGuessSecond217();
         Map<String, Object> params = RequestParams.getInstance().indexChangeGuessSecond(video_ids);
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new ChangeGuessEntity());
