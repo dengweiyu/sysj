@@ -3,6 +3,7 @@ package com.li.videoapplication.ui.fragment;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -46,8 +47,6 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
 
     private WebView mWebView;
 
-    private String mTitle;
-
     private String mUrl;
 
     private boolean mIsNeedLoadData = false;
@@ -58,25 +57,20 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
 
     private View mErrorView;
 
-    public static GroupDetailHybridFragment newInstance(String title, String url,boolean isNeedLoadData){
+    private String gameName;
+    private String title;
+
+    private boolean isExecuteVisible = false;
+
+    public static GroupDetailHybridFragment newInstance(String gameName, String title, String url,boolean isNeedLoadData){
         GroupDetailHybridFragment fragment = new GroupDetailHybridFragment();
         Bundle bundle = new Bundle();
+        bundle.putString("game_name", gameName);
         bundle.putString("title", title);
         bundle.putString("url",url);
         bundle.putBoolean("is_need_load_data",isNeedLoadData);
         fragment.setArguments(bundle);
         return fragment;
-    }
-
-    private boolean isUmengAnalytics = false;
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && mTitle != null && mTitle.length() != 0) {
-            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-" + mTitle);
-            isUmengAnalytics = true;
-        }
     }
 
     @Override
@@ -85,6 +79,21 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
 
         if (activity instanceof GroupDetailHybridActivity ){
             mActivity = (GroupDetailHybridActivity)activity;
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            isExecuteVisible = true;
+            umengStatistics();
+        }
+    }
+
+    private void umengStatistics(){
+        if (gameName != null && gameName.length() > 0 && title != null && title.length() > 0) {
+            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, gameName+"-"+ "游戏圈2.0-" + title);
         }
     }
 
@@ -100,13 +109,14 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
 
         Bundle bundle = getArguments();
         if (bundle != null){
-            mTitle = bundle.getString("title");
+            gameName = bundle.getString("game_name");
+            title = bundle.getString("title");
             mUrl = bundle.getString("url");
             mIsNeedLoadData = bundle.getBoolean("is_need_load_data");
         }
 
-        if (!isUmengAnalytics && mTitle.length() != 0) {
-            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-" + mTitle);
+        if (!isExecuteVisible) {
+            umengStatistics();
         }
 
         if (mWebView != null){
@@ -146,6 +156,9 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
        //webSettings.setDatabaseEnabled(true);
        //webSettings.setAppCacheEnabled; (false);
         webSettings.setSavePassword(false);
+        if (Build.VERSION.SDK_INT >= 21) {
+            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
         webSettings.setSaveFormData(false);
 
         mWebView.addJavascriptInterface(new JSInterface(getActivity()), "user");//app与js交互接口
@@ -192,10 +205,7 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
                         if ("222".equals(status)){
                             String title = object.optString("title");
                             String toUrl = object.optString("url");
-                            String id = object.optString("id");
-                            String strategyType = object.optString("strategyType");
-                            WebActivityJS.startWebActivityJS(getActivity(),toUrl,title,"user",
-                                    id, strategyType, !StringUtil.isNull(title));
+                            WebActivityJS.startWebActivityJS(getActivity(),toUrl,title,"user",StringUtil.isNull(title)?false  :true);
                             result.confirm();
                             return true;
                         }

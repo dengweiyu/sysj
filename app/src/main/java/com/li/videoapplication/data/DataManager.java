@@ -808,7 +808,7 @@ public class DataManager {
      */
     public static void indexChangeGuessSecond217(String video_ids) {
         RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().indexChangeGuess217();
+        String url = RequestUrl.getInstance().indexChangeGuessSecond217();
         Map<String, Object> params = RequestParams.getInstance().indexChangeGuessSecond(video_ids);
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new ChangeGuessEntity());
@@ -2104,7 +2104,7 @@ public class DataManager {
         String url = RequestUrl.getInstance().saveMyGameGroup();
         Map<String, Object> params = RequestParams.getInstance().saveMyGameGroup(member_id, add_group_id, delete_group_id);
 
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
         request.setEntity(new SaveMyGameGroupEntity());
         helper.doNetwork(request);
     }

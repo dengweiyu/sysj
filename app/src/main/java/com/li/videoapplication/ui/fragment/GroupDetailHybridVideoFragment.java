@@ -1,5 +1,6 @@
 package com.li.videoapplication.ui.fragment;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,8 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.SquareScrollEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
+import com.li.videoapplication.ui.activity.GroupDetailActivity;
+import com.li.videoapplication.ui.activity.GroupDetailHybridActivity;
 import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.views.ViewPagerY5;
 
@@ -35,6 +38,10 @@ public class GroupDetailHybridVideoFragment extends TBaseFragment implements Vie
     private TextView mNew;
     private TextView mHot;
 
+    private GroupDetailHybridActivity activity;
+
+    private boolean isExecuteVisible = false;
+
 
     public static  GroupDetailHybridVideoFragment newInstance(String groupId){
         GroupDetailHybridVideoFragment instance = new GroupDetailHybridVideoFragment();
@@ -50,7 +57,24 @@ public class GroupDetailHybridVideoFragment extends TBaseFragment implements Vie
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, "游戏圈-视频");
+            isExecuteVisible = true;
+            umengStatistics();
+        }
+    }
+
+    private void umengStatistics(){
+        if (activity != null ) {
+            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.GAME, activity.gameName+"-"+ "游戏圈2.0-视频");
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            this.activity = (GroupDetailHybridActivity) activity;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -67,6 +91,9 @@ public class GroupDetailHybridVideoFragment extends TBaseFragment implements Vie
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (!isExecuteVisible) {
+            umengStatistics();
+        }
 
         mHot = (TextView)view.findViewById(R.id.tv_title_hot);
         mNew = (TextView)view.findViewById(R.id.tv_title_new);
@@ -75,8 +102,8 @@ public class GroupDetailHybridVideoFragment extends TBaseFragment implements Vie
 
         if (mFragments == null){
             mFragments = new ArrayList<>();
-            mFragments.add(GroupdetailVideoFragment.newInstance(GroupdetailVideoFragment.GROUPDETAILVIDEO_NEW,mGroupId));        //最新列表
-            mFragments.add(GroupdetailVideoFragment.newInstance(GroupdetailVideoFragment.GROUPDETAILVIDEO_HOT,mGroupId));        //最热列表
+            mFragments.add(GroupdetailVideoFragment.newInstance(GroupdetailVideoFragment.HYBRID, activity.gameName, GroupdetailVideoFragment.GROUPDETAILVIDEO_NEW,mGroupId));        //最新列表
+            mFragments.add(GroupdetailVideoFragment.newInstance(GroupdetailVideoFragment.HYBRID, activity.gameName, GroupdetailVideoFragment.GROUPDETAILVIDEO_HOT,mGroupId));        //最热列表
             mAdapter = new ViewPagerAdapter(getChildFragmentManager(),mFragments,new String[]{});
         }
 

@@ -657,7 +657,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
                                 video_ids.append(",");
                             }
                         }
-                        DataManager.indexChangeGuess217(video_ids.toString());
+                        DataManager.indexChangeGuessSecond217(video_ids.toString());
                     } else {
                         DataManager.indexChangeGuess217(PreferencesHepler.getInstance().getGroupIds2());
                     }
@@ -688,7 +688,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
     public void onEventMainThread(ChangeGuessEntity entity) {
         Log.d(tag, "======== refreshChangeGuessView: ========");
         if (mAdapter != null) {
-            if (entity.getVideoIds() != null) {
+            if (entity.getVideo_ids() != null) {
                 // 保存50个猜你喜歡视频id
                 PreferencesHepler.getInstance().saveVideoIds(entity.getVideoIds());
                 // 保存猜你喜歡视频保存的时间

@@ -32,6 +32,7 @@ import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.adapter.EditGameTypeAdapter;
 import com.li.videoapplication.ui.adapter.EditMyGameAdapter;
+import com.li.videoapplication.ui.adapter.MyGameAdapter;
 import com.li.videoapplication.utils.StringUtil;
 
 import java.util.ArrayList;
@@ -325,6 +326,10 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
             if (games != null && games.size() > 0) {
                 myGameAdapter.setNewData(games);
             }
+            mOriginIds.clear();
+            for (String id : myGameAdapter.getGroup_id()) {
+                mOriginIds.add(id);
+            }
         }
     }
 
@@ -366,23 +371,16 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
 
     private final String ADD_GROUP_ID = "add_group_id";
     private final String DELETE_GROUP_ID = "delete_group_id";
+    private List<String> mOriginIds = new ArrayList<>();
 
     private Map<String, String> getSelectChange() {
         Map<String, String> map = new ArrayMap<>();
-        List<String> originIds = new ArrayList<>();
         List<String> addIds = new ArrayList<>();
         List<String> deleteIds = new ArrayList<>();
-        Member item = getUser();
-        List<Member.LikeGameGroup> myLikeGameGroups = item.getLikeGameGroup();
+
         List<String> selLikeGame = myGameAdapter.getGroup_id();
-        for (int i = 0; i < selLikeGame.size(); i++) {
-            for (int j = 0; j < myLikeGameGroups.size(); j++) {
-                if (myLikeGameGroups.get(j).getGroup_id().equals(selLikeGame.get(i))) {
-                    originIds.add(selLikeGame.get(i));
-                }
-            }
-        }
-        for (String id : originIds) {
+
+        for (String id : mOriginIds) {
             for (int j = 0; j < selLikeGame.size(); j++) {
                 if (id.equals(selLikeGame.get(j)))
                     break;
@@ -395,11 +393,11 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
             }
         }
         for (String id : selLikeGame) {
-            for (int j = 0; j < originIds.size(); j++) {
-                if (id.equals(originIds.get(j)))
+            for (int j = 0; j < mOriginIds.size(); j++) {
+                if (id.equals(mOriginIds.get(j)))
                     break;
-                if (j == originIds.size() - 1) {
-                    if (!originIds.get(j).equals(id)) {
+                if (j == mOriginIds.size() - 1) {
+                    if (!mOriginIds.get(j).equals(id)) {
                         addIds.add(id);
                     }
                 }
@@ -448,14 +446,12 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
     public void onEventMainThread(SaveMyGameGroupEntity entity) {
         Log.i(tag, "保存我的游戏回调->msg:" + entity.getMsg());
         Log.i(tag, "保存我的游戏回调->code:" + entity.getCode());
+        if (entity.getCode() == 10000) { //成功后..
+            mOriginIds.clear();
+            for (String id : myGameAdapter.getGroup_id()) {
+                mOriginIds.add(id);
+            }
+        }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            String m = getMember_id();
-            Log.i(tag, m);
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 }

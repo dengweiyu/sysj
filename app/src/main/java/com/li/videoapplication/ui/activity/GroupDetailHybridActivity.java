@@ -75,6 +75,10 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
     private TabLayout mTabLayout;
 
     public boolean mIsSingleEvent = false;//是否需要将埋点独立
+
+    public String gameName;
+
+
     @Override
     public void refreshIntent() {
         super.refreshIntent();
@@ -167,12 +171,13 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
     private void initFragment(){
         if (mDetailEntity != null && mFragments.size() == 0){
             for (int i = 0; i < mDetailEntity.getAData().size(); i++) {
-                mTitle.add(mDetailEntity.getAData().get(i).getName());
+                String title = mDetailEntity.getAData().get(i).getName();
+                mTitle.add(title);
 
                 if ("video".equals(mDetailEntity.getAData().get(i).getFlagName())){
                     mFragments.add(GroupDetailHybridVideoFragment.newInstance(mDetailEntity.getOData().getGroup_id()));
                 }else {
-                    mFragments.add(GroupDetailHybridFragment.newInstance(mTitle.get(i), coverUrl(mDetailEntity.getAData().get(i).getGoUrl(),mDetailEntity.getAData().get(i).getGame_id()),true));
+                    mFragments.add(GroupDetailHybridFragment.newInstance(gameName, title, coverUrl(mDetailEntity.getAData().get(i).getGoUrl(),mDetailEntity.getAData().get(i).getGame_id()),true));
                 }
             }
             mViewPager.setOffscreenPageLimit(5);
@@ -333,6 +338,7 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
     public void onEventMainThread(final GroupHybridDetailEntity entity){
 
         if (entity.isResult()){
+            gameName = entity.getOData().getGroup_name();
             mIsSingleEvent = UmengAnalyticsHelper.isSingleEvent(entity.getOData().getGroup_name());
             mDetailEntity = entity;
 

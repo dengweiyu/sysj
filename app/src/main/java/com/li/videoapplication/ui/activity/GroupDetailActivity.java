@@ -172,8 +172,8 @@ public class GroupDetailActivity extends TBaseAppCompatActivity implements
             fragments = new ArrayList<>();
 
             introduceFragment = new GroupdetailIntroduceFragment();
-            newVideoFragment = GroupdetailVideoFragment.newInstance(GroupdetailVideoFragment.GROUPDETAILVIDEO_NEW);
-            hotVideoFragment = GroupdetailVideoFragment.newInstance(GroupdetailVideoFragment.GROUPDETAILVIDEO_HOT);
+            newVideoFragment = GroupdetailVideoFragment.newInstance(GroupdetailVideoFragment.NORMAL, GroupdetailVideoFragment.GROUPDETAILVIDEO_NEW);
+            hotVideoFragment = GroupdetailVideoFragment.newInstance(GroupdetailVideoFragment.NORMAL, GroupdetailVideoFragment.GROUPDETAILVIDEO_HOT);
             playerFragment = new GroupdetailPlayerFragment();
             fragments.add(introduceFragment);
             fragments.add(newVideoFragment);

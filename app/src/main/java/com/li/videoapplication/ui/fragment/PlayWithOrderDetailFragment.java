@@ -274,7 +274,7 @@ public class PlayWithOrderDetailFragment extends TBaseFragment implements View.O
         switch (mOrderEntity.getData().getTraining_type_id()){
             case "1":               //王者荣耀
                 mRootView.findViewById(R.id.ll_game_base_info).setVisibility(View.VISIBLE);
-                mRootView.findViewById(R.id.tv_game_rank).setVisibility(View.GONE);
+                mRootView.findViewById(R.id.tv_game_rank).setVisibility(View.VISIBLE);
                 duration.setVisibility(View.GONE);
                 break;
             case "2":               //吃鸡类
