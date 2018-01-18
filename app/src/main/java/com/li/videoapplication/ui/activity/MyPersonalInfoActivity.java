@@ -22,6 +22,7 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.GroupType;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.GroupType210Entity;
+import com.li.videoapplication.data.model.response.SaveMyGameGroupEntity;
 import com.li.videoapplication.data.model.response.UserProfilePersonalInformationEntity;
 import com.li.videoapplication.data.model.response.UserProfileUploadAvatarEntity;
 import com.li.videoapplication.data.network.UITask;
@@ -511,6 +512,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
             }
         }
     }
+
 
     /**
      * 回调：圈子類型

@@ -66,24 +66,32 @@ public class PlayerBillboardAdapter extends BaseQuickAdapter<Member, BaseViewHol
         ImageView head = holder.getView(R.id.playerbillboard_head);
         helper.setImageViewImageNet(head, member.getAvatar());
 
-        setCurrency(holder, member);
-        setVideo(holder, member);
-        setFans(holder, member);
+        holder.setVisible(R.id.playerbillboard_left, true)
+                .setVisible(R.id.playerbillboard_middle, false)
+                .setVisible(R.id.playerbillboard_right, false);
 
         if (tab == PlayerBillboardFragment.PLAYERBILLBOARD_CURRENCY) {
-            holder.setVisible(R.id.playerbillboard_left, true)
-                    .setVisible(R.id.playerbillboard_middle, false)
-                    .setVisible(R.id.playerbillboard_right, false);
             holder.getView(R.id.iv_beans).setVisibility(View.VISIBLE);
+            setCurrency(holder, member);
         } else if (tab == PlayerBillboardFragment.PLAYERBILLBOARD_VIDEO) {
-            holder.setVisible(R.id.playerbillboard_left, false)
-                    .setVisible(R.id.playerbillboard_middle, true)
-                    .setVisible(R.id.playerbillboard_right, false);
+            setVideo(holder, member);
         } else if (tab == PlayerBillboardFragment.PLAYERBILLBOARD_FANS) {
-            holder.setVisible(R.id.playerbillboard_left, false)
-                    .setVisible(R.id.playerbillboard_middle, false)
-                    .setVisible(R.id.playerbillboard_right, true);
+            setFans(holder, member);
         }
+//        if (tab == PlayerBillboardFragment.PLAYERBILLBOARD_CURRENCY) {
+//            holder.setVisible(R.id.playerbillboard_left, true)
+//                    .setVisible(R.id.playerbillboard_middle, false)
+//                    .setVisible(R.id.playerbillboard_right, false);
+//            holder.getView(R.id.iv_beans).setVisibility(View.VISIBLE);
+//        } else if (tab == PlayerBillboardFragment.PLAYERBILLBOARD_VIDEO) {
+//            holder.setVisible(R.id.playerbillboard_left, false)
+//                    .setVisible(R.id.playerbillboard_middle, true)
+//                    .setVisible(R.id.playerbillboard_right, false);
+//        } else if (tab == PlayerBillboardFragment.PLAYERBILLBOARD_FANS) {
+//            holder.setVisible(R.id.playerbillboard_left, false)
+//                    .setVisible(R.id.playerbillboard_middle, false)
+//                    .setVisible(R.id.playerbillboard_right, true);
+//        }
 
         setFocus(member, holder);
     }
@@ -152,10 +160,16 @@ public class PlayerBillboardAdapter extends BaseQuickAdapter<Member, BaseViewHol
      */
     private void setVideo(BaseViewHolder holder, final Member record) {
 
+//        if (!StringUtil.isNull(record.getVideo_num())) {
+//            holder.setText(R.id.playerbillboard_middle, "视频\t" + StringUtil.formatNum(record.getVideo_num()));
+//        } else if (!StringUtil.isNull(record.getUploadVideoCount())) {
+//            holder.setText(R.id.playerbillboard_middle, "视频\t" + StringUtil.formatNum(record.getUploadVideoCount()));
+//        }
+
         if (!StringUtil.isNull(record.getVideo_num())) {
-            holder.setText(R.id.playerbillboard_middle, "视频\t" + StringUtil.formatNum(record.getVideo_num()));
+            holder.setText(R.id.playerbillboard_left, "视频\t" + StringUtil.formatNum(record.getVideo_num()));
         } else if (!StringUtil.isNull(record.getUploadVideoCount())) {
-            holder.setText(R.id.playerbillboard_middle, "视频\t" + StringUtil.formatNum(record.getUploadVideoCount()));
+            holder.setText(R.id.playerbillboard_left, "视频\t" + StringUtil.formatNum(record.getUploadVideoCount()));
         }
     }
 
@@ -164,8 +178,11 @@ public class PlayerBillboardAdapter extends BaseQuickAdapter<Member, BaseViewHol
      */
     private void setFans(BaseViewHolder holder, final Member record) {
 
+//        if (!StringUtil.isNull(record.getFans())) {
+//            holder.setText(R.id.playerbillboard_right, "粉丝\t" + StringUtil.formatNum(record.getFans()));
+//        }
         if (!StringUtil.isNull(record.getFans())) {
-            holder.setText(R.id.playerbillboard_right, "粉丝\t" + StringUtil.formatNum(record.getFans()));
+            holder.setText(R.id.playerbillboard_left, "粉丝\t" + StringUtil.formatNum(record.getFans()));
         }
     }
 }

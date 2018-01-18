@@ -31,21 +31,25 @@ public class EditMyGameAdapter extends BaseQuickAdapter<SelectMyGameEntity.Bean,
         holder.setText(R.id.editgame_name, bean.getGroup_name());
 
         final SmoothCheckBox checkBox = holder.getView(R.id.editgame_check);
+        checkBox.setClickable(false);
         checkBox.setChecked(bean.getIs_attention() == 1);
-        checkBox.setOnCheckedChangeListener(new SmoothCheckBox.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
-                if (isChecked) {
-                    bean.setIs_attention(1);
-                } else bean.setIs_attention(0);
-            }
-        });
+//        checkBox.setOnCheckedChangeListener(new SmoothCheckBox.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
+//                if (isChecked) {
+//                    bean.setIs_attention(1);
+//                } else bean.setIs_attention(0);
+//            }
+//        });
 
         View root = holder.getView(R.id.root);
         root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkBox.performClick();
+                if (checkBox.isChecked()) {
+                    bean.setIs_attention(1);
+                } else bean.setIs_attention(0);
             }
         });
     }

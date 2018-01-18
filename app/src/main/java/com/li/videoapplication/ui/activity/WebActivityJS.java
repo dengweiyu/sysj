@@ -203,7 +203,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
 
         if (showToolbar){
             findViewById(R.id.ab_toolbar).setVisibility(View.VISIBLE);
-            if (strategyType.length() != 0 && id.length() != 0) {
+            if (strategyType != null && id != null && strategyType.length() != 0 && id.length() != 0) {
                 ViewStub stub = (ViewStub) findViewById(R.id.vs_share);
                 stub.inflate();
                 ivShare = (ImageView) findViewById(R.id.iv_share);
@@ -356,7 +356,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
 
     public void share() {
 //        DialogManager.showShareDialog(this, url, "http://apps.ifeimo.com/Public/Uploads/Member/Avatar/5a3cb354ab101.jpg", title, "此处为图文攻略内容");
-        if (strategyType.length() != 0 && id.length() != 0) {
+        if (strategyType != null && id != null && strategyType.length() != 0 && id.length() != 0) {
             ShareInfoEntity entity = new ShareInfoEntity();
             Map<String, Object> map = new HashMap<>();
             map.put("tag", tag);

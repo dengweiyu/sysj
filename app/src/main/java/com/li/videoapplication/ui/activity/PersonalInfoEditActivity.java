@@ -380,29 +380,36 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
 
         List<String> selLikeGame = myGameAdapter.getGroup_id();
 
-        for (String id : mOriginIds) {
-            for (int j = 0; j < selLikeGame.size(); j++) {
-                if (id.equals(selLikeGame.get(j)))
-                    break;
+        if (selLikeGame.size() == 0) {
+            deleteIds.addAll(mOriginIds);
+        } else if (mOriginIds.size() == 0) {
+            addIds.addAll(selLikeGame);
+        } else {
+            for (String id : mOriginIds) {
+                for (int j = 0; j < selLikeGame.size(); j++) {
+                    if (id.equals(selLikeGame.get(j)))
+                        break;
 
-                if (j == selLikeGame.size() - 1) {
-                    if (!id.equals(selLikeGame.get(j))) {
-                        deleteIds.add(id);
+                    if (j == selLikeGame.size() - 1) {
+                        if (!id.equals(selLikeGame.get(j))) {
+                            deleteIds.add(id);
+                        }
+                    }
+                }
+            }
+            for (String id : selLikeGame) {
+                for (int j = 0; j < mOriginIds.size(); j++) {
+                    if (id.equals(mOriginIds.get(j)))
+                        break;
+                    if (j == mOriginIds.size() - 1) {
+                        if (!mOriginIds.get(j).equals(id)) {
+                            addIds.add(id);
+                        }
                     }
                 }
             }
         }
-        for (String id : selLikeGame) {
-            for (int j = 0; j < mOriginIds.size(); j++) {
-                if (id.equals(mOriginIds.get(j)))
-                    break;
-                if (j == mOriginIds.size() - 1) {
-                    if (!mOriginIds.get(j).equals(id)) {
-                        addIds.add(id);
-                    }
-                }
-            }
-        }
+
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < addIds.size(); i++) {
             sb.append(addIds.get(i));
@@ -451,6 +458,10 @@ public class PersonalInfoEditActivity extends TBaseAppCompatActivity implements 
             for (String id : myGameAdapter.getGroup_id()) {
                 mOriginIds.add(id);
             }
+            DataManager.userProfilePersonalInformation(getMember_id(), getMember_id());
+            ToastHelper.s("保存成功");
+        } else {
+            ToastHelper.s("保存失败");
         }
     }
 

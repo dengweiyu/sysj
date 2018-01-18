@@ -205,7 +205,10 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
                         if ("222".equals(status)){
                             String title = object.optString("title");
                             String toUrl = object.optString("url");
-                            WebActivityJS.startWebActivityJS(getActivity(),toUrl,title,"user",StringUtil.isNull(title)?false  :true);
+                            String id = object.optString("id");
+                            String strategyType = object.optString("strategyType");
+                            WebActivityJS.startWebActivityJS(getActivity(),toUrl,title,"user",
+                                    id, strategyType, !StringUtil.isNull(title));
                             result.confirm();
                             return true;
                         }
