@@ -596,6 +596,8 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
         if (isInfoUnfinished()) return;
 
         if (moreTypePopupWindow.getVideoType() == MoreTypePopupWindow.VIDEO_TYPE_LIFE
+                && PreferencesHepler.getInstance().getUserProfilePersonalInformation().getVipInfo() != null
+                && PreferencesHepler.getInstance().getUserProfilePersonalInformation().getVipInfo().getLevel() != null
                 && !PreferencesHepler.getInstance().getUserProfilePersonalInformation().getVipInfo().getLevel().equals("3")
                 && isLogin()){
             shardBySystem();
