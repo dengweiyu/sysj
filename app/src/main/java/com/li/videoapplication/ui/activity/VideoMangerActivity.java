@@ -1,5 +1,7 @@
 package com.li.videoapplication.ui.activity;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -34,6 +36,7 @@ import com.li.videoapplication.data.model.event.SearchGame2VideoShareEvent;
 import com.li.videoapplication.data.model.event.SharedSuccessEvent;
 import com.li.videoapplication.data.model.response.VideoDisplayVideoEntity;
 import com.li.videoapplication.data.network.LightTask;
+import com.li.videoapplication.data.preferences.DefaultPreferences;
 import com.li.videoapplication.data.preferences.VideoPreferences;
 import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.AppManager;
@@ -129,7 +132,7 @@ public class VideoMangerActivity extends TBaseActivity implements
     // 卡片界面
     private CustomViewPager viewPager;
     //动画图片
-    private ImageView cursor;
+    private ImageView cursor, vipTip;
     private TextView first, second, third;
     private ImageView mVipLevel;
     private List<Fragment> views;// Tab页面列表
@@ -322,13 +325,15 @@ public class VideoMangerActivity extends TBaseActivity implements
 
     private void initContentView() {
 
-        abVideoManagerImport.setVisibility(View.VISIBLE);
+//        abVideoManagerImport.setVisibility(View.VISIBLE);
+        abVip.setVisibility(View.VISIBLE);
         abVideoManagerSelected.setVisibility(View.VISIBLE);
         abVideoManagerCancel.setVisibility(View.GONE);
 
         abVideoManagerImport.setOnClickListener(this);
         abVideoManagerSelected.setOnClickListener(this);
         abVideoManagerCancel.setOnClickListener(this);
+        abVip.setOnClickListener(this);
 
         delete = (TextView) findViewById(R.id.videomanager_delete);
         allSelected = (TextView) findViewById(R.id.videomanager_allSelected);
@@ -336,6 +341,43 @@ public class VideoMangerActivity extends TBaseActivity implements
 
         delete.setOnClickListener(this);
         allSelected.setOnClickListener(this);
+
+        vipTip = (ImageView) findViewById(R.id.id_vip_friend_tip_iv);
+        if (DefaultPreferences.getInstance().getBoolean("vip_friend_tip", true)) {
+            vipTip.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(vipTip, "alpha", 1.0f, 0.0f);
+                    vipTip.setTag(objectAnimator);
+                    objectAnimator.setDuration(500);
+                    objectAnimator.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            DefaultPreferences.getInstance().putBoolean("vip_friend_tip", false);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+                    objectAnimator.start();
+                }
+            }, 2500);
+            vipTip.setVisibility(View.VISIBLE);
+        } else {
+            vipTip.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -352,7 +394,7 @@ public class VideoMangerActivity extends TBaseActivity implements
             isDeleteMode = false;
             allSelected.setText("全选");
             if (inWitchPage == 0) {
-                abVideoManagerImport.setVisibility(View.VISIBLE);
+//                abVideoManagerImport.setVisibility(View.VISIBLE);
             }
         } else {
             abVideoManagerCancel.setVisibility(View.VISIBLE);
@@ -362,7 +404,7 @@ public class VideoMangerActivity extends TBaseActivity implements
             isDeleteMode = true;
             allSelected.setText("全选");
             if (inWitchPage == 0) {
-                abVideoManagerImport.setVisibility(View.GONE);
+//                abVideoManagerImport.setVisibility(View.GONE);
             }
         }
         if (inWitchPage == 1) {
@@ -377,6 +419,11 @@ public class VideoMangerActivity extends TBaseActivity implements
 
     @Override
     public void onClick(View view) {
+
+        //跳转到vip充值页面
+        if (view == abVip) {
+            ActivityManager.startTopUpActivity(this, Constant.TOPUP_ENTRY_MYWALLEY,2);
+        }
 
         /**标题栏导入*/
         if (view == abVideoManagerImport) {
@@ -657,13 +704,13 @@ public class VideoMangerActivity extends TBaseActivity implements
         abVideoManagerSelected.setVisibility(View.VISIBLE);
         if (arg0 == 0) {
             inWitchPage = 0;
-            abVideoManagerImport.setVisibility(View.VISIBLE);
+//            abVideoManagerImport.setVisibility(View.VISIBLE);
         } else if (arg0 == 1) {
             inWitchPage = 1;
-            abVideoManagerImport.setVisibility(View.GONE);
+//            abVideoManagerImport.setVisibility(View.GONE);
         } else if (arg0 == 2) {
             inWitchPage = 2;
-            abVideoManagerImport.setVisibility(View.GONE);
+//            abVideoManagerImport.setVisibility(View.GONE);
         }
     }
 

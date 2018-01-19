@@ -10,11 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.model.entity.MyMessage;
 import com.li.videoapplication.data.model.entity.SysMessage;
+import com.li.videoapplication.data.model.event.ReadMessageEntity;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.views.CircleImageView;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 适配器：系统消息
@@ -22,9 +26,12 @@ import com.li.videoapplication.views.CircleImageView;
 @SuppressLint("InflateParams")
 public class SystemMessageAdapter extends BaseArrayAdapter<SysMessage> {
 
-    public SystemMessageAdapter(Context context, List<SysMessage> data) {
+    private String mType;
+
+    public SystemMessageAdapter(Context context, List<SysMessage> data, String type) {
 //		super(context, R.layout.adapter_systemmessage, data);
         super(context, R.layout.adapter_videomessage, data);
+        mType = type;
     }
 
     @Override
@@ -60,21 +67,40 @@ public class SystemMessageAdapter extends BaseArrayAdapter<SysMessage> {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    ReadMessageEntity entity = new ReadMessageEntity();
+                    entity.setSymbol(mType);
+                    entity.setMsgId(record.getMsg_id());
+                    entity.setAll(0);
+                    EventBus.getDefault().post(entity);
+
+                    record.setMark("0");
+                    setCount(record, holder);
                     ActivityManager.startOrderDetailActivity(getContext(), record.getRelation_id(), 1);
                 }
             });
         }
-        if ("1".equals(record.getMark())){
-            holder.go.setVisibility(View.VISIBLE);
-        }else {
-            holder.go.setVisibility(View.GONE);
-        }
+        setCount(record, holder);
 
         // 60
         setListViewLayoutParams(view, 60);
 
         return view;
     }
+
+    /**
+     * 消息是否已读
+     */
+    private void setCount(final SysMessage record, final SystemMessageAdapter.ViewHolder holder) {
+
+        if (record.getMark().equals("1")) {// 未读
+            holder.count.setVisibility(View.VISIBLE);
+            holder.go.setVisibility(View.GONE);
+        } else {
+            holder.count.setVisibility(View.GONE);
+            holder.go.setVisibility(View.VISIBLE);
+        }
+    }
+
 
     private static class ViewHolder {
         TextView title;

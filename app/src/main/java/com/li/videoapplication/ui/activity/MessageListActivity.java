@@ -94,7 +94,7 @@ public class MessageListActivity extends PullToRefreshActivity<Game> implements 
         }
         videoAdapter = new VideoMessageAdapter(this, videoData,mType);
         gameAdapter = new GameMessageAdapter(this, gameData,mType);
-        systemAdapter = new SystemMessageAdapter(this, systemData);
+        systemAdapter = new SystemMessageAdapter(this, systemData, mType);
         mRewardAdapter = new RewardAndPlayWithAdapter(this,mRewardData,mType);
 
         View emptyView = getLayoutInflater().inflate(R.layout.emptyview,

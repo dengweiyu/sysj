@@ -371,8 +371,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
      */
     private void refreshListView(Member item) {
         data.clear();
-        if (groupTypes != null && groupTypes.size() > 0
-                && item.getLikeGroupType() != null && item.getLikeGroupType().size() > 0) {
+        if (groupTypes != null && groupTypes.size() > 0) {
 
 //            for (String id : item.getLikeGroupType()) {
 //                for (GroupType groupType : groupTypes) {

@@ -2687,7 +2687,7 @@ public class DataManager {
 
         RequestObject requestObject = new RequestObject(Contants.TYPE_GET, url, null, null);
         requestObject.setEntity(new VipRecharge2Entity());
-        helper.doService(requestObject);
+        helper.doNetwork(requestObject);
     }
 
     /**

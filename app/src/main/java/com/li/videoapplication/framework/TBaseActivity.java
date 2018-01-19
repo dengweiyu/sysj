@@ -507,7 +507,7 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
             abReportCancel, abReportConfirm;
     protected TextView abVideoManagerSelected, abVideoManagerDelete, abVideoManagerImport, abVideoManagerCancel;
     protected ImageView abGoback, abGroupDetailPlus, abGroupDetailDownload, abGroupDetailGift,
-            abVideoPlayShare,abShareBlack,abQuestion, abVideoPlayRemark;
+            abVideoPlayShare,abShareBlack,abQuestion, abVideoPlayRemark, abVip;
     protected ImageView abCollectionDelte;
     protected TextView abCollectionCancel, abCollectionConfirm;
     protected FrameLayout abBillboardBg;
@@ -559,6 +559,7 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
             abShareBlack = (ImageView) findViewById(R.id.ab_share_black);
             abQuestion = (ImageView) findViewById(R.id.ab_question);
             abVideoPlayRemark = (ImageView) findViewById(R.id.ab_videoplay_remark);
+            abVip = (ImageView) findViewById(R.id.id_vip3_show_iv);
 
             abReportCancel = (TextView) findViewById(R.id.ab_report_cancel);
             abReportConfirm = (TextView) findViewById(R.id.ab_report_confirm);
@@ -620,6 +621,7 @@ public abstract class TBaseActivity extends BaseActivity implements ITBaseActivi
             abShareBlack.setVisibility(View.GONE);
             abQuestion.setVisibility(View.GONE);
             abVideoPlayRemark.setVisibility(View.GONE);
+            abVip.setVisibility(View.GONE);
 
             abSearchContainer.setVisibility(View.GONE);
 

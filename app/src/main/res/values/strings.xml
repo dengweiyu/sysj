@@ -984,4 +984,6 @@
     <string name="one_year_max">一年</string>
 
     <string name="recharge_pay_migu_tip">咪咕会员套餐（话费支付）</string>
+    <string name="vip3_server">专属客服</string>
+    <string name="vip3_no_server_tip">专属客服仅钻石会员可以使用!</string>
 </resources>

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Objects;
 
+import com.li.videoapplication.BuildConfig;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.utils.NetUtil;
@@ -211,6 +212,8 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("page", page);
+        map.put("target", SYSJ);
+        map.put("current_version", BuildConfig.VERSION_NAME);
         return map;
     }
 
@@ -219,6 +222,8 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("page", page);
+        map.put("target", SYSJ);
+        map.put("current_version", BuildConfig.VERSION_NAME);
         return map;
     }
 
@@ -226,6 +231,8 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("page", page);
+        map.put("target", SYSJ);
+        map.put("current_version", BuildConfig.VERSION_NAME);
         return map;
     }
 
@@ -233,6 +240,8 @@ public class RequestParams {
     public Map<String, Object> messageMsgRed(String member_id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
+        map.put("target", SYSJ);
+        map.put("current_version", BuildConfig.VERSION_NAME);
         return map;
     }
 
@@ -1504,7 +1513,7 @@ public class RequestParams {
     public Map<String, Object>  getMessageList(String memberId) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", memberId);
-        map.put("version","v23");
+        map.put("target", SYSJ);
         return map;
     }
 

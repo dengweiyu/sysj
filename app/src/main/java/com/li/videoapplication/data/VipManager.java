@@ -127,11 +127,14 @@ public class VipManager {
             return true;
         }
 
-        for(Member.VIPInfo vipInfo : this.vipInfo.getDetail()){
-            if(vipInfo.getLevel().equals(level)){
-                return true;
+        if (vipInfo.getDetail() != null) {
+            for(Member.VIPInfo vipInfo : this.vipInfo.getDetail()){
+                if(vipInfo.getLevel().equals(level)){
+                    return true;
+                }
             }
         }
+
         return false;
     }
 

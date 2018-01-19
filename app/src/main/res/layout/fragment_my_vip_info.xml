@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
                 android:layout_marginTop="32dp"
-                android:background="@color/activity_main_bg"></View>
+                android:background="@color/activity_main_bg"/>
         </LinearLayout>
 
         <LinearLayout
@@ -85,6 +85,36 @@
                 android:textColor="@color/textcolor_french_gray"
                 android:textSize="12sp"
                 android:text="，享受特权"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_vip3_server"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_width="wrap_content"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/id_vip3_server_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vip3_server"
+                android:layout_marginRight="5dp"
+                android:paddingTop="1dp"
+                android:textSize="12dp" />
+
+            <ImageView
+                android:id="@+id/id_vip3_server_iv"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/vip3_no_server" />
+
         </LinearLayout>
     </RelativeLayout>
     <TextView

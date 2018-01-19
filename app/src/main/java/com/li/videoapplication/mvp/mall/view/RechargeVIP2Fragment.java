@@ -3,6 +3,7 @@ package com.li.videoapplication.mvp.mall.view;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Spannable;
@@ -98,6 +99,13 @@ public class RechargeVIP2Fragment extends TBaseFragment implements View.OnClickL
 
     private String keepSale = "1";
 
+    public static RechargeVIP2Fragment newInstance(){
+        RechargeVIP2Fragment fragment = new RechargeVIP2Fragment();
+        Bundle bundle = new Bundle();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     protected int getCreateView() {
         return R.layout.fragment_vip_detail;
@@ -178,7 +186,7 @@ public class RechargeVIP2Fragment extends TBaseFragment implements View.OnClickL
 
         migu_vip_parent_layout.setOnClickListener(this);
 
-        loadData(view);
+        loadData();
     }
 
 //    @Deprecated
@@ -233,7 +241,7 @@ public class RechargeVIP2Fragment extends TBaseFragment implements View.OnClickL
         setMoney(data);
     }
 
-    private void loadData(View view) {
+    private void loadData() {
         DataManager.getVIPRechargeInfo2();
     }
 
@@ -511,11 +519,31 @@ public class RechargeVIP2Fragment extends TBaseFragment implements View.OnClickL
         return -1;
     }
 
+//    /**
+//     * 获取会员信息回调
+//     */
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onMessage(VipRecharge2Entity entity) {
+//        if (entity != null && entity.isResult()) {
+//            keepSale = entity.getRenewalDiscount();
+//            packageMemuBeen.clear();
+//            packageMemuBeen.addAll(entity.getPackageMemu());
+//            data.clear();
+//            data.addAll(entity.getData());
+//            initVipDetail(entity.getVipAllInfo());
+//            setMonthText();
+//            setVipLevelInfo();
+//            vipListDelegate.refresh();
+//            changeChooseVip(0);
+//            buyMonthViews[0].performClick();
+//
+//        }
+//    }
+
     /**
      * 获取会员信息回调
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(VipRecharge2Entity entity) {
+    public void onEventMainThread(VipRecharge2Entity entity) {
         if (entity != null && entity.isResult()) {
             keepSale = entity.getRenewalDiscount();
             packageMemuBeen.clear();
@@ -658,7 +686,6 @@ public class RechargeVIP2Fragment extends TBaseFragment implements View.OnClickL
                 vipDelegateInfoList.add(delegateInfo);
             }
             notifyAdapter();
-
 
         }
 

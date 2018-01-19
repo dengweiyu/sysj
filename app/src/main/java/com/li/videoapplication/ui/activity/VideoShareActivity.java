@@ -40,6 +40,7 @@ import com.li.videoapplication.data.model.response.RecommendedLocationEntity;
 import com.li.videoapplication.data.model.response.SelectMatchEntity;
 import com.li.videoapplication.data.model.response.ShareRecommendLocEntity;
 import com.li.videoapplication.data.model.response.VideoDisplayVideoEntity;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.TBaseActivity;
@@ -594,7 +595,11 @@ public class VideoShareActivity extends TBaseActivity implements OnClickListener
     private void shareNow() {
         if (isInfoUnfinished()) return;
 
-        if (moreTypePopupWindow.getVideoType() == MoreTypePopupWindow.VIDEO_TYPE_LIFE){
+        if (moreTypePopupWindow.getVideoType() == MoreTypePopupWindow.VIDEO_TYPE_LIFE
+                && PreferencesHepler.getInstance().getUserProfilePersonalInformation().getVipInfo() != null
+                && PreferencesHepler.getInstance().getUserProfilePersonalInformation().getVipInfo().getLevel() != null
+                && !PreferencesHepler.getInstance().getUserProfilePersonalInformation().getVipInfo().getLevel().equals("3")
+                && isLogin()){
             shardBySystem();
             return;
         }
