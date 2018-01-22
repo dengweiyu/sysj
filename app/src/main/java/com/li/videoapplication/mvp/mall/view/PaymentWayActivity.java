@@ -21,6 +21,7 @@ import com.li.videoapplication.mvp.mall.presenter.MallPresenter;
 import com.li.videoapplication.payment.IPayment;
 import com.li.videoapplication.payment.PaymentFactory;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.utils.StringUtil;
 
 /**
  * Created by liuwei on 2017/4/1.
@@ -132,7 +133,7 @@ public class PaymentWayActivity extends TBaseAppCompatActivity implements MallCo
 
         mPayNow = findViewById(R.id.rl_payment_now);
         mPayNow.setOnClickListener(this);
-        mPaymentNow.setText("立即支付 ¥"+mMoney);
+        mPaymentNow.setText("立即支付 ¥"+ StringUtil.formatNum2(mMoney));
 
     }
 

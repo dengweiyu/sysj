@@ -3,7 +3,11 @@ package com.li.videoapplication.ui.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -50,6 +54,7 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
     private String more_mark;
     private boolean isHomeMoreNew;
     private  List<VideoImage> mData;
+    private String mKey;
 
     /**
      * 跳转：视频播放
@@ -89,6 +94,25 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
         }
 
         EventBus.getDefault().register(this);
+    }
+
+    public GroupDetailVideoAdapter(Context context, List<VideoImage> data, String key) {
+        super(context, R.layout.adapter_groupdetail_video, data);
+        try {
+            mKey = key;
+            mData = data;
+            activity = (Activity) context;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        EventBus.getDefault().register(this);
+    }
+
+    public void updateKey(String key){
+        if (!StringUtil.isNull(key)){
+            mKey = key;
+        }
     }
 
     public void setHomeMoreLocation(String more_mark, boolean isHomeMoreNew) {
@@ -144,7 +168,26 @@ public class GroupDetailVideoAdapter extends BaseArrayAdapter<VideoImage> {
 
         setImageViewImageNet(holder.head, record.getAvatar());
         setTextViewText(holder.name, record.getNickname());
-        setTextViewText(holder.content, record.getTitle());
+//        setTextViewText(holder.content, record.getTitle());
+        String title = record.getTitle();
+        if (!StringUtil.isNull(title)){
+            if (!StringUtil.isNull(mKey)){
+                //关键词 标红
+                int start  = title.indexOf(mKey);
+                int end = start + mKey.length();
+                if (start == -1){
+                    holder.content.setText(title);
+                }else {
+                    SpannableStringBuilder style=new SpannableStringBuilder(title);
+                    style.setSpan(new ForegroundColorSpan(Color.parseColor("#fc3c2e")),start,end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                    holder.content.setText(style);
+                }
+
+            }else {
+                holder.content.setText(title);
+            }
+
+        }
 
       /*  if (tab != 0) {
             if (tab == 1) {

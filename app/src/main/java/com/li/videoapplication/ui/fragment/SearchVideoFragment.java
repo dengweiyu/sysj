@@ -54,6 +54,9 @@ public class SearchVideoFragment extends TBaseChildFragment implements OnRefresh
             if (data != null){
                 data.clear();
             }
+            if (adapter != null){
+                adapter.updateKey(content);
+            }
         }
         refreshListView();
     }
@@ -127,7 +130,7 @@ public class SearchVideoFragment extends TBaseChildFragment implements OnRefresh
         emptyText.setText("没有相关视频");
         listView.setEmptyView(emptyView);
         data = new ArrayList<>();
-        adapter = new GroupDetailVideoAdapter(getActivity(), data);
+        adapter = new GroupDetailVideoAdapter(getActivity(), data, content);
         listView.setAdapter(adapter);
     }
 

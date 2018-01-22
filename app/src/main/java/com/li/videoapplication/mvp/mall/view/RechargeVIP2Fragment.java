@@ -156,7 +156,7 @@ public class RechargeVIP2Fragment extends TBaseFragment implements View.OnClickL
 //            }
 //        });
 
-        monthSelectDrawables[0] = getActivity().getResources().getDrawable(R.drawable.shape_gray);
+        monthSelectDrawables[0] = getActivity().getResources().getDrawable(R.drawable.shape_gray2);
         monthSelectDrawables[1] = getActivity().getResources().getDrawable(R.drawable.shape_main_bule_solid);
         buyMonthViews[0] = (TextView) view.findViewById(R.id.id_one_month_btn);
 

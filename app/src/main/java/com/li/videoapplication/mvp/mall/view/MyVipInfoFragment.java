@@ -12,6 +12,7 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.VipManager;
 import com.li.videoapplication.data.model.response.UserVipInfoEntity;
+import com.li.videoapplication.data.model.response.VipRecharge2Entity;
 import com.li.videoapplication.data.model.response.VipRechargeEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.Constant;
@@ -19,6 +20,9 @@ import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.dialog.VipSelectDialog;
 import com.li.videoapplication.utils.AppUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -65,6 +69,7 @@ public class MyVipInfoFragment extends TBaseFragment implements View.OnClickList
         mRoot.findViewById(R.id.tv_show_vip_detail).setOnClickListener(this);
         mRoot.findViewById(R.id.tv_recharge_vip_now).setOnClickListener(this);
         mRoot.findViewById(R.id.tv_payment_vip_now).setOnClickListener(this);
+        llVip3Server.setOnClickListener(this);
         loadData();
     }
 
@@ -72,7 +77,7 @@ public class MyVipInfoFragment extends TBaseFragment implements View.OnClickList
         //当前账号VIP
         DataManager.getUserVipInfo(getMember_id());
         //
-        DataManager.vipInfo();
+        DataManager.getVIPRechargeInfo2();
     }
 
     @Override
@@ -87,7 +92,7 @@ public class MyVipInfoFragment extends TBaseFragment implements View.OnClickList
                 if (mSelectDialog != null){
                     mSelectDialog.show(mVipLevel);
                 }else {
-                    DataManager.vipInfo();
+                    DataManager.getVIPRechargeInfo2();
                 }
                 break;
             case R.id.tv_recharge_vip_now:
@@ -95,13 +100,19 @@ public class MyVipInfoFragment extends TBaseFragment implements View.OnClickList
                 //开通VIP
                 ActivityManager.startTopUpActivity(getActivity(), Constant.TOPUP_ENTRY_MYWALLEY,2);
                 break;
-            case R.id.id_vip3_server_tv:
-            case R.id.id_vip3_server_iv:
+            case R.id.ll_vip3_server:
                 if(VipManager.getInstance().isLevel3()){
                     AppUtil.startQQChat(getActivity(),"526619379");
                 }else{
                     showToastLong(R.string.vip3_no_server_tip);
                 }
+//            case R.id.id_vip3_server_tv:
+//            case R.id.id_vip3_server_iv:
+//                if(VipManager.getInstance().isLevel3()){
+//                    AppUtil.startQQChat(getActivity(),"526619379");
+//                }else{
+//                    showToastLong(R.string.vip3_no_server_tip);
+//                }
                 break;
         }
     }
@@ -181,9 +192,16 @@ public class MyVipInfoFragment extends TBaseFragment implements View.OnClickList
         }
     }
 
-    public void  onEventMainThread(VipRechargeEntity entity){
+//    public void  onEventMainThread(VipRechargeEntity entity){
+//        if (entity.isResult() && entity.getData() != null){
+//            mSelectDialog = new VipSelectDialog(getActivity(),entity.getData());
+//        }
+//    }
+
+    public void onEventMainThread(VipRecharge2Entity entity) {
         if (entity.isResult() && entity.getData() != null){
-            mSelectDialog = new VipSelectDialog(getActivity(),entity.getData());
+            List<VipRechargeEntity.DataBean> data = change2VipRechargeEntityData(entity);
+            mSelectDialog = new VipSelectDialog(getActivity(), data);
         }
     }
 
@@ -195,5 +213,26 @@ public class MyVipInfoFragment extends TBaseFragment implements View.OnClickList
             id_vip3_server_tv.setTextColor(ActivityCompat.getColor(getActivity(),R.color.color_999999));
             id_vip3_server_iv.setImageResource(R.drawable.vip3_no_server);
         }
+    }
+
+    private List<VipRechargeEntity.DataBean> change2VipRechargeEntityData(VipRecharge2Entity entity){
+        List<VipRechargeEntity.DataBean> data = new ArrayList<>();
+        for (int i = 0; i < entity.getData().size(); i++) {
+            VipRechargeEntity.DataBean dataBean = new VipRechargeEntity.DataBean();
+            dataBean.setName(entity.getData().get(i).getName());
+            dataBean.setLevel(entity.getData().get(i).getLevel());
+            dataBean.setPrice(entity.getData().get(i).getPrice());
+            dataBean.setIcon(entity.getData().get(i).getSelectedIcon());
+            List<String> desc = new ArrayList<>();
+            for (VipRecharge2Entity.VipAllInfo vipAllInfo : entity.getVipAllInfo()) {
+                if (dataBean.getLevel() == vipAllInfo.getLevel()) {
+                    desc.add(vipAllInfo.getName());
+                }
+            }
+            dataBean.setDescription(desc);
+            data.add(dataBean);
+        }
+
+        return data;
     }
 }

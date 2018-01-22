@@ -169,6 +169,8 @@ public class VipRecharge2Entity extends BaseResponseEntity {
 
         private int level;
 
+        private String vipName;
+
         boolean isClick;
 
         public boolean isClick() {
@@ -209,6 +211,14 @@ public class VipRecharge2Entity extends BaseResponseEntity {
 
         public void setNotSelectedCoin(String notSelectedCoin) {
             this.notSelectedCoin = notSelectedCoin;
+        }
+
+        public String getVipName() {
+            return vipName;
+        }
+
+        public void setVipName(String vipName) {
+            this.vipName = vipName;
         }
     }
 }
