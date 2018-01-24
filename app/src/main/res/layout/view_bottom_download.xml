@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fl_download"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:elevation="5dp">
+
+    <ProgressBar
+        android:id="@+id/pb_download"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="220dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:background="@drawable/swi_web_progress_rect"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/swi_web_progress_progress" />
+
+    <TextView
+        android:id="@+id/tv_download"
+        android:layout_width="220dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:background="@drawable/swi_web_text"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="@string/applicationdownload_download"
+        android:textSize="13sp" />
+
+</FrameLayout>

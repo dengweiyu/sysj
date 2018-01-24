@@ -329,6 +329,21 @@ public class FileDownloaderManager {
     }
 
     /**
+     * 查找（fileName）
+     */
+    public static FileDownloaderEntity findByFileName(String fileName) {
+        try {
+            return xUtilsDb.DB
+                    .selector(FileDownloaderEntity.class)
+                    .where(FileDownloaderEntity.FILE_NAME, "=", fileName)
+                    .findFirst();
+        } catch (DbException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * 查找（ad_location_id）
      */
     public static FileDownloaderEntity findByAdLocationId(int ad_location_id) {

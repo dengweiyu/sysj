@@ -282,7 +282,7 @@ public class DownLoader {
                             file();
                         } else {
                             Log.d(TAG, "run: 10");
-                            error();
+//                            error();
                         }
                     } else {
                         error();

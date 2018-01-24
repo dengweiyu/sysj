@@ -140,7 +140,9 @@ public class GroupdetailVideoFragment extends TBaseFragment
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            this.activity = (GroupDetailActivity) activity;
+            if (activity instanceof GroupDetailActivity){
+                this.activity = (GroupDetailActivity) activity;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

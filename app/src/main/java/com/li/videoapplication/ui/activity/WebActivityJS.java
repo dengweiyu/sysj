@@ -16,13 +16,20 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ZoomButtonsController;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
+import com.li.videoapplication.data.database.FileDownloaderEntity;
+import com.li.videoapplication.data.database.FileDownloaderManager;
+import com.li.videoapplication.data.download.DownLoadListener;
+import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.js.JSInterface;
+import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.response.ShareInfoEntity;
 import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.FGame;
@@ -34,11 +41,16 @@ import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
+import com.li.videoapplication.utils.ApkUtil;
+import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
+import com.li.videoapplication.utils.URLUtil;
+import com.li.videoapplication.utils.VersionUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -63,12 +75,17 @@ public class WebActivityJS extends TBaseAppCompatActivity {
     private WebView webView;
     private JSInterface mJsInterface;
 
-    ImageView ivShare;
+    private ImageView ivShare;
+
+    private FrameLayout mFlDownload;
+    private ProgressBar mPbDownload;
+    private TextView mTvDownload;
+
 
     /**
      * 网页浏览
      */
-    public static void startWebActivityJS(Context context, String url, String title, String js,boolean hideToolbar) {
+    public static void startWebActivityJS(Context context, String url, String title, String js, boolean hideToolbar) {
         if (context == null) {
             return;
         }
@@ -82,7 +99,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         intent.putExtra("url", url);
         intent.putExtra("title", title);
         intent.putExtra("js", js);
-        intent.putExtra("show_toolbar",hideToolbar);
+        intent.putExtra("show_toolbar", hideToolbar);
         intent.setClass(context, WebActivityJS.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
@@ -92,7 +109,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         }
     }
 
-    public static void startWebActivityJS(Context context, String url, String title, String js, String id, String strategyType,boolean hideToolbar) {
+    public static void startWebActivityJS(Context context, String url, String title, String js, String id, String strategyType, boolean hideToolbar) {
         if (context == null) {
             return;
         }
@@ -108,7 +125,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         intent.putExtra("js", js);
         intent.putExtra("id", id);
         intent.putExtra("strategyType", strategyType);
-        intent.putExtra("show_toolbar",hideToolbar);
+        intent.putExtra("show_toolbar", hideToolbar);
         intent.setClass(context, WebActivityJS.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
@@ -150,7 +167,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
             e.printStackTrace();
         }
         try {
-            showToolbar = getIntent().getBooleanExtra("show_toolbar",true);
+            showToolbar = getIntent().getBooleanExtra("show_toolbar", true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -201,7 +218,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         TextView tb_title = (TextView) findViewById(R.id.tb_title);
         setTextViewText(tb_title, title);
 
-        if (showToolbar){
+        if (showToolbar) {
             findViewById(R.id.ab_toolbar).setVisibility(View.VISIBLE);
             if (strategyType != null && id != null && strategyType.length() != 0 && id.length() != 0) {
                 ViewStub stub = (ViewStub) findViewById(R.id.vs_share);
@@ -215,7 +232,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
                     }
                 });
             }
-        }else {
+        } else {
             findViewById(R.id.ab_toolbar).setVisibility(View.GONE);
         }
     }
@@ -231,7 +248,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
 
-        Log.d(TAG, "initWebView: js == "+js);
+        Log.d(TAG, "initWebView: js == " + js);
 
         if (!StringUtil.isNull(js)) {
             mJsInterface = new JSInterface(WebActivityJS.this);
@@ -268,7 +285,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                if (showToolbar){
+                if (showToolbar) {
                     requestNoTitle();
                     if (ivShare != null) {
                         if (view.canGoBack()) {
@@ -277,9 +294,9 @@ public class WebActivityJS extends TBaseAppCompatActivity {
                             ivShare.setVisibility(View.VISIBLE);
                         }
                     }
-                }else {
+                } else {
                     //
-                    if (StringUtil.isNull(view.getTitle())){
+                    if (StringUtil.isNull(view.getTitle())) {
                         findViewById(R.id.ab_toolbar).setVisibility(View.VISIBLE);
                     }
                 }
@@ -290,7 +307,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
                     public void run() {
                         webView.setVisibility(View.VISIBLE);
                     }
-                },300);
+                }, 300);
             }
 
             @Override
@@ -311,10 +328,10 @@ public class WebActivityJS extends TBaseAppCompatActivity {
 
                 try {
                     JSONObject object = new JSONObject(message);
-                    if (object != null){
+                    if (object != null) {
                         String msg = object.getString("msg");
                         String status = object.getString("status");
-                        if ("110".equals(status)){
+                        if ("110".equals(status)) {
                             ToastHelper.l(msg);
                             result.confirm();
                             return true;
@@ -322,7 +339,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -398,6 +415,167 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         }
     }
 
+    public void onEventMainThread(JSInterface.FDEntity entity) {
+        fileEntity = entity.getEntity();
+        initDownloadView();
+    }
+
+    private void initDownloadView() {
+        ViewStub stub = (ViewStub) findViewById(R.id.vs_download);
+        if (stub != null) {
+            stub.inflate();
+            mFlDownload = (FrameLayout) findViewById(R.id.fl_download);
+            mPbDownload = (ProgressBar) findViewById(R.id.pb_download);
+            mTvDownload = (TextView) findViewById(R.id.tv_download);
+        } else if (!isDownloadViewVisible()) {
+            setDownloadViewVisible(true);
+        }
+        hideWebDownloadBtn();
+        if (fileEntity != null) {
+            FileDownloaderEntity localEntity = FileDownloaderManager.findByFileUrl(fileEntity.getFileUrl());
+            if (localEntity != null) {
+                fileEntity = localEntity;
+                isDownloading = true;
+                if (localEntity.isDownloaded()) { // 已下载-->安装
+                    mPbDownload.setProgress(100);
+                    mTvDownload.setText(R.string.applicationdownload_install);
+                } else if (localEntity.isDownloading()) { // 下载中-->暂停
+                    mPbDownload.setProgress(localEntity.getProgress());
+                    mTvDownload.setText(localEntity.getProgress() + "%");
+                } else if (localEntity.isInstalled()) { // 已安装-->打开
+                    mPbDownload.setProgress(100);
+                    mTvDownload.setText(R.string.applicationdownload_open);
+
+                } else if (localEntity.isPausing()) { // 暂停-->继续
+                    mPbDownload.setProgress(localEntity.getProgress());
+                    mTvDownload.setText(R.string.applicationdownload_resume);
+                }
+            } else {
+                mPbDownload.setProgress(0);
+                mTvDownload.setText(R.string.applicationdownload_download);
+            }
+            // 增加所有任务一个监听
+            DownLoadManager.getInstance().addDownLoadListener(fileEntity.getFileUrl(), downloadListener);
+            mTvDownload.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (fileEntity.isDownloading()) { // 下载中-->暂停
+                        DownLoadManager.getInstance().stopDownLoader(fileEntity.getFileUrl()); // 暂停下载
+                    } else if (fileEntity.isPausing()) { // 暂停-->继续
+                        startTask();
+                    } else if (fileEntity.isDownloaded()) { // 已下载-->安装
+                        ApkUtil.installApp(WebActivityJS.this, fileEntity.getFilePath());
+                    } else if (fileEntity.isInstalled()) { // 已安装-->打开
+                        if (fileEntity.getPackageName() != null) {
+                            if (fileEntity.getPackageName().equals
+                                    (VersionUtils.getCurrentPackageName(WebActivityJS.this))) {// 手游视界
+                                ToastHelper.s(R.string.applicationdownload_open_opened);
+                            } else {
+                                ApkUtil.launchApp(WebActivityJS.this, fileEntity.getPackageName());
+                            }
+                        }
+                    } else { // -->下载
+                        startTask();
+                    }
+                }
+
+                private void startTask() {
+                    if (!NetUtil.isConnect()) {
+                        ToastHelper.s(R.string.net_disable);
+                    } else if (NetUtil.isWIFI()) {
+                        // 开始, 继续下载
+                        DownLoadManager.getInstance().startDownLoader(fileEntity.getFileUrl(), fileEntity.getAd_id());
+                    } else {
+                        // 文件下载
+                        DialogManager.showFileDownloaderDialog(WebActivityJS.this,
+                                new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        // 开始, 继续下载
+                                        DownLoadManager.getInstance().startDownLoader(fileEntity.getFileUrl(), fileEntity.getAd_id());
+                                    }
+                                }, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        // WIFI下载
+                                    }
+                                });
+                    }
+                }
+            });
+        }
+    }
+
+    private FileDownloaderEntity fileEntity;
+
+    private boolean isDownloading = false;
+    private DownLoadListener downloadListener = new DownLoadListener() {
+        @Override
+        public void preStart(FileDownloaderEntity entity) {
+            Log.d(TAG, "preStart: entity=" + entity);
+        }
+
+        @Override
+        public void onStart(FileDownloaderEntity entity) {
+            Log.d(TAG, "onStart: entity=" + entity);
+            if (fileEntity != null && fileEntity.getFileUrl().equals(entity.getFileUrl())) {
+                mPbDownload.setProgress(entity.getProgress());
+                mTvDownload.setText(entity.getProgress() + "%");
+                mTvDownload.setBackgroundResource(R.drawable.swi_web_text_download);
+                fileEntity = entity;
+            }
+        }
+
+        @Override
+        public void onProgress(FileDownloaderEntity entity) {
+            Log.d(TAG, "onProgress: entity=" + entity);
+            Log.d(TAG, "onProgress: progress=" + entity.getProgress());
+            if (fileEntity != null && fileEntity.getFileUrl().equals(entity.getFileUrl())) {
+                mPbDownload.setProgress(entity.getProgress());
+                mTvDownload.setText(entity.getProgress() + "%");
+                isDownloading = true;
+                fileEntity.setDownloading(entity.isDownloading());
+            }
+        }
+
+        @Override
+        public void onStop(FileDownloaderEntity entity) {
+            Log.d(TAG, "onStop: entity=" + entity);
+            if (fileEntity != null && fileEntity.getFileUrl().equals(entity.getFileUrl())) {
+                mTvDownload.setText(R.string.applicationdownload_resume);
+                fileEntity = entity;
+            }
+        }
+
+        @Override
+        public void onError(FileDownloaderEntity entity) {
+            Log.d(TAG, "onError: entity=" + entity);
+            if (fileEntity != null && fileEntity.getFileUrl().equals(entity.getFileUrl())) {
+                ToastHelper.s(R.string.applicationdownload_error);
+                fileEntity = entity;
+            }
+
+        }
+
+        @Override
+        public void onSuccess(FileDownloaderEntity entity) {
+            Log.d(TAG, "onSuccess: entity=" + entity);
+            if (fileEntity != null && fileEntity.getFileUrl().equals(entity.getFileUrl())) {
+                mPbDownload.setProgress(100);
+                mTvDownload.setText(R.string.applicationdownload_install);
+                mTvDownload.setBackgroundResource(R.drawable.swi_web_text);
+                fileEntity = entity;
+            }
+
+        }
+
+        @Override
+        public void addQueue(FileDownloaderEntity entity) {
+            Log.d(TAG, "addQueue: entity=" + entity);
+
+        }
+    };
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -413,6 +591,36 @@ public class WebActivityJS extends TBaseAppCompatActivity {
             webView.goBack();
         } else {
             finish();
+        }
+        if (isDownloading && isDownloadViewVisible())
+            ToastHelper.s(R.string.applicationdownload_go_to_download_manager);
+        if (fileEntity != null)
+            DownLoadManager.getInstance().removeDownLoadListener(fileEntity.getFileUrl(), downloadListener);
+        if (isDownloadViewVisible())
+            setDownloadViewVisible(false);
+    }
+
+    private boolean isDownloadViewVisible() {
+        return mFlDownload != null && mFlDownload.getVisibility() == View.VISIBLE;
+    }
+
+    private void setDownloadViewVisible(boolean viewVisible) {
+        if (mFlDownload != null) {
+            if (viewVisible) {
+                mFlDownload.setVisibility(View.VISIBLE);
+            } else {
+                mFlDownload.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /**
+     * 隐藏下载按钮
+     */
+    private void hideWebDownloadBtn(){
+        if (webView != null){
+            webView.loadUrl("javascript:hideGameBtn()");
+            Log.d(tag, "hideGameBtn-->true");
         }
     }
 
@@ -483,5 +691,6 @@ public class WebActivityJS extends TBaseAppCompatActivity {
             webView.loadUrl("");
             webView.destroy();
         }
+
     }
 }

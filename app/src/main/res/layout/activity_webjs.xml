@@ -65,10 +65,19 @@
 
     <WebView
         android:id="@+id/swi_web_webview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:fadeScrollbars="false"
         android:scrollbars="none"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <ViewStub
+        android:id="@+id/vs_download"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:elevation="5dp"
+        android:layout="@layout/view_bottom_download"/>
+
 
 </LinearLayout>

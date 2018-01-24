@@ -339,6 +339,34 @@ public class StringUtil {
         return "";
     }
 
+    /**
+     * 截取字符串中的数字
+     * @param s
+     * @return
+     */
+    public static String getNumbers(String s) {
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(s);
+        while (matcher.find()) {
+            return matcher.group();
+        }
+        return "";
+    }
+
+    /**
+     * 截取字符串中的非数字
+     * @param s
+     * @return
+     */
+    public static String getNotNumbers(String s) {
+        Pattern pattern = Pattern.compile("\\D+");
+        Matcher matcher = pattern.matcher(s);
+        while (matcher.find()) {
+            return matcher.group();
+        }
+        return "";
+    }
+
     private final static Map<String,String> mMapChinese;
     static {
         mMapChinese = Maps.newHashMap();
@@ -362,4 +390,5 @@ public class StringUtil {
 
         return Pattern.matches(telRegex, s);
     }
+
 }

@@ -21,6 +21,7 @@
     <string name="applicationdownload_error">下载出错</string>
     <string name="applicationdownload_morefun">让视频更好玩</string>
     <string name="applicationdownload_open_opened">已经打开手游视界</string>
+    <string name="applicationdownload_go_to_download_manager">可到下载管理查看情况</string>
 
 
     <string name="manufacturer_title">设置悬浮窗</string>

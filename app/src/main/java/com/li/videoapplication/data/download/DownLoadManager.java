@@ -361,6 +361,43 @@ public class DownLoadManager {
     }
 
     /**
+     * 增加任务
+     *
+     * @param entity 请求下载的FileDownloaderEntity
+     * @return -1 : 已存在任务列表 ， 1 ： 添加进任务列表
+     */
+    public int addDownLoader(FileDownloaderEntity entity, boolean isStart) {
+        Log.d(TAG, "addDownLoader: // --------------------------------------------------");
+        String fileUrl = entity.getFileUrl();
+        for (int i = 0; i < downLoaders.size(); i++) {
+            DownLoader downloader = downLoaders.get(i);
+            if (downloader.getFileUrl().equals(fileUrl)) {
+                return -1;
+            }
+        }
+
+        File tmp = SYSJStorageUtil.createTmpApkPath(fileUrl);
+        if (tmp != null) {
+            FileUtil.deleteFile(tmp.getPath());
+        }
+        File apk = SYSJStorageUtil.createApkPath(fileUrl);
+        if (apk != null) {
+            FileUtil.deleteFile(apk.getPath());
+        }
+
+        DownLoader downLoader = new DownLoader(entity);
+        downLoader.addAllDownLoadListeners(downLoadListeners);
+        downLoaders.add(downLoader);
+
+        //开始下载
+        if (isStart){
+            startDownLoader(entity.getFileUrl(),
+                    entity.getAd_id() + "");
+        }
+        return 1;
+    }
+
+    /**
      * 删除任务
      */
     public void deleteDownLoader(String fileUrl) {
@@ -467,6 +504,7 @@ public class DownLoadManager {
                 downLoader.start();
                 break;
             }
+
         }
     }
 
