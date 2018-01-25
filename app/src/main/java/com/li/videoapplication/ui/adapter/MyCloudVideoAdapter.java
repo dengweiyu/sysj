@@ -56,12 +56,14 @@ public class MyCloudVideoAdapter extends BaseAdapter {
         String yk_url = item.getYk_url();
         String youku_url = AppConstant.getYoukuUrl(yk_url);
         String qn_key = item.getQn_key();
-        String qn_url = AppConstant.getQnUrl(qn_key);
+//        String qn_url = AppConstant.getQnUrl(qn_key);
+        String video_url = item.getVideoUrl();
         Log.d(TAG, "startPlayerActivity: yk_url=" + yk_url);
         Log.d(TAG, "startPlayerActivity: youku_url=" + youku_url);
         Log.d(TAG, "startPlayerActivity: qn_key=" + qn_key);
-        Log.d(TAG, "startPlayerActivity: qn_url=" + qn_url);
-        if (StringUtil.isNull(qn_key)) {
+//        Log.d(TAG, "startPlayerActivity: qn_url=" + qn_url);
+        Log.d(TAG, "startPlayerActivity: video_url=" + video_url);
+        if (StringUtil.isNull(video_url)) {
             // 优酷视频
             try {
                 IntentHelper.startActivityActionView(context, youku_url);

@@ -7,6 +7,7 @@ import android.text.style.AbsoluteSizeSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StrikethroughSpan;
+import android.text.style.StyleSpan;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -162,6 +163,11 @@ public class TextUtil {
      */
     public static Spannable setStrikethroughSpan(Spannable spanned,int startP,int endP){
         spanned.setSpan(new StrikethroughSpan(),startP,endP,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spanned;
+    }
+
+    public static Spannable setStyleSpan(Spannable spanned, int startP, int endP, int mStyle){
+        spanned.setSpan(new StyleSpan(mStyle),startP,endP,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spanned;
     }
 

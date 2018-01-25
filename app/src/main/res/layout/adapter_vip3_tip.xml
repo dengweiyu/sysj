@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:layout_height="30dp">
+
+    <ImageView
+        android:layout_height="18dp"
+        android:src="@drawable/vip3_choose"
+        android:layout_marginLeft="6dp"
+        android:layout_width="18dp"/>
+
+    <TextView
+        android:id="@+id/id_text"
+        android:layout_marginLeft="12dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
+
+</LinearLayout>

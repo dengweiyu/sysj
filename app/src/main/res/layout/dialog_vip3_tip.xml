@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_bg_wilte"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="20dp"
+        android:text="钻石VIP"
+        android:textColor="@color/color_333333"
+        android:textSize="18dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/id_vip_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/id_one_month_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="4dp"
+                android:text="@string/month_1_max"
+                android:textSize="12dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <FrameLayout
+                android:id="@+id/id_three_month_btn_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/id_three_month_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/month_3_max"
+                    android:textSize="12dp" />
+
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/id_three_month_iv"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_alignRight="@+id/id_three_month_btn_layout"
+                android:src="@drawable/ic_sale_vip3_no_choose" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+
+            <FrameLayout
+                android:id="@+id/id_six_month_btn_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <TextView
+                    android:id="@+id/id_six_month_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/month_6_max"
+                    android:textSize="12dp" />
+
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/id_six_month_iv"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_alignRight="@+id/id_six_month_btn_layout"
+                android:src="@drawable/ic_sale_vip3_no_choose" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <FrameLayout
+                android:id="@+id/id_twelve_month_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true">
+
+                <TextView
+                    android:id="@+id/id_twelve_month_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/month_12_max"
+                    android:textSize="12dp" />
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/id_twelve_month_iv"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_alignRight="@+id/id_twelve_month_layout"
+                android:src="@drawable/ic_sale_vip3_no_choose" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/pay_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支付：---"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/sale_pay_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:textColor="@color/color_999999"
+            android:text="原价：---"
+            android:textSize="11dp" />
+    </LinearLayout>
+
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/recharge_vip_pay_now"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_main_bule_solid_click"
+        android:gravity="center"
+        android:text="@string/recharge_pay_now"
+        android:textColor="@color/menu_main_white"
+        android:textSize="16sp" />
+
+</LinearLayout>

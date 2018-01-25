@@ -31,7 +31,7 @@ import com.li.videoapplication.utils.StringUtil;
 public class PaymentWayActivity extends TBaseAppCompatActivity implements MallContract.IPaymentListView ,View.OnClickListener{
 
     public final static String MONEY = "money";
-    public final static String ENTRY = "entryt";       //支付页面入口
+    public final static String ENTRY = "entry";       //支付页面入口
     public final static String NUMBER = "number";      //魔豆数量
     public final static String USE = "use";            //支付用途
     public final static String LEVEL = "level";        //VIP 等级

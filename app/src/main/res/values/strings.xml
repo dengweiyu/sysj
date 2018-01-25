@@ -137,7 +137,12 @@
 
     <string name="videoshare_tag">#标签#</string>
     <string name="tag_title">选择标签</string>
+    <string name="tag_title_1">请选择标签</string>
     <string name="tag_confirm">完成</string>
+    <string name="tag_title_1_tip">(添加视频标签，更容易被关注哦)</string>
+    <string name="had_select">已选</string>
+    <string name="videoshare_description_1">请输入标题：完整的标题更吸引人</string>
+    <string name="imageshare_type_2">请选择类型</string>
 
     <string name="xlistview_header_hint_normal">下拉刷新</string>
     <string name="xlistview_header_hint_ready">松开刷新数据</string>
@@ -192,6 +197,7 @@
     <string name="discover_message">消息</string>
     <string name="discover_billboard">风云榜</string>
     <string name="discover_dynamic">动态</string>
+    <string name="discover_game">游戏</string>
 
     <string name="welfare_left">热门赛事</string>
     <string name="welfare_middle">热门活动</string>
@@ -895,6 +901,7 @@
 
     <string name="apply_content">在视频描述中你需要填写至少十个字，小编将会挑选精彩视频在首页或玩家秀场推荐展示。</string>
 
+    <string name="videoshare_description_text_count">0/50</string>
     <string name="videoshare_title">视频分享</string>
     <string name="videoshare_info">视频信息</string>
     <string name="videoshare_join">参与活动</string>
@@ -987,4 +994,6 @@
     <string name="recharge_pay_migu_tip">咪咕会员套餐（话费支付）</string>
     <string name="vip3_server">专属客服</string>
     <string name="vip3_no_server_tip">专属客服仅钻石会员可以使用!</string>
+
+    <string name="recharge_pay_now">立即支付</string>
 </resources>
