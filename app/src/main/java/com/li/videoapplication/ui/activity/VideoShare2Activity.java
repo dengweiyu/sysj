@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -42,18 +43,30 @@ import com.li.videoapplication.data.image.VideoCover;
 import com.li.videoapplication.data.image.VideoDuration;
 import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.LPDSStorageUtil;
+import com.li.videoapplication.data.model.entity.Associate;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.Tag;
+import com.li.videoapplication.data.model.event.SearchGame2VideoShareEvent;
+import com.li.videoapplication.data.model.event.Share2VideoShareEvent;
+import com.li.videoapplication.data.model.response.GameTagListEntity;
+import com.li.videoapplication.data.model.response.NewCurrencyMallRecommendedLocationEntity;
+import com.li.videoapplication.data.model.response.RecommendedLocationEntity;
+import com.li.videoapplication.data.model.response.ShareRecommendLocEntity;
 import com.li.videoapplication.data.model.response.Vip3AndAuthoryEntity;
 import com.li.videoapplication.data.qiniu.storage.UploadManager;
 import com.li.videoapplication.framework.TBaseActivity;
+import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper2;
 import com.li.videoapplication.ui.ActivityManager;
+import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.MyLocalVideoAdapter;
 import com.li.videoapplication.ui.dialog.Vip3ShowDialog;
 import com.li.videoapplication.ui.popupwindows.ApplyPopupWindow;
-import com.li.videoapplication.ui.popupwindows.IInfoEntity;
+import com.li.videoapplication.ui.popupwindows.gameselect.IInfoEntity;
+import com.li.videoapplication.ui.popupwindows.gameselect.IPopup;
+import com.li.videoapplication.ui.popupwindows.gameselect.IPopupContext;
+import com.li.videoapplication.ui.popupwindows.gameselect.PopupImpl;
 import com.li.videoapplication.utils.BitmapUtil;
 import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.NetUtil;
@@ -61,8 +74,8 @@ import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.SpanUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
-import com.li.videoapplication.views.SmoothCheckBox;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -83,12 +96,14 @@ import rx.Subscriber;
 
 @SuppressLint("HandlerLeak")
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-public class VideoShare2Activity extends TBaseActivity implements VipManager.OnVipObserver{
+public class VideoShare2Activity extends TBaseActivity implements View.OnClickListener, VipManager.OnVipObserver {
+
+    public static final int TO_VIDEOMANAGER = 0; //跳转视频管理
+    public static final int TO_FINISH = 1;//不跳转，仅关闭
 
     private IInfoEntity mIInfoEntity;
     private VideoCaptureEntity mVideoCaptureEntity;
     private IPopup iPopup;
-    private String goodsId = null;
     private long video_length;
     private String fileSize;
     private Bitmap bitmap;
@@ -171,6 +186,12 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
     boolean isChecked;
     Boolean isChooseTagStatus = false;
     boolean isPrepareMore = false;
+
+    public static boolean isPayed;//推荐位弹窗中已经确认支付
+
+    private RecommendedLocationEntity event;
+    private String id;//推荐位id
+
     /**
      * 选择的背景图片
      */
@@ -204,7 +225,7 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
                         id_choose_tag_1.setTextColor(ActivityCompat.getColor(getApplication(), R.color.menu_help_blue_1));
                     } else {
                         id_choose_tag_1.
-                                setBackground(ActivityCompat.getDrawable(getApplication(), R.drawable.shape_gray));
+                                setBackground(ActivityCompat.getDrawable(getApplication(), R.drawable.shape_gray2));
                         id_choose_tag_1.setTextColor(ActivityCompat.getColor(getApplication(), R.color.color_999999));
                     }
                 }
@@ -224,7 +245,7 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
         });
     }
 
-    private void vip3Show(){
+    private void vip3Show() {
         if (vip3ShowDialog == null) {
             vip3ShowDialog = new Vip3ShowDialog(this, vip3AndAuthoryEntity);
         }
@@ -232,7 +253,7 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
     }
 
     public void dialogDismiss() {
-        if (isChecked) {
+        if (isChecked && !isPayed) {
             isChecked = false;
             videoshare_apply.setImageResource(R.drawable.videoshare_apply_gray);
         }
@@ -342,7 +363,7 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
         return videoshare_type_text.getText().toString().trim();
     }
 
-    private String getDescription() {
+    public String getDescription() {
         if (videoshare_description.getText() == null)
             return "";
         String s = "";
@@ -367,16 +388,21 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
     }
 
     @Override
+    public int inflateActionBar() {
+        return R.layout.actionbar_second;
+    }
+
+    @Override
     public void beforeOnCreate() {
         super.beforeOnCreate();
-        setSystemBar(true);
+//        setSystemBar(true);
     }
 
     @Override
     public void afterOnCreate() {
         super.afterOnCreate();
         ShareSDK.initSDK(this);
-        setStatusBar(Color.WHITE, true);
+        setSystemBarBackgroundColor(Color.WHITE);
         setAbTitle(R.string.videoshare_title);
     }
 
@@ -388,7 +414,7 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
         tagTextViews = new TextView[]{id_choose_tag_1, id_choose_tag_2, id_choose_tag_3};
         iPopup = PopupImpl.createPopupImpl(new IPopupContext() {
             @Override
-            public AppCompatActivity getActivity() {
+            public FragmentActivity getActivity() {
                 return VideoShare2Activity.this;
             }
 
@@ -491,13 +517,13 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
                 break;
             case R.id.videoshare_share:
 
-                if(tagList.size() > 0){
+                if (tagList.size() > 0) {
                     UmengAnalyticsHelper2.onEvent(UmengAnalyticsHelper2.FEN_XIANG_ID, UmengAnalyticsHelper2.ShARE_TAG_TYPE);
                 }
 
                 if (readyShare()) {
                     if (isGame() || VipManager.getInstance().isLevel3()) {
-                        if(isGame()){
+                        if (isGame()) {
 
                         }
                         updateDatabase();
@@ -517,7 +543,7 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
                     isChecked = !isChecked;
                     if (isChecked) {
                         videoshare_share.setClickable(false);
-                        DataManager.newCurrencyMallRecommendedLocation(getMember_id());
+                        DataManager.recommendedLocation(getMember_id(), new ShareRecommendLocEntity());
                         videoshare_apply.setImageResource(R.drawable.tag_tick);
                     } else {
                         videoshare_apply.setImageResource(R.drawable.videoshare_apply_gray);
@@ -705,18 +731,18 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
             id_vip_authority_tip_title_tv.setText(convertVipText(new SpannableString("视频分享特权（V2）")));
         } else if (VipManager.getInstance().isLevel1()) {
             id_vip_authority_tip_title_tv.setText(convertVipText(new SpannableString("视频分享特权（V1）")));
-        }else{
+        } else {
             id_vip_authority_tip_title_tv.setText("视频分享特权（可选）");
         }
     }
 
-    private CharSequence convertVipText(Spannable spannable){
+    private CharSequence convertVipText(Spannable spannable) {
         TextUtil.setForegroundColorText(
                 TextUtil.setStyleSpan(
-                        TextUtil.setStyleSpan(spannable, spannable.length() - 3, spannable.length()-1, Typeface.BOLD)
-                        , spannable.length() - 3, spannable.length()-1, Typeface.ITALIC
+                        TextUtil.setStyleSpan(spannable, spannable.length() - 3, spannable.length() - 1, Typeface.BOLD)
+                        , spannable.length() - 3, spannable.length() - 1, Typeface.ITALIC
                 ),
-                spannable.length() - 3, spannable.length()-1, ActivityCompat.getColor(this, R.color.menu_help_blue_1));
+                spannable.length() - 3, spannable.length() - 1, ActivityCompat.getColor(this, R.color.menu_help_blue_1));
         return spannable;
     }
 
@@ -897,14 +923,16 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
             return;
         }
 
-        if (NetUtil.isConnected()) {
+        if (NetUtil.isConnect()) {
             if (isChecked) {
-                ActivityManager.startShareActivity_MyLocalVideo(this);
+//                ActivityManager.startShareActivity_MyLocalVideo(this);
+                ActivityManager.startShareActivity4MyLocalVideo(this, false);
             } else {
-                ActivityManager.startShareActivity_MyLocalVideo(this);
+//                ActivityManager.startShareActivity_MyLocalVideo(this);
+                ActivityManager.startShareActivity4MyLocalVideo(this, false);
             }
         } else {
-            ToastHelper.s(R.string.connectivity_disabled);
+            ToastHelper.s(R.string.net_disable);
         }
     }
 
@@ -913,8 +941,7 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
     /**
      * 组件间的通讯：查找游戏 查找精彩生活
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(SearchGame2VideoShareEvent event) {
+    public void onEventMainThread(SearchGame2VideoShareEvent event) {
         if (!event.isGame()) {
             bottom_layout.setVisibility(View.GONE);
             if (isChecked) {
@@ -937,98 +964,127 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
     /**
      * 组件间的通讯：分享
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(Share2VideoShareEvent event) {
+    public void onEventMainThread(Share2VideoShareEvent event) {
         Log.d(tag, "event=" + event);
         iPopup.submit();
         String shareChannel = event.getShareChannel();
-        if (!shareChannel.equals("MeiPai")) {
 
-            // 保存文件名
-            VideoCaptureManager.updateNameByPath(mVideoCaptureEntity.getVideo_path(), getDescription());
 
-            String game_id = mIInfoEntity.getId();
-            String game_name = mIInfoEntity.getName();
-            List<String> ids = new ArrayList<>();
+        // 保存文件名
+        VideoCaptureManager.updateNameByPath(mVideoCaptureEntity.getVideo_path(), getDescription());
 
-            if (isGame()) {
-                if (tagList.size() > 0) {
-                    for (Tag t : tagList) {
-                        ids.add(t.getGame_tag_id());
-                    }
+        String game_id = mIInfoEntity.getId();
+        String game_name = mIInfoEntity.getName();
+        List<String> ids = new ArrayList<>();
+
+        if (isGame()) {
+            if (tagList.size() > 0) {
+                for (Tag t : tagList) {
+                    ids.add(t.getGame_tag_id());
                 }
-            } else {
-                ids.clear();
             }
-
-
-            // 保存游戏，活动，标签
-            VideoCaptureManager.updateMatchGameTagsByPath(mVideoCaptureEntity.getVideo_path(),
-                    game_id,
-                    game_name,
-                    "",
-                    "",
-                    ids,
-                    tagList);
-            // 保存上传状态
-            VideoCaptureManager.updateStationByPath(mVideoCaptureEntity.getVideo_path(),
-                    shareChannel,
-                    getMember_id(),
-                    "",
-                    getDescription(),
-                    "",
-                    getIsofficial(),
-                    ids);
-
-            UploadManager.startVideo(
-                    shareChannel,
-                    getMember_id(),
-                    getDescription(),
-                    game_id,
-                    "",//赛事ID在这里没用
-                    "",
-                    getIsofficial(),
-                    ids,
-                    mVideoCaptureEntity,
-                    goodsId);
-
-            // 本地视频
-            EventManager.postVideoEditor2VideoManagerEvent(new String[]{mVideoCaptureEntity.getVideo_path()}, 2);
         } else {
-            MeiPaiShareUtils.meipaiShare(mVideoCaptureEntity.getVideo_path(), this);
+            ids.clear();
         }
+
+
+        // 保存游戏，活动，标签
+        VideoCaptureManager.updateMatchGameTagsByPath(mVideoCaptureEntity.getVideo_path(),
+                game_id,
+                game_name,
+                "",
+                "",
+                ids,
+                tagList);
+        // 保存上传状态
+        VideoCaptureManager.updateStationByPath(mVideoCaptureEntity.getVideo_path(),
+                shareChannel,
+                getMember_id(),
+                game_id,
+                "",
+                getDescription(),
+                "",
+                getIsofficial(),
+                ids);
+
+        DataManager.UPLOAD.startVideo(
+                shareChannel,
+                getMember_id(),
+                getDescription(),
+                game_id,
+                "",//赛事ID在这里没用
+                "",
+                getIsofficial(),
+                ids,
+                mVideoCaptureEntity,
+                getGoods_id());
+
+        // 本地视频
+        EventManager.postVideoEditor2VideoManagerEvent(new String[]{mVideoCaptureEntity.getVideo_path()}, 2);
+
 
         finish();
     }
 
-    /**
-     * 回调：推荐位信息
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(NewCurrencyMallRecommendedLocationEntity event) {
-        if (event.isResult()) {
-            DialogManager.showVideoSharePaymentDialog(this, event,
-                    new VideoSharePaymentDialog.ClickListener() {
-                        @Override
-                        public void onEnterClick(DialogInterface dialog, int witch, String goodsId) {
-                            ActivityManager.startShareActivity_MyLocalVideo(VideoShare2Activity.this);
-                            VideoShare2Activity.this.goodsId = goodsId;
-                        }
+//    /**
+//     * 回调：推荐位信息
+//     */
+//    public void onEventMainThread(NewCurrencyMallRecommendedLocationEntity event) {
+//        if (event.isResult()) {
+//            DialogManager.showVideoSharePaymentDialog(this, event,
+//                    new VideoSharePaymentDialog.ClickListener() {
+//                        @Override
+//                        public void onEnterClick(DialogInterface dialog, int witch, String goodsId) {
+//                            ActivityManager.startShareActivity_MyLocalVideo(VideoShare2Activity.this);
+//                            VideoShare2Activity.this.goodsId = goodsId;
+//                        }
+//
+//                        @Override
+//                        public void onDismissClick(DialogInterface dialog, int witch) {
+//                            if (isChecked) {
+//                                isChecked = false;
+//                                videoshare_apply.setImageResource(R.drawable.videoshare_apply_gray);
+//                            }
+//                            VideoShare2Activity.this.goodsId = null;
+//                        }
+//                    });
+//        } else {
+//            if (isChecked) {
+//                isChecked = false;
+//                videoshare_apply.setImageResource(R.drawable.videoshare_apply_gray);
+//            }
+//        }
+//
+//        videoshare_share.setClickable(true);
+//    }
 
-                        @Override
-                        public void onDismissClick(DialogInterface dialog, int witch) {
-                            if (isChecked) {
-                                isChecked = false;
-                                videoshare_apply.setImageResource(R.drawable.videoshare_apply_gray);
-                            }
-                            VideoShare2Activity.this.goodsId = null;
-                        }
-                    });
+    private String getGoods_id() {
+        if (!StringUtil.isNull(id)) {
+            return id;
         } else {
-            if (isChecked) {
-                isChecked = false;
-                videoshare_apply.setImageResource(R.drawable.videoshare_apply_gray);
-            }
+            return "";
+        }
+    }
+
+    public void setGoods_id(String id) {
+        Log.d(tag, "setGoods_id: " + id);
+        this.id = id;
+    }
+
+    /**
+     * 回调:推荐位
+     */
+    public void onEventMainThread(ShareRecommendLocEntity event) {
+
+        if (event != null && event.isResult()) {//正常情况，商城有卖推荐位
+            this.event = event;
+
+            mVideoCaptureEntity.setVideo_name(getDescription());
+
+            DialogManager.showOfficialPaymentDialog(this, event);
+        } else {
+            //非正常情况下，商城没卖推荐位，或者什么鬼原因推荐位接口返回false了，直接不管，开启分享。
+            ActivityManager.startShareActivity4MyLocalVideo(this,!isGame());
         }
 
         videoshare_share.setClickable(true);
@@ -1037,8 +1093,7 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
     /**
      * 回调：视频分享标签
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(GameTagListEntity event) {
+    public void onEventMainThread(GameTagListEntity event) {
         if (event.isResult()) {
             if (event.getData() != null
                     && event.getData().size() > 0) {
@@ -1060,8 +1115,7 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
      *
      * @param event
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(Vip3AndAuthoryEntity event) {
+    public void onEventMainThread(Vip3AndAuthoryEntity event) {
         if (event.isResult()) {
             vip3AndAuthoryEntity = event;
             refreshVip3AndAuthoryEntity();
@@ -1082,8 +1136,8 @@ public class VideoShare2Activity extends TBaseActivity implements VipManager.OnV
 
     @Override
     public void onVipObservable(Member.VIPInfo vipInfo) {
-        Log.i(tag, "onVipObservable: "+vipInfo+"  vip 改变");
-        if(isChooseTagStatus) {
+        Log.i(tag, "onVipObservable: " + vipInfo + "  vip 改变");
+        if (isChooseTagStatus) {
             vipAuthorityShowText();
             handlerVipInit();
         }

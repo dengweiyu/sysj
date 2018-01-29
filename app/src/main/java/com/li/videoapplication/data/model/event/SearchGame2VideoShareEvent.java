@@ -9,6 +9,8 @@ import com.li.videoapplication.framework.BaseEntity;
 @SuppressWarnings("serial")
 public class SearchGame2VideoShareEvent extends BaseEntity {
 
+    private boolean isGame;
+
     private Associate associate;
 
     private String gamaName;
@@ -47,5 +49,13 @@ public class SearchGame2VideoShareEvent extends BaseEntity {
 
     public void setAssociate(Associate associate) {
         this.associate = associate;
+    }
+
+    public boolean isGame() {
+        return isGame;
+    }
+
+    public void setGame(boolean game) {
+        isGame = game;
     }
 }

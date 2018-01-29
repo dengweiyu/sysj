@@ -2,11 +2,17 @@ package com.li.videoapplication.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 功能：输入法工具
@@ -64,5 +70,40 @@ public class InputUtil {
         return false;
     }
 
+    /**
+     * @param text           原来词组
+     * @param specifiedTexts 被匹配的关键字
+     * @param color
+     * @return
+     */
+    public static SpannableStringBuilder setSpecifiedTextsColor(String text, String specifiedTexts, int color) {
+        List<Integer> sTextsStartList = new ArrayList<>();
+
+        int sTextLength = specifiedTexts.length();
+        String temp = text;
+        int lengthFront = 0;//记录被找出后前面的字段的长度
+        int start = -1;
+        do {
+            start = temp.indexOf(specifiedTexts);
+
+            if (start != -1) {
+                start = start + lengthFront;
+                sTextsStartList.add(start);
+                lengthFront = start + sTextLength;
+                temp = text.substring(lengthFront);
+            }
+
+        } while (start != -1);
+
+        SpannableStringBuilder styledText = new SpannableStringBuilder(text);
+        for (Integer i : sTextsStartList) {
+            styledText.setSpan(
+                    new ForegroundColorSpan(color),
+                    i,
+                    i + sTextLength,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return styledText;
+    }
 
 }

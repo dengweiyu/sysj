@@ -41,7 +41,7 @@ import java.util.List;
  * Created by cx on 2018/1/24.
  */
 
-public class Vip3ShowDialog extends BaseDialog implements OnClickListener, Vip3ShowDialog.INotifyChange {
+public class Vip3ShowDialog extends BaseDialog implements OnClickListener {
 
     private RecyclerView id_vip_recyclerView;
     private TextView id_one_month_btn;
@@ -68,7 +68,7 @@ public class Vip3ShowDialog extends BaseDialog implements OnClickListener, Vip3S
     public Vip3ShowDialog(Context context, Vip3AndAuthoryEntity vip3AndAuthoryEntity) {
         super(context);
         this.vip3AndAuthoryEntity = vip3AndAuthoryEntity;
-        defualtDrawable = ActivityCompat.getDrawable(context, R.drawable.shape_gray);
+        defualtDrawable = ActivityCompat.getDrawable(context, R.drawable.shape_gray2);
         selectDrawable = ActivityCompat.getDrawable(context, R.drawable.shape_main_bule);
 //        notifyChange();
     }
@@ -88,7 +88,7 @@ public class Vip3ShowDialog extends BaseDialog implements OnClickListener, Vip3S
         sale_pay_text = (TextView) findViewById(R.id.sale_pay_text);
         id_vip_recyclerView = (RecyclerView) findViewById(R.id.id_vip_recyclerView);
         id_vip_recyclerView.setItemAnimator(new DefaultItemAnimator());
-        id_vip_recyclerView.setLayoutManager(new LinearLayoutManager(super.context));
+        id_vip_recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         id_one_month_btn = (TextView) findViewById(R.id.id_one_month_btn);
         id_three_month_btn = (TextView) findViewById(R.id.id_three_month_btn);
@@ -159,7 +159,7 @@ public class Vip3ShowDialog extends BaseDialog implements OnClickListener, Vip3S
                         updateAppearances.add(mTextEntity);
 
                         mTextEntity = new TextEntity();
-                        mTextEntity.appearance = new AbsoluteSizeSpan(ScreenUtil.dp2px(diamondVipTextBean.getSecondText().getFontSize()));
+                        mTextEntity.appearance = new AbsoluteSizeSpan(ScreenUtil.dp2px(Float.valueOf(diamondVipTextBean.getSecondText().getFontSize())));
                         mTextEntity.start = leng;
                         mTextEntity.end = stringBuilder.length();
                         updateAppearances.add(mTextEntity);
@@ -175,7 +175,7 @@ public class Vip3ShowDialog extends BaseDialog implements OnClickListener, Vip3S
                         updateAppearances.add(mTextEntity);
 
                         mTextEntity = new TextEntity();
-                        mTextEntity.appearance = new AbsoluteSizeSpan(ScreenUtil.dp2px(diamondVipTextBean.getThirdText().getFontSize()));
+                        mTextEntity.appearance = new AbsoluteSizeSpan(ScreenUtil.dp2px(Float.valueOf(diamondVipTextBean.getThirdText().getFontSize())));
                         mTextEntity.start = leng;
                         mTextEntity.end = stringBuilder.length();
                         updateAppearances.add(mTextEntity);
@@ -209,10 +209,10 @@ public class Vip3ShowDialog extends BaseDialog implements OnClickListener, Vip3S
 
     @Override
     public void onClick(View v) {
-        id_one_month_btn.setBackgroundResource(R.drawable.shape_gray);
-        id_three_month_btn.setBackgroundResource(R.drawable.shape_gray);
-        id_six_month_btn.setBackgroundResource(R.drawable.shape_gray);
-        id_twelve_month_btn.setBackgroundResource(R.drawable.shape_gray);
+        id_one_month_btn.setBackgroundResource(R.drawable.shape_gray2);
+        id_three_month_btn.setBackgroundResource(R.drawable.shape_gray2);
+        id_six_month_btn.setBackgroundResource(R.drawable.shape_gray2);
+        id_twelve_month_btn.setBackgroundResource(R.drawable.shape_gray2);
         id_one_month_btn.setTextColor(ActivityCompat.getColor(v.getContext(), R.color.color_999999));
         id_three_month_btn.setTextColor(ActivityCompat.getColor(v.getContext(), R.color.color_999999));
         id_six_month_btn.setTextColor(ActivityCompat.getColor(v.getContext(), R.color.color_999999));
@@ -308,13 +308,6 @@ public class Vip3ShowDialog extends BaseDialog implements OnClickListener, Vip3S
         UpdateAppearance appearance;
         int start;
         int end;
-
-    }
-
-
-    public interface INotifyChange {
-
-        void notifyChange();
 
     }
 

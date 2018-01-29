@@ -47,6 +47,7 @@ import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
 import com.li.videoapplication.utils.VersionUtils;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -383,6 +384,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
 //        ActivityManager.startActivityShareActivity4VideoPlay(this, url, title, "http://apps.ifeimo.com/Public/Uploads/Member/Avatar/5a3cb354ab101.jpg", "此处为图文攻略内容");
     }
 
+    @Subscribe
     public void onEventMainThread(ShareInfoEntity entity) {
         if (entity.getaData() != null && entity.getExtra().get("tag").equals(tag)) {
             ActivityManager.startActivityShareActivity4VideoPlay(this,

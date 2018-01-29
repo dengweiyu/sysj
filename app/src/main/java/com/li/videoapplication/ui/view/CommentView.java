@@ -182,7 +182,9 @@ public class CommentView extends FrameLayout implements
                 }
                 hideInput();
                 boolean flag;
-                flag = listener != null && listener.comment(isSecondComment, getEdit());
+                if (!isSecondComment) {
+                    flag = listener != null && listener.comment(isSecondComment, getEdit());
+                } else flag = listener != null && listener.comment2(isSecondComment, getEdit(), secondComment);
 
                 if (flag) {
                     container.setFocusable(true);
@@ -225,7 +227,8 @@ public class CommentView extends FrameLayout implements
     }
 
     public interface CommentListener {
-        boolean comment(boolean isSecondComment, String text);
+        boolean comment(boolean isSecondComment, String text); //一级评论
+        boolean comment2(boolean isSecondComment, String text, Comment c); //二级评论
     }
 
     /**
@@ -245,6 +248,8 @@ public class CommentView extends FrameLayout implements
         }, 60 * 1000);
     }
 
+    private Comment secondComment; //二级评论时对方的Comment类
+
     /**
      * 是否是二级评论
      */
@@ -256,12 +261,21 @@ public class CommentView extends FrameLayout implements
     public void replyComment(Comment comment) {
         if (comment == null)
             return;
+        secondComment = comment;
         isSecondComment = true;
         String s = "//@" + comment.getNickname() + ":" + comment.getContent();
         edit.setText(s);
         // 取得焦点
         edit.requestFocus();
         showInput();
+    }
+
+    public void setSecondComment(Comment comment){
+        secondComment = comment;
+    }
+
+    public Comment getSecondComment() {
+        return secondComment;
     }
 
     /**

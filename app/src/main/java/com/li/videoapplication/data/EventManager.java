@@ -165,6 +165,13 @@ public class EventManager {
         EventBus.getDefault().post(event);
     }
 
+    public static void postSearchGame2VideoShareEvent(Associate associate, boolean isGame) {
+        SearchGame2VideoShareEvent event = new SearchGame2VideoShareEvent();
+        event.setAssociate(associate);
+        event.setGame(isGame);
+        EventBus.getDefault().post(event);
+    }
+
     public static void postImageView2ImageShareEvent() {
         ImageView2ImageShareEvent event = new ImageView2ImageShareEvent();
         EventBus.getDefault().post(event);

@@ -1542,4 +1542,31 @@ public class RequestUrl {
         return BaseSYSJ + "/sysj228/GameStrategyShare/getShareInfo";
     }
 
+    /**
+     * 热门游戏
+     */
+    public final String hotGameList() {
+        return BaseHome + "/search/associatehot";
+    }
+
+    /**
+     * 搜索联想词201
+     */
+    public final String associate201() {
+        return BaseHome + "/search/associate201.html";
+    }
+
+    /**
+     * 分享vip的权限
+     */
+    public final String getVipShareChooseAuthprity(){
+        return BaseSYSJ+"/Lpds229/VIP/getShareVipTextInfo";
+    }
+
+    /**
+     * 推荐位信息（新）
+     */
+    public final String newCurrencyMallRecommendedLocation() {
+        return BaseSYSJ + "/Sysj217/Recommend/recommendedLocation";
+    }
 }

@@ -1,13 +1,15 @@
 package com.li.videoapplication.data.model.entity;
 
 import com.li.videoapplication.framework.BaseEntity;
+import com.li.videoapplication.ui.popupwindows.gameselect.IInfoEntity;
 
 /**
  * 实体类：游戏圈子
  */
 @SuppressWarnings("serial")
-public class Associate extends BaseEntity {
-	
+public class Associate extends BaseEntity implements IInfoEntity{
+
+	private String id;
 	private String game_id;
 	private String group_id;
 	private String game_name;
@@ -25,6 +27,15 @@ public class Associate extends BaseEntity {
 
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public void setName(String name) {

@@ -32,6 +32,7 @@ import com.ifeimo.im.common.util.StatusBarBlackTextHelper;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Bullet;
+import com.li.videoapplication.data.model.entity.Comment;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.GoodAndStartEvent;
 import com.li.videoapplication.data.model.event.SharedSuccessEvent;
@@ -553,13 +554,21 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
             DialogManager.showLogInDialog(this);
             return false;
         }
-
-        // 评论
-//        DataManager.DANMUKU.bulletDo203Comment2Video(item.getVideo_id(),
-//                getMember_id(),
-//                text);
-//        bullet = false;
         return true;
+    }
+
+    @Override
+    public boolean comment2(boolean isSecondComment, String text, Comment c) {
+        if (isLogin()) {
+            Log.d(tag, "comment/text=" + text);
+            if (videoPlayView != null && videoPlayView.videoImage != null){
+                DataManager.DANMUKU.bulletDo203Bullet2Video(videoPlayView.videoImage.getVideo_id(),"1000",getMember_id(),text);
+                DataManager.DANMUKU.bulletDo203SecondComment(videoPlayView.videoImage.getVideo_id(),"1000",getMember_id(),text, c.getComment_id());
+            }
+            return true;
+        }
+        DialogManager.showLogInDialog(this);
+        return false;
     }
 
     private void initTopMenu() {

@@ -91,7 +91,8 @@
     <color name="ab_background_blue_3_gray">#662990e4</color>
     <color name="ab_background_blue_2">#2990e4</color>
     <color name="ab_background_blue_3">#2daeff</color>
-    
+    <color name="ab_background_red">#ff3d2e</color>
+
     <color name="menu_main_background">#ffffff</color>
     <color name="menu_main_red">#ff3d2e</color>
     <color name="menu_main_white">#ffffff</color>
@@ -218,4 +219,7 @@
     <color name="color_7bbbe1">#7bbbe1</color>
 
     <color name="vip_color_yellow">#ffc110</color>
+
+    <color name="recharge_bg_color">#aaaaaa</color>
+    <color name="recharge_bg_color2">#cccccc</color>
 </resources>

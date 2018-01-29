@@ -1696,4 +1696,17 @@ public class RequestParams {
         map.put("access_token", AppAccount.getAccessToken());
         return map;
     }
+
+    public Map<String, Object> getVipShareChooseAuthprity(String memberId, String videoType) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", memberId);
+        map.put("videoType", videoType);
+        return map;
+    }
+
+    public Map<String, Object> newCurrencyMallRecommendedLocation(String member_id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("member_id", member_id);
+        return map;
+    }
 }

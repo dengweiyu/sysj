@@ -12,11 +12,15 @@ public class Associate201Entity extends BaseResponseEntity {
 	
 	private List<Associate> data;
 
-	public List<Associate> getData() {
+	public List getData() {
 		return data;
 	}
 
 	public void setData(List<Associate> data) {
 		this.data = data;
+	}
+
+	public void addData(List data) {
+		data.addAll(data);
 	}
 }

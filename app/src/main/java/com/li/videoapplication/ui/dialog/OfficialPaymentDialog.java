@@ -24,6 +24,7 @@ import com.li.videoapplication.mvp.adapter.OfficialPaymentAdapter;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
+import com.li.videoapplication.ui.activity.VideoShare2Activity;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.utils.InputUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -166,6 +167,10 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
                             VideoShareActivity shareActivity = (VideoShareActivity) activity;
                             shareActivity.setGoods_id(getSelectedItemID());
                         }
+                        if (activity instanceof VideoShare2Activity) {
+                            VideoShare2Activity share2Activity = (VideoShare2Activity) activity;
+                            share2Activity.setGoods_id(getSelectedItemID());
+                        }
                     }
                 }
             }
@@ -194,11 +199,16 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
                         // 商品兑换
                         DataManager.payment(member_id, getSelectedItemID(), mobile, video_id);
                         dismiss();
-                    } else {
+                    } else if (activity instanceof  VideoShareActivity){
                         VideoShareActivity videoShareActivity = (VideoShareActivity) activity;
                         videoShareActivity.setGoods_id(getSelectedItemID());
                         //敏感词过滤
                         DataManager.baseInfo(videoShareActivity.getDescription(), new BaseInfo4OfficialDialogEntity());
+                    } else {
+                        VideoShare2Activity videoShare2Activity = (VideoShare2Activity) activity;
+                        videoShare2Activity.setGoods_id(getSelectedItemID());
+                        //敏感词过滤
+                        DataManager.baseInfo(videoShare2Activity.getDescription(), new BaseInfo4OfficialDialogEntity());
                     }
                 } else {
                     dismiss();
@@ -227,6 +237,7 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
             } else {
                 dismiss();
                 VideoShareActivity.isPayed = true;
+                VideoShare2Activity.isPayed = true;
                 ActivityManager.startShareActivity4MyLocalVideo(activity,false);
             }
         }
@@ -234,6 +245,10 @@ public class OfficialPaymentDialog extends BaseDialog implements View.OnClickLis
 
     @Override
     public void dismiss() {
+        if (activity instanceof VideoShare2Activity) {
+            VideoShare2Activity share2Activity = (VideoShare2Activity) activity;
+            share2Activity.dialogDismiss();
+        }
         try {
             InputUtil.closeKeyboard(activity);
         } catch (Exception e) {

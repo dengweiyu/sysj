@@ -276,4 +276,14 @@ public class IntentHelper {
             e.printStackTrace();
         }
     }
+
+    public static void shareSingleVideo(Activity context, String path) {
+        //由文件得到uri
+        Uri uri = Uri.fromFile(new File(path));
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.setType("video/*");
+        context.startActivity(Intent.createChooser(shareIntent, "分享到"));
+    }
 }

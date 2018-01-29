@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.widget.ImageView;
 
 
-import com.li.videoapplication.component.MainApplication;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.event.UserChangeEvent;
 import com.li.videoapplication.data.preferences.PreferencesHepler;

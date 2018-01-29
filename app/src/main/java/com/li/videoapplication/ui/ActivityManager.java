@@ -112,6 +112,7 @@ import com.li.videoapplication.ui.activity.VideoChooseActivity;
 import com.li.videoapplication.ui.activity.VideoEditorActivity2;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
+import com.li.videoapplication.ui.activity.VideoShare2Activity;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.ui.activity.VideoUploadActivity;
 import com.li.videoapplication.tools.ToastHelper;
@@ -241,6 +242,14 @@ public class ActivityManager {
             intent.putExtra("game", game);
         intent.putExtra("to", to);
         intent.setClass(context, VideoShareActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void startVideoShare2Activity(Context context, VideoCaptureEntity entity) {
+        Intent intent = new Intent(context, VideoShare2Activity.class);
+        if (entity != null) {
+            intent.putExtra("entity", entity);
+        }
         context.startActivity(intent);
     }
 

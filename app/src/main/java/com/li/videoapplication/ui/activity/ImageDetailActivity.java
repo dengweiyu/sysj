@@ -316,6 +316,11 @@ public class ImageDetailActivity extends TBaseActivity implements
 	}
 
 	@Override
+	public boolean comment2(boolean isSecondComment, String text, Comment c) {
+		return false;
+	}
+
+	@Override
 	public void onClick(View v) {
 		int flag;
 

@@ -64,7 +64,7 @@ public class MyLocalVideoAdapter extends BaseAdapter implements
         VideoShareTask208.Callback {
 
     private final VideoMangerActivity activity;
-    private String tag = this.getClass().getSimpleName();
+    private static String tag = MyLocalVideoAdapter.class.getSimpleName();
 
     private List<VideoCaptureEntity> data;
 
@@ -95,6 +95,13 @@ public class MyLocalVideoAdapter extends BaseAdapter implements
      */
     private void startVideoShareActivity210(VideoCaptureEntity record) {
         ActivityManager.startVideoShareActivity210(context, record, null, VideoShareActivity.TO_VIDEOMANAGER);
+    }
+
+    /**
+     * 跳转：视频分享
+     */
+    private void startVideoShare2Activity(VideoCaptureEntity record) {
+        ActivityManager.startVideoShare2Activity(context, record);
     }
 
     /**
@@ -371,7 +378,7 @@ public class MyLocalVideoAdapter extends BaseAdapter implements
                 }
 
                 if (secs < 10 * 1000) {// 少于10秒 直接播放
-                    startPlayerActivity(record);
+                    startPlayerActivity(context, record);
                 } else {
                     ActivityManager.startVideoEditorActivity(context, record);
                     UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.SLIDER, "本地视频-编辑");
@@ -508,14 +515,16 @@ public class MyLocalVideoAdapter extends BaseAdapter implements
         if (netType == 0) {
             ToastHelper.s(R.string.net_disable);
         } else if (netType == 1) {// wifi
-            startVideoShareActivity210(record);
+//            startVideoShareActivity210(record);
+            startVideoShare2Activity(record);
         } else {
             // 上传视频
             DialogManager.showUploadVideoDialog(context, new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    startVideoShareActivity210(record);
+//                    startVideoShareActivity210(record);
+                    startVideoShare2Activity(record);
                 }
             });
         }
@@ -957,7 +966,7 @@ public class MyLocalVideoAdapter extends BaseAdapter implements
     /**
      * 跳转：视频播放
      */
-    private void startPlayerActivity(final VideoCaptureEntity record) {
+    public static void startPlayerActivity(Context context, final VideoCaptureEntity record) {
         if (record == null)
             return;
         // 本地视频

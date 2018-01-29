@@ -31,6 +31,8 @@ import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseResponseEntity;
 import com.li.videoapplication.tools.ArrayHelper;
+import com.li.videoapplication.ui.popupwindows.gameselect.*;
+import com.li.videoapplication.ui.popupwindows.gameselect.HotGameEntity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.VersionUtils;
 
@@ -38,6 +40,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.li.videoapplication.data.DataManager.DANMUKU.bulletDo203;
 
 /**
  * 功能：数据请求管理类
@@ -612,6 +616,23 @@ public class DataManager {
                     "0",
                     "");
         }
+
+        /**
+         * 功能：二级评论
+         */
+        public static void bulletDo203SecondComment(String video_id,
+                                                    String node,
+                                                    String member_id,
+                                                    String content, String comment_id) {
+            bulletDo203(new BulletDo203Bullet2VideoEntity(),
+                    video_id,
+                    node,
+                    member_id,
+                    content,
+                    "1",
+                    "1",
+                    comment_id);
+        }
     }
 
     /**
@@ -1146,6 +1167,7 @@ public class DataManager {
         request.setEntity(callbackEntity);
         helper.doNetwork(request);
     }
+
 
     /**
      * 功能：会员任务接口
@@ -3348,5 +3370,51 @@ public class DataManager {
         request.setEntity(entity);
         helper.doService(request);
 
+    }
+
+    /**
+     * 热门游戏
+     */
+    public static void hotGameList2() {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().hotGameList();
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, null, null);
+        request.setEntity(new HotGameEntity());
+        helper.doService(request);
+    }
+
+    /**
+     * 搜索联想词201111*****************
+     */
+    public static void associate201_2(String classType, String keyWord, BaseResponseEntity o) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().associate201();
+        Map<String, Object> params = RequestParams.getInstance().associate201(classType, keyWord);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        if (o instanceof LifeEntity) {
+            LifeEntity entity = (LifeEntity) o;
+            request.setEntity(entity);
+        } else if (o instanceof SearcheHotGameEntity) {
+            SelectMyGameEntity entity = (SelectMyGameEntity) o;
+            request.setEntity(entity);
+        }
+        helper.doService(request);
+    }
+
+    /**
+     * 分享，vip的一些解释信息
+     */
+    public static void getVipShareChooseAuthprity(String memberId, String videoType) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getVipShareChooseAuthprity();
+        if (memberId == null) {
+            memberId = "";
+        }
+        Map<String, Object> params = RequestParams.getInstance().getVipShareChooseAuthprity(memberId, videoType);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new Vip3AndAuthoryEntity());
+        helper.doService(request);
     }
 }
