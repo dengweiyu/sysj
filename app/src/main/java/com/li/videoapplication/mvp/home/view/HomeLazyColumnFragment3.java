@@ -111,7 +111,6 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
     @BindView(R.id.iv_top)
     ImageView mIvTop;
 
-    private boolean isReZero = false;
     private boolean isInit = false; //真正显示的View是否已经被初始化
     private boolean isStartLoadGamerVideo = false;
     private boolean isGamerVideoLoadComplete = false;
@@ -491,26 +490,6 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
                 }
             }
         }, 1000 * 10);
-    }
-
-    public boolean isReZero() {
-        return isReZero;
-    }
-
-    public void reZero() {
-        mData.clear();
-        tData.clear();
-        isLoadDataComplete = false;
-        isGamerVideoLoadComplete = false;
-        isStartLoadGamerVideo = false;
-        mPage = 1;
-        gamerVideoIndex = 0;
-        mVideoGamerPage = 2; //先load后加页，所以一开始是第二页
-        isRefreshFlag = true;
-        isLoadMoreFlag = false;
-        mAdapter.removeFooterView(getFootView());
-        mAdapter.notifyDataSetChanged();
-        isReZero = true;
     }
 
     @Override

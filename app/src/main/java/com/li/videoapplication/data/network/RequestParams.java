@@ -17,8 +17,9 @@ import com.li.videoapplication.utils.StringUtil;
  */
 public class RequestParams {
     private static final int A_SYSJ = 2;
-    private static final String SYSJ = "a_sysj";
-
+    private final String SYSJ = "a_sysj";
+    private final String CLIENT_TYPE = "android";
+    private final String CURRENT_VERSION = BuildConfig.VERSION_NAME;
 
     public RequestParams() {
         super();
@@ -222,8 +223,36 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
         map.put("page", page);
-        map.put("target", SYSJ);
-        map.put("current_version", BuildConfig.VERSION_NAME);
+        setBaseParams(map);
+        return map;
+    }
+
+    public Map<String, Object> getMsgReplyComment(String memberId, String relid, int page) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", memberId);
+        map.put("id", relid);
+        map.put("page", page);
+        setBaseParams(map);
+        return map;
+    }
+
+    public Map<String, Object> messageReplyMessage(String member_id) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("member_id", member_id);
+        setBaseParams(map);
+        return map;
+    }
+
+    public Map<String, Object> replyGameGroupComment(String content, String reply_member_id, String replyed_member_id,
+                                                     String comment_id, String parent_id, String group_id) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("content", content);
+        map.put("reply_member_id", reply_member_id);
+        map.put("replyed_member_id", replyed_member_id);
+        map.put("comment_id", comment_id);
+        map.put("parent_id", parent_id);
+        map.put("group_id", group_id);
+        setBaseParams(map);
         return map;
     }
 
@@ -387,7 +416,7 @@ public class RequestParams {
     public Map<String, Object> squareList(String member_id, String sort, int page,String gameId) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
-        map.put("sort", sort);// 最新：time 最热：click
+        map.put("sort", sort);// 最新：time 最热：setRead
         map.put("page", page);
         map.put("target",SYSJ);
         map.put("game_id",gameId);
@@ -1028,7 +1057,7 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("more_mark", more_mark);
         map.put("member_id", member_id);
-        map.put("sort", sort);// time/click
+        map.put("sort", sort);// time/setRead
         map.put("page", page);
         return map;
     }
@@ -1037,7 +1066,7 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("more_mark", more_mark);
         map.put("member_id", member_id);
-        map.put("sort", sort);// time/click
+        map.put("sort", sort);// time/setRead
         map.put("page", page);
         return map;
     }
@@ -1513,7 +1542,7 @@ public class RequestParams {
     public Map<String, Object>  getMessageList(String memberId) {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", memberId);
-        map.put("target", SYSJ);
+        setBaseParams(map);
         return map;
     }
 
@@ -1708,5 +1737,13 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<>();
         map.put("member_id", member_id);
         return map;
+    }
+
+
+
+    private void setBaseParams(Map<String, Object> map) {
+        map.put("current_version", CURRENT_VERSION);
+        map.put("clientType", CLIENT_TYPE);
+        map.put("target", SYSJ);
     }
 }

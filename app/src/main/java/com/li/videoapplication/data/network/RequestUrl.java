@@ -466,6 +466,14 @@ public class RequestUrl {
         return BaseSYSJ + "/sysj201/message/msgRed";
     }
 
+    public final String msgReplyComment(){
+        return BaseSYSJ + "/sysj228/GameGroupComment/getGameGroupReplyList";
+    }
+
+    public final String replyGameGroupComment(){
+        return BaseSYSJ + "/sysj228/GameGroupComment/replyGameGroupComment";
+    }
+
 	/* ############## 圈子/游戏 ############## */
 
 
@@ -610,7 +618,7 @@ public class RequestUrl {
      * 视频踩203
      */
     public final String fndownClick203() {
-        return BaseSYSJ + "/sysj203/fndown/click";
+        return BaseSYSJ + "/sysj203/fndown/setRead";
     }
 
     /**
@@ -1080,7 +1088,7 @@ public class RequestUrl {
      * 游戏下载数+1
      */
     public final String downloadClick217() {
-        return BaseSYSJ + "/Sysj217/Download/click";
+        return BaseSYSJ + "/Sysj217/Download/setRead";
     }
 
     /**

@@ -14,17 +14,22 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter.RequestLoadMoreListener;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.handmark.pulltorefresh.library.IPullToRefresh;
+import com.ifeimo.im.framwork.IMSdk;
+import com.ifeimo.im.framwork.Proxy;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Match;
+import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.EventsPKListEntity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchPresenter;
 import com.li.videoapplication.mvp.match.MatchContract.IMatchProcessView;
 import com.li.videoapplication.mvp.match.presenter.MatchPresenter;
+import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.mvp.adapter.MatchProcessAdapter;
+import com.li.videoapplication.ui.activity.PlayerPersonalInfoActivity;
 import com.li.videoapplication.ui.adapter.MatchProcessHeaderAdapter;
 import com.li.videoapplication.utils.ClickUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -199,29 +204,63 @@ public class GameMatchProcessFragment extends TBaseFragment implements IMatchPro
                 Match record = (Match) adapter.getItem(position);
                 switch (view.getId()) {
                     case R.id.red_icon:
-                        if (RongIM.getInstance() != null &&
-                                !StringUtil.isNull(record.getA_member_id()) &&
+//                        if (RongIM.getInstance() != null &&
+//                                !StringUtil.isNull(record.getA_member_id()) &&
+//                                !StringUtil.isNull(record.getA_name()) &&
+//                                !record.getA_member_id().equals(getMember_id())) {
+//
+//                            ActivityManager.startConversationActivity(getActivity(),
+//                                    record.getA_member_id(), record.getA_name(), false);
+//                            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "对战表-头像");
+//                        }
+                        if (!StringUtil.isNull(record.getA_member_id()) &&
                                 !StringUtil.isNull(record.getA_name()) &&
                                 !record.getA_member_id().equals(getMember_id())) {
+                            Member user = getUser();
+                            String memberId = user.getMember_id();
+                            if (!Proxy.getConnectManager().isConnect()) {
 
-                            ActivityManager.startConversationActivity(getActivity(),
-                                    record.getA_member_id(), record.getA_name(), false);
+                                if(null == memberId  || memberId.equals("")){
+                                    memberId = getMember_id();
+                                }
+                                FeiMoIMHelper.Login(memberId, user.getNickname(), user.getAvatar());
+                            }
+
+                            IMSdk.createChat(getContext(),record.getA_member_id(),record.getA_name(),record.getA_avatar());
+
                             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "对战表-头像");
                         }
                         break;
                     case R.id.blue_icon:
-                        if (RongIM.getInstance() != null &&
-                                !StringUtil.isNull(record.getB_member_id()) &&
-                                !StringUtil.isNull(record.getB_name())) {
+//                        if (RongIM.getInstance() != null &&
+//                                !StringUtil.isNull(record.getB_member_id()) &&
+//                                !StringUtil.isNull(record.getB_name())) {
+//
+//                            if (record.getA_member_id().equals(getMember_id())) {
+//
+//                                ActivityManager.startConversationActivity(getActivity(),
+//                                        record.getB_member_id(), record.getB_name(), true, record.getB_qq());
+//                            } else {
+//                                ActivityManager.startConversationActivity(getActivity(),
+//                                        record.getB_member_id(), record.getB_name(), false);
+//                            }
+//                            UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "对战表-头像");
+//                        }
+                        if (!StringUtil.isNull(record.getB_member_id()) &&
+                                !StringUtil.isNull(record.getB_name()) &&
+                                !record.getB_member_id().equals(getMember_id())) {
+                            Member user = getUser();
+                            String memberId = user.getMember_id();
+                            if (!Proxy.getConnectManager().isConnect()) {
 
-                            if (record.getA_member_id().equals(getMember_id())) {
-
-                                ActivityManager.startConversationActivity(getActivity(),
-                                        record.getB_member_id(), record.getB_name(), true, record.getB_qq());
-                            } else {
-                                ActivityManager.startConversationActivity(getActivity(),
-                                        record.getB_member_id(), record.getB_name(), false);
+                                if(null == memberId  || memberId.equals("")){
+                                    memberId = getMember_id();
+                                }
+                                FeiMoIMHelper.Login(memberId, user.getNickname(), user.getAvatar());
                             }
+
+                            IMSdk.createChat(getContext(),record.getB_member_id(),record.getB_name(),record.getB_avatar());
+
                             UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "对战表-头像");
                         }
                         break;

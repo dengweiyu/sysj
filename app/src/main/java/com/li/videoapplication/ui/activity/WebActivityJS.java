@@ -35,6 +35,7 @@ import com.li.videoapplication.data.model.entity.Download;
 import com.li.videoapplication.data.model.entity.FGame;
 import com.li.videoapplication.data.model.response.GameDetailEntity;
 import com.li.videoapplication.data.network.UITask;
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.DownloadHelper;
 import com.li.videoapplication.tools.IntentHelper;
@@ -422,6 +423,9 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         initDownloadView();
     }
 
+    /**
+     * 初始化/显示/隐藏 下载视图
+     */
     private void initDownloadView() {
         ViewStub stub = (ViewStub) findViewById(R.id.vs_download);
         if (stub != null) {
@@ -434,6 +438,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         }
         hideWebDownloadBtn();
         if (fileEntity != null) {
+//            PreferencesHepler.getInstance().saveRequest(url, null, fileEntity.toJSON());
             FileDownloaderEntity localEntity = FileDownloaderManager.findByFileUrl(fileEntity.getFileUrl());
             if (localEntity != null) {
                 fileEntity = localEntity;

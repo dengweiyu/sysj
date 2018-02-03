@@ -153,7 +153,7 @@ public class VideoBillboardFragment extends TBaseFragment implements IVideoBillb
             presenter.loadVideoBillboardRankingData(getMember_id(), "comment", page);
         } else if (getBillboard() == VIDEOBILLBOARD_CLICK) {
             // 视频榜--观看榜
-            presenter.loadVideoBillboardRankingData(getMember_id(), "click", page);
+            presenter.loadVideoBillboardRankingData(getMember_id(), "setRead", page);
         }
     }
 

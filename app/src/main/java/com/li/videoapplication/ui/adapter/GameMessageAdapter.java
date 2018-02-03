@@ -11,7 +11,9 @@ import com.li.videoapplication.R;
 import com.li.videoapplication.data.model.entity.Game;
 import com.li.videoapplication.data.model.entity.GroupMessage;
 import com.li.videoapplication.data.model.event.ReadMessageEntity;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.BaseArrayAdapter;
+import com.li.videoapplication.tools.GameGroupMsgCountHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.views.RoundedImageView;
@@ -68,12 +70,18 @@ public class GameMessageAdapter extends BaseArrayAdapter<GroupMessage> {
             @Override
             public void onClick(View v) {
                 startGroupDetailActivity(getGame(record));
-                //
-                ReadMessageEntity entity = new ReadMessageEntity();
-                entity.setSymbol(mType);
-                entity.setMsgId(record.getMsg_id());
-                entity.setAll(0);
-                EventBus.getDefault().post(entity);
+                GameGroupMsgCountHelper.getInstance().setRead(record.getGroup_id(), System.currentTimeMillis()); //缓存
+
+                UITask.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ReadMessageEntity entity = new ReadMessageEntity();
+                        entity.setSymbol(mType);
+                        entity.setMsgId(record.getMsg_id());
+                        entity.setAll(0);
+                        EventBus.getDefault().post(entity);
+                    }
+                }, 200);
 
                 record.setNew_data_num("0");
                 setCount(record, holder);
@@ -92,13 +100,19 @@ public class GameMessageAdapter extends BaseArrayAdapter<GroupMessage> {
      */
     private void setCount(final GroupMessage record, final ViewHolder holder) {
 
-        if (record.getNew_data_num().equals("0")) {// 已读
+        if (GameGroupMsgCountHelper.getInstance().isOutmoded(record.getGroup_id())) {
+            if (record.getNew_data_num().equals("0")) {// 已读
+                holder.count.setVisibility(View.GONE);
+                holder.go.setVisibility(View.VISIBLE);
+            } else {
+                holder.count.setVisibility(View.VISIBLE);
+                holder.go.setVisibility(View.GONE);
+            }
+        } else {
             holder.count.setVisibility(View.GONE);
             holder.go.setVisibility(View.VISIBLE);
-        } else {
-            holder.count.setVisibility(View.VISIBLE);
-            holder.go.setVisibility(View.GONE);
         }
+
     }
 
     private Game getGame(GroupMessage record) {

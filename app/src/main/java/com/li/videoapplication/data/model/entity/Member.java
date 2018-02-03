@@ -745,7 +745,7 @@ public class Member extends BaseEntity {
         setLike_grouptype(sb.toString().trim() + "");
     }
 
-    public static class LikeGameGroup {
+    public static class LikeGameGroup extends BaseEntity{
         private String group_id;
         private String flag;
         private String group_name;

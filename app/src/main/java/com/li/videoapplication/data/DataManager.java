@@ -758,7 +758,7 @@ public class DataManager {
      * 功能：首页更多204（最热）
      */
     public static void indexIndexMore217Hot(String more_mark, String member_id, int page) {
-        DataManager.indexIndexMore217(new IndexIndexMore204HotEntity(), more_mark, member_id, "click", page);
+        DataManager.indexIndexMore217(new IndexIndexMore204HotEntity(), more_mark, member_id, "setRead", page);
     }
 
     /**
@@ -2266,7 +2266,7 @@ public class DataManager {
      * 功能：广场列表（最热）
      */
     public static void squareListHot(String member_id, int page,String gameId) {
-        DataManager.squareList(new SquareListHotEntity(), member_id, "click", page,gameId);
+        DataManager.squareList(new SquareListHotEntity(), member_id, "setRead", page,gameId);
     }
 
     /**
@@ -2472,11 +2472,66 @@ public class DataManager {
     public static void messageSysMessage(String member_id, int page,String url) {
 
         RequestHelper helper = new RequestHelper();
-
         Map<String, Object> params = RequestParams.getInstance().messageSysMessage(member_id, page);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
         request.setEntity(new MessageSysMessageEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：回复消息
+     */
+    public static void messageReplyMessage(String member_id, String url) {
+
+        RequestHelper helper = new RequestHelper();
+        Map<String, Object> params = RequestParams.getInstance().messageReplyMessage(member_id);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new MessageReplyListEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：回复消息-游戏圈回复
+     */
+    public static void messageReplyGameGroupMessage(String member_id, String url) {
+
+        RequestHelper helper = new RequestHelper();
+        Map<String, Object> params = RequestParams.getInstance().messageReplyMessage(member_id);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new GameGroupReplyMessageEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：回复消息-视频回复
+     */
+    public static void messageReplyVideoMessage(String member_id, String url) {
+
+        RequestHelper helper = new RequestHelper();
+        Map<String, Object> params = RequestParams.getInstance().messageReplyMessage(member_id);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new VideoReplyMessageEntity());
+        helper.doNetwork(request);
+    }
+
+    /**
+     * 功能：回复消息-游戏圈回复-提交回复
+     */
+    public static void replyGameGroupComment(String content, String reply_member_id, String replyed_member_id,
+                                             String comment_id, String parent_id, String group_id) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().replyGameGroupComment();
+        Map<String, Object> params = RequestParams.getInstance()
+                .replyGameGroupComment(content, reply_member_id, replyed_member_id,
+                        comment_id, parent_id, group_id);
+
+        RequestObject request = new RequestObject(Contants.TYPE_POST, url, params, null);
+        request.setEntity(new ReplyGameGroupCommentEntity());
         helper.doNetwork(request);
     }
 
@@ -2520,6 +2575,17 @@ public class DataManager {
         request.setEntity(new RewardAndPlayWithMsgEntity());
         helper.doNetwork(request);
     }
+
+    public static void getMsgReplyComment(String memberId, String relid, int page) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().msgReplyComment();
+        Map<String, Object> params = RequestParams.getInstance().getMsgReplyComment(memberId, relid, page);
+
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new MsgReplyCommentEntity());
+        helper.doNetwork(request);
+    }
+
 
     /** ############## 图文 ############## */
 

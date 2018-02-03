@@ -108,6 +108,15 @@ public class TextImageHelper {
             }
         }
     }
+    public synchronized void setImageViewImageNet(Context context, ImageView view, String url) {
+        if (view != null && !StringUtil.isNull(url)) {
+            GlideHelper.displayImageWhite(context, url, view);
+        } else {
+            if (view != null) {
+                view.setImageBitmap(null);
+            }
+        }
+    }
 
     /**
      * 功能：ImageView显示网络图像渐变展示

@@ -21,8 +21,10 @@ import com.li.videoapplication.data.model.response.MessageListEntity;
 import com.li.videoapplication.data.model.response.MessageMsgRedEntity;
 import com.li.videoapplication.data.network.RequestParams;
 import com.li.videoapplication.data.network.RequestUrl;
+import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.tools.FeiMoIMHelper;
+import com.li.videoapplication.tools.GameGroupMsgCountHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.adapter.MessageAdapter;
 import com.li.videoapplication.utils.StringUtil;
@@ -40,8 +42,8 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
     /**
      * 跳转：消息列表
      */
-    private void startMessageListActivity(String title ,String url,String type) {
-        MessageListActivity.showActivity(this,title,url,type);
+    private void startMessageListActivity(String title, String url, String type) {
+        MessageListActivity.showActivity(this, title, url, type);
         UmengAnalyticsHelper.onEvent(this, UmengAnalyticsHelper.SLIDER, "我的消息-视频消息");
     }
 
@@ -53,6 +55,7 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
     private View mEmptyView;
     private int mFMCount = 0;
     private int mRongCount = 0;
+
     public int inflateActionBar() {
         return R.layout.actionbar_second;
     }
@@ -99,22 +102,22 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
         super.loadData();
 
         getListByCache();
-  		DataManager.getMessageList(getMember_id());
+        DataManager.getMessageList(getMember_id());
         enterFragment();
     }
 
     //use cache first
-    private void getListByCache(){
-        String data =  RequestCache.get(RequestUrl.getInstance().getMessageList(), RequestParams.getInstance().getMessageList(getMember_id()));
-        if (!StringUtil.isNull(data)){
+    private void getListByCache() {
+        String data = RequestCache.get(RequestUrl.getInstance().getMessageList(), RequestParams.getInstance().getMessageList(getMember_id()));
+        if (!StringUtil.isNull(data)) {
             Gson gson = new Gson();
             try {
-                if (this.data == null){
+                if (this.data == null) {
                     this.data = new ArrayList<>();
-                }else {
+                } else {
                     this.data.clear();
                 }
-                List<MessageListEntity.DataBean> newData = ((MessageListEntity)gson.fromJson(data,MessageListEntity.class)).getData();
+                List<MessageListEntity.DataBean> newData = ((MessageListEntity) gson.fromJson(data, MessageListEntity.class)).getData();
                 this.data.addAll(newData);
                 adapter.notifyDataSetChanged();
             } catch (Exception e) {
@@ -125,21 +128,21 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
 
 
     private void enterFragment() {
-        ConversationListFragment fragment = (ConversationListFragment) getSupportFragmentManager().findFragmentById(R.id.conversationlistFragment);
-
-        Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
-                .appendPath("conversationlist")
-                .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话非聚合显示
-                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "false")//设置群组会话聚合显示
-                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//设置讨论组会话非聚合显示
-                .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//设置系统会话非聚合显示
-                .build();
-
-        fragment.setUri(uri);
-
-        //message is empty
-        mRongCount = fragment.getAdapter().getCount();
-        mFMCount = ((RecyclerView)feiMoIMList.findViewById(R.id.com_im_id_main_list)).getAdapter().getItemCount();
+//        ConversationListFragment fragment = (ConversationListFragment) getSupportFragmentManager().findFragmentById(R.id.conversationlistFragment);
+//
+//        Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
+//                .appendPath("conversationlist")
+//                .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话非聚合显示
+//                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "false")//设置群组会话聚合显示
+//                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//设置讨论组会话非聚合显示
+//                .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//设置系统会话非聚合显示
+//                .build();
+//
+//        fragment.setUri(uri);
+//
+//        //message is empty
+//        mRongCount = fragment.getAdapter().getCount();
+        mFMCount = ((RecyclerView) feiMoIMList.findViewById(R.id.com_im_id_main_list)).getAdapter().getItemCount();
         setEmptyView();
 
         feiMoIMList.setSupport(new InformationView.Support() {
@@ -155,7 +158,7 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
     public void onResume() {
         super.onResume();
         // 圈子消息总数
-       // DataManager.messageMsgRed(getMember_id());
+        // DataManager.messageMsgRed(getMember_id());
 
     }
 
@@ -165,10 +168,10 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
         MessageListActivity.clearGameData();
     }
 
-    private void setEmptyView(){
-        if (mRongCount+mFMCount == 0){
+    private void setEmptyView() {
+        if (mRongCount + mFMCount == 0) {
             mEmptyView.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             mEmptyView.setVisibility(View.GONE);
         }
 
@@ -237,14 +240,14 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
                 break;
         }*/
 
-        startMessageListActivity(data.getTitle(),data.getInterface_url(),data.getSymbol());
+        startMessageListActivity(data.getTitle(), data.getInterface_url(), data.getSymbol());
     }
 
     /**
      * 消息列表
      */
-    public  void  onEventMainThread(MessageListEntity entity){
-        if(entity != null && entity.isResult()){
+    public void onEventMainThread(MessageListEntity entity) {
+        if (entity != null && entity.isResult()) {
             data.clear();
             data.addAll(entity.getData());
             adapter.notifyDataSetChanged();
@@ -256,47 +259,59 @@ public class MyMessageActivity extends TBaseActivity implements OnItemClickListe
      */
     public void onEventMainThread(AllReadEntity event) {
         if (event != null && event.isResult()) {
-            onReadMessage(null,event.getType(),null,1);
+            onReadMessage(null, event.getType(), null, 1);
         }
     }
 
     /**
      * 清除未读消息
      */
-    public void onEventMainThread(ReadMessageEntity entity){
+    public void onEventMainThread(ReadMessageEntity entity) {
         if (entity != null) {
-            onReadMessage(entity.getMsgId(),entity.getSymbol(),entity.getMsgType(),entity.getAll());
+            if (entity.getSymbol().equals("videoReply")
+                    || entity.getSymbol().equals("gameGroupReply")) {
+                UITask.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        DataManager.getMessageList(getMember_id());
+                    }
+                }, 500);
+                return;
+            }
+            onReadMessage(entity.getMsgId(), entity.getSymbol(), entity.getMsgType(), entity.getAll());
         }
     }
+
     /**
      * 清除红点设置为已读
      */
-    public void onReadMessage(String msgId,String symbol,String msgType,int isAll){
+    public void onReadMessage(String msgId, String symbol, String msgType, int isAll) {
 
         for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).getSymbol().equals(symbol)){
+            if (data.get(i).getSymbol().equals(symbol) ||
+                    data.get(i).getSymbol().equals("reply") &&
+                            (symbol.equals("videoReply") || symbol.equals("gameGroupReply"))) {
                 //修改本地的未读数
-                if (isAll == 1){
+                if (isAll == 1) {
                     data.get(i).setMark_num("0");
-                }else {
+                } else {
                     int num = 0;
                     try {
                         num = Integer.parseInt(data.get(i).getMark_num());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    if (num > 0){
-                        data.get(i).setMark_num((num - 1)+"");
-                    }
+                    if (!data.get(i).getSymbol().equals("group") && num > 0)
+                        data.get(i).setMark_num((num - 1) + "");
                 }
                 adapter.notifyDataSetChanged();
                 break;
             }
         }
 
-        if (!StringUtil.isNull(symbol)){
+        if (!StringUtil.isNull(symbol)) {
             //提交未读
-            DataManager.readMessage(getMember_id(),msgId,symbol,msgType,isAll);
+            DataManager.readMessage(getMember_id(), msgId, symbol, msgType, isAll);
         }
     }
 }

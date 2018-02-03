@@ -237,13 +237,14 @@ public class GroupHybridDetailEntity extends BaseResponseEntity {
          * game_id : 10171
          * flagName : details
          * goUrl : http://m.17sysj.com/GameGroup/gameGroupDetail
+         * isCheck : 是否默认选中1=>是，0=>否
          */
 
         private String name;
         private String game_id;
         private String flagName;
         private String goUrl;
-
+        private int isCheck;
         public String getName() {
             return name;
         }
@@ -274,6 +275,14 @@ public class GroupHybridDetailEntity extends BaseResponseEntity {
 
         public void setGoUrl(String goUrl) {
             this.goUrl = goUrl;
+        }
+
+        public int getIsCheck() {
+            return isCheck;
+        }
+
+        public void setIsCheck(int isCheck) {
+            this.isCheck = isCheck;
         }
     }
 }

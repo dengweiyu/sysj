@@ -200,7 +200,7 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
     }
 
     /**
-     * long click to copy member id
+     * long setRead to copy member id
      */
     final View.OnLongClickListener mLongClickListener = new View.OnLongClickListener() {
         @Override

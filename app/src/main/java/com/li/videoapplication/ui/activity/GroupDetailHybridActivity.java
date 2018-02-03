@@ -95,7 +95,7 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
     public void loadData() {
         super.loadData();
 
-        DataManager.getHybridGroupDetail(mGroupId,getMember_id(), BuildConfig.VERSION_NAME);
+        DataManager.getHybridGroupDetail(mGroupId, getMember_id(), BuildConfig.VERSION_NAME);
     }
 
     @Override
@@ -182,6 +182,12 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
             }
             mViewPager.setOffscreenPageLimit(5);
             mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(),mFragments,mTitle.toArray(new String[]{})));
+
+            for (int i = 0; i < mDetailEntity.getAData().size(); i++) {
+                if (mDetailEntity.getAData().get(i).getIsCheck() == 1) {
+                    mViewPager.setCurrentItem(i);
+                }
+            }
         }
     }
 

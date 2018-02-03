@@ -1022,7 +1022,6 @@ public class VideoShare2Activity extends TBaseActivity implements View.OnClickLi
         // 本地视频
         EventManager.postVideoEditor2VideoManagerEvent(new String[]{mVideoCaptureEntity.getVideo_path()}, 2);
 
-
         finish();
     }
 

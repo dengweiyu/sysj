@@ -201,8 +201,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.li.videoapplication.ui.activity.MessageListActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.MessageReplyActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.li.videoapplication.ui.activity.MyPersonalCenterActivity"
             android:launchMode="singleTask"

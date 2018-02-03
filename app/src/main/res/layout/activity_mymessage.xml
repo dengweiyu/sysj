@@ -40,12 +40,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <fragment
-                android:id="@+id/conversationlistFragment"
-                android:name="io.rong.imkit.fragment.ConversationListFragment"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+            <!--<fragment-->
+                <!--android:id="@+id/conversationlistFragment"-->
+                <!--android:name="io.rong.imkit.fragment.ConversationListFragment"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="1" />-->
             <LinearLayout
                 android:id="@+id/ll_my_message_is_empty"
                 android:layout_width="match_parent"

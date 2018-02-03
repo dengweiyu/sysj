@@ -24,6 +24,7 @@ import com.li.videoapplication.data.model.response.AdvertisementAdImage204Entity
 import com.li.videoapplication.data.model.response.AdvertisementAdLocation204Entity;
 import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.tools.ArrayHelper;
+import com.li.videoapplication.tools.GameGroupMsgCountHelper;
 import com.li.videoapplication.tools.JSONHelper;
 import com.li.videoapplication.utils.StringUtil;
 
@@ -1075,6 +1076,7 @@ public class PreferencesHepler {
     public boolean clearAll() {
         UserPreferences.getInstance().clear();
         SettingPreferences.getInstance().clear();
+        GameGroupMsgCountHelper.getInstance().clear();
         return true;
     }
 

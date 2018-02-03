@@ -139,6 +139,10 @@ public abstract class BaseArrayAdapter<T> extends ArrayAdapter<T> {
 		textImageHelper.setImageViewImageNet(mImageView, url);
 	}
 
+	protected void setImageViewImageNet(Context context, ImageView mImageView, String url) {
+		textImageHelper.setImageViewImageNet(context, mImageView, url);
+	}
+
 	protected void setImageViewImageNetAlpha(ImageView mImageView, String url) {
 		textImageHelper.setImageViewNetAlpha(mImageView, url);
 	}

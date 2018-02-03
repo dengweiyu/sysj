@@ -136,7 +136,7 @@ public class JPushHelper {
                 }
                 // 点击通知
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-                Log.d(TAG, "onReceive: click");
+                Log.d(TAG, "onReceive: setRead");
                 launchApp(context);
             }
         }

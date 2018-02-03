@@ -74,6 +74,7 @@ import com.li.videoapplication.ui.activity.LoginActivity;
 import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.ui.activity.MallActivity;
 import com.li.videoapplication.ui.activity.MessageListActivity;
+import com.li.videoapplication.ui.activity.MessageReplyActivity;
 import com.li.videoapplication.ui.activity.MyCurrencyRecordActivity;
 import com.li.videoapplication.ui.activity.MyDynamicActivity;
 import com.li.videoapplication.mvp.match.view.MyMatchActivity;
@@ -865,6 +866,16 @@ public class ActivityManager {
         intent.putExtra("title", title);
         intent.putExtra("url", url);
         intent.putExtra("type", type);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 消息
+     */
+    public synchronized static void startMessageReplyActivity(Context context, String relid) {
+        Intent intent = new Intent();
+        intent.setClass(context, MessageReplyActivity.class);
+        intent.putExtra("relid", relid);
         context.startActivity(intent);
     }
 
