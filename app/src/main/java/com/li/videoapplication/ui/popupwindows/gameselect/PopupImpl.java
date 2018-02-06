@@ -197,7 +197,7 @@ public final class PopupImpl implements IPopup, ViewPager.OnPageChangeListener {
      * @param text
      */
     public void requestAssociateGame(String text) {
-        DataManager.associate201_2("game", text, new SearcheHotGameEntity());
+        DataManager.associate201_2("game", text, new SearchHotGameEntity());
     }
 
     public List<IPageView> getPageViews() {
@@ -550,9 +550,9 @@ public final class PopupImpl implements IPopup, ViewPager.OnPageChangeListener {
      * 搜索的游戏
      * @param searcheHotGame
      */
-    public void onEventMainThread(final SearcheHotGameEntity searcheHotGame) {
+    public void onEventMainThread(final SearchHotGameEntity searcheHotGame) {
         if (searcheHotGame.isResult() && searcheHotGame.getData() != null) {
-            Log.i(TAG, "onEventBackgroundThread: 接收到数据 SearcheHotGameEntity");
+            Log.i(TAG, "onEventBackgroundThread: 接收到数据 SearchHotGameEntity");
             iPopupContext.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

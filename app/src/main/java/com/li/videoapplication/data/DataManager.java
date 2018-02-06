@@ -41,8 +41,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.li.videoapplication.data.DataManager.DANMUKU.bulletDo203;
-
 /**
  * 功能：数据请求管理类
  */
@@ -3459,11 +3457,12 @@ public class DataManager {
         Map<String, Object> params = RequestParams.getInstance().associate201(classType, keyWord);
 
         RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        o.setExtra(params);
         if (o instanceof LifeEntity) {
             LifeEntity entity = (LifeEntity) o;
             request.setEntity(entity);
-        } else if (o instanceof SearcheHotGameEntity) {
-            SelectMyGameEntity entity = (SelectMyGameEntity) o;
+        } else if (o instanceof SearchHotGameEntity) {
+            SearchHotGameEntity entity = (SearchHotGameEntity) o;
             request.setEntity(entity);
         }
         helper.doService(request);

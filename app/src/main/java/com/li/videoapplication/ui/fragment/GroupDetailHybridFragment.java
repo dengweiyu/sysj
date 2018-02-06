@@ -279,7 +279,7 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-
+                mRefreshLayout.setRefreshing(true);
             }
 
             @Override

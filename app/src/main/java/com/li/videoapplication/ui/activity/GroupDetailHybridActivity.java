@@ -3,6 +3,7 @@ package com.li.videoapplication.ui.activity;
 import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
@@ -147,7 +148,7 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
         mFragments = new ArrayList<>();
         mTitle = new ArrayList<>();
 
-
+        mViewPager.addOnPageChangeListener(mPageChangeListener);
     }
 
     private void initToolbar(){
@@ -202,6 +203,9 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
                      }
                  }
             }
+        }
+        if (mViewPager != null && mPageChangeListener != null) {
+            mViewPager.removeOnPageChangeListener(mPageChangeListener);
         }
         super.onDestroy();
     }
@@ -396,5 +400,25 @@ public class GroupDetailHybridActivity extends TBaseAppCompatActivity implements
         mViewPager.setScrollable(false);
     }
 
+    private ViewPager.OnPageChangeListener mPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            for (Fragment f : mFragments) {
+                if (f instanceof GroupDetailHybridFragment) {
+                    ((GroupDetailHybridFragment) f).refresh();
+                }
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 
 }

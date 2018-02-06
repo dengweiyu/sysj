@@ -6,5 +6,5 @@ import com.li.videoapplication.data.model.response.Associate201Entity;
 /**
  * Created by linhui on 2017/9/19.
  */
-public class SearcheHotGameEntity extends Associate201Entity {
+public class SearchHotGameEntity extends Associate201Entity {
 }

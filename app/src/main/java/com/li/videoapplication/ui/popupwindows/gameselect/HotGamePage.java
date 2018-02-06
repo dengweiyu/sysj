@@ -142,7 +142,7 @@ final class HotGamePage implements IPageView<Associate201Entity>, ISubmit {
      */
     @Override
     public void handlerData(Associate201Entity hotGameEntity) {
-        if (isSearchStatus.get() && hotGameEntity instanceof SearcheHotGameEntity) {
+        if (isSearchStatus.get() && hotGameEntity instanceof SearchHotGameEntity) {
             Log.i(TAG, "handlerData: 搜索回调");
             synchronized (id_search_game_et) {
                 if (id_search_game_et.getText().toString().equals(
