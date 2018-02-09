@@ -105,7 +105,7 @@ public class BannerAdapterFor226 extends BaseBaseAdapter {
             banner.setTitle(dataBean.getTitle());
             banner.setUrl(dataBean.getUrl());
             banner.setQn_key(dataBean.getQn_key());
-
+            banner.setType_id(dataBean.getType_id());
             bannerData.add(banner);
         }
         this.data = bannerData;

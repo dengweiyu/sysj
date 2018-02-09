@@ -562,8 +562,8 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         if (isLogin()) {
             Log.d(tag, "comment/text=" + text);
             if (videoPlayView != null && videoPlayView.videoImage != null){
-                DataManager.DANMUKU.bulletDo203Bullet2Video(videoPlayView.videoImage.getVideo_id(),"1000",getMember_id(),text);
-                DataManager.DANMUKU.bulletDo203SecondComment(videoPlayView.videoImage.getVideo_id(),"1000",getMember_id(),text, c.getComment_id());
+//                DataManager.DANMUKU.bulletDo203Bullet2Video(videoPlayView.videoImage.getVideo_id(),"1000",getMember_id(),text);
+                DataManager.DANMUKU.bulletDo203SecondComment(videoPlayView.videoImage.getVideo_id(),"1000",getMember_id(),text, c.getComment_id(), c.getMember_id());
             }
             return true;
         }

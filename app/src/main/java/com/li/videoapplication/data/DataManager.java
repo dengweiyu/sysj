@@ -582,7 +582,8 @@ public class DataManager {
                                        String content,
                                        String bullet,
                                        String mark,
-                                       String comment_id) {
+                                       String comment_id,
+                                       String replyed_member_id) {
 
             RequestHelper helper = new RequestHelper();
             String url = RequestUrl.getInstance().bulletDo203();
@@ -592,7 +593,7 @@ public class DataManager {
                     content,
                     bullet,
                     mark,
-                    comment_id);
+                    comment_id, replyed_member_id);
             RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
             request.setEntity(entity);
             helper.doNetwork(request);
@@ -612,6 +613,7 @@ public class DataManager {
                     content,
                     "1",
                     "0",
+                    "",
                     "");
         }
 
@@ -621,7 +623,8 @@ public class DataManager {
         public static void bulletDo203SecondComment(String video_id,
                                                     String node,
                                                     String member_id,
-                                                    String content, String comment_id) {
+                                                    String content, String comment_id,
+                                                    String replyed_member_id) {
             bulletDo203(new BulletDo203Bullet2VideoEntity(),
                     video_id,
                     node,
@@ -629,7 +632,8 @@ public class DataManager {
                     content,
                     "1",
                     "1",
-                    comment_id);
+                    comment_id,
+                    replyed_member_id);
         }
     }
 

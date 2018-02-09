@@ -1321,7 +1321,8 @@ public class RequestParams {
                                            String content,
                                            String bullet,
                                            String mark,
-                                           String comment_id) {
+                                           String comment_id,
+                                           String replyed_member_id) {
         Map<String, Object> map = new HashMap<>();
         map.put("video_id", video_id);
         map.put("video_node", video_node);
@@ -1329,8 +1330,9 @@ public class RequestParams {
         map.put("content", content);
         map.put("bullet", bullet);
         map.put("mark", mark);
-        map.put("target",SYSJ);
         map.put("comment_id", comment_id);
+        map.put("replyed_member_id", replyed_member_id);
+        setBaseParams(map);
         return map;
     }
 
