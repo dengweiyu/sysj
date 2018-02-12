@@ -760,7 +760,7 @@ public class DataManager {
      * 功能：首页更多204（最热）
      */
     public static void indexIndexMore217Hot(String more_mark, String member_id, int page) {
-        DataManager.indexIndexMore217(new IndexIndexMore204HotEntity(), more_mark, member_id, "setRead", page);
+        DataManager.indexIndexMore217(new IndexIndexMore204HotEntity(), more_mark, member_id, "click", page);
     }
 
     /**
@@ -2268,7 +2268,7 @@ public class DataManager {
      * 功能：广场列表（最热）
      */
     public static void squareListHot(String member_id, int page,String gameId) {
-        DataManager.squareList(new SquareListHotEntity(), member_id, "setRead", page,gameId);
+        DataManager.squareList(new SquareListHotEntity(), member_id, "click", page,gameId);
     }
 
     /**

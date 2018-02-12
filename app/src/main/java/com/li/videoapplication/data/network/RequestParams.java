@@ -416,7 +416,7 @@ public class RequestParams {
     public Map<String, Object> squareList(String member_id, String sort, int page,String gameId) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("member_id", member_id);
-        map.put("sort", sort);// 最新：time 最热：setRead
+        map.put("sort", sort);// 最新：time 最热：click
         map.put("page", page);
         map.put("target",SYSJ);
         map.put("game_id",gameId);
@@ -1057,7 +1057,7 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("more_mark", more_mark);
         map.put("member_id", member_id);
-        map.put("sort", sort);// time/setRead
+        map.put("sort", sort);// time/click
         map.put("page", page);
         return map;
     }
@@ -1066,7 +1066,7 @@ public class RequestParams {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("more_mark", more_mark);
         map.put("member_id", member_id);
-        map.put("sort", sort);// time/setRead
+        map.put("sort", sort);// time/click
         map.put("page", page);
         return map;
     }

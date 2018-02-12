@@ -618,7 +618,7 @@ public class RequestUrl {
      * 视频踩203
      */
     public final String fndownClick203() {
-        return BaseSYSJ + "/sysj203/fndown/setRead";
+        return BaseSYSJ + "/sysj203/fndown/click";
     }
 
     /**
@@ -1088,7 +1088,7 @@ public class RequestUrl {
      * 游戏下载数+1
      */
     public final String downloadClick217() {
-        return BaseSYSJ + "/Sysj217/Download/setRead";
+        return BaseSYSJ + "/Sysj217/Download/click";
     }
 
     /**

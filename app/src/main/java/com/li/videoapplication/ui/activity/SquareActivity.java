@@ -271,7 +271,7 @@ public class SquareActivity extends TBaseActivity implements View.OnClickListene
                 mNew.setTextColor(Color.parseColor("#5e5e5e"));
                 mHot.setBackgroundResource(R.drawable.square_selected_title);
                 mNew.setBackground(null);
-                sort = "setRead";
+                sort = "click";
             }
             //统计事件
             DataManager.squareGamePageStatistical(gameId,sort);
