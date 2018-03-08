@@ -12,8 +12,8 @@ import com.li.videoapplication.data.model.entity.Advertisement;
 import com.li.videoapplication.data.model.entity.HomeColumnEntity;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.HomeGameSelectEntity;
-import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.response.*;
 import com.li.videoapplication.data.network.Contants;
 import com.li.videoapplication.data.network.RequestHelper;
@@ -31,8 +31,9 @@ import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseResponseEntity;
 import com.li.videoapplication.tools.ArrayHelper;
-import com.li.videoapplication.ui.popupwindows.gameselect.*;
 import com.li.videoapplication.ui.popupwindows.gameselect.HotGameEntity;
+import com.li.videoapplication.ui.popupwindows.gameselect.LifeEntity;
+import com.li.videoapplication.ui.popupwindows.gameselect.SearchHotGameEntity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.VersionUtils;
 
@@ -3486,4 +3487,18 @@ public class DataManager {
         request.setEntity(new Vip3AndAuthoryEntity());
         helper.doService(request);
     }
+
+    /**
+     * 客服
+     */
+    public static void getCustomService() {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getCustomService();
+        Map<String, Object> params = RequestParams.getInstance().getCustomService();
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new CustomServiceEntity());
+        helper.doNetwork(request);
+
+    }
+
 }

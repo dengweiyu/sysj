@@ -1,16 +1,13 @@
 package com.li.videoapplication.data.network;
 
-import android.util.ArrayMap;
-
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Objects;
-
 import com.li.videoapplication.BuildConfig;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 功能：网络请求参数
@@ -1288,6 +1285,12 @@ public class RequestParams {
         map.put("video_id", video_id);
         map.put("member_id", member_id);
         map.put("target",SYSJ);
+        return map;
+    }
+
+    public Map<String, Object> getCustomService() {
+        HashMap<String, Object> map = new HashMap();
+        map.put("target", SYSJ);
         return map;
     }
 

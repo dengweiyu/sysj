@@ -1,6 +1,5 @@
 package com.li.videoapplication.data.network;
 
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -19,10 +18,10 @@ import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.data.model.response.AdvertisementAdImage204Entity;
 import com.li.videoapplication.data.model.response.AdvertisementAdLocation204Entity;
 import com.li.videoapplication.data.model.response.BulletList203Entity;
+import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.CheckAndroidStatusEntity;
 import com.li.videoapplication.data.model.response.DetailNewEntity;
 import com.li.videoapplication.data.model.response.GetRongCloudToken204Entity;
-import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.LoginEntity;
 import com.li.videoapplication.data.model.response.PhotoSavePhotoEntity;
 import com.li.videoapplication.data.model.response.SaveEventVideo204Entity;
@@ -39,6 +38,8 @@ import com.li.videoapplication.tools.JPushHelper;
 import com.li.videoapplication.utils.HareWareUtil;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -459,6 +460,20 @@ public class ResponseHandler {
                         DanmukuCache.save(video_id, xml);
                     }
                 }
+            }
+        }
+        /**
+         * 客服
+         */
+        if (url.equals(RequestUrl.getInstance().getCustomService())) {
+            if (result) {
+
+                JSONObject objResult = new JSONObject(resultString);
+                JSONObject objData = objResult.getJSONObject("data");
+                String number = objData.getString("qq");
+
+                Log.d("customService", "qq:" + number);
+                PreferencesHepler.getInstance().saveCustomServiceQQ(number);
             }
         }
 
