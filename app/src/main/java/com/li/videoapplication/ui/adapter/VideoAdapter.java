@@ -163,7 +163,7 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
             holder = new ViewHolder();
             view = inflater.inflate(R.layout.adapter_video, null);
             holder.title = (TextView) view.findViewById(R.id.video_title);
-            //holder.playCount = (TextView) view.findViewById(R.id.video_playCount);
+            holder.playCount = (TextView) view.findViewById(R.id.video_playCount);
             //holder.play = (ImageView) view.findViewById(R.id.video_play);//播放数
             holder.cover = (ImageView) view.findViewById(R.id.video_cover);
             holder.allTime = (TextView) view.findViewById(R.id.video_allTime);
@@ -212,9 +212,9 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
 //        }
         if (!isScrolling) {
             // 封面
-            if (!StringUtil.isNull(record.getFlagPath())) {
-                if (URLUtil.isURL(record.getFlagPath())) {
-                    setImageViewImageNetAlpha(mContext, holder.cover, record.getFlagPath());
+            if (!StringUtil.isNull(record.getFlag())) {
+                if (URLUtil.isURL(record.getFlag())) {
+                    setImageViewImageNetAlpha(mContext, holder.cover, record.getFlag());
                 }
             }
             //上传主的头像
@@ -222,6 +222,8 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
                 if (URLUtil.isURL(record.getAvatar())){
                     setCircleImageNetAlpha(mContext, holder.avatar,record.getAvatar());
                 }
+            }else{
+                holder.avatar.setVisibility(View.GONE);
             }
             Log.w(tag, "没有滚动，图渲染..");
         } else {

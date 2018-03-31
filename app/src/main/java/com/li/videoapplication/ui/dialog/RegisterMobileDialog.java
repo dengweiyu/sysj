@@ -183,7 +183,7 @@ public class RegisterMobileDialog extends BaseDialog implements View.OnClickList
                 // 编辑个人资料
                 DataManager.userProfileFinishMemberInfo(newMember);
             } else {
-                ToastHelper.s("验证码错误");
+                ToastHelper.s(event.getMsg().toString());
             }
         }
     }

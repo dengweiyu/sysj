@@ -92,12 +92,6 @@ public class RequestUrl {
         return BaseSYSJ + "/Sysj218/share/sharePlayerSquare";
     }
 
-    /**
-     * 获取客服QQ
-     */
-    public final String getCustomService() {
-        return BaseSYSJ + "/Home/Sys/initCommonParam";
-    }
 
     /**
      * 分享成功后触发

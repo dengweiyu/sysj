@@ -1,5 +1,6 @@
 package com.li.videoapplication.data.preferences;
 
+import android.support.v4.util.LruCache;
 import android.util.Log;
 
 import com.fmsysj.screeclibinvoke.data.ConstantsPreferences;
@@ -11,15 +12,16 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Advertisement;
-import com.li.videoapplication.data.model.entity.Associate;
 import com.li.videoapplication.data.model.entity.HomeColumnEntity;
+import com.li.videoapplication.data.model.entity.NetworkError;
+import com.li.videoapplication.data.model.response.AdvertisementDto;
+import com.li.videoapplication.data.model.entity.Associate;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.AdvertisementAdImage204Entity;
 import com.li.videoapplication.data.model.response.AdvertisementAdLocation204Entity;
-import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.tools.ArrayHelper;
 import com.li.videoapplication.tools.GameGroupMsgCountHelper;
@@ -968,32 +970,6 @@ public class PreferencesHepler {
                 e.printStackTrace();
             }
         }
-    }
-
-    /**
-     * 保存侧滑菜单客服qq
-     */
-    public void saveCustomServiceQQ(String qq) {
-        NormalPreferences.getInstance().putString(Constants.SLIDING_CS, qq);
-        try {
-            Log.d(tag, "save/SlidingMenuCustomService=" + qq);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    /**
-     * 获取侧滑菜单客服qq
-     */
-    public String getCustomServiceQQ() {
-        String qq = NormalPreferences.getInstance().getString(Constants.SLIDING_CS);
-        try {
-            Log.d(tag, "get/SlidingMenuCustomServices" + qq);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return qq;
     }
 
     /**

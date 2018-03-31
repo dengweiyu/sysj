@@ -4,13 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.BaseDialog;
 import com.li.videoapplication.tools.ToastHelper;
@@ -53,19 +52,16 @@ public class ServiceDialog extends BaseDialog implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.service_btn_dialog:
-
-                DataManager.getCustomService();
-                String qq = PreferencesHepler.getInstance().getCustomServiceQQ();
-                Log.d("customServiceQQ", qq);
                 // 直接打开qq某个人（可以是陌生人）
-                String qqUrl = "mqqwpa://im/chat?chat_type=wpa&uin=" + qq +
+        		String qqUrl = "mqqwpa://im/chat?chat_type=wpa&uin=" +
+                        PreferencesHepler.getInstance().getInitializationSetting().getQq_online_service() +
                         "&version=1";
-                try {
-                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(qqUrl)));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    ToastHelper.s("未安装手Q或安装的版本不支持");
-                }
+        		try {
+        			context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(qqUrl)));
+        		} catch (Exception e) {
+        			e.printStackTrace();
+        			ToastHelper.s("未安装手Q或安装的版本不支持");
+        		}
                 break;
             case R.id.feedback_btn_dialog:
                 ActivityManager.startFeedbackActivity(context);

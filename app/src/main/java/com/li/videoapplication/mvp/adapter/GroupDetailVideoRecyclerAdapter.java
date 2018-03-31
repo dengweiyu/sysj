@@ -22,9 +22,9 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.tools.TextImageHelper;
 import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.activity.ActivityDetailActivity;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.adapter.GroupDetailImageAdapter;
 import com.li.videoapplication.ui.fragment.GroupdetailVideoFragment;
 import com.li.videoapplication.utils.StringUtil;
@@ -76,7 +76,7 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                     .setTextColor(R.id.groupdetail_content, resources.getColor(R.color.white))
                     .setTextColor(R.id.groupdetail_time, resources.getColor(R.color.white))
                     .setBackgroundColor(R.id.divider, resources.getColor(R.color.joinfragment_video_divider))
-                    .setBackgroundColor(R.id.gridview, resources.getColor(R.color.activity_activity_bg))
+//                    .setBackgroundColor(R.id.gridview, resources.getColor(R.color.activity_activity_bg))
                     .setText(R.id.joinactivity_floor, videoImage.getFloor() + " 楼")
                     .setText(R.id.joinactivity_likeCount, videoImage.getFlower_count())
                     .setText(R.id.joinactivity_commentCount, videoImage.getComment_count())
@@ -84,12 +84,26 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
             //活动点赞
             setGood(holder, videoImage);
 
+            holder.setVisible(R.id.goodstarcomment, true)
+                    .setVisible(R.id.joinactivity_goodfloor, false)
+//                .setBackgroundColor(R.id.gridview, resources.getColor(R.color.white))
+                    .setTextColor(R.id.groupdetail_name, resources.getColor(R.color.white))
+                    .setTextColor(R.id.groupdetail_content, resources.getColor(R.color.white))
+                    .setTextColor(R.id.groupdetail_time, resources.getColor(R.color.video_time))
+                    .setBackgroundColor(R.id.divider, resources.getColor(R.color.divider_bg))
+                    .setText(R.id.groupdetail_content, videoImage.getContent())
+                    .setText(R.id.groupdetail_likeCount, videoImage.getFlower_count())
+                    .setText(R.id.groupdetail_starCount, videoImage.getCollection_count())
+                    .setText(R.id.groupdetail_commentCount, videoImage.getComment_count())
+                    .setVisible(R.id.bottom, !videoImage.isAD())
+                    .addOnClickListener(R.id.groupdetail_comment);
             TextView content = holder.getView(R.id.groupdetail_content);
             if (isComment(videoImage)) {
                 content.setSingleLine(false);
                 setContent(videoImage, content);
             } else if (isImage(videoImage)) {
                 content.setSingleLine(true);
+                content.setVisibility(View.VISIBLE);
                 holder.setText(R.id.groupdetail_content, videoImage.getTitle());
             } else {
                 content.setSingleLine(true);
@@ -119,19 +133,7 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
             }*/
         }
 
-        holder.setVisible(R.id.goodstarcomment, true)
-                .setVisible(R.id.joinactivity_goodfloor, false)
-                .setBackgroundColor(R.id.gridview, resources.getColor(R.color.white))
-                .setTextColor(R.id.groupdetail_name, resources.getColor(R.color.video_name))
-                .setTextColor(R.id.groupdetail_content, resources.getColor(R.color.video_content))
-                .setTextColor(R.id.groupdetail_time, resources.getColor(R.color.video_time))
-                .setBackgroundColor(R.id.divider, resources.getColor(R.color.divider_bg))
-                .setText(R.id.groupdetail_content, videoImage.getTitle())
-                .setText(R.id.groupdetail_likeCount, videoImage.getFlower_count())
-                .setText(R.id.groupdetail_starCount, videoImage.getCollection_count())
-                .setText(R.id.groupdetail_commentCount, videoImage.getComment_count())
-                .setVisible(R.id.bottom, !videoImage.isAD())
-                .addOnClickListener(R.id.groupdetail_comment);
+
         if (!videoImage.isAD()) {//不是广告
             // 点赞设置
             setLike(videoImage, holder);
@@ -181,7 +183,8 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
         }
         if (isImage(videoImage)) { // 图文
             holder.setVisible(R.id.groupdetail_video, false)
-                    .setVisible(R.id.groupdetail_image, true);
+                    .setVisible(R.id.groupdetail_image, true)
+                    .setVisible(R.id.groupdetail_content, true);
 
             List<String> data = videoImage.getPic_urls();
             GroupDetailImageAdapter dapter = new GroupDetailImageAdapter(mContext, data, videoImage);
@@ -191,7 +194,8 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
         }
         if (isComment(videoImage)) { //文字评论
             holder.setVisible(R.id.groupdetail_video, false)
-                    .setVisible(R.id.groupdetail_image, false);
+                    .setVisible(R.id.groupdetail_image, false)
+                    .setVisible(R.id.groupdetail_content, true);
         }
     }
 

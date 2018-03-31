@@ -32,8 +32,6 @@ import com.li.videoapplication.utils.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.rong.eventbus.EventBus;
-
 /**
  * 碎片：广场（最新，热门）；首页更多（最新，最热）
  */
@@ -339,11 +337,5 @@ public class NewSquareFragment extends TBaseFragment implements OnRefreshListene
         } else if (getSquare() == HOMEMORE_NEW && event != null) {
             showToastShort(event.getMsg());
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(adapter);
     }
 }
