@@ -5,7 +5,7 @@
     <color name="gray_tint">#eae9e9</color>
     <!--深灰色-->
     <color name="gray_deep">#cecdcd</color>
-
+    <color name="classified_game_text_gray">#525252</color>
     <color name="color_cccccc">#cccccc</color>
 
     <color name="fab_green">#0dd9d8</color>
@@ -139,7 +139,7 @@
     <color name="activity_activity_bg_pressed">#0a0c0e</color>
 
 
-    <color name="activity_main_bg">#f3f3f3</color>
+    <color name="activity_main_bg">#f4f4f4</color>
     <color name="activity_main_normal">#ffffff</color>
     <color name="activity_main_pressed">#e6e6e6</color>
     <color name="activity_choice_focus_game_bg">#ff3f3f</color>

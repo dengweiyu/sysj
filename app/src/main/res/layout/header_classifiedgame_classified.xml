@@ -1,26 +1,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:background="#fcfcfc"
-              android:descendantFocusability="blocksDescendants"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="10dp">
 
-    <com.li.videoapplication.views.GridViewY1
-        android:id="@+id/gridview"
+    <!--<HorizontalScrollView-->
+    <!--android:scrollbars="none"-->
+    <!--android:id="@+id/horizontall_scrollview"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="45dp">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="45dp"-->
+    <!--android:scrollbars="none">-->
+    <!--&lt;!&ndash; &ndash;&gt;-->
+    <!--<com.li.videoapplication.views.GridViewY1-->
+        <!--android:layout_height="45dp"-->
+        <!--android:id="@+id/gridview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:fastScrollEnabled="false"-->
+        <!--android:background="#00ffffff"-->
+        <!--android:cacheColorHint="#00ffffff"-->
+        <!--android:horizontalSpacing="0dp"-->
+        <!--android:listSelector="#00ffffff"-->
+        <!--android:scrollbars="none"-->
+        <!--android:stretchMode="columnWidth"-->
+        <!--android:verticalSpacing="0dp"-->
+        <!--android:visibility="visible" />-->
+    <!--&lt;!&ndash; 145 &ndash;&gt;-->
+    <!--</LinearLayout>-->
+    <!--</HorizontalScrollView>-->
+
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        android:id="@+id/header_magic_indicator"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
+        android:listSelector="#00ffffff"
         android:background="#00ffffff"
         android:cacheColorHint="#00ffffff"
-        android:horizontalSpacing="0dp"
-        android:listSelector="#00ffffff"
-        android:numColumns="4"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="12dp"
-        android:scrollbars="none"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="0dp"
-        android:visibility="visible"/>
-    <!-- 145 -->
 
+        />
 </LinearLayout>

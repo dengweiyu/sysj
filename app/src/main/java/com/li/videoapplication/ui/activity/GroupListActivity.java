@@ -3,8 +3,12 @@ package com.li.videoapplication.ui.activity;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
+import com.li.videoapplication.data.model.entity.GameModuleEntity;
 import com.li.videoapplication.data.model.entity.GroupType;
 import com.li.videoapplication.data.model.response.GroupList2Entity;
+import com.li.videoapplication.data.model.response.GroupType210Entity;
+import com.li.videoapplication.data.model.response.GroupType2Entity;
+import com.li.videoapplication.data.model.response.GroupTypeEntity;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.ui.adapter.GroupListAdapter;
 
@@ -15,6 +19,7 @@ public class GroupListActivity extends PullToRefreshActivity<Game> {
 
 	private GroupListAdapter adapter;
 	public GroupType groupType;
+
 
 	@Override
 	public void refreshIntent() {
@@ -53,8 +58,7 @@ public class GroupListActivity extends PullToRefreshActivity<Game> {
 	@Override
 	public void initView() {
 		super.initView();
-
-		adapter = new GroupListAdapter(this, data);
+		adapter = new GroupListAdapter(this,data);
 		setAdapter(adapter);
 	}
 
@@ -85,11 +89,11 @@ public class GroupListActivity extends PullToRefreshActivity<Game> {
 	public void onEventMainThread(GroupList2Entity event) {
 
 		if (event.isResult()) {
-			if (event.getData().getList() != null && event.getData().getList().size() > 0) {
+			if (event.getAData().getList() != null && event.getAData().getList().size() > 0) {
 				if (page == 1) {
 					data.clear();
 				}
-				data.addAll(event.getData().getList());
+				data.addAll(event.getAData().getList());
 				adapter.notifyDataSetChanged();
 				++page;
 			}

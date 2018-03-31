@@ -57,6 +57,10 @@ public class RequestUrl {
     public final String homeInfoById() {
         return BaseSYSJ + "/Sysj226/Index/index";
     }
+
+    public final String gameInfoById() {
+        return BaseSYSJ + "/Sysj229/Group/groupList";
+    }
     /**
      *2.2.6首页分栏的项
      */
@@ -92,6 +96,12 @@ public class RequestUrl {
         return BaseSYSJ + "/Sysj218/share/sharePlayerSquare";
     }
 
+    /**
+     * 获取客服QQ
+     */
+    public final String getCustomService() {
+        return BaseSYSJ + "/Home/Sys/initCommonParam";
+    }
 
     /**
      * 分享成功后触发
@@ -489,7 +499,7 @@ public class RequestUrl {
      * 圈子类型
      */
     public final String groupType2() {
-        return BaseSYSJ + "/sysj201/group/groupType";
+        return BaseSYSJ + "/Sysj229/Group/groupType";
     }
 
     /**
@@ -504,7 +514,13 @@ public class RequestUrl {
      * 圈子列表
      */
     public final String groupList2() {
-        return BaseSYSJ + "/sysj201/group/groupList";
+        return BaseSYSJ + "/Sysj229/Group/groupList";
+    }
+    /**
+     * 圈子列表
+     */
+    public final String groupList3() {
+        return BaseSYSJ + "/Sysj229/Group/groupList";
     }
 
 

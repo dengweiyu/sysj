@@ -1,6 +1,5 @@
 package com.li.videoapplication.data.preferences;
 
-import android.support.v4.util.LruCache;
 import android.util.Log;
 
 import com.fmsysj.screeclibinvoke.data.ConstantsPreferences;
@@ -12,16 +11,18 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Advertisement;
-import com.li.videoapplication.data.model.entity.HomeColumnEntity;
-import com.li.videoapplication.data.model.entity.NetworkError;
-import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.entity.Associate;
+import com.li.videoapplication.data.model.entity.GameModuleEntity;
+import com.li.videoapplication.data.model.entity.GameTypeEntity;
+import com.li.videoapplication.data.model.entity.HomeColumnEntity;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.entity.Update;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.response.AdvertisementAdImage204Entity;
 import com.li.videoapplication.data.model.response.AdvertisementAdLocation204Entity;
+import com.li.videoapplication.data.model.response.AdvertisementDto;
+import com.li.videoapplication.data.model.response.GroupList2Entity;
 import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.tools.ArrayHelper;
 import com.li.videoapplication.tools.GameGroupMsgCountHelper;
@@ -491,6 +492,13 @@ public class PreferencesHepler {
         NormalPreferences.getInstance().putString(Constants.HOME_COLUMN,entity.toJSON());
     }
 
+    public void saveGameTypeEntity(GameTypeEntity gameTypeEntity) {
+        NormalPreferences.getInstance().putString(Constants.GAME_TYPE, gameTypeEntity.toJSON());
+    }
+
+    public void saveGameEntity(GroupList2Entity entity) {
+        NormalPreferences.getInstance().putString(Constants.GAME, entity.toJSON());
+    }
     /**
      * 获取首页 将保存的第一页json 转为entity;
      */
@@ -537,7 +545,32 @@ public class PreferencesHepler {
         return  entity;
     }
 
-	/* ##############  图片广告  ############### */
+    public GameTypeEntity getGameTypeEntity() {
+        String json = NormalPreferences.getInstance().getString(Constants.GAME_TYPE);
+        GameTypeEntity entity = null;
+        try {
+            if (!StringUtil.isNull(json)) {
+                entity = gson.fromJson(json, GameTypeEntity.class);
+            }
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        return entity;
+    }
+
+    public GroupList2Entity getGameEntity() {
+        String json = NormalPreferences.getInstance().getString(Constants.GAME);
+        GroupList2Entity entiy = null;
+        try {
+            if (!StringUtil.isNull(json)) {
+                entiy = gson.fromJson(json, GroupList2Entity.class);
+            }
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        return entiy;
+    }
+    /* ##############  图片广告  ############### */
 
     /**
      * 删除图片广告缓存
@@ -973,6 +1006,32 @@ public class PreferencesHepler {
     }
 
     /**
+     * 保存侧滑菜单客服qq
+     */
+    public void saveCustomServiceQQ(String qq) {
+        NormalPreferences.getInstance().putString(Constants.SLIDING_CS, qq);
+        try {
+            Log.d(tag, "save/SlidingMenuCustomService=" + qq);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 获取侧滑菜单客服qq
+     */
+    public String getCustomServiceQQ() {
+        String qq = NormalPreferences.getInstance().getString(Constants.SLIDING_CS);
+        try {
+            Log.d(tag, "get/SlidingMenuCustomServices" + qq);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return qq;
+    }
+
+    /**
      * 获取猜你喜歡
      */
     public List<String> getVideoIds() {
@@ -1093,4 +1152,6 @@ public class PreferencesHepler {
         Log.d(tag, "getInitializationSetting: entity=" + entity);
         return entity;
     }
+
+
 }

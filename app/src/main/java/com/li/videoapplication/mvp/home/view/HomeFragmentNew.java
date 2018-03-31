@@ -281,25 +281,25 @@ public class HomeFragmentNew extends TBaseFragment {
         if (mColumnIdList != null) {
             for (int i = 0; i < mColumnIdList.size(); i++) {
                 boolean isNeedLoaData = false;
-                int offset = Math.abs(mCurrentPage - i);
+            int offset = Math.abs(mCurrentPage - i);
 //                if (offset <= 1){
 //                    isNeedLoaData = true;
 //                }
-                if (i < PAGE_LIMIT) {
-                    isNeedLoaData = true;
-                }
-                //TODO 懒加载
+            if (i < PAGE_LIMIT) {
+                isNeedLoaData = true;
+            }
+            //TODO 懒加载
 //                mFragments.add(HomeColumnFragment.newInstance(mColumnIdList.get(i),isNeedLoaData,
 //                        offset*1000));
-                if (mColumnIdList.equals("6"))
-                    otherGameFlag = true; //6为其它游戏
+            if (mColumnIdList.equals("6"))
+                otherGameFlag = true; //6为其它游戏
 
-                mFragments.add(HomeLazyColumnFragment3.newInstance(
-                        mColumnIdList.get(i),
-                        isNeedLoaData,
-                        offset * 1000, !isNeedLoaData));
+            mFragments.add(HomeLazyColumnFragment3.newInstance(
+                    mColumnIdList.get(i),
+                    isNeedLoaData,
+                    offset * 1000, !isNeedLoaData));
 
-            }
+        }
         }
     }
 

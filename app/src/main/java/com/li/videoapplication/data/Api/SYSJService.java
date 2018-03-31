@@ -2,10 +2,14 @@ package com.li.videoapplication.data.Api;
 
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Download;
+import com.li.videoapplication.data.model.entity.GameModuleEntity;
+import com.li.videoapplication.data.model.entity.GameTypeEntity;
 import com.li.videoapplication.data.model.entity.HomeColumnEntity;
+import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.entity.TopUp;
+import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.response.BillEntity;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
@@ -27,8 +31,6 @@ import com.li.videoapplication.data.model.response.ServiceNameEntity;
 import com.li.videoapplication.data.model.response.SignScheduleEntity;
 import com.li.videoapplication.data.model.response.TopUpOptionEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
-import com.li.videoapplication.data.model.response.AdvertisementDto;
-import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.response.VideoCollect2Entity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
 import com.li.videoapplication.data.model.response.VideoRankingEntity;
@@ -67,6 +69,19 @@ public interface SYSJService {
     Call<ResponseBody> getTopIndexColumn(@Query("member_id")String member_id, @Query("target")String target);
     @GET("/Sysj226/Index/topIndexColumn")
     Observable<HomeColumnEntity> getTopIndexColumn2(@Query("member_id")String member_id, @Query("target")String target);
+
+    //获取游戏圈
+    @GET("/Sysj229/Group/groupType")
+    Call<ResponseBody> getGameTop(@Query("target") String target);
+
+    @GET("/Sysj229/Group/groupType")
+    Observable<GameTypeEntity> getGameTop2(@Query("target") String target);
+
+    @GET("/Sysj229/Group/groupList")
+    Call<ResponseBody> getGameList(@Query("group_type_id") String group_type_id, @Query("page") int page, @Query("member_id") String member_id);
+
+    @GET("Sysj229/Group/groupList")
+    Observable<GameModuleEntity> getGameListInfo(@Query("group_type_id") String group_type_id, @Query("page") int page, @Query("member_id") String member_id);
 
     //获取首页每日任务
     @GET("/Sysj211/Currency/unfinishedTask")

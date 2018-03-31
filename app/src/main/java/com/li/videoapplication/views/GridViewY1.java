@@ -2,6 +2,7 @@ package com.li.videoapplication.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.widget.GridView;
 /**
  * 功能：解决GridView嵌套不能全部显示的问题，继承该类ListView
@@ -26,5 +27,16 @@ public class GridViewY1 extends GridView {
 	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
 		super.onMeasure(widthMeasureSpec, expandSpec);
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent ev) {
+
+		if (ev.getAction() == MotionEvent.ACTION_UP) {
+			requestDisallowInterceptTouchEvent(false);
+		} else {
+			requestDisallowInterceptTouchEvent(true);
+		}
+		return false;
 	}
 }

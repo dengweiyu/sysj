@@ -5,7 +5,30 @@
                 android:background="@drawable/background_press"
                 android:descendantFocusability="blocksDescendants">
 
+    <RelativeLayout
+        android:background="@drawable/background_press"
+        android:descendantFocusability="blocksDescendants"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/classified_medal"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="14dp"></View>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="35dp"
+        android:background="@drawable/background_press"
+        android:descendantFocusability="blocksDescendants">
     <com.li.videoapplication.views.RoundedImageView
+
         android:id="@+id/classifiedgame_pic"
         android:layout_width="39dp"
         android:layout_height="39dp"
@@ -37,14 +60,14 @@
         android:layout_width="42dp"
         android:layout_height="20dp"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_marginRight="12dp"
         android:background="@drawable/player_focus"
-        android:layout_centerVertical="true"
         android:gravity="center"
         android:text="@string/dynamic_focus"
         android:textColor="@color/groupdetail_player_red"
         android:textSize="11sp"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/content"
@@ -75,5 +98,5 @@
             android:textSize="10sp"/>
     </LinearLayout>
     <!-- #ff372d -->
-
+    </RelativeLayout>
 </RelativeLayout>

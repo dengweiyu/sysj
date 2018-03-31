@@ -1,8 +1,5 @@
 package com.li.videoapplication.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +17,18 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
-import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
-import com.li.videoapplication.data.model.response.MyGroupListEntity;
 import com.li.videoapplication.data.model.event.LoginEvent;
 import com.li.videoapplication.data.model.event.LogoutEvent;
+import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
+import com.li.videoapplication.data.model.response.MyGroupListEntity;
 import com.li.videoapplication.framework.PullToRefreshActivity;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.PullToRefreshHepler;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.adapter.MyGameAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 碎片：我的游戏
@@ -69,6 +69,7 @@ public class MyGameFragment extends TBaseFragment implements OnRefreshListener2<
             emptyText.setText("登录后可查看");
         listView.setEmptyView(emptyView);
         data = new ArrayList<>();
+        Log.i(tag, "data" + data);
         adapter = new MyGameAdapter(getActivity(), MyGameAdapter.PAGE_MYGAME, data);
         listView.setAdapter(adapter);
         pullToRefreshListView.setOnRefreshListener(this);
@@ -104,6 +105,7 @@ public class MyGameFragment extends TBaseFragment implements OnRefreshListener2<
 
         // 我的游戏
         DataManager.myGroupList(getMember_id(), page);
+
     }
 
     /**

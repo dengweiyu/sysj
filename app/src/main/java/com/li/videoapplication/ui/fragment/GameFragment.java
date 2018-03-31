@@ -1,8 +1,5 @@
 package com.li.videoapplication.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -20,6 +17,9 @@ import com.li.videoapplication.framework.TBaseChildFragment;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.pageradapter.GamePagerAdapter;
 import com.li.videoapplication.views.ViewPagerY1;
+
+import java.util.ArrayList;
+import java.util.List;
 /**
  * 碎片：游戏
  */
@@ -166,6 +166,7 @@ public class GameFragment extends TBaseChildFragment {
 			this.index = i;
 		}
 
+
 		@Override
 		public void onClick(View v) {
 			mViewPager.setCurrentItem(index);
@@ -173,7 +174,8 @@ public class GameFragment extends TBaseChildFragment {
 			currIndex = index;
 		}
 	}
-	
+
+
 	private void switchTab(int index) {
 		for (int i = 0; i < topText.size(); i++) {
 			if (index == i) {

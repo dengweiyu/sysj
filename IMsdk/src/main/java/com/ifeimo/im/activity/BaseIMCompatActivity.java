@@ -157,7 +157,7 @@ abstract class BaseIMCompatActivity
     @Override
     public final void setContentView(View view, ViewGroup.LayoutParams params) {
         super.setContentView(view, params);
-    }
+}
 
     @Override
     public final void setContentView(@LayoutRes int layoutResID) {

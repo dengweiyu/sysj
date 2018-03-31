@@ -1,18 +1,16 @@
 package com.li.videoapplication.ui.adapter;
 
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
-import com.li.videoapplication.data.model.entity.Game;
+import com.li.videoapplication.data.model.entity.GameModuleEntity;
 import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
-import com.li.videoapplication.data.network.RequestConstant;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
@@ -21,24 +19,27 @@ import com.li.videoapplication.ui.activity.WebActivity;
 import com.li.videoapplication.ui.fragment.ClassifiedGameFragment;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.RoundedImageView;
+
+import java.util.List;
+
 import io.rong.eventbus.EventBus;
 
 /**
  * 适配器：游戏分类
  */
 @SuppressLint("InflateParams")
-public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
+public class ClassifiedGameAdapter extends BaseArrayAdapter<GameModuleEntity> {
 
     private ClassifiedGameFragment fragment;
 
     /**
      * 页面跳转：圈子详情
      */
-    private void startGameDetailActivity(Game item) {
+    private void startGameDetailActivity(GameModuleEntity item) {
         ActivityManager.startGroupDetailActivity(getContext(), item.getGroup_id());
     }
 
-    public ClassifiedGameAdapter(Context context, List<Game> data, ClassifiedGameFragment fragment) {
+    public ClassifiedGameAdapter(Context context, List<GameModuleEntity> data, ClassifiedGameFragment fragment) {
         super(context, R.layout.adapter_classifiedgame, data);
         this.fragment = fragment;
     }
@@ -46,7 +47,7 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
     @Override
     public View getView(final int position, View view, final ViewGroup parent) {
 
-        final Game record = getItem(position);
+        final GameModuleEntity record = getItem(position);
         ViewHolder holder = null;
         if (view == null) {
             holder = new ViewHolder();
@@ -56,6 +57,7 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
             holder.right = (TextView) view.findViewById(R.id.classifiedgame_right);
             holder.pic = (RoundedImageView) view.findViewById(R.id.classifiedgame_pic);
             holder.focus = (TextView) view.findViewById(R.id.classifiedgame_focus);
+            holder.mView = view.findViewById(R.id.classified_medal);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -67,7 +69,7 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
         setImageViewImageNet(holder.pic, record.getFlag());
 
         setFocus(record, holder.focus);
-
+        Log.i(tag, "Game" + record.getGroup_name());
         view.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -78,13 +80,13 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
                     startGameDetailActivity(record);
                 }
 
-                if (fragment != null) {
-                    if (fragment.sort.equals(RequestConstant.GAMELIST_SORT_TIME)) {
-                        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "找游戏-最新游戏-有效");
-                    } else if (fragment.sort.equals(RequestConstant.GAMELIST_SORT_HOT)) {
-                        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "找游戏-最热游戏-有效");
-                    }
-                }
+//                if (fragment != null) {
+//                    if (fragment.sort.equals(RequestConstant.GAMELIST_SORT_TIME)) {
+//                        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "找游戏-最新游戏-有效");
+//                    } else if (fragment.sort.equals(RequestConstant.GAMELIST_SORT_HOT)) {
+//                        UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "找游戏-最热游戏-有效");
+//                    }
+//                }
             }
         });
 
@@ -96,21 +98,21 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
     /**
      * 话题
      */
-    private void setTopic(TextView view, final Game record) {
+    private void setTopic(TextView view, final GameModuleEntity record) {
         view.setText("话题\t" + StringUtil.toUnitW(record.getVideo_num()));
     }
 
     /**
      * 关注
      */
-    private void setRemark(TextView view, final Game record) {
+    private void setRemark(TextView view, final GameModuleEntity record) {
         view.setText("关注\t" + StringUtil.toUnitW(record.getAttention_num()));
     }
 
     /**
      * 关注
      */
-    private void setFocus(final Game record, TextView view) {
+    private void setFocus(final GameModuleEntity record, TextView view) {
 
         view.setVisibility(View.VISIBLE);
         if (record != null) {
@@ -177,5 +179,6 @@ public class ClassifiedGameAdapter extends BaseArrayAdapter<Game> {
         TextView right;
         RoundedImageView pic;
         TextView focus;
+        View mView;
     }
 }

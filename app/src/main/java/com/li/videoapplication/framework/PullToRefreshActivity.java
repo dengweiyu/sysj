@@ -9,6 +9,7 @@ import android.widget.ListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.li.videoapplication.R;
+import com.li.videoapplication.data.model.entity.GameModuleEntity;
 import com.li.videoapplication.tools.PullToRefreshHepler;
 
 import java.util.ArrayList;

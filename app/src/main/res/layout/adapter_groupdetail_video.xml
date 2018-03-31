@@ -17,7 +17,7 @@
         android:id="@+id/root"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_press"
+        android:background="@android:color/transparent"
         android:clickable="true">
 
         <!-- 196dp -->
@@ -75,7 +75,7 @@
             android:maxLines="1"
             android:text=""
             android:textColor="#aa454545"
-            android:textSize="11sp"/>
+            android:textSize="11sp" />
 
         <ImageView
             android:id="@+id/iv_video_recommed"
@@ -89,24 +89,26 @@
 
         <FrameLayout
             android:id="@+id/middle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@null"
             android:layout_alignLeft="@+id/groupdetail_content"
             android:layout_below="@+id/groupdetail_content"
             android:layout_marginTop="9dp">
 
             <RelativeLayout
                 android:id="@+id/groupdetail_image"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:background="@null"
                 android:layout_height="wrap_content"
                 android:visibility="gone">
 
                 <com.li.videoapplication.views.GridViewY1
                     android:id="@+id/gridview"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="36dp"
-                    android:background="#ffffff"
+                    android:background="@null"
                     android:cacheColorHint="#00ffffff"
                     android:horizontalSpacing="4dp"
                     android:listSelector="#00ffffff"

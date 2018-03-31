@@ -2,12 +2,20 @@ package com.li.videoapplication.data;
 
 import android.util.Log;
 
+import com.li.videoapplication.data.Api.CacheProviders;
+import com.li.videoapplication.data.Api.SYSJService;
+import com.li.videoapplication.data.Retrofit.ApiException;
+import com.li.videoapplication.data.Retrofit.RetrofitUtils;
+import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.entity.Currency;
 import com.li.videoapplication.data.model.entity.Download;
+import com.li.videoapplication.data.model.entity.GameTypeEntity;
 import com.li.videoapplication.data.model.entity.HomeColumnEntity;
+import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.Match;
 import com.li.videoapplication.data.model.entity.PaymentList;
 import com.li.videoapplication.data.model.entity.TopUp;
+import com.li.videoapplication.data.model.response.AdvertisementDto;
 import com.li.videoapplication.data.model.response.BillEntity;
 import com.li.videoapplication.data.model.response.ChangeGuessEntity;
 import com.li.videoapplication.data.model.response.EventsList214Entity;
@@ -29,13 +37,6 @@ import com.li.videoapplication.data.model.response.ServiceNameEntity;
 import com.li.videoapplication.data.model.response.SignScheduleEntity;
 import com.li.videoapplication.data.model.response.TopUpOptionEntity;
 import com.li.videoapplication.data.model.response.UnfinishedTaskEntity;
-import com.li.videoapplication.data.model.response.AdvertisementDto;
-import com.li.videoapplication.data.model.entity.HomeDto;
-import com.li.videoapplication.data.Api.CacheProviders;
-import com.li.videoapplication.data.Api.SYSJService;
-import com.li.videoapplication.data.Retrofit.ApiException;
-import com.li.videoapplication.data.Retrofit.RetrofitUtils;
-import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.response.VideoCollect2Entity;
 import com.li.videoapplication.data.model.response.VideoFlower2Entity;
 import com.li.videoapplication.data.model.response.VideoRankingEntity;
@@ -57,7 +58,6 @@ import io.rx_cache.Reply;
 import io.rx_cache.internal.RxCache;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Retrofit;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
@@ -181,6 +181,28 @@ public class HttpManager extends RetrofitUtils {
         }
         setSubscribe(observable, observer);
     }
+
+    //游戏圈分类信息
+    public Call<ResponseBody> getGameTop() {
+        return service.getGameTop("a_sysj");
+    }
+
+    public void getGameTop2(Observer<GameTypeEntity> observer) {
+        Observable<GameTypeEntity> observable;
+        if (NetUtil.isConnect()) {
+            observable = service.getGameTop2("a_sysj");
+        } else {
+            observable = Observable.create(new Observable.OnSubscribe<GameTypeEntity>() {
+                @Override
+                public void call(Subscriber<? super GameTypeEntity> subscriber) {
+                    subscriber.onNext(PreferencesHepler.getInstance().getGameTypeEntity());
+                }
+            });
+        }
+        setSubscribe(observable, observer);
+    }
+
+
 
     //首页每日任务
     public void unfinishedTask(String member_id, boolean update, Observer<UnfinishedTaskEntity> observer) {

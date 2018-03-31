@@ -1,17 +1,14 @@
 package com.li.videoapplication.ui;
 
 import android.app.Activity;
-import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.util.Log;
 import android.view.View;
 
-import com.bumptech.glide.Glide;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.database.VideoCaptureEntity;
@@ -34,10 +31,14 @@ import com.li.videoapplication.mvp.mall.view.MyBillDetailActivity;
 import com.li.videoapplication.mvp.mall.view.PaymentWayActivity;
 import com.li.videoapplication.mvp.mall.view.TopUpActivity;
 import com.li.videoapplication.mvp.mall.view.TopUpRecordActivity;
+import com.li.videoapplication.mvp.match.view.GameMatchDetailActivity;
+import com.li.videoapplication.mvp.match.view.GroupMatchListActivity;
 import com.li.videoapplication.mvp.match.view.MatchRecordActivity;
 import com.li.videoapplication.mvp.match.view.MatchResultActivity;
+import com.li.videoapplication.mvp.match.view.MyMatchActivity;
 import com.li.videoapplication.mvp.match.view.MyMatchBettleActivity;
 import com.li.videoapplication.mvp.match.view.PlayWithAndMatchActivity;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.activity.AboutActivity;
 import com.li.videoapplication.ui.activity.ActivityDetailActivity;
 import com.li.videoapplication.ui.activity.ActivityImageUploadActivity;
@@ -55,7 +56,6 @@ import com.li.videoapplication.ui.activity.ConversationActivity;
 import com.li.videoapplication.ui.activity.CreatePlayWithOrderActivity;
 import com.li.videoapplication.ui.activity.DownloadManagerActivity;
 import com.li.videoapplication.ui.activity.ExchangeRecordActivity;
-import com.li.videoapplication.mvp.match.view.GameMatchDetailActivity;
 import com.li.videoapplication.ui.activity.FeedbackActivity;
 import com.li.videoapplication.ui.activity.GiftDetailActivity;
 import com.li.videoapplication.ui.activity.GiftListActivity;
@@ -63,7 +63,6 @@ import com.li.videoapplication.ui.activity.GroupDetailActivity;
 import com.li.videoapplication.ui.activity.GroupDetailHybridActivity;
 import com.li.videoapplication.ui.activity.GroupGiftActivity;
 import com.li.videoapplication.ui.activity.GroupListActivity;
-import com.li.videoapplication.mvp.match.view.GroupMatchListActivity;
 import com.li.videoapplication.ui.activity.HelpActivity;
 import com.li.videoapplication.ui.activity.HomeImageShareActivity;
 import com.li.videoapplication.ui.activity.HomeMoreActivity;
@@ -77,7 +76,6 @@ import com.li.videoapplication.ui.activity.MessageListActivity;
 import com.li.videoapplication.ui.activity.MessageReplyActivity;
 import com.li.videoapplication.ui.activity.MyCurrencyRecordActivity;
 import com.li.videoapplication.ui.activity.MyDynamicActivity;
-import com.li.videoapplication.mvp.match.view.MyMatchActivity;
 import com.li.videoapplication.ui.activity.MyGiftActivity;
 import com.li.videoapplication.ui.activity.MyMatchProcessActivity;
 import com.li.videoapplication.ui.activity.MyPersonalCenterActivity;
@@ -109,15 +107,12 @@ import com.li.videoapplication.ui.activity.SquareGameChoiceActivity;
 import com.li.videoapplication.ui.activity.TagActivity;
 import com.li.videoapplication.ui.activity.UploadMatchResultImageActivity;
 import com.li.videoapplication.ui.activity.VideoChooseActivity;
-
 import com.li.videoapplication.ui.activity.VideoEditorActivity2;
 import com.li.videoapplication.ui.activity.VideoMangerActivity;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.activity.VideoShare2Activity;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.ui.activity.VideoUploadActivity;
-import com.li.videoapplication.tools.ToastHelper;
-import com.li.videoapplication.ui.fragment.ClassifiedGameFragment;
 import com.li.videoapplication.ui.fragment.GameFragment;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -662,7 +657,7 @@ public class ActivityManager {
     }
 
     /**
-     * 游戏圈子列表
+     * 游戏圈子列表1
      */
     public synchronized static void startGroupListActivity(Context context, GroupType groupType) {
 
@@ -670,6 +665,15 @@ public class ActivityManager {
         intent.setClass(context, GroupListActivity.class);
         intent.putExtra("groupType", groupType);
         context.startActivity(intent);
+
+    }
+
+    /**
+     * 游戏圈子列表2
+     */
+    public synchronized static void startGroupListFragment(Context context, GroupType groupType) {
+      
+
     }
 
     /**

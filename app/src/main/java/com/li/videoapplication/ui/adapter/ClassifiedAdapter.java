@@ -1,7 +1,5 @@
 package com.li.videoapplication.ui.adapter;
 
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -17,18 +15,26 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.utils.StringUtil;
 
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
+
+import java.util.List;
+
 /**
  * 适配器：游戏分类
  */
 @SuppressLint("InflateParams")
-public class ClassifiedAdapter extends BaseArrayAdapter<GroupType> {
+public class ClassifiedAdapter extends BaseArrayAdapter<GroupType>   {
 
     /**
      * 页面跳转：圈子列表
      */
     private void startGroupListActivity(GroupType item) {
-        ActivityManager.startGroupListActivity(getContext(), item);
+        ActivityManager.startGroupListFragment(getContext(), item);
+
     }
+
 
     public ClassifiedAdapter(Context context, List<GroupType> data) {
         super(context, R.layout.adapter_classified, data);
@@ -38,14 +44,15 @@ public class ClassifiedAdapter extends BaseArrayAdapter<GroupType> {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
         final GroupType record = getItem(position);
-
+        View view = convertView;
         ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
-            view = inflater.inflate(R.layout.adapter_classified, null);
+            LayoutInflater li = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = li.inflate(R.layout.adapter_classified, parent, false);
             holder.icon = (ImageView) view.findViewById(R.id.classified_icon);
             holder.text = (TextView) view.findViewById(R.id.classified_text);
             holder.root = view.findViewById(R.id.root);
@@ -70,6 +77,7 @@ public class ClassifiedAdapter extends BaseArrayAdapter<GroupType> {
 
         return view;
     }
+
 
     private class ViewHolder {
 

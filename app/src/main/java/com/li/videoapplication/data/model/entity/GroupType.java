@@ -1,16 +1,18 @@
 package com.li.videoapplication.data.model.entity;
 
 import com.li.videoapplication.framework.BaseEntity;
+import com.li.videoapplication.framework.BaseResponseEntity;
 
 /**
  * 实体类：圈子 类型
  */
 @SuppressWarnings("serial")
-public class GroupType extends BaseEntity {
+public class GroupType extends BaseResponseEntity {
 
 	private String id;
 	private String name;
 	private String flag;
+	private String flag_checked;
 	private String hotrank;
 	private String sort;
 	private String group_type_id;
@@ -126,4 +128,11 @@ public class GroupType extends BaseEntity {
 		this.selected = selected;
 	}
 
+	public String getFlag_checked() {
+		return flag_checked;
+	}
+
+	public void setFlag_checked(String flag_checked) {
+		this.flag_checked = flag_checked;
+	}
 }

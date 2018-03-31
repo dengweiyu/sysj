@@ -118,6 +118,7 @@
     <style name="BaseListViewMain">
         <item name="android:background">@color/activity_main_bg</item>
         <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:showDividers">end</item>
         <item name="android:divider">@android:color/transparent</item>
         <item name="android:dividerHeight">7dp</item>
         <item name="android:fadingEdge">none</item>

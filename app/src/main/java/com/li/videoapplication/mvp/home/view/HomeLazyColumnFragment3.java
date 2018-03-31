@@ -11,10 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.google.gson.Gson;
@@ -30,7 +28,6 @@ import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
-import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.mvp.adapter.HomeMultipleAdapterNew;
 import com.li.videoapplication.mvp.billboard.view.BillboardActivity;
@@ -56,7 +53,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-import java.util.logging.Handler;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -139,6 +135,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         Bundle bundle = new Bundle();
         bundle.putBoolean("is_need_load_data", isNeedLoadData);
         bundle.putString("column_id", columnId);
+        Log.i("HomeLazyColumnFragment3", columnId);
         bundle.putBoolean(HomeLazyColumnFragment3.INTENT_BOOLEAN_LAZY_LOAD, isLazyLoad);
 
         fragment.setArguments(bundle);
@@ -178,6 +175,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
         if (!isInit) {
             lazyLoadView();
         }
+
     }
 
     private void lazyLoadView() {
@@ -240,6 +238,7 @@ public class HomeLazyColumnFragment3 extends TBaseFragment
     public void setIsShowView(boolean isShowView) {
         this.isShowView = isShowView;
     }
+
 
     public void notifyAdapter() {
         this.mAdapter.notifyDataSetChanged();

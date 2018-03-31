@@ -5,9 +5,9 @@ package com.li.videoapplication.framework;
  */
 @SuppressWarnings("serial")
 public class BaseResponse2Entity extends BaseEntity {
-	
+
 	private int itemsCount;
-	
+
 	private int page_count;
 
 	public int getItemsCount() {
@@ -25,4 +25,6 @@ public class BaseResponse2Entity extends BaseEntity {
 	public void setPage_count(int page_count) {
 		this.page_count = page_count;
 	}
+
+
 }

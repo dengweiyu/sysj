@@ -17,7 +17,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -276,7 +275,6 @@ public class PaymentDialog extends BaseDialog implements View.OnClickListener {
                 DataManager.userProfileFinishMemberInfo(newMember);
             } else {
                 ToastHelper.s(event.getMsg().toString());
-                Log.d(tag, event.getMsg().toString());
             }
         }
     }

@@ -7,14 +7,18 @@ import com.li.videoapplication.framework.BaseEntity;
  */
 @SuppressWarnings("serial")
 public class Game extends BaseEntity {
-	
-    private String id;
-    private String group_id;
-    private String group_name;
-    private String name;
-    private String attention_num;
-    private String flag;
-    private int tick;
+
+
+	private String id;
+	private String group_id;
+	private String group_name;
+	private String large_icon;
+	private String name;
+	private String group_edition;
+	private String content;
+	private String attention_num;
+	private String flag;
+	private int tick;
     private String attentionTime;
     private String description;
     private String video_num;
@@ -258,6 +262,30 @@ public class Game extends BaseEntity {
 
 	public void setDay_data_num(String day_data_num) {
 		this.day_data_num = day_data_num;
+	}
+
+	public String getLarge_icon() {
+		return large_icon;
+	}
+
+	public void setLarge_icon(String large_icon) {
+		this.large_icon = large_icon;
+	}
+
+	public String getGroup_edition() {
+		return group_edition;
+	}
+
+	public void setGroup_edition(String group_edition) {
+		this.group_edition = group_edition;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 }
 

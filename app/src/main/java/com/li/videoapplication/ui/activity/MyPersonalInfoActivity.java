@@ -16,16 +16,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.GroupType;
 import com.li.videoapplication.data.model.entity.Member;
 import com.li.videoapplication.data.model.response.GroupType210Entity;
-import com.li.videoapplication.data.model.response.SaveMyGameGroupEntity;
 import com.li.videoapplication.data.model.response.UserProfilePersonalInformationEntity;
 import com.li.videoapplication.data.model.response.UserProfileUploadAvatarEntity;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.mvp.Constant;
@@ -34,12 +33,12 @@ import com.li.videoapplication.tools.BitmapLoader;
 import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.PhotoHelper;
 import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.adapter.MyPersonalInfoAdapter;
 import com.li.videoapplication.ui.dialog.GetMoreMoneyDialog;
 import com.li.videoapplication.ui.dialog.LoadingDialog;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
 import com.li.videoapplication.views.CircleImageView;
@@ -267,7 +266,12 @@ public class MyPersonalInfoActivity extends TBaseActivity implements OnClickList
                 DialogManager.showEditQQDialog(this);
                 break;
             case R.id.mypersonnalinfo_mobile_btn://手机
-                DialogManager.showRegisterMobileDialog(this);
+                if (name.getText().toString() == null) {
+                    Toast.makeText(this, "昵称不能为空", Toast.LENGTH_SHORT).show();
+                } else {
+                    DialogManager.showRegisterMobileDialog(this);
+                }
+
                 break;
 
             case R.id.mypersonnalinfo_head_btn://头像

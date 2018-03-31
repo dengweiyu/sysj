@@ -12,8 +12,8 @@ import com.li.videoapplication.data.model.entity.Advertisement;
 import com.li.videoapplication.data.model.entity.HomeColumnEntity;
 import com.li.videoapplication.data.model.entity.HomeDto;
 import com.li.videoapplication.data.model.entity.HomeGameSelectEntity;
-import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.entity.Member;
+import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.response.*;
 import com.li.videoapplication.data.network.Contants;
 import com.li.videoapplication.data.network.RequestHelper;
@@ -31,8 +31,9 @@ import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseResponseEntity;
 import com.li.videoapplication.tools.ArrayHelper;
-import com.li.videoapplication.ui.popupwindows.gameselect.*;
 import com.li.videoapplication.ui.popupwindows.gameselect.HotGameEntity;
+import com.li.videoapplication.ui.popupwindows.gameselect.LifeEntity;
+import com.li.videoapplication.ui.popupwindows.gameselect.SearchHotGameEntity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.VersionUtils;
 
@@ -2160,19 +2161,6 @@ public class DataManager {
     }
 
 
-    /**
-     * 功能：圈子列表
-     */
-    public static void groupList2(int page, String group_type_id, String member_id) {
-
-        RequestHelper helper = new RequestHelper();
-        String url = RequestUrl.getInstance().groupList2();
-        Map<String, Object> params = RequestParams.getInstance().groupList2(page, group_type_id, member_id);
-
-        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
-        request.setEntity(new GroupList2Entity());
-        helper.doNetwork(request);
-    }
 
 
     /**
@@ -3375,6 +3363,31 @@ public class DataManager {
         request.setEntity(entity);
         helper.doService(request);
     }
+
+    public static void getGameInfoById(String columnId, int page) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().gameInfoById();
+
+    }
+
+    /**
+     * 功能：圈子列表
+     */
+    public static void groupList2(int page, String group_type_id, String member_id) {
+
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().groupList2();
+        Map<String, Object> params = RequestParams.getInstance().groupList2(page, group_type_id, member_id);
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        GroupList2Entity entity = new GroupList2Entity();
+        Map<String, Object> extra = new HashMap<>();
+        extra.put("group_type_id", group_type_id);
+        entity.setExtra(extra);
+        request.setEntity(entity);
+        helper.doNetwork(request);
+    }
+
+
     /**
      * 新版本，获取首页分栏的项
      */
@@ -3486,4 +3499,18 @@ public class DataManager {
         request.setEntity(new Vip3AndAuthoryEntity());
         helper.doService(request);
     }
+
+    /**
+     * 客服
+     */
+    public static void getCustomService() {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().getCustomService();
+        Map<String, Object> params = RequestParams.getInstance().getCustomService();
+        RequestObject request = new RequestObject(Contants.TYPE_GET, url, params, null);
+        request.setEntity(new CustomServiceEntity());
+        helper.doNetwork(request);
+
+    }
+
 }

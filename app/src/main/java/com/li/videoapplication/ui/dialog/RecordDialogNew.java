@@ -9,14 +9,9 @@ import android.view.WindowManager;
 
 import com.fmsysj.screeclibinvoke.ui.activity.ScreenRecordActivity;
 import com.li.videoapplication.R;
-import com.li.videoapplication.data.preferences.PreferencesHepler;
-import com.li.videoapplication.data.preferences.SharedPreferencesUtils;
-import com.li.videoapplication.framework.AppAccount;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
-import com.li.videoapplication.ui.activity.CreatePlayWithOrderActivity;
-import com.li.videoapplication.ui.activity.MainActivity;
 import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.ScreenUtil;
 
@@ -55,7 +50,7 @@ public class RecordDialogNew extends AlphaShadeDialog implements View.OnClickLis
         findViewById(R.id.record_close).setOnClickListener(this);
         findViewById(R.id.ll_popup_square_layout).setOnClickListener(this);
         findViewById(R.id.ll_popup_record_layout).setOnClickListener(this);
-        findViewById(R.id.ll_popup_play_with_layout).setOnClickListener(this);
+//        findViewById(R.id.ll_popup_play_with_layout).setOnClickListener(this);
 
     }
 
@@ -69,15 +64,15 @@ public class RecordDialogNew extends AlphaShadeDialog implements View.OnClickLis
             case R.id.ll_popup_square_layout:
                 startSquareActivity();
                 break;
-            case R.id.ll_popup_play_with_layout:
-
-                if (mActivity != null){
-
-                    ActivityManager.startCreatePlayWithOrderActivity(mActivity, CreatePlayWithOrderActivity.MODE_ORDER_GRAB,null,null,null,null,"1","王者荣耀");
-
-                }
-
-                break;
+//            case R.id.ll_popup_play_with_layout:
+//
+//                if (mActivity != null){
+//
+//                    ActivityManager.startCreatePlayWithOrderActivity(mActivity, CreatePlayWithOrderActivity.MODE_ORDER_GRAB,null,null,null,null,"1","王者荣耀");
+//
+//                }
+//
+//                break;
         }
         dismiss();
     }

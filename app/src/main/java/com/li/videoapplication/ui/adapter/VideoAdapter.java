@@ -2,14 +2,12 @@ package com.li.videoapplication.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,14 +26,8 @@ import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.URLUtil;
 
-import com.li.videoapplication.views.CircleImageView;
-import com.li.videoapplication.views.RoundedDrawable;
-import com.li.videoapplication.views.RoundedImageView;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import io.rong.eventbus.EventBus;
 
 /**
  * 适配器：视频
@@ -222,7 +214,7 @@ public class VideoAdapter extends BaseArrayAdapter<VideoImage> implements
                 if (URLUtil.isURL(record.getAvatar())){
                     setCircleImageNetAlpha(mContext, holder.avatar,record.getAvatar());
                 }
-            }else{
+            } else {
                 holder.avatar.setVisibility(View.GONE);
             }
             Log.w(tag, "没有滚动，图渲染..");
