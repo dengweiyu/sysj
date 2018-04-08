@@ -57,6 +57,7 @@ import com.li.videoapplication.framework.TBaseAppCompatActivity;
 import com.li.videoapplication.tools.ArrayHelper;
 import com.li.videoapplication.tools.RandomUtil;
 import com.li.videoapplication.tools.ShareSDKShareHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
@@ -67,12 +68,12 @@ import com.li.videoapplication.ui.fragment.VideoPlayGiftFragment;
 import com.li.videoapplication.ui.fragment.VideoPlayIntroduceFragment;
 import com.li.videoapplication.ui.fragment.VideoPlayVideoFragment;
 import com.li.videoapplication.ui.pageradapter.GamePagerAdapter;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.view.AddDanmukuView;
 import com.li.videoapplication.ui.view.CommentView;
 import com.li.videoapplication.ui.view.VideoPlayView;
 import com.li.videoapplication.utils.HareWareUtil;
 import com.li.videoapplication.utils.LogHelper;
+import com.li.videoapplication.utils.MD5Util;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
@@ -379,6 +380,9 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         videoPlayView.minView();
         mLandPlayGift = findViewById(R.id.iv_play_gift_right);
         mLandPlayGift.setOnClickListener(this);
+//        //生成hash值
+//        createHash();
+
         if (NetUtil.isWIFI()) {
             videoPlayView.switchPlay(VideoPlayView.STATE_VIDEOPLAY);
             if (videoPlayView.danmukuPlayer != null)
@@ -400,6 +404,13 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         addDanmukuView.setAddDanmukuListener(videoPlayView);
 
 
+    }
+
+    private void createHash() {
+        String url = item.getVideoUrl();
+        String timeStamp = StringUtil.getDateToString(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
+        String urlTimeStamp = MD5Util.string2MD5(url + timeStamp);
+        PreferencesHepler.getInstance().saveUrlTimeStamp(urlTimeStamp);
     }
 
     private boolean mFragmentState;

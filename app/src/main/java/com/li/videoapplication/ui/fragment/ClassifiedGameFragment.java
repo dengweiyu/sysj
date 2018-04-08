@@ -22,7 +22,7 @@ import com.li.videoapplication.data.network.RequestConstant;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.ui.adapter.ClassifiedAdapter;
-import com.li.videoapplication.ui.adapter.ClassifiedGameAdapter;
+
 import com.li.videoapplication.ui.adapter.GameTypeViewPagerAdapter;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.views.ViewPagerY4;
@@ -44,20 +44,13 @@ import java.util.List;
 public class ClassifiedGameFragment extends TBaseFragment {
 
 
-    //    private ListView mListView;
-    private ClassifiedGameAdapter adapter;
-    private List<Game> data;
-    public static LruCache<String, String> lruCache = new LruCache<>(40);
+
+
     private int page = 1;
     public String sort = RequestConstant.GAMELIST_SORT_HOT;
-    private HorizontalScrollView hs;
-    private View mHeaderView;
-//    private GridViewY1 mGridView;
-
     private ClassifiedAdapter headerAdapter;
     private List<GroupType> headerData;
     private List<GameLazyColumnFragment> mFragment;
-    private View mTitleView;
     //    private boolean eatChicken = false;
     private TextView show;
     private CommonNavigator commonNavigator;

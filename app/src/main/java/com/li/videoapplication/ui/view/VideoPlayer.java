@@ -3,6 +3,7 @@ package com.li.videoapplication.ui.view;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.widget.PLVideoView;
 
@@ -15,6 +16,7 @@ public class VideoPlayer extends PLVideoView implements IVideoPlayer {
     public final static int MEDIA_CODEC_HW_DECODE = 1;
     public final static int MEDIA_CODEC_AUTO = 2;
     private long mStartTime = 0;
+    private String checkTimeCache;
     private AVOptions mAVOptions;
     public VideoPlayer(Context context) {
         super(context);
@@ -54,6 +56,8 @@ public class VideoPlayer extends PLVideoView implements IVideoPlayer {
         start();
         //
         mStartTime = System.currentTimeMillis();
+        checkTimeCache = PreferencesHepler.getInstance().getUrlTimeStamp();
+
     }
 
     @Override

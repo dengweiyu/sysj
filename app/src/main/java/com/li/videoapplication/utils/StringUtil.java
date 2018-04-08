@@ -7,6 +7,8 @@ import android.text.style.ImageSpan;
 import com.google.common.collect.Maps;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -390,6 +392,11 @@ public class StringUtil {
 
         return Pattern.matches(telRegex, s);
     }
-
+    //时间戳转换字符串
+    public static String getDateToString(long milSecond, String pattern) {
+        Date date = new Date(milSecond);
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        return format.format(date);
+    }
 
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Game;
+import com.li.videoapplication.data.model.response.GroupAttentionGroupEntity;
 import com.li.videoapplication.framework.BaseArrayAdapter;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
@@ -22,6 +23,8 @@ import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.RoundedImageView;
 
 import java.util.List;
+
+import io.rong.eventbus.EventBus;
 
 /**
  * 适配器：圈子
@@ -62,6 +65,8 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
             holder.large_content = (TextView) mView.findViewById(R.id.large_content);
             holder.large_img = (ImageView) mView.findViewById(R.id.large_icon);
             holder.content_rlayout = (RelativeLayout) mView.findViewById(R.id.grouplist_two);
+            holder.grouplist_one = (LinearLayout) mView.findViewById(R.id.grouplist_one);
+            holder.large_dark = (RelativeLayout) mView.findViewById(R.id.large_drak);
             mView.setTag(holder);
         } else {
             holder = (ViewHolder) mView.getTag();
@@ -85,8 +90,15 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
             setImageViewImageNet(holder.pic, record.getFlag());
             setFocus(record, holder.focus);
             setTextViewText(holder.large_content, record.getContent());
-            setImageViewImageNet(holder.large_img, record.getLarge_icon());
-            holder.large_img.setPadding(0, 0, 0, dp2px(10));
+            if (holder.large_img.getTag() == null) {
+                setImageViewImageNet(holder.large_img, record.getLarge_icon());
+            } else {
+
+            }
+            holder.large_dark.setVisibility(View.VISIBLE);
+            holder.large_img.setPadding(0, 0, 0, dp2px(8));
+            holder.grouplist_one.setPadding(0, dp2px(4), 0, 0);
+
         }
         mView.setOnClickListener(new View.OnClickListener() {
 
@@ -185,13 +197,20 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
                 }
                 if (record.getTick() == 1) {
 
-                    DialogManager.showConfirmDialog(getContext(), "确认取消关注游戏圈?", new View.OnClickListener() {
+                    DialogManager.showConfirmDialog(getContext(), "确认取消关注该游戏圈?", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             switch (v.getId()){
                                 case R.id.tv_confirm_dialog_yes:
                                     record.setAttention_num(Integer.valueOf(record.getAttention_num()) - 1 + "");
                                     record.setTick(0);
+                                    // 关注圈子201
+                                    DataManager.groupAttentionGroup(record.getGroup_id(), getMember_id());
+                                    notifyDataSetChanged();
+                                    UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "找游戏-关注");
+
+                                    //
+                                    EventBus.getDefault().post(new GroupAttentionGroupEntity());
                                     break;
                             }
                         }
@@ -200,17 +219,14 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
                 } else {
                     record.setAttention_num(Integer.valueOf(record.getAttention_num()) + 1 + "");
                     record.setTick(1);
+                    DataManager.groupAttentionGroup(record.getGroup_id(), getMember_id());
+                    notifyDataSetChanged();
+                    UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "找游戏-关注");
+
+                    //
+                    EventBus.getDefault().post(new GroupAttentionGroupEntity());
                 }
-                // 关注圈子201
-                DataManager.groupAttentionGroup(record.getGroup_id(), getMember_id());
-                notifyDataSetChanged();
-                UmengAnalyticsHelper.onEvent(getContext(), UmengAnalyticsHelper.GAME, "找游戏专区-关注");
-                try {
-                    GroupListActivity activity = (GroupListActivity) getContext();
-                    UmengAnalyticsHelper.onGameListFocusEvent(getContext(), activity.groupType.getGroup_type_id());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+//
             }
         });
     }
@@ -229,6 +245,8 @@ public class GroupListAdapter extends BaseArrayAdapter<Game> {
         LinearLayout content_layout;
         TextView large_content;
         ImageView large_img;
+        LinearLayout grouplist_one;
+        RelativeLayout large_dark;
         RelativeLayout content_rlayout;
     }
 }

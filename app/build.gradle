@@ -113,7 +113,7 @@ android {
         targetSdkVersion 22
         // 20170104,2.1.4   test:20161122, 2.1.2
         versionCode 20180308
-        versionName "2.3.1.1"
+        versionName "2.3.1.2"
         signingConfig signingConfigs.feimo
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "default_channel"]
 

@@ -3242,6 +3242,7 @@ public class DataManager {
         helper.doNetwork(request);
     }
 
+
     /**
      * clear token
      */
@@ -3368,6 +3369,7 @@ public class DataManager {
         RequestHelper helper = new RequestHelper();
         String url = RequestUrl.getInstance().gameInfoById();
 
+
     }
 
     /**
@@ -3385,6 +3387,7 @@ public class DataManager {
         entity.setExtra(extra);
         request.setEntity(entity);
         helper.doNetwork(request);
+        Log.i("groupList2",params+"");
     }
 
 

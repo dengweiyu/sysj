@@ -10,7 +10,6 @@ import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +24,6 @@ import com.li.videoapplication.tools.TimeHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.activity.ActivityDetailActivity;
 import com.li.videoapplication.ui.activity.GroupDetailActivity;
-import com.li.videoapplication.ui.adapter.GroupDetailImageAdapter;
 import com.li.videoapplication.ui.fragment.GroupdetailVideoFragment;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.sparkbutton.SparkButton;
@@ -110,9 +108,10 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                 holder.setText(R.id.groupdetail_content, videoImage.getName());
             }
         } else if (activity instanceof GroupDetailActivity) {
-          /*  holder.setVisible(R.id.goodstarcomment, true)
+            holder.setVisible(R.id.goodstarcomment, true)
                     .setVisible(R.id.joinactivity_goodfloor, false)
-                    .setBackgroundColor(R.id.gridview, resources.getColor(R.color.white))
+
+//                    .setBackgroundColor(R.id.gridview, resources.getColor(R.color.white))
                     .setTextColor(R.id.groupdetail_name, resources.getColor(R.color.video_name))
                     .setTextColor(R.id.groupdetail_content, resources.getColor(R.color.video_content))
                     .setTextColor(R.id.groupdetail_time, resources.getColor(R.color.video_time))
@@ -130,7 +129,7 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                 setStar(videoImage, holder);
                 //
                 setPlay(videoImage,holder);
-            }*/
+            }
         }
 
 
@@ -162,9 +161,19 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
 
             setTime(videoImage, (TextView) holder.getView(R.id.groupdetail_time));
         }
-
+        TextView content = holder.getView(R.id.groupdetail_content);
         if (isVideo(videoImage)) {// 视频
+            content.setSingleLine(false);
+
             holder.setVisible(R.id.groupdetail_video, true)
+                    .setVisible(R.id.groupdetail_likeCount,true)
+                    .setVisible(R.id.groupdetail_starCount,true)
+                    .setVisible(R.id.groupdetail_starCount,true)
+                    .setText(R.id.groupdetail_likeCount, videoImage.getFlower_count())
+                    .setText(R.id.groupdetail_starCount, videoImage.getCollection_count())
+                    .setText(R.id.groupdetail_commentCount, videoImage.getComment_count())
+                    .setText(R.id.groupdetail_content, videoImage.getTitle())
+
                     .setVisible(R.id.groupdetail_image, false);
 
             if (videoImage.isAD()) {//广告
@@ -181,20 +190,21 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                 helper.setImageViewImageNet(cover, videoImage.getFlag());
             }
         }
-        if (isImage(videoImage)) { // 图文
-            holder.setVisible(R.id.groupdetail_video, false)
-                    .setVisible(R.id.groupdetail_image, true)
-                    .setVisible(R.id.groupdetail_content, true);
-
-            List<String> data = videoImage.getPic_urls();
-            GroupDetailImageAdapter dapter = new GroupDetailImageAdapter(mContext, data, videoImage);
-            GridView grid = holder.getView(R.id.gridview);
-            grid.setAdapter(dapter);
-            dapter.notifyDataSetChanged();
-        }
-        if (isComment(videoImage)) { //文字评论
-            holder.setVisible(R.id.groupdetail_video, false)
-                    .setVisible(R.id.groupdetail_image, false)
+// else if (isImage(videoImage)) { // 图文
+//            holder.setVisible(R.id.groupdetail_video, false)
+//                    .setVisible(R.id.groupdetail_image, true)
+//                    .setVisible(R.id.groupdetail_content, true);
+//
+//            List<String> data = videoImage.getPic_urls();
+//            GroupDetailImageAdapter dapter = new GroupDetailImageAdapter(mContext, data, videoImage);
+//            GridView grid = holder.getView(R.id.gridview);
+//            grid.setAdapter(dapter);
+//            dapter.notifyDataSetChanged();
+//        }
+        else if (isComment(videoImage)) { //文字评论
+            content.setSingleLine(false);
+            holder.setGone(R.id.groupdetail_video, false)
+                    .setGone(R.id.groupdetail_image, false)
                     .setVisible(R.id.groupdetail_content, true);
         }
     }

@@ -12,7 +12,6 @@ import com.google.gson.reflect.TypeToken;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.model.entity.Advertisement;
 import com.li.videoapplication.data.model.entity.Associate;
-import com.li.videoapplication.data.model.entity.GameModuleEntity;
 import com.li.videoapplication.data.model.entity.GameTypeEntity;
 import com.li.videoapplication.data.model.entity.HomeColumnEntity;
 import com.li.videoapplication.data.model.entity.HomeDto;
@@ -1016,6 +1015,25 @@ public class PreferencesHepler {
             e.printStackTrace();
         }
 
+    }
+
+    public void saveUrlTimeStamp(String urlTimeStamp) {
+        NormalPreferences.getInstance().putString(Constants.URLTIMESTAMP, urlTimeStamp);
+        try {
+            Log.d(tag, "save/UrlTimeStamp=" + urlTimeStamp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getUrlTimeStamp() {
+        String urlTimeStamp = NormalPreferences.getInstance().getString(Constants.URLTIMESTAMP);
+        try {
+            Log.d(tag, "get/UrlTimeStamp=" + urlTimeStamp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return urlTimeStamp;
     }
 
     /**

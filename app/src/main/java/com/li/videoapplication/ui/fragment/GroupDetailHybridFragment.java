@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.ConsoleMessage;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -16,28 +15,22 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.RelativeLayout;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.js.JSInterface;
 import com.li.videoapplication.data.model.event.LoginEvent;
-import com.li.videoapplication.data.model.response.LoginEntity;
-import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.GroupDetailHybridActivity;
 import com.li.videoapplication.ui.activity.WebActivityJS;
-import com.li.videoapplication.ui.dialog.LogInDialog;
 import com.li.videoapplication.ui.view.SimpleSwipeRefreshLayout;
 import com.li.videoapplication.utils.StringUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import io.rong.eventbus.EventBus;
 
 /**
  *圈子详情页-加载HTML
@@ -151,6 +144,7 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setBlockNetworkImage(false);
        //webSettings.setDomStorageEnabled(true);
         webSettings.setAllowContentAccess(true);
        //webSettings.setDatabaseEnabled(true);

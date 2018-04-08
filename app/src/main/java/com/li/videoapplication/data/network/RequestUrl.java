@@ -43,6 +43,8 @@ public class RequestUrl {
 
     public String BaseFMYX_V1 = BaseFMYX + "/api/public/index.php/v1";
 
+    public String BaseStay = "http://op.17sysj.com:8080";
+
     /**
      * 首页信息
      */
@@ -1501,6 +1503,12 @@ public class RequestUrl {
         return BaseSYSJ+"/Sysj224/Statistics/stayTimeRecord";
     }
 
+    /**
+     * 统计播放页停留时间17sysj
+     */
+    public final String commitStayDuration17sysj() {
+        return BaseStay + "/Statistics/StayTimeRecord";
+    }
     /**
      *clear token
      */

@@ -222,4 +222,8 @@
 
     <color name="recharge_bg_color">#aaaaaa</color>
     <color name="recharge_bg_color2">#cccccc</color>
+
+    <!-- 吃鸡分割线-->
+    <color name="game_chicken_divider">#f4f4f4</color>
+
 </resources>

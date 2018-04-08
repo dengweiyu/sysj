@@ -7,6 +7,7 @@
     android:descendantFocusability="blocksDescendants">
 
     <LinearLayout
+
         android:id="@+id/grouplist_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,14 +19,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp">
+
+            >
 
             <ImageView
+                android:layout_marginLeft="10dp"
                 android:id="@+id/grouplist_medal_iv"
                 android:layout_width="30dp"
                 android:layout_height="30dp"></ImageView>
 
             <TextView
+                android:layout_marginLeft="10dp"
                 android:id="@+id/grouplist_medal_tv"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -34,9 +38,10 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/button_main"
+
             android:descendantFocusability="blocksDescendants">
     <com.li.videoapplication.views.RoundedImageView
         android:id="@+id/grouplist_pic"
@@ -70,7 +75,7 @@
         android:layout_width="42dp"
         android:layout_height="20dp"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="12dp"
+        android:layout_marginRight="13dp"
         android:background="@drawable/player_focus"
         android:layout_centerVertical="true"
         android:gravity="center"
@@ -87,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/grouplist_pic"
         android:layout_alignLeft="@+id/grouplist_title"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="4dp"
         android:orientation="horizontal">
 
         <TextView
@@ -139,12 +144,22 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/grouplist_one"
         android:layout_marginLeft="13dp"
-        android:layout_marginRight="14dp"
-        android:visibility="gone">
+        android:layout_marginRight="13dp"
+
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/large_icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/large_drak"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_below="@id/grouplist_two"
+        android:background="@color/activity_main_bg"
+        android:visibility="gone" />
 </RelativeLayout>

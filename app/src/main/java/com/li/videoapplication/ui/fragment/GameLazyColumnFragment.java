@@ -107,6 +107,7 @@ public class GameLazyColumnFragment extends TBaseFragment implements PullToRefre
     protected void initContentView(View view) {
         mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.game_pulltorefresh);
         mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
+
         mListView = mPullToRefreshListView.getRefreshableView();
         mListView.setPadding(0, 0, 0, dp2px(46));
 
@@ -166,6 +167,7 @@ public class GameLazyColumnFragment extends TBaseFragment implements PullToRefre
             mPage = 1;
             // 最热，最新游戏列表,请求只是为了刷新关注按钮状态
             DataManager.gameList(mPage, getMember_id(), sort);
+
         }
     }
 

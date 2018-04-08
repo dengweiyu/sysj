@@ -23,6 +23,7 @@ public class Constants {
 	public static final String INDEX_LAUNCH_IMAHE = "indexLaunchImage";// 图片广告
 	public static final String HOME = "home";// 首页
 	public static final String GAME = "game";
+	public static final String URLTIMESTAMP = "time";//统计播放时间戳
 	public static final String HOME_COLUMN = "home_column"; //首页分栏
 	public static final String GAME_TYPE = "game_type";//游戏分类
 	public static final String MATCH_CS = "match_cs";// 赛事客服
