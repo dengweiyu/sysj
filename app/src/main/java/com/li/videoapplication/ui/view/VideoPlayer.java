@@ -2,6 +2,7 @@ package com.li.videoapplication.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.pili.pldroid.player.AVOptions;
@@ -56,7 +57,7 @@ public class VideoPlayer extends PLVideoView implements IVideoPlayer {
         start();
         //
         mStartTime = System.currentTimeMillis();
-        checkTimeCache = PreferencesHepler.getInstance().getUrlTimeStamp();
+
 
     }
 
@@ -109,5 +110,12 @@ public class VideoPlayer extends PLVideoView implements IVideoPlayer {
 
     public long getPlayDuration(){
         return System.currentTimeMillis() - mStartTime;
+    }
+
+    public String getCheckTimeCache() {
+        return checkTimeCache = PreferencesHepler.getInstance().getUrlTimeStamp();
+    }
+    public long creatStartDuration(){
+        return mStartTime=System.currentTimeMillis();
     }
 }

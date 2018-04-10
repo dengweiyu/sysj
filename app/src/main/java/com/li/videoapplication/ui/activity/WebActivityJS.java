@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -249,6 +250,9 @@ public class WebActivityJS extends TBaseAppCompatActivity {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
+        if (Build.VERSION.SDK_INT >= 21) {
+            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
 
         Log.d(TAG, "initWebView: js == " + js);
 
@@ -697,6 +701,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
             webView.clearView();
             webView.loadUrl("");
             webView.destroy();
+
         }
 
     }

@@ -139,12 +139,12 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
     }
 
     private void settingWebView(){
-        WebSettings webSettings = mWebView.getSettings();
+        final WebSettings webSettings = mWebView.getSettings();
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setJavaScriptEnabled(true);
-        webSettings.setBlockNetworkImage(false);
+        webSettings.setBlockNetworkImage(true);
        //webSettings.setDomStorageEnabled(true);
         webSettings.setAllowContentAccess(true);
        //webSettings.setDatabaseEnabled(true);
@@ -291,6 +291,7 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 mRefreshLayout.setRefreshing(false);
+                webSettings.setBlockNetworkImage(false);
             }
 
             @Override
@@ -336,7 +337,6 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
             }else {
                 mWebView.reload();
             }
-
         }
     }
 
@@ -358,6 +358,7 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
     public void refresh(){
         mWebView.reload();
     }
+    
 
     private boolean mIsLoad = false;
 

@@ -1,6 +1,7 @@
 package com.li.videoapplication.ui.view;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
@@ -33,6 +34,7 @@ import com.li.videoapplication.data.model.event.ResetTimeLineEvent;
 import com.li.videoapplication.data.model.response.BulletList203Entity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
+import com.li.videoapplication.tools.SqliteDatabaseDao;
 import com.li.videoapplication.tools.SubtitleHelper2;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
@@ -106,6 +108,7 @@ public class VideoPlayView extends RelativeLayout implements
     private String youku_url;
    // private String qn_key;
   //  private String qn_url;
+   private SQLiteDatabase db;
 
     private String mVideoUrl;
     private String file;
@@ -304,6 +307,7 @@ public class VideoPlayView extends RelativeLayout implements
                     e.printStackTrace();
                 }
             } else {
+
                 videoPlayer.start();
                 if (danmukuPlayer != null)
                     danmukuPlayer.resumeDanmaku();
@@ -314,6 +318,23 @@ public class VideoPlayView extends RelativeLayout implements
                 }
             }
         }
+    }
+
+    private void checkDataBase(String urlTimeStamp) {
+        Log.d("urlTimeStamp=", urlTimeStamp);
+        SqliteDatabaseDao sqliteDatabaseDao = new SqliteDatabaseDao(context);
+        if (sqliteDatabaseDao.isDataExist()) {
+            if (sqliteDatabaseDao.ifHaveHash()) {
+//                sqliteDatabaseDao.inSertData(1, urlTimeStamp, videoPlayer.creatStartDuration()
+//                        , videoPlayer.getPlayDuration(), videoImage.getFlower_tick()
+//                        , videoImage.getComment_count(), videoImage.getCollection_count()
+//                        , videoImage.getFndown_count());
+            }
+        } else {
+            Log.d("dataBase", "is null");
+        }
+
+
     }
 
     /**
@@ -1157,6 +1178,7 @@ public class VideoPlayView extends RelativeLayout implements
         prepareView.hideView();
 
         if (videoPlayer != null) {
+            checkDataBase(PreferencesHepler.getInstance().getUrlTimeStamp());
             this.pos = pos;
             videoPlayer.setVideoPath(url);
             videoPlayer.setOnPreparedListener(onPreparedListener);

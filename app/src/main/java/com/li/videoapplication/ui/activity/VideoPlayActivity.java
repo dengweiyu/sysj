@@ -380,8 +380,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         videoPlayView.minView();
         mLandPlayGift = findViewById(R.id.iv_play_gift_right);
         mLandPlayGift.setOnClickListener(this);
-//        //生成hash值
-//        createHash();
+
 
         if (NetUtil.isWIFI()) {
             videoPlayView.switchPlay(VideoPlayView.STATE_VIDEOPLAY);
@@ -406,10 +405,13 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
 
     }
 
-    private void createHash() {
+    public void createHash() {
+
         String url = item.getVideoUrl();
-        String timeStamp = StringUtil.getDateToString(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
+//        String timeStamp = StringUtil.getDateToString(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
+        String timeStamp = Long.toString(System.currentTimeMillis());
         String urlTimeStamp = MD5Util.string2MD5(url + timeStamp);
+        Log.d("createHash", "url=" + url + "  timeStamp=" + timeStamp);
         PreferencesHepler.getInstance().saveUrlTimeStamp(urlTimeStamp);
     }
 
@@ -859,16 +861,15 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         if (event.isResult()) {
             setItem(event.getData());
             setFragmentData();
-
             refreshData(item);
             refreshTab(item);
-
+            //生成hash值
+            createHash();
         } else {
             ToastHelper.s(event.getMsg());
             finish();
         }
     }
-
 
 
     /**
