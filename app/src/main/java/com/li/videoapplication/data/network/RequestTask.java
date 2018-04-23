@@ -28,7 +28,9 @@ public class RequestTask extends AsyncTask<RequestObject, Integer, ResponseObjec
 				responseObject = okHttpMethod.execute(requestObject);
 			} else if (requestObject.getType() == Contants.TYPE_UPLOAD) {
 				responseObject = httpClientMethod.execute(requestObject);
-			}else {
+			} else if (requestObject.getType() == Contants.TYPE_POST_JSON) {
+				requestObject = httpClientMethod.execute(requestObject);
+			} else {
 				throw new NullPointerException("this Http Method is not support");
 			}
 		} catch (Exception e) {

@@ -44,7 +44,10 @@ public class RequestRunnable implements Runnable {
 				responseObject = http.execute(requestObject);
 			} else if (requestObject.getType() == Contants.TYPE_DOWNLOAD) {
 				ok.execute(requestObject);
-			} else {
+			}else if (requestObject.getType()==Contants.TYPE_POST_JSON){
+				responseObject = ok.execute(requestObject);
+			}
+			else {
 				throw new NullPointerException("this Http Method is not support");
 			}
 		} catch (Exception e) {

@@ -6,6 +6,6 @@ public class Contants {
     public static final int TYPE_POST = 2;
     public static final int TYPE_UPLOAD = 3;
     public static final int TYPE_DOWNLOAD = 4;
-
+    public static final int TYPE_POST_JSON = 5;
     public static final String DEFAULT_STRING = "";
 }

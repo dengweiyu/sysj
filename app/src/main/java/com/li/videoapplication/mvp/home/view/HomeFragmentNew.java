@@ -2,14 +2,11 @@ package com.li.videoapplication.mvp.home.view;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.util.LruCache;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
 import com.li.videoapplication.R;
@@ -17,14 +14,11 @@ import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.HttpManager;
 import com.li.videoapplication.data.model.entity.HomeColumnEntity;
 import com.li.videoapplication.data.model.entity.HomeGameSelectEntity;
-import com.li.videoapplication.data.model.entity.SquareGameEntity;
 import com.li.videoapplication.data.model.response.ColumnStatisticalEntity;
-import com.li.videoapplication.data.model.response.HomeModuleEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.pageradapter.HomeViewPagerAdapter;
-import com.li.videoapplication.ui.pageradapter.ViewPagerAdapter;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.views.ViewPagerY4;
 
@@ -34,21 +28,10 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ClipPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Observer;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 /**
@@ -70,7 +53,7 @@ public class HomeFragmentNew extends TBaseFragment {
     private List<String> mColumnIdList;
     private MagicIndicator magicIndicator;
     private CommonNavigator commonNavigator;
-
+    private boolean ifFinish = false;
     private HomeViewPagerAdapter mHomeViewPagerAdapter;
     private HomePageChangeListener mPageChangeListener;
 
@@ -109,6 +92,11 @@ public class HomeFragmentNew extends TBaseFragment {
         loadData();
 
     }
+
+
+
+
+
 
     @Override
     protected IPullToRefresh getPullToRefresh() {
@@ -394,4 +382,6 @@ public class HomeFragmentNew extends TBaseFragment {
         Log.i(tag, "分栏点击次数回调(Msg) ：" + entity.getMsg());
         Log.i(tag, "分栏点击次数回调(Code) ：" + entity.getCode());
     }
+
+
 }

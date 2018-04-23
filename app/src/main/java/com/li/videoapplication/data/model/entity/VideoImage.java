@@ -779,4 +779,61 @@ public class VideoImage extends BaseEntity {
 	public void setPersonal_private(String personal_private) {
 		this.personal_private = personal_private;
 	}
+
+	private String type_id;
+	private String type_name;
+	private String comment_tick;
+	private String real_click_count;
+	private String group_tick;
+	private String isComment;
+
+
+
+	public String getComment_tick() {
+		return comment_tick;
+	}
+
+	public void setComment_tick(String comment_tick) {
+		this.comment_tick = comment_tick;
+	}
+
+	public String getType_id() {
+		return type_id;
+	}
+
+	public void setType_id(String type_id) {
+		this.type_id = type_id;
+	}
+
+	public String getIsComment() {
+		return isComment;
+	}
+
+	public void setIsComment(String isComment) {
+		this.isComment = isComment;
+	}
+
+	public String getGroup_tick() {
+		return group_tick;
+	}
+
+	public void setGroup_tick(String group_tick) {
+		this.group_tick = group_tick;
+	}
+
+	public String getReal_click_count() {
+		return real_click_count;
+	}
+
+	public void setReal_click_count(String real_click_count) {
+		this.real_click_count = real_click_count;
+	}
+
+	public String getType_name() {
+		return type_name;
+	}
+
+	public void setType_name(String type_name) {
+		this.type_name = type_name;
+	}
 }

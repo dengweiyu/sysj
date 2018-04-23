@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.support.v4.app.Fragment;
@@ -73,7 +74,6 @@ import com.li.videoapplication.ui.view.CommentView;
 import com.li.videoapplication.ui.view.VideoPlayView;
 import com.li.videoapplication.utils.HareWareUtil;
 import com.li.videoapplication.utils.LogHelper;
-import com.li.videoapplication.utils.MD5Util;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
@@ -102,6 +102,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
 
     public static long playPos;
     public static String playUrl;
+    private boolean afterCreate = false;
 
     //播放完毕时是横屏，点击推荐进入此页面，记录上次播放的横竖屏状态
     public boolean isLandscape;
@@ -138,9 +139,11 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
     private List<Fragment> fragments;
     private ViewPagerY4 viewPager;
     private GamePagerAdapter adapter;
-
+    private int[] location = new int[2];
+    private long lastClickTime = 0L;
+    private static final int FAST_CLICK_DELAY_TIME = 1000;
     public VideoImage item;
-
+    private boolean ifFirst = true;
     private long mEntryTime;                //用于统计播放页停留时长
 
     public void setItem(VideoImage item) {
@@ -195,6 +198,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
     @Override
     public void afterOnCreate() {
         super.afterOnCreate();
+
         StatusBarBlackTextHelper.initStatusBarTextColor(this.getWindow(),false);
 
        /// actionBar.hide();
@@ -207,6 +211,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
 
         // 音量
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
     }
 
     @Override
@@ -253,6 +258,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
                 }
             }
         },1000);
+
     }
 
     @Override
@@ -319,14 +325,20 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (mFragmentState){
             if (mGiftFragment != null){
+                if (afterCreate == true) {
                 float y = ev.getRawY();
-                int[] location = new int[2];
-                mGiftFragment.getRootView().getLocationOnScreen(location);
-                //touch outside the fragment
-                if (y < location[1]){
+                    try {
+                        mGiftFragment.getRootView().getLocationOnScreen(location);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    //touch outside the fragment
+                    if (y < location[1]) {
                     mFragmentState = false;
                     hideGiftFragment(true);
                     return true;            //true or false will be intercept event
+                }
                 }
             }
         }
@@ -405,15 +417,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
 
     }
 
-    public void createHash() {
 
-        String url = item.getVideoUrl();
-//        String timeStamp = StringUtil.getDateToString(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
-        String timeStamp = Long.toString(System.currentTimeMillis());
-        String urlTimeStamp = MD5Util.string2MD5(url + timeStamp);
-        Log.d("createHash", "url=" + url + "  timeStamp=" + timeStamp);
-        PreferencesHepler.getInstance().saveUrlTimeStamp(urlTimeStamp);
-    }
 
     private boolean mFragmentState;
     private VideoPlayGiftFragment mGiftFragment;
@@ -421,7 +425,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
 
     public void setGiftFragmentState(boolean isScroll){
         mFragmentState = !mFragmentState;
-        if (mFragmentState){
+        if (mFragmentState) {
             showGiftFragment();
         }else {
             hideGiftFragment(isScroll);
@@ -513,8 +517,9 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
             mGiftFragment = VideoPlayGiftFragment.newInstance(item.video_id);
         }
         getSupportFragmentManager().beginTransaction().replace(id,mGiftFragment).commitAllowingStateLoss();
-
+        ifFirst = false;
         mGiftFragment.showContent();
+
     }
 
 
@@ -534,6 +539,16 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
             }else {
                 fragment.hideContent();
             }
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+
+            afterCreate = true;
+            Log.d(tag, "all view is ready");
         }
     }
 
@@ -758,8 +773,10 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
 
             if (item.getFlower_tick() == 0){
                 mGoodBtn.setChecked(false);
+//                item.setFlower_tick(0);
             }else {
                 mGoodBtn.setChecked(true);
+//                item.setFlower_tick(1);
             }
 
             if (item.getCollection_tick() == 0){
@@ -863,8 +880,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
             setFragmentData();
             refreshData(item);
             refreshTab(item);
-            //生成hash值
-            createHash();
+
         } else {
             ToastHelper.s(event.getMsg());
             finish();
@@ -1109,6 +1125,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
             if (videoPlayView != null)
                 videoPlayView.resume();
         }
+
     }
 
     /**
@@ -1166,7 +1183,7 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         //统计播放页停留时长事件
         UmengAnalyticsHelper.onEventValue(this,UmengAnalyticsHelper.VIDEO_PLAY_DURATION,map,(int) (System.currentTimeMillis()/1000-mEntryTime/1000));
 
-        commitPlayDuration();
+//        commitPlayDuration();
         super.onPause();
         if (videoPlayView != null)
             videoPlayView.pause();
@@ -1180,6 +1197,8 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        afterCreate = false;
+        ifFirst = true;
         ShareSDKShareHelper.stopSDK(this);
         if (videoPlayView != null)
             videoPlayView.destroy();
@@ -1422,10 +1441,30 @@ public class VideoPlayActivity extends TBaseAppCompatActivity implements
         switch (v.getId()){
             case R.id.iv_play_gift_right:
             case R.id.iv_video_play_gift:
-                setGiftFragmentState(true);
-                if (commentView != null){
-                    commentView.hideFaceView();
+                if (System.currentTimeMillis() - lastClickTime < FAST_CLICK_DELAY_TIME) {
+                    return;
                 }
+                lastClickTime = System.currentTimeMillis();
+                if (ifFirst == true) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            setGiftFragmentState(true);
+                            if (commentView != null) {
+                                commentView.hideFaceView();
+                            }
+                        }
+                    }, 500);
+                    Log.d(tag, "ifFirst = " + ifFirst);
+                } else if (ifFirst == false) {
+                    setGiftFragmentState(true);
+                    if (commentView != null) {
+                        commentView.hideFaceView();
+                    }
+                    Log.d(tag, "ifFirst = " + ifFirst);
+                }
+
+
                 break;
             case R.id.ll_video_play_good:           //点赞
             case R.id.sb_video_play_good:

@@ -3457,6 +3457,20 @@ public class DataManager {
     }
 
     /**
+     * 视频统计
+     */
+    public static void videoPlayDuration(String ja) {
+        RequestHelper helper = new RequestHelper();
+        String url = RequestUrl.getInstance().videoPlayDuration();
+        RequestObject reqest = new RequestObject(Contants.TYPE_POST_JSON, url, ja);
+        Log.d("VideoPlayDuration",ja);
+        reqest.setEntity(new VideoPlayDurationEntity());
+        helper.doNetwork(reqest);
+    }
+
+
+
+    /**
      * 热门游戏
      */
     public static void hotGameList2() {

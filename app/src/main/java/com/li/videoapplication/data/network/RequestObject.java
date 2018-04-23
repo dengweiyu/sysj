@@ -1,12 +1,11 @@
 package com.li.videoapplication.data.network;
 
 import com.li.videoapplication.framework.BaseEntity;
+import com.li.videoapplication.framework.BaseResponseEntity;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.li.videoapplication.framework.BaseResponseEntity;
 
 
 /**
@@ -55,6 +54,11 @@ public class RequestObject extends BaseEntity {
 		this.files = files;*/
 	}
 
+	public RequestObject(int type, String url, String json) {
+		setType(type);
+		setUrl(url);
+		setJson(json);
+	}
 	public int getType() {
 		return type;
 	}

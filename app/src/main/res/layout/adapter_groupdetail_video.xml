@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:ignore="DuplicateIds">
+    tools:ignore="DuplicateIds"
+    android:orientation="vertical">
 
     <!--e2e2e2-->
     <View
@@ -37,7 +37,7 @@
                 android:scaleType="centerCrop"
                 android:src="#666666"
                 app:border_color="#00ffffff"
-                app:border_width="0dp"/>
+                app:border_width="0dp" />
 
             <ImageView
                 android:id="@+id/groupdetail_v"
@@ -46,7 +46,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/home_v_red"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
         </RelativeLayout>
 
         <TextView
@@ -61,7 +61,7 @@
             android:maxLines="1"
             android:text=""
             android:textColor="#454545"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/groupdetail_content"
@@ -85,24 +85,24 @@
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="-5dp"
             android:src="@drawable/video_recommed"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <FrameLayout
 
             android:id="@+id/middle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-
             android:layout_alignLeft="@+id/groupdetail_content"
+
             android:layout_below="@+id/groupdetail_content"
-            android:layout_marginTop="9dp">
+            android:layout_marginTop="9dp"
+            android:background="@null">
 
             <RelativeLayout
                 android:id="@+id/groupdetail_image"
                 android:layout_width="wrap_content"
-                android:background="@null"
                 android:layout_height="wrap_content"
+                android:background="@null"
                 android:visibility="gone">
 
                 <com.li.videoapplication.views.GridViewY1
@@ -118,7 +118,7 @@
                     android:scrollbars="none"
                     android:stretchMode="columnWidth"
                     android:verticalSpacing="4dp"
-                    android:visibility="visible"/>
+                    android:visibility="visible" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -134,7 +134,7 @@
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:scaleType="centerCrop"
-                    android:src="#555555"/>
+                    android:src="#555555" />
 
                 <!-- 26 -->
 
@@ -146,7 +146,7 @@
                     android:layout_marginBottom="33dp"
                     android:layout_marginTop="33dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/play_normal"/>
+                    android:src="@drawable/play_normal" />
 
                 <RelativeLayout
                     android:id="@+id/tv_video_uploading"
@@ -158,7 +158,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:alpha="0.7"
-                        android:background="#313131"/>
+                        android:background="#313131" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -167,7 +167,7 @@
                         android:gravity="center"
                         android:text="@string/square_tip_video_uploading"
                         android:textColor="@color/white"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -184,7 +184,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="7dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/play_home"/>
+                        android:src="@drawable/play_home" />
 
                     <TextView
                         android:id="@+id/groupdetail_allTime"
@@ -195,7 +195,7 @@
                         android:layout_marginRight="6dp"
                         android:text="15:00"
                         android:textColor="#ffffff"
-                        android:textSize="10sp"/>
+                        android:textSize="10sp" />
 
                     <TextView
                         android:id="@+id/groupdetail_playCount"
@@ -206,7 +206,7 @@
                         android:layout_toRightOf="@+id/groupdetail_play"
                         android:text="0"
                         android:textColor="#ccffffff"
-                        android:textSize="9sp"/>
+                        android:textSize="9sp" />
 
                 </RelativeLayout>
             </RelativeLayout>
@@ -233,7 +233,7 @@
                 app:sparkbutton_iconSize="14dp"
                 app:sparkbutton_inActiveImage="@drawable/videoplay_good_white_211"
                 app:sparkbutton_primaryColor="@color/heart_primary_color"
-                app:sparkbutton_secondaryColor="@color/heart_secondary_color"/>
+                app:sparkbutton_secondaryColor="@color/heart_secondary_color" />
 
             <TextView
                 android:id="@+id/joinactivity_likeCount"
@@ -242,14 +242,14 @@
                 android:layout_marginRight="20dp"
                 android:text="0"
                 android:textColor="#ffffff"
-                android:textSize="10sp"/>
+                android:textSize="10sp" />
 
             <ImageView
                 android:id="@+id/joinactivity_comment"
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:layout_marginRight="12dp"
-                android:src="@drawable/videoplay_comment_white_211"/>
+                android:src="@drawable/videoplay_comment_white_211" />
 
             <TextView
                 android:id="@+id/joinactivity_commentCount"
@@ -258,7 +258,7 @@
                 android:layout_marginRight="20dp"
                 android:text="0"
                 android:textColor="@color/white"
-                android:textSize="10sp"/>
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/joinactivity_floor"
@@ -270,7 +270,7 @@
                 android:maxLines="1"
                 android:text="1楼"
                 android:textColor="#ffffff"
-                android:textSize="10sp"/>
+                android:textSize="10sp" />
 
         </LinearLayout>
 
@@ -287,7 +287,7 @@
             android:text=""
             android:textColor="#8c8c8c"
             android:textSize="10sp"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
         <!--106/36-->
         <ImageView
@@ -298,7 +298,7 @@
             android:layout_below="@+id/middle"
             android:layout_marginTop="8dp"
             android:src="@drawable/advertisement"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/goodstarcomment"
@@ -317,7 +317,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_toLeftOf="@+id/groupdetail_likeCount"
                 android:padding="4dp"
-                android:src="@drawable/videoplay_good_gray_205"/>
+                android:src="@drawable/videoplay_good_gray_205" />
 
             <TextView
                 android:id="@+id/groupdetail_likeCount"
@@ -328,7 +328,7 @@
                 android:layout_toLeftOf="@+id/groupdetail_star"
                 android:text=""
                 android:textColor="#949494"
-                android:textSize="9sp"/>
+                android:textSize="9sp" />
 
             <ImageView
                 android:id="@+id/groupdetail_star"
@@ -338,7 +338,8 @@
                 android:layout_marginRight="8dp"
                 android:layout_toLeftOf="@+id/groupdetail_starCount"
                 android:padding="4dp"
-                android:src="@drawable/videoplay_star_gray_205"/>
+
+                android:src="@drawable/videoplay_star_gray_205" />
 
             <TextView
                 android:id="@+id/groupdetail_starCount"
@@ -349,7 +350,7 @@
                 android:layout_toLeftOf="@+id/groupdetail_comment"
                 android:text=""
                 android:textColor="#949494"
-                android:textSize="9sp"/>
+                android:textSize="9sp" />
 
             <ImageView
                 android:id="@+id/groupdetail_comment"
@@ -358,8 +359,11 @@
                 android:layout_centerInParent="true"
                 android:layout_marginRight="8dp"
                 android:layout_toLeftOf="@+id/groupdetail_commentCount"
-                android:padding="4dp"
-                android:src="@drawable/videoplay_comment_gray_205"/>
+                android:paddingBottom="3dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="5dp"
+                android:src="@drawable/videoplay_comment_gray_205" />
 
             <TextView
                 android:id="@+id/groupdetail_commentCount"
@@ -369,7 +373,7 @@
                 android:layout_centerVertical="true"
                 android:text=""
                 android:textColor="#949494"
-                android:textSize="9sp"/>
+                android:textSize="9sp" />
 
 
             <LinearLayout
@@ -385,8 +389,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginRight="5dp"
-                    android:src="@drawable/lock"
-                    />
+                    android:src="@drawable/lock" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -394,50 +397,52 @@
                     android:gravity="center"
                     android:text="@string/square_tip_video_is_private"
                     android:textColor="#949494"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_currency_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="@drawable/currency"
-                    android:layout_marginTop="1dp"/>
+                    android:layout_marginTop="1dp"
+                    android:src="@drawable/currency" />
+
                 <TextView
                     android:id="@+id/tv_currency_coin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#f7b500"
                     android:layout_marginLeft="2dp"
-                    android:hint="00000000"
                     android:gravity="left"
+                    android:hint="00000000"
                     android:text="0"
-                    android:textSize="10sp"/>
+                    android:textColor="#f7b500"
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="@drawable/slider_bean"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="1dp"
-                    android:layout_marginLeft="16dp"/>
+                    android:src="@drawable/slider_bean" />
+
                 <TextView
                     android:id="@+id/tv_currency_beans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
-                    android:hint="00000000"
-                    android:gravity="left"
-                    android:textColor="#f7b500"
                     android:layout_marginLeft="2dp"
-                    android:textSize="10sp"/>
+                    android:gravity="left"
+                    android:hint="00000000"
+                    android:text="0"
+                    android:textColor="#f7b500"
+                    android:textSize="10sp" />
             </LinearLayout>
         </RelativeLayout>
 

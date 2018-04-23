@@ -2,7 +2,10 @@ package com.li.videoapplication.ui.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,8 +18,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.content.res.AppCompatResources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,6 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -59,7 +59,6 @@ import com.li.videoapplication.data.Utils_Data;
 import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.download.FileDownloadRequest;
 import com.li.videoapplication.data.image.GlideHelper;
-import com.li.videoapplication.data.local.FileUtil;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.entity.BottomIconEntity;
 import com.li.videoapplication.data.model.entity.Member;
@@ -74,6 +73,7 @@ import com.li.videoapplication.data.model.response.GetRongCloudToken204Entity;
 import com.li.videoapplication.data.model.response.ParseResultEntity;
 import com.li.videoapplication.data.model.response.PatchEntity;
 import com.li.videoapplication.data.model.response.UpdateVersionEntity;
+import com.li.videoapplication.data.model.response.VideoPlayDurationEntity;
 import com.li.videoapplication.data.network.UITask;
 import com.li.videoapplication.data.preferences.Constants;
 import com.li.videoapplication.data.preferences.NormalPreferences;
@@ -84,11 +84,9 @@ import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.framework.BaseSlidingActivity;
 import com.li.videoapplication.impl.SimpleHeadLineObservable;
-import com.li.videoapplication.mvp.home.view.HomeFragment;
 import com.li.videoapplication.mvp.home.view.HomeFragmentNew;
-import com.li.videoapplication.mvp.home.view.HomeFragmentNew2;
-import com.li.videoapplication.mvp.home.view.HomeLazyColumnFragment2;
 import com.li.videoapplication.tools.RongIMHelper;
+import com.li.videoapplication.tools.SqliteDatabaseDao;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
@@ -118,7 +116,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.lang.reflect.Method;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -284,7 +281,18 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
         getIntentValue();
         getIntentResult();
+        putJSON();
+        registerBroadcast();
+    }
 
+    private void registerBroadcast() {
+        mScreenReceiver = new ScreenBroadcatReceiver();
+//        IntentFilter mScreenonFilter = new IntentFilter("android.intent.action.SCREEN_ON");
+//        this.registerReceiver(mScreenReceiver, mScreenonFilter);
+        IntentFilter mScreenoffFilter = new IntentFilter("android.intent.action.SCREEN_OFF");
+        this.registerReceiver(mScreenReceiver, mScreenoffFilter);
+//        IntentFilter mScreenPresent = new IntentFilter("android.intent.action.USER_PRESENT");
+//        this.registerReceiver(mScreenReceiver, mScreenPresent);
     }
 
     @Override
@@ -455,10 +463,37 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }, 1000);
     }
 
+    private boolean ifFinish = false;
+    private SqliteDatabaseDao dao = new SqliteDatabaseDao(this);
+
+    private void putJSON() {
+
+        if (dao.isTableExists()&&dao.ifHaveHash()) {
+            Log.d(tag, "putJSON");
+            DataManager.videoPlayDuration(dao.query());
+            ifFinish = true;
+        }
+
+    }
+
+    public void onEventMainThread(VideoPlayDurationEntity entity) {
+        if (!ifFinish) {
+            return;
+        }
+        if (entity != null) {
+            Log.d(tag, "code = " + entity.getCode() + " msg = " + entity.getMsg() + " result = " + entity.isResult() + " erData = " + entity.getErData());
+            if (entity.isResult()) {
+                dao.cleanTable();
+            }
+
+
+        }
+    }
     @Override
     public void onResume() {
         super.onResume();
         //   Debug.stopMethodTracing();
+
 
         runOnResume();
         if (NetUtil.isConnect() && !isLogin) {
@@ -503,11 +538,13 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
     }
 
+
+
     @Override
     public void onDestroy() {
         //反注册 EventBus 3.0
         org.greenrobot.eventbus.EventBus.getDefault().unregister(this);
-
+        unregisterReceiver(mScreenReceiver);
         EventBus.getDefault().unregister(this);
         AppManager.getInstance().removeMainActivity();
         super.onDestroy();
@@ -1732,4 +1769,51 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         }
     }
 
+    private ScreenBroadcatReceiver mScreenReceiver;
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(tag, "onStop");
+        if (!isAppOnForeground(this)) {
+            Log.d(tag, "isAppOnForeground");
+            putJSON();
+        } else {
+            Log.d(tag, "!isAppOnForeground");
+        }
+
+    }
+
+    private boolean isAppOnForeground(Context context) {
+        android.app.ActivityManager activityManager = (android.app.ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        String packgeName = getApplicationContext().getPackageName();
+        List<android.app.ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+        if (appProcesses == null) {
+            return false;
+        }
+        for (android.app.ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            if (appProcess.processName.equals(packgeName) && appProcess.importance == android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private class ScreenBroadcatReceiver extends BroadcastReceiver {
+        private String screenAction = null;
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            screenAction = intent.getAction();
+            if (Intent.ACTION_SCREEN_ON.equals(screenAction)) {
+                //开屏
+            } else if (Intent.ACTION_SCREEN_OFF.equals(screenAction)) {
+                //锁屏
+                putJSON();
+            } else if (Intent.ACTION_USER_PRESENT.equals(screenAction)) {
+                //解锁
+            }
+        }
+    }
 }

@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.model.event.ResetTimeLineEvent;
 import com.li.videoapplication.data.model.response.BulletList203Entity;
+import com.li.videoapplication.data.model.response.VideoPlayDurationEntity;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppConstant;
 import com.li.videoapplication.tools.SqliteDatabaseDao;
@@ -40,6 +42,7 @@ import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.ui.popupwindows.ReportPopupWindow;
 import com.li.videoapplication.utils.LogHelper;
+import com.li.videoapplication.utils.MD5Util;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.ScreenUtil;
 import com.li.videoapplication.utils.StringUtil;
@@ -47,12 +50,16 @@ import com.li.videoapplication.utils.URLUtil;
 import com.pili.pldroid.player.PLMediaPlayer;
 import com.pili.pldroid.player.widget.PLVideoView;
 
+import org.json.JSONObject;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import io.rong.eventbus.EventBus;
 
@@ -112,7 +119,8 @@ public class VideoPlayView extends RelativeLayout implements
 
     private String mVideoUrl;
     private String file;
-
+    public boolean needNewHash = true;
+    private boolean haveHash = false;
     public VideoImage videoImage;
     public HpplayLinkControl linkControl;
     public int volumeBeforeTV;
@@ -174,7 +182,6 @@ public class VideoPlayView extends RelativeLayout implements
 
         errorView = (ErrorView) view.findViewById(R.id.videoplay_error);
         errorView.setPlayView(this);
-
         prepareView = (PrepareView) view.findViewById(R.id.videoplay_prepare);
         startView = (StartView) view.findViewById(R.id.videoplay_start);
         completeView = (CompleteView) view.findViewById(R.id.videoplay_complete);
@@ -209,6 +216,39 @@ public class VideoPlayView extends RelativeLayout implements
 //        titleBarView.setDanmukListener(this);
         controllerView.setDanmukListener(this);
         controllerViewLand.setDanmukListener(this);
+    }
+
+    private Timer time;
+    private SqliteDatabaseDao sqliteDatabaseDao = new SqliteDatabaseDao(getContext());
+    private TimerTask timeTask;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+
+
+                    videoPlayer.setPlayTimeDuration();
+                    sqliteDatabaseDao.updata(PreferencesHepler.getInstance().getUrlTimeStamp(), Long.toString(videoPlayer.getPlayTimeDuration()));
+
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+
+    private void initTimer() {
+        Log.d(tag, "初始化Timer");
+        if (timeTask == null) {
+            timeTask = new TimerTask() {
+                @Override
+                public void run() {
+                    Message msg = new Message();
+                    msg.what = 1;
+                    handler.sendMessage(msg);
+                }
+            };
+        }
     }
 
     @Override
@@ -322,20 +362,64 @@ public class VideoPlayView extends RelativeLayout implements
 
     private void checkDataBase(String urlTimeStamp) {
         Log.d("urlTimeStamp=", urlTimeStamp);
-        SqliteDatabaseDao sqliteDatabaseDao = new SqliteDatabaseDao(context);
-        if (sqliteDatabaseDao.isDataExist()) {
-            if (sqliteDatabaseDao.ifHaveHash()) {
-//                sqliteDatabaseDao.inSertData(1, urlTimeStamp, videoPlayer.creatStartDuration()
-//                        , videoPlayer.getPlayDuration(), videoImage.getFlower_tick()
-//                        , videoImage.getComment_count(), videoImage.getCollection_count()
-//                        , videoImage.getFndown_count());
-            }
+
+        if (sqliteDatabaseDao.isDataExist() && sqliteDatabaseDao.ifHaveHash() && sqliteDatabaseDao.booeanSameHash(urlTimeStamp)) {
+            haveHash = true;
+            Log.d(tag, "have hash :" + haveHash);
         } else {
-            Log.d("dataBase", "is null");
+            Log.d(tag, "is null,repare to create");
+            //id,hash,当前时间，停留时长0，点赞，视频评论数，收藏数，踩数
+            sqliteDatabaseDao.initTable(1, urlTimeStamp, Long.toString(System.currentTimeMillis()),
+                    "0", Integer.toString(videoImage.getFlower_tick()),
+                    "0", Integer.toString(videoImage.getCollection_tick()),
+                    Integer.toString(videoImage.getFndown_tick()), praseJson());
+
         }
 
 
     }
+
+    private String praseJson() {
+        JSONObject js = new JSONObject();
+        String js2String = null;
+        try {
+            if (!StringUtil.isNull(PreferencesHepler.getInstance().getMember_id())) {
+                js.put("id01", Integer.parseInt(PreferencesHepler.getInstance().getMember_id()));
+            } else {
+                js.put("id01", Integer.parseInt("0"));
+            }
+            js.put("id02", Integer.parseInt(videoImage.getVideo_id()));
+            js.put("title01", videoImage.getTitle().toString());
+            js.put("id03", Integer.parseInt(videoImage.getGame_id()));
+            js.put("num01", videoImage.getReal_click_count());
+            js.put("num02", videoImage.getClick_count());
+            js.put("num03", videoImage.getFlower_count());
+            js.put("num04", videoImage.getComment_count());
+            js.put("num05", Integer.toString(videoImage.getFlower_tick()));
+            js.put("num06", videoImage.getIsComment());
+            //num07- collection_tick
+            //num08- fndown_tick
+            js.put("id04", Integer.parseInt(videoImage.getType_id()));
+            js.put("title02", videoImage.getType_name().toString());
+            //time01- 视频页停留时长
+            //time02- 当前观看时间
+            js.put("time03", videoImage.getUptime().toString());
+            js.put("time04", videoImage.getTime_length());
+            js.put("target", "a_sysj");
+            Log.d(tag, js.toString());
+            js2String = js.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (js2String != null) {
+            Log.d(tag, js2String);
+            return js2String;
+        } else {
+            return "null";
+        }
+
+    }
+
 
     /**
      * 举报
@@ -545,10 +629,14 @@ public class VideoPlayView extends RelativeLayout implements
         if (videoPlayer != null) {
             if (videoPlayer.isPlayingVideo()) {
                 videoPlayer.pauseVideo();
+
+                onStopTime();
+
                 resumeDanmuku(false);
                 UmengAnalyticsHelper.onEvent(context, UmengAnalyticsHelper.VIDEOPLAY, "视频-暂停");
             } else {
                 videoPlayer.startVideo();
+                onStartTime();
                 resumeDanmuku(true);
             }
 
@@ -605,6 +693,8 @@ public class VideoPlayView extends RelativeLayout implements
         @Override
         public void onCompletion(PLMediaPlayer plMediaPlayer) {
             videoPlayer.stopPlayback();
+            needNewHash = false;
+
             switchPlay(STATE_COMPLETE);
             if (controllerView != null) {
                 controllerView.setPlay(false);
@@ -616,6 +706,7 @@ public class VideoPlayView extends RelativeLayout implements
                     danmukuPlayer.hideDanmaku();
                 if (timedTextView != null)
                     timedTextView.hideView();
+                onStopTime();
             }
 
             if (controllerViewLand != null) {
@@ -698,7 +789,36 @@ public class VideoPlayView extends RelativeLayout implements
             if (controllerViewLand != null)
                 controllerViewLand.performDanmukuClick();
         }
+
+
     };
+
+    private void startTimer() {
+        Log.d(tag, "startTimer");
+        if (time == null) {
+            time = new Timer();
+            time.schedule(timeTask, 0, 2000);
+
+        }
+    }
+
+    public void onStopTime() {
+        Log.d(tag, "stopTime");
+        if (time != null) {
+            time.cancel();
+            time = null;
+        }
+        if (timeTask != null) {
+            timeTask.cancel();
+            timeTask = null;
+        }
+    }
+
+    public void onStartTime() {
+        initTimer();
+        startTimer();
+    }
+
 
     /**
      * 加载字幕
@@ -788,6 +908,7 @@ public class VideoPlayView extends RelativeLayout implements
 //                    break;
                 case ERROR_CODE_READ_FRAME_TIMEOUT://读取数据超时
                     Log.d(tag, "onError: 读取数据超时");
+                    onStopTime();
 //                    videoPlayer.pause();
                     break;
                 default:
@@ -985,7 +1106,6 @@ public class VideoPlayView extends RelativeLayout implements
         if (state == STATE_PREPARE) {
             if (DEBUG) LogHelper.d(tag, "========= STATE_PREPARE =========");
             prepareView.showView();
-
             touchView.hideView();
             errorView.hideView();
             startView.hideView();
@@ -1027,8 +1147,8 @@ public class VideoPlayView extends RelativeLayout implements
             activity.setMinSize();
 
             //上传到后台
-            activity.commitPlayDuration();
-            videoPlayer.resetPlayDuration();
+//            activity.commitPlayDuration();
+//            videoPlayer.resetPlayDuration();
             return;
         }
 
@@ -1100,7 +1220,11 @@ public class VideoPlayView extends RelativeLayout implements
             touchView.showView();
             if (videoImage != null && videoImage.getTitle() != null)
                 titleBarView.setTitleText(videoImage.getTitle());
-
+            if (needNewHash == true) {
+                //生成hash
+                createHash();
+                needNewHash = false;
+            }
             completeView.hideView();
 
             showWiget();
@@ -1156,7 +1280,7 @@ public class VideoPlayView extends RelativeLayout implements
             controllerView.hideView();
             controllerViewLand.hideView();
             rightBarView.hideView();
-
+            onStopTime();
             videoPlayer.setVisibility(GONE);
             webPlayer.setVisibility(GONE);
         }
@@ -1166,6 +1290,7 @@ public class VideoPlayView extends RelativeLayout implements
      * 开始播放
      */
     private void startPlayer(final String url, final long pos) {
+        Log.d(tag, "playTime=");
         if (DEBUG) {
             Log.d(tag, "url=" + url);
             Log.d(tag, "startPlayer uri = " + Uri.parse(url));
@@ -1179,11 +1304,13 @@ public class VideoPlayView extends RelativeLayout implements
 
         if (videoPlayer != null) {
             checkDataBase(PreferencesHepler.getInstance().getUrlTimeStamp());
+
             this.pos = pos;
             videoPlayer.setVideoPath(url);
             videoPlayer.setOnPreparedListener(onPreparedListener);
             videoPlayer.setOnCompletionListener(onCompletionListener);
             videoPlayer.startVideo();
+            onStartTime();
             //开始播放 重置礼物时间轴
             EventBus.getDefault().post(new ResetTimeLineEvent());
             activity.resetTimeLineData();
@@ -1212,6 +1339,7 @@ public class VideoPlayView extends RelativeLayout implements
     }
 
     public void resume() {
+
         // 继续播放
         lastPos = VideoPlayActivity.playPos;
         if (DEBUG) Log.d(tag, "resume: state == " + state);
@@ -1233,6 +1361,7 @@ public class VideoPlayView extends RelativeLayout implements
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
         }
 
         if (progressHandlerNew != null){
@@ -1241,7 +1370,19 @@ public class VideoPlayView extends RelativeLayout implements
         }
     }
 
+    public void createHash() {
+
+        String url = videoImage.getVideoUrl();
+//        String timeStamp = StringUtil.getDateToString(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
+        String timeStamp = Long.toString(System.currentTimeMillis());
+        String urlTimeStamp = MD5Util.string2MD5(url + timeStamp);
+        Log.d("createHash", "url=" + url + "  timeStamp=" + timeStamp);
+        PreferencesHepler.getInstance().saveUrlTimeStamp(urlTimeStamp);
+    }
     public void pause() {
+        if (sqliteDatabaseDao.tableCount()) {
+            putJSON();
+        }
         if (DEBUG) Log.d(tag, "pause: state == " + state);
         if (state != STATE_TV) {
             if (videoPlayer != null) {
@@ -1273,7 +1414,39 @@ public class VideoPlayView extends RelativeLayout implements
 
     }
 
+    private boolean ifFinish = false;
+
+    private void putJSON() {
+
+        if (sqliteDatabaseDao.isTableExists() && sqliteDatabaseDao.ifHaveHash()) {
+            Log.d(tag, "putJSON");
+            DataManager.videoPlayDuration(sqliteDatabaseDao.query());
+            ifFinish = true;
+        }
+
+    }
+
+    public void onEventMainThread(VideoPlayDurationEntity entity) {
+        if (!ifFinish) {
+            return;
+        }
+        if (entity != null) {
+
+            Log.d(tag, "code = " + entity.getCode() + " msg = " + entity.getMsg() + " result = " + entity.isResult() + " erData = " + entity.getErData());
+
+            if (entity.isResult()) {
+                sqliteDatabaseDao.cleanTable();
+            }
+
+
+        }
+    }
+
     public void destroy() {
+        onStopTime();
+
+        videoPlayer.resetPlayAllTime();
+        needNewHash = true;
         lastPos = 0;
         VideoPlayActivity.playPos = 0;
         VideoPlayActivity.playUrl = "";
@@ -1444,4 +1617,5 @@ public class VideoPlayView extends RelativeLayout implements
     public void hidePlay() {
 
     }
+
 }

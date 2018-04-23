@@ -152,7 +152,11 @@ public class JoinActivityFragment extends TBaseFragment implements OnRefreshList
                 final VideoImage record = (VideoImage) adapter.getItem(position);
 
                 switch (view.getId()) {
-                    case R.id.joinactivity_comment://评论
+                    case R.id.groupdetail_comment://评论
+                        if (StringUtil.isNull(getMember_id())){
+                            ToastHelper.s("请先登录！");
+                            return;
+                        }
                         if (isComment(record)){
                             Comment comment = new Comment();
                             comment.setNickname(record.getNickname());

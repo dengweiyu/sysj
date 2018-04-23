@@ -5,7 +5,8 @@
     <item android:drawable="@color/appstart_bg"/>
 
     <item>
-        <bitmap android:src="@drawable/banner_bottom"
-            android:gravity="bottom" />
+    <bitmap android:src="@drawable/banner_bottom"
+    android:gravity="bottom" />
     </item>
+
 </layer-list>

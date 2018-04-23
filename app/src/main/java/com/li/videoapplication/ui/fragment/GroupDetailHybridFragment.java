@@ -3,12 +3,14 @@ package com.li.videoapplication.ui.fragment;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.JsResult;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -138,13 +140,16 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
         super.onDestroy();
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void settingWebView(){
         final WebSettings webSettings = mWebView.getSettings();
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setJavaScriptEnabled(true);
-        webSettings.setBlockNetworkImage(true);
+//        webSettings.setBlockNetworkImage(true);
+        webSettings.setLoadsImagesAutomatically(false);
+        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
        //webSettings.setDomStorageEnabled(true);
         webSettings.setAllowContentAccess(true);
        //webSettings.setDatabaseEnabled(true);
@@ -292,12 +297,17 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
                 super.onPageFinished(view, url);
                 mRefreshLayout.setRefreshing(false);
                 webSettings.setBlockNetworkImage(false);
+                webSettings.setLoadsImagesAutomatically(true);
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
             }
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
-
                 mWebView.loadUrl("blank");
                 mErrorView.setVisibility(View.VISIBLE);
                 mWebView.setVisibility(View.GONE);
@@ -320,6 +330,15 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (mWebView != null) {
+            mWebView.clearHistory();
+            mWebView.clearCache(true);
+            mWebView.loadUrl("about:blank"); // clearView() should be changed to loadUrl("about:blank"), since clearView() is deprecated now
+            mWebView.freeMemory();
+            mWebView.pauseTimers();
+            mWebView = null; // Note that mWebView.destroy() and mWebView = null do the exact same thing
+
+        }
     }
 
     @Override
@@ -336,6 +355,7 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
                 mWebView.loadUrl(mUrl);
             }else {
                 mWebView.reload();
+//                mWebView.loadUrl(mUrl);
             }
         }
     }
@@ -353,6 +373,18 @@ public class GroupDetailHybridFragment extends TBaseFragment implements SwipeRef
             mWebView.loadUrl("javascript:setwapMember_id("+getMember_id()+")");
             mIsLoad = true;
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mWebView.pauseTimers();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mWebView.resumeTimers();
     }
 
     public void refresh(){

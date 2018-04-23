@@ -30,15 +30,9 @@ import com.li.videoapplication.data.database.FileDownloaderManager;
 import com.li.videoapplication.data.download.DownLoadListener;
 import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.js.JSInterface;
-import com.li.videoapplication.data.local.SYSJStorageUtil;
 import com.li.videoapplication.data.model.response.ShareInfoEntity;
-import com.li.videoapplication.data.model.entity.Download;
-import com.li.videoapplication.data.model.entity.FGame;
-import com.li.videoapplication.data.model.response.GameDetailEntity;
 import com.li.videoapplication.data.network.UITask;
-import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.TBaseAppCompatActivity;
-import com.li.videoapplication.tools.DownloadHelper;
 import com.li.videoapplication.tools.IntentHelper;
 import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.ActivityManager;
@@ -46,22 +40,17 @@ import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.utils.ApkUtil;
 import com.li.videoapplication.utils.NetUtil;
 import com.li.videoapplication.utils.StringUtil;
-import com.li.videoapplication.utils.URLUtil;
 import com.li.videoapplication.utils.VersionUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 import io.rong.eventbus.EventBus;
 

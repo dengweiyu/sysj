@@ -231,6 +231,7 @@ public class ActivityCommentView extends FrameLayout implements
         edit.setText(s);
         // 取得焦点
         edit.requestFocus();
+//        edit.setSelection(s.length());
         showInput();
     }
 

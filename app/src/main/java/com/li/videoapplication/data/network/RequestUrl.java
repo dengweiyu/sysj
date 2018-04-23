@@ -1497,6 +1497,12 @@ public class RequestUrl {
     }
 
     /**
+     * 统计播放页播放时间
+     */
+    public final String videoPlayDuration() {
+        return BaseStay + "/Statistics/StayTimeRecord";
+    }
+    /**
      * 统计播放页停留时间
      */
     public final String commitStayDuration(){

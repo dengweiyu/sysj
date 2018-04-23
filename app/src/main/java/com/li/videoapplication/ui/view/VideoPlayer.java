@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.widget.PLVideoView;
 
@@ -17,7 +16,9 @@ public class VideoPlayer extends PLVideoView implements IVideoPlayer {
     public final static int MEDIA_CODEC_HW_DECODE = 1;
     public final static int MEDIA_CODEC_AUTO = 2;
     private long mStartTime = 0;
-    private String checkTimeCache;
+    private long allTime = 0;
+    private long pauseTime = 0;
+
     private AVOptions mAVOptions;
     public VideoPlayer(Context context) {
         super(context);
@@ -109,13 +110,22 @@ public class VideoPlayer extends PLVideoView implements IVideoPlayer {
     }
 
     public long getPlayDuration(){
-        return System.currentTimeMillis() - mStartTime;
+        pauseTime = System.currentTimeMillis() - mStartTime;
+        return pauseTime;
     }
 
-    public String getCheckTimeCache() {
-        return checkTimeCache = PreferencesHepler.getInstance().getUrlTimeStamp();
+
+    public void resetPlayAllTime() {
+        allTime = 0;
     }
-    public long creatStartDuration(){
-        return mStartTime=System.currentTimeMillis();
+
+    public void setPlayTimeDuration() {
+        allTime = allTime + getPlayDuration();
+        Log.d("", " ------ pause" + "  allTime " + allTime + "  time " + getPlayDuration());
+    }
+
+    public long getPlayTimeDuration() {
+        resetPlayDuration();
+        return allTime;
     }
 }

@@ -78,7 +78,7 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                     .setText(R.id.joinactivity_floor, videoImage.getFloor() + " 楼")
                     .setText(R.id.joinactivity_likeCount, videoImage.getFlower_count())
                     .setText(R.id.joinactivity_commentCount, videoImage.getComment_count())
-                    .addOnClickListener(R.id.joinactivity_comment);
+                    .addOnClickListener(R.id.groupdetail_comment);
             //活动点赞
             setGood(holder, videoImage);
 
@@ -94,6 +94,9 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                     .setText(R.id.groupdetail_starCount, videoImage.getCollection_count())
                     .setText(R.id.groupdetail_commentCount, videoImage.getComment_count())
                     .setVisible(R.id.bottom, !videoImage.isAD())
+                    .setGone(R.id.groupdetail_star, false)
+                    .setGone(R.id.groupdetail_starCount, false)
+                    .setVisible(R.id.groupdetail_commentCount, false)
                     .addOnClickListener(R.id.groupdetail_comment);
             TextView content = holder.getView(R.id.groupdetail_content);
             if (isComment(videoImage)) {
@@ -167,8 +170,6 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
 
             holder.setVisible(R.id.groupdetail_video, true)
                     .setVisible(R.id.groupdetail_likeCount,true)
-                    .setVisible(R.id.groupdetail_starCount,true)
-                    .setVisible(R.id.groupdetail_starCount,true)
                     .setText(R.id.groupdetail_likeCount, videoImage.getFlower_count())
                     .setText(R.id.groupdetail_starCount, videoImage.getCollection_count())
                     .setText(R.id.groupdetail_commentCount, videoImage.getComment_count())
@@ -207,6 +208,7 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                     .setGone(R.id.groupdetail_image, false)
                     .setVisible(R.id.groupdetail_content, true);
         }
+
     }
 
     /**
@@ -325,6 +327,11 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                     DataManager.photoFlower(record.getPic_id(), PreferencesHepler.getInstance().getMember_id(), flag);
 
                 }
+                if (isComment(record)) {//文字
+                    setFlower_tick(record);
+                    //文字点赞
+                    DataManager.flowerComment(member_id, record.getComment_id());
+                }
                 notifyItemChanged(holder.getAdapterPosition());
             }
         });
@@ -334,12 +341,16 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
      * 收藏
      */
     private void setStar(final VideoImage record, final BaseViewHolder holder) {
-
+        if (activity instanceof ActivityDetailActivity) {
+            return;
+        }
         if (StringUtil.isNull(record.getPic_id())
                 && StringUtil.isNull(record.getVideo_id())
                 && !StringUtil.isNull(record.getId())) { // 搜索视频
             return;
         }
+
+
         if (record.getCollection_tick() == 1) {// 已收藏状态
             holder.setImageResource(R.id.groupdetail_star, R.drawable.videoplay_star_red_205);
         } else {// 未收藏状态
@@ -368,6 +379,7 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                     }
                     // 视频收藏
                     DataManager.videoCollect2(record.getVideo_id(), PreferencesHepler.getInstance().getMember_id());
+
                 }
                 if (isImage(record)) { // 图文
                     int flag = record.getCollection_tick();
@@ -380,10 +392,19 @@ public class GroupDetailVideoRecyclerAdapter extends BaseQuickAdapter<VideoImage
                     }
                     // 收藏/取收藏花用户
                     DataManager.photoCollection(record.getPic_id(), PreferencesHepler.getInstance().getMember_id(), flag);
+
                 }
+                if (isComment(record)) {//文字
+
+
+                }
+
                 notifyItemChanged(holder.getAdapterPosition());
             }
+
         });
+
+//        notifyItemChanged(holder.getAdapterPosition());
     }
 
     /**

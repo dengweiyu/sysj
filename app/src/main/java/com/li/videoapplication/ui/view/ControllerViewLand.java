@@ -17,8 +17,8 @@ import com.li.videoapplication.data.model.entity.VideoImage;
 import com.li.videoapplication.data.preferences.PreferencesHepler;
 import com.li.videoapplication.framework.AppManager;
 import com.li.videoapplication.tools.TimeHelper;
-import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.tools.ToastHelper;
+import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.views.TouchSeekBar;
 
 /**
@@ -118,6 +118,7 @@ public class ControllerViewLand extends RelativeLayout implements View.OnClickLi
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                videoPlayView.onStopTime();
             }
 
             @Override
@@ -125,6 +126,7 @@ public class ControllerViewLand extends RelativeLayout implements View.OnClickLi
                 setTime();
                 if (videoPlayView != null)
                     videoPlayView.seekToVideo(this.progress);
+                videoPlayView.onStartTime();
             }
         });
     }

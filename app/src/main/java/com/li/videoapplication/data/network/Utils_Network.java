@@ -22,6 +22,7 @@ public class Utils_Network {
         responseObject.setFiles(requestObject.getFiles());
         responseObject.setType(requestObject.getType());
         responseObject.setEntity(requestObject.getEntity());
+        responseObject.setJson(requestObject.getJson());
         return responseObject;
     }
 

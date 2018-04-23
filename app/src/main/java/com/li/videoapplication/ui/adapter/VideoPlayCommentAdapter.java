@@ -1,8 +1,5 @@
 package com.li.videoapplication.ui.adapter;
 
-import java.lang.reflect.Field;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
@@ -30,6 +27,9 @@ import com.li.videoapplication.ui.activity.VideoPlayActivity;
 import com.li.videoapplication.utils.PatternUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.views.CircleImageView;
+
+import java.lang.reflect.Field;
+import java.util.List;
 
 
 

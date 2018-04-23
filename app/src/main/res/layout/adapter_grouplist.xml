@@ -145,13 +145,13 @@
         android:layout_below="@id/grouplist_one"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
-
         android:visibility="visible">
 
         <ImageView
+            android:scaleType="centerCrop"
             android:id="@+id/large_icon"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="180dp" />
 
     </RelativeLayout>
 

@@ -22,6 +22,7 @@ public class Utils {
         responseObject.setFiles(requestObject.getFiles());
         responseObject.setType(requestObject.getType());
         responseObject.setEntity(requestObject.getEntity());
+        responseObject.setJson(requestObject.getJson());
         return responseObject;
     }
 
@@ -63,6 +64,7 @@ public class Utils {
         }
         return map;
     }
+
 
     /**
      * 功能：转化参数

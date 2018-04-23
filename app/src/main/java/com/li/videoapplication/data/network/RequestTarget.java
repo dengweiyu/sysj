@@ -27,6 +27,8 @@ public class RequestTarget {
                 response = ok.execute(request);
             } else if (request.getType() == Contants.TYPE_UPLOAD) {
                 response = http.execute(request);
+            } else if (request.getType() == Contants.TYPE_POST_JSON) {
+                response = ok.execute(request);
             }
         } catch (Exception e) {
             e.printStackTrace();

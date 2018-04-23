@@ -40,6 +40,7 @@ public class OkHttpMethod implements AbsRequestMethod {
 	private String newUrl;
 	private Map<String, File> files;
 	private String path;
+	private String json;
 	private ResponseObject responseObject;
 	private int statusCode;
 	private String resultString = "";
@@ -62,6 +63,7 @@ public class OkHttpMethod implements AbsRequestMethod {
 		type = requestObject.getType();
 		url = requestObject.getUrl();
 		path = requestObject.getPath();
+		json=requestObject.getJson();
 		if (url == null || url.length() == 0 || url.equals("null")) {
 			throw new NullPointerException("url is null");
 		}
@@ -83,10 +85,13 @@ public class OkHttpMethod implements AbsRequestMethod {
 			doGet();
 		} else if (type == Contants.TYPE_POST) {
 			doPost();
+
 		} else if (type == Contants.TYPE_UPLOAD) {
 			uploadFile();
 		}  else if (type == Contants.TYPE_DOWNLOAD) {
 			downloadFile();
+		} else if (type == Contants.TYPE_POST_JSON) {
+			postJson();
 		} else {
 			throw new NullPointerException("request type is unsuppoeted");
 		}
@@ -106,6 +111,9 @@ public class OkHttpMethod implements AbsRequestMethod {
 		form();
 	}
 
+	public void postJson() {
+		json();
+	}
 	@Override
 	public void uploadFile() {
 		multipart();

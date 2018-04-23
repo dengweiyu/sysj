@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.li.videoapplication.R;
+import com.li.videoapplication.component.service.AppStartService;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.download.DownLoadManager;
 import com.li.videoapplication.data.local.SYSJStorageUtil;
@@ -26,13 +27,13 @@ import com.li.videoapplication.framework.TBaseActivity;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.fragment.BannerFragment;
 import com.li.videoapplication.ui.fragment.SplashFragment;
-import com.li.videoapplication.component.service.AppStartService;
 import com.li.videoapplication.ui.fragment.WelcomeFragment;
 import com.li.videoapplication.utils.AppUtil;
 import com.li.videoapplication.utils.StringUtil;
 import com.meituan.android.walle.WalleChannelReader;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
+
 import java.io.File;
 
 /**
@@ -93,6 +94,7 @@ public class AppstartActivity extends TBaseActivity {
                 //启动页 不需要显示状态栏上的信息
                 requestWindowFeature(Window.FEATURE_NO_TITLE);
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
             }
         }
     }

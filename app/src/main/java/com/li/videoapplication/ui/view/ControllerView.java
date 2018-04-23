@@ -100,6 +100,8 @@ public class ControllerView extends RelativeLayout implements View.OnClickListen
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                //计时器停止
+                videoPlayView.onStopTime();
             }
 
             @Override
@@ -107,6 +109,8 @@ public class ControllerView extends RelativeLayout implements View.OnClickListen
                 setTime();
                 if (videoPlayView != null){
                     videoPlayView.seekToVideo(this.progress);
+                    //计时器继续
+                    videoPlayView.onStartTime();
                 }
             }
         });
@@ -220,6 +224,7 @@ public class ControllerView extends RelativeLayout implements View.OnClickListen
             int progress = 0;
             if (duration != 0 && position != 0)
                 progress = (int) (position * 100 / duration);
+
 
             Log.i(tag, "position=" + position);
             Log.i(tag, "duration=" + duration);
