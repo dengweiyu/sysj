@@ -65,6 +65,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
     private String url, title, js, id, strategyType;
     private boolean showToolbar;
     private WebView webView;
+    private ProgressBar progressBar;
     private JSInterface mJsInterface;
 
     private ImageView ivShare;
@@ -200,6 +201,7 @@ public class WebActivityJS extends TBaseAppCompatActivity {
 
     private void initActionBar() {
         ImageView goback = (ImageView) findViewById(R.id.goback);
+        progressBar = (ProgressBar) findViewById(R.id.webjs_waiting);
         goback.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -274,12 +276,14 @@ public class WebActivityJS extends TBaseAppCompatActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                webView.setVisibility(View.INVISIBLE);
+                webView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                progressBar.setVisibility(View.GONE);
                 if (showToolbar) {
                     requestNoTitle();
                     if (ivShare != null) {
