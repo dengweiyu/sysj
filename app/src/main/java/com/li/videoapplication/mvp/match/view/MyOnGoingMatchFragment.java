@@ -12,6 +12,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.IPullToRefresh;
+import com.ifeimo.im.framwork.IMSdk;
+import com.ifeimo.im.framwork.Proxy;
 import com.li.videoapplication.R;
 import com.li.videoapplication.data.DataManager;
 import com.li.videoapplication.data.local.ScreenShotEntity;
@@ -28,12 +30,13 @@ import com.li.videoapplication.data.upload.ImageShareResponseObject;
 import com.li.videoapplication.data.upload.VideoShareTask208;
 import com.li.videoapplication.framework.TBaseFragment;
 import com.li.videoapplication.tools.BitmapHelper;
+import com.li.videoapplication.tools.FeiMoIMHelper;
 import com.li.videoapplication.tools.TimeHelper;
+import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.tools.UmengAnalyticsHelper;
 import com.li.videoapplication.ui.ActivityManager;
 import com.li.videoapplication.ui.DialogManager;
 import com.li.videoapplication.ui.activity.MyMatchProcessActivity;
-import com.li.videoapplication.tools.ToastHelper;
 import com.li.videoapplication.ui.activity.VideoShareActivity;
 import com.li.videoapplication.utils.StringUtil;
 import com.li.videoapplication.utils.TextUtil;
@@ -354,14 +357,29 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
                 UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "我的赛程-约战TA");
                 break;
             case R.id.ongoing_enemyicon://敌方头像
-                if (RongIM.getInstance() != null && match != null && !StringUtil.isNull(match.getTeam_b().getLeader_id())) {
-                    ActivityManager.startConversationActivity(getActivity(),
-                            match.getTeam_b().getLeader_id(),
-                            match.getTeam_b().getLeader_game_role(),
-                            true,
-                            match.getTeam_b().getQq());
+//                if (RongIM.getInstance() != null && match != null && !StringUtil.isNull(match.getTeam_b().getLeader_id())) {
+//                    ActivityManager.startConversationActivity(getActivity(),
+//                            match.getTeam_b().getLeader_id(),
+//                            match.getTeam_b().getLeader_game_role(),
+//                            true,
+//                            match.getTeam_b().getQq());
+//                }
+                /**
+                 * 融云已经放弃使用，启用自开发的IM
+                 */
+                if (match != null && !StringUtil.isNull(match.getTeam_b().getLeader_id())) {
+
+                    String memberId = getMember_id();
+                    if (!Proxy.getConnectManager().isConnect()) {
+
+                        if (null == memberId || memberId.equals("")) {
+                            memberId = getMember_id();
+                        }
+                        FeiMoIMHelper.Login(memberId, match.getA_name(), match.getA_avatar());
                 }
-                UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "我的赛程-对方头像");
+                    IMSdk.createChat(getActivity(), match.getTeam_b().getLeader_id(), match.getTeam_b().getLeader_game_role(), match.getTeam_b().getAvatar());
+                    UmengAnalyticsHelper.onEvent(getActivity(), UmengAnalyticsHelper.MATCH, "我的赛程-对方头像");
+                }
                 break;
             case R.id.ongoing_customerservice://客服
                 if (RongIM.getInstance() != null && activity != null &&
@@ -372,6 +390,18 @@ public class MyOnGoingMatchFragment extends TBaseFragment implements View.OnClic
                             activity.customerServiceName,
                             false);
                 }
+//                if (activity.customerServiceID != null && activity.customerServiceName != null) {
+//                    Member user = getUser();
+//                    String memberId = user.getMember_id();
+//                    if (!Proxy.getConnectManager().isConnect()) {
+//
+//                        if (null == memberId || memberId.equals("")) {
+//                            memberId = getMember_id();
+//                        }
+//                        FeiMoIMHelper.Login(memberId, user.getNickname(), user.getAvatar());
+//                    }
+//                    IMSdk.createChat(getActivity(), activity.customerServiceID, activity.customerServiceName, null);
+//                }
                 break;
         }
     }
